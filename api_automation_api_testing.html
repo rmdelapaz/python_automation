@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Testing Automation - Python API Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🧪 API Testing Automation: Ensure API Quality</h1>
+    
+    <p>API testing automation is the quality control system of the API world - it ensures your APIs work correctly, perform well, and remain reliable as they evolve. Like having an army of tireless testers checking every endpoint, parameter, and response, automated API testing catches bugs before they reach production. Master these patterns to build bulletproof APIs that deliver consistent, reliable service! 🎯</p>
+
+    <h2>The API Testing Framework</h2>
+    
+    <p>Think of API testing as a comprehensive health checkup for your APIs - from basic functionality tests to complex integration scenarios, performance benchmarks, and security audits. A well-designed testing framework covers all aspects: request validation, response verification, error handling, performance metrics, and contract testing. Understanding these patterns is essential for maintaining API quality at scale!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[API Testing] --> B[Test Types]
+        A --> C[Test Design]
+        A --> D[Test Execution]
+        A --> E[Test Validation]
+        
+        B --> F[Unit Tests]
+        B --> G[Integration Tests]
+        B --> H[Contract Tests]
+        B --> I[Performance Tests]
+        B --> J[Security Tests]
+        
+        C --> K[Test Cases]
+        C --> L[Test Data]
+        C --> M[Test Scenarios]
+        C --> N[Edge Cases]
+        
+        D --> O[Test Runners]
+        D --> P[CI/CD Integration]
+        D --> Q[Parallel Execution]
+        D --> R[Test Environments]
+        
+        E --> S[Assertions]
+        E --> T[Schema Validation]
+        E --> U[Response Time]
+        E --> V[Coverage Metrics]
+        
+        W[Reporting] --> X[Test Results]
+        W --> Y[Coverage Reports]
+        W --> Z[Performance Metrics]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style W fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The API Quality Platform 🏆</h3>
+    
+    <p>You're building a comprehensive API testing platform that validates multiple microservices - RESTful APIs, GraphQL endpoints, WebSocket connections, and gRPC services. Your platform must run thousands of tests, validate contracts, measure performance, check security, generate detailed reports, integrate with CI/CD pipelines, and provide real-time monitoring. Let's build a production-ready API testing framework!</p>
+
+    <pre><code># First, install required packages:
+# pip install pytest requests pytest-html pytest-cov pytest-benchmark hypothesis jsonschema pydantic locust
+
+import pytest
+import requests
+import json
+import time
+import os
+from typing import Dict, List, Optional, Any, Union, Callable
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+import logging
+from pathlib import Path
+import yaml
+import jsonschema
+from pydantic import BaseModel, ValidationError
+from hypothesis import given, strategies as st
+import random
+import string
+from functools import wraps
+
+# ==================== Test Configuration ====================
+
+class TestLevel(Enum):
+    """Test execution levels."""
+    SMOKE = "smoke"
+    SANITY = "sanity"
+    REGRESSION = "regression"
+    FULL = "full"
+
+@dataclass
+class APITestConfig:
+    """API test configuration."""
+    base_url: str
+    timeout: int = 30
+    verify_ssl: bool = True
+    
+    # Authentication
+    auth_type: Optional[str] = None
+    auth_credentials: Dict[str, str] = field(default_factory=dict)
+    
+    # Test settings
+    test_level: TestLevel = TestLevel.REGRESSION
+    parallel_execution: bool = True
+    max_workers: int = 4
+    
+    # Reporting
+    generate_html: bool = True
+    generate_coverage: bool = True
+    report_dir: str = "./test-reports"
+    
+    # Performance thresholds
+    max_response_time: float = 2.0  # seconds
+    min_throughput: float = 100  # requests per second
+    
+    # Retry configuration
+    max_retries: int = 3
+    retry_delay: float = 1.0
+
+# ==================== Base Test Class ====================
+
+class BaseAPITest:
+    """Base class for API tests."""
+    
+    def __init__(self, config: APITestConfig):
+        self.config = config
+        self.session = self._create_session()
+        self.logger = logging.getLogger(self.__class__.__name__)
+        
+        # Test metrics
+        self.metrics = {
+            "requests_made": 0,
+            "total_time": 0,
+            "failures": []
+        }
+    
+    def _create_session(self) -> requests.Session:
+        """Create configured session."""
+        session = requests.Session()
+        session.verify = self.config.verify_ssl
+        
+        # Set authentication
+        if self.config.auth_type == "bearer":
+            token = self.config.auth_credentials.get("token")
+            session.headers["Authorization"] = f"Bearer {token}"
+        elif self.config.auth_type == "api_key":
+            key = self.config.auth_credentials.get("key")
+            session.headers["X-API-Key"] = key
+        
+        return session
+    
+    def make_request(self, method: str, endpoint: str, 
+                     **kwargs) -> requests.Response:
+        """Make HTTP request with metrics tracking."""
+        url = f"{self.config.base_url}{endpoint}"
+        
+        start_time = time.time()
+        
+        response = self.session.request(
+            method,
+            url,
+            timeout=self.config.timeout,
+            **kwargs
+        )
+        
+        elapsed_time = time.time() - start_time
+        
+        # Update metrics
+        self.metrics["requests_made"] += 1
+        self.metrics["total_time"] += elapsed_time
+        
+        # Log request
+        self.logger.info(
+            f"{method} {endpoint} - {response.status_code} ({elapsed_time:.2f}s)"
+        )
+        
+        return response
+    
+    def assert_response(self, response: requests.Response,
+                       expected_status: int = 200,
+                       expected_schema: Optional[Dict] = None,
+                       expected_headers: Optional[Dict] = None):
+        """Common response assertions."""
+        # Status code
+        assert response.status_code == expected_status, \
+            f"Expected status {expected_status}, got {response.status_code}"
+        
+        # Response time
+        assert response.elapsed.total_seconds() <= self.config.max_response_time, \
+            f"Response time {response.elapsed.total_seconds()}s exceeds threshold"
+        
+        # Headers
+        if expected_headers:
+            for header, value in expected_headers.items():
+                assert header in response.headers, f"Missing header: {header}"
+                if value:
+                    assert response.headers[header] == value, \
+                        f"Header {header} mismatch"
+        
+        # Schema validation
+        if expected_schema:
+            self.validate_schema(response.json(), expected_schema)
+    
+    def validate_schema(self, data: Dict, schema: Dict):
+        """Validate JSON schema."""
+        try:
+            jsonschema.validate(data, schema)
+        except jsonschema.exceptions.ValidationError as e:
+            pytest.fail(f"Schema validation failed: {e.message}")
+
+# ==================== Test Data Generator ====================
+
+class TestDataGenerator:
+    """Generate test data for API testing."""
+    
+    @staticmethod
+    def random_string(length: int = 10) -> str:
+        """Generate random string."""
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+    
+    @staticmethod
+    def random_email() -> str:
+        """Generate random email."""
+        return f"test_{TestDataGenerator.random_string(8)}@example.com"
+    
+    @staticmethod
+    def random_phone() -> str:
+        """Generate random phone number."""
+        return f"+1{random.randint(2000000000, 9999999999)}"
+    
+    @staticmethod
+    def random_user() -> Dict[str, Any]:
+        """Generate random user data."""
+        return {
+            "username": f"user_{TestDataGenerator.random_string(6)}",
+            "email": TestDataGenerator.random_email(),
+            "password": TestDataGenerator.random_string(12),
+            "first_name": random.choice(["John", "Jane", "Bob", "Alice"]),
+            "last_name": random.choice(["Smith", "Doe", "Johnson", "Williams"]),
+            "age": random.randint(18, 80),
+            "phone": TestDataGenerator.random_phone()
+        }
+    
+    @staticmethod
+    def random_product() -> Dict[str, Any]:
+        """Generate random product data."""
+        categories = ["Electronics", "Clothing", "Books", "Home", "Sports"]
+        
+        return {
+            "name": f"Product {TestDataGenerator.random_string(8)}",
+            "description": f"Description {TestDataGenerator.random_string(50)}",
+            "price": round(random.uniform(9.99, 999.99), 2),
+            "category": random.choice(categories),
+            "sku": TestDataGenerator.random_string(10).upper(),
+            "stock": random.randint(0, 1000),
+            "active": random.choice([True, False])
+        }
+
+# ==================== API Test Suite ====================
+
+class APITestSuite(BaseAPITest):
+    """Comprehensive API test suite."""
+    
+    def test_health_check(self):
+        """Test API health endpoint."""
+        response = self.make_request("GET", "/health")
+        
+        self.assert_response(response, expected_status=200)
+        
+        data = response.json()
+        assert "status" in data
+        assert data["status"] == "healthy"
+    
+    def test_create_user(self):
+        """Test user creation."""
+        user_data = TestDataGenerator.random_user()
+        
+        response = self.make_request(
+            "POST",
+            "/users",
+            json=user_data
+        )
+        
+        self.assert_response(response, expected_status=201)
+        
+        created_user = response.json()
+        assert "id" in created_user
+        assert created_user["email"] == user_data["email"]
+        
+        return created_user["id"]
+    
+    def test_get_user(self):
+        """Test getting user by ID."""
+        # Create user first
+        user_id = self.test_create_user()
+        
+        # Get user
+        response = self.make_request("GET", f"/users/{user_id}")
+        
+        self.assert_response(response, expected_status=200)
+        
+        user = response.json()
+        assert user["id"] == user_id
+    
+    def test_update_user(self):
+        """Test user update."""
+        # Create user
+        user_id = self.test_create_user()
+        
+        # Update data
+        update_data = {
+            "first_name": "Updated",
+            "last_name": "Name"
+        }
+        
+        response = self.make_request(
+            "PATCH",
+            f"/users/{user_id}",
+            json=update_data
+        )
+        
+        self.assert_response(response, expected_status=200)
+        
+        updated_user = response.json()
+        assert updated_user["first_name"] == "Updated"
+    
+    def test_delete_user(self):
+        """Test user deletion."""
+        # Create user
+        user_id = self.test_create_user()
+        
+        # Delete user
+        response = self.make_request("DELETE", f"/users/{user_id}")
+        
+        self.assert_response(response, expected_status=204)
+        
+        # Verify deletion
+        response = self.make_request("GET", f"/users/{user_id}")
+        assert response.status_code == 404
+    
+    def test_list_users_pagination(self):
+        """Test user listing with pagination."""
+        # Create multiple users
+        for _ in range(5):
+            self.test_create_user()
+        
+        # Test pagination
+        response = self.make_request(
+            "GET",
+            "/users",
+            params={"page": 1, "limit": 2}
+        )
+        
+        self.assert_response(response, expected_status=200)
+        
+        data = response.json()
+        assert "items" in data
+        assert len(data["items"]) <= 2
+        assert "total" in data
+        assert "page" in data
+    
+    def test_error_handling(self):
+        """Test error responses."""
+        # Test 404
+        response = self.make_request("GET", "/users/nonexistent")
+        assert response.status_code == 404
+        
+        error = response.json()
+        assert "error" in error or "message" in error
+        
+        # Test 400 - Invalid data
+        response = self.make_request(
+            "POST",
+            "/users",
+            json={"invalid": "data"}
+        )
+        assert response.status_code == 400
+        
+        # Test 401 - Unauthorized
+        self.session.headers.pop("Authorization", None)
+        response = self.make_request("GET", "/users/me")
+        assert response.status_code == 401
+
+# ==================== Contract Testing ====================
+
+class ContractTest:
+    """API contract testing."""
+    
+    def __init__(self, contract_file: str):
+        self.contract = self._load_contract(contract_file)
+        self.logger = logging.getLogger(__name__)
+    
+    def _load_contract(self, file_path: str) -> Dict:
+        """Load API contract (OpenAPI/Swagger)."""
+        with open(file_path, 'r') as f:
+            if file_path.endswith('.yaml') or file_path.endswith('.yml'):
+                return yaml.safe_load(f)
+            else:
+                return json.load(f)
+    
+    def validate_endpoint(self, method: str, path: str, 
+                         response: requests.Response) -> bool:
+        """Validate response against contract."""
+        # Find endpoint in contract
+        endpoint = self.contract["paths"].get(path, {}).get(method.lower())
+        
+        if not endpoint:
+            self.logger.warning(f"Endpoint not found in contract: {method} {path}")
+            return False
+        
+        # Get response schema
+        status_code = str(response.status_code)
+        response_spec = endpoint.get("responses", {}).get(status_code)
+        
+        if not response_spec:
+            self.logger.warning(f"Response {status_code} not defined in contract")
+            return False
+        
+        # Validate response schema
+        schema = response_spec.get("content", {}).get("application/json", {}).get("schema")
+        
+        if schema:
+            try:
+                jsonschema.validate(response.json(), schema)
+                return True
+            except jsonschema.ValidationError as e:
+                self.logger.error(f"Contract validation failed: {e}")
+                return False
+        
+        return True
+
+# ==================== Performance Testing ====================
+
+class PerformanceTest:
+    """API performance testing."""
+    
+    def __init__(self, config: APITestConfig):
+        self.config = config
+        self.results = []
+        self.logger = logging.getLogger(__name__)
+    
+    def load_test(self, endpoint: str, method: str = "GET",
+                  num_requests: int = 100,
+                  concurrent_users: int = 10,
+                  **kwargs) -> Dict[str, Any]:
+        """Run load test on endpoint."""
+        import concurrent.futures
+        
+        url = f"{self.config.base_url}{endpoint}"
+        
+        def make_request():
+            start_time = time.time()
+            try:
+                response = requests.request(
+                    method,
+                    url,
+                    timeout=self.config.timeout,
+                    **kwargs
+                )
+                elapsed = time.time() - start_time
+                
+                return {
+                    "success": response.status_code < 400,
+                    "status_code": response.status_code,
+                    "response_time": elapsed
+                }
+            except Exception as e:
+                return {
+                    "success": False,
+                    "error": str(e),
+                    "response_time": time.time() - start_time
+                }
+        
+        # Run concurrent requests
+        start_time = time.time()
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=concurrent_users) as executor:
+            futures = [executor.submit(make_request) for _ in range(num_requests)]
+            results = [f.result() for f in concurrent.futures.as_completed(futures)]
+        
+        total_time = time.time() - start_time
+        
+        # Calculate metrics
+        successful = sum(1 for r in results if r["success"])
+        response_times = [r["response_time"] for r in results if "response_time" in r]
+        
+        metrics = {
+            "total_requests": num_requests,
+            "successful_requests": successful,
+            "failed_requests": num_requests - successful,
+            "success_rate": successful / num_requests * 100,
+            "total_time": total_time,
+            "requests_per_second": num_requests / total_time,
+            "avg_response_time": sum(response_times) / len(response_times),
+            "min_response_time": min(response_times),
+            "max_response_time": max(response_times),
+            "p50_response_time": self._percentile(response_times, 50),
+            "p95_response_time": self._percentile(response_times, 95),
+            "p99_response_time": self._percentile(response_times, 99)
+        }
+        
+        self.results.append(metrics)
+        return metrics
+    
+    def _percentile(self, values: List[float], percentile: int) -> float:
+        """Calculate percentile."""
+        if not values:
+            return 0
+        
+        sorted_values = sorted(values)
+        index = int(len(sorted_values) * percentile / 100)
+        return sorted_values[min(index, len(sorted_values) - 1)]
+    
+    def stress_test(self, endpoint: str, 
+                    initial_users: int = 1,
+                    max_users: int = 100,
+                    step: int = 10,
+                    duration: int = 60) -> List[Dict]:
+        """Run stress test with increasing load."""
+        stress_results = []
+        
+        for users in range(initial_users, max_users + 1, step):
+            self.logger.info(f"Testing with {users} concurrent users")
+            
+            # Calculate requests for duration
+            requests_per_user = duration  # 1 request per second per user
+            total_requests = users * requests_per_user
+            
+            result = self.load_test(
+                endpoint,
+                num_requests=total_requests,
+                concurrent_users=users
+            )
+            
+            result["concurrent_users"] = users
+            stress_results.append(result)
+            
+            # Stop if performance degrades
+            if result["success_rate"] < 95 or result["avg_response_time"] > 5:
+                self.logger.warning("Performance threshold breached, stopping test")
+                break
+        
+        return stress_results
+
+# ==================== Security Testing ====================
+
+class SecurityTest:
+    """API security testing."""
+    
+    def __init__(self, base_url: str):
+        self.base_url = base_url
+        self.vulnerabilities = []
+        self.logger = logging.getLogger(__name__)
+    
+    def test_sql_injection(self, endpoint: str, param: str) -> bool:
+        """Test for SQL injection vulnerability."""
+        sql_payloads = [
+            "' OR '1'='1",
+            "1; DROP TABLE users--",
+            "' UNION SELECT * FROM users--",
+            "admin'--",
+            "1' AND 1=1--"
+        ]
+        
+        for payload in sql_payloads:
+            try:
+                response = requests.get(
+                    f"{self.base_url}{endpoint}",
+                    params={param: payload},
+                    timeout=5
+                )
+                
+                # Check for SQL errors in response
+                error_patterns = [
+                    "SQL syntax",
+                    "mysql_fetch",
+                    "ORA-01756",
+                    "PostgreSQL",
+                    "SQLite"
+                ]
+                
+                response_text = response.text.lower()
+                for pattern in error_patterns:
+                    if pattern.lower() in response_text:
+                        self.vulnerabilities.append({
+                            "type": "SQL Injection",
+                            "endpoint": endpoint,
+                            "param": param,
+                            "payload": payload
+                        })
+                        return True
+                        
+            except Exception as e:
+                self.logger.debug(f"SQL injection test error: {e}")
+        
+        return False
+    
+    def test_xss(self, endpoint: str, param: str) -> bool:
+        """Test for XSS vulnerability."""
+        xss_payloads = [
+            "<script>alert('XSS')</script>",
+            "<img src=x onerror=alert('XSS')>",
+            "javascript:alert('XSS')",
+            "<body onload=alert('XSS')>"
+        ]
+        
+        for payload in xss_payloads:
+            try:
+                response = requests.get(
+                    f"{self.base_url}{endpoint}",
+                    params={param: payload},
+                    timeout=5
+                )
+                
+                # Check if payload is reflected without encoding
+                if payload in response.text:
+                    self.vulnerabilities.append({
+                        "type": "XSS",
+                        "endpoint": endpoint,
+                        "param": param,
+                        "payload": payload
+                    })
+                    return True
+                    
+            except Exception as e:
+                self.logger.debug(f"XSS test error: {e}")
+        
+        return False
+    
+    def test_authentication(self) -> Dict[str, bool]:
+        """Test authentication security."""
+        results = {
+            "requires_auth": False,
+            "rate_limiting": False,
+            "secure_headers": False,
+            "https_only": False
+        }
+        
+        # Test if API requires authentication
+        response = requests.get(f"{self.base_url}/users", timeout=5)
+        results["requires_auth"] = response.status_code == 401
+        
+        # Check for security headers
+        headers = response.headers
+        security_headers = [
+            "X-Content-Type-Options",
+            "X-Frame-Options",
+            "X-XSS-Protection",
+            "Strict-Transport-Security"
+        ]
+        
+        results["secure_headers"] = all(h in headers for h in security_headers)
+        
+        # Check HTTPS
+        results["https_only"] = self.base_url.startswith("https://")
+        
+        # Check rate limiting
+        results["rate_limiting"] = "X-RateLimit-Limit" in headers
+        
+        return results
+
+# ==================== Test Runner ====================
+
+class APITestRunner:
+    """Orchestrate API test execution."""
+    
+    def __init__(self, config: APITestConfig):
+        self.config = config
+        self.logger = logging.getLogger(__name__)
+        self.results = {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "errors": []
+        }
+    
+    def run_tests(self, test_class, test_methods: Optional[List[str]] = None):
+        """Run tests from test class."""
+        test_instance = test_class(self.config)
+        
+        # Get test methods
+        if not test_methods:
+            test_methods = [m for m in dir(test_instance) if m.startswith("test_")]
+        
+        for method_name in test_methods:
+            try:
+                method = getattr(test_instance, method_name)
+                
+                self.logger.info(f"Running {method_name}")
+                method()
+                
+                self.results["passed"] += 1
+                self.logger.info(f"✅ {method_name} passed")
+                
+            except AssertionError as e:
+                self.results["failed"] += 1
+                self.results["errors"].append({
+                    "test": method_name,
+                    "error": str(e)
+                })
+                self.logger.error(f"❌ {method_name} failed: {e}")
+                
+            except Exception as e:
+                self.results["failed"] += 1
+                self.results["errors"].append({
+                    "test": method_name,
+                    "error": str(e)
+                })
+                self.logger.error(f"💥 {method_name} error: {e}")
+    
+    def run_performance_tests(self, endpoints: List[Dict[str, Any]]):
+        """Run performance tests on endpoints."""
+        perf_test = PerformanceTest(self.config)
+        
+        for endpoint_config in endpoints:
+            endpoint = endpoint_config["endpoint"]
+            method = endpoint_config.get("method", "GET")
+            
+            self.logger.info(f"Performance testing {method} {endpoint}")
+            
+            metrics = perf_test.load_test(
+                endpoint,
+                method,
+                num_requests=endpoint_config.get("requests", 100),
+                concurrent_users=endpoint_config.get("users", 10)
+            )
+            
+            # Check thresholds
+            if metrics["avg_response_time"] > self.config.max_response_time:
+                self.logger.warning(
+                    f"Response time {metrics['avg_response_time']:.2f}s "
+                    f"exceeds threshold {self.config.max_response_time}s"
+                )
+            
+            if metrics["requests_per_second"] < self.config.min_throughput:
+                self.logger.warning(
+                    f"Throughput {metrics['requests_per_second']:.1f} req/s "
+                    f"below threshold {self.config.min_throughput} req/s"
+                )
+    
+    def run_security_tests(self, endpoints: List[str]):
+        """Run security tests on endpoints."""
+        sec_test = SecurityTest(self.config.base_url)
+        
+        for endpoint in endpoints:
+            self.logger.info(f"Security testing {endpoint}")
+            
+            # Test common vulnerabilities
+            sec_test.test_sql_injection(endpoint, "id")
+            sec_test.test_xss(endpoint, "search")
+        
+        # Test authentication
+        auth_results = sec_test.test_authentication()
+        
+        for check, passed in auth_results.items():
+            if not passed:
+                self.logger.warning(f"Security check failed: {check}")
+        
+        if sec_test.vulnerabilities:
+            self.logger.error(f"Found {len(sec_test.vulnerabilities)} vulnerabilities!")
+            for vuln in sec_test.vulnerabilities:
+                self.logger.error(f"  {vuln['type']} at {vuln['endpoint']}")
+    
+    def generate_report(self):
+        """Generate test report."""
+        report = {
+            "timestamp": datetime.now().isoformat(),
+            "config": {
+                "base_url": self.config.base_url,
+                "test_level": self.config.test_level.value
+            },
+            "results": self.results,
+            "summary": {
+                "total": self.results["passed"] + self.results["failed"],
+                "pass_rate": self.results["passed"] / 
+                           (self.results["passed"] + self.results["failed"]) * 100
+                           if self.results["passed"] + self.results["failed"] > 0 else 0
+            }
+        }
+        
+        # Save report
+        report_file = Path(self.config.report_dir) / f"test_report_{datetime.now():%Y%m%d_%H%M%S}.json"
+        report_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        with open(report_file, 'w') as f:
+            json.dump(report, f, indent=2)
+        
+        self.logger.info(f"Report saved to {report_file}")
+        
+        return report
+
+# ==================== Pytest Integration ====================
+
+@pytest.fixture
+def api_client():
+    """Pytest fixture for API client."""
+    config = APITestConfig(
+        base_url=os.getenv("API_BASE_URL", "http://localhost:8000"),
+        auth_type="bearer",
+        auth_credentials={"token": os.getenv("API_TOKEN", "test_token")}
+    )
+    
+    return APITestSuite(config)
+
+def test_user_crud_flow(api_client):
+    """Test complete user CRUD flow."""
+    # Create
+    user_id = api_client.test_create_user()
+    assert user_id is not None
+    
+    # Read
+    api_client.test_get_user()
+    
+    # Update
+    api_client.test_update_user()
+    
+    # Delete
+    api_client.test_delete_user()
+
+@pytest.mark.parametrize("endpoint,expected_status", [
+    ("/health", 200),
+    ("/users", 401),  # Requires auth
+    ("/nonexistent", 404)
+])
+def test_endpoints(api_client, endpoint, expected_status):
+    """Parametrized endpoint testing."""
+    response = api_client.make_request("GET", endpoint)
+    assert response.status_code == expected_status
+
+# Example usage
+if __name__ == "__main__":
+    print("🧪 API Testing Automation Examples\n")
+    
+    # Example 1: Test types
+    print("1️⃣ API Test Types:")
+    
+    test_types = [
+        ("Unit Tests", "Test individual endpoints", "Test GET /users/123"),
+        ("Integration Tests", "Test endpoint interactions", "Create user, then login"),
+        ("Contract Tests", "Validate API contracts", "Check OpenAPI schema"),
+        ("Performance Tests", "Measure speed and load", "100 requests/second"),
+        ("Security Tests", "Check vulnerabilities", "SQL injection, XSS"),
+        ("Smoke Tests", "Basic functionality", "Health check passes")
+    ]
+    
+    for test_type, description, example in test_types:
+        print(f"   {test_type}:")
+        print(f"     {description}")
+        print(f"     Example: {example}\n")
+    
+    # Example 2: Test configuration
+    print("2️⃣ Test Configuration:")
+    
+    config = APITestConfig(
+        base_url="https://api.example.com",
+        test_level=TestLevel.REGRESSION,
+        max_response_time=2.0,
+        min_throughput=100
+    )
+    
+    print(f"   Base URL: {config.base_url}")
+    print(f"   Test Level: {config.test_level.value}")
+    print(f"   Max Response Time: {config.max_response_time}s")
+    print(f"   Min Throughput: {config.min_throughput} req/s")
+    
+    # Example 3: Test data generation
+    print("\n3️⃣ Test Data Generation:")
+    
+    user = TestDataGenerator.random_user()
+    print("   Random user:")
+    for key, value in user.items():
+        print(f"     {key}: {value}")
+    
+    # Example 4: Assertions
+    print("\n4️⃣ Common Assertions:")
+    
+    assertions = [
+        "Status code validation",
+        "Response time check",
+        "Schema validation",
+        "Header verification",
+        "Content validation",
+        "Error message check"
+    ]
+    
+    for assertion in assertions:
+        print(f"   • {assertion}")
+    
+    # Example 5: Performance metrics
+    print("\n5️⃣ Performance Metrics:")
+    
+    metrics = {
+        "requests_per_second": 156.3,
+        "avg_response_time": 0.245,
+        "p95_response_time": 0.512,
+        "p99_response_time": 0.987,
+        "success_rate": 99.8
+    }
+    
+    print("   Load test results:")
+    for metric, value in metrics.items():
+        print(f"     {metric}: {value}")
+    
+    # Example 6: Security checks
+    print("\n6️⃣ Security Testing:")
+    
+    security_checks = [
+        "SQL Injection",
+        "Cross-Site Scripting (XSS)",
+        "Authentication bypass",
+        "Rate limiting",
+        "Security headers",
+        "HTTPS enforcement"
+    ]
+    
+    for check in security_checks:
+        print(f"   ✓ {check}")
+    
+    # Example 7: CI/CD integration
+    print("\n7️⃣ CI/CD Integration:")
+    
+    print("   GitHub Actions example:")
+    print("     - name: Run API Tests")
+    print("       run: pytest tests/api --html=report.html")
+    print("   ")
+    print("   Jenkins example:")
+    print("     sh 'python -m pytest --cov=api --cov-report=xml'")
+    
+    # Example 8: Test organization
+    print("\n8️⃣ Test Organization:")
+    
+    print("   tests/")
+    print("     api/")
+    print("       test_auth.py")
+    print("       test_users.py")
+    print("       test_products.py")
+    print("     performance/")
+    print("       test_load.py")
+    print("       test_stress.py")
+    print("     security/")
+    print("       test_vulnerabilities.py")
+    print("     contracts/")
+    print("       openapi.yaml")
+    
+    # Example 9: Best practices
+    print("\n9️⃣ API Testing Best Practices:")
+    
+    practices = [
+        "🎯 Test both happy and error paths",
+        "📊 Use data-driven testing",
+        "🔄 Make tests idempotent",
+        "🏷️ Use descriptive test names",
+        "⚡ Run tests in parallel",
+        "📝 Generate detailed reports",
+        "🔍 Test edge cases",
+        "🛡️ Include security tests",
+        "⏱️ Set performance thresholds",
+        "🔧 Integrate with CI/CD"
+    ]
+    
+    for practice in practices:
+        print(f"   {practice}")
+    
+    # Example 10: Common pitfalls
+    print("\n🔟 Common Testing Pitfalls:")
+    
+    pitfalls = [
+        ("Test dependency", "Tests depend on each other", "Make tests independent"),
+        ("Hard-coded data", "Using fixed test data", "Generate random data"),
+        ("No cleanup", "Leaving test data", "Clean up after tests"),
+        ("Flaky tests", "Intermittent failures", "Add retries and waits"),
+        ("Poor coverage", "Missing test cases", "Test all paths"),
+        ("No monitoring", "Tests without metrics", "Track test metrics")
+    ]
+    
+    for issue, problem, solution in pitfalls:
+        print(f"   {issue}:")
+        print(f"     Problem: {problem}")
+        print(f"     Solution: {solution}")
+    
+    print("\n✅ API testing automation demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Test All Layers:</strong> Unit, integration, contract, performance, and security.</li>
+        
+        <li><strong>Automate Everything:</strong> From test execution to report generation.</li>
+        
+        <li><strong>Use Test Data Generators:</strong> Avoid hard-coded test data.</li>
+        
+        <li><strong>Validate Thoroughly:</strong> Check status, schema, headers, and performance.</li>
+        
+        <li><strong>Make Tests Independent:</strong> Each test should be self-contained.</li>
+        
+        <li><strong>Set Performance Thresholds:</strong> Define acceptable response times.</li>
+        
+        <li><strong>Include Security Testing:</strong> Check for common vulnerabilities.</li>
+        
+        <li><strong>Generate Reports:</strong> Document test results and metrics.</li>
+    </ul>
+
+    <h3>API Testing Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of API testing as quality assurance for your digital services - thorough testing prevents problems before they reach production. Start with a solid test structure: organize tests by functionality, use descriptive names, and keep them independent. Generate test data dynamically - hard-coded data leads to brittle tests. Test both success and failure scenarios - your API should handle errors gracefully. Validate everything: status codes, response schemas, headers, and performance metrics. Use contract testing to ensure API compatibility. Performance test regularly to catch degradation early. Include security testing - check for SQL injection, XSS, and authentication issues. Integrate tests into CI/CD pipelines for automatic validation. Generate detailed reports with metrics and coverage. Most importantly: treat test code with the same care as production code - well-maintained tests are your safety net for confident deployments!</p>
+    </div>
+    
+    <p>Mastering API testing automation ensures your APIs are reliable, performant, and secure. You can now build comprehensive test suites that validate functionality, measure performance, check security, and maintain quality at scale. Whether you're testing microservices, public APIs, or enterprise systems, these testing skills ensure your APIs deliver consistent, high-quality service! 🏆</p>
+    
+    <footer>
+        <p>Congratulations! You've completed the API Automation section. You're now equipped to build, consume, and test APIs like a pro! 🎉</p>
+    </footer>
+</body>
+</html>

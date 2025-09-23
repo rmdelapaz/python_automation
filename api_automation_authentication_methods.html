@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Methods - Python API Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🔐 Authentication Methods: Secure Your API Connections</h1>
+    
+    <p>Authentication is the digital bouncer of the API world - it verifies who you are and what you're allowed to access. Like having the right keys for different doors, mastering authentication methods lets you securely access any API, from simple token-based services to complex OAuth flows. Whether you're integrating with enterprise systems or public APIs, understanding authentication is crucial for secure and reliable API automation! 🗝️</p>
+
+    <h2>The Authentication Landscape</h2>
+    
+    <p>Modern APIs use various authentication methods, each with its own security model and use cases. Think of it as a security clearance system - some doors need just a password, others require biometric scans, and the most secure ones need multiple forms of identification. Master these patterns to access any API securely and efficiently!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[API Authentication] --> B[Basic Methods]
+        A --> C[Token-Based]
+        A --> D[OAuth Flows]
+        A --> E[Advanced Security]
+        
+        B --> F[API Key]
+        B --> G[Basic Auth]
+        B --> H[Digest Auth]
+        
+        C --> I[Bearer Token]
+        C --> J[JWT]
+        C --> K[Personal Access Token]
+        
+        D --> L[OAuth 1.0]
+        D --> M[OAuth 2.0]
+        D --> N[OpenID Connect]
+        
+        E --> O[HMAC Signing]
+        E --> P[Mutual TLS]
+        E --> Q[SAML]
+        E --> R[AWS Signature]
+        
+        S[Token Management] --> T[Storage]
+        S --> U[Refresh]
+        S --> V[Rotation]
+        S --> W[Expiration]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style S fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Multi-Service Auth Manager 🌟</h3>
+    
+    <p>You're building an authentication management system that handles multiple APIs - social media with OAuth2, payment gateways with HMAC signing, enterprise systems with SAML, cloud services with JWT, and internal APIs with mTLS. Your system must securely store credentials, automatically refresh tokens, handle multi-factor authentication, rotate keys, and provide detailed audit logging. Let's build a comprehensive authentication framework!</p>
+
+    <pre><code># First, install required packages:
+# pip install requests pyjwt cryptography python-jose oauthlib requests-oauthlib python-dotenv keyring
+
+import os
+import json
+import time
+import base64
+import hashlib
+import hmac
+import secrets
+from typing import Dict, Optional, Any, Tuple, Callable
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+import logging
+from urllib.parse import urlencode, parse_qs, urlparse
+from pathlib import Path
+
+import requests
+from requests.auth import AuthBase, HTTPBasicAuth, HTTPDigestAuth
+import jwt
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.backends import default_backend
+from oauthlib.oauth2 import BackendApplicationClient, WebApplicationClient
+from requests_oauthlib import OAuth1Session, OAuth2Session
+import keyring
+from functools import wraps
+
+# ==================== Authentication Types ====================
+
+class AuthType(Enum):
+    """Supported authentication types."""
+    NONE = "none"
+    API_KEY = "api_key"
+    BASIC = "basic"
+    DIGEST = "digest"
+    BEARER = "bearer"
+    JWT = "jwt"
+    OAUTH1 = "oauth1"
+    OAUTH2 = "oauth2"
+    HMAC = "hmac"
+    AWS_SIGNATURE = "aws_signature"
+    MTLS = "mutual_tls"
+    SAML = "saml"
+    CUSTOM = "custom"
+
+# ==================== Credential Storage ====================
+
+class SecureCredentialStore:
+    """
+    Secure storage for API credentials.
+    Uses keyring for OS-level secure storage.
+    """
+    
+    def __init__(self, service_name: str = "api_auth_manager"):
+        self.service_name = service_name
+        self.logger = logging.getLogger(__name__)
+        self._memory_cache = {}
+        
+    def store_credential(self, api_name: str, key: str, value: str):
+        """Store credential securely."""
+        try:
+            # Store in OS keyring
+            keyring.set_password(self.service_name, f"{api_name}:{key}", value)
+            
+            # Cache in memory for performance
+            if api_name not in self._memory_cache:
+                self._memory_cache[api_name] = {}
+            self._memory_cache[api_name][key] = value
+            
+            self.logger.info(f"Stored credential for {api_name}:{key}")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to store credential: {e}")
+            raise
+    
+    def get_credential(self, api_name: str, key: str) -> Optional[str]:
+        """Retrieve credential from secure storage."""
+        # Check memory cache first
+        if api_name in self._memory_cache and key in self._memory_cache[api_name]:
+            return self._memory_cache[api_name][key]
+        
+        try:
+            # Retrieve from OS keyring
+            value = keyring.get_password(self.service_name, f"{api_name}:{key}")
+            
+            if value:
+                # Update cache
+                if api_name not in self._memory_cache:
+                    self._memory_cache[api_name] = {}
+                self._memory_cache[api_name][key] = value
+            
+            return value
+            
+        except Exception as e:
+            self.logger.error(f"Failed to retrieve credential: {e}")
+            return None
+    
+    def delete_credential(self, api_name: str, key: str):
+        """Delete credential from storage."""
+        try:
+            keyring.delete_password(self.service_name, f"{api_name}:{key}")
+            
+            # Remove from cache
+            if api_name in self._memory_cache and key in self._memory_cache[api_name]:
+                del self._memory_cache[api_name][key]
+            
+            self.logger.info(f"Deleted credential for {api_name}:{key}")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to delete credential: {e}")
+    
+    def clear_cache(self):
+        """Clear memory cache."""
+        self._memory_cache.clear()
+
+# ==================== Base Authentication ====================
+
+class BaseAuthHandler(AuthBase):
+    """Base class for authentication handlers."""
+    
+    def __init__(self):
+        self.logger = logging.getLogger(self.__class__.__name__)
+    
+    def __call__(self, request):
+        """Apply authentication to request."""
+        raise NotImplementedError
+
+# ==================== API Key Authentication ====================
+
+class APIKeyAuth(BaseAuthHandler):
+    """
+    API Key authentication handler.
+    Supports header, query parameter, and custom placement.
+    """
+    
+    def __init__(self, api_key: str, 
+                 location: str = "header",
+                 key_name: str = "X-API-Key"):
+        super().__init__()
+        self.api_key = api_key
+        self.location = location
+        self.key_name = key_name
+    
+    def __call__(self, request):
+        """Add API key to request."""
+        if self.location == "header":
+            request.headers[self.key_name] = self.api_key
+        elif self.location == "query":
+            # Add to query parameters
+            if "?" in request.url:
+                request.url += f"&{self.key_name}={self.api_key}"
+            else:
+                request.url += f"?{self.key_name}={self.api_key}"
+        elif self.location == "body":
+            # Add to request body (for POST requests)
+            if request.body:
+                body = json.loads(request.body)
+                body[self.key_name] = self.api_key
+                request.body = json.dumps(body)
+        
+        return request
+
+# ==================== Bearer Token Authentication ====================
+
+class BearerTokenAuth(BaseAuthHandler):
+    """Bearer token authentication with automatic refresh."""
+    
+    def __init__(self, token: str, 
+                 refresh_token: Optional[str] = None,
+                 refresh_callback: Optional[Callable] = None):
+        super().__init__()
+        self.token = token
+        self.refresh_token = refresh_token
+        self.refresh_callback = refresh_callback
+        self.token_expiry = None
+    
+    def __call__(self, request):
+        """Add bearer token to request."""
+        # Check if token needs refresh
+        if self.token_expiry and datetime.now() >= self.token_expiry:
+            self.refresh()
+        
+        request.headers["Authorization"] = f"Bearer {self.token}"
+        return request
+    
+    def refresh(self):
+        """Refresh the access token."""
+        if self.refresh_callback and self.refresh_token:
+            try:
+                new_token, new_refresh = self.refresh_callback(self.refresh_token)
+                self.token = new_token
+                self.refresh_token = new_refresh
+                self.logger.info("Token refreshed successfully")
+            except Exception as e:
+                self.logger.error(f"Token refresh failed: {e}")
+                raise
+    
+    def set_expiry(self, expires_in: int):
+        """Set token expiry time."""
+        self.token_expiry = datetime.now() + timedelta(seconds=expires_in)
+
+# ==================== JWT Authentication ====================
+
+class JWTAuth(BaseAuthHandler):
+    """
+    JWT (JSON Web Token) authentication.
+    Supports token creation and validation.
+    """
+    
+    def __init__(self, secret_or_key: str, 
+                 algorithm: str = "HS256",
+                 issuer: Optional[str] = None,
+                 audience: Optional[str] = None,
+                 expiry_minutes: int = 30):
+        super().__init__()
+        self.secret_or_key = secret_or_key
+        self.algorithm = algorithm
+        self.issuer = issuer
+        self.audience = audience
+        self.expiry_minutes = expiry_minutes
+        self._token = None
+        self._token_expiry = None
+    
+    def create_token(self, payload: Dict[str, Any]) -> str:
+        """Create a JWT token."""
+        now = datetime.utcnow()
+        
+        # Add standard claims
+        token_payload = {
+            "iat": now,
+            "exp": now + timedelta(minutes=self.expiry_minutes),
+            "nbf": now,
+            **payload
+        }
+        
+        if self.issuer:
+            token_payload["iss"] = self.issuer
+        
+        if self.audience:
+            token_payload["aud"] = self.audience
+        
+        # Create token
+        token = jwt.encode(
+            token_payload,
+            self.secret_or_key,
+            algorithm=self.algorithm
+        )
+        
+        self._token = token
+        self._token_expiry = token_payload["exp"]
+        
+        return token
+    
+    def decode_token(self, token: str) -> Dict[str, Any]:
+        """Decode and validate a JWT token."""
+        try:
+            payload = jwt.decode(
+                token,
+                self.secret_or_key,
+                algorithms=[self.algorithm],
+                issuer=self.issuer,
+                audience=self.audience
+            )
+            return payload
+        except jwt.ExpiredSignatureError:
+            self.logger.error("Token has expired")
+            raise
+        except jwt.InvalidTokenError as e:
+            self.logger.error(f"Invalid token: {e}")
+            raise
+    
+    def __call__(self, request):
+        """Add JWT to request."""
+        # Create or refresh token if needed
+        if not self._token or (self._token_expiry and datetime.utcnow() >= self._token_expiry):
+            self.create_token({"sub": "api_client"})
+        
+        request.headers["Authorization"] = f"Bearer {self._token}"
+        return request
+
+# ==================== OAuth 2.0 Authentication ====================
+
+class OAuth2Handler:
+    """
+    OAuth 2.0 authentication handler.
+    Supports various grant types.
+    """
+    
+    def __init__(self, client_id: str, client_secret: str,
+                 authorization_url: str, token_url: str,
+                 redirect_uri: str = "http://localhost:8080",
+                 scope: Optional[str] = None):
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.authorization_url = authorization_url
+        self.token_url = token_url
+        self.redirect_uri = redirect_uri
+        self.scope = scope
+        self.logger = logging.getLogger(__name__)
+        
+        self.session = None
+        self.token = None
+    
+    def get_authorization_url(self) -> Tuple[str, str]:
+        """
+        Get authorization URL for user consent.
+        Returns (authorization_url, state).
+        """
+        self.session = OAuth2Session(
+            client_id=self.client_id,
+            redirect_uri=self.redirect_uri,
+            scope=self.scope
+        )
+        
+        authorization_url, state = self.session.authorization_url(
+            self.authorization_url
+        )
+        
+        return authorization_url, state
+    
+    def fetch_token(self, authorization_response: str, state: str) -> Dict:
+        """
+        Exchange authorization code for access token.
+        """
+        self.session = OAuth2Session(
+            client_id=self.client_id,
+            redirect_uri=self.redirect_uri,
+            state=state
+        )
+        
+        token = self.session.fetch_token(
+            self.token_url,
+            authorization_response=authorization_response,
+            client_secret=self.client_secret
+        )
+        
+        self.token = token
+        return token
+    
+    def refresh_token(self, refresh_token: str) -> Dict:
+        """Refresh access token."""
+        extra = {
+            'client_id': self.client_id,
+            'client_secret': self.client_secret
+        }
+        
+        self.session = OAuth2Session(
+            client_id=self.client_id,
+            token={'refresh_token': refresh_token}
+        )
+        
+        self.token = self.session.refresh_token(
+            self.token_url,
+            refresh_token=refresh_token,
+            **extra
+        )
+        
+        return self.token
+    
+    def client_credentials_grant(self) -> Dict:
+        """
+        OAuth2 client credentials grant (for server-to-server).
+        """
+        client = BackendApplicationClient(client_id=self.client_id)
+        oauth = OAuth2Session(client=client)
+        
+        token = oauth.fetch_token(
+            token_url=self.token_url,
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+            scope=self.scope
+        )
+        
+        self.token = token
+        return token
+    
+    def get_authenticated_session(self) -> OAuth2Session:
+        """Get authenticated OAuth2 session."""
+        if not self.token:
+            raise ValueError("No token available. Authenticate first.")
+        
+        return OAuth2Session(
+            client_id=self.client_id,
+            token=self.token
+        )
+
+# ==================== HMAC Signature Authentication ====================
+
+class HMACAuth(BaseAuthHandler):
+    """
+    HMAC signature authentication.
+    Signs requests with secret key.
+    """
+    
+    def __init__(self, access_key: str, secret_key: str,
+                 algorithm: str = "sha256",
+                 include_headers: Optional[List[str]] = None):
+        super().__init__()
+        self.access_key = access_key
+        self.secret_key = secret_key
+        self.algorithm = algorithm
+        self.include_headers = include_headers or ["host", "date"]
+    
+    def __call__(self, request):
+        """Sign request with HMAC."""
+        # Get request components
+        method = request.method
+        path = urlparse(request.url).path
+        
+        # Create canonical request
+        canonical_parts = [
+            method,
+            path
+        ]
+        
+        # Add headers to signature
+        for header_name in self.include_headers:
+            if header_name.lower() in request.headers:
+                canonical_parts.append(
+                    f"{header_name.lower()}:{request.headers[header_name.lower()]}"
+                )
+        
+        # Add body if present
+        if request.body:
+            body_hash = hashlib.sha256(request.body.encode()).hexdigest()
+            canonical_parts.append(body_hash)
+        
+        canonical_request = "\n".join(canonical_parts)
+        
+        # Create signature
+        signature = hmac.new(
+            self.secret_key.encode(),
+            canonical_request.encode(),
+            getattr(hashlib, self.algorithm)
+        ).hexdigest()
+        
+        # Add authorization header
+        request.headers["Authorization"] = f"HMAC {self.access_key}:{signature}"
+        
+        return request
+
+# ==================== AWS Signature V4 Authentication ====================
+
+class AWSSignatureV4Auth(BaseAuthHandler):
+    """
+    AWS Signature Version 4 authentication.
+    """
+    
+    def __init__(self, access_key: str, secret_key: str,
+                 region: str, service: str,
+                 session_token: Optional[str] = None):
+        super().__init__()
+        self.access_key = access_key
+        self.secret_key = secret_key
+        self.region = region
+        self.service = service
+        self.session_token = session_token
+    
+    def _sign(self, key: bytes, msg: str) -> bytes:
+        """Sign message with key."""
+        return hmac.new(key, msg.encode('utf-8'), hashlib.sha256).digest()
+    
+    def _get_signature_key(self, date_stamp: str) -> bytes:
+        """Derive signing key."""
+        k_date = self._sign(('AWS4' + self.secret_key).encode('utf-8'), date_stamp)
+        k_region = self._sign(k_date, self.region)
+        k_service = self._sign(k_region, self.service)
+        k_signing = self._sign(k_service, 'aws4_request')
+        return k_signing
+    
+    def __call__(self, request):
+        """Sign request with AWS Signature V4."""
+        # Get current time
+        t = datetime.utcnow()
+        amz_date = t.strftime('%Y%m%dT%H%M%SZ')
+        date_stamp = t.strftime('%Y%m%d')
+        
+        # Parse URL
+        parsed_url = urlparse(request.url)
+        host = parsed_url.netloc
+        canonical_uri = parsed_url.path or '/'
+        canonical_querystring = parsed_url.query or ''
+        
+        # Create canonical headers
+        canonical_headers = f'host:{host}\nx-amz-date:{amz_date}\n'
+        signed_headers = 'host;x-amz-date'
+        
+        if self.session_token:
+            canonical_headers += f'x-amz-security-token:{self.session_token}\n'
+            signed_headers += ';x-amz-security-token'
+        
+        # Create payload hash
+        payload_hash = hashlib.sha256(
+            request.body.encode('utf-8') if request.body else b''
+        ).hexdigest()
+        
+        # Create canonical request
+        canonical_request = f"{request.method}\n{canonical_uri}\n{canonical_querystring}\n{canonical_headers}\n{signed_headers}\n{payload_hash}"
+        
+        # Create string to sign
+        algorithm = 'AWS4-HMAC-SHA256'
+        credential_scope = f'{date_stamp}/{self.region}/{self.service}/aws4_request'
+        string_to_sign = f"{algorithm}\n{amz_date}\n{credential_scope}\n{hashlib.sha256(canonical_request.encode('utf-8')).hexdigest()}"
+        
+        # Calculate signature
+        signing_key = self._get_signature_key(date_stamp)
+        signature = hmac.new(
+            signing_key,
+            string_to_sign.encode('utf-8'),
+            hashlib.sha256
+        ).hexdigest()
+        
+        # Create authorization header
+        authorization_header = (
+            f'{algorithm} Credential={self.access_key}/{credential_scope}, '
+            f'SignedHeaders={signed_headers}, Signature={signature}'
+        )
+        
+        # Add headers
+        request.headers['x-amz-date'] = amz_date
+        request.headers['Authorization'] = authorization_header
+        
+        if self.session_token:
+            request.headers['x-amz-security-token'] = self.session_token
+        
+        return request
+
+# ==================== Multi-Factor Authentication ====================
+
+class MFAHandler:
+    """
+    Multi-factor authentication handler.
+    """
+    
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+    
+    def generate_totp_secret(self) -> str:
+        """Generate TOTP secret for 2FA."""
+        import pyotp
+        return pyotp.random_base32()
+    
+    def get_totp_token(self, secret: str) -> str:
+        """Get current TOTP token."""
+        import pyotp
+        totp = pyotp.TOTP(secret)
+        return totp.now()
+    
+    def verify_totp_token(self, secret: str, token: str) -> bool:
+        """Verify TOTP token."""
+        import pyotp
+        totp = pyotp.TOTP(secret)
+        return totp.verify(token, valid_window=1)
+    
+    def generate_backup_codes(self, count: int = 10) -> List[str]:
+        """Generate backup codes for 2FA."""
+        codes = []
+        for _ in range(count):
+            code = secrets.token_hex(4)
+            formatted_code = f"{code[:4]}-{code[4:]}"
+            codes.append(formatted_code)
+        return codes
+
+# ==================== Authentication Manager ====================
+
+class AuthenticationManager:
+    """
+    Centralized authentication management system.
+    """
+    
+    def __init__(self, credential_store: Optional[SecureCredentialStore] = None):
+        self.credential_store = credential_store or SecureCredentialStore()
+        self.auth_handlers = {}
+        self.logger = logging.getLogger(__name__)
+        
+        # Audit log
+        self.audit_log = []
+    
+    def register_api(self, api_name: str, auth_type: AuthType, 
+                     credentials: Dict[str, Any]):
+        """Register API with authentication details."""
+        # Store credentials securely
+        for key, value in credentials.items():
+            if isinstance(value, str):
+                self.credential_store.store_credential(api_name, key, value)
+        
+        # Create auth handler
+        handler = self._create_auth_handler(auth_type, api_name, credentials)
+        self.auth_handlers[api_name] = handler
+        
+        # Log registration
+        self._audit_log("register", api_name, auth_type)
+        
+        self.logger.info(f"Registered {api_name} with {auth_type.value} authentication")
+    
+    def _create_auth_handler(self, auth_type: AuthType, 
+                           api_name: str, 
+                           credentials: Dict) -> Optional[AuthBase]:
+        """Create appropriate auth handler."""
+        if auth_type == AuthType.API_KEY:
+            api_key = self.credential_store.get_credential(api_name, "api_key")
+            return APIKeyAuth(
+                api_key,
+                location=credentials.get("location", "header"),
+                key_name=credentials.get("key_name", "X-API-Key")
+            )
+        
+        elif auth_type == AuthType.BASIC:
+            username = self.credential_store.get_credential(api_name, "username")
+            password = self.credential_store.get_credential(api_name, "password")
+            return HTTPBasicAuth(username, password)
+        
+        elif auth_type == AuthType.BEARER:
+            token = self.credential_store.get_credential(api_name, "token")
+            return BearerTokenAuth(token)
+        
+        elif auth_type == AuthType.JWT:
+            secret = self.credential_store.get_credential(api_name, "secret")
+            return JWTAuth(
+                secret,
+                algorithm=credentials.get("algorithm", "HS256")
+            )
+        
+        elif auth_type == AuthType.HMAC:
+            access_key = self.credential_store.get_credential(api_name, "access_key")
+            secret_key = self.credential_store.get_credential(api_name, "secret_key")
+            return HMACAuth(access_key, secret_key)
+        
+        elif auth_type == AuthType.OAUTH2:
+            # OAuth2 is handled differently
+            return None
+        
+        else:
+            return None
+    
+    def get_auth_handler(self, api_name: str) -> Optional[AuthBase]:
+        """Get auth handler for API."""
+        return self.auth_handlers.get(api_name)
+    
+    def rotate_credentials(self, api_name: str, new_credentials: Dict[str, str]):
+        """Rotate API credentials."""
+        # Store new credentials
+        for key, value in new_credentials.items():
+            self.credential_store.store_credential(api_name, key, value)
+        
+        # Recreate auth handler
+        if api_name in self.auth_handlers:
+            # Get auth type (simplified - should store this)
+            auth_type = AuthType.API_KEY  # Default
+            
+            handler = self._create_auth_handler(
+                auth_type, api_name, new_credentials
+            )
+            self.auth_handlers[api_name] = handler
+        
+        # Log rotation
+        self._audit_log("rotate", api_name)
+        
+        self.logger.info(f"Rotated credentials for {api_name}")
+    
+    def revoke_api(self, api_name: str):
+        """Revoke API authentication."""
+        # Remove from handlers
+        if api_name in self.auth_handlers:
+            del self.auth_handlers[api_name]
+        
+        # Clear credentials
+        # Note: In real implementation, should track all keys
+        common_keys = ["api_key", "token", "username", "password", 
+                      "access_key", "secret_key", "client_id", "client_secret"]
+        
+        for key in common_keys:
+            try:
+                self.credential_store.delete_credential(api_name, key)
+            except:
+                pass
+        
+        # Log revocation
+        self._audit_log("revoke", api_name)
+        
+        self.logger.info(f"Revoked authentication for {api_name}")
+    
+    def _audit_log(self, action: str, api_name: str, 
+                   auth_type: Optional[AuthType] = None):
+        """Add entry to audit log."""
+        entry = {
+            "timestamp": datetime.now().isoformat(),
+            "action": action,
+            "api_name": api_name,
+            "auth_type": auth_type.value if auth_type else None
+        }
+        
+        self.audit_log.append(entry)
+        
+        # Optionally persist to file
+        self._save_audit_log()
+    
+    def _save_audit_log(self):
+        """Save audit log to file."""
+        log_file = Path("auth_audit.log")
+        
+        with open(log_file, "a") as f:
+            if self.audit_log:
+                latest = self.audit_log[-1]
+                f.write(json.dumps(latest) + "\n")
+    
+    def get_audit_log(self, api_name: Optional[str] = None) -> List[Dict]:
+        """Get audit log entries."""
+        if api_name:
+            return [e for e in self.audit_log if e["api_name"] == api_name]
+        return self.audit_log
+
+# ==================== Auth Decorators ====================
+
+def requires_auth(auth_type: AuthType):
+    """Decorator to require specific authentication."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            # Check for auth in kwargs
+            auth = kwargs.get('auth')
+            
+            if not auth:
+                raise ValueError(f"Authentication required: {auth_type.value}")
+            
+            # Validate auth type
+            if hasattr(auth, 'auth_type') and auth.auth_type != auth_type:
+                raise ValueError(f"Invalid auth type. Required: {auth_type.value}")
+            
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+def rate_limit_auth(calls: int, period: int):
+    """Decorator to rate limit authenticated calls."""
+    call_times = []
+    
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            now = time.time()
+            
+            # Remove old calls outside the period
+            nonlocal call_times
+            call_times = [t for t in call_times if now - t < period]
+            
+            if len(call_times) >= calls:
+                sleep_time = period - (now - call_times[0])
+                if sleep_time > 0:
+                    time.sleep(sleep_time)
+                    call_times = []
+            
+            call_times.append(now)
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+# Example usage
+if __name__ == "__main__":
+    print("🔐 Authentication Methods Examples\n")
+    
+    # Example 1: Authentication types
+    print("1️⃣ Common Authentication Types:")
+    
+    auth_types = [
+        ("API Key", "Simple key-based auth", "X-API-Key: abc123"),
+        ("Basic Auth", "Username/password", "Authorization: Basic base64(user:pass)"),
+        ("Bearer Token", "Token-based auth", "Authorization: Bearer token123"),
+        ("JWT", "JSON Web Tokens", "Self-contained tokens with claims"),
+        ("OAuth 2.0", "Delegated authorization", "Complex flow with tokens"),
+        ("HMAC", "Signature-based auth", "Sign requests with secret")
+    ]
+    
+    for auth_type, description, example in auth_types:
+        print(f"   {auth_type}:")
+        print(f"     {description}")
+        print(f"     Example: {example}\n")
+    
+    # Example 2: Secure credential storage
+    print("2️⃣ Secure Credential Storage:")
+    
+    store = SecureCredentialStore()
+    
+    # Store credentials
+    store.store_credential("github", "token", "ghp_example123")
+    store.store_credential("aws", "access_key", "AKIA_example")
+    store.store_credential("aws", "secret_key", "secret_example")
+    
+    print("   Stored credentials securely in OS keyring")
+    print("   ✅ Encrypted at rest")
+    print("   ✅ OS-level protection")
+    print("   ✅ Memory caching for performance")
+    
+    # Example 3: JWT token creation
+    print("\n3️⃣ JWT Token Example:")
+    
+    jwt_auth = JWTAuth(
+        secret_or_key="your-secret-key",
+        algorithm="HS256",
+        issuer="api.example.com",
+        expiry_minutes=30
+    )
+    
+    payload = {
+        "sub": "user123",
+        "role": "admin",
+        "permissions": ["read", "write"]
+    }
+    
+    token = jwt_auth.create_token(payload)
+    print(f"   Created JWT: {token[:50]}...")
+    
+    # Decode token
+    decoded = jwt_auth.decode_token(token)
+    print(f"   Decoded claims: {decoded}")
+    
+    # Example 4: OAuth2 flow
+    print("\n4️⃣ OAuth 2.0 Flow:")
+    
+    oauth_steps = [
+        "1. Redirect user to authorization URL",
+        "2. User approves access",
+        "3. Receive authorization code",
+        "4. Exchange code for access token",
+        "5. Use token for API requests",
+        "6. Refresh token when expired"
+    ]
+    
+    for step in oauth_steps:
+        print(f"   {step}")
+    
+    # Example 5: HMAC signature
+    print("\n5️⃣ HMAC Signature Example:")
+    
+    print("   Creating canonical request:")
+    print("     Method: POST")
+    print("     Path: /api/v1/users")
+    print("     Headers: host, date, content-type")
+    print("     Body hash: sha256(body)")
+    print("   ")
+    print("   Signature = HMAC-SHA256(secret, canonical_request)")
+    print("   Authorization: HMAC access_key:signature")
+    
+    # Example 6: Authentication manager
+    print("\n6️⃣ Authentication Manager:")
+    
+    auth_manager = AuthenticationManager()
+    
+    # Register APIs
+    auth_manager.register_api(
+        "github",
+        AuthType.BEARER,
+        {"token": "ghp_example123"}
+    )
+    
+    auth_manager.register_api(
+        "stripe",
+        AuthType.API_KEY,
+        {
+            "api_key": "sk_test_example",
+            "location": "header",
+            "key_name": "Authorization"
+        }
+    )
+    
+    print("   Registered APIs:")
+    print("     • GitHub (Bearer Token)")
+    print("     • Stripe (API Key)")
+    print("   ")
+    print("   Features:")
+    print("     • Centralized management")
+    print("     • Credential rotation")
+    print("     • Audit logging")
+    
+    # Example 7: MFA/2FA
+    print("\n7️⃣ Multi-Factor Authentication:")
+    
+    mfa = MFAHandler()
+    
+    # Generate TOTP secret
+    secret = mfa.generate_totp_secret()
+    print(f"   TOTP Secret: {secret}")
+    
+    # Get current token
+    token = mfa.get_totp_token(secret)
+    print(f"   Current token: {token}")
+    
+    # Generate backup codes
+    backup_codes = mfa.generate_backup_codes(5)
+    print("   Backup codes:")
+    for code in backup_codes:
+        print(f"     • {code}")
+    
+    # Example 8: Security best practices
+    print("\n8️⃣ Authentication Security Best Practices:")
+    
+    practices = [
+        "🔐 Never hardcode credentials",
+        "🔄 Rotate credentials regularly",
+        "⏱️ Use short-lived tokens",
+        "🔑 Store secrets in secure vaults",
+        "📝 Audit all authentication events",
+        "🛡️ Use HTTPS/TLS always",
+        "🎯 Implement least privilege",
+        "🔍 Monitor for suspicious activity",
+        "💾 Encrypt credentials at rest",
+        "🚫 Revoke compromised credentials immediately"
+    ]
+    
+    for practice in practices:
+        print(f"   {practice}")
+    
+    # Example 9: Common authentication errors
+    print("\n9️⃣ Common Authentication Errors:")
+    
+    errors = [
+        ("401 Unauthorized", "Invalid or missing credentials"),
+        ("403 Forbidden", "Valid credentials but insufficient permissions"),
+        ("419 Authentication Timeout", "Session expired"),
+        ("Token Expired", "JWT or OAuth token needs refresh"),
+        ("Invalid Signature", "HMAC signature mismatch"),
+        ("Rate Limited", "Too many auth attempts")
+    ]
+    
+    for error, description in errors:
+        print(f"   {error}: {description}")
+    
+    # Example 10: Advanced patterns
+    print("\n🔟 Advanced Authentication Patterns:")
+    
+    patterns = [
+        "🔄 Token refresh with retry queue",
+        "🎯 Service-to-service auth with mTLS",
+        "🌐 Federation with SAML/OIDC",
+        "🔑 Hardware token integration",
+        "📱 Biometric authentication",
+        "🎭 Impersonation/delegation",
+        "⚡ Zero-knowledge proofs",
+        "🔐 End-to-end encryption"
+    ]
+    
+    for pattern in patterns:
+        print(f"   {pattern}")
+    
+    print("\n✅ Authentication methods demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Never Hardcode Credentials:</strong> Use secure storage and environment variables.</li>
+        
+        <li><strong>Implement Token Refresh:</strong> Automatically refresh expired tokens.</li>
+        
+        <li><strong>Use Appropriate Auth Method:</strong> Match security requirements to use case.</li>
+        
+        <li><strong>Rotate Credentials Regularly:</strong> Implement key rotation policies.</li>
+        
+        <li><strong>Audit Everything:</strong> Log all authentication events for security.</li>
+        
+        <li><strong>Handle Errors Gracefully:</strong> Implement retry logic for auth failures.</li>
+        
+        <li><strong>Use HTTPS Always:</strong> Never send credentials over unencrypted connections.</li>
+        
+        <li><strong>Implement MFA:</strong> Add extra security layers for sensitive operations.</li>
+    </ul>
+
+    <h3>Authentication Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of API authentication as a security checkpoint - you need the right credentials, presented the right way, at the right time. Never, ever hardcode credentials in your code - use environment variables, secure vaults, or OS keyrings. Implement automatic token refresh before they expire - it's like renewing your passport before it runs out. Choose the right auth method for your needs: API keys for simple scenarios, OAuth for user delegation, JWT for stateless auth, and HMAC for request signing. Always use HTTPS - sending credentials over HTTP is like shouting your password in public. Implement comprehensive audit logging - you need to know who accessed what and when. Rotate credentials regularly like changing locks. Handle auth errors gracefully with exponential backoff - don't hammer the API when auth fails. For sensitive operations, implement multi-factor authentication. Most importantly: treat credentials like house keys - guard them carefully and change them if compromised!</p>
+    </div>
+    
+    <p>Mastering authentication methods ensures your API integrations are both secure and reliable. You can now implement any authentication scheme, from simple API keys to complex OAuth flows, while maintaining security best practices. Whether you're building enterprise integrations or public APIs, these authentication skills keep your connections secure! 🔒</p>
+    
+    <footer>
+        <p>Next up: <a href="api_automation_rate_limiting.html">Rate Limiting - Respect API Boundaries!</a></p>
+    </footer>
+</body>
+</html>
