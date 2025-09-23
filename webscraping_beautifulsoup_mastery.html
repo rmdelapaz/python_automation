@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautifulSoup Mastery - Python Web Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🍲 BeautifulSoup Mastery: Parse HTML Like a Pro</h1>
+    
+    <p>BeautifulSoup is the Swiss Army knife of HTML parsing - elegant, powerful, and forgiving. It turns messy HTML soup into a beautiful, navigable tree structure. Like a skilled chef who can create a masterpiece from any ingredients, BeautifulSoup helps you extract exactly what you need from the chaos of real-world HTML. Let's become HTML parsing maestros! 🎨</p>
+
+    <h2>The BeautifulSoup Architecture</h2>
+    
+    <p>Think of BeautifulSoup as a sophisticated GPS for HTML documents. It doesn't just find elements; it understands relationships, navigates complex structures, and even handles broken HTML gracefully. It's your trusty companion for turning web pages into structured data!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[HTML Document] --> B[BeautifulSoup Parser]
+        B --> C[Parse Tree]
+        
+        C --> D[Navigation]
+        C --> E[Searching]
+        C --> F[Modification]
+        C --> G[Extraction]
+        
+        D --> H[Parent/Child]
+        D --> I[Siblings]
+        D --> J[Descendants]
+        D --> K[Ancestors]
+        
+        E --> L[find/find_all]
+        E --> M[CSS Selectors]
+        E --> N[Regular Expressions]
+        E --> O[Custom Filters]
+        
+        F --> P[Add Elements]
+        F --> Q[Remove Elements]
+        F --> R[Modify Attributes]
+        F --> S[Change Text]
+        
+        G --> T[Text Extraction]
+        G --> U[Attribute Values]
+        G --> V[Structured Data]
+        G --> W[Pretty Output]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style D fill:#339af0
+        style E fill:#ffd43b
+        style F fill:#ff6b6b
+        style G fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The News Aggregator 📰</h3>
+    
+    <p>You're building a news aggregation system that collects articles from dozens of news websites. Each site has different HTML structures, encoding issues, broken tags, and dynamic content. You need to extract headlines, articles, authors, dates, images, and metadata while handling all the quirks of real-world HTML. Let's master BeautifulSoup to handle it all!</p>
+
+    <pre><code>from bs4 import BeautifulSoup, NavigableString, Tag, Comment
+from bs4.element import ResultSet
+import requests
+import re
+from typing import List, Dict, Optional, Any, Union, Callable, Tuple
+from urllib.parse import urljoin, urlparse
+import html
+from datetime import datetime
+import json
+import logging
+from dataclasses import dataclass
+from functools import wraps
+import time
+import hashlib
+
+@dataclass
+class Article:
+    """Represents a parsed article."""
+    title: str
+    content: str
+    author: Optional[str] = None
+    published_date: Optional[datetime] = None
+    image_url: Optional[str] = None
+    tags: List[str] = None
+    url: Optional[str] = None
+    metadata: Dict[str, Any] = None
+
+class BeautifulSoupMaster:
+    """
+    Comprehensive BeautifulSoup toolkit for advanced HTML parsing.
+    """
+    
+    def __init__(self, parser: str = 'html.parser'):
+        """
+        Initialize with specified parser.
+        
+        Parser options:
+        - 'html.parser': Built-in, no dependencies, moderate speed
+        - 'lxml': Fast, requires lxml, handles broken HTML well
+        - 'html5lib': Most lenient, slow, creates valid HTML5
+        - 'xml': XML parser (requires lxml)
+        """
+        self.parser = parser
+        self.setup_logging()
+        self.cache = {}
+        
+    def setup_logging(self):
+        """Setup logging configuration."""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    # ==================== Parsing & Creation ====================
+    
+    def parse_html(self, html_content: str, 
+                   encoding: Optional[str] = None) -> BeautifulSoup:
+        """
+        Parse HTML content into BeautifulSoup object.
+        """
+        # Handle encoding issues
+        if encoding:
+            if isinstance(html_content, bytes):
+                html_content = html_content.decode(encoding, errors='ignore')
+        
+        # Create soup with specified parser
+        soup = BeautifulSoup(html_content, self.parser)
+        
+        # Log parsing info
+        self.logger.info(f"Parsed HTML with {self.parser} parser")
+        
+        return soup
+    
+    def parse_from_url(self, url: str, **kwargs) -> Optional[BeautifulSoup]:
+        """
+        Fetch and parse HTML from URL.
+        """
+        try:
+            headers = kwargs.get('headers', {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            })
+            
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            
+            # Detect encoding
+            if response.encoding:
+                content = response.content.decode(response.encoding)
+            else:
+                content = response.text
+            
+            soup = self.parse_html(content)
+            
+            # Store base URL for relative link resolution
+            soup._base_url = url
+            
+            return soup
+            
+        except Exception as e:
+            self.logger.error(f"Failed to parse from URL {url}: {e}")
+            return None
+    
+    def create_soup(self, tag_name: str = 'html') -> BeautifulSoup:
+        """
+        Create a new BeautifulSoup object from scratch.
+        """
+        soup = BeautifulSoup(f'<{tag_name}></{tag_name}>', self.parser)
+        return soup
+    
+    # ==================== Navigation Methods ====================
+    
+    def navigate_tree(self, element: Tag) -> Dict[str, Any]:
+        """
+        Navigate and map the element tree structure.
+        """
+        tree_map = {
+            'tag': element.name if hasattr(element, 'name') else None,
+            'text': element.get_text(strip=True) if hasattr(element, 'get_text') else str(element),
+            'attributes': dict(element.attrs) if hasattr(element, 'attrs') else {},
+            'parent': element.parent.name if element.parent else None,
+            'children': [],
+            'siblings': {
+                'previous': [],
+                'next': []
+            }
+        }
+        
+        # Map children
+        if hasattr(element, 'children'):
+            for child in element.children:
+                if isinstance(child, Tag):
+                    tree_map['children'].append(child.name)
+        
+        # Map siblings
+        for sibling in element.previous_siblings:
+            if isinstance(sibling, Tag):
+                tree_map['siblings']['previous'].append(sibling.name)
+        
+        for sibling in element.next_siblings:
+            if isinstance(sibling, Tag):
+                tree_map['siblings']['next'].append(sibling.name)
+        
+        return tree_map
+    
+    def find_parent_with_class(self, element: Tag, class_name: str) -> Optional[Tag]:
+        """
+        Find the first parent with specified class.
+        """
+        parent = element.parent
+        while parent:
+            if hasattr(parent, 'attrs') and 'class' in parent.attrs:
+                if class_name in parent.attrs['class']:
+                    return parent
+            parent = parent.parent
+        return None
+    
+    def get_breadcrumbs(self, element: Tag) -> List[str]:
+        """
+        Get breadcrumb path from root to element.
+        """
+        breadcrumbs = []
+        current = element
+        
+        while current and current.name:
+            # Build identifier for current element
+            identifier = current.name
+            
+            if current.get('id'):
+                identifier += f'#{current.get("id")}'
+            elif current.get('class'):
+                identifier += f'.{current.get("class")[0]}'
+            
+            breadcrumbs.insert(0, identifier)
+            current = current.parent
+        
+        return breadcrumbs
+    
+    # ==================== Advanced Search Methods ====================
+    
+    def find_with_text(self, soup: BeautifulSoup, text_pattern: Union[str, re.Pattern],
+                      tag: Optional[str] = None) -> List[Tag]:
+        """
+        Find elements containing specific text.
+        """
+        if isinstance(text_pattern, str):
+            # Convert to regex for flexible matching
+            pattern = re.compile(re.escape(text_pattern), re.IGNORECASE)
+        else:
+            pattern = text_pattern
+        
+        if tag:
+            elements = soup.find_all(tag, string=pattern)
+        else:
+            elements = soup.find_all(string=pattern)
+            # Get parent tags of text nodes
+            elements = [el.parent for el in elements if el.parent]
+        
+        return elements
+    
+    def find_between(self, soup: BeautifulSoup, start_element: Tag, 
+                    end_element: Tag) -> List[Tag]:
+        """
+        Find all elements between two elements.
+        """
+        elements = []
+        current = start_element.next_sibling
+        
+        while current and current != end_element:
+            if isinstance(current, Tag):
+                elements.append(current)
+            current = current.next_sibling
+        
+        return elements
+    
+    def find_by_partial_attribute(self, soup: BeautifulSoup, attr_name: str,
+                                 partial_value: str) -> List[Tag]:
+        """
+        Find elements with attribute containing partial value.
+        """
+        def has_partial_attr(tag):
+            if tag.has_attr(attr_name):
+                attr_value = tag[attr_name]
+                if isinstance(attr_value, list):
+                    return any(partial_value in str(v) for v in attr_value)
+                return partial_value in str(attr_value)
+            return False
+        
+        return soup.find_all(has_partial_attr)
+    
+    def find_with_multiple_conditions(self, soup: BeautifulSoup,
+                                     conditions: List[Callable]) -> List[Tag]:
+        """
+        Find elements matching multiple custom conditions.
+        """
+        def match_all_conditions(tag):
+            return all(condition(tag) for condition in conditions)
+        
+        return soup.find_all(match_all_conditions)
+    
+    # ==================== Text Extraction Methods ====================
+    
+    def extract_text_preserve_structure(self, element: Tag, 
+                                       separator: str = '\n') -> str:
+        """
+        Extract text while preserving structure with separators.
+        """
+        texts = []
+        
+        for item in element.descendants:
+            if isinstance(item, NavigableString) and not isinstance(item, Comment):
+                text = item.strip()
+                if text:
+                    texts.append(text)
+            elif isinstance(item, Tag) and item.name in ['br', 'p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+                if texts and texts[-1] != separator:
+                    texts.append(separator)
+        
+        return ' '.join(texts).replace(f' {separator} ', separator)
+    
+    def extract_text_with_links(self, element: Tag) -> List[Dict[str, str]]:
+        """
+        Extract text with embedded links preserved.
+        """
+        segments = []
+        
+        for item in element.descendants:
+            if isinstance(item, NavigableString) and item.parent.name != 'a':
+                text = item.strip()
+                if text:
+                    segments.append({'type': 'text', 'content': text})
+            elif isinstance(item, Tag) and item.name == 'a':
+                segments.append({
+                    'type': 'link',
+                    'text': item.get_text(strip=True),
+                    'href': item.get('href', '')
+                })
+        
+        return segments
+    
+    def clean_text(self, text: str) -> str:
+        """
+        Clean extracted text from HTML artifacts.
+        """
+        # Decode HTML entities
+        text = html.unescape(text)
+        
+        # Remove excessive whitespace
+        text = re.sub(r'\s+', ' ', text)
+        
+        # Remove zero-width characters
+        text = re.sub(r'[\u200b\u200c\u200d\ufeff]', '', text)
+        
+        # Remove control characters
+        text = ''.join(char for char in text if ord(char) >= 32 or char == '\n')
+        
+        return text.strip()
+    
+    # ==================== Data Extraction Patterns ====================
+    
+    def extract_article(self, soup: BeautifulSoup) -> Optional[Article]:
+        """
+        Extract article content using common patterns.
+        """
+        article = Article(title='', content='')
+        
+        # Extract title (try multiple strategies)
+        title_selectors = [
+            'h1',
+            'h1.title',
+            'h1.headline',
+            '.article-title',
+            '[itemprop="headline"]',
+            'meta[property="og:title"]'
+        ]
+        
+        for selector in title_selectors:
+            title_elem = soup.select_one(selector)
+            if title_elem:
+                if title_elem.name == 'meta':
+                    article.title = title_elem.get('content', '')
+                else:
+                    article.title = title_elem.get_text(strip=True)
+                if article.title:
+                    break
+        
+        # Extract content
+        content_selectors = [
+            'article',
+            '[role="main"]',
+            '.article-content',
+            '.article-body',
+            '.entry-content',
+            '.post-content',
+            'div[itemprop="articleBody"]'
+        ]
+        
+        for selector in content_selectors:
+            content_elem = soup.select_one(selector)
+            if content_elem:
+                # Remove unwanted elements
+                for unwanted in content_elem.select('script, style, nav, aside, .advertisement'):
+                    unwanted.decompose()
+                
+                article.content = self.extract_text_preserve_structure(content_elem)
+                if article.content:
+                    break
+        
+        # Extract author
+        author_selectors = [
+            '[rel="author"]',
+            '.author-name',
+            '.by-author',
+            '[itemprop="author"]',
+            'meta[name="author"]'
+        ]
+        
+        for selector in author_selectors:
+            author_elem = soup.select_one(selector)
+            if author_elem:
+                if author_elem.name == 'meta':
+                    article.author = author_elem.get('content', '')
+                else:
+                    article.author = author_elem.get_text(strip=True)
+                if article.author:
+                    break
+        
+        # Extract published date
+        date_selectors = [
+            'time[datetime]',
+            '[itemprop="datePublished"]',
+            '.publish-date',
+            '.article-date',
+            'meta[property="article:published_time"]'
+        ]
+        
+        for selector in date_selectors:
+            date_elem = soup.select_one(selector)
+            if date_elem:
+                date_str = date_elem.get('datetime') or date_elem.get('content') or date_elem.get_text()
+                article.published_date = self._parse_date(date_str)
+                if article.published_date:
+                    break
+        
+        # Extract main image
+        image_selectors = [
+            'meta[property="og:image"]',
+            'article img',
+            '.article-image img',
+            'figure img'
+        ]
+        
+        for selector in image_selectors:
+            image_elem = soup.select_one(selector)
+            if image_elem:
+                if image_elem.name == 'meta':
+                    article.image_url = image_elem.get('content')
+                else:
+                    article.image_url = image_elem.get('src') or image_elem.get('data-src')
+                if article.image_url:
+                    # Make URL absolute if needed
+                    if hasattr(soup, '_base_url'):
+                        article.image_url = urljoin(soup._base_url, article.image_url)
+                    break
+        
+        # Extract tags/categories
+        tags = []
+        tag_elements = soup.select('[rel="tag"], .tag, .category, [itemprop="keywords"]')
+        for tag_elem in tag_elements:
+            tag_text = tag_elem.get_text(strip=True)
+            if tag_text and tag_text not in tags:
+                tags.append(tag_text)
+        article.tags = tags
+        
+        # Extract metadata
+        article.metadata = self.extract_metadata(soup)
+        
+        # Validate article
+        if article.title or article.content:
+            return article
+        return None
+    
+    def extract_metadata(self, soup: BeautifulSoup) -> Dict[str, str]:
+        """
+        Extract metadata from HTML head.
+        """
+        metadata = {}
+        
+        # Open Graph metadata
+        for meta in soup.find_all('meta', property=re.compile('^og:')):
+            key = meta.get('property', '').replace('og:', 'og_')
+            metadata[key] = meta.get('content', '')
+        
+        # Twitter Card metadata
+        for meta in soup.find_all('meta', attrs={'name': re.compile('^twitter:')}):
+            key = meta.get('name', '').replace('twitter:', 'twitter_')
+            metadata[key] = meta.get('content', '')
+        
+        # Standard metadata
+        standard_meta = ['description', 'keywords', 'author', 'viewport']
+        for name in standard_meta:
+            meta = soup.find('meta', attrs={'name': name})
+            if meta:
+                metadata[name] = meta.get('content', '')
+        
+        # JSON-LD structured data
+        json_ld = soup.find('script', type='application/ld+json')
+        if json_ld:
+            try:
+                metadata['json_ld'] = json.loads(json_ld.string)
+            except:
+                pass
+        
+        return metadata
+    
+    def _parse_date(self, date_str: str) -> Optional[datetime]:
+        """
+        Parse date string with multiple format attempts.
+        """
+        if not date_str:
+            return None
+        
+        date_formats = [
+            '%Y-%m-%d',
+            '%Y-%m-%dT%H:%M:%S',
+            '%Y-%m-%dT%H:%M:%SZ',
+            '%Y-%m-%d %H:%M:%S',
+            '%d/%m/%Y',
+            '%m/%d/%Y',
+            '%B %d, %Y',
+            '%b %d, %Y'
+        ]
+        
+        for fmt in date_formats:
+            try:
+                return datetime.strptime(date_str.strip(), fmt)
+            except:
+                continue
+        
+        # Try dateutil parser as fallback
+        try:
+            from dateutil import parser
+            return parser.parse(date_str)
+        except:
+            return None
+    
+    # ==================== Table Extraction ====================
+    
+    def extract_table(self, table_element: Tag, 
+                     include_headers: bool = True) -> List[List[str]]:
+        """
+        Extract data from HTML table.
+        """
+        rows = []
+        
+        # Extract headers
+        if include_headers:
+            headers = []
+            header_row = table_element.find('thead')
+            if header_row:
+                for th in header_row.find_all('th'):
+                    headers.append(th.get_text(strip=True))
+                if headers:
+                    rows.append(headers)
+            else:
+                # Check first row for headers
+                first_row = table_element.find('tr')
+                if first_row:
+                    ths = first_row.find_all('th')
+                    if ths:
+                        for th in ths:
+                            headers.append(th.get_text(strip=True))
+                        rows.append(headers)
+        
+        # Extract data rows
+        tbody = table_element.find('tbody') or table_element
+        for tr in tbody.find_all('tr'):
+            row = []
+            for cell in tr.find_all(['td', 'th']):
+                # Handle colspan
+                colspan = int(cell.get('colspan', 1))
+                cell_text = cell.get_text(strip=True)
+                row.extend([cell_text] * colspan)
+            
+            if row and not all(h in row for h in headers):  # Skip if it's a header row
+                rows.append(row)
+        
+        return rows
+    
+    def extract_all_tables(self, soup: BeautifulSoup) -> Dict[str, List[List[str]]]:
+        """
+        Extract all tables from page with identifiers.
+        """
+        tables = {}
+        
+        for i, table in enumerate(soup.find_all('table')):
+            # Try to find table identifier
+            table_id = table.get('id', '')
+            table_class = '.'.join(table.get('class', []))
+            
+            # Look for caption or nearby heading
+            caption = table.find('caption')
+            if caption:
+                identifier = caption.get_text(strip=True)
+            elif table_id:
+                identifier = table_id
+            elif table_class:
+                identifier = table_class
+            else:
+                # Look for preceding heading
+                prev = table.find_previous_sibling(['h1', 'h2', 'h3', 'h4'])
+                if prev:
+                    identifier = prev.get_text(strip=True)
+                else:
+                    identifier = f'table_{i+1}'
+            
+            tables[identifier] = self.extract_table(table)
+        
+        return tables
+    
+    # ==================== Form Handling ====================
+    
+    def extract_form_data(self, form_element: Tag) -> Dict[str, Any]:
+        """
+        Extract form structure and default values.
+        """
+        form_data = {
+            'action': form_element.get('action', ''),
+            'method': form_element.get('method', 'get').upper(),
+            'enctype': form_element.get('enctype', 'application/x-www-form-urlencoded'),
+            'fields': {}
+        }
+        
+        # Extract input fields
+        for input_elem in form_element.find_all('input'):
+            name = input_elem.get('name')
+            if not name:
+                continue
+            
+            input_type = input_elem.get('type', 'text')
+            
+            if input_type == 'checkbox':
+                if name not in form_data['fields']:
+                    form_data['fields'][name] = []
+                if input_elem.get('checked'):
+                    form_data['fields'][name].append(input_elem.get('value', 'on'))
+            elif input_type == 'radio':
+                if input_elem.get('checked'):
+                    form_data['fields'][name] = input_elem.get('value', '')
+            else:
+                form_data['fields'][name] = input_elem.get('value', '')
+        
+        # Extract select fields
+        for select_elem in form_element.find_all('select'):
+            name = select_elem.get('name')
+            if not name:
+                continue
+            
+            selected_option = select_elem.find('option', selected=True)
+            if selected_option:
+                form_data['fields'][name] = selected_option.get('value', 
+                                                                selected_option.get_text(strip=True))
+            else:
+                first_option = select_elem.find('option')
+                if first_option:
+                    form_data['fields'][name] = first_option.get('value', 
+                                                                first_option.get_text(strip=True))
+        
+        # Extract textarea fields
+        for textarea_elem in form_element.find_all('textarea'):
+            name = textarea_elem.get('name')
+            if name:
+                form_data['fields'][name] = textarea_elem.get_text(strip=True)
+        
+        return form_data
+    
+    # ==================== Element Modification ====================
+    
+    def add_css_class(self, element: Tag, class_name: str):
+        """
+        Add CSS class to element.
+        """
+        if 'class' in element.attrs:
+            if class_name not in element['class']:
+                element['class'].append(class_name)
+        else:
+            element['class'] = [class_name]
+    
+    def remove_css_class(self, element: Tag, class_name: str):
+        """
+        Remove CSS class from element.
+        """
+        if 'class' in element.attrs and class_name in element['class']:
+            element['class'].remove(class_name)
+            if not element['class']:
+                del element['class']
+    
+    def wrap_element(self, element: Tag, wrapper_tag: str, 
+                    wrapper_attrs: Dict[str, str] = None):
+        """
+        Wrap element in a new tag.
+        """
+        wrapper = BeautifulSoup(f'<{wrapper_tag}></{wrapper_tag}>', self.parser).find(wrapper_tag)
+        
+        if wrapper_attrs:
+            for key, value in wrapper_attrs.items():
+                wrapper[key] = value
+        
+        element.wrap(wrapper)
+        return wrapper
+    
+    def clean_html(self, soup: BeautifulSoup, 
+                   remove_tags: List[str] = None,
+                   remove_attrs: List[str] = None,
+                   keep_tags: List[str] = None) -> BeautifulSoup:
+        """
+        Clean HTML by removing unwanted tags and attributes.
+        """
+        # Default tags to remove
+        if remove_tags is None:
+            remove_tags = ['script', 'style', 'meta', 'link', 'noscript']
+        
+        # Remove specified tags
+        for tag in remove_tags:
+            for element in soup.find_all(tag):
+                element.decompose()
+        
+        # Remove specified attributes from all tags
+        if remove_attrs:
+            for element in soup.find_all():
+                for attr in remove_attrs:
+                    if attr in element.attrs:
+                        del element.attrs[attr]
+        
+        # Keep only specified tags (remove all others)
+        if keep_tags:
+            for element in soup.find_all():
+                if element.name not in keep_tags:
+                    element.unwrap()
+        
+        return soup
+    
+    # ==================== Utility Methods ====================
+    
+    def get_page_stats(self, soup: BeautifulSoup) -> Dict[str, Any]:
+        """
+        Get statistics about the parsed page.
+        """
+        stats = {
+            'title': soup.title.string if soup.title else None,
+            'total_tags': len(soup.find_all()),
+            'unique_tags': len(set(tag.name for tag in soup.find_all())),
+            'total_text': len(soup.get_text()),
+            'links': {
+                'total': len(soup.find_all('a')),
+                'internal': 0,
+                'external': 0
+            },
+            'images': len(soup.find_all('img')),
+            'forms': len(soup.find_all('form')),
+            'tables': len(soup.find_all('table')),
+            'scripts': len(soup.find_all('script')),
+            'stylesheets': len(soup.find_all('link', rel='stylesheet'))
+        }
+        
+        # Count internal vs external links
+        base_domain = ''
+        if hasattr(soup, '_base_url'):
+            base_domain = urlparse(soup._base_url).netloc
+        
+        for link in soup.find_all('a', href=True):
+            href = link['href']
+            if href.startswith('http'):
+                if base_domain and base_domain in href:
+                    stats['links']['internal'] += 1
+                else:
+                    stats['links']['external'] += 1
+            else:
+                stats['links']['internal'] += 1
+        
+        return stats
+    
+    def prettify_html(self, soup: BeautifulSoup, indent: int = 2) -> str:
+        """
+        Pretty print HTML with custom indentation.
+        """
+        return soup.prettify(formatter='html', indent=indent)
+    
+    def minify_html(self, soup: BeautifulSoup) -> str:
+        """
+        Minify HTML by removing unnecessary whitespace.
+        """
+        html = str(soup)
+        # Remove whitespace between tags
+        html = re.sub(r'>\s+<', '><', html)
+        # Remove leading/trailing whitespace
+        html = html.strip()
+        return html
+    
+    def cache_result(self, key: str, value: Any):
+        """
+        Cache parsing results for reuse.
+        """
+        self.cache[key] = {
+            'value': value,
+            'timestamp': time.time()
+        }
+    
+    def get_cached_result(self, key: str, max_age: int = 3600) -> Optional[Any]:
+        """
+        Get cached result if not expired.
+        """
+        if key in self.cache:
+            cached = self.cache[key]
+            if time.time() - cached['timestamp'] < max_age:
+                return cached['value']
+        return None
+
+class BeautifulSoupRecipes:
+    """
+    Common BeautifulSoup recipes and patterns.
+    """
+    
+    @staticmethod
+    def extract_emails(soup: BeautifulSoup) -> List[str]:
+        """
+        Extract all email addresses from page.
+        """
+        emails = set()
+        
+        # Look in href attributes
+        for link in soup.find_all('a', href=re.compile(r'mailto:')):
+            email = link['href'].replace('mailto:', '').split('?')[0]
+            emails.add(email)
+        
+        # Look in text
+        email_pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+        for text in soup.stripped_strings:
+            for email in email_pattern.findall(text):
+                emails.add(email)
+        
+        return list(emails)
+    
+    @staticmethod
+    def extract_phone_numbers(soup: BeautifulSoup) -> List[str]:
+        """
+        Extract phone numbers from page.
+        """
+        phones = set()
+        
+        # Common phone patterns
+        phone_patterns = [
+            re.compile(r'(\+\d{1,3}[-.\s]?)?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}'),
+            re.compile(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'),
+        ]
+        
+        for pattern in phone_patterns:
+            # Look in href attributes
+            for link in soup.find_all('a', href=pattern):
+                phone = link['href'].replace('tel:', '')
+                phones.add(phone)
+            
+            # Look in text
+            for text in soup.stripped_strings:
+                for phone in pattern.findall(text):
+                    if isinstance(phone, tuple):
+                        phone = ''.join(phone)
+                    phones.add(phone)
+        
+        return list(phones)
+    
+    @staticmethod
+    def extract_social_media_links(soup: BeautifulSoup) -> Dict[str, List[str]]:
+        """
+        Extract social media profile links.
+        """
+        social_patterns = {
+            'facebook': r'facebook\.com/[\w\-\.]+',
+            'twitter': r'twitter\.com/[\w]+',
+            'instagram': r'instagram\.com/[\w\.]+',
+            'linkedin': r'linkedin\.com/(?:in|company)/[\w\-]+',
+            'youtube': r'youtube\.com/(?:channel|user|c)/[\w\-]+',
+            'github': r'github\.com/[\w\-]+',
+        }
+        
+        social_links = defaultdict(list)
+        
+        for platform, pattern in social_patterns.items():
+            regex = re.compile(pattern, re.IGNORECASE)
+            for link in soup.find_all('a', href=regex):
+                url = link['href']
+                if url not in social_links[platform]:
+                    social_links[platform].append(url)
+        
+        return dict(social_links)
+
+# Example usage
+if __name__ == "__main__":
+    # Sample HTML for testing
+    sample_html = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>Tech News - Latest Technology Updates</title>
+        <meta name="description" content="Latest technology news and updates">
+        <meta property="og:title" content="Breaking: New AI Breakthrough">
+        <meta property="og:image" content="https://example.com/ai-image.jpg">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/tech">Tech</a>
+                <a href="/science">Science</a>
+            </nav>
+        </header>
+        
+        <article>
+            <h1 class="article-title">Revolutionary AI System Achieves Human-Level Performance</h1>
+            
+            <div class="article-meta">
+                <span class="author" rel="author">Dr. Jane Smith</span>
+                <time datetime="2024-01-15T10:30:00Z">January 15, 2024</time>
+            </div>
+            
+            <div class="article-content">
+                <p>Scientists at TechCorp have announced a <strong>breakthrough</strong> in artificial intelligence 
+                that brings us closer to achieving artificial general intelligence (AGI).</p>
+                
+                <p>The new system, called <a href="/projects/alphaai">AlphaAI</a>, demonstrated 
+                unprecedented capabilities in multiple domains including:</p>
+                
+                <ul>
+                    <li>Natural language understanding</li>
+                    <li>Complex reasoning</li>
+                    <li>Creative problem solving</li>
+                </ul>
+                
+                <figure>
+                    <img src="/images/ai-breakthrough.jpg" alt="AI System Architecture">
+                    <figcaption>The revolutionary AlphaAI architecture</figcaption>
+                </figure>
+                
+                <blockquote>
+                    "This represents a paradigm shift in how we approach machine intelligence,"
+                    said lead researcher Dr. Smith.
+                </blockquote>
+                
+                <h2>Technical Details</h2>
+                <p>The system uses a novel architecture that combines...</p>
+                
+                <table id="performance-metrics">
+                    <caption>Performance Comparison</caption>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>AlphaAI</th>
+                            <th>Previous Best</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Accuracy</td>
+                            <td>98.5%</td>
+                            <td>92.3%</td>
+                        </tr>
+                        <tr>
+                            <td>Speed (ms)</td>
+                            <td>45</td>
+                            <td>120</td>
+                        </tr>
+                        <tr>
+                            <td>Memory (GB)</td>
+                            <td>16</td>
+                            <td>64</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <footer class="article-footer">
+                <div class="tags">
+                    <a href="/tag/ai" rel="tag">AI</a>
+                    <a href="/tag/machine-learning" rel="tag">Machine Learning</a>
+                    <a href="/tag/breakthrough" rel="tag">Breakthrough</a>
+                </div>
+                
+                <div class="contact">
+                    Contact: <a href="mailto:press@techcorp.com">press@techcorp.com</a>
+                    Phone: +1 (555) 123-4567
+                </div>
+            </footer>
+        </article>
+        
+        <aside>
+            <h3>Related Articles</h3>
+            <ul>
+                <li><a href="/article/ai-ethics">The Ethics of Advanced AI</a></li>
+                <li><a href="/article/future-work">AI and the Future of Work</a></li>
+            </ul>
+        </aside>
+        
+        <form id="newsletter-form" action="/subscribe" method="post">
+            <h3>Subscribe to Newsletter</h3>
+            <input type="email" name="email" placeholder="Your email" required>
+            <input type="checkbox" name="weekly" value="yes" checked> Weekly updates
+            <select name="interests">
+                <option value="ai" selected>AI & ML</option>
+                <option value="robotics">Robotics</option>
+                <option value="quantum">Quantum Computing</option>
+            </select>
+            <textarea name="comments" placeholder="Comments (optional)"></textarea>
+            <button type="submit">Subscribe</button>
+        </form>
+        
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "headline": "Revolutionary AI System Achieves Human-Level Performance",
+            "author": "Dr. Jane Smith",
+            "datePublished": "2024-01-15"
+        }
+        </script>
+    </body>
+    </html>
+    """
+    
+    # Initialize BeautifulSoup master
+    bs_master = BeautifulSoupMaster()
+    
+    # Parse HTML
+    soup = bs_master.parse_html(sample_html)
+    soup._base_url = "https://example.com/article/ai-breakthrough"
+    
+    print("🍲 BeautifulSoup Mastery Examples\n")
+    
+    # Example 1: Navigation
+    print("1️⃣ Navigation:")
+    
+    article = soup.find('article')
+    if article:
+        tree = bs_master.navigate_tree(article)
+        print(f"   Article tree structure:")
+        print(f"     Tag: {tree['tag']}")
+        print(f"     Parent: {tree['parent']}")
+        print(f"     Children: {tree['children'][:3]}...")
+        
+        breadcrumbs = bs_master.get_breadcrumbs(article.h1)
+        print(f"   Breadcrumbs to h1: {' > '.join(breadcrumbs)}")
+    
+    # Example 2: Text extraction
+    print("\n2️⃣ Text Extraction:")
+    
+    content_div = soup.find('div', class_='article-content')
+    if content_div:
+        # Extract with structure preserved
+        structured_text = bs_master.extract_text_preserve_structure(content_div)
+        print(f"   Structured text (first 200 chars):")
+        print(f"     {structured_text[:200]}...")
+        
+        # Extract with links
+        text_with_links = bs_master.extract_text_with_links(content_div.find('p'))
+        print(f"   Text with links:")
+        for segment in text_with_links[:3]:
+            if segment['type'] == 'link':
+                print(f"     [LINK: {segment['text']} -> {segment['href']}]")
+            else:
+                print(f"     {segment['content'][:50]}...")
+    
+    # Example 3: Article extraction
+    print("\n3️⃣ Article Extraction:")
+    
+    article_data = bs_master.extract_article(soup)
+    if article_data:
+        print(f"   Title: {article_data.title}")
+        print(f"   Author: {article_data.author}")
+        print(f"   Date: {article_data.published_date}")
+        print(f"   Content preview: {article_data.content[:100]}...")
+        print(f"   Tags: {', '.join(article_data.tags)}")
+    
+    # Example 4: Table extraction
+    print("\n4️⃣ Table Extraction:")
+    
+    tables = bs_master.extract_all_tables(soup)
+    for table_name, table_data in tables.items():
+        print(f"   Table: {table_name}")
+        for row in table_data[:3]:
+            print(f"     {' | '.join(row)}")
+    
+    # Example 5: Form extraction
+    print("\n5️⃣ Form Extraction:")
+    
+    form = soup.find('form')
+    if form:
+        form_data = bs_master.extract_form_data(form)
+        print(f"   Form action: {form_data['action']}")
+        print(f"   Form method: {form_data['method']}")
+        print(f"   Form fields:")
+        for field, value in form_data['fields'].items():
+            print(f"     {field}: {value}")
+    
+    # Example 6: Metadata extraction
+    print("\n6️⃣ Metadata Extraction:")
+    
+    metadata = bs_master.extract_metadata(soup)
+    print(f"   Open Graph:")
+    for key, value in metadata.items():
+        if key.startswith('og_'):
+            print(f"     {key}: {value}")
+    
+    if 'json_ld' in metadata:
+        print(f"   JSON-LD Schema:")
+        print(f"     Type: {metadata['json_ld'].get('@type')}")
+        print(f"     Headline: {metadata['json_ld'].get('headline')}")
+    
+    # Example 7: Advanced searching
+    print("\n7️⃣ Advanced Searching:")
+    
+    # Find with text
+    elements_with_ai = bs_master.find_with_text(soup, re.compile(r'\bAI\b'))
+    print(f"   Elements mentioning 'AI': {len(elements_with_ai)}")
+    
+    # Find with multiple conditions
+    conditions = [
+        lambda tag: tag.name == 'a',
+        lambda tag: tag.has_attr('href'),
+        lambda tag: 'article' in tag.get('href', '')
+    ]
+    article_links = bs_master.find_with_multiple_conditions(soup, conditions)
+    print(f"   Article links found: {len(article_links)}")
+    
+    # Example 8: Element modification
+    print("\n8️⃣ Element Modification:")
+    
+    # Add CSS class
+    h1 = soup.find('h1')
+    if h1:
+        bs_master.add_css_class(h1, 'highlighted')
+        print(f"   Added class to h1: {h1.get('class')}")
+    
+    # Clean HTML
+    clean_soup = bs_master.clean_html(
+        soup,
+        remove_tags=['script', 'style'],
+        remove_attrs=['style', 'onclick']
+    )
+    print(f"   HTML cleaned (removed scripts and styles)")
+    
+    # Example 9: Utilities
+    print("\n9️⃣ Utilities:")
+    
+    # Get page statistics
+    stats = bs_master.get_page_stats(soup)
+    print(f"   Page Statistics:")
+    print(f"     Total tags: {stats['total_tags']}")
+    print(f"     Unique tags: {stats['unique_tags']}")
+    print(f"     Links: {stats['links']['total']} ({stats['links']['internal']} internal, {stats['links']['external']} external)")
+    print(f"     Images: {stats['images']}")
+    print(f"     Forms: {stats['forms']}")
+    
+    # Example 10: Recipes
+    print("\n🔟 Common Recipes:")
+    
+    recipes = BeautifulSoupRecipes()
+    
+    # Extract emails
+    emails = recipes.extract_emails(soup)
+    print(f"   Emails found: {emails}")
+    
+    # Extract phone numbers
+    phones = recipes.extract_phone_numbers(soup)
+    print(f"   Phone numbers found: {phones}")
+    
+    # Extract social media links
+    social = recipes.extract_social_media_links(soup)
+    print(f"   Social media links: {list(social.keys())}")
+    
+    print("\n✅ BeautifulSoup mastery demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Choose the Right Parser:</strong> html.parser for compatibility, lxml for speed, html5lib for broken HTML.</li>
+        
+        <li><strong>Handle Encoding Properly:</strong> Always detect and handle character encoding correctly.</li>
+        
+        <li><strong>Use Appropriate Search Methods:</strong> find() for single elements, find_all() for multiple, CSS selectors for complex queries.</li>
+        
+        <li><strong>Navigate Efficiently:</strong> Use parent, children, siblings relationships instead of repeated searches.</li>
+        
+        <li><strong>Clean Data Properly:</strong> Always strip whitespace, decode HTML entities, handle None values.</li>
+        
+        <li><strong>Cache Parsed Results:</strong> Don't re-parse the same HTML multiple times.</li>
+        
+        <li><strong>Handle Errors Gracefully:</strong> Always check if elements exist before accessing attributes.</li>
+    </ul>
+
+    <h3>BeautifulSoup Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> BeautifulSoup is forgiving but not magic - it's a tool that works best when you understand HTML structure. Always inspect the actual HTML you're parsing, not just what you see in the browser. Use Chrome DevTools to copy the actual HTML, not the selector. Remember that BeautifulSoup creates a parse tree in memory, so for huge documents, consider using iterative parsing or lxml's iterparse. When extracting data, always have fallbacks - if plan A fails (the nice semantic HTML), have plan B (the messy but consistent pattern). And most importantly: websites change, so make your parsers resilient with try-except blocks and multiple extraction strategies!</p>
+    </div>
+    
+    <p>BeautifulSoup mastery transforms you from an HTML wrangler to a data extraction artist. You can now parse any HTML, no matter how messy, extract any data, no matter how nested, and handle any website's quirks. Whether you're building scrapers, analyzers, or automation tools, BeautifulSoup is your trusty companion! 🚀</p>
+    
+    <footer>
+        <p>Next up: <a href="webscraping_forms_cookies.html">Handling Forms and Cookies - Master Web Interactions!</a></p>
+    </footer>
+</body>
+</html>

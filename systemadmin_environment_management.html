@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Management - Python Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🌍 Environment Management: Master System Configurations</h1>
+    
+    <p>Environments are like different stages in a theater - development is rehearsal, staging is dress rehearsal, and production is opening night. Each needs different settings, secrets, and configurations. Environment management ensures your code performs flawlessly on every stage. Let's become the stage managers of the digital world! 🎭</p>
+
+    <h2>The Environment Management Landscape</h2>
+    
+    <p>Think of environment management as creating parallel universes for your applications. Each universe has its own laws (configurations), citizens (services), and secrets (API keys). Python helps you manage these universes, ensuring they never collide and always work in harmony!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Environment Management] --> B[Configuration Management]
+        A --> C[Secret Management]
+        A --> D[Virtual Environments]
+        A --> E[Container Environments]
+        A --> F[System Environment]
+        
+        B --> G[Config Files]
+        B --> H[Environment Variables]
+        B --> I[Feature Flags]
+        B --> J[Dynamic Configuration]
+        
+        C --> K[API Keys]
+        C --> L[Passwords]
+        C --> M[Certificates]
+        C --> N[Encryption]
+        
+        D --> O[Python venv]
+        D --> P[Conda]
+        D --> Q[Poetry]
+        D --> R[Pipenv]
+        
+        E --> S[Docker]
+        E --> T[Kubernetes]
+        E --> U[Container Registries]
+        
+        F --> V[System Variables]
+        F --> W[Path Management]
+        F --> X[Service Configuration]
+        F --> Y[User Profiles]
+        
+        style A fill:#ff6b6b
+        style G fill:#51cf66
+        style K fill:#339af0
+        style O fill:#ffd43b
+        style S fill:#ff6b6b
+        style V fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Multi-Environment Application Platform 🚀</h3>
+    
+    <p>You're managing a complex application that runs in development, staging, and production environments. Each environment has different database connections, API endpoints, feature flags, and secrets. Developers need isolated Python environments, operations needs containerized deployments, and security demands encrypted secrets. Let's build a comprehensive environment management system!</p>
+
+    <pre><code>import os
+import sys
+import json
+import yaml
+import platform
+import subprocess
+import shutil
+import hashlib
+import base64
+import tempfile
+from pathlib import Path
+from typing import Dict, List, Optional, Any, Tuple, Union
+from dataclasses import dataclass, field, asdict
+from enum import Enum
+from datetime import datetime, timedelta
+import logging
+import re
+import configparser
+import venv
+import pkg_resources
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2
+import docker
+import requests
+from dotenv import load_dotenv, dotenv_values
+import toml
+
+class EnvironmentType(Enum):
+    """Types of environments."""
+    DEVELOPMENT = "development"
+    STAGING = "staging"
+    PRODUCTION = "production"
+    TESTING = "testing"
+    LOCAL = "local"
+
+@dataclass
+class Environment:
+    """Environment configuration."""
+    name: str
+    type: EnvironmentType
+    variables: Dict[str, str] = field(default_factory=dict)
+    secrets: Dict[str, str] = field(default_factory=dict)
+    features: Dict[str, bool] = field(default_factory=dict)
+    services: Dict[str, str] = field(default_factory=dict)
+    dependencies: List[str] = field(default_factory=list)
+    created_at: datetime = field(default_factory=datetime.now)
+    updated_at: datetime = field(default_factory=datetime.now)
+
+@dataclass
+class ServiceConfig:
+    """Service configuration."""
+    name: str
+    host: str
+    port: int
+    protocol: str = "http"
+    credentials: Dict[str, str] = field(default_factory=dict)
+    health_check: str = "/health"
+    timeout: int = 30
+
+class EnvironmentManager:
+    """
+    Comprehensive environment management system for configuration,
+    secrets, and deployment environments.
+    """
+    
+    def __init__(self, config_dir: str = None):
+        self.config_dir = Path(config_dir) if config_dir else Path.home() / '.envmanager'
+        self.config_dir.mkdir(parents=True, exist_ok=True)
+        
+        self.environments = {}
+        self.current_env = None
+        self.secret_manager = SecretManager(self.config_dir / 'secrets')
+        self.config_manager = ConfigurationManager(self.config_dir / 'configs')
+        
+        self.setup_logging()
+        self.load_environments()
+    
+    def setup_logging(self):
+        """Setup logging configuration."""
+        log_file = self.config_dir / 'environment.log'
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler(log_file),
+                logging.StreamHandler()
+            ]
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    def create_environment(self, env: Environment) -> bool:
+        """Create a new environment."""
+        try:
+            # Store environment
+            self.environments[env.name] = env
+            
+            # Create environment directory
+            env_dir = self.config_dir / 'environments' / env.name
+            env_dir.mkdir(parents=True, exist_ok=True)
+            
+            # Save environment configuration
+            config_file = env_dir / 'environment.json'
+            with open(config_file, 'w') as f:
+                json.dump(asdict(env), f, indent=2, default=str)
+            
+            # Create .env file
+            env_file = env_dir / '.env'
+            with open(env_file, 'w') as f:
+                for key, value in env.variables.items():
+                    f.write(f"{key}={value}\n")
+            
+            # Store secrets securely
+            for key, value in env.secrets.items():
+                self.secret_manager.store_secret(f"{env.name}_{key}", value)
+            
+            self.logger.info(f"Created environment: {env.name}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to create environment: {e}")
+            return False
+    
+    def load_environments(self):
+        """Load all environments from disk."""
+        env_root = self.config_dir / 'environments'
+        if not env_root.exists():
+            return
+        
+        for env_dir in env_root.iterdir():
+            if env_dir.is_dir():
+                config_file = env_dir / 'environment.json'
+                if config_file.exists():
+                    with open(config_file, 'r') as f:
+                        data = json.load(f)
+                        env = Environment(
+                            name=data['name'],
+                            type=EnvironmentType(data['type']),
+                            variables=data.get('variables', {}),
+                            secrets=data.get('secrets', {}),
+                            features=data.get('features', {}),
+                            services=data.get('services', {}),
+                            dependencies=data.get('dependencies', [])
+                        )
+                        self.environments[env.name] = env
+    
+    def activate_environment(self, name: str) -> bool:
+        """Activate an environment."""
+        if name not in self.environments:
+            self.logger.error(f"Environment not found: {name}")
+            return False
+        
+        env = self.environments[name]
+        
+        # Set environment variables
+        for key, value in env.variables.items():
+            os.environ[key] = value
+        
+        # Load secrets into environment
+        for key in env.secrets:
+            secret_value = self.secret_manager.get_secret(f"{name}_{key}")
+            if secret_value:
+                os.environ[key] = secret_value
+        
+        # Set current environment
+        self.current_env = env
+        os.environ['ENVIRONMENT'] = name
+        os.environ['ENVIRONMENT_TYPE'] = env.type.value
+        
+        self.logger.info(f"Activated environment: {name}")
+        return True
+    
+    def deactivate_environment(self):
+        """Deactivate current environment."""
+        if not self.current_env:
+            return
+        
+        # Remove environment variables
+        for key in self.current_env.variables:
+            os.environ.pop(key, None)
+        
+        # Remove secrets from environment
+        for key in self.current_env.secrets:
+            os.environ.pop(key, None)
+        
+        # Clear environment markers
+        os.environ.pop('ENVIRONMENT', None)
+        os.environ.pop('ENVIRONMENT_TYPE', None)
+        
+        self.logger.info(f"Deactivated environment: {self.current_env.name}")
+        self.current_env = None
+    
+    def get_config(self, key: str, default: Any = None) -> Any:
+        """Get configuration value from current environment."""
+        if not self.current_env:
+            return default
+        
+        # Check variables
+        if key in self.current_env.variables:
+            return self.current_env.variables[key]
+        
+        # Check secrets
+        if key in self.current_env.secrets:
+            return self.secret_manager.get_secret(f"{self.current_env.name}_{key}")
+        
+        # Check environment variables
+        return os.environ.get(key, default)
+    
+    def is_feature_enabled(self, feature: str) -> bool:
+        """Check if a feature is enabled in current environment."""
+        if not self.current_env:
+            return False
+        
+        return self.current_env.features.get(feature, False)
+    
+    def get_service_config(self, service: str) -> Optional[ServiceConfig]:
+        """Get service configuration for current environment."""
+        if not self.current_env:
+            return None
+        
+        if service not in self.current_env.services:
+            return None
+        
+        # Parse service configuration
+        service_data = self.current_env.services[service]
+        if isinstance(service_data, str):
+            # Simple URL format
+            parts = service_data.split(':')
+            if len(parts) >= 2:
+                return ServiceConfig(
+                    name=service,
+                    host=parts[0],
+                    port=int(parts[1]) if parts[1].isdigit() else 80
+                )
+        elif isinstance(service_data, dict):
+            return ServiceConfig(**service_data)
+        
+        return None
+    
+    def export_environment(self, name: str, format: str = 'env') -> str:
+        """Export environment configuration."""
+        if name not in self.environments:
+            raise ValueError(f"Environment not found: {name}")
+        
+        env = self.environments[name]
+        
+        if format == 'env':
+            # .env format
+            lines = []
+            for key, value in env.variables.items():
+                lines.append(f"{key}={value}")
+            return '\n'.join(lines)
+        
+        elif format == 'json':
+            # JSON format
+            return json.dumps(asdict(env), indent=2, default=str)
+        
+        elif format == 'yaml':
+            # YAML format
+            return yaml.dump(asdict(env), default_flow_style=False)
+        
+        elif format == 'docker':
+            # Docker environment format
+            lines = []
+            for key, value in env.variables.items():
+                lines.append(f"ENV {key}={value}")
+            return '\n'.join(lines)
+        
+        else:
+            raise ValueError(f"Unknown export format: {format}")
+    
+    def compare_environments(self, env1_name: str, env2_name: str) -> Dict:
+        """Compare two environments."""
+        if env1_name not in self.environments:
+            raise ValueError(f"Environment not found: {env1_name}")
+        if env2_name not in self.environments:
+            raise ValueError(f"Environment not found: {env2_name}")
+        
+        env1 = self.environments[env1_name]
+        env2 = self.environments[env2_name]
+        
+        comparison = {
+            'variables': {
+                'only_in_env1': {},
+                'only_in_env2': {},
+                'different': {}
+            },
+            'secrets': {
+                'only_in_env1': set(),
+                'only_in_env2': set()
+            },
+            'features': {
+                'only_in_env1': {},
+                'only_in_env2': {},
+                'different': {}
+            }
+        }
+        
+        # Compare variables
+        for key, value in env1.variables.items():
+            if key not in env2.variables:
+                comparison['variables']['only_in_env1'][key] = value
+            elif env2.variables[key] != value:
+                comparison['variables']['different'][key] = {
+                    env1_name: value,
+                    env2_name: env2.variables[key]
+                }
+        
+        for key, value in env2.variables.items():
+            if key not in env1.variables:
+                comparison['variables']['only_in_env2'][key] = value
+        
+        # Compare secrets (keys only, not values)
+        comparison['secrets']['only_in_env1'] = set(env1.secrets.keys()) - set(env2.secrets.keys())
+        comparison['secrets']['only_in_env2'] = set(env2.secrets.keys()) - set(env1.secrets.keys())
+        
+        # Compare features
+        for key, value in env1.features.items():
+            if key not in env2.features:
+                comparison['features']['only_in_env1'][key] = value
+            elif env2.features[key] != value:
+                comparison['features']['different'][key] = {
+                    env1_name: value,
+                    env2_name: env2.features[key]
+                }
+        
+        for key, value in env2.features.items():
+            if key not in env1.features:
+                comparison['features']['only_in_env2'][key] = value
+        
+        return comparison
+
+class SecretManager:
+    """
+    Secure secret management with encryption.
+    """
+    
+    def __init__(self, secret_dir: Path):
+        self.secret_dir = secret_dir
+        self.secret_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Initialize encryption
+        self.master_key = self._get_or_create_master_key()
+        self.cipher = Fernet(self.master_key)
+        
+        self.logger = logging.getLogger(__name__)
+    
+    def _get_or_create_master_key(self) -> bytes:
+        """Get or create master encryption key."""
+        key_file = self.secret_dir / '.master.key'
+        
+        if key_file.exists():
+            with open(key_file, 'rb') as f:
+                return f.read()
+        else:
+            # Generate new key
+            key = Fernet.generate_key()
+            
+            # Store securely (in production, use key management service)
+            with open(key_file, 'wb') as f:
+                f.write(key)
+            
+            # Restrict permissions
+            os.chmod(key_file, 0o600)
+            
+            return key
+    
+    def store_secret(self, name: str, value: str) -> bool:
+        """Store an encrypted secret."""
+        try:
+            # Encrypt value
+            encrypted = self.cipher.encrypt(value.encode())
+            
+            # Store in file
+            secret_file = self.secret_dir / f"{name}.secret"
+            with open(secret_file, 'wb') as f:
+                f.write(encrypted)
+            
+            # Restrict permissions
+            os.chmod(secret_file, 0o600)
+            
+            self.logger.info(f"Stored secret: {name}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to store secret: {e}")
+            return False
+    
+    def get_secret(self, name: str) -> Optional[str]:
+        """Retrieve and decrypt a secret."""
+        try:
+            secret_file = self.secret_dir / f"{name}.secret"
+            
+            if not secret_file.exists():
+                return None
+            
+            # Read encrypted value
+            with open(secret_file, 'rb') as f:
+                encrypted = f.read()
+            
+            # Decrypt
+            decrypted = self.cipher.decrypt(encrypted)
+            
+            return decrypted.decode()
+            
+        except Exception as e:
+            self.logger.error(f"Failed to get secret: {e}")
+            return None
+    
+    def delete_secret(self, name: str) -> bool:
+        """Delete a secret."""
+        try:
+            secret_file = self.secret_dir / f"{name}.secret"
+            
+            if secret_file.exists():
+                # Overwrite with random data before deletion
+                with open(secret_file, 'wb') as f:
+                    f.write(os.urandom(1024))
+                
+                secret_file.unlink()
+                self.logger.info(f"Deleted secret: {name}")
+                return True
+            
+            return False
+            
+        except Exception as e:
+            self.logger.error(f"Failed to delete secret: {e}")
+            return False
+    
+    def rotate_secret(self, name: str, new_value: str) -> bool:
+        """Rotate a secret value."""
+        # Store old value with timestamp
+        old_value = self.get_secret(name)
+        if old_value:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            self.store_secret(f"{name}_backup_{timestamp}", old_value)
+        
+        # Store new value
+        return self.store_secret(name, new_value)
+
+class ConfigurationManager:
+    """
+    Manage application configurations across environments.
+    """
+    
+    def __init__(self, config_dir: Path):
+        self.config_dir = config_dir
+        self.config_dir.mkdir(parents=True, exist_ok=True)
+        self.configs = {}
+        self.logger = logging.getLogger(__name__)
+    
+    def load_config(self, file_path: str, format: str = None) -> Dict:
+        """Load configuration from file."""
+        file_path = Path(file_path)
+        
+        if not format:
+            # Detect format from extension
+            format = file_path.suffix[1:] if file_path.suffix else 'json'
+        
+        try:
+            with open(file_path, 'r') as f:
+                if format == 'json':
+                    return json.load(f)
+                elif format == 'yaml' or format == 'yml':
+                    return yaml.safe_load(f)
+                elif format == 'toml':
+                    return toml.load(f)
+                elif format == 'ini':
+                    parser = configparser.ConfigParser()
+                    parser.read_string(f.read())
+                    return {s: dict(parser[s]) for s in parser.sections()}
+                elif format == 'env':
+                    return dotenv_values(file_path)
+                else:
+                    raise ValueError(f"Unknown format: {format}")
+                    
+        except Exception as e:
+            self.logger.error(f"Failed to load config: {e}")
+            return {}
+    
+    def merge_configs(self, *configs: Dict) -> Dict:
+        """Merge multiple configurations with precedence."""
+        result = {}
+        
+        for config in configs:
+            result = self._deep_merge(result, config)
+        
+        return result
+    
+    def _deep_merge(self, dict1: Dict, dict2: Dict) -> Dict:
+        """Deep merge two dictionaries."""
+        result = dict1.copy()
+        
+        for key, value in dict2.items():
+            if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+                result[key] = self._deep_merge(result[key], value)
+            else:
+                result[key] = value
+        
+        return result
+    
+    def validate_config(self, config: Dict, schema: Dict) -> Tuple[bool, List[str]]:
+        """Validate configuration against schema."""
+        errors = []
+        
+        def validate_item(data, schema, path=""):
+            if 'type' in schema:
+                expected_type = schema['type']
+                if expected_type == 'string' and not isinstance(data, str):
+                    errors.append(f"{path}: Expected string, got {type(data).__name__}")
+                elif expected_type == 'number' and not isinstance(data, (int, float)):
+                    errors.append(f"{path}: Expected number, got {type(data).__name__}")
+                elif expected_type == 'boolean' and not isinstance(data, bool):
+                    errors.append(f"{path}: Expected boolean, got {type(data).__name__}")
+                elif expected_type == 'object' and not isinstance(data, dict):
+                    errors.append(f"{path}: Expected object, got {type(data).__name__}")
+                elif expected_type == 'array' and not isinstance(data, list):
+                    errors.append(f"{path}: Expected array, got {type(data).__name__}")
+            
+            if 'required' in schema and isinstance(data, dict):
+                for required_key in schema['required']:
+                    if required_key not in data:
+                        errors.append(f"{path}: Missing required field '{required_key}'")
+            
+            if 'properties' in schema and isinstance(data, dict):
+                for key, value in data.items():
+                    if key in schema['properties']:
+                        validate_item(value, schema['properties'][key], f"{path}.{key}")
+        
+        validate_item(config, schema)
+        
+        return len(errors) == 0, errors
+    
+    def substitute_variables(self, config: Dict, variables: Dict) -> Dict:
+        """Substitute variables in configuration."""
+        def substitute(obj):
+            if isinstance(obj, str):
+                # Replace ${VAR} patterns
+                pattern = r'\$\{([^}]+)\}'
+                
+                def replacer(match):
+                    var_name = match.group(1)
+                    return str(variables.get(var_name, match.group(0)))
+                
+                return re.sub(pattern, replacer, obj)
+            elif isinstance(obj, dict):
+                return {k: substitute(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [substitute(item) for item in obj]
+            else:
+                return obj
+        
+        return substitute(config)
+
+class PythonEnvironmentManager:
+    """
+    Manage Python virtual environments.
+    """
+    
+    def __init__(self, base_dir: str = None):
+        self.base_dir = Path(base_dir) if base_dir else Path.home() / '.pyenvs'
+        self.base_dir.mkdir(parents=True, exist_ok=True)
+        self.logger = logging.getLogger(__name__)
+    
+    def create_venv(self, name: str, python_version: str = None) -> bool:
+        """Create a Python virtual environment."""
+        try:
+            venv_path = self.base_dir / name
+            
+            if venv_path.exists():
+                self.logger.warning(f"Virtual environment already exists: {name}")
+                return False
+            
+            # Create virtual environment
+            if python_version:
+                # Use specific Python version
+                python_exe = f"python{python_version}"
+                venv.create(venv_path, with_pip=True, 
+                           system_site_packages=False,
+                           symlinks=True)
+            else:
+                # Use current Python
+                venv.create(venv_path, with_pip=True)
+            
+            self.logger.info(f"Created virtual environment: {name}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to create venv: {e}")
+            return False
+    
+    def activate_venv(self, name: str) -> Optional[str]:
+        """Get activation command for virtual environment."""
+        venv_path = self.base_dir / name
+        
+        if not venv_path.exists():
+            self.logger.error(f"Virtual environment not found: {name}")
+            return None
+        
+        if platform.system() == 'Windows':
+            activate_script = venv_path / 'Scripts' / 'activate.bat'
+        else:
+            activate_script = venv_path / 'bin' / 'activate'
+        
+        return str(activate_script)
+    
+    def install_requirements(self, name: str, requirements: Union[str, List[str]]) -> bool:
+        """Install packages in virtual environment."""
+        venv_path = self.base_dir / name
+        
+        if not venv_path.exists():
+            self.logger.error(f"Virtual environment not found: {name}")
+            return False
+        
+        try:
+            # Get pip executable
+            if platform.system() == 'Windows':
+                pip_exe = venv_path / 'Scripts' / 'pip.exe'
+            else:
+                pip_exe = venv_path / 'bin' / 'pip'
+            
+            # Install requirements
+            if isinstance(requirements, str):
+                # Requirements file
+                cmd = [str(pip_exe), 'install', '-r', requirements]
+            else:
+                # List of packages
+                cmd = [str(pip_exe), 'install'] + requirements
+            
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                self.logger.info(f"Installed requirements in {name}")
+                return True
+            else:
+                self.logger.error(f"Failed to install requirements: {result.stderr}")
+                return False
+                
+        except Exception as e:
+            self.logger.error(f"Failed to install requirements: {e}")
+            return False
+    
+    def freeze_requirements(self, name: str) -> Optional[str]:
+        """Get installed packages from virtual environment."""
+        venv_path = self.base_dir / name
+        
+        if not venv_path.exists():
+            return None
+        
+        try:
+            # Get pip executable
+            if platform.system() == 'Windows':
+                pip_exe = venv_path / 'Scripts' / 'pip.exe'
+            else:
+                pip_exe = venv_path / 'bin' / 'pip'
+            
+            result = subprocess.run(
+                [str(pip_exe), 'freeze'],
+                capture_output=True,
+                text=True
+            )
+            
+            if result.returncode == 0:
+                return result.stdout
+            
+            return None
+            
+        except Exception as e:
+            self.logger.error(f"Failed to freeze requirements: {e}")
+            return None
+    
+    def delete_venv(self, name: str) -> bool:
+        """Delete a virtual environment."""
+        venv_path = self.base_dir / name
+        
+        if not venv_path.exists():
+            return False
+        
+        try:
+            shutil.rmtree(venv_path)
+            self.logger.info(f"Deleted virtual environment: {name}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to delete venv: {e}")
+            return False
+
+class ContainerEnvironmentManager:
+    """
+    Manage containerized environments with Docker.
+    """
+    
+    def __init__(self):
+        self.client = docker.from_env()
+        self.logger = logging.getLogger(__name__)
+    
+    def build_environment(self, name: str, dockerfile: str, 
+                         build_args: Dict = None) -> bool:
+        """Build a Docker environment."""
+        try:
+            image, logs = self.client.images.build(
+                path=dockerfile,
+                tag=name,
+                buildargs=build_args or {},
+                rm=True
+            )
+            
+            for log in logs:
+                if 'stream' in log:
+                    self.logger.info(log['stream'].strip())
+            
+            self.logger.info(f"Built Docker environment: {name}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to build environment: {e}")
+            return False
+    
+    def run_in_environment(self, image: str, command: str, 
+                          environment: Dict = None,
+                          volumes: Dict = None) -> Tuple[int, str]:
+        """Run command in containerized environment."""
+        try:
+            container = self.client.containers.run(
+                image=image,
+                command=command,
+                environment=environment or {},
+                volumes=volumes or {},
+                detach=False,
+                remove=True,
+                stdout=True,
+                stderr=True
+            )
+            
+            # Get output
+            output = container.decode() if isinstance(container, bytes) else str(container)
+            
+            return 0, output
+            
+        except docker.errors.ContainerError as e:
+            return e.exit_status, e.stderr.decode() if e.stderr else str(e)
+        except Exception as e:
+            self.logger.error(f"Failed to run in environment: {e}")
+            return 1, str(e)
+    
+    def create_compose_file(self, services: Dict[str, Dict]) -> str:
+        """Create Docker Compose configuration."""
+        compose = {
+            'version': '3.8',
+            'services': {}
+        }
+        
+        for name, config in services.items():
+            service = {
+                'image': config.get('image', name),
+                'environment': config.get('environment', {}),
+                'ports': config.get('ports', []),
+                'volumes': config.get('volumes', []),
+                'depends_on': config.get('depends_on', [])
+            }
+            
+            # Remove empty fields
+            service = {k: v for k, v in service.items() if v}
+            
+            compose['services'][name] = service
+        
+        return yaml.dump(compose, default_flow_style=False)
+
+class SystemEnvironmentManager:
+    """
+    Manage system-level environment configurations.
+    """
+    
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        self.system = platform.system()
+    
+    def get_system_info(self) -> Dict:
+        """Get system environment information."""
+        return {
+            'platform': platform.platform(),
+            'system': platform.system(),
+            'release': platform.release(),
+            'version': platform.version(),
+            'machine': platform.machine(),
+            'processor': platform.processor(),
+            'python_version': platform.python_version(),
+            'python_implementation': platform.python_implementation(),
+            'hostname': platform.node(),
+            'user': os.environ.get('USER') or os.environ.get('USERNAME'),
+            'home': str(Path.home()),
+            'cwd': os.getcwd(),
+            'path': os.environ.get('PATH', '').split(os.pathsep)
+        }
+    
+    def set_system_variable(self, name: str, value: str, 
+                          persistent: bool = False) -> bool:
+        """Set system environment variable."""
+        try:
+            # Set for current process
+            os.environ[name] = value
+            
+            if persistent:
+                if self.system == 'Windows':
+                    # Windows - use setx
+                    subprocess.run(['setx', name, value], check=True)
+                elif self.system in ['Linux', 'Darwin']:
+                    # Unix-like - add to shell profile
+                    shell = os.environ.get('SHELL', '/bin/bash')
+                    
+                    if 'bash' in shell:
+                        profile = Path.home() / '.bashrc'
+                    elif 'zsh' in shell:
+                        profile = Path.home() / '.zshrc'
+                    else:
+                        profile = Path.home() / '.profile'
+                    
+                    with open(profile, 'a') as f:
+                        f.write(f'\nexport {name}="{value}"\n')
+                    
+                    self.logger.info(f"Added {name} to {profile}")
+            
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to set system variable: {e}")
+            return False
+    
+    def update_path(self, directory: str, prepend: bool = True) -> bool:
+        """Update system PATH variable."""
+        try:
+            current_path = os.environ.get('PATH', '')
+            path_list = current_path.split(os.pathsep)
+            
+            # Check if already in PATH
+            if directory in path_list:
+                return True
+            
+            # Add to PATH
+            if prepend:
+                path_list.insert(0, directory)
+            else:
+                path_list.append(directory)
+            
+            new_path = os.pathsep.join(path_list)
+            os.environ['PATH'] = new_path
+            
+            self.logger.info(f"Updated PATH with: {directory}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Failed to update PATH: {e}")
+            return False
+
+# Example usage
+if __name__ == "__main__":
+    # Initialize environment manager
+    env_manager = EnvironmentManager()
+    
+    # Example 1: Create development environment
+    dev_env = Environment(
+        name="development",
+        type=EnvironmentType.DEVELOPMENT,
+        variables={
+            "DEBUG": "true",
+            "LOG_LEVEL": "debug",
+            "DATABASE_HOST": "localhost",
+            "DATABASE_PORT": "5432",
+            "API_ENDPOINT": "http://localhost:8000"
+        },
+        secrets={
+            "DATABASE_PASSWORD": "dev_password",
+            "API_KEY": "dev_api_key_12345",
+            "JWT_SECRET": "dev_jwt_secret"
+        },
+        features={
+            "new_feature": True,
+            "experimental_api": True,
+            "debug_mode": True
+        },
+        services={
+            "database": "localhost:5432",
+            "redis": "localhost:6379",
+            "api": "http://localhost:8000"
+        }
+    )
+    
+    env_manager.create_environment(dev_env)
+    
+    # Example 2: Create production environment
+    prod_env = Environment(
+        name="production",
+        type=EnvironmentType.PRODUCTION,
+        variables={
+            "DEBUG": "false",
+            "LOG_LEVEL": "error",
+            "DATABASE_HOST": "db.production.com",
+            "DATABASE_PORT": "5432",
+            "API_ENDPOINT": "https://api.production.com"
+        },
+        secrets={
+            "DATABASE_PASSWORD": "prod_secure_password",
+            "API_KEY": "prod_api_key_67890",
+            "JWT_SECRET": "prod_jwt_secret",
+            "SSL_CERT": "-----BEGIN CERTIFICATE-----..."
+        },
+        features={
+            "new_feature": False,
+            "experimental_api": False,
+            "debug_mode": False
+        },
+        services={
+            "database": "db.production.com:5432",
+            "redis": "redis.production.com:6379",
+            "api": "https://api.production.com"
+        }
+    )
+    
+    env_manager.create_environment(prod_env)
+    
+    # Example 3: Activate and use environment
+    print("\n🌍 Activating Development Environment")
+    env_manager.activate_environment("development")
+    
+    # Access configuration
+    print(f"  DEBUG: {env_manager.get_config('DEBUG')}")
+    print(f"  API Endpoint: {env_manager.get_config('API_ENDPOINT')}")
+    print(f"  New Feature Enabled: {env_manager.is_feature_enabled('new_feature')}")
+    
+    # Get service configuration
+    db_config = env_manager.get_service_config('database')
+    if db_config:
+        print(f"  Database: {db_config.host}:{db_config.port}")
+    
+    # Example 4: Compare environments
+    print("\n🔍 Comparing Environments")
+    comparison = env_manager.compare_environments("development", "production")
+    
+    print("  Variable Differences:")
+    for key, values in comparison['variables']['different'].items():
+        print(f"    {key}:")
+        print(f"      Dev: {values['development']}")
+        print(f"      Prod: {values['production']}")
+    
+    print("  Feature Differences:")
+    for key, values in comparison['features']['different'].items():
+        print(f"    {key}: Dev={values['development']}, Prod={values['production']}")
+    
+    # Example 5: Export environment
+    print("\n📤 Exporting Environment")
+    env_export = env_manager.export_environment("development", format="env")
+    print("  .env format:")
+    print("    " + "\n    ".join(env_export.split("\n")[:3]))
+    
+    # Example 6: Configuration management
+    config_manager = ConfigurationManager(Path.home() / '.envmanager' / 'configs')
+    
+    # Load and merge configurations
+    base_config = {
+        "app": {
+            "name": "MyApp",
+            "version": "1.0.0"
+        },
+        "database": {
+            "host": "${DATABASE_HOST}",
+            "port": "${DATABASE_PORT}"
+        }
+    }
+    
+    # Substitute variables
+    substituted = config_manager.substitute_variables(
+        base_config,
+        {"DATABASE_HOST": "localhost", "DATABASE_PORT": "5432"}
+    )
+    print("\n⚙️ Configuration with substituted variables:")
+    print(f"  Database: {substituted['database']['host']}:{substituted['database']['port']}")
+    
+    # Example 7: Python virtual environments
+    print("\n🐍 Managing Python Virtual Environments")
+    py_env_manager = PythonEnvironmentManager()
+    
+    # Create virtual environment
+    py_env_manager.create_venv("myproject")
+    
+    # Install packages
+    py_env_manager.install_requirements("myproject", ["requests", "flask"])
+    
+    # Get activation script
+    activate_script = py_env_manager.activate_venv("myproject")
+    if activate_script:
+        print(f"  Activate with: source {activate_script}")
+    
+    # Example 8: Container environments
+    print("\n🐳 Container Environment Management")
+    container_manager = ContainerEnvironmentManager()
+    
+    # Create Docker Compose configuration
+    services = {
+        "web": {
+            "image": "myapp:latest",
+            "environment": {
+                "DEBUG": "false",
+                "DATABASE_URL": "postgresql://db:5432/myapp"
+            },
+            "ports": ["80:8000"],
+            "depends_on": ["db"]
+        },
+        "db": {
+            "image": "postgres:13",
+            "environment": {
+                "POSTGRES_DB": "myapp",
+                "POSTGRES_PASSWORD": "secret"
+            },
+            "volumes": ["pgdata:/var/lib/postgresql/data"]
+        }
+    }
+    
+    compose_yaml = container_manager.create_compose_file(services)
+    print("  Docker Compose Configuration:")
+    print("    " + "\n    ".join(compose_yaml.split("\n")[:10]))
+    
+    # Example 9: System environment
+    print("\n💻 System Environment Information")
+    sys_env_manager = SystemEnvironmentManager()
+    
+    sys_info = sys_env_manager.get_system_info()
+    print(f"  Platform: {sys_info['platform']}")
+    print(f"  Python: {sys_info['python_version']}")
+    print(f"  User: {sys_info['user']}")
+    print(f"  Home: {sys_info['home']}")
+    
+    # Example 10: Secret rotation
+    print("\n🔐 Secret Management")
+    secret_manager = env_manager.secret_manager
+    
+    # Store a secret
+    secret_manager.store_secret("api_token", "secret_token_12345")
+    
+    # Rotate secret
+    secret_manager.rotate_secret("api_token", "new_secret_token_67890")
+    
+    # Retrieve secret
+    current_secret = secret_manager.get_secret("api_token")
+    print(f"  Current API Token: {'*' * 10 + current_secret[-5:] if current_secret else 'None'}")
+    
+    # Deactivate environment
+    env_manager.deactivate_environment()
+    
+    print("\n✅ Environment management demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Never Hardcode Secrets:</strong> Always use environment variables or secret management systems.</li>
+        
+        <li><strong>Separate Environments:</strong> Keep development, staging, and production completely isolated.</li>
+        
+        <li><strong>Use Version Control Wisely:</strong> Store configurations in version control, but never secrets.</li>
+        
+        <li><strong>Encrypt Sensitive Data:</strong> Always encrypt secrets at rest and in transit.</li>
+        
+        <li><strong>Implement Feature Flags:</strong> Control feature rollout across environments.</li>
+        
+        <li><strong>Validate Configurations:</strong> Always validate configurations before deployment.</li>
+        
+        <li><strong>Audit Environment Changes:</strong> Keep logs of all environment modifications.</li>
+    </ul>
+
+    <h3>Environment Management Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Environment management is like being a stage director - you ensure every actor (service) has the right props (configurations) for their scene (environment). Always follow the principle of least privilege for secrets, use immutable infrastructure where possible, and implement proper secret rotation. Remember the 12-factor app methodology: treat configuration as code, but secrets as runtime concerns. Use tools like HashiCorp Vault for production secret management, implement proper RBAC (Role-Based Access Control), and always have a rollback plan. Most importantly: test your disaster recovery procedures - the worst time to discover your backup secrets don't work is during an outage!</p>
+    </div>
+    
+    <p>Environment management mastery transforms you from a configuration juggler to an infrastructure conductor. You can seamlessly deploy applications across multiple environments, manage secrets securely, and ensure consistency from development to production. Whether you're managing a single application or a microservices architecture, these environment management skills are essential for modern DevOps! 🚀</p>
+    
+    <footer>
+        <p>Congratulations! You've completed the System Administration section. Next up: <a href="index.html">Return to Course Overview</a></p>
+    </footer>
+</body>
+</html>

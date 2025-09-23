@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handling Forms and Cookies - Python Web Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🍪 Handling Forms and Cookies: Master Web Interactions</h1>
+    
+    <p>Forms and cookies are the gateway to dynamic web interactions. Forms let you submit data, login to sites, and interact with web applications. Cookies maintain your session, remember preferences, and keep you logged in. Together, they're the key to automating any interactive website. Let's become masters of web interaction! 🔐</p>
+
+    <h2>The Web Interaction Ecosystem</h2>
+    
+    <p>Think of forms as conversation starters with websites - you fill them out, submit them, and get responses. Cookies are like membership cards that websites give you, proving you belong and remembering who you are. Master both, and you can automate any web interaction from simple searches to complex multi-step workflows!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Web Interaction] --> B[Forms]
+        A --> C[Cookies]
+        A --> D[Sessions]
+        
+        B --> E[Form Discovery]
+        B --> F[Field Analysis]
+        B --> G[Data Preparation]
+        B --> H[Form Submission]
+        B --> I[File Uploads]
+        
+        C --> J[Cookie Extraction]
+        C --> K[Cookie Storage]
+        C --> L[Cookie Management]
+        C --> M[Cookie Jar]
+        
+        D --> N[Session Creation]
+        D --> O[Session Persistence]
+        D --> P[Authentication]
+        D --> Q[State Management]
+        
+        E --> R[CSRF Tokens]
+        F --> S[Hidden Fields]
+        G --> T[Validation]
+        H --> U[AJAX Forms]
+        
+        J --> V[Browser Cookies]
+        K --> W[Cookie Files]
+        L --> X[Expiration]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+    </div>
+
+    <h3>Real-World Scenario: The Multi-Site Authenticator 🔑</h3>
+    
+    <p>You're building an automation system that needs to login to multiple websites, submit forms, handle two-factor authentication, maintain sessions across requests, and deal with complex anti-bot measures. Each site has different form structures, CSRF protection, captchas, and cookie policies. Let's build a robust system that handles it all!</p>
+
+    <pre><code>import requests
+from requests.cookies import RequestsCookieJar, create_cookie
+from http.cookiejar import CookieJar, MozillaCookieJar, LWPCookieJar
+import http.cookiejar as cookiejar
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlparse, urlencode, parse_qs
+import json
+import re
+import time
+import pickle
+import os
+from typing import Dict, List, Optional, Any, Tuple, Union
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+import hashlib
+import base64
+from pathlib import Path
+import logging
+from enum import Enum
+
+class FormMethod(Enum):
+    """HTTP form methods."""
+    GET = "GET"
+    POST = "POST"
+    PUT = "PUT"
+    DELETE = "DELETE"
+    PATCH = "PATCH"
+
+@dataclass
+class FormField:
+    """Represents a form field."""
+    name: str
+    field_type: str
+    value: Any = None
+    required: bool = False
+    options: List[str] = field(default_factory=list)
+    attributes: Dict[str, str] = field(default_factory=dict)
+
+@dataclass
+class Form:
+    """Represents an HTML form."""
+    action: str
+    method: FormMethod
+    enctype: str = "application/x-www-form-urlencoded"
+    fields: Dict[str, FormField] = field(default_factory=dict)
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+class FormHandler:
+    """
+    Comprehensive form handling with CSRF protection, validation, and submission.
+    """
+    
+    def __init__(self, session: requests.Session = None):
+        self.session = session or requests.Session()
+        self.setup_logging()
+        
+        # Default headers to appear more like a real browser
+        self.session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'DNT': '1',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1'
+        })
+    
+    def setup_logging(self):
+        """Setup logging configuration."""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    def discover_forms(self, url: str) -> List[Form]:
+        """
+        Discover all forms on a page.
+        """
+        try:
+            response = self.session.get(url)
+            response.raise_for_status()
+            
+            soup = BeautifulSoup(response.text, 'html.parser')
+            forms = []
+            
+            for form_element in soup.find_all('form'):
+                form = self.parse_form(form_element, url)
+                forms.append(form)
+                
+                self.logger.info(f"Found form: {form.action} [{form.method.value}]")
+            
+            return forms
+            
+        except Exception as e:
+            self.logger.error(f"Error discovering forms: {e}")
+            return []
+    
+    def parse_form(self, form_element: BeautifulSoup, base_url: str) -> Form:
+        """
+        Parse a form element into Form object.
+        """
+        # Get form attributes
+        action = form_element.get('action', '')
+        if not action:
+            action = base_url
+        else:
+            action = urljoin(base_url, action)
+        
+        method = form_element.get('method', 'get').upper()
+        enctype = form_element.get('enctype', 'application/x-www-form-urlencoded')
+        
+        form = Form(
+            action=action,
+            method=FormMethod(method),
+            enctype=enctype
+        )
+        
+        # Parse form fields
+        # Input fields
+        for input_elem in form_element.find_all('input'):
+            field = self._parse_input_field(input_elem)
+            if field:
+                form.fields[field.name] = field
+        
+        # Select fields
+        for select_elem in form_element.find_all('select'):
+            field = self._parse_select_field(select_elem)
+            if field:
+                form.fields[field.name] = field
+        
+        # Textarea fields
+        for textarea_elem in form_element.find_all('textarea'):
+            field = self._parse_textarea_field(textarea_elem)
+            if field:
+                form.fields[field.name] = field
+        
+        # Button fields (that have name/value)
+        for button_elem in form_element.find_all('button'):
+            if button_elem.get('name'):
+                field = FormField(
+                    name=button_elem.get('name'),
+                    field_type='button',
+                    value=button_elem.get('value', button_elem.get_text(strip=True)),
+                    attributes=dict(button_elem.attrs)
+                )
+                form.fields[field.name] = field
+        
+        # Extract CSRF token if present
+        csrf_token = self._find_csrf_token(form_element)
+        if csrf_token:
+            form.metadata['csrf_token'] = csrf_token
+        
+        return form
+    
+    def _parse_input_field(self, input_elem: BeautifulSoup) -> Optional[FormField]:
+        """Parse input field."""
+        name = input_elem.get('name')
+        if not name:
+            return None
+        
+        field_type = input_elem.get('type', 'text')
+        
+        field = FormField(
+            name=name,
+            field_type=field_type,
+            value=input_elem.get('value', ''),
+            required=input_elem.has_attr('required'),
+            attributes=dict(input_elem.attrs)
+        )
+        
+        # Handle specific input types
+        if field_type == 'checkbox':
+            field.value = input_elem.has_attr('checked')
+        elif field_type == 'radio':
+            field.value = input_elem.get('value') if input_elem.has_attr('checked') else None
+        elif field_type == 'file':
+            field.value = None  # Will be set when submitting
+        
+        return field
+    
+    def _parse_select_field(self, select_elem: BeautifulSoup) -> Optional[FormField]:
+        """Parse select field."""
+        name = select_elem.get('name')
+        if not name:
+            return None
+        
+        field = FormField(
+            name=name,
+            field_type='select',
+            required=select_elem.has_attr('required'),
+            attributes=dict(select_elem.attrs)
+        )
+        
+        # Extract options
+        for option in select_elem.find_all('option'):
+            option_value = option.get('value', option.get_text(strip=True))
+            field.options.append(option_value)
+            
+            # Set default selected value
+            if option.has_attr('selected'):
+                field.value = option_value
+        
+        # If no selected option, use first one
+        if not field.value and field.options:
+            field.value = field.options[0]
+        
+        return field
+    
+    def _parse_textarea_field(self, textarea_elem: BeautifulSoup) -> Optional[FormField]:
+        """Parse textarea field."""
+        name = textarea_elem.get('name')
+        if not name:
+            return None
+        
+        return FormField(
+            name=name,
+            field_type='textarea',
+            value=textarea_elem.get_text(strip=True),
+            required=textarea_elem.has_attr('required'),
+            attributes=dict(textarea_elem.attrs)
+        )
+    
+    def _find_csrf_token(self, form_element: BeautifulSoup) -> Optional[str]:
+        """
+        Find CSRF token in form.
+        """
+        # Common CSRF token field names
+        csrf_names = [
+            'csrf_token', 'csrftoken', 'csrf', '_csrf_token', '_csrf',
+            'authenticity_token', 'token', '__RequestVerificationToken',
+            'csrf_middleware_token', 'csrfmiddlewaretoken'
+        ]
+        
+        for name in csrf_names:
+            # Check in form
+            token_field = form_element.find('input', {'name': name})
+            if token_field:
+                return token_field.get('value')
+            
+            # Check with regex (case-insensitive)
+            token_field = form_element.find('input', {'name': re.compile(name, re.I)})
+            if token_field:
+                return token_field.get('value')
+        
+        return None
+    
+    def fill_form(self, form: Form, data: Dict[str, Any], 
+                 auto_complete: bool = True) -> Dict[str, Any]:
+        """
+        Fill form with data.
+        
+        Args:
+            form: Form object to fill
+            data: Data to fill the form with
+            auto_complete: Automatically fill required fields with defaults
+        """
+        form_data = {}
+        
+        for field_name, field in form.fields.items():
+            if field_name in data:
+                # Use provided data
+                value = data[field_name]
+            elif field.value is not None:
+                # Use existing field value (hidden fields, defaults)
+                value = field.value
+            elif auto_complete and field.required:
+                # Auto-complete required fields
+                value = self._generate_default_value(field)
+            else:
+                continue
+            
+            # Handle different field types
+            if field.field_type == 'checkbox':
+                if value:  # Only include if checked
+                    form_data[field_name] = 'on' if value is True else value
+            elif field.field_type == 'file':
+                # File will be handled separately
+                continue
+            else:
+                form_data[field_name] = value
+        
+        # Include CSRF token if present
+        if 'csrf_token' in form.metadata:
+            # Find the CSRF field name
+            for field_name, field in form.fields.items():
+                if field.field_type == 'hidden' and 'csrf' in field_name.lower():
+                    form_data[field_name] = form.metadata['csrf_token']
+                    break
+        
+        return form_data
+    
+    def _generate_default_value(self, field: FormField) -> Any:
+        """Generate default value for a field."""
+        if field.field_type == 'email':
+            return 'user@example.com'
+        elif field.field_type == 'tel':
+            return '+1234567890'
+        elif field.field_type == 'number':
+            return '1'
+        elif field.field_type == 'date':
+            return datetime.now().strftime('%Y-%m-%d')
+        elif field.field_type == 'select' and field.options:
+            return field.options[0]
+        else:
+            return 'default'
+    
+    def submit_form(self, form: Form, data: Dict[str, Any], 
+                   files: Dict[str, Any] = None) -> requests.Response:
+        """
+        Submit a form with data.
+        """
+        # Fill form data
+        form_data = self.fill_form(form, data)
+        
+        # Prepare request based on form method
+        if form.method == FormMethod.GET:
+            # For GET, add data as query parameters
+            response = self.session.get(form.action, params=form_data)
+        else:
+            # For POST and others
+            if form.enctype == 'multipart/form-data' or files:
+                # Multipart form with files
+                response = self.session.request(
+                    form.method.value,
+                    form.action,
+                    data=form_data,
+                    files=files
+                )
+            elif form.enctype == 'application/json':
+                # JSON form
+                response = self.session.request(
+                    form.method.value,
+                    form.action,
+                    json=form_data
+                )
+            else:
+                # Regular form
+                response = self.session.request(
+                    form.method.value,
+                    form.action,
+                    data=form_data
+                )
+        
+        self.logger.info(f"Form submitted to {form.action}: {response.status_code}")
+        return response
+    
+    def handle_login_form(self, login_url: str, username: str, 
+                         password: str) -> bool:
+        """
+        Handle a login form automatically.
+        """
+        try:
+            # Discover forms on login page
+            forms = self.discover_forms(login_url)
+            
+            # Find login form (usually has password field)
+            login_form = None
+            for form in forms:
+                for field in form.fields.values():
+                    if field.field_type == 'password':
+                        login_form = form
+                        break
+                if login_form:
+                    break
+            
+            if not login_form:
+                self.logger.error("No login form found")
+                return False
+            
+            # Find username and password fields
+            username_field = None
+            password_field = None
+            
+            for field_name, field in login_form.fields.items():
+                if field.field_type == 'password':
+                    password_field = field_name
+                elif field.field_type in ['text', 'email'] and not username_field:
+                    # Common username field patterns
+                    if any(pattern in field_name.lower() for pattern in ['user', 'email', 'login', 'name']):
+                        username_field = field_name
+            
+            if not username_field or not password_field:
+                self.logger.error("Could not identify username/password fields")
+                return False
+            
+            # Submit login form
+            login_data = {
+                username_field: username,
+                password_field: password
+            }
+            
+            response = self.submit_form(login_form, login_data)
+            
+            # Check if login was successful
+            # (This is a simple check, real sites may require more sophisticated validation)
+            if response.history:  # Redirect usually indicates successful login
+                self.logger.info("Login successful")
+                return True
+            elif 'dashboard' in response.url or 'home' in response.url:
+                self.logger.info("Login successful")
+                return True
+            else:
+                # Check for error messages in response
+                soup = BeautifulSoup(response.text, 'html.parser')
+                error_indicators = ['error', 'invalid', 'incorrect', 'failed']
+                
+                for indicator in error_indicators:
+                    if indicator in response.text.lower():
+                        self.logger.warning("Login failed - error message detected")
+                        return False
+                
+                # If no clear indication, assume success
+                self.logger.info("Login submitted - status uncertain")
+                return True
+                
+        except Exception as e:
+            self.logger.error(f"Login error: {e}")
+            return False
+
+class CookieManager:
+    """
+    Comprehensive cookie management for web automation.
+    """
+    
+    def __init__(self, cookie_file: str = None):
+        self.cookie_file = cookie_file or 'cookies.json'
+        self.setup_logging()
+        self.cookie_jar = RequestsCookieJar()
+        
+    def setup_logging(self):
+        """Setup logging configuration."""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    def save_cookies(self, session: requests.Session, filename: str = None):
+        """
+        Save session cookies to file.
+        """
+        filename = filename or self.cookie_file
+        
+        try:
+            cookies = []
+            for cookie in session.cookies:
+                cookies.append({
+                    'name': cookie.name,
+                    'value': cookie.value,
+                    'domain': cookie.domain,
+                    'path': cookie.path,
+                    'secure': cookie.secure,
+                    'expires': cookie.expires,
+                    'rest': cookie._rest
+                })
+            
+            with open(filename, 'w') as f:
+                json.dump(cookies, f, indent=2)
+            
+            self.logger.info(f"Saved {len(cookies)} cookies to {filename}")
+            
+        except Exception as e:
+            self.logger.error(f"Error saving cookies: {e}")
+    
+    def load_cookies(self, session: requests.Session, filename: str = None) -> bool:
+        """
+        Load cookies from file into session.
+        """
+        filename = filename or self.cookie_file
+        
+        try:
+            if not os.path.exists(filename):
+                self.logger.warning(f"Cookie file not found: {filename}")
+                return False
+            
+            with open(filename, 'r') as f:
+                cookies = json.load(f)
+            
+            for cookie in cookies:
+                session.cookies.set(
+                    cookie['name'],
+                    cookie['value'],
+                    domain=cookie.get('domain'),
+                    path=cookie.get('path', '/')
+                )
+            
+            self.logger.info(f"Loaded {len(cookies)} cookies from {filename}")
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Error loading cookies: {e}")
+            return False
+    
+    def export_cookies_to_browser_format(self, session: requests.Session, 
+                                        filename: str, format: str = 'netscape'):
+        """
+        Export cookies to browser-compatible format.
+        
+        Formats:
+        - netscape: Netscape/Mozilla cookie format
+        - json: Chrome JSON format
+        - lwp: LWP-Cookies format
+        """
+        if format == 'netscape':
+            self._export_netscape_cookies(session, filename)
+        elif format == 'json':
+            self._export_chrome_cookies(session, filename)
+        elif format == 'lwp':
+            self._export_lwp_cookies(session, filename)
+        else:
+            raise ValueError(f"Unknown format: {format}")
+    
+    def _export_netscape_cookies(self, session: requests.Session, filename: str):
+        """Export cookies in Netscape format."""
+        with open(filename, 'w') as f:
+            f.write("# Netscape HTTP Cookie File\n")
+            f.write("# This is a generated file! Do not edit.\n\n")
+            
+            for cookie in session.cookies:
+                domain = cookie.domain
+                initial_dot = 'TRUE' if domain.startswith('.') else 'FALSE'
+                path = cookie.path
+                secure = 'TRUE' if cookie.secure else 'FALSE'
+                expires = cookie.expires if cookie.expires else 0
+                name = cookie.name
+                value = cookie.value
+                
+                f.write(f"{domain}\t{initial_dot}\t{path}\t{secure}\t{expires}\t{name}\t{value}\n")
+    
+    def _export_chrome_cookies(self, session: requests.Session, filename: str):
+        """Export cookies in Chrome JSON format."""
+        cookies = []
+        
+        for cookie in session.cookies:
+            cookies.append({
+                "domain": cookie.domain,
+                "expirationDate": cookie.expires,
+                "hostOnly": not cookie.domain.startswith('.'),
+                "httpOnly": cookie.has_nonstandard_attr('HttpOnly'),
+                "name": cookie.name,
+                "path": cookie.path,
+                "sameSite": cookie.get_nonstandard_attr('SameSite', 'unspecified'),
+                "secure": cookie.secure,
+                "session": cookie.expires is None,
+                "storeId": "0",
+                "value": cookie.value
+            })
+        
+        with open(filename, 'w') as f:
+            json.dump(cookies, f, indent=2)
+    
+    def _export_lwp_cookies(self, session: requests.Session, filename: str):
+        """Export cookies in LWP format."""
+        lwp = LWPCookieJar(filename)
+        
+        for cookie in session.cookies:
+            lwp.set_cookie(cookie)
+        
+        lwp.save()
+    
+    def import_browser_cookies(self, browser: str = 'chrome') -> RequestsCookieJar:
+        """
+        Import cookies from browser.
+        
+        Browsers:
+        - chrome
+        - firefox
+        - safari
+        - edge
+        """
+        if browser == 'chrome':
+            return self._import_chrome_cookies()
+        elif browser == 'firefox':
+            return self._import_firefox_cookies()
+        else:
+            raise ValueError(f"Unsupported browser: {browser}")
+    
+    def _import_chrome_cookies(self) -> RequestsCookieJar:
+        """Import cookies from Chrome."""
+        import sqlite3
+        import win32crypt  # Windows only
+        
+        # Chrome cookies location (Windows)
+        cookie_file = os.path.join(
+            os.environ['USERPROFILE'],
+            r'AppData\Local\Google\Chrome\User Data\Default\Cookies'
+        )
+        
+        # Copy cookies file (Chrome locks it)
+        temp_file = 'chrome_cookies_temp.db'
+        import shutil
+        shutil.copy2(cookie_file, temp_file)
+        
+        conn = sqlite3.connect(temp_file)
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT host_key, path, name, value, encrypted_value, 
+                   expires_utc, is_secure, is_httponly
+            FROM cookies
+        """)
+        
+        jar = RequestsCookieJar()
+        
+        for row in cursor.fetchall():
+            host, path, name, value, encrypted_value, expires, secure, httponly = row
+            
+            # Decrypt value (Windows)
+            if encrypted_value:
+                try:
+                    decrypted_value = win32crypt.CryptUnprotectData(
+                        encrypted_value, None, None, None, 0
+                    )[1].decode('utf-8')
+                    value = decrypted_value
+                except:
+                    pass
+            
+            jar.set(name, value, domain=host, path=path)
+        
+        conn.close()
+        os.remove(temp_file)
+        
+        return jar
+    
+    def _import_firefox_cookies(self) -> RequestsCookieJar:
+        """Import cookies from Firefox."""
+        import sqlite3
+        
+        # Firefox cookies location
+        firefox_profile = self._find_firefox_profile()
+        cookie_file = os.path.join(firefox_profile, 'cookies.sqlite')
+        
+        conn = sqlite3.connect(cookie_file)
+        cursor = conn.cursor()
+        
+        cursor.execute("""
+            SELECT host, path, name, value, expiry, isSecure, isHttpOnly
+            FROM moz_cookies
+        """)
+        
+        jar = RequestsCookieJar()
+        
+        for row in cursor.fetchall():
+            host, path, name, value, expiry, secure, httponly = row
+            jar.set(name, value, domain=host, path=path)
+        
+        conn.close()
+        
+        return jar
+    
+    def _find_firefox_profile(self) -> str:
+        """Find Firefox default profile."""
+        if sys.platform == 'win32':
+            base = os.path.join(os.environ['APPDATA'], 'Mozilla', 'Firefox', 'Profiles')
+        elif sys.platform == 'darwin':
+            base = os.path.expanduser('~/Library/Application Support/Firefox/Profiles')
+        else:
+            base = os.path.expanduser('~/.mozilla/firefox')
+        
+        for item in os.listdir(base):
+            if item.endswith('.default') or item.endswith('.default-release'):
+                return os.path.join(base, item)
+        
+        raise Exception("Firefox profile not found")
+    
+    def create_persistent_session(self, session_file: str = 'session.pkl') -> requests.Session:
+        """
+        Create a persistent session that survives script restarts.
+        """
+        if os.path.exists(session_file):
+            # Load existing session
+            with open(session_file, 'rb') as f:
+                session = pickle.load(f)
+                self.logger.info("Loaded existing session")
+        else:
+            # Create new session
+            session = requests.Session()
+            self.logger.info("Created new session")
+        
+        # Save session on exit
+        import atexit
+        atexit.register(lambda: self._save_session(session, session_file))
+        
+        return session
+    
+    def _save_session(self, session: requests.Session, session_file: str):
+        """Save session to file."""
+        with open(session_file, 'wb') as f:
+            pickle.dump(session, f)
+        self.logger.info(f"Session saved to {session_file}")
+
+class SessionManager:
+    """
+    Advanced session management with authentication and state persistence.
+    """
+    
+    def __init__(self):
+        self.session = requests.Session()
+        self.cookie_manager = CookieManager()
+        self.form_handler = FormHandler(self.session)
+        self.setup_logging()
+        
+    def setup_logging(self):
+        """Setup logging configuration."""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    def login(self, login_url: str, username: str, password: str,
+             persist_session: bool = True) -> bool:
+        """
+        Login to a website and maintain session.
+        """
+        # Try to load existing cookies first
+        if persist_session and self.cookie_manager.load_cookies(self.session):
+            # Check if still logged in
+            if self.is_logged_in(login_url):
+                self.logger.info("Already logged in using saved cookies")
+                return True
+        
+        # Perform login
+        success = self.form_handler.handle_login_form(login_url, username, password)
+        
+        if success and persist_session:
+            # Save cookies for future use
+            self.cookie_manager.save_cookies(self.session)
+        
+        return success
+    
+    def is_logged_in(self, check_url: str) -> bool:
+        """
+        Check if currently logged in.
+        """
+        try:
+            response = self.session.get(check_url, allow_redirects=False)
+            
+            # Check for login indicators
+            if response.status_code == 200:
+                # Look for logout links/buttons (indicates logged in)
+                soup = BeautifulSoup(response.text, 'html.parser')
+                logout_indicators = ['logout', 'sign out', 'log out']
+                
+                for indicator in logout_indicators:
+                    if soup.find('a', string=re.compile(indicator, re.I)):
+                        return True
+                
+                # Look for login links (indicates not logged in)
+                login_indicators = ['login', 'sign in', 'log in']
+                
+                for indicator in login_indicators:
+                    if soup.find('a', string=re.compile(indicator, re.I)):
+                        return False
+            
+            # Check for redirect to login page
+            elif response.status_code in [301, 302, 303, 307]:
+                location = response.headers.get('Location', '')
+                if 'login' in location.lower():
+                    return False
+            
+            # Default assumption
+            return response.status_code == 200
+            
+        except Exception as e:
+            self.logger.error(f"Error checking login status: {e}")
+            return False
+    
+    def handle_two_factor_auth(self, code: str, submit_url: str = None) -> bool:
+        """
+        Handle two-factor authentication.
+        """
+        try:
+            # If no submit URL provided, look for 2FA form on current page
+            if not submit_url:
+                response = self.session.get(self.session.url)  # Get current URL
+                forms = self.form_handler.discover_forms(response.url)
+                
+                # Find 2FA form (usually has code/token field)
+                for form in forms:
+                    for field in form.fields.values():
+                        if any(pattern in field.name.lower() for pattern in ['code', 'token', 'otp', 'verification']):
+                            # Submit 2FA code
+                            data = {field.name: code}
+                            response = self.form_handler.submit_form(form, data)
+                            return response.status_code == 200
+            
+            else:
+                # Direct submission to provided URL
+                response = self.session.post(submit_url, data={'code': code})
+                return response.status_code == 200
+                
+        except Exception as e:
+            self.logger.error(f"2FA error: {e}")
+            return False
+    
+    def maintain_session(self, keepalive_url: str, interval: int = 300):
+        """
+        Keep session alive by periodic requests.
+        """
+        import threading
+        
+        def keepalive():
+            while True:
+                time.sleep(interval)
+                try:
+                    self.session.get(keepalive_url)
+                    self.logger.debug("Session keepalive sent")
+                except:
+                    pass
+        
+        thread = threading.Thread(target=keepalive, daemon=True)
+        thread.start()
+        
+        self.logger.info(f"Session keepalive started (interval: {interval}s)")
+
+# Example usage
+if __name__ == "__main__":
+    print("🍪 Forms and Cookies Handling Examples\n")
+    
+    # Initialize components
+    form_handler = FormHandler()
+    cookie_manager = CookieManager()
+    session_manager = SessionManager()
+    
+    # Example 1: Form Discovery
+    print("1️⃣ Form Discovery:")
+    
+    test_url = "https://httpbin.org/forms/post"
+    forms = form_handler.discover_forms(test_url)
+    
+    for i, form in enumerate(forms):
+        print(f"\n   Form {i+1}:")
+        print(f"     Action: {form.action}")
+        print(f"     Method: {form.method.value}")
+        print(f"     Fields: {list(form.fields.keys())}")
+    
+    # Example 2: Form Submission
+    print("\n2️⃣ Form Submission:")
+    
+    # Create a test form
+    test_form = Form(
+        action="https://httpbin.org/post",
+        method=FormMethod.POST
+    )
+    
+    test_form.fields['username'] = FormField(
+        name='username',
+        field_type='text',
+        required=True
+    )
+    
+    test_form.fields['password'] = FormField(
+        name='password',
+        field_type='password',
+        required=True
+    )
+    
+    # Submit form
+    form_data = {
+        'username': 'testuser',
+        'password': 'testpass123'
+    }
+    
+    response = form_handler.submit_form(test_form, form_data)
+    print(f"   Form submitted: {response.status_code}")
+    
+    # Example 3: Cookie Management
+    print("\n3️⃣ Cookie Management:")
+    
+    # Create session with cookies
+    session = requests.Session()
+    
+    # Make request to set cookies
+    session.get("https://httpbin.org/cookies/set?test_cookie=test_value")
+    
+    # Save cookies
+    cookie_manager.save_cookies(session, 'test_cookies.json')
+    print("   Cookies saved to test_cookies.json")
+    
+    # Load cookies into new session
+    new_session = requests.Session()
+    cookie_manager.load_cookies(new_session, 'test_cookies.json')
+    
+    # Verify cookies loaded
+    response = new_session.get("https://httpbin.org/cookies")
+    print(f"   Loaded cookies: {response.json()['cookies']}")
+    
+    # Example 4: Login Simulation
+    print("\n4️⃣ Login Simulation:")
+    
+    # Simulate login (using httpbin for demonstration)
+    login_success = session_manager.login(
+        login_url="https://httpbin.org/forms/post",
+        username="demo_user",
+        password="demo_pass",
+        persist_session=True
+    )
+    
+    if login_success:
+        print("   Login successful!")
+    else:
+        print("   Login failed!")
+    
+    # Example 5: Session Persistence
+    print("\n5️⃣ Session Persistence:")
+    
+    # Create persistent session
+    persistent_session = cookie_manager.create_persistent_session('my_session.pkl')
+    print("   Persistent session created")
+    
+    # The session will be automatically saved on exit
+    
+    # Example 6: Advanced Form Handling
+    print("\n6️⃣ Advanced Form Handling:")
+    
+    # HTML with complex form
+    complex_form_html = """
+    <form action="/submit" method="post">
+        <input type="hidden" name="csrf_token" value="abc123xyz">
+        <input type="text" name="username" required>
+        <input type="password" name="password" required>
+        <select name="country">
+            <option value="us">United States</option>
+            <option value="uk">United Kingdom</option>
+            <option value="ca">Canada</option>
+        </select>
+        <input type="checkbox" name="remember" value="1" checked>
+        <textarea name="comments">Enter comments here</textarea>
+        <button type="submit" name="action" value="login">Login</button>
+    </form>
+    """
+    
+    soup = BeautifulSoup(complex_form_html, 'html.parser')
+    form_elem = soup.find('form')
+    parsed_form = form_handler.parse_form(form_elem, "https://example.com")
+    
+    print("   Parsed complex form:")
+    print(f"     CSRF Token: {parsed_form.metadata.get('csrf_token')}")
+    print(f"     Required fields: {[f.name for f in parsed_form.fields.values() if f.required]}")
+    print(f"     Select options: {parsed_form.fields['country'].options}")
+    
+    # Example 7: Cookie Export/Import
+    print("\n7️⃣ Cookie Export/Import:")
+    
+    # Export cookies to browser format
+    cookie_manager.export_cookies_to_browser_format(
+        session,
+        'cookies_netscape.txt',
+        format='netscape'
+    )
+    print("   Exported cookies to Netscape format")
+    
+    cookie_manager.export_cookies_to_browser_format(
+        session,
+        'cookies_chrome.json',
+        format='json'
+    )
+    print("   Exported cookies to Chrome JSON format")
+    
+    # Example 8: File Upload Form
+    print("\n8️⃣ File Upload Form:")
+    
+    upload_form = Form(
+        action="https://httpbin.org/post",
+        method=FormMethod.POST,
+        enctype="multipart/form-data"
+    )
+    
+    upload_form.fields['file'] = FormField(
+        name='file',
+        field_type='file'
+    )
+    
+    upload_form.fields['description'] = FormField(
+        name='description',
+        field_type='text'
+    )
+    
+    # Prepare file for upload
+    files = {
+        'file': ('test.txt', 'This is test file content', 'text/plain')
+    }
+    
+    data = {
+        'description': 'Test file upload'
+    }
+    
+    response = form_handler.submit_form(upload_form, data, files)
+    print(f"   File upload response: {response.status_code}")
+    
+    # Clean up test files
+    import os
+    for file in ['test_cookies.json', 'cookies_netscape.txt', 'cookies_chrome.json']:
+        if os.path.exists(file):
+            os.remove(file)
+    
+    print("\n✅ Forms and cookies handling demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Always Respect robots.txt:</strong> Check and follow website policies before automation.</li>
+        
+        <li><strong>Use Sessions:</strong> Maintain state across requests with session objects.</li>
+        
+        <li><strong>Handle CSRF Tokens:</strong> Always extract and include CSRF tokens when present.</li>
+        
+        <li><strong>Persist Cookies:</strong> Save and reuse cookies to avoid repeated logins.</li>
+        
+        <li><strong>Mimic Real Browsers:</strong> Use appropriate headers and user agents.</li>
+        
+        <li><strong>Handle Failures Gracefully:</strong> Implement retry logic and error handling.</li>
+        
+        <li><strong>Respect Rate Limits:</strong> Add delays between requests to avoid being blocked.</li>
+    </ul>
+
+    <h3>Forms and Cookies Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Forms and cookies are the foundation of web interaction, but they're also security features. Always approach them respectfully. Use session objects to maintain state, save cookies to avoid repeated logins, and handle CSRF tokens properly. When filling forms, validate your data client-side to avoid server errors. For file uploads, use multipart encoding. Remember that cookies expire, so implement refresh mechanisms. Most importantly: always test your form handlers on test sites first, respect rate limits, and never use automation for malicious purposes. Good automation is invisible - it works just like a human would, just faster and more reliably!</p>
+    </div>
+    
+    <p>Mastering forms and cookies transforms you from a passive web observer to an active participant. You can now login to sites, submit data, maintain sessions, and automate complex multi-step workflows. Whether you're building testing tools, data collectors, or automation systems, these skills are essential for modern web interaction! 🚀</p>
+    
+    <footer>
+        <p>Next up: <a href="webscraping_session_management.html">Session Management - Maintain State Like a Pro!</a></p>
+    </footer>
+</body>
+</html>

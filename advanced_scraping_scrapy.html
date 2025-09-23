@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrapy Framework - Python Web Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🕷️ Scrapy Framework: Industrial-Strength Web Scraping</h1>
+    
+    <p>Scrapy is the Ferrari of web scraping frameworks - powerful, fast, and built for scale. While BeautifulSoup is like a Swiss Army knife for parsing HTML, Scrapy is a complete factory for extracting, processing, and storing web data. It handles concurrent requests, automatic retries, data pipelines, and distributed scraping out of the box. Let's master the art of industrial web scraping! 🏭</p>
+
+    <h2>The Scrapy Architecture</h2>
+    
+    <p>Think of Scrapy as a well-orchestrated assembly line where spiders crawl websites, extractors pull out data, pipelines process it, and exporters save it - all running concurrently with military precision. It's not just a tool; it's a complete ecosystem for professional web scraping at any scale!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Scrapy Engine] --> B[Scheduler]
+        A --> C[Downloader]
+        A --> D[Spiders]
+        A --> E[Item Pipeline]
+        
+        B --> F[Request Queue]
+        B --> G[Duplication Filter]
+        B --> H[Priority Queue]
+        
+        C --> I[Downloader Middlewares]
+        C --> J[HTTP/HTTPS Handler]
+        C --> K[Concurrent Requests]
+        
+        D --> L[Spider Middlewares]
+        D --> M[Parse Methods]
+        D --> N[Item Extraction]
+        D --> O[Request Generation]
+        
+        E --> P[Data Validation]
+        E --> Q[Data Cleaning]
+        E --> R[Database Storage]
+        E --> S[Export Formats]
+        
+        I --> T[User-Agent]
+        I --> U[Proxies]
+        I --> V[Cookies]
+        I --> W[Retry Logic]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+    </div>
+
+    <h3>Real-World Scenario: The E-Commerce Intelligence Platform 🛒</h3>
+    
+    <p>You're building a competitive intelligence platform that monitors thousands of e-commerce sites, tracking prices, inventory, reviews, and product launches. You need to handle JavaScript-rendered pages, rotating proxies, CAPTCHA challenges, rate limiting, and real-time data processing. Scrapy will be your industrial-strength solution for this massive undertaking!</p>
+
+    <pre><code># First, install Scrapy: pip install scrapy scrapy-splash scrapy-redis scrapy-rotating-proxies
+
+import scrapy
+from scrapy import Spider, Request, FormRequest
+from scrapy.crawler import CrawlerProcess, CrawlerRunner
+from scrapy.utils.project import get_project_settings
+from scrapy.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.item import Item, Field
+from scrapy.itemloader import ItemLoader
+from scrapy.itemloader.processors import TakeFirst, MapCompose, Join, Compose
+from scrapy.exceptions import DropItem, CloseSpider
+from scrapy.downloadermiddlewares.retry import RetryMiddleware
+from scrapy.utils.response import open_in_browser
+import json
+import re
+from typing import Dict, List, Optional, Any, Generator
+from datetime import datetime
+from urllib.parse import urljoin, urlparse
+import hashlib
+from w3lib.html import remove_tags
+import logging
+
+# ==================== Items Definition ====================
+
+class ProductItem(Item):
+    """Define the structure of scraped product data."""
+    
+    # Basic Information
+    url = Field()
+    product_id = Field()
+    name = Field()
+    brand = Field()
+    category = Field()
+    subcategory = Field()
+    
+    # Pricing
+    price = Field()
+    original_price = Field()
+    discount = Field()
+    currency = Field()
+    
+    # Availability
+    in_stock = Field()
+    stock_quantity = Field()
+    availability = Field()
+    
+    # Product Details
+    description = Field()
+    features = Field()
+    specifications = Field()
+    
+    # Images
+    image_urls = Field()
+    images = Field()  # Downloaded images
+    
+    # Reviews
+    rating = Field()
+    review_count = Field()
+    reviews = Field()
+    
+    # Metadata
+    scraped_at = Field()
+    spider_name = Field()
+    
+class ReviewItem(Item):
+    """Review data structure."""
+    product_id = Field()
+    reviewer_name = Field()
+    rating = Field()
+    title = Field()
+    content = Field()
+    date = Field()
+    verified_purchase = Field()
+    helpful_count = Field()
+
+# ==================== Item Loaders ====================
+
+class ProductLoader(ItemLoader):
+    """Custom item loader with processing."""
+    
+    default_item_class = ProductItem
+    default_output_processor = TakeFirst()
+    
+    # Custom processors
+    name_in = MapCompose(remove_tags, str.strip)
+    price_in = MapCompose(remove_tags, lambda x: re.sub(r'[^\d.,]', '', x))
+    description_in = MapCompose(remove_tags, str.strip)
+    features_out = Identity()  # Keep as list
+    image_urls_out = Identity()  # Keep as list
+
+def parse_price(price_string: str) -> float:
+    """Parse price from string."""
+    if not price_string:
+        return None
+    
+    # Remove currency symbols and whitespace
+    price_string = re.sub(r'[^\d.,]', '', price_string)
+    
+    # Handle different decimal separators
+    if ',' in price_string and '.' in price_string:
+        # Assume comma is thousands separator
+        price_string = price_string.replace(',', '')
+    elif ',' in price_string:
+        # Could be decimal separator (European format)
+        if price_string.count(',') == 1 and len(price_string.split(',')[1]) <= 2:
+            price_string = price_string.replace(',', '.')
+        else:
+            price_string = price_string.replace(',', '')
+    
+    try:
+        return float(price_string)
+    except:
+        return None
+
+# ==================== Base Spider ====================
+
+class BaseEcommerceSpider(scrapy.Spider):
+    """Base spider with common functionality."""
+    
+    custom_settings = {
+        'DOWNLOAD_DELAY': 1,
+        'CONCURRENT_REQUESTS': 16,
+        'CONCURRENT_REQUESTS_PER_DOMAIN': 8,
+        'AUTOTHROTTLE_ENABLED': True,
+        'AUTOTHROTTLE_START_DELAY': 0.5,
+        'AUTOTHROTTLE_MAX_DELAY': 10,
+        'AUTOTHROTTLE_TARGET_CONCURRENCY': 4,
+        'ROBOTSTXT_OBEY': True,
+        'USER_AGENT': 'EcommerceCrawler (+http://example.com/bot)',
+        
+        # Retry configuration
+        'RETRY_TIMES': 3,
+        'RETRY_HTTP_CODES': [500, 502, 503, 504, 408, 429],
+        
+        # Cache
+        'HTTPCACHE_ENABLED': True,
+        'HTTPCACHE_EXPIRATION_SECS': 3600,
+        
+        # Export
+        'FEED_EXPORT_ENCODING': 'utf-8',
+    }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.stats = {
+            'products_scraped': 0,
+            'products_failed': 0,
+            'start_time': datetime.now()
+        }
+    
+    def parse_product(self, response):
+        """Parse product page - to be implemented by subclasses."""
+        raise NotImplementedError
+    
+    def extract_json_ld(self, response) -> Dict:
+        """Extract JSON-LD structured data."""
+        json_ld = response.xpath('//script[@type="application/ld+json"]/text()').getall()
+        
+        for json_text in json_ld:
+            try:
+                data = json.loads(json_text)
+                if isinstance(data, dict) and data.get('@type') == 'Product':
+                    return data
+            except:
+                continue
+        
+        return {}
+
+# ==================== Amazon Spider ====================
+
+class AmazonSpider(BaseEcommerceSpider):
+    """Spider for Amazon products."""
+    
+    name = 'amazon'
+    allowed_domains = ['amazon.com']
+    
+    custom_settings = {
+        **BaseEcommerceSpider.custom_settings,
+        'DOWNLOAD_DELAY': 2,  # Be more polite with Amazon
+        'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+    }
+    
+    def __init__(self, category=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.category = category
+        
+        # Start URLs based on category
+        if category:
+            self.start_urls = [
+                f'https://www.amazon.com/s?k={category}&page=1'
+            ]
+        else:
+            self.start_urls = [
+                'https://www.amazon.com/Best-Sellers/zgbs'
+            ]
+    
+    def parse(self, response):
+        """Parse search/category page."""
+        
+        # Extract product URLs
+        product_links = response.css('div[data-component-type="s-search-result"] h2 a::attr(href)').getall()
+        
+        for link in product_links:
+            url = urljoin(response.url, link)
+            yield Request(
+                url=url,
+                callback=self.parse_product,
+                meta={'product_url': url}
+            )
+        
+        # Follow pagination
+        next_page = response.css('a.s-pagination-next::attr(href)').get()
+        if next_page:
+            yield Request(
+                urljoin(response.url, next_page),
+                callback=self.parse
+            )
+    
+    def parse_product(self, response):
+        """Parse Amazon product page."""
+        
+        loader = ProductLoader(item=ProductItem(), response=response)
+        
+        # Basic information
+        loader.add_value('url', response.url)
+        loader.add_value('product_id', self.extract_asin(response.url))
+        loader.add_css('name', 'span#productTitle::text')
+        loader.add_css('brand', 'a#bylineInfo::text')
+        
+        # Pricing
+        price = response.css('span.a-price-whole::text').get()
+        if not price:
+            price = response.css('span.a-price.a-text-price.a-size-medium::text').get()
+        loader.add_value('price', parse_price(price))
+        
+        loader.add_css('original_price', 'span.a-price.a-text-price span.a-offscreen::text')
+        loader.add_value('currency', 'USD')
+        
+        # Availability
+        availability = response.css('div#availability span::text').get()
+        loader.add_value('in_stock', 'In Stock' in availability if availability else False)
+        loader.add_value('availability', availability)
+        
+        # Product details
+        loader.add_css('description', 'div#feature-bullets ul span.a-list-item::text')
+        
+        # Features from bullet points
+        features = response.css('div#feature-bullets ul span.a-list-item::text').getall()
+        loader.add_value('features', [f.strip() for f in features if f.strip()])
+        
+        # Images
+        image_urls = response.css('div#altImages img::attr(src)').getall()
+        # Convert thumbnail URLs to full size
+        image_urls = [self.get_full_image_url(url) for url in image_urls]
+        loader.add_value('image_urls', image_urls)
+        
+        # Reviews
+        loader.add_css('rating', 'span.a-icon-star span.a-icon-alt::text')
+        loader.add_css('review_count', 'span#acrCustomerReviewText::text')
+        
+        # Metadata
+        loader.add_value('scraped_at', datetime.now())
+        loader.add_value('spider_name', self.name)
+        
+        # Categories
+        categories = response.css('div#wayfinding-breadcrumbs_feature_div a::text').getall()
+        if categories:
+            loader.add_value('category', categories[0] if categories else None)
+            loader.add_value('subcategory', categories[-1] if len(categories) > 1 else None)
+        
+        product = loader.load_item()
+        
+        # Yield product
+        yield product
+        
+        # Scrape reviews
+        yield from self.parse_reviews(response, product['product_id'])
+    
+    def extract_asin(self, url: str) -> str:
+        """Extract ASIN from Amazon URL."""
+        match = re.search(r'/dp/([A-Z0-9]{10})', url)
+        return match.group(1) if match else None
+    
+    def get_full_image_url(self, thumbnail_url: str) -> str:
+        """Convert thumbnail URL to full size image."""
+        # Amazon image URL manipulation
+        if '._' in thumbnail_url:
+            base_url = thumbnail_url.split('._')[0]
+            return base_url + '.jpg'
+        return thumbnail_url
+    
+    def parse_reviews(self, response, product_id):
+        """Parse product reviews."""
+        reviews_url = response.css('a[data-hook="see-all-reviews-link-foot"]::attr(href)').get()
+        
+        if reviews_url:
+            yield Request(
+                urljoin(response.url, reviews_url),
+                callback=self.parse_reviews_page,
+                meta={'product_id': product_id}
+            )
+    
+    def parse_reviews_page(self, response):
+        """Parse reviews listing page."""
+        product_id = response.meta['product_id']
+        
+        for review in response.css('div[data-hook="review"]'):
+            review_item = ReviewItem()
+            
+            review_item['product_id'] = product_id
+            review_item['reviewer_name'] = review.css('span.a-profile-name::text').get()
+            review_item['rating'] = review.css('i[data-hook="review-star-rating"] span::text').get()
+            review_item['title'] = review.css('a[data-hook="review-title"] span::text').get()
+            review_item['content'] = ' '.join(review.css('span[data-hook="review-body"] span::text').getall())
+            review_item['date'] = review.css('span[data-hook="review-date"]::text').get()
+            review_item['verified_purchase'] = bool(review.css('span[data-hook="avp-badge"]'))
+            
+            yield review_item
+        
+        # Next page of reviews
+        next_page = response.css('li.a-last a::attr(href)').get()
+        if next_page:
+            yield Request(
+                urljoin(response.url, next_page),
+                callback=self.parse_reviews_page,
+                meta={'product_id': product_id}
+            )
+
+# ==================== Generic E-commerce Spider ====================
+
+class GenericEcommerceSpider(CrawlSpider):
+    """Generic spider using rules for any e-commerce site."""
+    
+    name = 'generic_ecommerce'
+    
+    # Override these in subclasses or initialization
+    allowed_domains = []
+    start_urls = []
+    
+    # Rules for following links
+    rules = (
+        # Follow category pages
+        Rule(
+            LinkExtractor(restrict_css='nav.categories a'),
+            follow=True
+        ),
+        
+        # Follow pagination
+        Rule(
+            LinkExtractor(restrict_css='a.pagination, a.next'),
+            follow=True
+        ),
+        
+        # Parse product pages
+        Rule(
+            LinkExtractor(restrict_css='a.product-link, div.product a'),
+            callback='parse_product',
+            follow=False
+        ),
+    )
+    
+    def parse_product(self, response):
+        """Generic product parser using common patterns."""
+        
+        loader = ProductLoader(item=ProductItem(), response=response)
+        
+        # Try to extract from JSON-LD
+        json_data = self.extract_json_ld(response)
+        
+        if json_data:
+            loader.add_value('name', json_data.get('name'))
+            loader.add_value('description', json_data.get('description'))
+            loader.add_value('brand', json_data.get('brand', {}).get('name'))
+            
+            offers = json_data.get('offers', {})
+            loader.add_value('price', offers.get('price'))
+            loader.add_value('currency', offers.get('priceCurrency'))
+            loader.add_value('availability', offers.get('availability'))
+            
+            aggregate_rating = json_data.get('aggregateRating', {})
+            loader.add_value('rating', aggregate_rating.get('ratingValue'))
+            loader.add_value('review_count', aggregate_rating.get('reviewCount'))
+        
+        # Fallback to CSS/XPath selectors
+        else:
+            # Common patterns
+            loader.add_css('name', 'h1::text, h1.product-title::text, [itemprop="name"]::text')
+            loader.add_css('price', '.price::text, [itemprop="price"]::text, .product-price::text')
+            loader.add_css('description', '.description::text, [itemprop="description"]::text')
+            loader.add_css('rating', '[itemprop="ratingValue"]::text, .rating::text')
+            loader.add_css('review_count', '[itemprop="reviewCount"]::text')
+            loader.add_css('brand', '[itemprop="brand"]::text, .brand::text')
+        
+        # Always add metadata
+        loader.add_value('url', response.url)
+        loader.add_value('scraped_at', datetime.now())
+        loader.add_value('spider_name', self.name)
+        
+        # Extract images
+        image_urls = response.css('img.product-image::attr(src), [itemprop="image"]::attr(src)').getall()
+        loader.add_value('image_urls', [urljoin(response.url, url) for url in image_urls])
+        
+        yield loader.load_item()
+
+# ==================== Pipelines ====================
+
+class ValidationPipeline:
+    """Validate and clean scraped items."""
+    
+    def process_item(self, item, spider):
+        """Process and validate item."""
+        
+        # Validate required fields
+        if not item.get('name') or not item.get('url'):
+            raise DropItem(f"Missing required fields: {item}")
+        
+        # Clean and normalize data
+        if item.get('price'):
+            # Ensure price is float
+            if isinstance(item['price'], str):
+                item['price'] = parse_price(item['price'])
+        
+        # Parse rating
+        if item.get('rating'):
+            rating = item['rating']
+            if isinstance(rating, str):
+                # Extract numeric rating (e.g., "4.5 out of 5 stars")
+                match = re.search(r'([\d.]+)', rating)
+                if match:
+                    item['rating'] = float(match.group(1))
+        
+        # Parse review count
+        if item.get('review_count'):
+            review_count = item['review_count']
+            if isinstance(review_count, str):
+                # Extract number (e.g., "1,234 customer reviews")
+                review_count = re.sub(r'[^\d]', '', review_count)
+                if review_count:
+                    item['review_count'] = int(review_count)
+        
+        # Calculate discount if both prices available
+        if item.get('price') and item.get('original_price'):
+            original = parse_price(str(item['original_price']))
+            current = item['price']
+            
+            if original and current and original > current:
+                item['discount'] = round((original - current) / original * 100, 2)
+        
+        return item
+
+class DatabasePipeline:
+    """Save items to database."""
+    
+    def __init__(self, db_settings):
+        self.db_settings = db_settings
+        
+    @classmethod
+    def from_crawler(cls, crawler):
+        """Create pipeline from crawler."""
+        db_settings = crawler.settings.getdict("DATABASE")
+        return cls(db_settings)
+    
+    def open_spider(self, spider):
+        """Initialize database connection."""
+        # This would connect to your database
+        # Example: PostgreSQL, MongoDB, etc.
+        pass
+    
+    def close_spider(self, spider):
+        """Close database connection."""
+        pass
+    
+    def process_item(self, item, spider):
+        """Save item to database."""
+        # Insert item into database
+        # Handle duplicates, updates, etc.
+        
+        spider.stats['products_scraped'] += 1
+        spider.logger.info(f"Saved product: {item.get('name')}")
+        
+        return item
+
+class DuplicatesPipeline:
+    """Filter duplicate items."""
+    
+    def __init__(self):
+        self.ids_seen = set()
+    
+    def process_item(self, item, spider):
+        """Check for duplicates."""
+        
+        # Create unique identifier
+        if item.get('product_id'):
+            unique_id = item['product_id']
+        else:
+            # Fallback to URL hash
+            unique_id = hashlib.md5(item['url'].encode()).hexdigest()
+        
+        if unique_id in self.ids_seen:
+            raise DropItem(f"Duplicate item found: {unique_id}")
+        
+        self.ids_seen.add(unique_id)
+        return item
+
+class ImagePipeline:
+    """Download and process product images."""
+    
+    def process_item(self, item, spider):
+        """Download images if URLs present."""
+        
+        if item.get('image_urls'):
+            # This would typically use Scrapy's ImagesPipeline
+            # For now, just validate URLs
+            valid_urls = []
+            
+            for url in item['image_urls']:
+                if url and url.startswith(('http://', 'https://')):
+                    valid_urls.append(url)
+            
+            item['image_urls'] = valid_urls
+        
+        return item
+
+# ==================== Middlewares ====================
+
+class RotateUserAgentMiddleware:
+    """Rotate user agents for each request."""
+    
+    def __init__(self, user_agents):
+        self.user_agents = user_agents
+    
+    @classmethod
+    def from_crawler(cls, crawler):
+        """Create middleware from crawler."""
+        user_agents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15',
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
+        ]
+        return cls(user_agents)
+    
+    def process_request(self, request, spider):
+        """Add random user agent to request."""
+        import random
+        ua = random.choice(self.user_agents)
+        request.headers['User-Agent'] = ua
+
+class ProxyMiddleware:
+    """Add proxy to requests."""
+    
+    def process_request(self, request, spider):
+        """Add proxy to request."""
+        # This would select from a pool of proxies
+        # proxy = self.get_random_proxy()
+        # request.meta['proxy'] = proxy
+        pass
+
+class JavaScriptMiddleware:
+    """Handle JavaScript-rendered pages using Splash."""
+    
+    def process_request(self, request, spider):
+        """Convert request to use Splash."""
+        if request.meta.get('javascript'):
+            # Use Splash to render JavaScript
+            request.meta['splash'] = {
+                'args': {
+                    'html': 1,
+                    'wait': 2,
+                    'render_all': 1
+                }
+            }
+
+# ==================== Spider Manager ====================
+
+class SpiderManager:
+    """Manage and run multiple spiders."""
+    
+    def __init__(self):
+        self.process = CrawlerProcess(get_project_settings())
+        self.runner = CrawlerRunner(get_project_settings())
+    
+    def run_spider(self, spider_class, **kwargs):
+        """Run a single spider."""
+        self.process.crawl(spider_class, **kwargs)
+        self.process.start()
+    
+    def run_multiple_spiders(self, spider_configs: List[Dict]):
+        """Run multiple spiders concurrently."""
+        for config in spider_configs:
+            spider_class = config['spider']
+            kwargs = config.get('kwargs', {})
+            self.process.crawl(spider_class, **kwargs)
+        
+        self.process.start()
+    
+    def run_spider_async(self, spider_class, **kwargs):
+        """Run spider asynchronously."""
+        from twisted.internet import reactor
+        
+        d = self.runner.crawl(spider_class, **kwargs)
+        d.addBoth(lambda _: reactor.stop())
+        reactor.run()
+
+# ==================== Settings Configuration ====================
+
+def get_scrapy_settings():
+    """Get Scrapy settings configuration."""
+    return {
+        # Basic settings
+        'BOT_NAME': 'ecommerce_scraper',
+        'ROBOTSTXT_OBEY': True,
+        'CONCURRENT_REQUESTS': 16,
+        'DOWNLOAD_DELAY': 1,
+        
+        # AutoThrottle
+        'AUTOTHROTTLE_ENABLED': True,
+        'AUTOTHROTTLE_START_DELAY': 0.5,
+        'AUTOTHROTTLE_MAX_DELAY': 10,
+        'AUTOTHROTTLE_TARGET_CONCURRENCY': 4,
+        'AUTOTHROTTLE_DEBUG': True,
+        
+        # Pipelines
+        'ITEM_PIPELINES': {
+            'myproject.pipelines.ValidationPipeline': 100,
+            'myproject.pipelines.DuplicatesPipeline': 200,
+            'myproject.pipelines.ImagePipeline': 300,
+            'myproject.pipelines.DatabasePipeline': 400,
+        },
+        
+        # Middlewares
+        'DOWNLOADER_MIDDLEWARES': {
+            'myproject.middlewares.RotateUserAgentMiddleware': 400,
+            'myproject.middlewares.ProxyMiddleware': 410,
+            'myproject.middlewares.JavaScriptMiddleware': 420,
+            'scrapy.downloadermiddlewares.retry.RetryMiddleware': 500,
+        },
+        
+        # Cache
+        'HTTPCACHE_ENABLED': True,
+        'HTTPCACHE_EXPIRATION_SECS': 3600,
+        'HTTPCACHE_DIR': 'httpcache',
+        
+        # Export
+        'FEED_FORMAT': 'json',
+        'FEED_URI': 'output/%(name)s_%(time)s.json',
+        'FEED_EXPORT_ENCODING': 'utf-8',
+        
+        # Database
+        'DATABASE': {
+            'host': 'localhost',
+            'port': 5432,
+            'database': 'ecommerce',
+            'username': 'scraper',
+            'password': 'password'
+        },
+        
+        # Logging
+        'LOG_LEVEL': 'INFO',
+        'LOG_FILE': 'logs/scrapy.log',
+    }
+
+# ==================== Scrapy Project Structure ====================
+
+class ScrapyProjectGenerator:
+    """Generate Scrapy project structure."""
+    
+    @staticmethod
+    def create_project(project_name: str, path: str = '.'):
+        """Create a new Scrapy project structure."""
+        
+        import os
+        from pathlib import Path
+        
+        project_path = Path(path) / project_name
+        
+        # Create directory structure
+        directories = [
+            project_path / project_name,
+            project_path / project_name / 'spiders',
+            project_path / project_name / 'pipelines',
+            project_path / project_name / 'middlewares',
+            project_path / 'logs',
+            project_path / 'output',
+            project_path / 'httpcache'
+        ]
+        
+        for directory in directories:
+            directory.mkdir(parents=True, exist_ok=True)
+        
+        # Create __init__.py files
+        init_files = [
+            project_path / project_name / '__init__.py',
+            project_path / project_name / 'spiders' / '__init__.py'
+        ]
+        
+        for init_file in init_files:
+            init_file.touch()
+        
+        # Create settings.py
+        settings_content = '''# Scrapy settings for {project_name} project
+
+BOT_NAME = '{project_name}'
+
+SPIDER_MODULES = ['{project_name}.spiders']
+NEWSPIDER_MODULE = '{project_name}.spiders'
+
+# Obey robots.txt rules
+ROBOTSTXT_OBEY = True
+
+# Configure pipelines
+ITEM_PIPELINES = {{
+    '{project_name}.pipelines.ValidationPipeline': 300,
+}}
+
+# Configure a delay for requests for the same website (default: 0)
+DOWNLOAD_DELAY = 1
+
+# The download delay setting will honor only one of:
+CONCURRENT_REQUESTS_PER_DOMAIN = 2
+'''.format(project_name=project_name)
+        
+        with open(project_path / project_name / 'settings.py', 'w') as f:
+            f.write(settings_content)
+        
+        # Create scrapy.cfg
+        cfg_content = f'''# Automatically created by: scrapy startproject
+
+[settings]
+default = {project_name}.settings
+
+[deploy]
+#url = http://localhost:6800/
+project = {project_name}
+'''
+        
+        with open(project_path / 'scrapy.cfg', 'w') as f:
+            f.write(cfg_content)
+        
+        print(f"Created Scrapy project: {project_name}")
+        print(f"Project structure:")
+        print(f"  {project_name}/")
+        print(f"    scrapy.cfg            # deploy configuration file")
+        print(f"    {project_name}/       # project's Python module")
+        print(f"      __init__.py")
+        print(f"      settings.py         # project settings file")
+        print(f"      pipelines.py        # project pipelines file")
+        print(f"      middlewares.py      # project middlewares file")
+        print(f"      spiders/            # directory for spiders")
+        print(f"        __init__.py")
+
+# Example usage
+if __name__ == "__main__":
+    print("🕷️ Scrapy Framework Examples\n")
+    
+    # Example 1: Create Scrapy project structure
+    print("1️⃣ Creating Scrapy Project Structure:")
+    
+    generator = ScrapyProjectGenerator()
+    # generator.create_project("ecommerce_scraper", "./scrapy_projects")
+    print("   Project structure would be created (commented out for safety)")
+    
+    # Example 2: Define items
+    print("\n2️⃣ Defining Items:")
+    
+    product = ProductItem()
+    product['name'] = "Example Product"
+    product['price'] = 99.99
+    product['in_stock'] = True
+    
+    print(f"   Product Item: {dict(product)}")
+    
+    # Example 3: Item processing
+    print("\n3️⃣ Item Processing Pipeline:")
+    
+    pipeline = ValidationPipeline()
+    
+    # Create test item
+    test_item = ProductItem({
+        'name': 'Test Product',
+        'url': 'https://example.com/product',
+        'price': '$49.99',
+        'rating': '4.5 out of 5 stars',
+        'review_count': '1,234 customer reviews'
+    })
+    
+    # Process item
+    processed = pipeline.process_item(test_item, None)
+    print(f"   Processed item:")
+    print(f"     Price: {processed.get('price')} (parsed from string)")
+    print(f"     Rating: {processed.get('rating')} (extracted number)")
+    print(f"     Reviews: {processed.get('review_count')} (parsed count)")
+    
+    # Example 4: URL patterns
+    print("\n4️⃣ Spider URL Patterns:")
+    
+    spider = AmazonSpider()
+    
+    test_url = "https://www.amazon.com/dp/B08N5WRWNW"
+    asin = spider.extract_asin(test_url)
+    print(f"   Extracted ASIN: {asin}")
+    
+    thumbnail = "https://images-na.ssl-images-amazon.com/images/I/71Echo-Vd7L._AC_UL320_.jpg"
+    full_image = spider.get_full_image_url(thumbnail)
+    print(f"   Full image URL: {full_image[:50]}...")
+    
+    # Example 5: Settings configuration
+    print("\n5️⃣ Scrapy Settings:")
+    
+    settings = get_scrapy_settings()
+    print("   Key settings:")
+    print(f"     Concurrent requests: {settings['CONCURRENT_REQUESTS']}")
+    print(f"     Download delay: {settings['DOWNLOAD_DELAY']}s")
+    print(f"     AutoThrottle: {settings['AUTOTHROTTLE_ENABLED']}")
+    print(f"     Cache enabled: {settings['HTTPCACHE_ENABLED']}")
+    
+    # Example 6: Duplicate detection
+    print("\n6️⃣ Duplicate Detection:")
+    
+    dup_pipeline = DuplicatesPipeline()
+    
+    items = [
+        ProductItem({'product_id': 'ABC123', 'url': 'https://example.com/1'}),
+        ProductItem({'product_id': 'XYZ789', 'url': 'https://example.com/2'}),
+        ProductItem({'product_id': 'ABC123', 'url': 'https://example.com/3'}),  # Duplicate
+    ]
+    
+    for item in items:
+        try:
+            dup_pipeline.process_item(item, None)
+            print(f"   ✅ Processed: {item.get('product_id')}")
+        except DropItem as e:
+            print(f"   ❌ Dropped: {e}")
+    
+    # Example 7: Price parsing
+    print("\n7️⃣ Price Parsing:")
+    
+    test_prices = [
+        "$49.99",
+        "€ 39,99",
+        "1,234.56",
+        "Rs. 2999",
+        "￥5,000"
+    ]
+    
+    for price_str in test_prices:
+        parsed = parse_price(price_str)
+        print(f"   '{price_str}' → {parsed}")
+    
+    # Example 8: Spider statistics
+    print("\n8️⃣ Spider Statistics:")
+    
+    print("   Spider run summary:")
+    print(f"     Products scraped: 1234")
+    print(f"     Products failed: 12")
+    print(f"     Success rate: 99.0%")
+    print(f"     Average response time: 0.8s")
+    print(f"     Cache hit rate: 35%")
+    
+    # Example 9: Scrapy commands
+    print("\n9️⃣ Common Scrapy Commands:")
+    
+    commands = [
+        ("scrapy startproject myproject", "Create new project"),
+        ("scrapy genspider amazon amazon.com", "Generate spider"),
+        ("scrapy crawl amazon", "Run spider"),
+        ("scrapy crawl amazon -o products.json", "Run with output"),
+        ("scrapy shell 'https://example.com'", "Interactive shell"),
+        ("scrapy view https://example.com", "View in browser"),
+        ("scrapy bench", "Run benchmark test"),
+    ]
+    
+    for cmd, desc in commands:
+        print(f"   $ {cmd}")
+        print(f"     {desc}")
+    
+    print("\n✅ Scrapy framework demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Use Item Classes:</strong> Define clear data structures for consistency.</li>
+        
+        <li><strong>Implement Pipelines:</strong> Process, validate, and store data systematically.</li>
+        
+        <li><strong>Configure AutoThrottle:</strong> Let Scrapy automatically adjust speed.</li>
+        
+        <li><strong>Handle Errors Gracefully:</strong> Use retry middleware and error callbacks.</li>
+        
+        <li><strong>Cache Responses:</strong> Save bandwidth and time during development.</li>
+        
+        <li><strong>Use Selectors Efficiently:</strong> CSS selectors are faster than XPath.</li>
+        
+        <li><strong>Monitor Performance:</strong> Use Scrapy's built-in stats collection.</li>
+        
+        <li><strong>Scale Horizontally:</strong> Use Scrapy-Redis for distributed crawling.</li>
+    </ul>
+
+    <h3>Scrapy Framework Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Scrapy isn't just a library - it's a complete framework with opinions about how web scraping should be done. Embrace its architecture! Always define Items for data structure, use ItemLoaders for consistent extraction, implement Pipelines for processing, and leverage Middlewares for request/response handling. AutoThrottle is your friend - it automatically adjusts crawling speed based on server response. Use Scrapy Shell for testing selectors before writing spiders. Cache responses during development to avoid hitting servers repeatedly. For JavaScript-heavy sites, integrate Scrapy-Splash or Scrapy-Selenium. When scaling, use Scrapy-Redis for distributed crawling across multiple machines. Most importantly: Scrapy is asynchronous by design - don't block the reactor with synchronous code! Let Scrapy's twisted engine handle concurrency for maximum performance.</p>
+    </div>
+    
+    <p>Mastering Scrapy transforms you from a casual scraper to an industrial-scale data extraction engineer. You now have the power to build robust, scalable, and maintainable web scraping systems that can handle millions of pages efficiently. Whether you're building price monitors, search engines, or data aggregation platforms, Scrapy provides the industrial-strength foundation you need! 🏗️</p>
+    
+    <footer>
+        <p>Next up: <a href="advanced_scraping_selenium.html">Dynamic Content with Selenium - Scrape JavaScript-Heavy Sites!</a></p>
+    </footer>
+</body>
+</html>
