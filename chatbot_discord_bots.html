@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Bots - Python Chat Bot Development</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🤖 Discord Bots: Build Interactive Chat Automation</h1>
+    
+    <p>Discord bots are the digital assistants of online communities - they can moderate conversations, play music, run games, manage roles, provide information, and create engaging experiences for millions of users. Like having a tireless team member who's always online, mastering Discord bot development allows you to automate community management, create interactive features, and build powerful tools that enhance any Discord server. Let's dive into the exciting world of Discord bot development! 🎮</p>
+
+    <h2>The Discord Bot Architecture</h2>
+    
+    <p>Think of Discord bots as intelligent participants in your server - they listen to events, respond to commands, interact with users, and can even manage the server itself. Using Discord's powerful API and the discord.py library, you can create bots that do everything from simple responses to complex game mechanics. Understanding Discord's permission system, event model, and interaction patterns is crucial for building effective bots!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Discord Bot] --> B[Core Components]
+        A --> C[Event Handling]
+        A --> D[Commands]
+        A --> E[Interactions]
+        
+        B --> F[Bot Client]
+        B --> G[Intents/Permissions]
+        B --> H[Cogs/Extensions]
+        B --> I[Database]
+        
+        C --> J[Message Events]
+        C --> K[Member Events]
+        C --> L[Guild Events]
+        C --> M[Voice Events]
+        
+        D --> N[Prefix Commands]
+        D --> O[Slash Commands]
+        D --> P[Context Menus]
+        D --> Q[Hybrid Commands]
+        
+        E --> R[Buttons]
+        E --> S[Select Menus]
+        E --> T[Modals/Forms]
+        E --> U[Embeds]
+        
+        V[Features] --> W[Moderation]
+        V --> X[Music]
+        V --> Y[Games]
+        V --> Z[Utilities]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style V fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Ultimate Community Bot 🏆</h3>
+    
+    <p>You're building a comprehensive Discord bot for a gaming community that handles member verification, moderates content, manages roles and permissions, runs mini-games and tournaments, plays music in voice channels, tracks statistics, sends announcements, and integrates with external APIs. Your bot must handle thousands of concurrent users, respond instantly to commands, maintain persistent data, and provide a smooth user experience. Let's build a production-ready Discord bot framework!</p>
+
+    <pre><code># First, install required packages:
+# pip install discord.py python-dotenv aiohttp asyncpg redis pillow
+
+import discord
+from discord.ext import commands, tasks
+from discord import app_commands
+import asyncio
+import aiohttp
+import os
+import json
+import logging
+from typing import Optional, List, Dict, Any, Union
+from datetime import datetime, timedelta
+from enum import Enum
+import re
+import random
+from dataclasses import dataclass, field
+import sqlite3
+import pickle
+
+# Load environment variables
+from dotenv import load_dotenv
+load_dotenv()
+
+# ==================== Bot Configuration ====================
+
+@dataclass
+class BotConfig:
+    """Bot configuration settings."""
+    token: str
+    prefix: str = "!"
+    owner_ids: List[int] = field(default_factory=list)
+    
+    # Features
+    enable_slash_commands: bool = True
+    enable_logging: bool = True
+    enable_error_handler: bool = True
+    
+    # Limits
+    command_cooldown: float = 3.0  # seconds
+    max_message_cache: int = 1000
+    
+    # Database
+    database_url: str = "sqlite:///bot.db"
+    redis_url: Optional[str] = None
+    
+    # API Keys
+    api_keys: Dict[str, str] = field(default_factory=dict)
+
+# ==================== Custom Bot Class ====================
+
+class DiscordBot(commands.Bot):
+    """
+    Enhanced Discord bot with additional features.
+    """
+    
+    def __init__(self, config: BotConfig):
+        # Set up intents
+        intents = discord.Intents.default()
+        intents.message_content = True  # Required for message commands
+        intents.members = True  # Required for member events
+        intents.presences = True  # For presence updates
+        
+        super().__init__(
+            command_prefix=config.prefix,
+            intents=intents,
+            owner_ids=set(config.owner_ids),
+            help_command=CustomHelpCommand()
+        )
+        
+        self.config = config
+        self.start_time = None
+        self.logger = self._setup_logging()
+        
+        # Storage
+        self.db = None
+        self.cache = {}
+        
+    def _setup_logging(self) -> logging.Logger:
+        """Set up logging configuration."""
+        logger = logging.getLogger('discord_bot')
+        logger.setLevel(logging.INFO)
+        
+        handler = logging.FileHandler('bot.log')
+        handler.setFormatter(logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        ))
+        
+        logger.addHandler(handler)
+        return logger
+    
+    async def setup_hook(self):
+        """Initialize bot components."""
+        # Load extensions (cogs)
+        await self.load_extensions()
+        
+        # Sync slash commands
+        if self.config.enable_slash_commands:
+            await self.tree.sync()
+            self.logger.info("Slash commands synced")
+        
+        # Initialize database
+        await self.init_database()
+        
+        # Start background tasks
+        self.update_status.start()
+    
+    async def load_extensions(self):
+        """Load bot extensions/cogs."""
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py') and not filename.startswith('_'):
+                try:
+                    await self.load_extension(f'cogs.{filename[:-3]}')
+                    self.logger.info(f"Loaded cog: {filename[:-3]}")
+                except Exception as e:
+                    self.logger.error(f"Failed to load cog {filename}: {e}")
+    
+    async def init_database(self):
+        """Initialize database connection."""
+        self.db = sqlite3.connect('bot.db')
+        cursor = self.db.cursor()
+        
+        # Create tables
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                user_id INTEGER PRIMARY KEY,
+                username TEXT,
+                join_date TIMESTAMP,
+                message_count INTEGER DEFAULT 0,
+                level INTEGER DEFAULT 1,
+                xp INTEGER DEFAULT 0
+            )
+        ''')
+        
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS guilds (
+                guild_id INTEGER PRIMARY KEY,
+                name TEXT,
+                owner_id INTEGER,
+                member_count INTEGER,
+                created_at TIMESTAMP
+            )
+        ''')
+        
+        self.db.commit()
+        self.logger.info("Database initialized")
+    
+    async def on_ready(self):
+        """Called when bot is ready."""
+        self.start_time = datetime.now()
+        self.logger.info(f"Bot ready as {self.user.name} ({self.user.id})")
+        self.logger.info(f"Connected to {len(self.guilds)} guilds")
+        
+        # Set initial status
+        await self.change_presence(
+            activity=discord.Game(name=f"{self.config.prefix}help")
+        )
+    
+    async def on_guild_join(self, guild: discord.Guild):
+        """Called when bot joins a guild."""
+        self.logger.info(f"Joined guild: {guild.name} ({guild.id})")
+        
+        # Store guild info
+        cursor = self.db.cursor()
+        cursor.execute('''
+            INSERT OR REPLACE INTO guilds (guild_id, name, owner_id, member_count, created_at)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (guild.id, guild.name, guild.owner_id, guild.member_count, datetime.now()))
+        self.db.commit()
+        
+        # Send welcome message
+        if guild.system_channel:
+            embed = discord.Embed(
+                title="Thanks for adding me! 👋",
+                description=f"Use `{self.config.prefix}help` to see available commands.",
+                color=discord.Color.green()
+            )
+            await guild.system_channel.send(embed=embed)
+    
+    async def on_command_error(self, ctx: commands.Context, error: Exception):
+        """Global error handler."""
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(f"⏱️ Command on cooldown. Try again in {error.retry_after:.1f}s")
+        elif isinstance(error, commands.MissingPermissions):
+            await ctx.send("❌ You don't have permission to use this command.")
+        elif isinstance(error, commands.CommandNotFound):
+            pass  # Ignore unknown commands
+        else:
+            self.logger.error(f"Command error: {error}")
+            await ctx.send("❌ An error occurred while processing the command.")
+    
+    @tasks.loop(minutes=5)
+    async def update_status(self):
+        """Update bot status periodically."""
+        statuses = [
+            f"{self.config.prefix}help",
+            f"{len(self.guilds)} servers",
+            f"{len(self.users)} users",
+            "discord.py"
+        ]
+        
+        status = random.choice(statuses)
+        await self.change_presence(activity=discord.Game(name=status))
+
+# ==================== Custom Help Command ====================
+
+class CustomHelpCommand(commands.HelpCommand):
+    """Custom help command with embeds."""
+    
+    async def send_bot_help(self, mapping):
+        """Send help for all commands."""
+        embed = discord.Embed(
+            title="Bot Commands",
+            description="Here are all available commands:",
+            color=discord.Color.blue()
+        )
+        
+        for cog, commands in mapping.items():
+            if commands:
+                cog_name = getattr(cog, "qualified_name", "General")
+                command_list = [f"`{c.name}`" for c in commands if not c.hidden]
+                
+                if command_list:
+                    embed.add_field(
+                        name=cog_name,
+                        value=" ".join(command_list),
+                        inline=False
+                    )
+        
+        embed.set_footer(text=f"Use {self.context.prefix}help [command] for more info")
+        await self.context.send(embed=embed)
+    
+    async def send_command_help(self, command):
+        """Send help for specific command."""
+        embed = discord.Embed(
+            title=f"Command: {command.name}",
+            description=command.help or "No description available",
+            color=discord.Color.blue()
+        )
+        
+        # Usage
+        if command.usage:
+            embed.add_field(
+                name="Usage",
+                value=f"`{self.context.prefix}{command.name} {command.usage}`",
+                inline=False
+            )
+        
+        # Aliases
+        if command.aliases:
+            embed.add_field(
+                name="Aliases",
+                value=" ".join([f"`{a}`" for a in command.aliases]),
+                inline=False
+            )
+        
+        await self.context.send(embed=embed)
+
+# ==================== Core Commands Cog ====================
+
+class CoreCommands(commands.Cog):
+    """Core bot commands."""
+    
+    def __init__(self, bot: DiscordBot):
+        self.bot = bot
+    
+    @commands.command(name="ping", help="Check bot latency")
+    async def ping(self, ctx: commands.Context):
+        """Check bot latency."""
+        latency = round(self.bot.latency * 1000)
+        
+        embed = discord.Embed(
+            title="🏓 Pong!",
+            description=f"Latency: {latency}ms",
+            color=discord.Color.green() if latency < 100 else discord.Color.yellow()
+        )
+        
+        await ctx.send(embed=embed)
+    
+    @commands.command(name="stats", help="Show bot statistics")
+    async def stats(self, ctx: commands.Context):
+        """Show bot statistics."""
+        uptime = datetime.now() - self.bot.start_time
+        hours, remainder = divmod(int(uptime.total_seconds()), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        
+        embed = discord.Embed(
+            title="📊 Bot Statistics",
+            color=discord.Color.blue()
+        )
+        
+        embed.add_field(name="Servers", value=len(self.bot.guilds), inline=True)
+        embed.add_field(name="Users", value=len(self.bot.users), inline=True)
+        embed.add_field(name="Commands", value=len(self.bot.commands), inline=True)
+        embed.add_field(
+            name="Uptime",
+            value=f"{hours}h {minutes}m {seconds}s",
+            inline=True
+        )
+        embed.add_field(
+            name="Python",
+            value=f"{discord.__version__}",
+            inline=True
+        )
+        embed.add_field(
+            name="Latency",
+            value=f"{round(self.bot.latency * 1000)}ms",
+            inline=True
+        )
+        
+        embed.set_footer(text=f"Bot ID: {self.bot.user.id}")
+        await ctx.send(embed=embed)
+    
+    @commands.command(name="userinfo", help="Get user information")
+    async def userinfo(self, ctx: commands.Context, 
+                      member: Optional[discord.Member] = None):
+        """Get information about a user."""
+        member = member or ctx.author
+        
+        embed = discord.Embed(
+            title=f"User Info: {member}",
+            color=member.color
+        )
+        
+        embed.set_thumbnail(url=member.display_avatar.url)
+        embed.add_field(name="ID", value=member.id, inline=True)
+        embed.add_field(name="Nickname", value=member.nick or "None", inline=True)
+        embed.add_field(
+            name="Created",
+            value=member.created_at.strftime("%Y-%m-%d"),
+            inline=True
+        )
+        embed.add_field(
+            name="Joined",
+            value=member.joined_at.strftime("%Y-%m-%d"),
+            inline=True
+        )
+        embed.add_field(
+            name="Roles",
+            value=len(member.roles) - 1,  # Exclude @everyone
+            inline=True
+        )
+        embed.add_field(
+            name="Top Role",
+            value=member.top_role.mention,
+            inline=True
+        )
+        
+        await ctx.send(embed=embed)
+    
+    @commands.command(name="serverinfo", help="Get server information")
+    @commands.guild_only()
+    async def serverinfo(self, ctx: commands.Context):
+        """Get information about the server."""
+        guild = ctx.guild
+        
+        embed = discord.Embed(
+            title=f"Server Info: {guild.name}",
+            color=discord.Color.blue()
+        )
+        
+        if guild.icon:
+            embed.set_thumbnail(url=guild.icon.url)
+        
+        embed.add_field(name="ID", value=guild.id, inline=True)
+        embed.add_field(name="Owner", value=guild.owner.mention, inline=True)
+        embed.add_field(name="Members", value=guild.member_count, inline=True)
+        embed.add_field(
+            name="Created",
+            value=guild.created_at.strftime("%Y-%m-%d"),
+            inline=True
+        )
+        embed.add_field(name="Roles", value=len(guild.roles), inline=True)
+        embed.add_field(name="Channels", value=len(guild.channels), inline=True)
+        
+        await ctx.send(embed=embed)
+
+# ==================== Moderation Cog ====================
+
+class Moderation(commands.Cog):
+    """Moderation commands."""
+    
+    def __init__(self, bot: DiscordBot):
+        self.bot = bot
+    
+    @commands.command(name="kick", help="Kick a member")
+    @commands.has_permissions(kick_members=True)
+    @commands.guild_only()
+    async def kick(self, ctx: commands.Context, 
+                   member: discord.Member, *, reason: str = "No reason provided"):
+        """Kick a member from the server."""
+        if member == ctx.author:
+            await ctx.send("❌ You cannot kick yourself!")
+            return
+        
+        if member.top_role >= ctx.author.top_role:
+            await ctx.send("❌ You cannot kick someone with an equal or higher role!")
+            return
+        
+        try:
+            await member.kick(reason=f"{ctx.author}: {reason}")
+            
+            embed = discord.Embed(
+                title="Member Kicked",
+                description=f"{member.mention} has been kicked.",
+                color=discord.Color.orange()
+            )
+            embed.add_field(name="Reason", value=reason, inline=False)
+            embed.add_field(name="Moderator", value=ctx.author.mention, inline=False)
+            
+            await ctx.send(embed=embed)
+            
+        except discord.Forbidden:
+            await ctx.send("❌ I don't have permission to kick this member.")
+    
+    @commands.command(name="ban", help="Ban a member")
+    @commands.has_permissions(ban_members=True)
+    @commands.guild_only()
+    async def ban(self, ctx: commands.Context, 
+                  member: discord.Member, *, reason: str = "No reason provided"):
+        """Ban a member from the server."""
+        if member == ctx.author:
+            await ctx.send("❌ You cannot ban yourself!")
+            return
+        
+        if member.top_role >= ctx.author.top_role:
+            await ctx.send("❌ You cannot ban someone with an equal or higher role!")
+            return
+        
+        try:
+            await member.ban(reason=f"{ctx.author}: {reason}")
+            
+            embed = discord.Embed(
+                title="Member Banned",
+                description=f"{member.mention} has been banned.",
+                color=discord.Color.red()
+            )
+            embed.add_field(name="Reason", value=reason, inline=False)
+            embed.add_field(name="Moderator", value=ctx.author.mention, inline=False)
+            
+            await ctx.send(embed=embed)
+            
+        except discord.Forbidden:
+            await ctx.send("❌ I don't have permission to ban this member.")
+    
+    @commands.command(name="clear", help="Clear messages")
+    @commands.has_permissions(manage_messages=True)
+    @commands.guild_only()
+    async def clear(self, ctx: commands.Context, amount: int):
+        """Clear a specified number of messages."""
+        if amount < 1 or amount > 100:
+            await ctx.send("❌ Please specify a number between 1 and 100.")
+            return
+        
+        try:
+            deleted = await ctx.channel.purge(limit=amount + 1)  # +1 for the command
+            
+            embed = discord.Embed(
+                title="Messages Cleared",
+                description=f"Deleted {len(deleted) - 1} messages.",
+                color=discord.Color.green()
+            )
+            
+            msg = await ctx.send(embed=embed)
+            await asyncio.sleep(5)
+            await msg.delete()
+            
+        except discord.Forbidden:
+            await ctx.send("❌ I don't have permission to delete messages.")
+    
+    @commands.command(name="mute", help="Mute a member")
+    @commands.has_permissions(moderate_members=True)
+    @commands.guild_only()
+    async def mute(self, ctx: commands.Context, 
+                   member: discord.Member, 
+                   duration: str = "10m",
+                   *, reason: str = "No reason provided"):
+        """Mute a member for a specified duration."""
+        # Parse duration
+        time_units = {"s": 1, "m": 60, "h": 3600, "d": 86400}
+        
+        match = re.match(r"(\d+)([smhd])", duration)
+        if not match:
+            await ctx.send("❌ Invalid duration format. Use: 10s, 5m, 2h, 1d")
+            return
+        
+        amount = int(match.group(1))
+        unit = match.group(2)
+        seconds = amount * time_units[unit]
+        
+        if seconds > 2419200:  # 28 days max
+            await ctx.send("❌ Maximum mute duration is 28 days.")
+            return
+        
+        try:
+            timeout_until = datetime.now() + timedelta(seconds=seconds)
+            await member.timeout(timeout_until, reason=f"{ctx.author}: {reason}")
+            
+            embed = discord.Embed(
+                title="Member Muted",
+                description=f"{member.mention} has been muted for {duration}.",
+                color=discord.Color.orange()
+            )
+            embed.add_field(name="Reason", value=reason, inline=False)
+            embed.add_field(name="Moderator", value=ctx.author.mention, inline=False)
+            
+            await ctx.send(embed=embed)
+            
+        except discord.Forbidden:
+            await ctx.send("❌ I don't have permission to mute this member.")
+
+# ==================== Fun Commands Cog ====================
+
+class Fun(commands.Cog):
+    """Fun and entertainment commands."""
+    
+    def __init__(self, bot: DiscordBot):
+        self.bot = bot
+    
+    @commands.command(name="roll", help="Roll dice")
+    async def roll(self, ctx: commands.Context, dice: str = "1d6"):
+        """Roll dice (e.g., 2d6, 1d20)."""
+        match = re.match(r"(\d+)d(\d+)", dice.lower())
+        
+        if not match:
+            await ctx.send("❌ Invalid format. Use: `1d6`, `2d20`, etc.")
+            return
+        
+        num_dice = int(match.group(1))
+        num_sides = int(match.group(2))
+        
+        if num_dice > 100 or num_sides > 1000:
+            await ctx.send("❌ That's too many dice or sides!")
+            return
+        
+        rolls = [random.randint(1, num_sides) for _ in range(num_dice)]
+        total = sum(rolls)
+        
+        embed = discord.Embed(
+            title="🎲 Dice Roll",
+            description=f"Rolling {dice}",
+            color=discord.Color.blue()
+        )
+        
+        if len(rolls) <= 10:
+            embed.add_field(name="Rolls", value=" ".join(map(str, rolls)), inline=False)
+        
+        embed.add_field(name="Total", value=total, inline=True)
+        
+        await ctx.send(embed=embed)
+    
+    @commands.command(name="8ball", help="Ask the magic 8-ball")
+    async def eight_ball(self, ctx: commands.Context, *, question: str):
+        """Ask the magic 8-ball a question."""
+        responses = [
+            "It is certain.", "It is decidedly so.", "Without a doubt.",
+            "Yes - definitely.", "You may rely on it.", "As I see it, yes.",
+            "Most likely.", "Outlook good.", "Yes.", "Signs point to yes.",
+            "Reply hazy, try again.", "Ask again later.", "Better not tell you now.",
+            "Cannot predict now.", "Concentrate and ask again.",
+            "Don't count on it.", "My reply is no.", "My sources say no.",
+            "Outlook not so good.", "Very doubtful."
+        ]
+        
+        embed = discord.Embed(
+            title="🎱 Magic 8-Ball",
+            color=discord.Color.purple()
+        )
+        embed.add_field(name="Question", value=question, inline=False)
+        embed.add_field(name="Answer", value=random.choice(responses), inline=False)
+        
+        await ctx.send(embed=embed)
+    
+    @commands.command(name="coinflip", help="Flip a coin")
+    async def coinflip(self, ctx: commands.Context):
+        """Flip a coin."""
+        result = random.choice(["Heads", "Tails"])
+        
+        embed = discord.Embed(
+            title="🪙 Coin Flip",
+            description=f"The coin landed on: **{result}**",
+            color=discord.Color.gold()
+        )
+        
+        await ctx.send(embed=embed)
+
+# ==================== Slash Commands ====================
+
+class SlashCommands(commands.Cog):
+    """Slash command examples."""
+    
+    def __init__(self, bot: DiscordBot):
+        self.bot = bot
+    
+    @app_commands.command(name="hello", description="Say hello")
+    async def hello(self, interaction: discord.Interaction):
+        """Simple slash command."""
+        await interaction.response.send_message(f"Hello, {interaction.user.mention}! 👋")
+    
+    @app_commands.command(name="echo", description="Echo your message")
+    async def echo(self, interaction: discord.Interaction, message: str):
+        """Echo command with parameter."""
+        await interaction.response.send_message(message)
+    
+    @app_commands.command(name="poll", description="Create a poll")
+    async def poll(self, interaction: discord.Interaction, 
+                   question: str,
+                   option1: str,
+                   option2: str,
+                   option3: Optional[str] = None,
+                   option4: Optional[str] = None):
+        """Create a poll with reactions."""
+        options = [option1, option2]
+        if option3:
+            options.append(option3)
+        if option4:
+            options.append(option4)
+        
+        embed = discord.Embed(
+            title="📊 Poll",
+            description=question,
+            color=discord.Color.blue()
+        )
+        
+        emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣"]
+        
+        for i, option in enumerate(options):
+            embed.add_field(
+                name=f"{emojis[i]} Option {i+1}",
+                value=option,
+                inline=False
+            )
+        
+        await interaction.response.send_message(embed=embed)
+        
+        # Get the message and add reactions
+        message = await interaction.original_response()
+        for i in range(len(options)):
+            await message.add_reaction(emojis[i])
+
+# ==================== Interactive Components ====================
+
+class InteractiveView(discord.ui.View):
+    """Example interactive view with buttons."""
+    
+    def __init__(self):
+        super().__init__(timeout=60)
+        self.value = None
+    
+    @discord.ui.button(label="Yes", style=discord.ButtonStyle.success, emoji="✅")
+    async def yes_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Yes button callback."""
+        self.value = True
+        await interaction.response.send_message("You clicked Yes!", ephemeral=True)
+        self.stop()
+    
+    @discord.ui.button(label="No", style=discord.ButtonStyle.danger, emoji="❌")
+    async def no_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """No button callback."""
+        self.value = False
+        await interaction.response.send_message("You clicked No!", ephemeral=True)
+        self.stop()
+    
+    @discord.ui.button(label="Maybe", style=discord.ButtonStyle.secondary, emoji="🤔")
+    async def maybe_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Maybe button callback."""
+        self.value = None
+        await interaction.response.send_message("You clicked Maybe!", ephemeral=True)
+        self.stop()
+
+class DropdownView(discord.ui.View):
+    """Example dropdown menu."""
+    
+    @discord.ui.select(
+        placeholder="Choose an option",
+        options=[
+            discord.SelectOption(label="Option 1", value="1", emoji="1️⃣"),
+            discord.SelectOption(label="Option 2", value="2", emoji="2️⃣"),
+            discord.SelectOption(label="Option 3", value="3", emoji="3️⃣")
+        ]
+    )
+    async def select_callback(self, interaction: discord.Interaction, select: discord.ui.Select):
+        """Dropdown callback."""
+        await interaction.response.send_message(
+            f"You selected: {select.values[0]}",
+            ephemeral=True
+        )
+
+# ==================== Main Bot Setup ====================
+
+async def main():
+    """Main bot entry point."""
+    # Load configuration
+    config = BotConfig(
+        token=os.getenv("DISCORD_TOKEN"),
+        prefix=os.getenv("BOT_PREFIX", "!"),
+        owner_ids=[int(id) for id in os.getenv("OWNER_IDS", "").split(",") if id]
+    )
+    
+    # Create bot instance
+    bot = DiscordBot(config)
+    
+    # Add cogs
+    await bot.add_cog(CoreCommands(bot))
+    await bot.add_cog(Moderation(bot))
+    await bot.add_cog(Fun(bot))
+    await bot.add_cog(SlashCommands(bot))
+    
+    # Run bot
+    await bot.start(config.token)
+
+# Example usage
+if __name__ == "__main__":
+    print("🤖 Discord Bot Examples\n")
+    
+    # Example 1: Bot setup
+    print("1️⃣ Bot Setup Steps:")
+    
+    steps = [
+        "Create application at discord.com/developers",
+        "Get bot token from Bot section",
+        "Set up OAuth2 permissions",
+        "Generate invite link with scopes",
+        "Add bot to server",
+        "Configure intents",
+        "Start bot with token"
+    ]
+    
+    for i, step in enumerate(steps, 1):
+        print(f"   {i}. {step}")
+    
+    # Example 2: Required intents
+    print("\n2️⃣ Discord Intents:")
+    
+    intents = [
+        ("message_content", "Read message content"),
+        ("members", "Access member info"),
+        ("guilds", "Guild/server events"),
+        ("presences", "User status updates"),
+        ("voice_states", "Voice channel events"),
+        ("messages", "Message events")
+    ]
+    
+    for intent, description in intents:
+        print(f"   {intent}: {description}")
+    
+    # Example 3: Command types
+    print("\n3️⃣ Command Types:")
+    
+    command_types = [
+        ("Prefix Commands", "!help, !ping", "Traditional text commands"),
+        ("Slash Commands", "/help, /poll", "Modern UI commands"),
+        ("Context Menus", "Right-click actions", "User/message menus"),
+        ("Hybrid Commands", "Both prefix & slash", "Maximum compatibility")
+    ]
+    
+    for cmd_type, example, description in command_types:
+        print(f"   {cmd_type}:")
+        print(f"     Example: {example}")
+        print(f"     {description}")
+    
+    # Example 4: Permission levels
+    print("\n4️⃣ Permission System:")
+    
+    permissions = [
+        ("Administrator", "Full server control"),
+        ("Manage Server", "Server settings"),
+        ("Manage Roles", "Role management"),
+        ("Manage Channels", "Channel control"),
+        ("Kick/Ban Members", "Moderation"),
+        ("Manage Messages", "Message moderation"),
+        ("Send Messages", "Basic chat"),
+        ("Add Reactions", "React to messages")
+    ]
+    
+    for perm, description in permissions:
+        print(f"   {perm}: {description}")
+    
+    # Example 5: Cog structure
+    print("\n5️⃣ Cog Organization:")
+    
+    print("   cogs/")
+    print("     ├── admin.py      # Admin commands")
+    print("     ├── moderation.py # Mod tools")
+    print("     ├── fun.py        # Fun commands")
+    print("     ├── music.py      # Music player")
+    print("     ├── leveling.py   # XP system")
+    print("     └── utility.py    # Utilities")
+    
+    # Example 6: Embed fields
+    print("\n6️⃣ Embed Components:")
+    
+    embed_parts = [
+        "Title - Main heading",
+        "Description - Main content",
+        "Fields - Organized data",
+        "Thumbnail - Small image",
+        "Image - Large image",
+        "Footer - Additional info",
+        "Author - Top attribution",
+        "Color - Side bar color"
+    ]
+    
+    for part in embed_parts:
+        print(f"   • {part}")
+    
+    # Example 7: Event types
+    print("\n7️⃣ Common Events:")
+    
+    events = [
+        "on_ready - Bot starts",
+        "on_message - Message sent",
+        "on_member_join - User joins",
+        "on_member_remove - User leaves",
+        "on_reaction_add - Reaction added",
+        "on_guild_join - Bot joins server",
+        "on_command - Command executed",
+        "on_error - Error occurs"
+    ]
+    
+    for event in events:
+        print(f"   • {event}")
+    
+    # Example 8: Database usage
+    print("\n8️⃣ Data Storage:")
+    
+    storage = [
+        ("SQLite", "Simple, file-based"),
+        ("PostgreSQL", "Advanced, scalable"),
+        ("MongoDB", "NoSQL, flexible"),
+        ("Redis", "Caching, fast"),
+        ("JSON files", "Simple config")
+    ]
+    
+    for db, description in storage:
+        print(f"   {db}: {description}")
+    
+    # Example 9: Rate limits
+    print("\n9️⃣ Discord Rate Limits:")
+    
+    limits = [
+        "5 messages per 5 seconds (per channel)",
+        "50 reactions per 10 seconds",
+        "10 channel creations per 10 minutes",
+        "2 username changes per hour",
+        "1000 API requests per 10 seconds"
+    ]
+    
+    for limit in limits:
+        print(f"   • {limit}")
+    
+    # Example 10: Best practices
+    print("\n🔟 Discord Bot Best Practices:")
+    
+    practices = [
+        "🔒 Keep token secret",
+        "⚡ Use slash commands",
+        "💾 Cache frequently used data",
+        "🛡️ Implement proper permissions",
+        "📝 Log important events",
+        "🔄 Handle disconnections",
+        "📊 Monitor performance",
+        "🎯 Use cogs for organization",
+        "⏱️ Add command cooldowns",
+        "🧪 Test in development server"
+    ]
+    
+    for practice in practices:
+        print(f"   {practice}")
+    
+    print("\n✅ Discord bot demonstration complete!")
+    print("\n📝 Note: To run the bot, you need:")
+    print("   1. Discord bot token")
+    print("   2. Install discord.py: pip install discord.py")
+    print("   3. Set up .env file with DISCORD_TOKEN")
+    print("   4. Run with: python bot.py")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Secure Your Token:</strong> Never share or commit your bot token.</li>
+        
+        <li><strong>Use Intents Properly:</strong> Only request intents you need.</li>
+        
+        <li><strong>Implement Slash Commands:</strong> Modern UI for better UX.</li>
+        
+        <li><strong>Organize with Cogs:</strong> Keep features modular and maintainable.</li>
+        
+        <li><strong>Handle Permissions:</strong> Check permissions before actions.</li>
+        
+        <li><strong>Add Error Handling:</strong> Gracefully handle all errors.</li>
+        
+        <li><strong>Use Embeds:</strong> Create rich, formatted messages.</li>
+        
+        <li><strong>Implement Cooldowns:</strong> Prevent command spam.</li>
+    </ul>
+
+    <h3>Discord Bot Development Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of Discord bots as digital community managers - they need to be responsive, reliable, and respectful of users' experience. Always start with proper bot setup: create your application on Discord Developer Portal, configure intents based on your needs, and secure your token using environment variables. Use the modern discord.py library which supports both traditional prefix commands and slash commands. Organize your bot with cogs (extensions) to keep features modular - this makes maintenance and updates much easier. Implement proper permission checking before executing sensitive commands. Use Discord's embed system to create visually appealing responses. Add interactive components like buttons and dropdowns for better user engagement. Handle rate limits gracefully - Discord has strict limits to prevent abuse. Store persistent data in a database rather than memory. Test thoroughly in a development server before deploying. Most importantly: respect Discord's Terms of Service and rate limits to keep your bot running smoothly!</p>
+    </div>
+    
+    <p>Mastering Discord bot development enables you to create powerful automation tools that enhance any Discord community. You can now build bots that moderate content, play games, manage roles, provide information, and create engaging interactive experiences. Whether you're managing a small friend group or a massive gaming community, these Discord bot skills empower you to automate and enhance your server! 🚀</p>
+    
+    <footer>
+        <p>Next up: <a href="chatbot_slack_integration.html">Slack Integration - Build Workplace Bots!</a></p>
+    </footer>
+</body>
+</html>

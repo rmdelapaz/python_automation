@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Language Processing - Python Chat Bot Development</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🧠 Natural Language Processing: Make Bots Understand Human Language</h1>
+    
+    <p>Natural Language Processing (NLP) is the bridge between human communication and machine understanding - it transforms the messy, ambiguous world of human language into structured data that bots can process and respond to intelligently. Like teaching a computer to truly understand conversation, mastering NLP allows you to build bots that comprehend intent, extract information, analyze sentiment, and engage in natural dialogue. Let's explore the fascinating world of NLP for chatbot development! 🤖</p>
+
+    <h2>The NLP Architecture for Chatbots</h2>
+    
+    <p>Think of NLP as giving your bot a brain that can decode human language - it processes text through multiple layers of analysis, from basic tokenization to complex semantic understanding. Using libraries like NLTK, spaCy, and Transformers, combined with AI services like Dialogflow and LUIS, you can create bots that understand context, handle multiple languages, and provide intelligent responses. Understanding these NLP techniques is essential for building truly conversational bots!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[NLP for Chatbots] --> B[Text Processing]
+        A --> C[Understanding]
+        A --> D[Generation]
+        A --> E[Learning]
+        
+        B --> F[Tokenization]
+        B --> G[Normalization]
+        B --> H[POS Tagging]
+        B --> I[Parsing]
+        
+        C --> J[Intent Recognition]
+        C --> K[Entity Extraction]
+        C --> L[Sentiment Analysis]
+        C --> M[Context Management]
+        
+        D --> N[Response Templates]
+        D --> O[Dynamic Generation]
+        D --> P[Language Models]
+        D --> Q[Personalization]
+        
+        E --> R[Training Data]
+        E --> S[Model Fine-tuning]
+        E --> T[Feedback Loop]
+        E --> U[Continuous Learning]
+        
+        V[Technologies] --> W[NLTK/spaCy]
+        V --> X[Transformers]
+        V --> Y[Dialogflow/LUIS]
+        V --> Z[OpenAI/Claude]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style V fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Intelligent Virtual Assistant 🎯</h3>
+    
+    <p>You're building an intelligent virtual assistant that understands natural language queries, extracts key information from conversations, handles multiple intents in a single message, maintains context across interactions, supports multiple languages, analyzes user sentiment, generates human-like responses, learns from interactions, and integrates with various services. Your bot must handle ambiguous inputs, understand slang and typos, and provide helpful responses even when uncertain. Let's build a comprehensive NLP framework for chatbots!</p>
+
+    <pre><code># First, install required packages:
+# pip install nltk spacy transformers torch tensorflow dialogflow google-cloud-language textblob rasa
+
+import re
+import json
+import logging
+from typing import List, Dict, Optional, Any, Tuple, Union
+from dataclasses import dataclass, field
+from enum import Enum
+from datetime import datetime
+import numpy as np
+
+# NLP Libraries
+import nltk
+import spacy
+from textblob import TextBlob
+from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
+# Download required NLTK data
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('vader_lexicon')
+
+# Load spaCy model (install with: python -m spacy download en_core_web_sm)
+nlp = spacy.load("en_core_web_sm")
+
+# ==================== NLP Configuration ====================
+
+@dataclass
+class NLPConfig:
+    """NLP configuration for chatbot."""
+    # Models
+    language_model: str = "en_core_web_sm"
+    sentiment_model: str = "distilbert-base-uncased-finetuned-sst-2-english"
+    
+    # Thresholds
+    intent_confidence_threshold: float = 0.7
+    entity_confidence_threshold: float = 0.8
+    
+    # Features
+    enable_sentiment_analysis: bool = True
+    enable_entity_extraction: bool = True
+    enable_spell_correction: bool = True
+    enable_translation: bool = False
+    
+    # Context
+    context_window_size: int = 5
+    session_timeout: int = 1800  # 30 minutes
+    
+    # Languages
+    supported_languages: List[str] = field(default_factory=lambda: ["en", "es", "fr", "de"])
+    default_language: str = "en"
+
+# ==================== Intent and Entity Classes ====================
+
+class Intent(Enum):
+    """Common chatbot intents."""
+    GREETING = "greeting"
+    GOODBYE = "goodbye"
+    HELP = "help"
+    QUESTION = "question"
+    COMMAND = "command"
+    FEEDBACK = "feedback"
+    SMALL_TALK = "small_talk"
+    COMPLAINT = "complaint"
+    APPRECIATION = "appreciation"
+    UNKNOWN = "unknown"
+
+@dataclass
+class Entity:
+    """Extracted entity from text."""
+    text: str
+    type: str  # PERSON, LOCATION, DATE, etc.
+    value: Any
+    confidence: float
+    start: int
+    end: int
+
+@dataclass
+class NLPResult:
+    """Result of NLP processing."""
+    original_text: str
+    processed_text: str
+    language: str
+    
+    # Core NLP
+    tokens: List[str]
+    lemmas: List[str]
+    pos_tags: List[Tuple[str, str]]
+    
+    # Understanding
+    intent: Intent
+    intent_confidence: float
+    entities: List[Entity]
+    
+    # Sentiment
+    sentiment: str  # positive, negative, neutral
+    sentiment_score: float
+    emotion: Optional[str] = None
+    
+    # Additional
+    keywords: List[str] = field(default_factory=list)
+    topics: List[str] = field(default_factory=list)
+    
+    # Response hints
+    requires_clarification: bool = False
+    suggested_responses: List[str] = field(default_factory=list)
+
+# ==================== Text Preprocessor ====================
+
+class TextPreprocessor:
+    """Preprocess text for NLP."""
+    
+    def __init__(self, config: NLPConfig):
+        self.config = config
+        self.stopwords = set(nltk.corpus.stopwords.words('english'))
+        
+    def process(self, text: str) -> str:
+        """Full preprocessing pipeline."""
+        # Clean text
+        text = self.clean_text(text)
+        
+        # Spell correction
+        if self.config.enable_spell_correction:
+            text = self.correct_spelling(text)
+        
+        # Normalize
+        text = self.normalize_text(text)
+        
+        return text
+    
+    def clean_text(self, text: str) -> str:
+        """Clean and standardize text."""
+        # Remove extra whitespace
+        text = ' '.join(text.split())
+        
+        # Convert to lowercase for processing
+        text = text.lower()
+        
+        # Remove special characters but keep punctuation for intent
+        text = re.sub(r'[^\w\s\?\!\.\,\']', '', text)
+        
+        # Expand contractions
+        contractions = {
+            "don't": "do not",
+            "won't": "will not",
+            "can't": "cannot",
+            "n't": " not",
+            "'re": " are",
+            "'ve": " have",
+            "'ll": " will",
+            "'d": " would",
+            "'m": " am"
+        }
+        
+        for contraction, expanded in contractions.items():
+            text = text.replace(contraction, expanded)
+        
+        return text
+    
+    def correct_spelling(self, text: str) -> str:
+        """Correct spelling mistakes."""
+        blob = TextBlob(text)
+        return str(blob.correct())
+    
+    def normalize_text(self, text: str) -> str:
+        """Normalize text (numbers, dates, etc.)."""
+        # Normalize numbers
+        text = re.sub(r'\b\d+\b', '<NUMBER>', text)
+        
+        # Normalize URLs
+        text = re.sub(r'http\S+|www\S+', '<URL>', text)
+        
+        # Normalize emails
+        text = re.sub(r'\S+@\S+', '<EMAIL>', text)
+        
+        return text
+    
+    def tokenize(self, text: str) -> List[str]:
+        """Tokenize text into words."""
+        return nltk.word_tokenize(text)
+    
+    def remove_stopwords(self, tokens: List[str]) -> List[str]:
+        """Remove stopwords from tokens."""
+        return [t for t in tokens if t.lower() not in self.stopwords]
+    
+    def lemmatize(self, tokens: List[str]) -> List[str]:
+        """Lemmatize tokens."""
+        lemmatizer = nltk.WordNetLemmatizer()
+        return [lemmatizer.lemmatize(token) for token in tokens]
+
+# ==================== Intent Classifier ====================
+
+class IntentClassifier:
+    """Classify user intent from text."""
+    
+    def __init__(self):
+        self.patterns = self._load_intent_patterns()
+        self.ml_classifier = None  # Can load trained model
+        
+    def _load_intent_patterns(self) -> Dict[Intent, List[str]]:
+        """Load regex patterns for intent matching."""
+        return {
+            Intent.GREETING: [
+                r'\b(hi|hello|hey|greetings|good morning|good afternoon|good evening)\b',
+                r'\b(howdy|sup|what\'s up)\b'
+            ],
+            Intent.GOODBYE: [
+                r'\b(bye|goodbye|see you|farewell|quit|exit)\b',
+                r'\b(talk to you later|ttyl|cya)\b'
+            ],
+            Intent.HELP: [
+                r'\b(help|assist|support|guide|how to)\b',
+                r'\b(what can you do|how does this work)\b'
+            ],
+            Intent.QUESTION: [
+                r'^(what|when|where|who|why|how|can|could|would|should|is|are|do|does)',
+                r'\?$'
+            ],
+            Intent.APPRECIATION: [
+                r'\b(thank|thanks|appreciate|grateful|awesome|great|good job)\b',
+                r'\b(well done|nice|excellent|perfect)\b'
+            ],
+            Intent.COMPLAINT: [
+                r'\b(problem|issue|wrong|broken|not working|error|bug)\b',
+                r'\b(terrible|awful|horrible|bad|worst)\b'
+            ]
+        }
+    
+    def classify(self, text: str) -> Tuple[Intent, float]:
+        """Classify intent from text."""
+        text_lower = text.lower()
+        
+        # Pattern-based classification
+        for intent, patterns in self.patterns.items():
+            for pattern in patterns:
+                if re.search(pattern, text_lower):
+                    return intent, 0.9
+        
+        # ML-based classification (if available)
+        if self.ml_classifier:
+            return self._ml_classify(text)
+        
+        # Default to unknown
+        return Intent.UNKNOWN, 0.5
+    
+    def _ml_classify(self, text: str) -> Tuple[Intent, float]:
+        """Use ML model for classification."""
+        # Placeholder for ML classification
+        # In production, use trained model
+        return Intent.UNKNOWN, 0.5
+    
+    def train(self, training_data: List[Tuple[str, Intent]]):
+        """Train intent classifier on data."""
+        # Placeholder for training logic
+        # Could use sklearn, TensorFlow, or PyTorch
+        pass
+
+# ==================== Entity Extractor ====================
+
+class EntityExtractor:
+    """Extract entities from text."""
+    
+    def __init__(self, config: NLPConfig):
+        self.config = config
+        self.nlp = nlp  # spaCy model
+        
+    def extract(self, text: str) -> List[Entity]:
+        """Extract entities from text."""
+        doc = self.nlp(text)
+        entities = []
+        
+        # Extract named entities
+        for ent in doc.ents:
+            entities.append(Entity(
+                text=ent.text,
+                type=ent.label_,
+                value=ent.text,
+                confidence=0.9,  # spaCy doesn't provide confidence
+                start=ent.start_char,
+                end=ent.end_char
+            ))
+        
+        # Extract custom entities
+        entities.extend(self._extract_custom_entities(text))
+        
+        return entities
+    
+    def _extract_custom_entities(self, text: str) -> List[Entity]:
+        """Extract custom entities like email, phone, etc."""
+        entities = []
+        
+        # Email extraction
+        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        for match in re.finditer(email_pattern, text):
+            entities.append(Entity(
+                text=match.group(),
+                type="EMAIL",
+                value=match.group(),
+                confidence=1.0,
+                start=match.start(),
+                end=match.end()
+            ))
+        
+        # Phone number extraction
+        phone_pattern = r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b'
+        for match in re.finditer(phone_pattern, text):
+            entities.append(Entity(
+                text=match.group(),
+                type="PHONE",
+                value=match.group(),
+                confidence=0.95,
+                start=match.start(),
+                end=match.end()
+            ))
+        
+        # Date extraction (simple)
+        date_pattern = r'\b(today|tomorrow|yesterday|\d{1,2}/\d{1,2}/\d{2,4})\b'
+        for match in re.finditer(date_pattern, text, re.IGNORECASE):
+            entities.append(Entity(
+                text=match.group(),
+                type="DATE",
+                value=self._parse_date(match.group()),
+                confidence=0.9,
+                start=match.start(),
+                end=match.end()
+            ))
+        
+        return entities
+    
+    def _parse_date(self, date_text: str) -> str:
+        """Parse date text to standard format."""
+        date_lower = date_text.lower()
+        
+        if date_lower == "today":
+            return datetime.now().strftime("%Y-%m-%d")
+        elif date_lower == "tomorrow":
+            return (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+        elif date_lower == "yesterday":
+            return (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+        else:
+            return date_text
+
+# ==================== Sentiment Analyzer ====================
+
+class SentimentAnalyzer:
+    """Analyze sentiment and emotion from text."""
+    
+    def __init__(self, config: NLPConfig):
+        self.config = config
+        
+        # Load transformer model for sentiment
+        if config.enable_sentiment_analysis:
+            self.sentiment_pipeline = pipeline(
+                "sentiment-analysis",
+                model=config.sentiment_model
+            )
+        
+        # VADER for additional sentiment analysis
+        from nltk.sentiment.vader import SentimentIntensityAnalyzer
+        self.vader = SentimentIntensityAnalyzer()
+    
+    def analyze(self, text: str) -> Tuple[str, float, Optional[str]]:
+        """
+        Analyze sentiment of text.
+        
+        Returns:
+            Tuple of (sentiment, score, emotion)
+        """
+        if not self.config.enable_sentiment_analysis:
+            return "neutral", 0.0, None
+        
+        # Transformer-based sentiment
+        try:
+            result = self.sentiment_pipeline(text[:512])[0]  # Limit text length
+            
+            sentiment = result['label'].lower()
+            if sentiment == 'positive':
+                sentiment = 'positive'
+            elif sentiment == 'negative':
+                sentiment = 'negative'
+            else:
+                sentiment = 'neutral'
+            
+            score = result['score']
+            
+        except Exception:
+            # Fallback to VADER
+            vader_scores = self.vader.polarity_scores(text)
+            
+            if vader_scores['compound'] >= 0.05:
+                sentiment = 'positive'
+            elif vader_scores['compound'] <= -0.05:
+                sentiment = 'negative'
+            else:
+                sentiment = 'neutral'
+            
+            score = abs(vader_scores['compound'])
+        
+        # Detect emotion
+        emotion = self._detect_emotion(text, sentiment)
+        
+        return sentiment, score, emotion
+    
+    def _detect_emotion(self, text: str, sentiment: str) -> Optional[str]:
+        """Detect specific emotion from text."""
+        text_lower = text.lower()
+        
+        emotions = {
+            'joy': ['happy', 'joy', 'excited', 'delighted', 'thrilled'],
+            'sadness': ['sad', 'depressed', 'unhappy', 'disappointed'],
+            'anger': ['angry', 'mad', 'furious', 'annoyed', 'frustrated'],
+            'fear': ['scared', 'afraid', 'worried', 'anxious', 'nervous'],
+            'surprise': ['surprised', 'amazed', 'shocked', 'astonished'],
+            'disgust': ['disgusted', 'revolted', 'repulsed']
+        }
+        
+        for emotion, keywords in emotions.items():
+            if any(keyword in text_lower for keyword in keywords):
+                return emotion
+        
+        return None
+
+# ==================== Context Manager ====================
+
+class ContextManager:
+    """Manage conversation context."""
+    
+    def __init__(self, config: NLPConfig):
+        self.config = config
+        self.sessions = {}  # user_id -> session data
+        
+    def get_session(self, user_id: str) -> Dict[str, Any]:
+        """Get or create user session."""
+        if user_id not in self.sessions:
+            self.sessions[user_id] = {
+                'user_id': user_id,
+                'messages': [],
+                'entities': {},
+                'intent_history': [],
+                'created_at': datetime.now(),
+                'last_activity': datetime.now()
+            }
+        
+        session = self.sessions[user_id]
+        
+        # Check session timeout
+        if (datetime.now() - session['last_activity']).seconds > self.config.session_timeout:
+            # Reset session
+            self.sessions[user_id] = {
+                'user_id': user_id,
+                'messages': [],
+                'entities': {},
+                'intent_history': [],
+                'created_at': datetime.now(),
+                'last_activity': datetime.now()
+            }
+        
+        return self.sessions[user_id]
+    
+    def update_context(self, user_id: str, message: str, 
+                       nlp_result: NLPResult):
+        """Update session context with new information."""
+        session = self.get_session(user_id)
+        
+        # Add message to history
+        session['messages'].append({
+            'text': message,
+            'timestamp': datetime.now(),
+            'intent': nlp_result.intent.value,
+            'sentiment': nlp_result.sentiment
+        })
+        
+        # Keep only recent messages
+        if len(session['messages']) > self.config.context_window_size:
+            session['messages'] = session['messages'][-self.config.context_window_size:]
+        
+        # Update entities
+        for entity in nlp_result.entities:
+            session['entities'][entity.type] = entity.value
+        
+        # Update intent history
+        session['intent_history'].append(nlp_result.intent)
+        if len(session['intent_history']) > 10:
+            session['intent_history'] = session['intent_history'][-10:]
+        
+        # Update last activity
+        session['last_activity'] = datetime.now()
+    
+    def get_context_summary(self, user_id: str) -> str:
+        """Get summary of conversation context."""
+        session = self.get_session(user_id)
+        
+        summary = []
+        
+        # Recent intents
+        if session['intent_history']:
+            recent_intents = [i.value for i in session['intent_history'][-3:]]
+            summary.append(f"Recent intents: {', '.join(recent_intents)}")
+        
+        # Known entities
+        if session['entities']:
+            entity_list = [f"{k}: {v}" for k, v in session['entities'].items()]
+            summary.append(f"Known info: {', '.join(entity_list)}")
+        
+        return ' | '.join(summary) if summary else "No context"
+
+# ==================== Response Generator ====================
+
+class ResponseGenerator:
+    """Generate intelligent responses."""
+    
+    def __init__(self):
+        self.templates = self._load_response_templates()
+        
+    def _load_response_templates(self) -> Dict[Intent, List[str]]:
+        """Load response templates for each intent."""
+        return {
+            Intent.GREETING: [
+                "Hello! How can I help you today?",
+                "Hi there! What can I do for you?",
+                "Welcome! How may I assist you?"
+            ],
+            Intent.GOODBYE: [
+                "Goodbye! Have a great day!",
+                "See you later! Take care!",
+                "Bye! Feel free to come back anytime!"
+            ],
+            Intent.HELP: [
+                "I'm here to help! You can ask me questions, request information, or tell me what you need.",
+                "I can assist with various tasks. What would you like help with?",
+                "Here are some things I can help with: answering questions, providing information, and general assistance."
+            ],
+            Intent.APPRECIATION: [
+                "You're welcome! Happy to help!",
+                "Glad I could assist you!",
+                "My pleasure! Let me know if you need anything else."
+            ],
+            Intent.UNKNOWN: [
+                "I'm not sure I understand. Could you please rephrase that?",
+                "Could you provide more details?",
+                "I didn't quite catch that. Can you tell me more?"
+            ]
+        }
+    
+    def generate(self, nlp_result: NLPResult, context: Dict[str, Any]) -> str:
+        """Generate response based on NLP result and context."""
+        # Get base response from template
+        templates = self.templates.get(nlp_result.intent, self.templates[Intent.UNKNOWN])
+        response = templates[0]  # Simple selection, could be random
+        
+        # Personalize response
+        response = self._personalize(response, nlp_result, context)
+        
+        # Add sentiment acknowledgment
+        if nlp_result.sentiment == 'negative':
+            response = "I understand your concern. " + response
+        elif nlp_result.sentiment == 'positive':
+            response = "Great to hear that! " + response
+        
+        # Add clarification if needed
+        if nlp_result.requires_clarification:
+            response += " Could you provide more details?"
+        
+        return response
+    
+    def _personalize(self, response: str, nlp_result: NLPResult, 
+                    context: Dict[str, Any]) -> str:
+        """Personalize response based on context."""
+        # Add user name if known
+        if 'PERSON' in context.get('entities', {}):
+            name = context['entities']['PERSON']
+            response = response.replace("!", f", {name}!")
+        
+        # Reference previous context if relevant
+        if len(context.get('messages', [])) > 1:
+            # Could add references to previous conversation
+            pass
+        
+        return response
+
+# ==================== Main NLP Processor ====================
+
+class NLPProcessor:
+    """Main NLP processing pipeline for chatbot."""
+    
+    def __init__(self, config: NLPConfig):
+        self.config = config
+        self.preprocessor = TextPreprocessor(config)
+        self.intent_classifier = IntentClassifier()
+        self.entity_extractor = EntityExtractor(config)
+        self.sentiment_analyzer = SentimentAnalyzer(config)
+        self.context_manager = ContextManager(config)
+        self.response_generator = ResponseGenerator()
+        
+        self.logger = logging.getLogger(__name__)
+    
+    def process(self, text: str, user_id: str = "default") -> Tuple[NLPResult, str]:
+        """
+        Process text and generate response.
+        
+        Returns:
+            Tuple of (NLP result, generated response)
+        """
+        # Preprocess text
+        processed_text = self.preprocessor.process(text)
+        
+        # Tokenize
+        tokens = self.preprocessor.tokenize(processed_text)
+        lemmas = self.preprocessor.lemmatize(tokens)
+        
+        # POS tagging
+        pos_tags = nltk.pos_tag(tokens)
+        
+        # Intent classification
+        intent, intent_confidence = self.intent_classifier.classify(text)
+        
+        # Entity extraction
+        entities = self.entity_extractor.extract(text) if self.config.enable_entity_extraction else []
+        
+        # Sentiment analysis
+        sentiment, sentiment_score, emotion = self.sentiment_analyzer.analyze(text)
+        
+        # Extract keywords
+        keywords = self._extract_keywords(tokens, pos_tags)
+        
+        # Create NLP result
+        nlp_result = NLPResult(
+            original_text=text,
+            processed_text=processed_text,
+            language="en",  # Could use language detection
+            tokens=tokens,
+            lemmas=lemmas,
+            pos_tags=pos_tags,
+            intent=intent,
+            intent_confidence=intent_confidence,
+            entities=entities,
+            sentiment=sentiment,
+            sentiment_score=sentiment_score,
+            emotion=emotion,
+            keywords=keywords,
+            requires_clarification=(intent_confidence < self.config.intent_confidence_threshold)
+        )
+        
+        # Get context
+        context = self.context_manager.get_session(user_id)
+        
+        # Update context
+        self.context_manager.update_context(user_id, text, nlp_result)
+        
+        # Generate response
+        response = self.response_generator.generate(nlp_result, context)
+        
+        return nlp_result, response
+    
+    def _extract_keywords(self, tokens: List[str], 
+                         pos_tags: List[Tuple[str, str]]) -> List[str]:
+        """Extract keywords from tokens."""
+        # Extract nouns and verbs as keywords
+        keywords = []
+        important_pos = ['NN', 'NNS', 'NNP', 'NNPS', 'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']
+        
+        for token, pos in pos_tags:
+            if pos in important_pos and len(token) > 2:
+                keywords.append(token.lower())
+        
+        # Remove duplicates while preserving order
+        seen = set()
+        keywords = [x for x in keywords if not (x in seen or seen.add(x))]
+        
+        return keywords[:5]  # Limit to top 5 keywords
+
+# ==================== Chatbot Interface ====================
+
+class NLPChatbot:
+    """High-level chatbot interface with NLP."""
+    
+    def __init__(self, config: Optional[NLPConfig] = None):
+        self.config = config or NLPConfig()
+        self.processor = NLPProcessor(self.config)
+        self.logger = logging.getLogger(__name__)
+    
+    def chat(self, message: str, user_id: str = "default") -> Dict[str, Any]:
+        """
+        Process a chat message and return response.
+        
+        Returns:
+            Dictionary containing response and metadata
+        """
+        try:
+            # Process message
+            nlp_result, response = self.processor.process(message, user_id)
+            
+            # Log interaction
+            self.logger.info(f"User ({user_id}): {message}")
+            self.logger.info(f"Bot: {response}")
+            self.logger.debug(f"Intent: {nlp_result.intent.value} ({nlp_result.intent_confidence:.2f})")
+            self.logger.debug(f"Sentiment: {nlp_result.sentiment} ({nlp_result.sentiment_score:.2f})")
+            
+            # Return structured response
+            return {
+                'response': response,
+                'intent': nlp_result.intent.value,
+                'confidence': nlp_result.intent_confidence,
+                'sentiment': nlp_result.sentiment,
+                'entities': [
+                    {'type': e.type, 'value': e.value}
+                    for e in nlp_result.entities
+                ],
+                'keywords': nlp_result.keywords,
+                'requires_clarification': nlp_result.requires_clarification
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error processing message: {e}")
+            return {
+                'response': "I encountered an error processing your message. Please try again.",
+                'error': str(e)
+            }
+    
+    def train_intent(self, training_data: List[Tuple[str, str]]):
+        """Train intent classifier with examples."""
+        # Convert string intents to Intent enum
+        converted_data = []
+        for text, intent_str in training_data:
+            try:
+                intent = Intent[intent_str.upper()]
+                converted_data.append((text, intent))
+            except KeyError:
+                self.logger.warning(f"Unknown intent: {intent_str}")
+        
+        self.processor.intent_classifier.train(converted_data)
+    
+    def get_context(self, user_id: str) -> str:
+        """Get conversation context summary."""
+        return self.processor.context_manager.get_context_summary(user_id)
+    
+    def reset_context(self, user_id: str):
+        """Reset user's conversation context."""
+        if user_id in self.processor.context_manager.sessions:
+            del self.processor.context_manager.sessions[user_id]
+
+# Example usage
+if __name__ == "__main__":
+    print("🧠 Natural Language Processing Examples\n")
+    
+    # Example 1: Initialize chatbot
+    print("1️⃣ Initializing NLP Chatbot:")
+    
+    config = NLPConfig(
+        enable_sentiment_analysis=True,
+        enable_entity_extraction=True,
+        intent_confidence_threshold=0.7
+    )
+    
+    chatbot = NLPChatbot(config)
+    print("   ✓ NLP models loaded")
+    print("   ✓ Intent classifier ready")
+    print("   ✓ Entity extractor initialized")
+    print("   ✓ Sentiment analyzer configured")
+    
+    # Example 2: Process messages
+    print("\n2️⃣ Processing Sample Messages:")
+    
+    test_messages = [
+        "Hello, how are you today?",
+        "I need help with my order #12345",
+        "This product is terrible! I want a refund!",
+        "Can you schedule a meeting for tomorrow at 3pm?",
+        "Thank you so much for your help!",
+        "What's the weather like?"
+    ]
+    
+    for message in test_messages:
+        result = chatbot.chat(message, "user123")
+        print(f"\n   User: {message}")
+        print(f"   Bot: {result['response']}")
+        print(f"   Intent: {result['intent']} ({result['confidence']:.2f})")
+        print(f"   Sentiment: {result['sentiment']}")
+        if result['entities']:
+            print(f"   Entities: {result['entities']}")
+    
+    # Example 3: NLP components
+    print("\n3️⃣ NLP Components:")
+    
+    components = [
+        ("Tokenization", "Breaking text into words/tokens"),
+        ("Lemmatization", "Reducing words to base form"),
+        ("POS Tagging", "Identifying parts of speech"),
+        ("NER", "Named Entity Recognition"),
+        ("Intent Classification", "Understanding user goal"),
+        ("Sentiment Analysis", "Detecting emotion/opinion")
+    ]
+    
+    for component, description in components:
+        print(f"   {component}: {description}")
+    
+    # Example 4: Intent types
+    print("\n4️⃣ Common Chatbot Intents:")
+    
+    for intent in Intent:
+        print(f"   • {intent.value}")
+    
+    # Example 5: Entity types
+    print("\n5️⃣ Entity Types (spaCy NER):")
+    
+    entity_types = [
+        ("PERSON", "People, including fictional"),
+        ("ORG", "Organizations, companies"),
+        ("GPE", "Countries, cities, states"),
+        ("DATE", "Dates or periods"),
+        ("TIME", "Times of day"),
+        ("MONEY", "Monetary values"),
+        ("LOC", "Locations"),
+        ("PRODUCT", "Products")
+    ]
+    
+    for entity_type, description in entity_types:
+        print(f"   {entity_type}: {description}")
+    
+    # Example 6: Sentiment analysis
+    print("\n6️⃣ Sentiment Analysis Examples:")
+    
+    sentiment_examples = [
+        ("I love this product!", "Positive"),
+        ("This is terrible", "Negative"),
+        ("It's okay I guess", "Neutral"),
+        ("Best experience ever!!!", "Positive"),
+        ("Worst service imaginable", "Negative")
+    ]
+    
+    for text, expected in sentiment_examples:
+        nlp_result, _ = chatbot.processor.process(text)
+        print(f"   '{text}' → {nlp_result.sentiment} ({nlp_result.sentiment_score:.2f})")
+    
+    # Example 7: Context management
+    print("\n7️⃣ Context Management:")
+    
+    # Simulate conversation
+    conversation = [
+        "My name is John",
+        "I need help with my order",
+        "The order number is 12345",
+        "It hasn't arrived yet"
+    ]
+    
+    print("   Conversation flow:")
+    for msg in conversation:
+        chatbot.chat(msg, "user456")
+        print(f"     User: {msg}")
+    
+    context = chatbot.get_context("user456")
+    print(f"\n   Context summary: {context}")
+    
+    # Example 8: Training data format
+    print("\n8️⃣ Training Data Format:")
+    
+    training_examples = [
+        ("Hi there", "greeting"),
+        ("How do I reset my password?", "help"),
+        ("Thanks for your help", "appreciation"),
+        ("This isn't working", "complaint"),
+        ("Goodbye", "goodbye")
+    ]
+    
+    print("   Training examples:")
+    for text, intent in training_examples[:3]:
+        print(f"     '{text}' → {intent}")
+    
+    # Example 9: Best practices
+    print("\n9️⃣ NLP Best Practices:")
+    
+    practices = [
+        "📊 Collect diverse training data",
+        "🧹 Clean and normalize text",
+        "🎯 Define clear intents",
+        "🏷️ Use consistent entity types",
+        "📈 Monitor confidence scores",
+        "🔄 Implement feedback loops",
+        "🌍 Support multiple languages",
+        "💾 Maintain conversation context",
+        "⚡ Cache processed results",
+        "📝 Log for improvement"
+    ]
+    
+    for practice in practices:
+        print(f"   {practice}")
+    
+    print("\n✅ NLP demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Preprocess Text:</strong> Clean and normalize input for better understanding.</li>
+        
+        <li><strong>Use Multiple Techniques:</strong> Combine rule-based and ML approaches.</li>
+        
+        <li><strong>Extract Entities:</strong> Identify key information from user input.</li>
+        
+        <li><strong>Analyze Sentiment:</strong> Understand user emotions and respond appropriately.</li>
+        
+        <li><strong>Maintain Context:</strong> Track conversation history for coherent responses.</li>
+        
+        <li><strong>Handle Uncertainty:</strong> Ask for clarification when confidence is low.</li>
+        
+        <li><strong>Train Continuously:</strong> Improve models with user interactions.</li>
+        
+        <li><strong>Support Languages:</strong> Consider multilingual support for wider reach.</li>
+    </ul>
+
+    <h3>NLP for Chatbots Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of NLP as teaching your bot to truly understand humans - it's not just about keywords, but comprehending intent, context, and emotion. Start with robust text preprocessing: clean, normalize, and tokenize text properly. Use both rule-based patterns and machine learning models - rules handle common cases reliably while ML handles complexity. Always extract entities (names, dates, numbers) as they often contain critical information. Implement sentiment analysis to gauge user mood and adjust responses accordingly. Maintain conversation context across messages - humans expect you to remember what was just discussed. Set confidence thresholds and ask for clarification when uncertain rather than guessing wrong. Use frameworks like spaCy or NLTK for core NLP tasks, but consider cloud services like Dialogflow for production. Train your models continuously with real user data, but always validate before deploying updates. Support multiple languages if you have international users. Most importantly: NLP is about understanding humans, not just processing text - design your bot to be helpful, empathetic, and genuinely conversational!</p>
+    </div>
+    
+    <p>Mastering NLP for chatbots enables you to create truly intelligent conversational agents that understand and respond to users naturally. You can now build bots that comprehend intent, extract information, analyze sentiment, maintain context, and engage in meaningful dialogue. Whether you're building customer service bots, virtual assistants, or conversational AI, these NLP skills make your bots genuinely intelligent! 🚀</p>
+    
+    <footer>
+        <p>Next up: <a href="chatbot_command_handling.html">Command Handling - Structure Bot Interactions!</a></p>
+    </footer>
+</body>
+</html>

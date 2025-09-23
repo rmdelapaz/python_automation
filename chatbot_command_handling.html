@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Handling - Python Chat Bot Development</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>⚡ Command Handling: Structure Bot Interactions</h1>
+    
+    <p>Command handling is the backbone of structured bot interactions - it transforms user input into actionable operations through a well-organized system of commands, arguments, permissions, and workflows. Like building a control panel for your bot, mastering command handling allows you to create intuitive, powerful interfaces that users can navigate easily while maintaining security and scalability. Let's explore the comprehensive world of command handling for chatbots! 🎮</p>
+
+    <h2>The Command Handling Architecture</h2>
+    
+    <p>Think of command handling as creating a sophisticated remote control for your bot - each button (command) triggers specific actions, with validation, permissions, and error handling built in. Using patterns like command parsers, decorators, middleware, and command chains, you can build bots that handle everything from simple single-word commands to complex multi-step workflows with arguments and options. Understanding these patterns is essential for building professional-grade bots!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Command Handling] --> B[Command Structure]
+        A --> C[Processing Pipeline]
+        A --> D[Execution]
+        A --> E[Advanced Features]
+        
+        B --> F[Commands]
+        B --> G[Arguments]
+        B --> H[Options/Flags]
+        B --> I[Subcommands]
+        
+        C --> J[Parsing]
+        C --> K[Validation]
+        C --> L[Permissions]
+        C --> M[Middleware]
+        
+        D --> N[Handlers]
+        D --> O[Context]
+        D --> P[Response]
+        D --> Q[Error Handling]
+        
+        E --> R[Aliases]
+        E --> S[Cooldowns]
+        E --> T[Rate Limiting]
+        E --> U[Command Chains]
+        
+        V[Features] --> W[Help System]
+        V --> X[Auto-complete]
+        V --> Y[History]
+        V --> Z[Undo/Redo]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style V fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Multi-Platform Command System 🚀</h3>
+    
+    <p>You're building a universal command system that works across Discord, Slack, Telegram, and web interfaces, handling admin commands, user interactions, game mechanics, moderation tools, data queries, system management, workflow automation, and integrations with external services. Your system must parse complex commands, validate arguments, check permissions, handle errors gracefully, support command chaining, provide helpful feedback, and scale to thousands of concurrent users. Let's build a production-ready command handling framework!</p>
+
+    <pre><code># First, install required packages:
+# pip install click argparse shlex typing-extensions dataclasses asyncio
+
+import re
+import shlex
+import asyncio
+import logging
+from typing import (
+    List, Dict, Optional, Any, Callable, Union, 
+    TypeVar, Generic, Awaitable, Tuple
+)
+from dataclasses import dataclass, field
+from enum import Enum, auto
+from datetime import datetime, timedelta
+from functools import wraps
+from collections import defaultdict, deque
+import inspect
+import json
+
+# ==================== Command Configuration ====================
+
+class CommandCategory(Enum):
+    """Command categories for organization."""
+    GENERAL = "general"
+    ADMIN = "admin"
+    MODERATION = "moderation"
+    FUN = "fun"
+    UTILITY = "utility"
+    MUSIC = "music"
+    GAMES = "games"
+    SETTINGS = "settings"
+    HELP = "help"
+
+class PermissionLevel(Enum):
+    """Permission levels for commands."""
+    EVERYONE = 0
+    MEMBER = 1
+    MODERATOR = 2
+    ADMIN = 3
+    OWNER = 4
+    DEVELOPER = 5
+
+@dataclass
+class CommandConfig:
+    """Command configuration."""
+    prefix: str = "!"
+    case_sensitive: bool = False
+    
+    # Features
+    enable_aliases: bool = True
+    enable_cooldowns: bool = True
+    enable_permissions: bool = True
+    enable_help: bool = True
+    
+    # Limits
+    max_args: int = 10
+    max_command_length: int = 100
+    cooldown_message: str = "Command on cooldown. Try again in {remaining}s"
+    
+    # Error handling
+    show_errors: bool = True
+    error_color: str = "#FF0000"
+    success_color: str = "#00FF00"
+
+# ==================== Command Arguments ====================
+
+@dataclass
+class Argument:
+    """Command argument definition."""
+    name: str
+    type: type
+    description: str
+    required: bool = True
+    default: Any = None
+    choices: Optional[List[Any]] = None
+    min_value: Optional[Union[int, float]] = None
+    max_value: Optional[Union[int, float]] = None
+    validator: Optional[Callable] = None
+
+@dataclass
+class ParsedArgument:
+    """Parsed argument with value."""
+    name: str
+    value: Any
+    raw: str
+    valid: bool = True
+    error: Optional[str] = None
+
+# ==================== Command Context ====================
+
+@dataclass
+class CommandContext:
+    """Context for command execution."""
+    # Source info
+    platform: str  # discord, slack, telegram, etc.
+    guild_id: Optional[str] = None
+    channel_id: str = None
+    user_id: str = None
+    message_id: str = None
+    
+    # User info
+    username: str = "Unknown"
+    display_name: str = "Unknown"
+    permission_level: PermissionLevel = PermissionLevel.EVERYONE
+    
+    # Message info
+    content: str = ""
+    raw_content: str = ""
+    timestamp: datetime = field(default_factory=datetime.now)
+    
+    # Command info
+    command: Optional['Command'] = None
+    args: List[ParsedArgument] = field(default_factory=list)
+    kwargs: Dict[str, Any] = field(default_factory=dict)
+    
+    # Bot reference
+    bot: Any = None
+    
+    # Response methods
+    reply: Optional[Callable] = None
+    send: Optional[Callable] = None
+    
+    def get_arg(self, name: str, default: Any = None) -> Any:
+        """Get argument value by name."""
+        for arg in self.args:
+            if arg.name == name:
+                return arg.value
+        return default
+
+# ==================== Command Base Class ====================
+
+class Command:
+    """Base command class."""
+    
+    def __init__(
+        self,
+        name: str,
+        description: str = "No description",
+        category: CommandCategory = CommandCategory.GENERAL,
+        aliases: List[str] = None,
+        usage: str = None,
+        examples: List[str] = None,
+        permission_level: PermissionLevel = PermissionLevel.EVERYONE,
+        cooldown: Optional[int] = None,  # seconds
+        hidden: bool = False,
+        enabled: bool = True
+    ):
+        self.name = name
+        self.description = description
+        self.category = category
+        self.aliases = aliases or []
+        self.usage = usage or name
+        self.examples = examples or []
+        self.permission_level = permission_level
+        self.cooldown = cooldown
+        self.hidden = hidden
+        self.enabled = enabled
+        
+        # Arguments
+        self.arguments: List[Argument] = []
+        
+        # Subcommands
+        self.subcommands: Dict[str, 'Command'] = {}
+        
+        # Cooldown tracking
+        self.cooldowns: Dict[str, datetime] = {}
+        
+        # Statistics
+        self.usage_count = 0
+        self.error_count = 0
+        
+    def add_argument(
+        self,
+        name: str,
+        arg_type: type = str,
+        description: str = "",
+        required: bool = True,
+        **kwargs
+    ):
+        """Add argument to command."""
+        self.arguments.append(Argument(
+            name=name,
+            type=arg_type,
+            description=description,
+            required=required,
+            **kwargs
+        ))
+        return self
+    
+    def add_subcommand(self, command: 'Command'):
+        """Add subcommand."""
+        self.subcommands[command.name] = command
+        for alias in command.aliases:
+            self.subcommands[alias] = command
+        return self
+    
+    async def can_execute(self, ctx: CommandContext) -> Tuple[bool, Optional[str]]:
+        """Check if command can be executed."""
+        # Check if enabled
+        if not self.enabled:
+            return False, "Command is disabled"
+        
+        # Check permissions
+        if ctx.permission_level.value < self.permission_level.value:
+            return False, f"Insufficient permissions. Required: {self.permission_level.name}"
+        
+        # Check cooldown
+        if self.cooldown and ctx.user_id in self.cooldowns:
+            time_passed = (datetime.now() - self.cooldowns[ctx.user_id]).seconds
+            if time_passed < self.cooldown:
+                remaining = self.cooldown - time_passed
+                return False, f"Command on cooldown. Try again in {remaining}s"
+        
+        return True, None
+    
+    async def execute(self, ctx: CommandContext) -> Any:
+        """Execute command - override in subclasses."""
+        raise NotImplementedError("Command execution not implemented")
+    
+    async def handle(self, ctx: CommandContext) -> Any:
+        """Handle command execution with checks."""
+        # Check if can execute
+        can_exec, error = await self.can_execute(ctx)
+        if not can_exec:
+            if ctx.reply:
+                await ctx.reply(f"❌ {error}")
+            return None
+        
+        # Update cooldown
+        if self.cooldown:
+            self.cooldowns[ctx.user_id] = datetime.now()
+        
+        # Update statistics
+        self.usage_count += 1
+        
+        try:
+            # Execute command
+            result = await self.execute(ctx)
+            return result
+            
+        except Exception as e:
+            self.error_count += 1
+            logging.error(f"Command {self.name} error: {e}")
+            
+            if ctx.reply:
+                await ctx.reply(f"❌ Error executing command: {str(e)}")
+            
+            raise
+
+# ==================== Command Decorators ====================
+
+def command(
+    name: str = None,
+    **kwargs
+):
+    """Decorator to create commands from functions."""
+    def decorator(func):
+        cmd_name = name or func.__name__
+        
+        # Create command class from function
+        class FunctionCommand(Command):
+            def __init__(self):
+                super().__init__(cmd_name, **kwargs)
+                self.func = func
+                
+                # Extract arguments from function signature
+                sig = inspect.signature(func)
+                for param_name, param in sig.parameters.items():
+                    if param_name in ['self', 'ctx']:
+                        continue
+                    
+                    param_type = str if param.annotation == param.empty else param.annotation
+                    required = param.default == param.empty
+                    default = None if required else param.default
+                    
+                    self.add_argument(
+                        param_name,
+                        param_type,
+                        f"Argument {param_name}",
+                        required,
+                        default=default
+                    )
+            
+            async def execute(self, ctx: CommandContext):
+                # Prepare arguments for function
+                kwargs = {}
+                for arg in self.arguments:
+                    value = ctx.get_arg(arg.name, arg.default)
+                    kwargs[arg.name] = value
+                
+                # Call function
+                if asyncio.iscoroutinefunction(self.func):
+                    return await self.func(ctx, **kwargs)
+                else:
+                    return self.func(ctx, **kwargs)
+        
+        return FunctionCommand()
+    
+    return decorator
+
+def cooldown(seconds: int):
+    """Decorator to add cooldown to command."""
+    def decorator(command_obj):
+        command_obj.cooldown = seconds
+        return command_obj
+    return decorator
+
+def require_permission(level: PermissionLevel):
+    """Decorator to set permission requirement."""
+    def decorator(command_obj):
+        command_obj.permission_level = level
+        return command_obj
+    return decorator
+
+# ==================== Command Parser ====================
+
+class CommandParser:
+    """Parse command strings into structured data."""
+    
+    def __init__(self, config: CommandConfig):
+        self.config = config
+        
+    def parse(self, message: str) -> Optional[Tuple[str, List[str], Dict[str, str]]]:
+        """
+        Parse message into command, args, and flags.
+        
+        Returns:
+            Tuple of (command_name, arguments, flags) or None
+        """
+        if not message.startswith(self.config.prefix):
+            return None
+        
+        # Remove prefix
+        content = message[len(self.config.prefix):].strip()
+        
+        if not content:
+            return None
+        
+        # Use shlex for proper parsing of quoted strings
+        try:
+            parts = shlex.split(content)
+        except ValueError:
+            # Fallback to simple split on parsing error
+            parts = content.split()
+        
+        if not parts:
+            return None
+        
+        # Extract command
+        command_name = parts[0]
+        if not self.config.case_sensitive:
+            command_name = command_name.lower()
+        
+        # Parse arguments and flags
+        args = []
+        flags = {}
+        
+        i = 1
+        while i < len(parts):
+            part = parts[i]
+            
+            if part.startswith('--'):
+                # Long flag
+                flag_name = part[2:]
+                if '=' in flag_name:
+                    key, value = flag_name.split('=', 1)
+                    flags[key] = value
+                elif i + 1 < len(parts) and not parts[i + 1].startswith('-'):
+                    flags[flag_name] = parts[i + 1]
+                    i += 1
+                else:
+                    flags[flag_name] = True
+                    
+            elif part.startswith('-') and len(part) > 1:
+                # Short flag(s)
+                for char in part[1:]:
+                    flags[char] = True
+                    
+            else:
+                # Regular argument
+                args.append(part)
+            
+            i += 1
+        
+        return command_name, args, flags
+    
+    def parse_arguments(
+        self, 
+        args: List[str], 
+        argument_defs: List[Argument]
+    ) -> List[ParsedArgument]:
+        """Parse arguments according to definitions."""
+        parsed = []
+        
+        for i, arg_def in enumerate(argument_defs):
+            if i < len(args):
+                raw_value = args[i]
+                
+                # Try to convert to correct type
+                try:
+                    if arg_def.type == bool:
+                        value = raw_value.lower() in ['true', 'yes', '1']
+                    elif arg_def.type == int:
+                        value = int(raw_value)
+                    elif arg_def.type == float:
+                        value = float(raw_value)
+                    else:
+                        value = raw_value
+                    
+                    # Validate value
+                    error = self._validate_argument(value, arg_def)
+                    
+                    parsed.append(ParsedArgument(
+                        name=arg_def.name,
+                        value=value,
+                        raw=raw_value,
+                        valid=error is None,
+                        error=error
+                    ))
+                    
+                except (ValueError, TypeError) as e:
+                    parsed.append(ParsedArgument(
+                        name=arg_def.name,
+                        value=None,
+                        raw=raw_value,
+                        valid=False,
+                        error=f"Invalid type for {arg_def.name}: expected {arg_def.type.__name__}"
+                    ))
+                    
+            elif arg_def.required:
+                parsed.append(ParsedArgument(
+                    name=arg_def.name,
+                    value=None,
+                    raw="",
+                    valid=False,
+                    error=f"Missing required argument: {arg_def.name}"
+                ))
+            else:
+                parsed.append(ParsedArgument(
+                    name=arg_def.name,
+                    value=arg_def.default,
+                    raw="",
+                    valid=True
+                ))
+        
+        return parsed
+    
+    def _validate_argument(self, value: Any, arg_def: Argument) -> Optional[str]:
+        """Validate argument value."""
+        # Check choices
+        if arg_def.choices and value not in arg_def.choices:
+            return f"Invalid choice. Must be one of: {', '.join(map(str, arg_def.choices))}"
+        
+        # Check min/max
+        if arg_def.min_value is not None and value < arg_def.min_value:
+            return f"Value must be at least {arg_def.min_value}"
+        
+        if arg_def.max_value is not None and value > arg_def.max_value:
+            return f"Value must be at most {arg_def.max_value}"
+        
+        # Custom validator
+        if arg_def.validator:
+            try:
+                if not arg_def.validator(value):
+                    return "Validation failed"
+            except Exception as e:
+                return str(e)
+        
+        return None
+
+# ==================== Command Registry ====================
+
+class CommandRegistry:
+    """Registry for managing commands."""
+    
+    def __init__(self, config: CommandConfig):
+        self.config = config
+        self.commands: Dict[str, Command] = {}
+        self.aliases: Dict[str, str] = {}
+        self.categories: Dict[CommandCategory, List[Command]] = defaultdict(list)
+        self.parser = CommandParser(config)
+        self.logger = logging.getLogger(__name__)
+        
+        # Middleware
+        self.pre_execute: List[Callable] = []
+        self.post_execute: List[Callable] = []
+        
+        # Command history
+        self.history: deque = deque(maxlen=100)
+        
+    def register(self, command: Command):
+        """Register a command."""
+        # Register main command
+        self.commands[command.name] = command
+        
+        # Register aliases
+        for alias in command.aliases:
+            self.aliases[alias] = command.name
+        
+        # Add to category
+        self.categories[command.category].append(command)
+        
+        self.logger.info(f"Registered command: {command.name}")
+        
+    def unregister(self, command_name: str):
+        """Unregister a command."""
+        if command_name in self.commands:
+            command = self.commands[command_name]
+            
+            # Remove from registry
+            del self.commands[command_name]
+            
+            # Remove aliases
+            for alias in command.aliases:
+                if alias in self.aliases:
+                    del self.aliases[alias]
+            
+            # Remove from category
+            if command in self.categories[command.category]:
+                self.categories[command.category].remove(command)
+            
+            self.logger.info(f"Unregistered command: {command_name}")
+    
+    def get_command(self, name: str) -> Optional[Command]:
+        """Get command by name or alias."""
+        # Check direct command
+        if name in self.commands:
+            return self.commands[name]
+        
+        # Check aliases
+        if name in self.aliases:
+            return self.commands[self.aliases[name]]
+        
+        return None
+    
+    def add_middleware(self, func: Callable, post: bool = False):
+        """Add middleware function."""
+        if post:
+            self.post_execute.append(func)
+        else:
+            self.pre_execute.append(func)
+    
+    async def execute(self, message: str, ctx: CommandContext) -> Any:
+        """Execute command from message."""
+        # Parse command
+        parsed = self.parser.parse(message)
+        if not parsed:
+            return None
+        
+        command_name, args, flags = parsed
+        
+        # Get command
+        command = self.get_command(command_name)
+        if not command:
+            if ctx.reply:
+                await ctx.reply(f"❌ Unknown command: {command_name}")
+            return None
+        
+        # Check for subcommands
+        if args and args[0] in command.subcommands:
+            subcommand = command.subcommands[args[0]]
+            args = args[1:]
+            command = subcommand
+        
+        # Parse arguments
+        parsed_args = self.parser.parse_arguments(args, command.arguments)
+        
+        # Check for argument errors
+        for arg in parsed_args:
+            if not arg.valid:
+                if ctx.reply:
+                    await ctx.reply(f"❌ {arg.error}")
+                return None
+        
+        # Update context
+        ctx.command = command
+        ctx.args = parsed_args
+        ctx.kwargs = flags
+        
+        # Add to history
+        self.history.append({
+            'timestamp': datetime.now(),
+            'user': ctx.user_id,
+            'command': command_name,
+            'args': args,
+            'flags': flags
+        })
+        
+        # Run pre-execute middleware
+        for middleware in self.pre_execute:
+            result = await self._run_middleware(middleware, ctx)
+            if result is False:
+                return None
+        
+        # Execute command
+        result = await command.handle(ctx)
+        
+        # Run post-execute middleware
+        for middleware in self.post_execute:
+            await self._run_middleware(middleware, ctx, result)
+        
+        return result
+    
+    async def _run_middleware(self, middleware: Callable, ctx: CommandContext, 
+                             result: Any = None) -> Any:
+        """Run middleware function."""
+        if asyncio.iscoroutinefunction(middleware):
+            return await middleware(ctx, result) if result is not None else await middleware(ctx)
+        else:
+            return middleware(ctx, result) if result is not None else middleware(ctx)
+
+# ==================== Built-in Commands ====================
+
+class HelpCommand(Command):
+    """Built-in help command."""
+    
+    def __init__(self, registry: CommandRegistry):
+        super().__init__(
+            "help",
+            "Show help information",
+            CommandCategory.HELP,
+            aliases=["h", "?"]
+        )
+        self.registry = registry
+        self.add_argument("command", str, "Command to get help for", required=False)
+    
+    async def execute(self, ctx: CommandContext) -> str:
+        """Execute help command."""
+        command_name = ctx.get_arg("command")
+        
+        if command_name:
+            # Show help for specific command
+            command = self.registry.get_command(command_name)
+            
+            if not command:
+                return f"❌ Unknown command: {command_name}"
+            
+            # Build help message
+            help_text = f"**{command.name}**\n"
+            help_text += f"{command.description}\n\n"
+            
+            if command.aliases:
+                help_text += f"**Aliases:** {', '.join(command.aliases)}\n"
+            
+            help_text += f"**Usage:** {self.registry.config.prefix}{command.usage}\n"
+            
+            if command.arguments:
+                help_text += "\n**Arguments:**\n"
+                for arg in command.arguments:
+                    required = "required" if arg.required else "optional"
+                    help_text += f"  • {arg.name} ({arg.type.__name__}, {required})"
+                    if arg.description:
+                        help_text += f" - {arg.description}"
+                    help_text += "\n"
+            
+            if command.examples:
+                help_text += "\n**Examples:**\n"
+                for example in command.examples:
+                    help_text += f"  {self.registry.config.prefix}{example}\n"
+            
+            if command.subcommands:
+                help_text += "\n**Subcommands:**\n"
+                for sub_name in command.subcommands:
+                    help_text += f"  • {sub_name}\n"
+            
+            if ctx.reply:
+                await ctx.reply(help_text)
+            
+            return help_text
+            
+        else:
+            # Show general help
+            help_text = "**Available Commands:**\n\n"
+            
+            for category in CommandCategory:
+                commands_in_category = [
+                    cmd for cmd in self.registry.categories[category]
+                    if not cmd.hidden
+                ]
+                
+                if commands_in_category:
+                    help_text += f"**{category.value.title()}:**\n"
+                    for cmd in commands_in_category:
+                        help_text += f"  • {self.registry.config.prefix}{cmd.name}"
+                        if cmd.description:
+                            help_text += f" - {cmd.description}"
+                        help_text += "\n"
+                    help_text += "\n"
+            
+            help_text += f"\nUse `{self.registry.config.prefix}help <command>` for more info"
+            
+            if ctx.reply:
+                await ctx.reply(help_text)
+            
+            return help_text
+
+# ==================== Command Manager ====================
+
+class CommandManager:
+    """High-level command management system."""
+    
+    def __init__(self, config: Optional[CommandConfig] = None):
+        self.config = config or CommandConfig()
+        self.registry = CommandRegistry(self.config)
+        self.logger = logging.getLogger(__name__)
+        
+        # Register built-in commands
+        self.registry.register(HelpCommand(self.registry))
+        
+    def command(self, **kwargs):
+        """Decorator for registering commands."""
+        def decorator(func):
+            cmd = command(**kwargs)(func)
+            self.registry.register(cmd)
+            return cmd
+        return decorator
+    
+    def group(self, name: str, **kwargs):
+        """Create command group."""
+        group_cmd = Command(name, **kwargs)
+        self.registry.register(group_cmd)
+        
+        def decorator(func):
+            sub_cmd = command()(func)
+            group_cmd.add_subcommand(sub_cmd)
+            return sub_cmd
+        
+        return decorator
+    
+    async def process_message(
+        self, 
+        message: str, 
+        platform: str = "unknown",
+        user_id: str = "unknown",
+        **kwargs
+    ) -> Any:
+        """Process a message as potential command."""
+        # Create context
+        ctx = CommandContext(
+            platform=platform,
+            user_id=user_id,
+            content=message,
+            raw_content=message,
+            **kwargs
+        )
+        
+        # Execute command
+        return await self.registry.execute(message, ctx)
+
+# ==================== Example Commands ====================
+
+# Create command manager
+manager = CommandManager()
+
+# Example: Simple command
+@manager.command(
+    description="Ping the bot",
+    category=CommandCategory.GENERAL,
+    aliases=["p"]
+)
+async def ping(ctx: CommandContext):
+    """Simple ping command."""
+    if ctx.reply:
+        await ctx.reply("🏓 Pong!")
+    return "Pong!"
+
+# Example: Command with arguments
+@manager.command(
+    description="Perform calculation",
+    category=CommandCategory.UTILITY
+)
+async def calc(ctx: CommandContext, expression: str):
+    """Calculator command."""
+    try:
+        # Safe evaluation (in production, use proper parser)
+        result = eval(expression, {"__builtins__": {}}, {})
+        response = f"Result: {result}"
+    except Exception as e:
+        response = f"Error: {str(e)}"
+    
+    if ctx.reply:
+        await ctx.reply(response)
+    return response
+
+# Example: Admin command
+@manager.command(
+    description="Kick a user",
+    category=CommandCategory.MODERATION
+)
+@require_permission(PermissionLevel.MODERATOR)
+async def kick(ctx: CommandContext, user: str, reason: str = "No reason"):
+    """Kick command."""
+    response = f"Kicked {user} for: {reason}"
+    if ctx.reply:
+        await ctx.reply(response)
+    return response
+
+# Example: Command with cooldown
+@manager.command(
+    description="Roll dice",
+    category=CommandCategory.FUN
+)
+@cooldown(5)  # 5 second cooldown
+async def roll(ctx: CommandContext, sides: int = 6):
+    """Dice roll command."""
+    import random
+    result = random.randint(1, sides)
+    response = f"🎲 You rolled: {result}"
+    
+    if ctx.reply:
+        await ctx.reply(response)
+    return response
+
+# ==================== Command Chain Builder ====================
+
+class CommandChain:
+    """Build and execute command chains."""
+    
+    def __init__(self, manager: CommandManager):
+        self.manager = manager
+        self.chain = []
+    
+    def add(self, command_str: str) -> 'CommandChain':
+        """Add command to chain."""
+        self.chain.append(command_str)
+        return self
+    
+    def pipe(self, command_str: str) -> 'CommandChain':
+        """Pipe output to next command."""
+        self.chain.append(('pipe', command_str))
+        return self
+    
+    async def execute(self, ctx: CommandContext) -> List[Any]:
+        """Execute command chain."""
+        results = []
+        last_result = None
+        
+        for item in self.chain:
+            if isinstance(item, tuple) and item[0] == 'pipe':
+                # Pipe last result to next command
+                command_str = item[1]
+                if last_result:
+                    command_str += f" {last_result}"
+                
+                last_result = await self.manager.process_message(
+                    command_str,
+                    platform=ctx.platform,
+                    user_id=ctx.user_id
+                )
+            else:
+                # Regular command
+                last_result = await self.manager.process_message(
+                    item,
+                    platform=ctx.platform,
+                    user_id=ctx.user_id
+                )
+            
+            results.append(last_result)
+        
+        return results
+
+# Example usage
+if __name__ == "__main__":
+    print("⚡ Command Handling Examples\n")
+    
+    # Example 1: Command structure
+    print("1️⃣ Command Structure:")
+    
+    print("   Basic: !command")
+    print("   With args: !command arg1 arg2")
+    print("   With flags: !command --flag value")
+    print("   Subcommand: !group subcommand")
+    print("   Chain: !cmd1 && !cmd2")
+    
+    # Example 2: Command registration
+    print("\n2️⃣ Registering Commands:")
+    
+    print("   Using decorator:")
+    print("     @manager.command()")
+    print("     async def mycommand(ctx):")
+    print("         return 'Result'")
+    
+    # Example 3: Permission levels
+    print("\n3️⃣ Permission Levels:")
+    
+    for level in PermissionLevel:
+        print(f"   {level.value}: {level.name}")
+    
+    # Example 4: Command categories
+    print("\n4️⃣ Command Categories:")
+    
+    for category in CommandCategory:
+        print(f"   • {category.value}")
+    
+    # Example 5: Argument types
+    print("\n5️⃣ Argument Types:")
+    
+    arg_types = [
+        ("str", "Text string", "!say Hello World"),
+        ("int", "Integer number", "!roll 20"),
+        ("float", "Decimal number", "!volume 0.5"),
+        ("bool", "True/False", "!toggle true"),
+        ("choice", "From list", "!color red|blue|green")
+    ]
+    
+    for arg_type, description, example in arg_types:
+        print(f"   {arg_type}: {description}")
+        print(f"     Example: {example}")
+    
+    # Example 6: Test command execution
+    print("\n6️⃣ Testing Commands:")
+    
+    async def test_commands():
+        # Test ping
+        result = await manager.process_message("!ping", "test", "user123")
+        print(f"   !ping → {result}")
+        
+        # Test with arguments
+        result = await manager.process_message("!calc 2+2", "test", "user123")
+        print(f"   !calc 2+2 → {result}")
+        
+        # Test help
+        result = await manager.process_message("!help", "test", "user123")
+        print(f"   !help → (help text)")
+    
+    # Run async test
+    asyncio.run(test_commands())
+    
+    # Example 7: Cooldown example
+    print("\n7️⃣ Cooldown System:")
+    
+    print("   Command used → Start cooldown")
+    print("   User tries again → 'On cooldown (3s remaining)'")
+    print("   After cooldown → Command works again")
+    
+    # Example 8: Command middleware
+    print("\n8️⃣ Middleware Pipeline:")
+    
+    pipeline = [
+        "1. Parse command",
+        "2. Check permissions",
+        "3. Validate arguments",
+        "4. Check cooldown",
+        "5. Pre-execute middleware",
+        "6. Execute command",
+        "7. Post-execute middleware",
+        "8. Return result"
+    ]
+    
+    for step in pipeline:
+        print(f"   {step}")
+    
+    # Example 9: Error handling
+    print("\n9️⃣ Error Handling:")
+    
+    errors = [
+        ("Unknown command", "!invalid", "Command not found"),
+        ("Missing argument", "!kick", "Missing required argument: user"),
+        ("Wrong type", "!roll abc", "Invalid type: expected int"),
+        ("Permission denied", "!admin", "Insufficient permissions"),
+        ("On cooldown", "!roll (repeated)", "Command on cooldown")
+    ]
+    
+    for error_type, command, message in errors:
+        print(f"   {error_type}:")
+        print(f"     Command: {command}")
+        print(f"     Error: {message}")
+    
+    # Example 10: Best practices
+    print("\n🔟 Command Handling Best Practices:")
+    
+    practices = [
+        "📝 Use clear, consistent command names",
+        "🎯 Implement proper argument validation",
+        "🔒 Check permissions before execution",
+        "⏱️ Add cooldowns to prevent spam",
+        "📚 Provide helpful error messages",
+        "💡 Include usage examples",
+        "🔄 Support command aliases",
+        "📊 Track command usage",
+        "🛡️ Handle errors gracefully",
+        "📖 Auto-generate help docs"
+    ]
+    
+    for practice in practices:
+        print(f"   {practice}")
+    
+    print("\n✅ Command handling demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Structure Commands Well:</strong> Use clear names and consistent patterns.</li>
+        
+        <li><strong>Validate Arguments:</strong> Check types, ranges, and requirements.</li>
+        
+        <li><strong>Implement Permissions:</strong> Secure sensitive commands properly.</li>
+        
+        <li><strong>Add Cooldowns:</strong> Prevent spam and abuse.</li>
+        
+        <li><strong>Provide Help:</strong> Auto-generate documentation from commands.</li>
+        
+        <li><strong>Handle Errors Gracefully:</strong> Give users helpful feedback.</li>
+        
+        <li><strong>Use Middleware:</strong> Add cross-cutting concerns cleanly.</li>
+        
+        <li><strong>Track Usage:</strong> Monitor command statistics for insights.</li>
+    </ul>
+
+    <h3>Command Handling Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of command handling as creating a user interface through text - it should be intuitive, consistent, and helpful. Start with a clear command structure: use consistent prefixes (!command) and follow conventions users expect. Implement robust argument parsing that handles quoted strings, flags, and various data types. Always validate input thoroughly - check types, ranges, and permissions before executing. Add cooldowns to prevent spam and protect your bot from abuse. Build a comprehensive help system that auto-generates from your command definitions. Use decorators to keep command code clean and reusable. Implement command categories to organize features logically. Support aliases for commonly used commands. Add middleware for logging, metrics, and other cross-cutting concerns. Handle errors gracefully with clear, actionable error messages. Track command usage to understand how users interact with your bot. Most importantly: design commands that feel natural to use - good command design makes complex features accessible!</p>
+    </div>
+    
+    <p>Mastering command handling enables you to create powerful, intuitive bot interfaces that users can navigate easily. You can now build bots with complex command structures, argument validation, permissions, cooldowns, and comprehensive help systems. Whether you're building admin tools, game bots, or automation systems, these command handling skills create professional, user-friendly bot experiences! 🚀</p>
+    
+    <footer>
+        <p>Congratulations! You've completed the Chat Bot Development section. You're now equipped to build sophisticated bots across multiple platforms! 🎉</p>
+    </footer>
+</body>
+</html>
