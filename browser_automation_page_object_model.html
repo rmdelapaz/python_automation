@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Object Model - Python Browser Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🏗️ Page Object Model: Build Maintainable Test Automation</h1>
+    
+    <p>The Page Object Model (POM) is the architectural blueprint for scalable test automation - it transforms chaotic test scripts into organized, maintainable masterpieces. Like a well-designed building with clear floors and rooms, POM separates your page structure from test logic, making your automation as easy to maintain as it is to write. Let's master the art of building robust, reusable page objects! 🏛️</p>
+
+    <h2>The Page Object Architecture</h2>
+    
+    <p>Think of POM as creating a digital map of your application - each page becomes a class, elements become properties, and actions become methods. This separation of concerns means when the UI changes, you update one place instead of hundreds of tests. It's the difference between maintaining a mansion and maintaining a house of cards!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Page Object Model] --> B[Page Classes]
+        A --> C[Element Locators]
+        A --> D[Page Actions]
+        A --> E[Page Validation]
+        
+        B --> F[Base Page]
+        B --> G[Login Page]
+        B --> H[Dashboard Page]
+        B --> I[Components]
+        
+        C --> J[Centralized Locators]
+        C --> K[Dynamic Locators]
+        C --> L[Locator Strategies]
+        
+        D --> M[User Actions]
+        D --> N[Workflows]
+        D --> O[Chained Actions]
+        
+        E --> P[Assertions]
+        E --> Q[Wait Conditions]
+        E --> R[State Validation]
+        
+        S[Test Layer] --> T[Test Cases]
+        S --> U[Test Data]
+        S --> V[Test Utilities]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style S fill:#ff6b6b
+    </div>
+
+    <h3>Real-World Scenario: The E-Commerce Test Suite 🛍️</h3>
+    
+    <p>You're building a comprehensive test automation framework for a complex e-commerce platform with hundreds of pages, dynamic content, multiple user flows, and frequent UI updates. Your framework must handle login flows, product searches, cart management, checkout processes, and admin operations - all while being maintainable by a team of testers with varying technical skills. Let's build an enterprise-grade Page Object Model!</p>
+
+    <pre><code># First, install required packages:
+# pip install selenium pytest pytest-html allure-pytest
+
+import logging
+from typing import List, Optional, Dict, Any, Tuple, TypeVar, Generic
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from enum import Enum
+import time
+import re
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
+from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import (
+    TimeoutException,
+    NoSuchElementException,
+    StaleElementReferenceException,
+    ElementNotInteractableException
+)
+
+# Type hints
+T = TypeVar('T')
+
+# ==================== Base Page Class ====================
+
+class BasePage:
+    """
+    Base page class that all page objects inherit from.
+    Contains common functionality for all pages.
+    """
+    
+    def __init__(self, driver: webdriver.Remote, timeout: int = 10):
+        self.driver = driver
+        self.timeout = timeout
+        self.wait = WebDriverWait(driver, timeout)
+        self.logger = logging.getLogger(self.__class__.__name__)
+    
+    # -------------------- Navigation --------------------
+    
+    def open(self, url: str):
+        """Navigate to a URL."""
+        self.driver.get(url)
+        self.logger.info(f"Opened URL: {url}")
+    
+    def get_current_url(self) -> str:
+        """Get current page URL."""
+        return self.driver.current_url
+    
+    def get_title(self) -> str:
+        """Get page title."""
+        return self.driver.title
+    
+    def refresh(self):
+        """Refresh the page."""
+        self.driver.refresh()
+        self.logger.info("Page refreshed")
+    
+    def go_back(self):
+        """Navigate back."""
+        self.driver.back()
+        self.logger.info("Navigated back")
+    
+    def go_forward(self):
+        """Navigate forward."""
+        self.driver.forward()
+        self.logger.info("Navigated forward")
+    
+    # -------------------- Element Finding --------------------
+    
+    def find_element(self, locator: Tuple[str, str]) -> WebElement:
+        """Find a single element."""
+        try:
+            element = self.wait.until(EC.presence_of_element_located(locator))
+            self.logger.debug(f"Found element: {locator}")
+            return element
+        except TimeoutException:
+            self.logger.error(f"Element not found: {locator}")
+            raise
+    
+    def find_elements(self, locator: Tuple[str, str]) -> List[WebElement]:
+        """Find multiple elements."""
+        try:
+            self.wait.until(EC.presence_of_element_located(locator))
+            elements = self.driver.find_elements(*locator)
+            self.logger.debug(f"Found {len(elements)} elements: {locator}")
+            return elements
+        except TimeoutException:
+            self.logger.error(f"Elements not found: {locator}")
+            return []
+    
+    def find_visible_element(self, locator: Tuple[str, str]) -> WebElement:
+        """Find visible element."""
+        try:
+            element = self.wait.until(EC.visibility_of_element_located(locator))
+            self.logger.debug(f"Found visible element: {locator}")
+            return element
+        except TimeoutException:
+            self.logger.error(f"Visible element not found: {locator}")
+            raise
+    
+    def find_clickable_element(self, locator: Tuple[str, str]) -> WebElement:
+        """Find clickable element."""
+        try:
+            element = self.wait.until(EC.element_to_be_clickable(locator))
+            self.logger.debug(f"Found clickable element: {locator}")
+            return element
+        except TimeoutException:
+            self.logger.error(f"Clickable element not found: {locator}")
+            raise
+    
+    # -------------------- Element Interactions --------------------
+    
+    def click(self, locator: Tuple[str, str]):
+        """Click an element."""
+        element = self.find_clickable_element(locator)
+        element.click()
+        self.logger.info(f"Clicked element: {locator}")
+    
+    def type_text(self, locator: Tuple[str, str], text: str, clear: bool = True):
+        """Type text into an element."""
+        element = self.find_visible_element(locator)
+        if clear:
+            element.clear()
+        element.send_keys(text)
+        self.logger.info(f"Typed '{text}' into element: {locator}")
+    
+    def get_text(self, locator: Tuple[str, str]) -> str:
+        """Get element text."""
+        element = self.find_visible_element(locator)
+        return element.text
+    
+    def get_attribute(self, locator: Tuple[str, str], attribute: str) -> str:
+        """Get element attribute."""
+        element = self.find_element(locator)
+        return element.get_attribute(attribute)
+    
+    def select_dropdown_by_text(self, locator: Tuple[str, str], text: str):
+        """Select dropdown option by visible text."""
+        element = self.find_element(locator)
+        select = Select(element)
+        select.select_by_visible_text(text)
+        self.logger.info(f"Selected '{text}' from dropdown: {locator}")
+    
+    def select_dropdown_by_value(self, locator: Tuple[str, str], value: str):
+        """Select dropdown option by value."""
+        element = self.find_element(locator)
+        select = Select(element)
+        select.select_by_value(value)
+        self.logger.info(f"Selected value '{value}' from dropdown: {locator}")
+    
+    # -------------------- Waits and Conditions --------------------
+    
+    def wait_for_element(self, locator: Tuple[str, str], timeout: Optional[int] = None):
+        """Wait for element to be present."""
+        timeout = timeout or self.timeout
+        wait = WebDriverWait(self.driver, timeout)
+        wait.until(EC.presence_of_element_located(locator))
+        self.logger.debug(f"Element present: {locator}")
+    
+    def wait_for_element_visible(self, locator: Tuple[str, str], timeout: Optional[int] = None):
+        """Wait for element to be visible."""
+        timeout = timeout or self.timeout
+        wait = WebDriverWait(self.driver, timeout)
+        wait.until(EC.visibility_of_element_located(locator))
+        self.logger.debug(f"Element visible: {locator}")
+    
+    def wait_for_element_invisible(self, locator: Tuple[str, str], timeout: Optional[int] = None):
+        """Wait for element to be invisible."""
+        timeout = timeout or self.timeout
+        wait = WebDriverWait(self.driver, timeout)
+        wait.until(EC.invisibility_of_element_located(locator))
+        self.logger.debug(f"Element invisible: {locator}")
+    
+    def wait_for_text_in_element(self, locator: Tuple[str, str], text: str, timeout: Optional[int] = None):
+        """Wait for specific text in element."""
+        timeout = timeout or self.timeout
+        wait = WebDriverWait(self.driver, timeout)
+        wait.until(EC.text_to_be_present_in_element(locator, text))
+        self.logger.debug(f"Text '{text}' present in element: {locator}")
+    
+    # -------------------- Validation Methods --------------------
+    
+    def is_element_present(self, locator: Tuple[str, str]) -> bool:
+        """Check if element is present in DOM."""
+        try:
+            self.driver.find_element(*locator)
+            return True
+        except NoSuchElementException:
+            return False
+    
+    def is_element_visible(self, locator: Tuple[str, str]) -> bool:
+        """Check if element is visible."""
+        try:
+            element = self.driver.find_element(*locator)
+            return element.is_displayed()
+        except NoSuchElementException:
+            return False
+    
+    def is_element_enabled(self, locator: Tuple[str, str]) -> bool:
+        """Check if element is enabled."""
+        try:
+            element = self.driver.find_element(*locator)
+            return element.is_enabled()
+        except NoSuchElementException:
+            return False
+    
+    def is_element_selected(self, locator: Tuple[str, str]) -> bool:
+        """Check if element is selected."""
+        try:
+            element = self.driver.find_element(*locator)
+            return element.is_selected()
+        except NoSuchElementException:
+            return False
+    
+    # -------------------- JavaScript Execution --------------------
+    
+    def execute_script(self, script: str, *args) -> Any:
+        """Execute JavaScript."""
+        return self.driver.execute_script(script, *args)
+    
+    def scroll_to_element(self, locator: Tuple[str, str]):
+        """Scroll element into view."""
+        element = self.find_element(locator)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+        self.logger.debug(f"Scrolled to element: {locator}")
+    
+    def highlight_element(self, locator: Tuple[str, str]):
+        """Highlight element for debugging."""
+        element = self.find_element(locator)
+        original_style = element.get_attribute("style")
+        self.driver.execute_script(
+            "arguments[0].setAttribute('style', 'border: 2px solid red; background: yellow;');",
+            element
+        )
+        time.sleep(1)
+        self.driver.execute_script(
+            f"arguments[0].setAttribute('style', '{original_style}');",
+            element
+        )
+
+# ==================== Component Classes ====================
+
+class Component(ABC):
+    """Base class for reusable page components."""
+    
+    def __init__(self, driver: webdriver.Remote, root_locator: Optional[Tuple[str, str]] = None):
+        self.driver = driver
+        self.root_locator = root_locator
+        self.wait = WebDriverWait(driver, 10)
+        self.logger = logging.getLogger(self.__class__.__name__)
+    
+    def get_root_element(self) -> WebElement:
+        """Get the root element of the component."""
+        if self.root_locator:
+            return self.wait.until(EC.presence_of_element_located(self.root_locator))
+        return self.driver
+    
+    @abstractmethod
+    def is_loaded(self) -> bool:
+        """Check if component is loaded."""
+        pass
+
+class NavigationMenu(Component):
+    """Navigation menu component."""
+    
+    # Locators
+    MENU_CONTAINER = (By.CLASS_NAME, "navigation-menu")
+    HOME_LINK = (By.LINK_TEXT, "Home")
+    PRODUCTS_LINK = (By.LINK_TEXT, "Products")
+    CART_LINK = (By.LINK_TEXT, "Cart")
+    ACCOUNT_LINK = (By.LINK_TEXT, "Account")
+    CART_COUNT = (By.CLASS_NAME, "cart-count")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver, self.MENU_CONTAINER)
+    
+    def is_loaded(self) -> bool:
+        """Check if navigation menu is loaded."""
+        try:
+            self.get_root_element()
+            return True
+        except TimeoutException:
+            return False
+    
+    def go_to_home(self):
+        """Navigate to home page."""
+        self.wait.until(EC.element_to_be_clickable(self.HOME_LINK)).click()
+        self.logger.info("Navigated to Home")
+    
+    def go_to_products(self):
+        """Navigate to products page."""
+        self.wait.until(EC.element_to_be_clickable(self.PRODUCTS_LINK)).click()
+        self.logger.info("Navigated to Products")
+    
+    def go_to_cart(self):
+        """Navigate to cart."""
+        self.wait.until(EC.element_to_be_clickable(self.CART_LINK)).click()
+        self.logger.info("Navigated to Cart")
+    
+    def go_to_account(self):
+        """Navigate to account."""
+        self.wait.until(EC.element_to_be_clickable(self.ACCOUNT_LINK)).click()
+        self.logger.info("Navigated to Account")
+    
+    def get_cart_count(self) -> int:
+        """Get number of items in cart."""
+        try:
+            count_text = self.driver.find_element(*self.CART_COUNT).text
+            return int(count_text)
+        except (NoSuchElementException, ValueError):
+            return 0
+
+class SearchBar(Component):
+    """Search bar component."""
+    
+    # Locators
+    SEARCH_INPUT = (By.ID, "search-input")
+    SEARCH_BUTTON = (By.ID, "search-button")
+    SEARCH_SUGGESTIONS = (By.CLASS_NAME, "search-suggestions")
+    SUGGESTION_ITEMS = (By.CSS_SELECTOR, ".search-suggestions li")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver)
+    
+    def is_loaded(self) -> bool:
+        """Check if search bar is loaded."""
+        try:
+            self.wait.until(EC.presence_of_element_located(self.SEARCH_INPUT))
+            return True
+        except TimeoutException:
+            return False
+    
+    def search(self, query: str):
+        """Perform a search."""
+        search_input = self.wait.until(EC.element_to_be_clickable(self.SEARCH_INPUT))
+        search_input.clear()
+        search_input.send_keys(query)
+        
+        search_button = self.driver.find_element(*self.SEARCH_BUTTON)
+        search_button.click()
+        
+        self.logger.info(f"Searched for: {query}")
+    
+    def search_with_enter(self, query: str):
+        """Perform search using Enter key."""
+        search_input = self.wait.until(EC.element_to_be_clickable(self.SEARCH_INPUT))
+        search_input.clear()
+        search_input.send_keys(query)
+        search_input.send_keys(Keys.RETURN)
+        
+        self.logger.info(f"Searched for: {query}")
+    
+    def get_suggestions(self) -> List[str]:
+        """Get search suggestions."""
+        try:
+            # Type something to trigger suggestions
+            suggestions = self.driver.find_elements(*self.SUGGESTION_ITEMS)
+            return [s.text for s in suggestions]
+        except NoSuchElementException:
+            return []
+    
+    def select_suggestion(self, index: int):
+        """Select a search suggestion by index."""
+        suggestions = self.driver.find_elements(*self.SUGGESTION_ITEMS)
+        if 0 <= index < len(suggestions):
+            suggestions[index].click()
+            self.logger.info(f"Selected suggestion at index {index}")
+
+# ==================== Page Classes ====================
+
+class LoginPage(BasePage):
+    """Login page object."""
+    
+    # Page URL
+    URL = "https://example.com/login"
+    
+    # Locators
+    USERNAME_INPUT = (By.ID, "username")
+    PASSWORD_INPUT = (By.ID, "password")
+    LOGIN_BUTTON = (By.ID, "login-button")
+    ERROR_MESSAGE = (By.CLASS_NAME, "error-message")
+    REMEMBER_ME_CHECKBOX = (By.ID, "remember-me")
+    FORGOT_PASSWORD_LINK = (By.LINK_TEXT, "Forgot Password?")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver)
+    
+    def open(self):
+        """Navigate to login page."""
+        super().open(self.URL)
+    
+    def login(self, username: str, password: str, remember: bool = False) -> 'DashboardPage':
+        """
+        Perform login action.
+        Returns DashboardPage object for method chaining.
+        """
+        self.type_text(self.USERNAME_INPUT, username)
+        self.type_text(self.PASSWORD_INPUT, password)
+        
+        if remember:
+            if not self.is_element_selected(self.REMEMBER_ME_CHECKBOX):
+                self.click(self.REMEMBER_ME_CHECKBOX)
+        
+        self.click(self.LOGIN_BUTTON)
+        self.logger.info(f"Logged in as {username}")
+        
+        # Return next page object for chaining
+        return DashboardPage(self.driver)
+    
+    def get_error_message(self) -> str:
+        """Get login error message."""
+        try:
+            return self.get_text(self.ERROR_MESSAGE)
+        except TimeoutException:
+            return ""
+    
+    def is_error_displayed(self) -> bool:
+        """Check if error message is displayed."""
+        return self.is_element_visible(self.ERROR_MESSAGE)
+    
+    def click_forgot_password(self):
+        """Click forgot password link."""
+        self.click(self.FORGOT_PASSWORD_LINK)
+        self.logger.info("Clicked forgot password")
+
+class DashboardPage(BasePage):
+    """Dashboard page object."""
+    
+    # Locators
+    WELCOME_MESSAGE = (By.CLASS_NAME, "welcome-message")
+    USER_NAME = (By.ID, "user-name")
+    LOGOUT_BUTTON = (By.ID, "logout-button")
+    STATS_WIDGETS = (By.CLASS_NAME, "stat-widget")
+    RECENT_ORDERS = (By.ID, "recent-orders-table")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver)
+        # Initialize components
+        self.navigation = NavigationMenu(driver)
+        self.search_bar = SearchBar(driver)
+    
+    def is_loaded(self) -> bool:
+        """Check if dashboard is loaded."""
+        try:
+            self.wait_for_element_visible(self.WELCOME_MESSAGE)
+            return True
+        except TimeoutException:
+            return False
+    
+    def get_welcome_message(self) -> str:
+        """Get welcome message text."""
+        return self.get_text(self.WELCOME_MESSAGE)
+    
+    def get_username(self) -> str:
+        """Get logged in username."""
+        return self.get_text(self.USER_NAME)
+    
+    def logout(self):
+        """Perform logout."""
+        self.click(self.LOGOUT_BUTTON)
+        self.logger.info("Logged out")
+    
+    def get_stats(self) -> List[Dict[str, str]]:
+        """Get dashboard statistics."""
+        widgets = self.find_elements(self.STATS_WIDGETS)
+        stats = []
+        
+        for widget in widgets:
+            title = widget.find_element(By.CLASS_NAME, "stat-title").text
+            value = widget.find_element(By.CLASS_NAME, "stat-value").text
+            stats.append({"title": title, "value": value})
+        
+        return stats
+
+class ProductPage(BasePage):
+    """Product details page."""
+    
+    # Locators
+    PRODUCT_TITLE = (By.CLASS_NAME, "product-title")
+    PRODUCT_PRICE = (By.CLASS_NAME, "product-price")
+    PRODUCT_DESCRIPTION = (By.CLASS_NAME, "product-description")
+    QUANTITY_INPUT = (By.ID, "quantity")
+    ADD_TO_CART_BUTTON = (By.ID, "add-to-cart")
+    PRODUCT_IMAGES = (By.CSS_SELECTOR, ".product-images img")
+    REVIEWS_SECTION = (By.ID, "reviews-section")
+    SIZE_SELECTOR = (By.NAME, "size")
+    COLOR_SELECTOR = (By.NAME, "color")
+    IN_STOCK_INDICATOR = (By.CLASS_NAME, "stock-status")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver)
+    
+    def get_product_title(self) -> str:
+        """Get product title."""
+        return self.get_text(self.PRODUCT_TITLE)
+    
+    def get_product_price(self) -> float:
+        """Get product price as float."""
+        price_text = self.get_text(self.PRODUCT_PRICE)
+        # Extract numeric value
+        price = re.findall(r'[\d.]+', price_text)[0]
+        return float(price)
+    
+    def select_size(self, size: str):
+        """Select product size."""
+        self.select_dropdown_by_text(self.SIZE_SELECTOR, size)
+        self.logger.info(f"Selected size: {size}")
+    
+    def select_color(self, color: str):
+        """Select product color."""
+        self.select_dropdown_by_text(self.COLOR_SELECTOR, color)
+        self.logger.info(f"Selected color: {color}")
+    
+    def set_quantity(self, quantity: int):
+        """Set product quantity."""
+        self.type_text(self.QUANTITY_INPUT, str(quantity))
+        self.logger.info(f"Set quantity to: {quantity}")
+    
+    def add_to_cart(self):
+        """Add product to cart."""
+        self.click(self.ADD_TO_CART_BUTTON)
+        self.logger.info("Added product to cart")
+    
+    def is_in_stock(self) -> bool:
+        """Check if product is in stock."""
+        status_text = self.get_text(self.IN_STOCK_INDICATOR)
+        return "in stock" in status_text.lower()
+    
+    def get_image_urls(self) -> List[str]:
+        """Get all product image URLs."""
+        images = self.find_elements(self.PRODUCT_IMAGES)
+        return [img.get_attribute("src") for img in images]
+
+class CartPage(BasePage):
+    """Shopping cart page."""
+    
+    # Locators
+    CART_ITEMS = (By.CLASS_NAME, "cart-item")
+    CART_TOTAL = (By.ID, "cart-total")
+    CHECKOUT_BUTTON = (By.ID, "checkout-button")
+    CONTINUE_SHOPPING = (By.LINK_TEXT, "Continue Shopping")
+    EMPTY_CART_MESSAGE = (By.CLASS_NAME, "empty-cart")
+    REMOVE_ITEM_BUTTON = (By.CLASS_NAME, "remove-item")
+    QUANTITY_INPUT = (By.CLASS_NAME, "item-quantity")
+    UPDATE_CART_BUTTON = (By.ID, "update-cart")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver)
+    
+    def get_cart_items(self) -> List[Dict[str, Any]]:
+        """Get all items in cart."""
+        items = self.find_elements(self.CART_ITEMS)
+        cart_items = []
+        
+        for item in items:
+            name = item.find_element(By.CLASS_NAME, "item-name").text
+            price = item.find_element(By.CLASS_NAME, "item-price").text
+            quantity = item.find_element(By.CLASS_NAME, "item-quantity").get_attribute("value")
+            
+            cart_items.append({
+                "name": name,
+                "price": price,
+                "quantity": int(quantity)
+            })
+        
+        return cart_items
+    
+    def get_total(self) -> float:
+        """Get cart total."""
+        total_text = self.get_text(self.CART_TOTAL)
+        total = re.findall(r'[\d.]+', total_text)[0]
+        return float(total)
+    
+    def remove_item(self, index: int):
+        """Remove item from cart by index."""
+        remove_buttons = self.find_elements(self.REMOVE_ITEM_BUTTON)
+        if 0 <= index < len(remove_buttons):
+            remove_buttons[index].click()
+            self.logger.info(f"Removed item at index {index}")
+    
+    def update_quantity(self, index: int, quantity: int):
+        """Update item quantity."""
+        quantity_inputs = self.find_elements(self.QUANTITY_INPUT)
+        if 0 <= index < len(quantity_inputs):
+            quantity_inputs[index].clear()
+            quantity_inputs[index].send_keys(str(quantity))
+            self.click(self.UPDATE_CART_BUTTON)
+            self.logger.info(f"Updated quantity at index {index} to {quantity}")
+    
+    def is_empty(self) -> bool:
+        """Check if cart is empty."""
+        return self.is_element_visible(self.EMPTY_CART_MESSAGE)
+    
+    def proceed_to_checkout(self) -> 'CheckoutPage':
+        """Proceed to checkout."""
+        self.click(self.CHECKOUT_BUTTON)
+        self.logger.info("Proceeded to checkout")
+        return CheckoutPage(self.driver)
+    
+    def continue_shopping(self):
+        """Continue shopping."""
+        self.click(self.CONTINUE_SHOPPING)
+        self.logger.info("Continued shopping")
+
+class CheckoutPage(BasePage):
+    """Checkout page."""
+    
+    # Locators - Billing Information
+    FIRST_NAME = (By.ID, "billing-first-name")
+    LAST_NAME = (By.ID, "billing-last-name")
+    EMAIL = (By.ID, "billing-email")
+    PHONE = (By.ID, "billing-phone")
+    ADDRESS = (By.ID, "billing-address")
+    CITY = (By.ID, "billing-city")
+    STATE = (By.ID, "billing-state")
+    ZIP_CODE = (By.ID, "billing-zip")
+    COUNTRY = (By.ID, "billing-country")
+    
+    # Payment Information
+    CARD_NUMBER = (By.ID, "card-number")
+    CARD_NAME = (By.ID, "card-name")
+    EXPIRY_MONTH = (By.ID, "expiry-month")
+    EXPIRY_YEAR = (By.ID, "expiry-year")
+    CVV = (By.ID, "cvv")
+    
+    # Other
+    SAME_AS_BILLING = (By.ID, "same-as-billing")
+    PLACE_ORDER_BUTTON = (By.ID, "place-order")
+    ORDER_SUMMARY = (By.CLASS_NAME, "order-summary")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver)
+    
+    def fill_billing_information(self, billing_info: Dict[str, str]):
+        """Fill billing information form."""
+        self.type_text(self.FIRST_NAME, billing_info.get("first_name", ""))
+        self.type_text(self.LAST_NAME, billing_info.get("last_name", ""))
+        self.type_text(self.EMAIL, billing_info.get("email", ""))
+        self.type_text(self.PHONE, billing_info.get("phone", ""))
+        self.type_text(self.ADDRESS, billing_info.get("address", ""))
+        self.type_text(self.CITY, billing_info.get("city", ""))
+        self.select_dropdown_by_text(self.STATE, billing_info.get("state", ""))
+        self.type_text(self.ZIP_CODE, billing_info.get("zip", ""))
+        self.select_dropdown_by_text(self.COUNTRY, billing_info.get("country", ""))
+        
+        self.logger.info("Filled billing information")
+    
+    def fill_payment_information(self, payment_info: Dict[str, str]):
+        """Fill payment information."""
+        self.type_text(self.CARD_NUMBER, payment_info.get("card_number", ""))
+        self.type_text(self.CARD_NAME, payment_info.get("card_name", ""))
+        self.select_dropdown_by_value(self.EXPIRY_MONTH, payment_info.get("expiry_month", ""))
+        self.select_dropdown_by_value(self.EXPIRY_YEAR, payment_info.get("expiry_year", ""))
+        self.type_text(self.CVV, payment_info.get("cvv", ""))
+        
+        self.logger.info("Filled payment information")
+    
+    def use_same_address_for_shipping(self):
+        """Check 'same as billing' checkbox."""
+        if not self.is_element_selected(self.SAME_AS_BILLING):
+            self.click(self.SAME_AS_BILLING)
+        self.logger.info("Using billing address for shipping")
+    
+    def place_order(self) -> 'OrderConfirmationPage':
+        """Place the order."""
+        self.click(self.PLACE_ORDER_BUTTON)
+        self.logger.info("Placed order")
+        return OrderConfirmationPage(self.driver)
+    
+    def get_order_summary(self) -> str:
+        """Get order summary text."""
+        return self.get_text(self.ORDER_SUMMARY)
+
+class OrderConfirmationPage(BasePage):
+    """Order confirmation page."""
+    
+    # Locators
+    ORDER_NUMBER = (By.ID, "order-number")
+    CONFIRMATION_MESSAGE = (By.CLASS_NAME, "confirmation-message")
+    ORDER_DETAILS = (By.ID, "order-details")
+    PRINT_BUTTON = (By.ID, "print-order")
+    CONTINUE_SHOPPING_BUTTON = (By.ID, "continue-shopping")
+    
+    def __init__(self, driver: webdriver.Remote):
+        super().__init__(driver)
+    
+    def get_order_number(self) -> str:
+        """Get order number."""
+        return self.get_text(self.ORDER_NUMBER)
+    
+    def get_confirmation_message(self) -> str:
+        """Get confirmation message."""
+        return self.get_text(self.CONFIRMATION_MESSAGE)
+    
+    def print_order(self):
+        """Print order details."""
+        self.click(self.PRINT_BUTTON)
+        self.logger.info("Printed order")
+    
+    def continue_shopping(self):
+        """Continue shopping."""
+        self.click(self.CONTINUE_SHOPPING_BUTTON)
+        self.logger.info("Continued shopping")
+
+# ==================== Page Factory ====================
+
+class PageFactory:
+    """Factory for creating page objects."""
+    
+    def __init__(self, driver: webdriver.Remote):
+        self.driver = driver
+    
+    def get_login_page(self) -> LoginPage:
+        """Get login page instance."""
+        return LoginPage(self.driver)
+    
+    def get_dashboard_page(self) -> DashboardPage:
+        """Get dashboard page instance."""
+        return DashboardPage(self.driver)
+    
+    def get_product_page(self) -> ProductPage:
+        """Get product page instance."""
+        return ProductPage(self.driver)
+    
+    def get_cart_page(self) -> CartPage:
+        """Get cart page instance."""
+        return CartPage(self.driver)
+    
+    def get_checkout_page(self) -> CheckoutPage:
+        """Get checkout page instance."""
+        return CheckoutPage(self.driver)
+    
+    def get_order_confirmation_page(self) -> OrderConfirmationPage:
+        """Get order confirmation page instance."""
+        return OrderConfirmationPage(self.driver)
+
+# ==================== Test Example ====================
+
+class TestEcommercePurchaseFlow:
+    """Example test using Page Object Model."""
+    
+    def setup_method(self):
+        """Set up test."""
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        
+        options = Options()
+        # options.add_argument("--headless")
+        self.driver = webdriver.Chrome(options=options)
+        self.pages = PageFactory(self.driver)
+    
+    def teardown_method(self):
+        """Clean up after test."""
+        self.driver.quit()
+    
+    def test_complete_purchase_flow(self):
+        """Test complete purchase flow from login to order confirmation."""
+        
+        # Login
+        login_page = self.pages.get_login_page()
+        login_page.open()
+        dashboard = login_page.login("testuser", "password123")
+        
+        # Verify login
+        assert dashboard.is_loaded(), "Dashboard did not load"
+        assert "Welcome" in dashboard.get_welcome_message()
+        
+        # Search for product
+        dashboard.search_bar.search("laptop")
+        
+        # Select product (assuming we're redirected to product page)
+        product_page = self.pages.get_product_page()
+        assert product_page.is_in_stock(), "Product not in stock"
+        
+        # Add to cart
+        product_page.set_quantity(1)
+        product_page.add_to_cart()
+        
+        # Go to cart
+        dashboard.navigation.go_to_cart()
+        cart_page = self.pages.get_cart_page()
+        
+        # Verify cart
+        assert not cart_page.is_empty(), "Cart is empty"
+        assert len(cart_page.get_cart_items()) == 1
+        
+        # Proceed to checkout
+        checkout_page = cart_page.proceed_to_checkout()
+        
+        # Fill checkout information
+        billing_info = {
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john@example.com",
+            "phone": "1234567890",
+            "address": "123 Main St",
+            "city": "New York",
+            "state": "NY",
+            "zip": "10001",
+            "country": "USA"
+        }
+        
+        payment_info = {
+            "card_number": "4111111111111111",
+            "card_name": "John Doe",
+            "expiry_month": "12",
+            "expiry_year": "2025",
+            "cvv": "123"
+        }
+        
+        checkout_page.fill_billing_information(billing_info)
+        checkout_page.fill_payment_information(payment_info)
+        checkout_page.use_same_address_for_shipping()
+        
+        # Place order
+        confirmation_page = checkout_page.place_order()
+        
+        # Verify order confirmation
+        order_number = confirmation_page.get_order_number()
+        assert order_number, "No order number received"
+        assert "Thank you" in confirmation_page.get_confirmation_message()
+        
+        print(f"✅ Test passed! Order number: {order_number}")
+
+# Example usage
+if __name__ == "__main__":
+    print("🏗️ Page Object Model Examples\n")
+    
+    # Example 1: POM Structure
+    print("1️⃣ Page Object Model Structure:")
+    
+    structure = [
+        ("Base Page", "Common functionality for all pages"),
+        ("Page Classes", "One class per page/screen"),
+        ("Locators", "Centralized element locators"),
+        ("Actions", "User interaction methods"),
+        ("Validations", "Assertion and verification methods"),
+        ("Components", "Reusable UI components")
+    ]
+    
+    for component, description in structure:
+        print(f"   {component}: {description}")
+    
+    # Example 2: Benefits of POM
+    print("\n2️⃣ Benefits of Page Object Model:")
+    
+    benefits = [
+        "Maintainability - UI changes require updates in one place",
+        "Reusability - Page objects can be used across tests",
+        "Readability - Tests read like user stories",
+        "Separation - Test logic separated from page structure",
+        "Scalability - Easy to add new pages and tests"
+    ]
+    
+    for benefit in benefits:
+        print(f"   • {benefit}")
+    
+    # Example 3: Best practices
+    print("\n3️⃣ POM Best Practices:")
+    
+    practices = [
+        "One page object per page/screen",
+        "Keep page objects independent",
+        "Don't make assertions in page objects",
+        "Return page objects for navigation",
+        "Use inheritance for common functionality",
+        "Create components for reusable elements",
+        "Use descriptive method names",
+        "Initialize elements in constructor when possible"
+    ]
+    
+    for practice in practices:
+        print(f"   ✓ {practice}")
+    
+    # Example 4: Method chaining
+    print("\n4️⃣ Method Chaining Example:")
+    
+    print("   login_page.login('user', 'pass')")
+    print("            .navigate_to_products()")
+    print("            .search('laptop')")
+    print("            .select_product(0)")
+    print("            .add_to_cart()")
+    print("            .checkout()")
+    
+    # Example 5: Component reuse
+    print("\n5️⃣ Reusable Components:")
+    
+    components = [
+        "NavigationMenu - Used across all pages",
+        "SearchBar - Appears on multiple pages",
+        "ProductCard - Used in listings",
+        "Pagination - Common UI pattern",
+        "Modal - Popups and dialogs",
+        "Form - Reusable form handling"
+    ]
+    
+    for component in components:
+        print(f"   • {component}")
+    
+    # Example 6: Locator strategies
+    print("\n6️⃣ Locator Management:")
+    
+    print("   Class-level constants:")
+    print("     LOGIN_BUTTON = (By.ID, 'login-btn')")
+    print("     USERNAME = (By.NAME, 'username')")
+    print("   ")
+    print("   Benefits:")
+    print("     • Central location for updates")
+    print("     • Type hints with tuples")
+    print("     • Easy to maintain")
+    
+    # Example 7: Wait strategies in POM
+    print("\n7️⃣ Wait Strategies in Page Objects:")
+    
+    wait_strategies = [
+        "wait_for_page_load() - Custom page load conditions",
+        "is_loaded() - Verify page is ready",
+        "wait_for_element_visible() - Before interactions",
+        "wait_for_ajax_complete() - For dynamic content"
+    ]
+    
+    for strategy in wait_strategies:
+        print(f"   • {strategy}")
+    
+    # Example 8: Page validation
+    print("\n8️⃣ Page Validation Methods:")
+    
+    validations = [
+        "is_loaded() - Check page loaded correctly",
+        "get_title() - Verify page title",
+        "get_url() - Check current URL",
+        "is_element_present() - Element existence",
+        "get_error_messages() - Form validation"
+    ]
+    
+    for validation in validations:
+        print(f"   • {validation}")
+    
+    # Example 9: Test organization
+    print("\n9️⃣ Test Organization with POM:")
+    
+    print("   project/")
+    print("     pages/")
+    print("       __init__.py")
+    print("       base_page.py")
+    print("       login_page.py")
+    print("       dashboard_page.py")
+    print("     components/")
+    print("       navigation.py")
+    print("       search_bar.py")
+    print("     tests/")
+    print("       test_login.py")
+    print("       test_purchase.py")
+    print("     utils/")
+    print("       driver_factory.py")
+    print("       test_data.py")
+    
+    # Example 10: Advanced patterns
+    print("\n🔟 Advanced POM Patterns:")
+    
+    patterns = [
+        "🏭 Page Factory - Centralized page creation",
+        "🔄 Fluent Interface - Method chaining",
+        "📦 Component Objects - Reusable UI components",
+        "🎭 Page Sections - Complex page organization",
+        "🗺️ Site Map - Navigation modeling",
+        "🔍 Self-Validating Pages - Auto-verification",
+        "💾 State Management - Track application state",
+        "🔐 Role-Based Pages - User-specific views"
+    ]
+    
+    for pattern in patterns:
+        print(f"   {pattern}")
+    
+    print("\n✅ Page Object Model demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>One Class Per Page:</strong> Each page/screen gets its own page object class.</li>
+        
+        <li><strong>Centralize Locators:</strong> Keep all locators as class constants.</li>
+        
+        <li><strong>No Test Logic in Pages:</strong> Page objects handle interactions, tests handle assertions.</li>
+        
+        <li><strong>Return Page Objects:</strong> Enable method chaining by returning next page.</li>
+        
+        <li><strong>Create Reusable Components:</strong> Extract common UI elements into components.</li>
+        
+        <li><strong>Use Descriptive Names:</strong> Methods should describe user actions clearly.</li>
+        
+        <li><strong>Implement Page Validation:</strong> Add is_loaded() methods to verify page state.</li>
+        
+        <li><strong>Handle Dynamic Content:</strong> Include appropriate waits in page methods.</li>
+    </ul>
+
+    <h3>Page Object Model Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of Page Object Model as creating a user manual for your application - each page is a chapter, methods are the instructions, and tests are the readers following along. Start with a solid BasePage that handles common operations, then let specific pages inherit and extend. Keep your locators as class constants at the top - when UI changes, you'll thank yourself. Never put assertions in page objects; they describe "how" not "what to expect". Use method chaining by returning page objects - it makes tests read like stories. Create component classes for reusable elements like headers, footers, and modals. Implement is_loaded() methods to verify page state before interactions. Name methods after user actions, not technical operations (login() not fillUsernameAndPasswordAndClickSubmit()). Most importantly: if you find yourself copying code between page objects, it's time to refactor into the base class or create a component!</p>
+    </div>
+    
+    <p>Mastering the Page Object Model transforms chaotic test scripts into maintainable, scalable test automation frameworks. You now have the architectural knowledge to build test suites that survive UI changes, scale with your application, and remain readable by your entire team. Whether you're automating e-commerce sites, dashboards, or complex applications, POM ensures your tests stand the test of time! 🏰</p>
+    
+    <footer>
+        <p>Next up: <a href="browser_automation_headless_browsing.html">Headless Browsing - Automation Without the GUI!</a></p>
+    </footer>
+</body>
+</html>

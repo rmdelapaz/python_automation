@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebDriver Setup - Python Browser Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🚗 WebDriver Setup: Your Gateway to Browser Automation</h1>
+    
+    <p>WebDriver is the bridge between your code and web browsers - it's like having a remote control for Chrome, Firefox, or any modern browser. Setting it up properly is the foundation of all browser automation. Like preparing a race car before hitting the track, proper WebDriver configuration determines whether your automation runs smoothly or crashes at the first turn. Let's master the art of WebDriver setup! 🏁</p>
+
+    <h2>The WebDriver Ecosystem</h2>
+    
+    <p>Think of WebDriver as a universal translator between your Python code and various browsers. Each browser speaks its own language, but WebDriver provides a common interface to control them all. It's not just about launching a browser - it's about configuring it for optimal performance, reliability, and compatibility with your automation needs!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[WebDriver Setup] --> B[Browser Selection]
+        A --> C[Driver Management]
+        A --> D[Configuration]
+        A --> E[Environment Setup]
+        
+        B --> F[Chrome/Chromium]
+        B --> G[Firefox]
+        B --> H[Safari]
+        B --> I[Edge]
+        
+        C --> J[Manual Installation]
+        C --> K[Driver Managers]
+        C --> L[Docker Containers]
+        C --> M[Cloud Services]
+        
+        D --> N[Options & Capabilities]
+        D --> O[Profiles & Preferences]
+        D --> P[Extensions & Plugins]
+        D --> Q[Network & Proxy]
+        
+        E --> R[Local Setup]
+        E --> S[CI/CD Integration]
+        E --> T[Grid Setup]
+        E --> U[Cloud Platforms]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+    </div>
+
+    <h3>Real-World Scenario: The Multi-Browser Testing Platform 🌐</h3>
+    
+    <p>You're building an automated testing platform that needs to run tests across multiple browsers, handle different versions, work in headless mode for CI/CD, manage browser profiles, handle downloads and uploads, and scale across multiple machines. Your WebDriver setup must be bulletproof, flexible, and maintainable. Let's build a comprehensive WebDriver management system!</p>
+
+    <pre><code># First, install required packages:
+# pip install selenium webdriver-manager python-dotenv pyvirtualdisplay
+
+import os
+import sys
+import json
+import logging
+import platform
+import subprocess
+import zipfile
+import tarfile
+import shutil
+from pathlib import Path
+from typing import Dict, List, Optional, Any, Union, Tuple
+from dataclasses import dataclass, field
+from enum import Enum
+import tempfile
+import requests
+from datetime import datetime
+
+# Selenium imports
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.common.proxy import Proxy, ProxyType
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.edge.service import Service as EdgeService
+from selenium.webdriver.edge.options import Options as EdgeOptions
+from selenium.webdriver.safari.options import Options as SafariOptions
+from selenium.common.exceptions import WebDriverException, SessionNotCreatedException
+
+# WebDriver Manager for automatic driver management
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from webdriver_manager.opera import OperaDriverManager
+
+# ==================== Configuration Classes ====================
+
+class BrowserType(Enum):
+    """Supported browser types."""
+    CHROME = "chrome"
+    FIREFOX = "firefox"
+    EDGE = "edge"
+    SAFARI = "safari"
+    OPERA = "opera"
+    CHROMIUM = "chromium"
+    BRAVE = "brave"
+
+class DriverMode(Enum):
+    """Driver execution modes."""
+    NORMAL = "normal"
+    HEADLESS = "headless"
+    INCOGNITO = "incognito"
+    MOBILE = "mobile"
+
+@dataclass
+class BrowserConfig:
+    """Browser configuration settings."""
+    browser_type: BrowserType = BrowserType.CHROME
+    driver_mode: DriverMode = DriverMode.NORMAL
+    headless: bool = False
+    window_size: Tuple[int, int] = (1920, 1080)
+    start_maximized: bool = False
+    incognito: bool = False
+    disable_gpu: bool = True
+    no_sandbox: bool = True
+    disable_dev_shm: bool = True
+    disable_notifications: bool = True
+    accept_insecure_certs: bool = True
+    page_load_strategy: str = "normal"  # normal, eager, none
+    implicit_wait: int = 10
+    page_load_timeout: int = 30
+    script_timeout: int = 30
+    
+    # Advanced options
+    user_agent: Optional[str] = None
+    language: str = "en-US"
+    download_directory: Optional[str] = None
+    profile_directory: Optional[str] = None
+    binary_location: Optional[str] = None
+    extensions: List[str] = field(default_factory=list)
+    experimental_options: Dict[str, Any] = field(default_factory=dict)
+    
+    # Proxy settings
+    proxy_enabled: bool = False
+    proxy_server: Optional[str] = None
+    proxy_type: str = "http"  # http, socks5, etc.
+    proxy_auth: Optional[Tuple[str, str]] = None
+    
+    # Performance options
+    disable_images: bool = False
+    disable_javascript: bool = False
+    disable_css: bool = False
+    
+    # Mobile emulation
+    mobile_emulation: bool = False
+    device_name: Optional[str] = None
+    
+    # Logging
+    log_level: str = "INFO"
+    enable_browser_logs: bool = False
+    log_path: Optional[str] = None
+
+# ==================== WebDriver Manager ====================
+
+class WebDriverManager:
+    """
+    Comprehensive WebDriver management system.
+    """
+    
+    def __init__(self, config: BrowserConfig = None):
+        self.config = config or BrowserConfig()
+        self.driver = None
+        self.service = None
+        self.logger = self._setup_logging()
+        self._setup_directories()
+        
+    def _setup_logging(self) -> logging.Logger:
+        """Setup logging configuration."""
+        logger = logging.getLogger("WebDriverManager")
+        logger.setLevel(getattr(logging, self.config.log_level))
+        
+        if not logger.handlers:
+            # Console handler
+            console_handler = logging.StreamHandler()
+            console_formatter = logging.Formatter(
+                '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+            )
+            console_handler.setFormatter(console_formatter)
+            logger.addHandler(console_handler)
+            
+            # File handler if log path specified
+            if self.config.log_path:
+                file_handler = logging.FileHandler(self.config.log_path)
+                file_handler.setFormatter(console_formatter)
+                logger.addHandler(file_handler)
+        
+        return logger
+    
+    def _setup_directories(self):
+        """Setup necessary directories."""
+        # Create download directory if specified
+        if self.config.download_directory:
+            Path(self.config.download_directory).mkdir(parents=True, exist_ok=True)
+        
+        # Create profile directory if specified
+        if self.config.profile_directory:
+            Path(self.config.profile_directory).mkdir(parents=True, exist_ok=True)
+    
+    def create_driver(self) -> webdriver.Remote:
+        """
+        Create and configure WebDriver based on browser type.
+        """
+        self.logger.info(f"Creating {self.config.browser_type.value} driver")
+        
+        try:
+            if self.config.browser_type == BrowserType.CHROME:
+                return self._create_chrome_driver()
+            elif self.config.browser_type == BrowserType.FIREFOX:
+                return self._create_firefox_driver()
+            elif self.config.browser_type == BrowserType.EDGE:
+                return self._create_edge_driver()
+            elif self.config.browser_type == BrowserType.SAFARI:
+                return self._create_safari_driver()
+            elif self.config.browser_type == BrowserType.BRAVE:
+                return self._create_brave_driver()
+            else:
+                raise ValueError(f"Unsupported browser: {self.config.browser_type}")
+                
+        except Exception as e:
+            self.logger.error(f"Failed to create driver: {e}")
+            raise
+    
+    def _create_chrome_driver(self) -> webdriver.Chrome:
+        """Create Chrome WebDriver with options."""
+        options = self._get_chrome_options()
+        
+        # Set up service
+        try:
+            # Try to use webdriver-manager for automatic driver management
+            service = ChromeService(ChromeDriverManager().install())
+            self.logger.info("Using ChromeDriver from webdriver-manager")
+        except Exception as e:
+            self.logger.warning(f"webdriver-manager failed: {e}")
+            # Fallback to system ChromeDriver
+            service = ChromeService()
+            self.logger.info("Using system ChromeDriver")
+        
+        # Add capabilities
+        capabilities = self._get_chrome_capabilities()
+        
+        # Create driver
+        driver = webdriver.Chrome(
+            service=service,
+            options=options,
+            desired_capabilities=capabilities
+        )
+        
+        self._configure_timeouts(driver)
+        self._setup_window(driver)
+        
+        self.driver = driver
+        self.service = service
+        
+        self.logger.info("Chrome driver created successfully")
+        return driver
+    
+    def _get_chrome_options(self) -> ChromeOptions:
+        """Configure Chrome options."""
+        options = ChromeOptions()
+        
+        # Basic options
+        if self.config.headless:
+            options.add_argument("--headless")
+            options.add_argument("--disable-gpu")
+        
+        if self.config.incognito:
+            options.add_argument("--incognito")
+        
+        if self.config.start_maximized:
+            options.add_argument("--start-maximized")
+        else:
+            options.add_argument(f"--window-size={self.config.window_size[0]},{self.config.window_size[1]}")
+        
+        # System options
+        if self.config.no_sandbox:
+            options.add_argument("--no-sandbox")
+        
+        if self.config.disable_dev_shm:
+            options.add_argument("--disable-dev-shm-usage")
+        
+        # Performance options
+        if self.config.disable_images:
+            prefs = {"profile.managed_default_content_settings.images": 2}
+            options.add_experimental_option("prefs", prefs)
+        
+        if self.config.disable_javascript:
+            prefs = {"profile.managed_default_content_settings.javascript": 2}
+            options.add_experimental_option("prefs", prefs)
+        
+        # User preferences
+        prefs = {
+            "credentials_enable_service": False,
+            "profile.password_manager_enabled": False,
+            "profile.default_content_setting_values.notifications": 2 if self.config.disable_notifications else 1,
+        }
+        
+        # Download settings
+        if self.config.download_directory:
+            prefs.update({
+                "download.default_directory": os.path.abspath(self.config.download_directory),
+                "download.prompt_for_download": False,
+                "download.directory_upgrade": True,
+                "safebrowsing.enabled": False,
+                "safebrowsing.disable_download_protection": True
+            })
+        
+        options.add_experimental_option("prefs", prefs)
+        
+        # Disable automation flags
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        
+        # User agent
+        if self.config.user_agent:
+            options.add_argument(f"user-agent={self.config.user_agent}")
+        
+        # Language
+        options.add_argument(f"--lang={self.config.language}")
+        
+        # Binary location
+        if self.config.binary_location:
+            options.binary_location = self.config.binary_location
+        
+        # Profile
+        if self.config.profile_directory:
+            options.add_argument(f"--user-data-dir={self.config.profile_directory}")
+        
+        # Extensions
+        for extension_path in self.config.extensions:
+            if os.path.exists(extension_path):
+                options.add_extension(extension_path)
+        
+        # Mobile emulation
+        if self.config.mobile_emulation and self.config.device_name:
+            mobile_emulation = {"deviceName": self.config.device_name}
+            options.add_experimental_option("mobileEmulation", mobile_emulation)
+        
+        # Additional experimental options
+        for key, value in self.config.experimental_options.items():
+            options.add_experimental_option(key, value)
+        
+        # Logging
+        if self.config.enable_browser_logs:
+            options.add_argument("--enable-logging")
+            options.add_argument("--v=1")
+        
+        return options
+    
+    def _get_chrome_capabilities(self) -> Dict:
+        """Get Chrome capabilities."""
+        capabilities = DesiredCapabilities.CHROME.copy()
+        
+        # Page load strategy
+        capabilities["pageLoadStrategy"] = self.config.page_load_strategy
+        
+        # Accept insecure certificates
+        capabilities["acceptInsecureCerts"] = self.config.accept_insecure_certs
+        
+        # Logging preferences
+        if self.config.enable_browser_logs:
+            capabilities["goog:loggingPrefs"] = {
+                "browser": "ALL",
+                "driver": "ALL",
+                "performance": "ALL"
+            }
+        
+        # Proxy configuration
+        if self.config.proxy_enabled and self.config.proxy_server:
+            proxy = Proxy()
+            proxy.proxy_type = ProxyType.MANUAL
+            proxy.http_proxy = self.config.proxy_server
+            proxy.ssl_proxy = self.config.proxy_server
+            proxy.add_to_capabilities(capabilities)
+        
+        return capabilities
+    
+    def _create_firefox_driver(self) -> webdriver.Firefox:
+        """Create Firefox WebDriver with options."""
+        options = self._get_firefox_options()
+        
+        # Set up service
+        try:
+            service = FirefoxService(GeckoDriverManager().install())
+            self.logger.info("Using GeckoDriver from webdriver-manager")
+        except Exception as e:
+            self.logger.warning(f"webdriver-manager failed: {e}")
+            service = FirefoxService()
+            self.logger.info("Using system GeckoDriver")
+        
+        # Create driver
+        driver = webdriver.Firefox(
+            service=service,
+            options=options
+        )
+        
+        self._configure_timeouts(driver)
+        self._setup_window(driver)
+        
+        self.driver = driver
+        self.service = service
+        
+        self.logger.info("Firefox driver created successfully")
+        return driver
+    
+    def _get_firefox_options(self) -> FirefoxOptions:
+        """Configure Firefox options."""
+        options = FirefoxOptions()
+        
+        # Headless mode
+        if self.config.headless:
+            options.add_argument("--headless")
+        
+        # Window size
+        if not self.config.start_maximized:
+            options.add_argument(f"--width={self.config.window_size[0]}")
+            options.add_argument(f"--height={self.config.window_size[1]}")
+        
+        # Private browsing
+        if self.config.incognito:
+            options.add_argument("--private")
+        
+        # Profile settings
+        if self.config.profile_directory:
+            options.profile = self.config.profile_directory
+        else:
+            # Create temporary profile with preferences
+            profile = webdriver.FirefoxProfile()
+            
+            # Download settings
+            if self.config.download_directory:
+                profile.set_preference("browser.download.folderList", 2)
+                profile.set_preference("browser.download.manager.showWhenStarting", False)
+                profile.set_preference("browser.download.dir", self.config.download_directory)
+                profile.set_preference("browser.helperApps.neverAsk.saveToDisk", 
+                                     "application/octet-stream,application/pdf,application/zip")
+            
+            # Disable notifications
+            if self.config.disable_notifications:
+                profile.set_preference("dom.webnotifications.enabled", False)
+            
+            # Disable images
+            if self.config.disable_images:
+                profile.set_preference("permissions.default.image", 2)
+            
+            # Language
+            profile.set_preference("intl.accept_languages", self.config.language)
+            
+            options.profile = profile
+        
+        # Binary location
+        if self.config.binary_location:
+            options.binary_location = self.config.binary_location
+        
+        # Accept insecure certificates
+        options.accept_insecure_certs = self.config.accept_insecure_certs
+        
+        # Page load strategy
+        options.page_load_strategy = self.config.page_load_strategy
+        
+        # Proxy
+        if self.config.proxy_enabled and self.config.proxy_server:
+            options.set_preference("network.proxy.type", 1)
+            options.set_preference("network.proxy.http", self.config.proxy_server.split(':')[0])
+            options.set_preference("network.proxy.http_port", int(self.config.proxy_server.split(':')[1]))
+            options.set_preference("network.proxy.ssl", self.config.proxy_server.split(':')[0])
+            options.set_preference("network.proxy.ssl_port", int(self.config.proxy_server.split(':')[1]))
+        
+        return options
+    
+    def _create_edge_driver(self) -> webdriver.Edge:
+        """Create Edge WebDriver with options."""
+        options = self._get_edge_options()
+        
+        # Set up service
+        try:
+            service = EdgeService(EdgeChromiumDriverManager().install())
+            self.logger.info("Using EdgeDriver from webdriver-manager")
+        except Exception as e:
+            self.logger.warning(f"webdriver-manager failed: {e}")
+            service = EdgeService()
+            self.logger.info("Using system EdgeDriver")
+        
+        # Create driver
+        driver = webdriver.Edge(
+            service=service,
+            options=options
+        )
+        
+        self._configure_timeouts(driver)
+        self._setup_window(driver)
+        
+        self.driver = driver
+        self.service = service
+        
+        self.logger.info("Edge driver created successfully")
+        return driver
+    
+    def _get_edge_options(self) -> EdgeOptions:
+        """Configure Edge options (similar to Chrome)."""
+        options = EdgeOptions()
+        
+        # Edge uses same options as Chrome (Chromium-based)
+        if self.config.headless:
+            options.add_argument("--headless")
+        
+        if self.config.incognito:
+            options.add_argument("--inprivate")
+        
+        options.add_argument(f"--window-size={self.config.window_size[0]},{self.config.window_size[1]}")
+        
+        if self.config.no_sandbox:
+            options.add_argument("--no-sandbox")
+        
+        if self.config.disable_dev_shm:
+            options.add_argument("--disable-dev-shm-usage")
+        
+        # User agent
+        if self.config.user_agent:
+            options.add_argument(f"user-agent={self.config.user_agent}")
+        
+        # Binary location
+        if self.config.binary_location:
+            options.binary_location = self.config.binary_location
+        
+        return options
+    
+    def _create_safari_driver(self) -> webdriver.Safari:
+        """Create Safari WebDriver."""
+        if platform.system() != "Darwin":
+            raise WebDriverException("Safari is only available on macOS")
+        
+        options = SafariOptions()
+        
+        # Safari has limited options compared to other browsers
+        if self.config.accept_insecure_certs:
+            options.accept_insecure_certs = True
+        
+        driver = webdriver.Safari(options=options)
+        
+        self._configure_timeouts(driver)
+        self._setup_window(driver)
+        
+        self.driver = driver
+        
+        self.logger.info("Safari driver created successfully")
+        return driver
+    
+    def _create_brave_driver(self) -> webdriver.Chrome:
+        """Create Brave browser driver (uses ChromeDriver)."""
+        options = self._get_chrome_options()
+        
+        # Set Brave binary location
+        brave_path = self._find_brave_binary()
+        if brave_path:
+            options.binary_location = brave_path
+        else:
+            raise WebDriverException("Brave browser not found")
+        
+        # Use ChromeDriver for Brave
+        service = ChromeService(ChromeDriverManager().install())
+        
+        driver = webdriver.Chrome(
+            service=service,
+            options=options
+        )
+        
+        self._configure_timeouts(driver)
+        self._setup_window(driver)
+        
+        self.driver = driver
+        self.service = service
+        
+        self.logger.info("Brave driver created successfully")
+        return driver
+    
+    def _find_brave_binary(self) -> Optional[str]:
+        """Find Brave browser binary location."""
+        system = platform.system()
+        
+        if system == "Windows":
+            paths = [
+                r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe",
+                r"C:\Program Files (x86)\BraveSoftware\Brave-Browser\Application\brave.exe",
+                os.path.expanduser(r"~\AppData\Local\BraveSoftware\Brave-Browser\Application\brave.exe")
+            ]
+        elif system == "Darwin":
+            paths = [
+                "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
+                os.path.expanduser("~/Applications/Brave Browser.app/Contents/MacOS/Brave Browser")
+            ]
+        else:  # Linux
+            paths = [
+                "/usr/bin/brave",
+                "/usr/bin/brave-browser",
+                "/opt/brave.com/brave/brave-browser",
+                "/snap/bin/brave"
+            ]
+        
+        for path in paths:
+            if os.path.exists(path):
+                return path
+        
+        return None
+    
+    def _configure_timeouts(self, driver: webdriver.Remote):
+        """Configure driver timeouts."""
+        driver.implicitly_wait(self.config.implicit_wait)
+        driver.set_page_load_timeout(self.config.page_load_timeout)
+        driver.set_script_timeout(self.config.script_timeout)
+    
+    def _setup_window(self, driver: webdriver.Remote):
+        """Setup window size and position."""
+        if self.config.start_maximized:
+            driver.maximize_window()
+        else:
+            driver.set_window_size(self.config.window_size[0], self.config.window_size[1])
+    
+    def quit(self):
+        """Quit driver and clean up resources."""
+        if self.driver:
+            try:
+                self.driver.quit()
+                self.logger.info("Driver quit successfully")
+            except Exception as e:
+                self.logger.error(f"Error quitting driver: {e}")
+        
+        if self.service:
+            try:
+                self.service.stop()
+            except:
+                pass
+
+# ==================== Driver Pool Manager ====================
+
+class DriverPool:
+    """
+    Manage a pool of WebDriver instances for parallel execution.
+    """
+    
+    def __init__(self, config: BrowserConfig, pool_size: int = 3):
+        self.config = config
+        self.pool_size = pool_size
+        self.available_drivers = []
+        self.in_use_drivers = []
+        self.logger = logging.getLogger("DriverPool")
+        
+        self._initialize_pool()
+    
+    def _initialize_pool(self):
+        """Initialize the driver pool."""
+        self.logger.info(f"Initializing driver pool with {self.pool_size} instances")
+        
+        for i in range(self.pool_size):
+            try:
+                manager = WebDriverManager(self.config)
+                driver = manager.create_driver()
+                self.available_drivers.append((manager, driver))
+                self.logger.info(f"Driver {i+1}/{self.pool_size} created")
+            except Exception as e:
+                self.logger.error(f"Failed to create driver {i+1}: {e}")
+    
+    def get_driver(self) -> Optional[webdriver.Remote]:
+        """Get an available driver from the pool."""
+        if self.available_drivers:
+            manager, driver = self.available_drivers.pop(0)
+            self.in_use_drivers.append((manager, driver))
+            return driver
+        else:
+            self.logger.warning("No available drivers in pool")
+            return None
+    
+    def return_driver(self, driver: webdriver.Remote):
+        """Return a driver to the pool."""
+        for i, (manager, d) in enumerate(self.in_use_drivers):
+            if d == driver:
+                self.in_use_drivers.pop(i)
+                
+                # Clear cookies and reset state
+                try:
+                    driver.delete_all_cookies()
+                    driver.get("about:blank")
+                except:
+                    pass
+                
+                self.available_drivers.append((manager, d))
+                break
+    
+    def cleanup(self):
+        """Clean up all drivers in the pool."""
+        all_drivers = self.available_drivers + self.in_use_drivers
+        
+        for manager, driver in all_drivers:
+            try:
+                manager.quit()
+            except:
+                pass
+        
+        self.available_drivers.clear()
+        self.in_use_drivers.clear()
+        
+        self.logger.info("Driver pool cleaned up")
+
+# ==================== Environment Detection ====================
+
+class EnvironmentDetector:
+    """
+    Detect and configure environment for WebDriver.
+    """
+    
+    @staticmethod
+    def get_system_info() -> Dict[str, Any]:
+        """Get system information."""
+        return {
+            "platform": platform.system(),
+            "platform_version": platform.version(),
+            "architecture": platform.machine(),
+            "python_version": sys.version,
+            "selenium_version": webdriver.__version__
+        }
+    
+    @staticmethod
+    def check_browser_installed(browser: BrowserType) -> bool:
+        """Check if browser is installed on the system."""
+        system = platform.system()
+        
+        if browser == BrowserType.CHROME:
+            return EnvironmentDetector._check_chrome_installed(system)
+        elif browser == BrowserType.FIREFOX:
+            return EnvironmentDetector._check_firefox_installed(system)
+        elif browser == BrowserType.EDGE:
+            return EnvironmentDetector._check_edge_installed(system)
+        elif browser == BrowserType.SAFARI:
+            return system == "Darwin"  # Safari only on macOS
+        else:
+            return False
+    
+    @staticmethod
+    def _check_chrome_installed(system: str) -> bool:
+        """Check if Chrome is installed."""
+        if system == "Windows":
+            paths = [
+                r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+                r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+            ]
+        elif system == "Darwin":
+            paths = ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"]
+        else:
+            paths = ["/usr/bin/google-chrome", "/usr/bin/chromium-browser"]
+        
+        return any(os.path.exists(path) for path in paths)
+    
+    @staticmethod
+    def _check_firefox_installed(system: str) -> bool:
+        """Check if Firefox is installed."""
+        if system == "Windows":
+            paths = [
+                r"C:\Program Files\Mozilla Firefox\firefox.exe",
+                r"C:\Program Files (x86)\Mozilla Firefox\firefox.exe"
+            ]
+        elif system == "Darwin":
+            paths = ["/Applications/Firefox.app/Contents/MacOS/firefox"]
+        else:
+            paths = ["/usr/bin/firefox"]
+        
+        return any(os.path.exists(path) for path in paths)
+    
+    @staticmethod
+    def _check_edge_installed(system: str) -> bool:
+        """Check if Edge is installed."""
+        if system == "Windows":
+            paths = [
+                r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+                r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
+            ]
+        elif system == "Darwin":
+            paths = ["/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"]
+        else:
+            paths = ["/usr/bin/microsoft-edge"]
+        
+        return any(os.path.exists(path) for path in paths)
+    
+    @staticmethod
+    def setup_virtual_display():
+        """Setup virtual display for headless environments (Linux)."""
+        if platform.system() != "Linux":
+            return None
+        
+        try:
+            from pyvirtualdisplay import Display
+            display = Display(visible=0, size=(1920, 1080))
+            display.start()
+            return display
+        except ImportError:
+            logging.warning("pyvirtualdisplay not installed")
+            return None
+
+# Example usage
+if __name__ == "__main__":
+    print("🚗 WebDriver Setup Examples\n")
+    
+    # Example 1: Basic Chrome setup
+    print("1️⃣ Basic Chrome WebDriver Setup:")
+    
+    config = BrowserConfig(
+        browser_type=BrowserType.CHROME,
+        headless=False,
+        window_size=(1280, 720)
+    )
+    
+    manager = WebDriverManager(config)
+    
+    print(f"   Browser: {config.browser_type.value}")
+    print(f"   Headless: {config.headless}")
+    print(f"   Window size: {config.window_size}")
+    
+    try:
+        driver = manager.create_driver()
+        print("   ✅ Driver created successfully")
+        
+        # Navigate to test page
+        driver.get("https://www.google.com")
+        print(f"   Current URL: {driver.current_url}")
+        
+        # Clean up
+        manager.quit()
+        print("   Driver closed")
+    except Exception as e:
+        print(f"   ❌ Error: {e}")
+    
+    # Example 2: Browser configurations
+    print("\n2️⃣ Browser Configuration Options:")
+    
+    options = [
+        ("Headless Mode", "Run without GUI"),
+        ("Incognito/Private", "Private browsing mode"),
+        ("Custom User Agent", "Spoof browser identity"),
+        ("Download Directory", "Set download location"),
+        ("Browser Profile", "Use existing profile"),
+        ("Extensions", "Load browser extensions"),
+        ("Proxy Settings", "Route through proxy"),
+        ("Mobile Emulation", "Emulate mobile devices")
+    ]
+    
+    for option, description in options:
+        print(f"   {option}: {description}")
+    
+    # Example 3: Environment detection
+    print("\n3️⃣ Environment Detection:")
+    
+    system_info = EnvironmentDetector.get_system_info()
+    print(f"   Platform: {system_info['platform']}")
+    print(f"   Architecture: {system_info['architecture']}")
+    print(f"   Python: {sys.version.split()[0]}")
+    
+    # Check installed browsers
+    browsers = [BrowserType.CHROME, BrowserType.FIREFOX, BrowserType.EDGE]
+    print("\n   Installed browsers:")
+    for browser in browsers:
+        installed = EnvironmentDetector.check_browser_installed(browser)
+        status = "✅" if installed else "❌"
+        print(f"     {browser.value}: {status}")
+    
+    # Example 4: Advanced Chrome options
+    print("\n4️⃣ Advanced Chrome Options:")
+    
+    advanced_config = BrowserConfig(
+        browser_type=BrowserType.CHROME,
+        headless=True,
+        disable_images=True,
+        disable_notifications=True,
+        download_directory="./downloads",
+        user_agent="Custom User Agent String",
+        experimental_options={
+            "excludeSwitches": ["enable-automation"],
+            "useAutomationExtension": False
+        }
+    )
+    
+    print("   Advanced settings configured:")
+    print("     • Images disabled for faster loading")
+    print("     • Notifications blocked")
+    print("     • Custom download directory")
+    print("     • Automation detection bypassed")
+    
+    # Example 5: Driver pool
+    print("\n5️⃣ Driver Pool Management:")
+    
+    pool_config = BrowserConfig(
+        browser_type=BrowserType.CHROME,
+        headless=True
+    )
+    
+    print("   Creating driver pool...")
+    # pool = DriverPool(pool_config, pool_size=3)
+    print("   Pool size: 3 drivers")
+    print("   Use case: Parallel testing/scraping")
+    
+    # Example 6: Mobile emulation
+    print("\n6️⃣ Mobile Device Emulation:")
+    
+    mobile_config = BrowserConfig(
+        browser_type=BrowserType.CHROME,
+        mobile_emulation=True,
+        device_name="iPhone X"
+    )
+    
+    devices = [
+        "iPhone X",
+        "iPhone 12 Pro",
+        "Pixel 5",
+        "Samsung Galaxy S20",
+        "iPad Pro",
+        "Nexus 7"
+    ]
+    
+    print("   Available device emulations:")
+    for device in devices:
+        print(f"     • {device}")
+    
+    # Example 7: Proxy configuration
+    print("\n7️⃣ Proxy Configuration:")
+    
+    proxy_config = BrowserConfig(
+        browser_type=BrowserType.CHROME,
+        proxy_enabled=True,
+        proxy_server="proxy.example.com:8080",
+        proxy_type="http"
+    )
+    
+    print("   Proxy settings:")
+    print(f"     Server: {proxy_config.proxy_server}")
+    print(f"     Type: {proxy_config.proxy_type}")
+    print("     Use cases: Geo-location testing, anonymity")
+    
+    # Example 8: Performance optimization
+    print("\n8️⃣ Performance Optimization:")
+    
+    performance_tips = [
+        "Disable images for 2-3x faster page loads",
+        "Use headless mode for server environments",
+        "Disable CSS for text-only scraping",
+        "Set page load strategy to 'eager' or 'none'",
+        "Use connection pooling for multiple requests",
+        "Cache browser profiles to skip login"
+    ]
+    
+    for tip in performance_tips:
+        print(f"   • {tip}")
+    
+    # Example 9: Common issues and solutions
+    print("\n9️⃣ Common Issues & Solutions:")
+    
+    issues = [
+        ("ChromeDriver version mismatch", "Use webdriver-manager for auto-updates"),
+        ("Timeout errors", "Increase page_load_timeout and implicit_wait"),
+        ("Memory leaks", "Properly quit drivers and use context managers"),
+        ("Detection by websites", "Rotate user agents and use stealth options"),
+        ("Headless detection", "Use headless-specific options and viewport"),
+        ("Download issues", "Configure download preferences properly")
+    ]
+    
+    for issue, solution in issues:
+        print(f"   Issue: {issue}")
+        print(f"   Solution: {solution}\n")
+    
+    # Example 10: Best practices
+    print("🔟 WebDriver Setup Best Practices:")
+    
+    best_practices = [
+        "📦 Use webdriver-manager for automatic driver updates",
+        "🔧 Create reusable configuration classes",
+        "🧪 Test your setup on multiple environments",
+        "💾 Cache driver binaries locally",
+        "🔄 Implement proper cleanup in finally blocks",
+        "📊 Log driver creation and errors",
+        "🛡️ Use try-except for graceful failures",
+        "⚡ Reuse sessions when possible",
+        "🔐 Never hardcode credentials in configs",
+        "📝 Document browser-specific quirks"
+    ]
+    
+    for practice in best_practices:
+        print(f"   {practice}")
+    
+    print("\n✅ WebDriver setup demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Use WebDriver Manager:</strong> Automatically handles driver downloads and updates.</li>
+        
+        <li><strong>Configure Properly:</strong> Set timeouts, window size, and options before starting.</li>
+        
+        <li><strong>Handle Multiple Browsers:</strong> Abstract configuration for cross-browser compatibility.</li>
+        
+        <li><strong>Implement Proper Cleanup:</strong> Always quit drivers to prevent memory leaks.</li>
+        
+        <li><strong>Use Headless for CI/CD:</strong> Run without GUI in server environments.</li>
+        
+        <li><strong>Cache Profiles:</strong> Reuse browser profiles to maintain state.</li>
+        
+        <li><strong>Log Everything:</strong> Track driver creation, errors, and performance.</li>
+        
+        <li><strong>Test Your Setup:</strong> Verify configuration works across environments.</li>
+    </ul>
+
+    <h3>WebDriver Setup Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> WebDriver setup is like preparing a race car - the initial configuration determines your entire automation journey. Start with webdriver-manager to avoid version mismatch headaches. Create a configuration class that handles all browser-specific quirks in one place. Always set proper timeouts - implicit wait for element location, page load timeout for navigation, and script timeout for JavaScript execution. For production, use headless mode but test with GUI first. Implement a driver pool for parallel execution. Handle driver crashes gracefully with try-except-finally blocks. Cache browser profiles to skip login flows. Disable images and CSS when you don't need them for massive speed gains. Most importantly: always quit your drivers properly - zombie Chrome processes will eat your RAM for breakfast!</p>
+    </div>
+    
+    <p>Mastering WebDriver setup gives you a solid foundation for all browser automation tasks. You now understand driver management, configuration options, cross-browser compatibility, and optimization techniques. Whether you're building test suites, web scrapers, or automation tools, proper WebDriver setup ensures your automation runs smoothly and reliably! 🏎️</p>
+    
+    <footer>
+        <p>Next up: <a href="browser_automation_element_interaction.html">Element Interaction - Master the Art of Web Element Control!</a></p>
+    </footer>
+</body>
+</html>

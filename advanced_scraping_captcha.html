@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA Considerations - Python Web Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🔐 CAPTCHA Considerations: Handle Bot Detection Like a Pro</h1>
+    
+    <p>CAPTCHAs are the gatekeepers of the web - puzzles designed to separate humans from bots. They're like bouncers at an exclusive club, checking if you're on the guest list. From simple text puzzles to complex behavioral analysis, CAPTCHAs protect websites from automated access. But with the right approach, patience, and tools, we can handle them ethically and effectively. Let's master the art of CAPTCHA handling! 🧩</p>
+
+    <h2>The CAPTCHA Ecosystem</h2>
+    
+    <p>Think of CAPTCHA handling as a chess game where each move must be carefully calculated. You're not trying to "break" the CAPTCHA but rather solve it legitimately, either manually, through services, or by avoiding it altogether through smart automation practices. It's about finding the right balance between automation efficiency and respecting website security!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[CAPTCHA Types] --> B[Text-based]
+        A --> C[Image-based]
+        A --> D[Audio]
+        A --> E[Behavioral]
+        A --> F[Invisible]
+        
+        B --> G[Simple Text]
+        B --> H[Distorted Text]
+        B --> I[Math Problems]
+        
+        C --> J[Image Selection]
+        C --> K[Image Rotation]
+        C --> L[Object Recognition]
+        
+        E --> M[Mouse Movement]
+        E --> N[Typing Patterns]
+        E --> O[Browser Fingerprint]
+        
+        F --> P[reCAPTCHA v3]
+        F --> Q[hCaptcha Invisible]
+        
+        R[Handling Strategies] --> S[Manual Solving]
+        R --> T[CAPTCHA Services]
+        R --> U[Avoidance]
+        R --> V[Browser Automation]
+        
+        T --> W[2captcha]
+        T --> X[Anti-Captcha]
+        T --> Y[DeathByCaptcha]
+        
+        U --> Z[Session Persistence]
+        U --> AA[Human-like Behavior]
+        U --> AB[Proxy Rotation]
+        
+        style A fill:#ff6b6b
+        style R fill:#51cf66
+        style B fill:#339af0
+        style E fill:#ffd43b
+    </div>
+
+    <h3>Real-World Scenario: The Data Intelligence Platform 🎯</h3>
+    
+    <p>You're building a competitive intelligence platform that monitors product listings, prices, and reviews across multiple e-commerce sites. These sites use various CAPTCHA systems to prevent automated access. You need to handle reCAPTCHA, hCaptcha, image puzzles, and behavioral detection while maintaining efficiency and staying within legal boundaries. Let's build a comprehensive CAPTCHA handling system!</p>
+
+    <pre><code># First, install required packages:
+# pip install selenium pillow opencv-python pytesseract 2captcha-python anticaptchaofficial
+
+import time
+import random
+import json
+import base64
+import logging
+from typing import Dict, List, Optional, Any, Tuple, Union, Callable
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from pathlib import Path
+import requests
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from PIL import Image
+import cv2
+import numpy as np
+from io import BytesIO
+import hashlib
+from functools import wraps
+import threading
+from queue import Queue
+import re
+
+# ==================== CAPTCHA Types ====================
+
+class CaptchaType(Enum):
+    """Types of CAPTCHAs."""
+    TEXT = "text"
+    IMAGE = "image"
+    RECAPTCHA_V2 = "recaptcha_v2"
+    RECAPTCHA_V3 = "recaptcha_v3"
+    HCAPTCHA = "hcaptcha"
+    FUNCAPTCHA = "funcaptcha"
+    GEETEST = "geetest"
+    AUDIO = "audio"
+    SLIDER = "slider"
+    ROTATION = "rotation"
+    PUZZLE = "puzzle"
+
+class SolverStrategy(Enum):
+    """CAPTCHA solving strategies."""
+    MANUAL = "manual"
+    SERVICE = "service"
+    OCR = "ocr"
+    AUDIO = "audio"
+    BEHAVIORAL = "behavioral"
+    AVOIDANCE = "avoidance"
+
+@dataclass
+class CaptchaChallenge:
+    """Represents a CAPTCHA challenge."""
+    type: CaptchaType
+    site_key: Optional[str] = None
+    page_url: Optional[str] = None
+    image_url: Optional[str] = None
+    image_data: Optional[bytes] = None
+    challenge_data: Dict[str, Any] = field(default_factory=dict)
+    timestamp: datetime = field(default_factory=datetime.now)
+    attempts: int = 0
+    solved: bool = False
+    solution: Optional[str] = None
+
+# ==================== CAPTCHA Detector ====================
+
+class CaptchaDetector:
+    """
+    Detect and identify CAPTCHA types on web pages.
+    """
+    
+    def __init__(self, driver: webdriver.Chrome):
+        self.driver = driver
+        self.logger = logging.getLogger(__name__)
+        
+        # CAPTCHA signatures
+        self.signatures = {
+            CaptchaType.RECAPTCHA_V2: [
+                "//iframe[contains(@src, 'recaptcha') and contains(@src, 'anchor')]",
+                "//div[@class='g-recaptcha']",
+                "//div[contains(@class, 'grecaptcha')]"
+            ],
+            CaptchaType.RECAPTCHA_V3: [
+                "//script[contains(@src, 'recaptcha/api.js?render=')]",
+                "grecaptcha.execute"
+            ],
+            CaptchaType.HCAPTCHA: [
+                "//iframe[contains(@src, 'hcaptcha.com/captcha')]",
+                "//div[@class='h-captcha']",
+                "//div[contains(@class, 'hcaptcha')]"
+            ],
+            CaptchaType.FUNCAPTCHA: [
+                "//div[@id='funcaptcha']",
+                "//iframe[contains(@src, 'funcaptcha.com')]"
+            ],
+            CaptchaType.GEETEST: [
+                "//div[contains(@class, 'geetest')]",
+                "//script[contains(@src, 'geetest')]"
+            ]
+        }
+    
+    def detect_captcha(self) -> Optional[CaptchaChallenge]:
+        """
+        Detect CAPTCHA on current page.
+        """
+        for captcha_type, signatures in self.signatures.items():
+            for signature in signatures:
+                if self._check_signature(signature):
+                    self.logger.info(f"Detected {captcha_type.value} CAPTCHA")
+                    return self._extract_challenge(captcha_type)
+        
+        # Check for generic CAPTCHA indicators
+        if self._check_generic_captcha():
+            self.logger.info("Detected generic CAPTCHA")
+            return CaptchaChallenge(type=CaptchaType.TEXT)
+        
+        return None
+    
+    def _check_signature(self, signature: str) -> bool:
+        """Check if signature exists on page."""
+        try:
+            if signature.startswith("//"):
+                # XPath selector
+                elements = self.driver.find_elements(By.XPATH, signature)
+                return len(elements) > 0
+            else:
+                # JavaScript check
+                result = self.driver.execute_script(f"return typeof {signature} !== 'undefined'")
+                return result
+        except:
+            return False
+    
+    def _check_generic_captcha(self) -> bool:
+        """Check for generic CAPTCHA indicators."""
+        indicators = [
+            "captcha",
+            "security-check",
+            "bot-check",
+            "human-verification",
+            "challenge"
+        ]
+        
+        page_source = self.driver.page_source.lower()
+        
+        for indicator in indicators:
+            if indicator in page_source:
+                return True
+        
+        return False
+    
+    def _extract_challenge(self, captcha_type: CaptchaType) -> CaptchaChallenge:
+        """Extract CAPTCHA challenge details."""
+        challenge = CaptchaChallenge(
+            type=captcha_type,
+            page_url=self.driver.current_url
+        )
+        
+        if captcha_type == CaptchaType.RECAPTCHA_V2:
+            challenge.site_key = self._extract_recaptcha_sitekey()
+        elif captcha_type == CaptchaType.HCAPTCHA:
+            challenge.site_key = self._extract_hcaptcha_sitekey()
+        
+        return challenge
+    
+    def _extract_recaptcha_sitekey(self) -> Optional[str]:
+        """Extract reCAPTCHA site key."""
+        try:
+            # Method 1: From div attribute
+            element = self.driver.find_element(By.CLASS_NAME, "g-recaptcha")
+            return element.get_attribute("data-sitekey")
+        except:
+            pass
+        
+        try:
+            # Method 2: From iframe src
+            iframe = self.driver.find_element(By.XPATH, "//iframe[contains(@src, 'recaptcha')]")
+            src = iframe.get_attribute("src")
+            match = re.search(r'k=([A-Za-z0-9_-]+)', src)
+            if match:
+                return match.group(1)
+        except:
+            pass
+        
+        return None
+    
+    def _extract_hcaptcha_sitekey(self) -> Optional[str]:
+        """Extract hCaptcha site key."""
+        try:
+            element = self.driver.find_element(By.CLASS_NAME, "h-captcha")
+            return element.get_attribute("data-sitekey")
+        except:
+            return None
+
+# ==================== Human-like Behavior Simulator ====================
+
+class HumanBehaviorSimulator:
+    """
+    Simulate human-like behavior to avoid CAPTCHA triggers.
+    """
+    
+    def __init__(self, driver: webdriver.Chrome):
+        self.driver = driver
+        self.actions = ActionChains(driver)
+        self.logger = logging.getLogger(__name__)
+    
+    def random_delay(self, min_seconds: float = 0.5, max_seconds: float = 2.0):
+        """Add random delay between actions."""
+        delay = random.uniform(min_seconds, max_seconds)
+        time.sleep(delay)
+    
+    def human_like_mouse_movement(self, element):
+        """Move mouse to element in human-like pattern."""
+        # Get element location
+        location = element.location
+        size = element.size
+        
+        # Target point with slight randomization
+        target_x = location['x'] + size['width'] / 2 + random.randint(-5, 5)
+        target_y = location['y'] + size['height'] / 2 + random.randint(-5, 5)
+        
+        # Current mouse position (approximate)
+        current_x = random.randint(0, 100)
+        current_y = random.randint(0, 100)
+        
+        # Generate bezier curve points
+        points = self._generate_bezier_curve(
+            (current_x, current_y),
+            (target_x, target_y),
+            num_points=random.randint(10, 20)
+        )
+        
+        # Move mouse along curve
+        for x, y in points:
+            self.actions.move_by_offset(x - current_x, y - current_y)
+            current_x, current_y = x, y
+            self.actions.pause(random.uniform(0.01, 0.03))
+        
+        self.actions.perform()
+        self.actions = ActionChains(self.driver)  # Reset action chain
+    
+    def _generate_bezier_curve(self, start: Tuple[float, float], 
+                               end: Tuple[float, float], 
+                               num_points: int = 20) -> List[Tuple[float, float]]:
+        """Generate points along a bezier curve for natural mouse movement."""
+        # Control points for curve
+        control1 = (
+            start[0] + (end[0] - start[0]) * 0.25 + random.randint(-50, 50),
+            start[1] + (end[1] - start[1]) * 0.25 + random.randint(-50, 50)
+        )
+        
+        control2 = (
+            start[0] + (end[0] - start[0]) * 0.75 + random.randint(-50, 50),
+            start[1] + (end[1] - start[1]) * 0.75 + random.randint(-50, 50)
+        )
+        
+        points = []
+        for i in range(num_points):
+            t = i / (num_points - 1)
+            
+            # Cubic bezier formula
+            x = (1-t)**3 * start[0] + \
+                3*(1-t)**2*t * control1[0] + \
+                3*(1-t)*t**2 * control2[0] + \
+                t**3 * end[0]
+            
+            y = (1-t)**3 * start[1] + \
+                3*(1-t)**2*t * control1[1] + \
+                3*(1-t)*t**2 * control2[1] + \
+                t**3 * end[1]
+            
+            points.append((x, y))
+        
+        return points
+    
+    def human_like_typing(self, element, text: str):
+        """Type text with human-like speed and rhythm."""
+        element.click()
+        
+        for char in text:
+            element.send_keys(char)
+            
+            # Variable typing speed
+            if char == ' ':
+                delay = random.uniform(0.1, 0.3)
+            elif char in '.,!?':
+                delay = random.uniform(0.2, 0.4)
+            else:
+                delay = random.uniform(0.05, 0.2)
+            
+            time.sleep(delay)
+            
+            # Occasional pauses (thinking)
+            if random.random() < 0.1:
+                time.sleep(random.uniform(0.5, 1.5))
+    
+    def random_scrolling(self):
+        """Perform random scrolling actions."""
+        scroll_count = random.randint(1, 3)
+        
+        for _ in range(scroll_count):
+            # Random scroll direction and distance
+            direction = random.choice([-1, 1])
+            distance = random.randint(100, 500) * direction
+            
+            self.driver.execute_script(f"window.scrollBy(0, {distance})")
+            time.sleep(random.uniform(0.5, 1.5))
+    
+    def simulate_reading(self, duration: float = None):
+        """Simulate reading behavior on page."""
+        if duration is None:
+            duration = random.uniform(5, 15)
+        
+        start_time = time.time()
+        
+        while time.time() - start_time < duration:
+            # Small scroll movements
+            self.driver.execute_script(
+                f"window.scrollBy(0, {random.randint(50, 200)})"
+            )
+            
+            # Reading pause
+            time.sleep(random.uniform(1, 3))
+            
+            # Occasional mouse movement
+            if random.random() < 0.3:
+                x = random.randint(100, 500)
+                y = random.randint(100, 500)
+                self.actions.move_by_offset(x, y).perform()
+                self.actions = ActionChains(self.driver)
+
+# ==================== CAPTCHA Solver Services ====================
+
+class CaptchaSolverService:
+    """
+    Base class for CAPTCHA solving services.
+    """
+    
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.logger = logging.getLogger(__name__)
+    
+    def solve(self, challenge: CaptchaChallenge) -> Optional[str]:
+        """Solve CAPTCHA challenge."""
+        raise NotImplementedError
+
+class TwoCaptchaSolver(CaptchaSolverService):
+    """
+    2captcha.com solver implementation.
+    """
+    
+    def __init__(self, api_key: str):
+        super().__init__(api_key)
+        self.base_url = "http://2captcha.com"
+    
+    def solve(self, challenge: CaptchaChallenge) -> Optional[str]:
+        """Solve CAPTCHA using 2captcha service."""
+        if challenge.type == CaptchaType.RECAPTCHA_V2:
+            return self._solve_recaptcha_v2(challenge)
+        elif challenge.type == CaptchaType.IMAGE:
+            return self._solve_image(challenge)
+        elif challenge.type == CaptchaType.HCAPTCHA:
+            return self._solve_hcaptcha(challenge)
+        else:
+            self.logger.warning(f"Unsupported CAPTCHA type: {challenge.type}")
+            return None
+    
+    def _solve_recaptcha_v2(self, challenge: CaptchaChallenge) -> Optional[str]:
+        """Solve reCAPTCHA v2."""
+        # Submit CAPTCHA
+        params = {
+            'key': self.api_key,
+            'method': 'userrecaptcha',
+            'googlekey': challenge.site_key,
+            'pageurl': challenge.page_url,
+            'json': 1
+        }
+        
+        response = requests.post(f"{self.base_url}/in.php", data=params)
+        result = response.json()
+        
+        if result.get('status') != 1:
+            self.logger.error(f"Failed to submit CAPTCHA: {result}")
+            return None
+        
+        request_id = result.get('request')
+        
+        # Poll for result
+        for _ in range(60):  # Max 5 minutes
+            time.sleep(5)
+            
+            response = requests.get(
+                f"{self.base_url}/res.php",
+                params={
+                    'key': self.api_key,
+                    'action': 'get',
+                    'id': request_id,
+                    'json': 1
+                }
+            )
+            
+            result = response.json()
+            
+            if result.get('status') == 1:
+                return result.get('request')
+            elif result.get('request') != 'CAPCHA_NOT_READY':
+                self.logger.error(f"CAPTCHA solving failed: {result}")
+                return None
+        
+        return None
+    
+    def _solve_image(self, challenge: CaptchaChallenge) -> Optional[str]:
+        """Solve image CAPTCHA."""
+        if not challenge.image_data:
+            return None
+        
+        # Submit image
+        files = {'file': ('captcha.png', challenge.image_data)}
+        data = {
+            'key': self.api_key,
+            'method': 'post',
+            'json': 1
+        }
+        
+        response = requests.post(f"{self.base_url}/in.php", files=files, data=data)
+        result = response.json()
+        
+        if result.get('status') != 1:
+            return None
+        
+        request_id = result.get('request')
+        
+        # Poll for result
+        for _ in range(20):
+            time.sleep(3)
+            
+            response = requests.get(
+                f"{self.base_url}/res.php",
+                params={
+                    'key': self.api_key,
+                    'action': 'get',
+                    'id': request_id,
+                    'json': 1
+                }
+            )
+            
+            result = response.json()
+            
+            if result.get('status') == 1:
+                return result.get('request')
+        
+        return None
+    
+    def _solve_hcaptcha(self, challenge: CaptchaChallenge) -> Optional[str]:
+        """Solve hCaptcha."""
+        params = {
+            'key': self.api_key,
+            'method': 'hcaptcha',
+            'sitekey': challenge.site_key,
+            'pageurl': challenge.page_url,
+            'json': 1
+        }
+        
+        response = requests.post(f"{self.base_url}/in.php", data=params)
+        result = response.json()
+        
+        if result.get('status') != 1:
+            return None
+        
+        request_id = result.get('request')
+        
+        # Poll for result
+        for _ in range(60):
+            time.sleep(5)
+            
+            response = requests.get(
+                f"{self.base_url}/res.php",
+                params={
+                    'key': self.api_key,
+                    'action': 'get',
+                    'id': request_id,
+                    'json': 1
+                }
+            )
+            
+            result = response.json()
+            
+            if result.get('status') == 1:
+                return result.get('request')
+        
+        return None
+
+# ==================== Local CAPTCHA Solvers ====================
+
+class OCRSolver:
+    """
+    Solve simple text CAPTCHAs using OCR.
+    """
+    
+    def __init__(self):
+        import pytesseract
+        self.logger = logging.getLogger(__name__)
+    
+    def solve_text_captcha(self, image: Union[Image.Image, np.ndarray]) -> Optional[str]:
+        """Solve text CAPTCHA using OCR."""
+        try:
+            # Preprocess image
+            processed = self._preprocess_image(image)
+            
+            # OCR
+            import pytesseract
+            text = pytesseract.image_to_string(
+                processed,
+                config='--psm 8 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            )
+            
+            # Clean result
+            text = text.strip().replace(' ', '')
+            
+            if text:
+                self.logger.info(f"OCR result: {text}")
+                return text
+            
+        except Exception as e:
+            self.logger.error(f"OCR failed: {e}")
+        
+        return None
+    
+    def _preprocess_image(self, image: Union[Image.Image, np.ndarray]) -> np.ndarray:
+        """Preprocess image for better OCR results."""
+        # Convert to numpy array if needed
+        if isinstance(image, Image.Image):
+            image = np.array(image)
+        
+        # Convert to grayscale
+        if len(image.shape) == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image
+        
+        # Apply thresholding
+        _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        
+        # Denoise
+        denoised = cv2.medianBlur(thresh, 3)
+        
+        # Resize for better OCR
+        height, width = denoised.shape
+        if height < 50:
+            scale = 50 / height
+            new_width = int(width * scale)
+            denoised = cv2.resize(denoised, (new_width, 50))
+        
+        return denoised
+
+class SliderSolver:
+    """
+    Solve slider CAPTCHAs.
+    """
+    
+    def __init__(self, driver: webdriver.Chrome):
+        self.driver = driver
+        self.actions = ActionChains(driver)
+        self.logger = logging.getLogger(__name__)
+    
+    def solve_slider(self, slider_element, target_position: int = None):
+        """Solve slider CAPTCHA."""
+        try:
+            # If no target position, try to detect it
+            if target_position is None:
+                target_position = self._detect_target_position()
+            
+            # Get slider bounds
+            location = slider_element.location
+            size = slider_element.size
+            
+            # Calculate movement
+            current_position = 0
+            movement = target_position - current_position
+            
+            # Perform human-like drag
+            self._human_like_drag(slider_element, movement)
+            
+            return True
+            
+        except Exception as e:
+            self.logger.error(f"Slider solving failed: {e}")
+            return False
+    
+    def _detect_target_position(self) -> int:
+        """Detect target position for slider (puzzle piece matching)."""
+        # This would involve image processing to find the gap
+        # Simplified version - return random position
+        return random.randint(100, 250)
+    
+    def _human_like_drag(self, element, distance: int):
+        """Perform human-like drag operation."""
+        # Click and hold
+        self.actions.click_and_hold(element).perform()
+        
+        # Move in steps with acceleration/deceleration
+        steps = 20
+        moved = 0
+        
+        for i in range(steps):
+            # Acceleration curve
+            if i < steps / 2:
+                step = (distance / steps) * (1 + i / steps)
+            else:
+                step = (distance / steps) * (2 - i / steps)
+            
+            self.actions.move_by_offset(step, 0).perform()
+            moved += step
+            
+            # Small random variations
+            if random.random() < 0.3:
+                self.actions.move_by_offset(0, random.randint(-2, 2)).perform()
+            
+            time.sleep(random.uniform(0.01, 0.03))
+        
+        # Adjust final position
+        final_adjustment = distance - moved
+        if abs(final_adjustment) > 0:
+            self.actions.move_by_offset(final_adjustment, 0).perform()
+        
+        # Release
+        time.sleep(random.uniform(0.1, 0.3))
+        self.actions.release().perform()
+
+# ==================== CAPTCHA Manager ====================
+
+class CaptchaManager:
+    """
+    Comprehensive CAPTCHA handling manager.
+    """
+    
+    def __init__(self, driver: webdriver.Chrome, 
+                 solver_api_key: Optional[str] = None,
+                 strategy: SolverStrategy = SolverStrategy.SERVICE):
+        self.driver = driver
+        self.strategy = strategy
+        self.detector = CaptchaDetector(driver)
+        self.behavior_simulator = HumanBehaviorSimulator(driver)
+        
+        # Initialize solvers
+        self.service_solver = None
+        if solver_api_key:
+            self.service_solver = TwoCaptchaSolver(solver_api_key)
+        
+        self.ocr_solver = OCRSolver()
+        self.slider_solver = SliderSolver(driver)
+        
+        self.logger = logging.getLogger(__name__)
+        
+        # Statistics
+        self.stats = {
+            'total_captchas': 0,
+            'solved': 0,
+            'failed': 0,
+            'avoided': 0
+        }
+    
+    def handle_captcha(self, max_attempts: int = 3) -> bool:
+        """
+        Detect and handle CAPTCHA if present.
+        """
+        # First, try to avoid triggering CAPTCHA
+        if self.strategy == SolverStrategy.AVOIDANCE:
+            self.behavior_simulator.simulate_reading()
+            time.sleep(2)
+        
+        # Check for CAPTCHA
+        challenge = self.detector.detect_captcha()
+        
+        if not challenge:
+            return True  # No CAPTCHA found
+        
+        self.stats['total_captchas'] += 1
+        self.logger.info(f"CAPTCHA detected: {challenge.type.value}")
+        
+        # Try to solve CAPTCHA
+        for attempt in range(max_attempts):
+            challenge.attempts = attempt + 1
+            
+            solution = self._solve_challenge(challenge)
+            
+            if solution:
+                challenge.solution = solution
+                challenge.solved = True
+                
+                # Submit solution
+                if self._submit_solution(challenge):
+                    self.stats['solved'] += 1
+                    self.logger.info(f"CAPTCHA solved successfully")
+                    return True
+            
+            # Wait before retry
+            if attempt < max_attempts - 1:
+                time.sleep(random.uniform(2, 5))
+        
+        self.stats['failed'] += 1
+        self.logger.error(f"Failed to solve CAPTCHA after {max_attempts} attempts")
+        return False
+    
+    def _solve_challenge(self, challenge: CaptchaChallenge) -> Optional[str]:
+        """Solve CAPTCHA challenge based on strategy."""
+        if self.strategy == SolverStrategy.SERVICE and self.service_solver:
+            return self.service_solver.solve(challenge)
+        
+        elif self.strategy == SolverStrategy.OCR:
+            if challenge.type == CaptchaType.TEXT:
+                # Get CAPTCHA image
+                image = self._get_captcha_image()
+                if image:
+                    return self.ocr_solver.solve_text_captcha(image)
+        
+        elif self.strategy == SolverStrategy.BEHAVIORAL:
+            # Use human-like behavior to avoid detection
+            self._simulate_human_solving()
+            return "behavioral_bypass"
+        
+        return None
+    
+    def _get_captcha_image(self) -> Optional[Image.Image]:
+        """Extract CAPTCHA image from page."""
+        try:
+            # Look for common CAPTCHA image selectors
+            selectors = [
+                "//img[contains(@id, 'captcha')]",
+                "//img[contains(@class, 'captcha')]",
+                "//img[contains(@src, 'captcha')]"
+            ]
+            
+            for selector in selectors:
+                try:
+                    element = self.driver.find_element(By.XPATH, selector)
+                    
+                    # Get image as base64
+                    img_base64 = self.driver.execute_script(
+                        "return arguments[0].toDataURL('image/png').substring(21);",
+                        element
+                    )
+                    
+                    # Convert to PIL Image
+                    img_data = base64.b64decode(img_base64)
+                    image = Image.open(BytesIO(img_data))
+                    
+                    return image
+                    
+                except:
+                    continue
+                    
+        except Exception as e:
+            self.logger.error(f"Failed to extract CAPTCHA image: {e}")
+        
+        return None
+    
+    def _submit_solution(self, challenge: CaptchaChallenge) -> bool:
+        """Submit CAPTCHA solution."""
+        try:
+            if challenge.type == CaptchaType.RECAPTCHA_V2:
+                # Inject reCAPTCHA solution
+                self.driver.execute_script(
+                    f"document.getElementById('g-recaptcha-response').innerHTML = '{challenge.solution}';"
+                )
+                
+                # Trigger callback if exists
+                self.driver.execute_script(
+                    "if(typeof ___grecaptcha_cfg !== 'undefined') { "
+                    "Object.entries(___grecaptcha_cfg.clients).forEach(([key, client]) => { "
+                    "if(client.callback) { client.callback('" + challenge.solution + "'); } "
+                    "}); }"
+                )
+                
+            elif challenge.type == CaptchaType.TEXT:
+                # Find input field and submit
+                input_field = self.driver.find_element(
+                    By.XPATH, 
+                    "//input[contains(@name, 'captcha') or contains(@id, 'captcha')]"
+                )
+                input_field.clear()
+                input_field.send_keys(challenge.solution)
+                
+                # Find and click submit button
+                submit_button = self.driver.find_element(
+                    By.XPATH,
+                    "//button[@type='submit'] | //input[@type='submit']"
+                )
+                submit_button.click()
+            
+            # Wait for page change or CAPTCHA disappearance
+            time.sleep(3)
+            
+            # Check if CAPTCHA is gone
+            new_challenge = self.detector.detect_captcha()
+            return new_challenge is None
+            
+        except Exception as e:
+            self.logger.error(f"Failed to submit solution: {e}")
+            return False
+    
+    def _simulate_human_solving(self):
+        """Simulate human solving behavior."""
+        # Random mouse movements
+        for _ in range(random.randint(3, 7)):
+            x = random.randint(100, 500)
+            y = random.randint(100, 500)
+            self.behavior_simulator.actions.move_by_offset(x, y).perform()
+            self.behavior_simulator.actions = ActionChains(self.driver)
+            time.sleep(random.uniform(0.5, 1.5))
+        
+        # Random scrolling
+        self.behavior_simulator.random_scrolling()
+        
+        # Simulate thinking time
+        time.sleep(random.uniform(5, 15))
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """Get CAPTCHA handling statistics."""
+        total = self.stats['total_captchas']
+        if total > 0:
+            self.stats['success_rate'] = self.stats['solved'] / total
+        else:
+            self.stats['success_rate'] = 0
+        
+        return self.stats
+
+# Example usage
+if __name__ == "__main__":
+    print("🔐 CAPTCHA Handling Examples\n")
+    
+    # Example 1: CAPTCHA types
+    print("1️⃣ CAPTCHA Types:")
+    
+    captcha_types = [
+        ("Text CAPTCHA", "Simple distorted text"),
+        ("reCAPTCHA v2", "Google's 'I'm not a robot' checkbox"),
+        ("reCAPTCHA v3", "Invisible score-based detection"),
+        ("hCaptcha", "Privacy-focused alternative to reCAPTCHA"),
+        ("FunCaptcha", "Game-based puzzles"),
+        ("GeeTest", "Slider and puzzle CAPTCHAs"),
+        ("Image Selection", "Select all images with..."),
+        ("Audio CAPTCHA", "Audio-based challenges")
+    ]
+    
+    for captcha_type, description in captcha_types:
+        print(f"   {captcha_type}: {description}")
+    
+    # Example 2: Solving strategies
+    print("\n2️⃣ Solving Strategies:")
+    
+    strategies = [
+        ("Service-based", "Use 2captcha, Anti-Captcha, etc."),
+        ("OCR", "Optical character recognition for text"),
+        ("Audio", "Speech recognition for audio CAPTCHAs"),
+        ("Behavioral", "Mimic human behavior to avoid triggers"),
+        ("Avoidance", "Prevent CAPTCHA from appearing"),
+        ("Manual", "Human intervention when needed")
+    ]
+    
+    for strategy, description in strategies:
+        print(f"   {strategy}: {description}")
+    
+    # Example 3: Human behavior simulation
+    print("\n3️⃣ Human Behavior Simulation:")
+    
+    behaviors = [
+        "Natural mouse movements (bezier curves)",
+        "Variable typing speed with pauses",
+        "Random scrolling and reading patterns",
+        "Hover over elements before clicking",
+        "Add delays between actions",
+        "Simulate mistakes and corrections"
+    ]
+    
+    for behavior in behaviors:
+        print(f"   • {behavior}")
+    
+    # Example 4: CAPTCHA detection
+    print("\n4️⃣ CAPTCHA Detection:")
+    
+    print("   Detection methods:")
+    print("     • Check for iframe sources (recaptcha, hcaptcha)")
+    print("     • Look for specific div classes")
+    print("     • Search for CAPTCHA-related scripts")
+    print("     • Analyze page text for keywords")
+    print("     • Monitor for popup dialogs")
+    
+    # Example 5: Service integration
+    print("\n5️⃣ CAPTCHA Solving Services:")
+    
+    services = [
+        ("2captcha", "$2.99/1000", "Popular, reliable"),
+        ("Anti-Captcha", "$2.00/1000", "Good API, fast"),
+        ("DeathByCaptcha", "$1.39/1000", "Cheapest option"),
+        ("ImageTyperz", "$1.50/1000", "Good for images"),
+        ("CapMonster Cloud", "$0.60/1000", "Cloud-based")
+    ]
+    
+    print("   Service comparison:")
+    for service, price, notes in services:
+        print(f"     {service}: {price} - {notes}")
+    
+    # Example 6: Success rates
+    print("\n6️⃣ Typical Success Rates:")
+    
+    success_rates = [
+        ("Text CAPTCHA (OCR)", "60-80%"),
+        ("reCAPTCHA v2 (Service)", "85-95%"),
+        ("hCaptcha (Service)", "80-90%"),
+        ("Image Selection", "70-85%"),
+        ("Slider/Puzzle", "75-90%"),
+        ("Behavioral Avoidance", "95-99%")
+    ]
+    
+    for method, rate in success_rates:
+        print(f"   {method}: {rate}")
+    
+    # Example 7: Cost considerations
+    print("\n7️⃣ Cost Analysis:")
+    
+    print("   For 10,000 CAPTCHAs/month:")
+    print("     Service costs: $20-30")
+    print("     Time saved: ~83 hours")
+    print("     Success rate: ~90%")
+    print("     ROI depends on your use case")
+    
+    # Example 8: Legal and ethical notes
+    print("\n8️⃣ Legal & Ethical Considerations:")
+    
+    considerations = [
+        "⚖️ Always respect Terms of Service",
+        "🤝 Consider reaching out to website owners",
+        "💰 Some sites offer APIs as alternatives",
+        "🚫 Never use for malicious purposes",
+        "📊 CAPTCHAs protect sites from abuse",
+        "🔒 Respect rate limits even after solving"
+    ]
+    
+    for consideration in considerations:
+        print(f"   {consideration}")
+    
+    # Example 9: Avoidance techniques
+    print("\n9️⃣ CAPTCHA Avoidance Techniques:")
+    
+    techniques = [
+        "Use authenticated sessions",
+        "Maintain consistent browser fingerprint",
+        "Rotate residential proxies",
+        "Add realistic delays between requests",
+        "Complete user flows naturally",
+        "Use headless browser detection bypass",
+        "Maintain cookies and local storage"
+    ]
+    
+    for technique in techniques:
+        print(f"   • {technique}")
+    
+    # Example 10: Best practices
+    print("\n🔟 Best Practices:")
+    
+    best_practices = [
+        "🎯 Try avoidance before solving",
+        "⏱️ Cache solved CAPTCHAs when possible",
+        "🔄 Implement retry logic with backoff",
+        "📊 Monitor success rates",
+        "💡 Use appropriate strategy per site",
+        "🛡️ Have fallback solving methods",
+        "📝 Log all CAPTCHA encounters",
+        "🤖 Combine automation with manual backup",
+        "💰 Budget for CAPTCHA solving costs",
+        "⚡ Optimize for speed vs success rate"
+    ]
+    
+    for practice in best_practices:
+        print(f"   {practice}")
+    
+    print("\n✅ CAPTCHA handling demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Prevention is Better:</strong> Try to avoid triggering CAPTCHAs in the first place.</li>
+        
+        <li><strong>Use Human-like Behavior:</strong> Natural mouse movements and typing patterns.</li>
+        
+        <li><strong>Choose the Right Strategy:</strong> Balance between cost, speed, and success rate.</li>
+        
+        <li><strong>Have Multiple Fallbacks:</strong> Don't rely on a single solving method.</li>
+        
+        <li><strong>Monitor Success Rates:</strong> Track and optimize your solving strategies.</li>
+        
+        <li><strong>Respect the Purpose:</strong> CAPTCHAs protect websites from abuse.</li>
+        
+        <li><strong>Consider Alternatives:</strong> APIs might be available for legitimate use.</li>
+        
+        <li><strong>Budget Appropriately:</strong> Factor CAPTCHA solving costs into your project.</li>
+    </ul>
+
+    <h3>CAPTCHA Handling Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> CAPTCHAs are like security guards - the best approach is to not look suspicious in the first place. Focus on prevention through human-like behavior: use realistic delays, natural mouse movements, and complete user journeys. When you must solve CAPTCHAs, choose your strategy wisely. Services like 2captcha are reliable but cost money; OCR works for simple text but has lower success rates; behavioral simulation can bypass some detection entirely. Always have multiple strategies - what works today might not work tomorrow as CAPTCHA systems evolve. Remember that CAPTCHAs exist for good reasons - to protect websites from abuse. If you're hitting lots of CAPTCHAs, consider whether there's a legitimate API you could use instead. Most importantly: respect the intent behind CAPTCHAs. They're not obstacles to break but security measures to work with responsibly!</p>
+    </div>
+    
+    <p>Mastering CAPTCHA handling transforms you from someone blocked by bot detection to someone who can navigate it responsibly and effectively. You now understand detection methods, solving strategies, behavioral simulation, and service integration. Whether you're building testing tools, data collectors, or automation systems, these CAPTCHA handling skills ensure your automation can handle real-world challenges! 🔓</p>
+    
+    <footer>
+        <p>Next up: <a href="advanced_scraping_data_pipelines.html">Data Pipelines - Process and Store Data at Scale!</a></p>
+    </footer>
+</body>
+</html>

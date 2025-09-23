@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy Rotation - Python Web Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🔄 Proxy Rotation: Scale Your Scraping with Anonymity</h1>
+    
+    <p>Proxy rotation is the art of digital disguise - like having thousands of different identities to access websites without revealing your true location. It's essential for large-scale scraping, bypassing rate limits, accessing geo-restricted content, and maintaining anonymity. Think of it as having an army of digital ambassadors, each making requests on your behalf from different corners of the internet. Let's master the art of distributed scraping! 🎭</p>
+
+    <h2>The Proxy Rotation Architecture</h2>
+    
+    <p>Imagine you're conducting a global survey, but instead of sending one person to ask everyone (who would quickly get exhausted and recognized), you deploy thousands of surveyors worldwide. Each proxy is like a different surveyor with their own identity, location, and approach. Together, they work harmoniously to gather data efficiently without drawing attention!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Proxy Rotation System] --> B[Proxy Sources]
+        A --> C[Proxy Management]
+        A --> D[Health Monitoring]
+        A --> E[Request Distribution]
+        
+        B --> F[Free Proxies]
+        B --> G[Premium Proxies]
+        B --> H[Residential Proxies]
+        B --> I[Datacenter Proxies]
+        
+        C --> J[Proxy Pool]
+        C --> K[Authentication]
+        C --> L[Rotation Strategy]
+        C --> M[Geolocation]
+        
+        D --> N[Health Checks]
+        D --> O[Response Time]
+        D --> P[Success Rate]
+        D --> Q[Blacklist Detection]
+        
+        E --> R[Load Balancing]
+        E --> S[Retry Logic]
+        E --> T[Failover]
+        E --> U[Rate Limiting]
+        
+        H --> V[Sticky Sessions]
+        I --> W[High Speed]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+    </div>
+
+    <h3>Real-World Scenario: The Global Price Monitor 🌍</h3>
+    
+    <p>You're building a price monitoring system that tracks products across multiple e-commerce sites in different countries. You need to handle IP bans, rate limits, geo-blocking, and anti-bot measures. Your system must make thousands of requests per minute while appearing as legitimate users from various locations. Proxy rotation is your key to achieving this scale!</p>
+
+    <pre><code># First, install required packages:
+# pip install requests[socks] pysocks aiohttp asyncio-throttle proxy-checker-py
+
+import requests
+import random
+import time
+import json
+import threading
+import queue
+import asyncio
+import aiohttp
+from typing import List, Dict, Optional, Any, Tuple, Set, Union
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from urllib.parse import urlparse, urljoin
+import logging
+from collections import defaultdict, deque
+import sqlite3
+from pathlib import Path
+import socket
+import socks
+import concurrent.futures
+from functools import wraps
+import hashlib
+import base64
+from itertools import cycle
+import re
+
+# ==================== Proxy Types ====================
+
+class ProxyType(Enum):
+    """Types of proxies."""
+    HTTP = "http"
+    HTTPS = "https"
+    SOCKS4 = "socks4"
+    SOCKS5 = "socks5"
+
+class ProxyAnonymity(Enum):
+    """Proxy anonymity levels."""
+    TRANSPARENT = "transparent"  # Reveals your IP
+    ANONYMOUS = "anonymous"      # Hides IP but reveals proxy use
+    ELITE = "elite"              # Hides both IP and proxy use
+
+class ProxySource(Enum):
+    """Proxy sources."""
+    FREE = "free"
+    PREMIUM = "premium"
+    RESIDENTIAL = "residential"
+    DATACENTER = "datacenter"
+    ROTATING = "rotating"
+
+@dataclass
+class Proxy:
+    """Proxy configuration."""
+    host: str
+    port: int
+    type: ProxyType
+    username: Optional[str] = None
+    password: Optional[str] = None
+    country: Optional[str] = None
+    city: Optional[str] = None
+    anonymity: ProxyAnonymity = ProxyAnonymity.ANONYMOUS
+    source: ProxySource = ProxySource.FREE
+    response_time: Optional[float] = None
+    success_rate: float = 1.0
+    last_used: Optional[datetime] = None
+    last_checked: Optional[datetime] = None
+    failures: int = 0
+    total_requests: int = 0
+    blacklisted: bool = False
+    metadata: Dict[str, Any] = field(default_factory=dict)
+    
+    def get_url(self) -> str:
+        """Get proxy URL for requests library."""
+        if self.username and self.password:
+            auth = f"{self.username}:{self.password}@"
+        else:
+            auth = ""
+        
+        return f"{self.type.value}://{auth}{self.host}:{self.port}"
+    
+    def get_dict(self) -> Dict[str, str]:
+        """Get proxy dict for requests library."""
+        proxy_url = self.get_url()
+        if self.type in [ProxyType.HTTP, ProxyType.HTTPS]:
+            return {
+                'http': proxy_url,
+                'https': proxy_url
+            }
+        else:
+            return {
+                'http': proxy_url,
+                'https': proxy_url
+            }
+    
+    def __hash__(self):
+        """Make proxy hashable for use in sets."""
+        return hash(f"{self.host}:{self.port}")
+
+# ==================== Proxy Pool Manager ====================
+
+class ProxyPool:
+    """
+    Manages a pool of proxies with health monitoring and rotation.
+    """
+    
+    def __init__(self, 
+                 max_failures: int = 3,
+                 min_success_rate: float = 0.5,
+                 health_check_interval: int = 300):
+        self.proxies: List[Proxy] = []
+        self.active_proxies: Set[Proxy] = set()
+        self.dead_proxies: Set[Proxy] = set()
+        self.max_failures = max_failures
+        self.min_success_rate = min_success_rate
+        self.health_check_interval = health_check_interval
+        
+        self.lock = threading.Lock()
+        self.proxy_cycle = None
+        self.last_health_check = datetime.now()
+        
+        self.setup_logging()
+        self.setup_database()
+        
+    def setup_logging(self):
+        """Setup logging configuration."""
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        )
+        self.logger = logging.getLogger(__name__)
+    
+    def setup_database(self):
+        """Setup SQLite database for proxy storage."""
+        self.db_path = Path("proxies.db")
+        self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
+        
+        self.conn.execute("""
+            CREATE TABLE IF NOT EXISTS proxies (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                host TEXT NOT NULL,
+                port INTEGER NOT NULL,
+                type TEXT,
+                username TEXT,
+                password TEXT,
+                country TEXT,
+                city TEXT,
+                anonymity TEXT,
+                source TEXT,
+                response_time REAL,
+                success_rate REAL,
+                last_used TIMESTAMP,
+                last_checked TIMESTAMP,
+                failures INTEGER DEFAULT 0,
+                total_requests INTEGER DEFAULT 0,
+                blacklisted BOOLEAN DEFAULT 0,
+                metadata TEXT,
+                UNIQUE(host, port)
+            )
+        """)
+        
+        self.conn.execute("""
+            CREATE TABLE IF NOT EXISTS proxy_stats (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                proxy_id INTEGER,
+                timestamp TIMESTAMP,
+                success BOOLEAN,
+                response_time REAL,
+                status_code INTEGER,
+                error TEXT,
+                FOREIGN KEY (proxy_id) REFERENCES proxies (id)
+            )
+        """)
+        
+        self.conn.commit()
+    
+    def add_proxy(self, proxy: Proxy) -> bool:
+        """Add a proxy to the pool."""
+        with self.lock:
+            if proxy not in self.dead_proxies:
+                self.proxies.append(proxy)
+                self.active_proxies.add(proxy)
+                self._save_proxy_to_db(proxy)
+                self.logger.info(f"Added proxy: {proxy.host}:{proxy.port}")
+                return True
+            return False
+    
+    def add_proxies(self, proxies: List[Proxy]):
+        """Add multiple proxies to the pool."""
+        added = 0
+        for proxy in proxies:
+            if self.add_proxy(proxy):
+                added += 1
+        
+        self.logger.info(f"Added {added} proxies to pool")
+        self._rebuild_cycle()
+    
+    def _save_proxy_to_db(self, proxy: Proxy):
+        """Save proxy to database."""
+        try:
+            self.conn.execute("""
+                INSERT OR REPLACE INTO proxies 
+                (host, port, type, username, password, country, city, 
+                 anonymity, source, response_time, success_rate, 
+                 last_used, last_checked, failures, total_requests, 
+                 blacklisted, metadata)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                proxy.host, proxy.port, proxy.type.value,
+                proxy.username, proxy.password,
+                proxy.country, proxy.city,
+                proxy.anonymity.value, proxy.source.value,
+                proxy.response_time, proxy.success_rate,
+                proxy.last_used, proxy.last_checked,
+                proxy.failures, proxy.total_requests,
+                proxy.blacklisted, json.dumps(proxy.metadata)
+            ))
+            self.conn.commit()
+        except Exception as e:
+            self.logger.error(f"Failed to save proxy to database: {e}")
+    
+    def get_proxy(self, 
+                  country: Optional[str] = None,
+                  anonymity: Optional[ProxyAnonymity] = None,
+                  source: Optional[ProxySource] = None) -> Optional[Proxy]:
+        """
+        Get next available proxy based on criteria.
+        """
+        with self.lock:
+            if not self.active_proxies:
+                self.logger.warning("No active proxies available")
+                return None
+            
+            # Filter proxies based on criteria
+            available = list(self.active_proxies)
+            
+            if country:
+                available = [p for p in available if p.country == country]
+            
+            if anonymity:
+                available = [p for p in available if p.anonymity == anonymity]
+            
+            if source:
+                available = [p for p in available if p.source == source]
+            
+            if not available:
+                self.logger.warning(f"No proxies matching criteria")
+                return None
+            
+            # Select proxy with best success rate
+            available.sort(key=lambda p: (p.success_rate, -p.failures), reverse=True)
+            proxy = available[0]
+            
+            proxy.last_used = datetime.now()
+            proxy.total_requests += 1
+            
+            return proxy
+    
+    def get_random_proxy(self) -> Optional[Proxy]:
+        """Get a random proxy from the pool."""
+        with self.lock:
+            if self.active_proxies:
+                return random.choice(list(self.active_proxies))
+            return None
+    
+    def get_rotating_proxy(self) -> Optional[Proxy]:
+        """Get next proxy in rotation."""
+        with self.lock:
+            if not self.proxy_cycle:
+                self._rebuild_cycle()
+            
+            if self.proxy_cycle:
+                try:
+                    return next(self.proxy_cycle)
+                except StopIteration:
+                    self._rebuild_cycle()
+                    if self.proxy_cycle:
+                        return next(self.proxy_cycle)
+            
+            return None
+    
+    def _rebuild_cycle(self):
+        """Rebuild the proxy rotation cycle."""
+        if self.active_proxies:
+            # Sort by success rate for weighted rotation
+            sorted_proxies = sorted(
+                self.active_proxies,
+                key=lambda p: p.success_rate,
+                reverse=True
+            )
+            self.proxy_cycle = cycle(sorted_proxies)
+    
+    def mark_proxy_success(self, proxy: Proxy, response_time: float = None):
+        """Mark a proxy request as successful."""
+        with self.lock:
+            if response_time:
+                if proxy.response_time:
+                    # Moving average
+                    proxy.response_time = (proxy.response_time + response_time) / 2
+                else:
+                    proxy.response_time = response_time
+            
+            # Update success rate
+            proxy.success_rate = (
+                (proxy.success_rate * (proxy.total_requests - 1) + 1) 
+                / proxy.total_requests
+            )
+            
+            proxy.failures = 0  # Reset failure count
+            
+            self._save_proxy_to_db(proxy)
+            self._record_proxy_stat(proxy, True, response_time)
+    
+    def mark_proxy_failure(self, proxy: Proxy, error: str = None):
+        """Mark a proxy request as failed."""
+        with self.lock:
+            proxy.failures += 1
+            
+            # Update success rate
+            proxy.success_rate = (
+                (proxy.success_rate * (proxy.total_requests - 1)) 
+                / proxy.total_requests
+            )
+            
+            self._record_proxy_stat(proxy, False, error=error)
+            
+            # Check if proxy should be removed
+            if (proxy.failures >= self.max_failures or 
+                proxy.success_rate < self.min_success_rate):
+                self._remove_proxy(proxy)
+            else:
+                self._save_proxy_to_db(proxy)
+    
+    def _remove_proxy(self, proxy: Proxy):
+        """Remove a proxy from active pool."""
+        self.logger.warning(f"Removing proxy {proxy.host}:{proxy.port} - "
+                          f"Failures: {proxy.failures}, Success rate: {proxy.success_rate:.2%}")
+        
+        self.active_proxies.discard(proxy)
+        self.dead_proxies.add(proxy)
+        proxy.blacklisted = True
+        
+        self._save_proxy_to_db(proxy)
+        self._rebuild_cycle()
+    
+    def _record_proxy_stat(self, proxy: Proxy, success: bool, 
+                          response_time: float = None, error: str = None):
+        """Record proxy statistics."""
+        try:
+            # Get proxy ID from database
+            cursor = self.conn.execute(
+                "SELECT id FROM proxies WHERE host = ? AND port = ?",
+                (proxy.host, proxy.port)
+            )
+            row = cursor.fetchone()
+            
+            if row:
+                proxy_id = row[0]
+                self.conn.execute("""
+                    INSERT INTO proxy_stats 
+                    (proxy_id, timestamp, success, response_time, error)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (proxy_id, datetime.now(), success, response_time, error))
+                self.conn.commit()
+        except Exception as e:
+            self.logger.error(f"Failed to record proxy stat: {e}")
+    
+    def check_proxy_health(self, proxy: Proxy, 
+                          test_url: str = "http://httpbin.org/ip",
+                          timeout: int = 10) -> bool:
+        """Check if a proxy is working."""
+        try:
+            response = requests.get(
+                test_url,
+                proxies=proxy.get_dict(),
+                timeout=timeout
+            )
+            
+            if response.status_code == 200:
+                response_time = response.elapsed.total_seconds()
+                self.mark_proxy_success(proxy, response_time)
+                return True
+            else:
+                self.mark_proxy_failure(proxy, f"Status {response.status_code}")
+                return False
+                
+        except Exception as e:
+            self.mark_proxy_failure(proxy, str(e))
+            return False
+    
+    async def check_proxy_health_async(self, proxy: Proxy,
+                                      test_url: str = "http://httpbin.org/ip",
+                                      timeout: int = 10) -> bool:
+        """Asynchronously check if a proxy is working."""
+        proxy_url = proxy.get_url()
+        
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(
+                    test_url,
+                    proxy=proxy_url,
+                    timeout=aiohttp.ClientTimeout(total=timeout)
+                ) as response:
+                    if response.status == 200:
+                        self.mark_proxy_success(proxy)
+                        return True
+                    else:
+                        self.mark_proxy_failure(proxy, f"Status {response.status}")
+                        return False
+                        
+        except Exception as e:
+            self.mark_proxy_failure(proxy, str(e))
+            return False
+    
+    def health_check_all(self, test_url: str = "http://httpbin.org/ip"):
+        """Check health of all active proxies."""
+        self.logger.info(f"Starting health check for {len(self.active_proxies)} proxies")
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+            futures = {
+                executor.submit(self.check_proxy_health, proxy, test_url): proxy
+                for proxy in list(self.active_proxies)
+            }
+            
+            for future in concurrent.futures.as_completed(futures):
+                proxy = futures[future]
+                try:
+                    result = future.result()
+                    if result:
+                        self.logger.debug(f"Proxy {proxy.host}:{proxy.port} is healthy")
+                except Exception as e:
+                    self.logger.error(f"Health check failed for {proxy.host}:{proxy.port}: {e}")
+        
+        self.last_health_check = datetime.now()
+        self.logger.info(f"Health check complete. Active: {len(self.active_proxies)}, "
+                        f"Dead: {len(self.dead_proxies)}")
+    
+    async def health_check_all_async(self, test_url: str = "http://httpbin.org/ip"):
+        """Asynchronously check health of all proxies."""
+        tasks = []
+        for proxy in list(self.active_proxies):
+            task = self.check_proxy_health_async(proxy, test_url)
+            tasks.append(task)
+        
+        await asyncio.gather(*tasks)
+        
+        self.last_health_check = datetime.now()
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """Get pool statistics."""
+        with self.lock:
+            stats = {
+                'total_proxies': len(self.proxies),
+                'active_proxies': len(self.active_proxies),
+                'dead_proxies': len(self.dead_proxies),
+                'last_health_check': self.last_health_check.isoformat() if self.last_health_check else None
+            }
+            
+            if self.active_proxies:
+                avg_response_time = sum(
+                    p.response_time for p in self.active_proxies if p.response_time
+                ) / len([p for p in self.active_proxies if p.response_time])
+                
+                avg_success_rate = sum(
+                    p.success_rate for p in self.active_proxies
+                ) / len(self.active_proxies)
+                
+                stats['avg_response_time'] = avg_response_time
+                stats['avg_success_rate'] = avg_success_rate
+                
+                # Group by country
+                countries = defaultdict(int)
+                for proxy in self.active_proxies:
+                    if proxy.country:
+                        countries[proxy.country] += 1
+                stats['countries'] = dict(countries)
+                
+                # Group by type
+                types = defaultdict(int)
+                for proxy in self.active_proxies:
+                    types[proxy.type.value] += 1
+                stats['types'] = dict(types)
+            
+            return stats
+    
+    def load_proxies_from_file(self, filepath: str):
+        """Load proxies from a file."""
+        proxies = []
+        
+        with open(filepath, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                
+                # Parse proxy format: host:port or host:port:username:password
+                parts = line.split(':')
+                
+                if len(parts) >= 2:
+                    proxy = Proxy(
+                        host=parts[0],
+                        port=int(parts[1]),
+                        type=ProxyType.HTTP
+                    )
+                    
+                    if len(parts) >= 4:
+                        proxy.username = parts[2]
+                        proxy.password = parts[3]
+                    
+                    proxies.append(proxy)
+        
+        self.add_proxies(proxies)
+        self.logger.info(f"Loaded {len(proxies)} proxies from {filepath}")
+
+# ==================== Proxy Scraper ====================
+
+class ProxyScraper:
+    """
+    Scrape free proxies from various sources.
+    """
+    
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        self.sources = [
+            self.scrape_free_proxy_list,
+            self.scrape_proxy_list,
+            self.scrape_sslproxies
+        ]
+    
+    def scrape_all(self) -> List[Proxy]:
+        """Scrape proxies from all sources."""
+        all_proxies = []
+        
+        for scraper in self.sources:
+            try:
+                proxies = scraper()
+                all_proxies.extend(proxies)
+                self.logger.info(f"Scraped {len(proxies)} proxies from {scraper.__name__}")
+            except Exception as e:
+                self.logger.error(f"Failed to scrape from {scraper.__name__}: {e}")
+        
+        return all_proxies
+    
+    def scrape_free_proxy_list(self) -> List[Proxy]:
+        """Scrape from free-proxy-list.net."""
+        proxies = []
+        
+        try:
+            import requests
+            from bs4 import BeautifulSoup
+            
+            response = requests.get(
+                "https://free-proxy-list.net/",
+                headers={'User-Agent': 'Mozilla/5.0'}
+            )
+            
+            soup = BeautifulSoup(response.text, 'html.parser')
+            table = soup.find('table', {'class': 'table-striped'})
+            
+            if table:
+                for row in table.find_all('tr')[1:]:
+                    cells = row.find_all('td')
+                    if len(cells) >= 7:
+                        proxy = Proxy(
+                            host=cells[0].text,
+                            port=int(cells[1].text),
+                            type=ProxyType.HTTPS if cells[6].text == 'yes' else ProxyType.HTTP,
+                            country=cells[3].text,
+                            anonymity=self._parse_anonymity(cells[4].text),
+                            source=ProxySource.FREE
+                        )
+                        proxies.append(proxy)
+        except Exception as e:
+            self.logger.error(f"Error scraping free-proxy-list: {e}")
+        
+        return proxies
+    
+    def scrape_proxy_list(self) -> List[Proxy]:
+        """Scrape from proxy-list.download."""
+        proxies = []
+        
+        try:
+            response = requests.get(
+                "https://www.proxy-list.download/api/v1/get?type=http",
+                headers={'User-Agent': 'Mozilla/5.0'}
+            )
+            
+            for line in response.text.strip().split('\n'):
+                if ':' in line:
+                    host, port = line.split(':')
+                    proxy = Proxy(
+                        host=host,
+                        port=int(port),
+                        type=ProxyType.HTTP,
+                        source=ProxySource.FREE
+                    )
+                    proxies.append(proxy)
+        except Exception as e:
+            self.logger.error(f"Error scraping proxy-list: {e}")
+        
+        return proxies
+    
+    def scrape_sslproxies(self) -> List[Proxy]:
+        """Scrape from sslproxies.org."""
+        proxies = []
+        
+        try:
+            response = requests.get(
+                "https://www.sslproxies.org/",
+                headers={'User-Agent': 'Mozilla/5.0'}
+            )
+            
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(response.text, 'html.parser')
+            table = soup.find('table', {'class': 'table-striped'})
+            
+            if table:
+                for row in table.find_all('tr')[1:]:
+                    cells = row.find_all('td')
+                    if len(cells) >= 7:
+                        proxy = Proxy(
+                            host=cells[0].text,
+                            port=int(cells[1].text),
+                            type=ProxyType.HTTPS,
+                            country=cells[3].text,
+                            anonymity=self._parse_anonymity(cells[4].text),
+                            source=ProxySource.FREE
+                        )
+                        proxies.append(proxy)
+        except Exception as e:
+            self.logger.error(f"Error scraping sslproxies: {e}")
+        
+        return proxies
+    
+    def _parse_anonymity(self, text: str) -> ProxyAnonymity:
+        """Parse anonymity level from text."""
+        text = text.lower()
+        if 'elite' in text:
+            return ProxyAnonymity.ELITE
+        elif 'anonymous' in text:
+            return ProxyAnonymity.ANONYMOUS
+        else:
+            return ProxyAnonymity.TRANSPARENT
+
+# ==================== Smart Proxy Rotator ====================
+
+class SmartProxyRotator:
+    """
+    Intelligent proxy rotation with automatic failover and retry logic.
+    """
+    
+    def __init__(self, proxy_pool: ProxyPool, 
+                 max_retries: int = 3,
+                 retry_delay: float = 1.0):
+        self.proxy_pool = proxy_pool
+        self.max_retries = max_retries
+        self.retry_delay = retry_delay
+        self.session_proxies: Dict[str, Proxy] = {}
+        self.logger = logging.getLogger(__name__)
+    
+    def request_with_retry(self, method: str, url: str, 
+                          **kwargs) -> Optional[requests.Response]:
+        """
+        Make request with automatic proxy rotation and retry.
+        """
+        last_exception = None
+        used_proxies = set()
+        
+        for attempt in range(self.max_retries):
+            # Get a proxy that hasn't been tried yet
+            proxy = self._get_unused_proxy(used_proxies)
+            
+            if not proxy:
+                self.logger.warning("No more proxies available")
+                break
+            
+            used_proxies.add(proxy)
+            
+            try:
+                # Make request
+                start_time = time.time()
+                
+                response = requests.request(
+                    method,
+                    url,
+                    proxies=proxy.get_dict(),
+                    timeout=kwargs.pop('timeout', 30),
+                    **kwargs
+                )
+                
+                response_time = time.time() - start_time
+                
+                # Check if response is valid
+                if response.status_code == 200:
+                    self.proxy_pool.mark_proxy_success(proxy, response_time)
+                    return response
+                elif response.status_code in [403, 407, 429]:
+                    # Proxy might be blocked
+                    self.proxy_pool.mark_proxy_failure(proxy, f"Status {response.status_code}")
+                else:
+                    # Other status codes might not be proxy's fault
+                    return response
+                    
+            except requests.exceptions.ProxyError as e:
+                self.logger.warning(f"Proxy error with {proxy.host}:{proxy.port}: {e}")
+                self.proxy_pool.mark_proxy_failure(proxy, str(e))
+                last_exception = e
+                
+            except requests.exceptions.Timeout as e:
+                self.logger.warning(f"Timeout with proxy {proxy.host}:{proxy.port}")
+                self.proxy_pool.mark_proxy_failure(proxy, "Timeout")
+                last_exception = e
+                
+            except Exception as e:
+                self.logger.error(f"Unexpected error: {e}")
+                last_exception = e
+            
+            # Delay before retry
+            if attempt < self.max_retries - 1:
+                time.sleep(self.retry_delay * (attempt + 1))
+        
+        if last_exception:
+            raise last_exception
+        
+        return None
+    
+    def _get_unused_proxy(self, used_proxies: Set[Proxy]) -> Optional[Proxy]:
+        """Get a proxy that hasn't been used in current retry cycle."""
+        for _ in range(len(self.proxy_pool.active_proxies)):
+            proxy = self.proxy_pool.get_rotating_proxy()
+            if proxy and proxy not in used_proxies:
+                return proxy
+        return None
+    
+    def get_sticky_session(self, session_id: str) -> Proxy:
+        """Get or create a sticky session with a specific proxy."""
+        if session_id not in self.session_proxies:
+            proxy = self.proxy_pool.get_proxy()
+            if proxy:
+                self.session_proxies[session_id] = proxy
+        
+        return self.session_proxies.get(session_id)
+    
+    def release_sticky_session(self, session_id: str):
+        """Release a sticky session."""
+        if session_id in self.session_proxies:
+            del self.session_proxies[session_id]
+    
+    async def async_request(self, method: str, url: str,
+                           **kwargs) -> Optional[aiohttp.ClientResponse]:
+        """Make async request with proxy rotation."""
+        proxy = self.proxy_pool.get_rotating_proxy()
+        
+        if not proxy:
+            return None
+        
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.request(
+                    method,
+                    url,
+                    proxy=proxy.get_url(),
+                    **kwargs
+                ) as response:
+                    if response.status == 200:
+                        self.proxy_pool.mark_proxy_success(proxy)
+                        return response
+                    else:
+                        self.proxy_pool.mark_proxy_failure(proxy, f"Status {response.status}")
+                        return None
+                        
+        except Exception as e:
+            self.proxy_pool.mark_proxy_failure(proxy, str(e))
+            return None
+
+# ==================== Proxy Middleware for Scrapy ====================
+
+class ScrapyProxyMiddleware:
+    """
+    Scrapy middleware for proxy rotation.
+    """
+    
+    def __init__(self, proxy_pool: ProxyPool):
+        self.proxy_pool = proxy_pool
+        self.logger = logging.getLogger(__name__)
+    
+    @classmethod
+    def from_crawler(cls, crawler):
+        """Create middleware from crawler."""
+        # Initialize proxy pool
+        proxy_pool = ProxyPool()
+        
+        # Load proxies from settings
+        proxy_list = crawler.settings.get('PROXY_LIST')
+        if proxy_list:
+            proxy_pool.load_proxies_from_file(proxy_list)
+        
+        return cls(proxy_pool)
+    
+    def process_request(self, request, spider):
+        """Add proxy to request."""
+        proxy = self.proxy_pool.get_rotating_proxy()
+        
+        if proxy:
+            request.meta['proxy'] = proxy.get_url()
+            
+            # Add authentication if needed
+            if proxy.username and proxy.password:
+                auth = base64.b64encode(
+                    f"{proxy.username}:{proxy.password}".encode()
+                ).decode()
+                request.headers['Proxy-Authorization'] = f'Basic {auth}'
+            
+            # Store proxy in meta for later reference
+            request.meta['proxy_object'] = proxy
+    
+    def process_response(self, request, response, spider):
+        """Process response and update proxy stats."""
+        proxy = request.meta.get('proxy_object')
+        
+        if proxy:
+            if response.status == 200:
+                self.proxy_pool.mark_proxy_success(proxy)
+            elif response.status in [403, 407, 429]:
+                self.proxy_pool.mark_proxy_failure(proxy, f"Status {response.status}")
+                
+                # Retry with different proxy
+                return self._retry_with_new_proxy(request, spider)
+        
+        return response
+    
+    def process_exception(self, request, exception, spider):
+        """Handle exceptions and retry with new proxy."""
+        proxy = request.meta.get('proxy_object')
+        
+        if proxy:
+            self.proxy_pool.mark_proxy_failure(proxy, str(exception))
+        
+        return self._retry_with_new_proxy(request, spider)
+    
+    def _retry_with_new_proxy(self, request, spider):
+        """Retry request with a new proxy."""
+        retries = request.meta.get('proxy_retry_times', 0)
+        max_retries = spider.settings.get('PROXY_RETRY_TIMES', 3)
+        
+        if retries < max_retries:
+            request.meta['proxy_retry_times'] = retries + 1
+            request.dont_filter = True
+            return request
+        
+        return None
+
+# Example usage
+if __name__ == "__main__":
+    print("🔄 Proxy Rotation Examples\n")
+    
+    # Example 1: Initialize proxy pool
+    print("1️⃣ Initializing Proxy Pool:")
+    
+    pool = ProxyPool(max_failures=3, min_success_rate=0.5)
+    
+    # Add some example proxies
+    example_proxies = [
+        Proxy("192.168.1.1", 8080, ProxyType.HTTP, country="US"),
+        Proxy("192.168.1.2", 8080, ProxyType.HTTPS, country="UK"),
+        Proxy("192.168.1.3", 1080, ProxyType.SOCKS5, country="DE"),
+    ]
+    
+    pool.add_proxies(example_proxies)
+    print(f"   Added {len(example_proxies)} proxies to pool")
+    
+    # Example 2: Get proxies with different strategies
+    print("\n2️⃣ Proxy Selection Strategies:")
+    
+    # Random proxy
+    proxy = pool.get_random_proxy()
+    if proxy:
+        print(f"   Random proxy: {proxy.host}:{proxy.port}")
+    
+    # Rotating proxy
+    proxy = pool.get_rotating_proxy()
+    if proxy:
+        print(f"   Rotating proxy: {proxy.host}:{proxy.port}")
+    
+    # Country-specific proxy
+    proxy = pool.get_proxy(country="US")
+    if proxy:
+        print(f"   US proxy: {proxy.host}:{proxy.port}")
+    
+    # Example 3: Pool statistics
+    print("\n3️⃣ Pool Statistics:")
+    
+    stats = pool.get_statistics()
+    print(f"   Total proxies: {stats['total_proxies']}")
+    print(f"   Active proxies: {stats['active_proxies']}")
+    print(f"   Dead proxies: {stats['dead_proxies']}")
+    
+    # Example 4: Smart rotation with retry
+    print("\n4️⃣ Smart Proxy Rotation:")
+    
+    rotator = SmartProxyRotator(pool, max_retries=3)
+    
+    print("   Making request with automatic proxy rotation...")
+    # This would make an actual request in production
+    # response = rotator.request_with_retry('GET', 'http://httpbin.org/ip')
+    print("   Request would use proxy rotation and retry on failure")
+    
+    # Example 5: Free proxy scraping
+    print("\n5️⃣ Free Proxy Scraping:")
+    
+    scraper = ProxyScraper()
+    print("   Available scraping sources:")
+    print("     • free-proxy-list.net")
+    print("     • proxy-list.download")
+    print("     • sslproxies.org")
+    
+    # This would actually scrape proxies
+    # free_proxies = scraper.scrape_all()
+    # pool.add_proxies(free_proxies)
+    
+    # Example 6: Health checking
+    print("\n6️⃣ Proxy Health Checking:")
+    
+    print("   Health check methods:")
+    print("     • Synchronous: check_proxy_health()")
+    print("     • Asynchronous: check_proxy_health_async()")
+    print("     • Batch: health_check_all()")
+    
+    # Example 7: Sticky sessions
+    print("\n7️⃣ Sticky Sessions:")
+    
+    session_proxy = rotator.get_sticky_session("user_123")
+    if session_proxy:
+        print(f"   Sticky session for user_123: {session_proxy.host}:{session_proxy.port}")
+    
+    rotator.release_sticky_session("user_123")
+    print("   Session released")
+    
+    # Example 8: Proxy types
+    print("\n8️⃣ Proxy Types:")
+    
+    proxy_types = [
+        ("HTTP", "Standard HTTP proxy"),
+        ("HTTPS", "SSL-enabled proxy"),
+        ("SOCKS4", "SOCKS version 4 proxy"),
+        ("SOCKS5", "SOCKS version 5 with authentication")
+    ]
+    
+    for proxy_type, description in proxy_types:
+        print(f"   {proxy_type}: {description}")
+    
+    # Example 9: Anonymity levels
+    print("\n9️⃣ Anonymity Levels:")
+    
+    anonymity_levels = [
+        ("Transparent", "Reveals your real IP to the target"),
+        ("Anonymous", "Hides your IP but reveals proxy usage"),
+        ("Elite", "Hides both your IP and proxy usage")
+    ]
+    
+    for level, description in anonymity_levels:
+        print(f"   {level}: {description}")
+    
+    # Example 10: Best practices
+    print("\n🔟 Proxy Rotation Best Practices:")
+    
+    best_practices = [
+        "🔍 Always verify proxy quality before use",
+        "♻️ Rotate proxies regularly to avoid detection",
+        "🏥 Monitor proxy health continuously",
+        "🌍 Use geographically appropriate proxies",
+        "🔐 Prefer authenticated proxies for security",
+        "⚡ Balance between speed and anonymity",
+        "💰 Consider premium proxies for critical tasks",
+        "📊 Track success rates and response times",
+        "🚫 Remove dead proxies automatically",
+        "🔄 Implement retry logic with different proxies"
+    ]
+    
+    for practice in best_practices:
+        print(f"   {practice}")
+    
+    print("\n✅ Proxy rotation demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Verify Proxy Quality:</strong> Always test proxies before adding them to your pool.</li>
+        
+        <li><strong>Monitor Health Continuously:</strong> Regular health checks ensure proxy reliability.</li>
+        
+        <li><strong>Implement Smart Rotation:</strong> Use different strategies for different use cases.</li>
+        
+        <li><strong>Handle Failures Gracefully:</strong> Automatic retry with different proxies.</li>
+        
+        <li><strong>Track Metrics:</strong> Monitor success rates, response times, and failures.</li>
+        
+        <li><strong>Use Appropriate Proxy Types:</strong> Choose between HTTP, HTTPS, SOCKS based on needs.</li>
+        
+        <li><strong>Consider Anonymity Levels:</strong> Balance between anonymity and performance.</li>
+        
+        <li><strong>Respect Rate Limits:</strong> Even with proxies, be respectful of target servers.</li>
+    </ul>
+
+    <h3>Proxy Rotation Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Proxy rotation is like managing a fleet of vehicles - you need the right type for each job, regular maintenance, and backup options when one breaks down. Start with a diverse pool of proxies from different providers and geographic locations. Implement intelligent rotation that considers proxy health, response time, and success rate. Free proxies are tempting but unreliable - use them for testing but invest in premium proxies for production. Residential proxies are best for avoiding detection but cost more; datacenter proxies are faster and cheaper but more easily detected. Always implement health checking - a dead proxy is worse than no proxy. Use sticky sessions when scraping sites that require login. Monitor your proxy performance metrics and automatically remove underperforming ones. Remember that proxies aren't a license to abuse - they're a tool for scaling legitimate data collection. Most importantly: have a fallback strategy when all proxies fail!</p>
+    </div>
+    
+    <p>Mastering proxy rotation transforms you from a single-threaded scraper to a distributed data collection network. You can now bypass rate limits, access geo-restricted content, maintain anonymity, and scale your scraping operations globally. Whether you're monitoring prices, collecting market intelligence, or building large-scale data pipelines, proxy rotation is your key to reliable, scalable web scraping! 🌐</p>
+    
+    <footer>
+        <p>Next up: <a href="advanced_scraping_captcha.html">CAPTCHA Considerations - Handle Bot Detection!</a></p>
+    </footer>
+</body>
+</html>
