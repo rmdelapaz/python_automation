@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Test Automation - Python Testing Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🧪 Unit Test Automation: Build Bulletproof Code with Automated Testing</h1>
+    
+    <p>Unit test automation is the foundation of reliable software development - it transforms fragile, fear-driven coding into confident, rapid iteration by ensuring every piece of code works as expected. Like having a safety net for trapeze artists, comprehensive unit tests allow you to refactor fearlessly, catch bugs early, and maintain code quality at scale. Whether you're building libraries, APIs, or complex applications, mastering unit test automation is essential for professional software development. Let's explore the comprehensive world of automated unit testing! 🎯</p>
+
+    <h2>The Unit Testing Architecture</h2>
+    
+    <p>Think of unit testing as quality control at the molecular level - each test examines a single unit of code in isolation, verifying its behavior under various conditions. Using frameworks like pytest, unittest, and specialized tools, you can create test suites that run automatically, provide clear feedback, and integrate seamlessly with development workflows. Understanding test design patterns, mocking, fixtures, and coverage analysis is crucial for effective test automation!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Unit Testing] --> B[Test Frameworks]
+        A --> C[Test Patterns]
+        A --> D[Mocking]
+        A --> E[Coverage]
+        
+        B --> F[pytest]
+        B --> G[unittest]
+        B --> H[nose2]
+        B --> I[doctest]
+        
+        C --> J[AAA Pattern]
+        C --> K[Given-When-Then]
+        C --> L[Test Doubles]
+        C --> M[Fixtures]
+        
+        D --> N[Mock Objects]
+        D --> O[Stubs]
+        D --> P[Spies]
+        D --> Q[Fakes]
+        
+        E --> R[Line Coverage]
+        E --> S[Branch Coverage]
+        E --> T[Path Coverage]
+        E --> U[Mutation Testing]
+        
+        V[Best Practices] --> W[Fast Tests]
+        V --> X[Isolated]
+        V --> Y[Repeatable]
+        V --> Z[Self-Validating]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style V fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Test-Driven Development Platform 🏗️</h3>
+    
+    <p>You're building a comprehensive testing platform for a microservices architecture that automatically generates test cases from specifications, maintains 100% code coverage across all services, performs property-based testing for edge cases, implements continuous testing in CI/CD pipelines, tracks test performance and flakiness, provides detailed failure diagnostics, mocks external dependencies intelligently, and ensures tests run in milliseconds. Your platform must support multiple testing frameworks, integrate with development tools, provide real-time feedback, and scale to thousands of tests. Let's build a professional unit testing automation framework!</p>
+
+    <pre><code># Comprehensive Unit Test Automation Framework
+# pip install pytest pytest-cov pytest-mock pytest-xdist pytest-benchmark
+# pip install hypothesis faker factory-boy pytest-asyncio pytest-timeout
+# pip install coverage mock responses freezegun
+
+import pytest
+import unittest
+from unittest.mock import Mock, MagicMock, patch, call, ANY
+import asyncio
+import time
+import json
+import random
+from typing import List, Dict, Any, Optional, Callable, TypeVar, Generic
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from pathlib import Path
+import tempfile
+import logging
+
+# Testing utilities
+from hypothesis import given, strategies as st, assume, example
+from hypothesis.stateful import RuleBasedStateMachine, rule, invariant
+from faker import Faker
+import factory
+from freezegun import freeze_time
+import responses
+
+# Coverage and metrics
+import coverage
+
+# ==================== Test Configuration ====================
+
+@dataclass
+class TestConfig:
+    """Configuration for test execution."""
+    verbose: bool = False
+    coverage: bool = True
+    parallel: bool = False
+    benchmark: bool = False
+    slow_test_threshold: float = 1.0  # seconds
+    retry_flaky: int = 3
+    random_seed: Optional[int] = None
+    test_data_dir: Path = Path("test_data")
+    
+    def pytest_args(self) -> List[str]:
+        """Generate pytest arguments from config."""
+        args = []
+        if self.verbose:
+            args.append("-v")
+        if self.coverage:
+            args.extend(["--cov", "--cov-report=term-missing"])
+        if self.parallel:
+            args.extend(["-n", "auto"])
+        if self.benchmark:
+            args.append("--benchmark-only")
+        return args
+
+# ==================== Custom Test Base Classes ====================
+
+class BaseTestCase:
+    """Base class for all test cases with common utilities."""
+    
+    @classmethod
+    def setup_class(cls):
+        """Set up test class."""
+        cls.logger = logging.getLogger(cls.__name__)
+        cls.faker = Faker()
+        cls.test_data = {}
+        
+    @classmethod
+    def teardown_class(cls):
+        """Tear down test class."""
+        cls.test_data.clear()
+        
+    def setup_method(self, method):
+        """Set up test method."""
+        self.start_time = time.time()
+        self.logger.info(f"Starting test: {method.__name__}")
+        
+    def teardown_method(self, method):
+        """Tear down test method."""
+        duration = time.time() - self.start_time
+        self.logger.info(f"Test {method.__name__} took {duration:.3f}s")
+        
+        # Warn if test is slow
+        if duration > 1.0:
+            self.logger.warning(f"Slow test detected: {method.__name__}")
+    
+    @staticmethod
+    def assert_deep_equal(actual: Any, expected: Any, path: str = ""):
+        """Deep equality assertion with detailed diff."""
+        if isinstance(expected, dict):
+            assert isinstance(actual, dict), f"Expected dict at {path}, got {type(actual)}"
+            assert set(actual.keys()) == set(expected.keys()), \
+                f"Keys mismatch at {path}: {set(actual.keys())} != {set(expected.keys())}"
+            for key in expected:
+                BaseTestCase.assert_deep_equal(
+                    actual[key], expected[key], f"{path}.{key}"
+                )
+        elif isinstance(expected, (list, tuple)):
+            assert isinstance(actual, (list, tuple)), \
+                f"Expected sequence at {path}, got {type(actual)}"
+            assert len(actual) == len(expected), \
+                f"Length mismatch at {path}: {len(actual)} != {len(expected)}"
+            for i, (a, e) in enumerate(zip(actual, expected)):
+                BaseTestCase.assert_deep_equal(a, e, f"{path}[{i}]")
+        else:
+            assert actual == expected, f"Value mismatch at {path}: {actual} != {expected}"
+
+# ==================== Test Fixtures ====================
+
+@pytest.fixture
+def sample_data():
+    """Provide sample test data."""
+    return {
+        'users': [
+            {'id': 1, 'name': 'Alice', 'email': 'alice@example.com'},
+            {'id': 2, 'name': 'Bob', 'email': 'bob@example.com'},
+            {'id': 3, 'name': 'Charlie', 'email': 'charlie@example.com'}
+        ],
+        'products': [
+            {'id': 1, 'name': 'Widget', 'price': 9.99},
+            {'id': 2, 'name': 'Gadget', 'price': 19.99}
+        ]
+    }
+
+@pytest.fixture
+def mock_database():
+    """Mock database connection."""
+    db = Mock()
+    db.connect = Mock(return_value=True)
+    db.disconnect = Mock(return_value=True)
+    db.execute = Mock(return_value=[])
+    db.commit = Mock()
+    db.rollback = Mock()
+    return db
+
+@pytest.fixture
+def temp_directory():
+    """Provide temporary directory for tests."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        yield Path(tmpdir)
+
+@pytest.fixture(autouse=True)
+def reset_environment():
+    """Reset environment for each test."""
+    # Store original environment
+    original_env = dict(os.environ)
+    
+    yield
+    
+    # Restore environment
+    os.environ.clear()
+    os.environ.update(original_env)
+
+# ==================== Parameterized Testing ====================
+
+class TestParameterized(BaseTestCase):
+    """Examples of parameterized testing."""
+    
+    @pytest.mark.parametrize("input,expected", [
+        (0, 0),
+        (1, 1),
+        (2, 1),
+        (3, 2),
+        (4, 3),
+        (5, 5),
+        (10, 55),
+    ])
+    def test_fibonacci(self, input, expected):
+        """Test fibonacci function with multiple inputs."""
+        assert fibonacci(input) == expected
+    
+    @pytest.mark.parametrize("a,b,expected", [
+        (2, 3, 5),
+        (-1, 1, 0),
+        (0, 0, 0),
+        (100, 200, 300),
+    ])
+    def test_addition(self, a, b, expected):
+        """Test addition with various inputs."""
+        assert add(a, b) == expected
+    
+    @pytest.mark.parametrize("test_input", [
+        "valid_input",
+        "another_valid_input",
+        pytest.param("invalid_input", marks=pytest.mark.xfail),
+    ])
+    def test_with_expected_failures(self, test_input):
+        """Test with some expected failures."""
+        assert validate_input(test_input)
+
+# ==================== Property-Based Testing ====================
+
+class TestPropertyBased(BaseTestCase):
+    """Property-based testing with Hypothesis."""
+    
+    @given(st.integers())
+    def test_addition_commutative(self, x):
+        """Test that addition is commutative."""
+        assert add(x, 5) == add(5, x)
+    
+    @given(st.lists(st.integers()))
+    def test_sort_properties(self, lst):
+        """Test properties of sorting."""
+        sorted_list = sorted(lst)
+        
+        # Length preservation
+        assert len(sorted_list) == len(lst)
+        
+        # Ordering property
+        for i in range(len(sorted_list) - 1):
+            assert sorted_list[i] <= sorted_list[i + 1]
+        
+        # Element preservation
+        assert sorted(lst) == sorted_list
+    
+    @given(
+        st.text(min_size=1),
+        st.integers(min_value=0, max_value=100)
+    )
+    def test_string_repetition(self, text, n):
+        """Test string repetition properties."""
+        assume(n < 50)  # Avoid very long strings
+        
+        result = text * n
+        assert len(result) == len(text) * n
+        assert result.count(text) == n if n > 0 else 0
+    
+    @given(st.dictionaries(
+        st.text(min_size=1),
+        st.integers()
+    ))
+    def test_dictionary_operations(self, d):
+        """Test dictionary operations maintain invariants."""
+        # Copy preserves content
+        d_copy = d.copy()
+        assert d == d_copy
+        assert d is not d_copy
+        
+        # Keys and values correspondence
+        assert len(d.keys()) == len(d.values()) == len(d)
+
+# ==================== Mocking and Test Doubles ====================
+
+class TestMocking(BaseTestCase):
+    """Advanced mocking examples."""
+    
+    def test_mock_method_calls(self):
+        """Test mocking method calls."""
+        mock_obj = Mock()
+        mock_obj.process.return_value = "processed"
+        
+        result = mock_obj.process("input")
+        
+        assert result == "processed"
+        mock_obj.process.assert_called_once_with("input")
+    
+    def test_mock_with_side_effects(self):
+        """Test mock with side effects."""
+        mock_func = Mock(side_effect=[1, 2, 3])
+        
+        assert mock_func() == 1
+        assert mock_func() == 2
+        assert mock_func() == 3
+        
+        with pytest.raises(StopIteration):
+            mock_func()
+    
+    @patch('requests.get')
+    def test_mock_external_api(self, mock_get):
+        """Test mocking external API calls."""
+        # Setup mock response
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {'status': 'success'}
+        mock_get.return_value = mock_response
+        
+        # Call function that uses requests
+        result = fetch_data('https://api.example.com')
+        
+        assert result == {'status': 'success'}
+        mock_get.assert_called_once_with('https://api.example.com')
+    
+    def test_mock_context_manager(self):
+        """Test mocking context managers."""
+        mock_cm = MagicMock()
+        mock_cm.__enter__.return_value = "resource"
+        mock_cm.__exit__.return_value = None
+        
+        with mock_cm as resource:
+            assert resource == "resource"
+        
+        mock_cm.__enter__.assert_called_once()
+        mock_cm.__exit__.assert_called_once()
+    
+    @responses.activate
+    def test_mock_http_responses(self):
+        """Test mocking HTTP responses with responses library."""
+        responses.add(
+            responses.GET,
+            'http://example.com/api',
+            json={'data': 'test'},
+            status=200
+        )
+        
+        import requests
+        resp = requests.get('http://example.com/api')
+        
+        assert resp.status_code == 200
+        assert resp.json() == {'data': 'test'}
+
+# ==================== Async Testing ====================
+
+class TestAsync(BaseTestCase):
+    """Testing asynchronous code."""
+    
+    @pytest.mark.asyncio
+    async def test_async_function(self):
+        """Test async function."""
+        async def async_add(a, b):
+            await asyncio.sleep(0.1)
+            return a + b
+        
+        result = await async_add(2, 3)
+        assert result == 5
+    
+    @pytest.mark.asyncio
+    async def test_async_with_mock(self):
+        """Test async code with mocking."""
+        mock_coro = AsyncMock(return_value="result")
+        
+        result = await mock_coro()
+        assert result == "result"
+        mock_coro.assert_awaited_once()
+    
+    @pytest.mark.asyncio
+    async def test_concurrent_operations(self):
+        """Test concurrent async operations."""
+        async def task(n):
+            await asyncio.sleep(random.uniform(0, 0.1))
+            return n * 2
+        
+        tasks = [task(i) for i in range(5)]
+        results = await asyncio.gather(*tasks)
+        
+        assert results == [0, 2, 4, 6, 8]
+
+# ==================== Test Data Factories ====================
+
+class UserFactory(factory.Factory):
+    """Factory for creating test users."""
+    
+    class Meta:
+        model = dict
+    
+    id = factory.Sequence(lambda n: n)
+    username = factory.Faker('user_name')
+    email = factory.Faker('email')
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    created_at = factory.Faker('date_time')
+    is_active = True
+
+class ProductFactory(factory.Factory):
+    """Factory for creating test products."""
+    
+    class Meta:
+        model = dict
+    
+    id = factory.Sequence(lambda n: n)
+    name = factory.Faker('company')
+    description = factory.Faker('text')
+    price = factory.Faker('pydecimal', left_digits=3, right_digits=2, positive=True)
+    stock = factory.Faker('pyint', min_value=0, max_value=1000)
+
+class TestFactories(BaseTestCase):
+    """Test using data factories."""
+    
+    def test_user_factory(self):
+        """Test creating users with factory."""
+        user = UserFactory()
+        
+        assert 'id' in user
+        assert 'email' in user
+        assert '@' in user['email']
+        assert user['is_active'] is True
+    
+    def test_batch_creation(self):
+        """Test creating multiple objects."""
+        users = UserFactory.create_batch(10)
+        
+        assert len(users) == 10
+        assert len(set(u['id'] for u in users)) == 10  # All unique IDs
+    
+    def test_custom_attributes(self):
+        """Test factory with custom attributes."""
+        admin_user = UserFactory(
+            username='admin',
+            is_active=True,
+            email='admin@example.com'
+        )
+        
+        assert admin_user['username'] == 'admin'
+        assert admin_user['email'] == 'admin@example.com'
+
+# ==================== Time-Based Testing ====================
+
+class TestTimeBased(BaseTestCase):
+    """Testing time-dependent code."""
+    
+    @freeze_time("2024-01-01")
+    def test_frozen_time(self):
+        """Test with frozen time."""
+        from datetime import datetime
+        
+        now = datetime.now()
+        assert now.year == 2024
+        assert now.month == 1
+        assert now.day == 1
+    
+    def test_time_travel(self):
+        """Test time travel with freezegun."""
+        with freeze_time("2024-01-01") as frozen_time:
+            start = datetime.now()
+            
+            frozen_time.tick(delta=timedelta(hours=1))
+            one_hour_later = datetime.now()
+            
+            assert (one_hour_later - start).seconds == 3600
+    
+    @freeze_time("2024-01-01", auto_tick_seconds=1)
+    def test_auto_tick(self):
+        """Test auto-ticking time."""
+        start = datetime.now()
+        time.sleep(2)  # Simulated sleep
+        end = datetime.now()
+        
+        assert (end - start).seconds == 2
+
+# ==================== Test Lifecycle Management ====================
+
+class TestLifecycle:
+    """Test lifecycle and cleanup management."""
+    
+    def __init__(self):
+        self.resources = []
+    
+    def setup_method(self, method):
+        """Setup before each test method."""
+        self.temp_files = []
+        self.open_connections = []
+        print(f"Setting up {method.__name__}")
+    
+    def teardown_method(self, method):
+        """Cleanup after each test method."""
+        # Clean up temp files
+        for file in self.temp_files:
+            if file.exists():
+                file.unlink()
+        
+        # Close connections
+        for conn in self.open_connections:
+            conn.close()
+        
+        print(f"Cleaned up after {method.__name__}")
+    
+    def test_with_resources(self, tmp_path):
+        """Test that creates resources."""
+        # Create temp file
+        temp_file = tmp_path / "test.txt"
+        temp_file.write_text("test data")
+        self.temp_files.append(temp_file)
+        
+        assert temp_file.exists()
+        assert temp_file.read_text() == "test data"
+
+# ==================== Coverage Analysis ====================
+
+class CoverageAnalyzer:
+    """Analyze test coverage."""
+    
+    def __init__(self, source_dir: str = "src"):
+        self.source_dir = source_dir
+        self.cov = coverage.Coverage(source=[source_dir])
+    
+    def start(self):
+        """Start coverage collection."""
+        self.cov.start()
+    
+    def stop(self):
+        """Stop coverage collection."""
+        self.cov.stop()
+    
+    def report(self) -> Dict[str, Any]:
+        """Generate coverage report."""
+        self.cov.save()
+        
+        # Get coverage data
+        total = self.cov.report()
+        
+        # Get detailed data per file
+        analysis_data = {}
+        for filename in self.cov.get_data().measured_files():
+            analysis = self.cov.analysis2(filename)
+            analysis_data[filename] = {
+                'statements': len(analysis[1]),
+                'excluded': len(analysis[2]),
+                'missing': len(analysis[3]),
+                'coverage': 100 * (1 - len(analysis[3]) / len(analysis[1]))
+                if analysis[1] else 100
+            }
+        
+        return {
+            'total_coverage': total,
+            'files': analysis_data
+        }
+    
+    def html_report(self, output_dir: str = "htmlcov"):
+        """Generate HTML coverage report."""
+        self.cov.html_report(directory=output_dir)
+
+# ==================== Test Runner ====================
+
+class TestRunner:
+    """Custom test runner with reporting."""
+    
+    def __init__(self, config: TestConfig):
+        self.config = config
+        self.results = []
+        self.logger = logging.getLogger(__name__)
+    
+    def run_tests(self, test_path: str = "tests") -> Dict[str, Any]:
+        """Run tests and collect results."""
+        import subprocess
+        import sys
+        
+        # Build pytest command
+        cmd = [sys.executable, "-m", "pytest", test_path]
+        cmd.extend(self.config.pytest_args())
+        
+        # Add output format
+        cmd.extend(["--json-report", "--json-report-file=test_results.json"])
+        
+        # Run tests
+        start_time = time.time()
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        duration = time.time() - start_time
+        
+        # Parse results
+        test_results = self._parse_results("test_results.json")
+        
+        return {
+            'success': result.returncode == 0,
+            'duration': duration,
+            'tests': test_results,
+            'stdout': result.stdout,
+            'stderr': result.stderr
+        }
+    
+    def _parse_results(self, results_file: str) -> Dict[str, Any]:
+        """Parse test results from JSON."""
+        try:
+            with open(results_file, 'r') as f:
+                data = json.load(f)
+            
+            return {
+                'total': data.get('summary', {}).get('total', 0),
+                'passed': data.get('summary', {}).get('passed', 0),
+                'failed': data.get('summary', {}).get('failed', 0),
+                'skipped': data.get('summary', {}).get('skipped', 0),
+                'duration': data.get('duration', 0)
+            }
+        except (FileNotFoundError, json.JSONDecodeError):
+            return {}
+
+# ==================== Test Utilities ====================
+
+def fibonacci(n: int) -> int:
+    """Calculate fibonacci number."""
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+def add(a: int, b: int) -> int:
+    """Add two numbers."""
+    return a + b
+
+def validate_input(input: str) -> bool:
+    """Validate input string."""
+    return input != "invalid_input"
+
+def fetch_data(url: str) -> Dict:
+    """Fetch data from API."""
+    import requests
+    response = requests.get(url)
+    return response.json()
+
+# For async testing
+from unittest.mock import AsyncMock
+
+# ==================== Test Organization Best Practices ====================
+
+class TestOrganization:
+    """Examples of well-organized tests."""
+    
+    # Group related tests
+    class TestUserOperations:
+        """Tests for user operations."""
+        
+        def test_create_user(self):
+            """Test user creation."""
+            pass
+        
+        def test_update_user(self):
+            """Test user update."""
+            pass
+        
+        def test_delete_user(self):
+            """Test user deletion."""
+            pass
+    
+    class TestProductOperations:
+        """Tests for product operations."""
+        
+        def test_create_product(self):
+            """Test product creation."""
+            pass
+        
+        def test_inventory_update(self):
+            """Test inventory update."""
+            pass
+
+# ==================== Performance Testing ====================
+
+class TestPerformance:
+    """Performance and benchmark tests."""
+    
+    @pytest.mark.benchmark
+    def test_algorithm_performance(self, benchmark):
+        """Benchmark algorithm performance."""
+        def algorithm(n):
+            return sum(range(n))
+        
+        result = benchmark(algorithm, 1000000)
+        assert result == 499999500000
+    
+    @pytest.mark.timeout(1)  # Test must complete within 1 second
+    def test_with_timeout(self):
+        """Test with timeout constraint."""
+        result = expensive_operation()
+        assert result is not None
+    
+    def test_memory_usage(self):
+        """Test memory usage stays within bounds."""
+        import tracemalloc
+        
+        tracemalloc.start()
+        
+        # Run operation
+        result = memory_intensive_operation()
+        
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        
+        # Assert memory usage is reasonable (< 100MB)
+        assert peak < 100 * 1024 * 1024
+
+def expensive_operation():
+    """Simulate expensive operation."""
+    time.sleep(0.5)
+    return True
+
+def memory_intensive_operation():
+    """Simulate memory-intensive operation."""
+    data = [i for i in range(1000000)]
+    return len(data)
+
+# Example usage
+if __name__ == "__main__":
+    import os
+    print("🧪 Unit Test Automation Examples\n")
+    
+    # Example 1: Test discovery patterns
+    print("1️⃣ Test Discovery Patterns:")
+    patterns = [
+        "test_*.py - Files starting with test_",
+        "*_test.py - Files ending with _test",
+        "Test* - Classes starting with Test",
+        "test_* - Methods starting with test_"
+    ]
+    for pattern in patterns:
+        print(f"   • {pattern}")
+    
+    # Example 2: Assertion methods
+    print("\n2️⃣ Common Assertion Methods:")
+    assertions = [
+        ("assert x == y", "Basic equality"),
+        ("assert x != y", "Inequality"),
+        ("assert x in y", "Membership"),
+        ("assert x is None", "None check"),
+        ("pytest.raises(Exception)", "Exception testing"),
+        ("pytest.approx(0.1)", "Float comparison"),
+        ("pytest.warns(Warning)", "Warning testing")
+    ]
+    for assertion, description in assertions:
+        print(f"   {assertion}: {description}")
+    
+    # Example 3: Fixture scopes
+    print("\n3️⃣ Pytest Fixture Scopes:")
+    scopes = [
+        ("function", "Run once per test function (default)"),
+        ("class", "Run once per test class"),
+        ("module", "Run once per module"),
+        ("package", "Run once per package"),
+        ("session", "Run once per test session")
+    ]
+    for scope, description in scopes:
+        print(f"   {scope}: {description}")
+    
+    # Example 4: Mock types
+    print("\n4️⃣ Types of Test Doubles:")
+    doubles = [
+        ("Mock", "Records calls and can return values"),
+        ("Stub", "Returns predetermined values"),
+        ("Spy", "Records calls but uses real implementation"),
+        ("Fake", "Simplified working implementation"),
+        ("Dummy", "Placeholder with no behavior")
+    ]
+    for double_type, description in doubles:
+        print(f"   {double_type}: {description}")
+    
+    # Example 5: Test markers
+    print("\n5️⃣ Pytest Markers:")
+    markers = [
+        "@pytest.mark.skip - Skip test",
+        "@pytest.mark.skipif - Conditional skip",
+        "@pytest.mark.xfail - Expected failure",
+        "@pytest.mark.parametrize - Parameterized tests",
+        "@pytest.mark.slow - Custom marker for slow tests",
+        "@pytest.mark.asyncio - Async test"
+    ]
+    for marker in markers:
+        print(f"   {marker}")
+    
+    # Example 6: Coverage metrics
+    print("\n6️⃣ Coverage Metrics:")
+    metrics = [
+        "Line coverage - % of lines executed",
+        "Branch coverage - % of branches taken",
+        "Function coverage - % of functions called",
+        "Statement coverage - % of statements executed"
+    ]
+    for metric in metrics:
+        print(f"   • {metric}")
+    
+    # Example 7: Testing best practices
+    print("\n7️⃣ Unit Testing Best Practices:")
+    practices = [
+        "🎯 Test one thing per test",
+        "⚡ Keep tests fast (< 1 second)",
+        "🔄 Make tests repeatable",
+        "🏝️ Isolate tests from each other",
+        "📝 Use descriptive test names",
+        "🧹 Clean up after tests",
+        "🎭 Mock external dependencies",
+        "📊 Aim for high coverage (80%+)",
+        "🔍 Test edge cases",
+        "❌ Test error conditions"
+    ]
+    for practice in practices:
+        print(f"   {practice}")
+    
+    # Example 8: Run sample test
+    print("\n8️⃣ Running Sample Tests:")
+    
+    # Create test config
+    config = TestConfig(
+        verbose=True,
+        coverage=True,
+        parallel=False
+    )
+    
+    print(f"   Config: {config.pytest_args()}")
+    
+    # Example 9: Property-based testing
+    print("\n9️⃣ Property-Based Testing:")
+    print("   from hypothesis import given, strategies as st")
+    print("   @given(st.lists(st.integers()))")
+    print("   def test_sort_idempotent(lst):")
+    print("       assert sorted(sorted(lst)) == sorted(lst)")
+    
+    # Example 10: Test organization
+    print("\n🔟 Test Organization:")
+    structure = """
+    tests/
+    ├── conftest.py          # Shared fixtures
+    ├── unit/                # Unit tests
+    │   ├── test_models.py
+    │   └── test_utils.py
+    ├── integration/         # Integration tests
+    │   └── test_api.py
+    └── fixtures/           # Test data
+        └── sample_data.json
+    """
+    print(structure)
+    
+    print("\n✅ Unit test automation examples complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Test Isolation:</strong> Each test should be independent and not affect others.</li>
+        
+        <li><strong>Fast Execution:</strong> Unit tests should run in milliseconds, not seconds.</li>
+        
+        <li><strong>Clear Naming:</strong> Test names should describe what is being tested and expected behavior.</li>
+        
+        <li><strong>AAA Pattern:</strong> Arrange, Act, Assert - structure tests clearly.</li>
+        
+        <li><strong>Mock External Dependencies:</strong> Isolate the unit under test from external systems.</li>
+        
+        <li><strong>High Coverage:</strong> Aim for 80%+ code coverage but focus on critical paths.</li>
+        
+        <li><strong>Test Edge Cases:</strong> Don't just test the happy path, test boundaries and errors.</li>
+        
+        <li><strong>Continuous Testing:</strong> Run tests automatically on every code change.</li>
+    </ul>
+
+    <h3>Unit Testing Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of unit tests as living documentation for your code - they show how the code is meant to be used and what it should do. Follow the FIRST principles: Fast (milliseconds not seconds), Independent (no test depends on another), Repeatable (same result every time), Self-validating (pass or fail, no manual interpretation), and Timely (written just before or after the code). Use the AAA pattern: Arrange (set up test data), Act (execute the function), Assert (verify the result). Keep each test focused on one behavior - if you use "and" in the test name, consider splitting it. Mock external dependencies but don't over-mock - if you're mocking everything, you might not be testing anything real. Use fixtures for common setup but avoid complex fixture hierarchies. Leverage parameterized tests to test multiple inputs efficiently. Implement property-based testing for algorithmic code - let the computer generate test cases you wouldn't think of. Use factories for complex test data creation. Make tests deterministic - no random values unless testing randomness itself. Test error conditions explicitly - what happens with null, empty, or invalid inputs? Keep test code as clean as production code - refactor and maintain it. Most importantly: a failing test should immediately tell you what's wrong without debugging!</p>
+    </div>
+    
+    <p>Mastering unit test automation transforms your development process from fear-driven to confidence-driven. You can now write comprehensive test suites that catch bugs early, enable fearless refactoring, serve as documentation, and ensure code quality. Whether you're building libraries, APIs, or complex applications, these unit testing skills are essential for professional software development! 🚀</p>
+    
+    <footer>
+        <p>Next up: <a href="testing_automation_integration.html">Integration Testing - Ensure Components Work Together Flawlessly!</a></p>
+    </footer>
+</body>
+</html>
