@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Processing - Python RPA and Enterprise Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>📄 Document Processing: Extract Intelligence from Documents</h1>
+    
+    <p>Document processing automation transforms mountains of unstructured documents into actionable structured data - it's the bridge between paper-based processes and digital transformation. Like having an army of skilled data entry clerks who never tire and never make mistakes, automated document processing extracts, validates, and integrates information from invoices, contracts, forms, and reports at unprecedented speed and accuracy. Whether you're processing financial documents, legal contracts, medical records, or government forms, mastering document processing is essential for enterprise automation. Let's explore the comprehensive world of intelligent document processing! 📚</p>
+
+    <h2>The Document Processing Architecture</h2>
+    
+    <p>Think of document processing as creating a digital assembly line for information extraction - documents flow through stages of classification, extraction, validation, and integration, with each stage adding value and structure to raw data. Using OCR, NLP, machine learning, and template matching, modern document processing handles everything from simple forms to complex unstructured documents. Understanding document types, extraction techniques, and validation strategies is crucial for successful implementation!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[Document Processing] --> B[Input Sources]
+        A --> C[Processing Stages]
+        A --> D[Technologies]
+        A --> E[Output]
+        
+        B --> F[Scanned Papers]
+        B --> G[PDFs]
+        B --> H[Images]
+        B --> I[Emails]
+        
+        C --> J[Classification]
+        C --> K[Extraction]
+        C --> L[Validation]
+        C --> M[Integration]
+        
+        D --> N[OCR]
+        D --> O[NLP]
+        D --> P[ML/AI]
+        D --> Q[Templates]
+        
+        E --> R[Structured Data]
+        E --> S[Databases]
+        E --> T[APIs]
+        E --> U[Reports]
+        
+        V[Document Types] --> W[Invoices]
+        V --> X[Contracts]
+        V --> Y[Forms]
+        V --> Z[Reports]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style V fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Intelligent Document Hub 🏛️</h3>
+    
+    <p>You're building an intelligent document processing hub for a multinational corporation that processes 50,000+ documents daily including invoices from 1,000+ vendors in multiple formats, contracts requiring clause extraction and risk assessment, customer forms needing validation and data entry, regulatory reports demanding accuracy and compliance, handles documents in 15 languages with varying quality, integrates extracted data with SAP, Salesforce, and custom systems, provides real-time processing status and exception handling, and maintains audit trails for compliance. Your solution must achieve 95%+ accuracy, process documents in under 30 seconds, handle peak loads gracefully, and adapt to new document types. Let's build a comprehensive document processing framework!</p>
+
+    <pre><code># Comprehensive Document Processing Framework
+# pip install pytesseract pdf2image PyPDF2 pdfplumber
+# pip install opencv-python pillow numpy pandas
+# pip install transformers torch spacy textract
+# pip install python-docx openpyxl xlrd
+# pip install fuzzywuzzy python-Levenshtein
+# pip install layoutparser detectron2
+
+import os
+import io
+import json
+import re
+import hashlib
+from typing import Dict, List, Any, Optional, Tuple, Union
+from dataclasses import dataclass, field, asdict
+from datetime import datetime, date
+from pathlib import Path
+from enum import Enum, auto
+import logging
+import tempfile
+
+# OCR and Image Processing
+import cv2
+import numpy as np
+from PIL import Image, ImageEnhance, ImageFilter
+import pytesseract
+from pdf2image import convert_from_path
+
+# PDF Processing
+import PyPDF2
+import pdfplumber
+import fitz  # PyMuPDF
+
+# Document parsing
+from docx import Document as DocxDocument
+import openpyxl
+import pandas as pd
+
+# NLP and ML
+import spacy
+from transformers import pipeline, AutoTokenizer, AutoModelForTokenClassification
+import torch
+
+# Pattern matching and validation
+import re
+from fuzzywuzzy import fuzz, process
+from dateutil import parser as date_parser
+
+# Layout analysis
+try:
+    import layoutparser as lp
+except ImportError:
+    lp = None
+
+# ==================== Document Models ====================
+
+class DocumentType(Enum):
+    """Document type classification."""
+    INVOICE = auto()
+    CONTRACT = auto()
+    FORM = auto()
+    REPORT = auto()
+    RECEIPT = auto()
+    STATEMENT = auto()
+    LETTER = auto()
+    UNKNOWN = auto()
+
+class ProcessingStatus(Enum):
+    """Document processing status."""
+    PENDING = auto()
+    PROCESSING = auto()
+    COMPLETED = auto()
+    FAILED = auto()
+    VALIDATION_REQUIRED = auto()
+
+@dataclass
+class DocumentMetadata:
+    """Document metadata."""
+    id: str
+    filename: str
+    file_type: str
+    file_size: int
+    page_count: int
+    language: str = "en"
+    created_at: datetime = field(default_factory=datetime.now)
+    processing_time: Optional[float] = None
+    confidence_score: Optional[float] = None
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary."""
+        data = asdict(self)
+        data['created_at'] = self.created_at.isoformat()
+        return data
+
+@dataclass
+class ExtractedData:
+    """Extracted data from document."""
+    document_id: str
+    document_type: DocumentType
+    fields: Dict[str, Any]
+    tables: List[pd.DataFrame] = field(default_factory=list)
+    confidence_scores: Dict[str, float] = field(default_factory=dict)
+    validation_errors: List[str] = field(default_factory=list)
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """Convert to dictionary."""
+        return {
+            'document_id': self.document_id,
+            'document_type': self.document_type.name,
+            'fields': self.fields,
+            'tables': [df.to_dict() for df in self.tables],
+            'confidence_scores': self.confidence_scores,
+            'validation_errors': self.validation_errors
+        }
+
+# ==================== Image Preprocessing ====================
+
+class ImagePreprocessor:
+    """Preprocess images for better OCR accuracy."""
+    
+    @staticmethod
+    def enhance_image(image: Image.Image) -> Image.Image:
+        """Enhance image quality for OCR."""
+        # Convert to grayscale
+        if image.mode != 'L':
+            image = image.convert('L')
+        
+        # Enhance contrast
+        enhancer = ImageEnhance.Contrast(image)
+        image = enhancer.enhance(2.0)
+        
+        # Enhance sharpness
+        enhancer = ImageEnhance.Sharpness(image)
+        image = enhancer.enhance(2.0)
+        
+        # Apply median filter to remove noise
+        image = image.filter(ImageFilter.MedianFilter(size=3))
+        
+        return image
+    
+    @staticmethod
+    def deskew_image(image: np.ndarray) -> np.ndarray:
+        """Deskew tilted image."""
+        # Convert to grayscale if needed
+        if len(image.shape) == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        else:
+            gray = image
+        
+        # Threshold the image
+        _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        
+        # Find contours
+        contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        if contours:
+            # Find the largest contour
+            largest_contour = max(contours, key=cv2.contourArea)
+            
+            # Get the angle
+            rect = cv2.minAreaRect(largest_contour)
+            angle = rect[-1]
+            
+            if angle < -45:
+                angle = -(90 + angle)
+            else:
+                angle = -angle
+            
+            # Rotate the image
+            (h, w) = image.shape[:2]
+            center = (w // 2, h // 2)
+            M = cv2.getRotationMatrix2D(center, angle, 1.0)
+            rotated = cv2.warpAffine(image, M, (w, h), flags=cv2.INTER_CUBIC, 
+                                   borderMode=cv2.BORDER_REPLICATE)
+            
+            return rotated
+        
+        return image
+    
+    @staticmethod
+    def remove_noise(image: np.ndarray) -> np.ndarray:
+        """Remove noise from image."""
+        # Apply morphological operations
+        kernel = np.ones((1, 1), np.uint8)
+        image = cv2.dilate(image, kernel, iterations=1)
+        image = cv2.erode(image, kernel, iterations=1)
+        
+        # Apply Gaussian blur
+        image = cv2.GaussianBlur(image, (5, 5), 0)
+        
+        return image
+    
+    @staticmethod
+    def binarize_image(image: np.ndarray) -> np.ndarray:
+        """Convert image to binary."""
+        # Apply adaptive thresholding
+        binary = cv2.adaptiveThreshold(
+            image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+            cv2.THRESH_BINARY, 11, 2
+        )
+        return binary
+
+# ==================== OCR Engine ====================
+
+class OCREngine:
+    """OCR engine for text extraction."""
+    
+    def __init__(self, language: str = 'eng'):
+        self.language = language
+        self.logger = logging.getLogger(__name__)
+        
+        # Configure Tesseract
+        self.tesseract_config = r'--oem 3 --psm 6'
+    
+    def extract_text_from_image(self, image: Union[str, Image.Image, np.ndarray]) -> Tuple[str, float]:
+        """Extract text from image with confidence score."""
+        # Convert to PIL Image if needed
+        if isinstance(image, str):
+            image = Image.open(image)
+        elif isinstance(image, np.ndarray):
+            image = Image.fromarray(image)
+        
+        # Preprocess image
+        preprocessor = ImagePreprocessor()
+        image = preprocessor.enhance_image(image)
+        
+        # Convert to numpy array
+        img_array = np.array(image)
+        
+        # Get OCR data
+        ocr_data = pytesseract.image_to_data(
+            img_array, 
+            lang=self.language, 
+            config=self.tesseract_config,
+            output_type=pytesseract.Output.DICT
+        )
+        
+        # Extract text and calculate confidence
+        text_parts = []
+        confidences = []
+        
+        for i, conf in enumerate(ocr_data['conf']):
+            if conf > 0:  # Filter out non-text
+                text = ocr_data['text'][i].strip()
+                if text:
+                    text_parts.append(text)
+                    confidences.append(conf)
+        
+        full_text = ' '.join(text_parts)
+        avg_confidence = np.mean(confidences) if confidences else 0
+        
+        return full_text, avg_confidence / 100
+    
+    def extract_text_from_pdf(self, pdf_path: str) -> List[Tuple[str, float]]:
+        """Extract text from PDF pages."""
+        results = []
+        
+        # Try to extract text directly first
+        try:
+            with pdfplumber.open(pdf_path) as pdf:
+                for page in pdf.pages:
+                    text = page.extract_text()
+                    if text and text.strip():
+                        results.append((text, 1.0))  # High confidence for direct extraction
+                    else:
+                        # Fall back to OCR
+                        results.append(self._ocr_pdf_page(pdf_path, page.page_number - 1))
+        except Exception as e:
+            self.logger.warning(f"Direct PDF extraction failed: {e}, using OCR")
+            # Convert PDF to images and OCR
+            images = convert_from_path(pdf_path)
+            for img in images:
+                results.append(self.extract_text_from_image(img))
+        
+        return results
+    
+    def _ocr_pdf_page(self, pdf_path: str, page_num: int) -> Tuple[str, float]:
+        """OCR a specific PDF page."""
+        images = convert_from_path(pdf_path, first_page=page_num+1, last_page=page_num+1)
+        if images:
+            return self.extract_text_from_image(images[0])
+        return "", 0.0
+
+# ==================== Document Classifier ====================
+
+class DocumentClassifier:
+    """Classify document types using ML."""
+    
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        
+        # Keywords for rule-based classification
+        self.keywords = {
+            DocumentType.INVOICE: [
+                'invoice', 'bill', 'amount due', 'invoice number', 'billing',
+                'payment due', 'subtotal', 'total amount', 'tax', 'invoice date'
+            ],
+            DocumentType.CONTRACT: [
+                'agreement', 'contract', 'terms and conditions', 'parties',
+                'whereas', 'hereby', 'covenant', 'obligations', 'governing law'
+            ],
+            DocumentType.FORM: [
+                'form', 'application', 'please fill', 'required fields',
+                'signature', 'date of birth', 'social security', 'checkbox'
+            ],
+            DocumentType.REPORT: [
+                'report', 'summary', 'analysis', 'findings', 'conclusion',
+                'executive summary', 'recommendations', 'methodology'
+            ],
+            DocumentType.RECEIPT: [
+                'receipt', 'purchase', 'transaction', 'payment received',
+                'thank you for your purchase', 'order number', 'paid'
+            ],
+            DocumentType.STATEMENT: [
+                'statement', 'account', 'balance', 'transactions', 'credit',
+                'debit', 'opening balance', 'closing balance', 'period'
+            ]
+        }
+    
+    def classify(self, text: str, use_ml: bool = False) -> Tuple[DocumentType, float]:
+        """Classify document type."""
+        if use_ml:
+            return self._ml_classify(text)
+        else:
+            return self._rule_based_classify(text)
+    
+    def _rule_based_classify(self, text: str) -> Tuple[DocumentType, float]:
+        """Rule-based document classification."""
+        text_lower = text.lower()
+        scores = {}
+        
+        for doc_type, keywords in self.keywords.items():
+            score = 0
+            for keyword in keywords:
+                if keyword in text_lower:
+                    score += text_lower.count(keyword)
+            scores[doc_type] = score
+        
+        if scores:
+            best_match = max(scores.items(), key=lambda x: x[1])
+            if best_match[1] > 0:
+                # Calculate confidence based on keyword matches
+                total_keywords = len(self.keywords[best_match[0]])
+                matched_keywords = sum(1 for k in self.keywords[best_match[0]] if k in text_lower)
+                confidence = matched_keywords / total_keywords
+                return best_match[0], confidence
+        
+        return DocumentType.UNKNOWN, 0.0
+    
+    def _ml_classify(self, text: str) -> Tuple[DocumentType, float]:
+        """ML-based document classification."""
+        # This would use a trained model in production
+        # For now, fall back to rule-based
+        return self._rule_based_classify(text)
+
+# ==================== Data Extractors ====================
+
+class InvoiceExtractor:
+    """Extract data from invoices."""
+    
+    def __init__(self):
+        self.patterns = {
+            'invoice_number': [
+                r'Invoice\s*#?\s*:?\s*([A-Z0-9\-]+)',
+                r'Invoice\s+Number\s*:?\s*([A-Z0-9\-]+)',
+                r'INV\s*-?\s*([A-Z0-9\-]+)'
+            ],
+            'date': [
+                r'Date\s*:?\s*([0-9]{1,2}[/-][0-9]{1,2}[/-][0-9]{2,4})',
+                r'Invoice\s+Date\s*:?\s*([0-9]{1,2}[/-][0-9]{1,2}[/-][0-9]{2,4})',
+            ],
+            'amount': [
+                r'Total\s*:?\s*\$?\s*([0-9,]+\.?[0-9]*)',
+                r'Amount\s+Due\s*:?\s*\$?\s*([0-9,]+\.?[0-9]*)',
+                r'Grand\s+Total\s*:?\s*\$?\s*([0-9,]+\.?[0-9]*)'
+            ],
+            'vendor': [
+                r'From\s*:?\s*([^\n]+)',
+                r'Vendor\s*:?\s*([^\n]+)',
+                r'Supplier\s*:?\s*([^\n]+)'
+            ],
+            'customer': [
+                r'To\s*:?\s*([^\n]+)',
+                r'Bill\s+To\s*:?\s*([^\n]+)',
+                r'Customer\s*:?\s*([^\n]+)'
+            ]
+        }
+    
+    def extract(self, text: str) -> Dict[str, Any]:
+        """Extract invoice data."""
+        extracted = {}
+        confidence_scores = {}
+        
+        for field, patterns in self.patterns.items():
+            for pattern in patterns:
+                match = re.search(pattern, text, re.IGNORECASE | re.MULTILINE)
+                if match:
+                    value = match.group(1).strip()
+                    extracted[field] = self._clean_value(field, value)
+                    confidence_scores[field] = self._calculate_confidence(match)
+                    break
+        
+        # Extract line items
+        extracted['line_items'] = self._extract_line_items(text)
+        
+        # Calculate derived fields
+        if 'amount' in extracted:
+            extracted['amount'] = self._parse_amount(extracted['amount'])
+        
+        if 'date' in extracted:
+            extracted['date'] = self._parse_date(extracted['date'])
+        
+        return {
+            'fields': extracted,
+            'confidence': confidence_scores
+        }
+    
+    def _extract_line_items(self, text: str) -> List[Dict[str, Any]]:
+        """Extract line items from invoice."""
+        line_items = []
+        
+        # Pattern for line items (simplified)
+        pattern = r'([A-Za-z\s]+)\s+(\d+)\s+\$?([0-9,]+\.?[0-9]*)\s+\$?([0-9,]+\.?[0-9]*)'
+        
+        matches = re.findall(pattern, text)
+        for match in matches:
+            item = {
+                'description': match[0].strip(),
+                'quantity': int(match[1]),
+                'unit_price': float(match[2].replace(',', '')),
+                'total': float(match[3].replace(',', ''))
+            }
+            line_items.append(item)
+        
+        return line_items
+    
+    def _clean_value(self, field: str, value: str) -> str:
+        """Clean extracted value."""
+        value = value.strip()
+        
+        # Remove extra whitespace
+        value = ' '.join(value.split())
+        
+        return value
+    
+    def _parse_amount(self, amount_str: str) -> float:
+        """Parse amount string to float."""
+        # Remove currency symbols and commas
+        amount_str = re.sub(r'[,$]', '', amount_str)
+        try:
+            return float(amount_str)
+        except ValueError:
+            return 0.0
+    
+    def _parse_date(self, date_str: str) -> Optional[date]:
+        """Parse date string."""
+        try:
+            return date_parser.parse(date_str).date()
+        except:
+            return None
+    
+    def _calculate_confidence(self, match) -> float:
+        """Calculate confidence score for extraction."""
+        # Simple confidence based on match quality
+        # In production, this would be more sophisticated
+        return 0.85
+
+class ContractExtractor:
+    """Extract data from contracts."""
+    
+    def __init__(self):
+        # Load NLP model for entity recognition
+        try:
+            self.nlp = spacy.load("en_core_web_sm")
+        except:
+            self.nlp = None
+    
+    def extract(self, text: str) -> Dict[str, Any]:
+        """Extract contract data."""
+        extracted = {}
+        
+        # Extract parties
+        extracted['parties'] = self._extract_parties(text)
+        
+        # Extract dates
+        extracted['effective_date'] = self._extract_effective_date(text)
+        extracted['expiration_date'] = self._extract_expiration_date(text)
+        
+        # Extract clauses
+        extracted['clauses'] = self._extract_clauses(text)
+        
+        # Extract obligations
+        extracted['obligations'] = self._extract_obligations(text)
+        
+        # Extract payment terms
+        extracted['payment_terms'] = self._extract_payment_terms(text)
+        
+        return extracted
+    
+    def _extract_parties(self, text: str) -> List[str]:
+        """Extract contracting parties."""
+        parties = []
+        
+        # Patterns for party extraction
+        patterns = [
+            r'between\s+([A-Z][^,]+),',
+            r'Party\s+[A-B]\s*:\s*([^\n]+)',
+            r'"([^"]+)"\s+\(?(Company|Party|Vendor|Client)',
+        ]
+        
+        for pattern in patterns:
+            matches = re.findall(pattern, text, re.MULTILINE)
+            for match in matches:
+                party = match[0] if isinstance(match, tuple) else match
+                party = party.strip()
+                if party and party not in parties:
+                    parties.append(party)
+        
+        # Use NER if available
+        if self.nlp and not parties:
+            doc = self.nlp(text[:5000])  # Process first 5000 chars
+            for ent in doc.ents:
+                if ent.label_ == "ORG":
+                    if ent.text not in parties:
+                        parties.append(ent.text)
+        
+        return parties
+    
+    def _extract_effective_date(self, text: str) -> Optional[date]:
+        """Extract contract effective date."""
+        patterns = [
+            r'Effective\s+Date\s*:?\s*([^\n]+)',
+            r'commencing\s+on\s+([^\n,]+)',
+            r'effective\s+as\s+of\s+([^\n,]+)'
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                try:
+                    return date_parser.parse(match.group(1)).date()
+                except:
+                    continue
+        
+        return None
+    
+    def _extract_expiration_date(self, text: str) -> Optional[date]:
+        """Extract contract expiration date."""
+        patterns = [
+            r'Expir[ey]\s+Date\s*:?\s*([^\n]+)',
+            r'terminat[ei]\s+on\s+([^\n,]+)',
+            r'valid\s+until\s+([^\n,]+)'
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                try:
+                    return date_parser.parse(match.group(1)).date()
+                except:
+                    continue
+        
+        return None
+    
+    def _extract_clauses(self, text: str) -> List[str]:
+        """Extract contract clauses."""
+        clauses = []
+        
+        # Pattern for numbered clauses
+        pattern = r'^\s*\d+\.?\s+([A-Z][^.]+\.)'
+        
+        matches = re.findall(pattern, text, re.MULTILINE)
+        for match in matches[:20]:  # Limit to first 20 clauses
+            clauses.append(match.strip())
+        
+        return clauses
+    
+    def _extract_obligations(self, text: str) -> List[str]:
+        """Extract contractual obligations."""
+        obligations = []
+        
+        # Keywords indicating obligations
+        obligation_keywords = ['shall', 'must', 'will', 'agrees to', 'undertakes']
+        
+        sentences = text.split('.')
+        for sentence in sentences:
+            if any(keyword in sentence.lower() for keyword in obligation_keywords):
+                obligations.append(sentence.strip() + '.')
+        
+        return obligations[:10]  # Limit to 10 most important
+    
+    def _extract_payment_terms(self, text: str) -> Dict[str, Any]:
+        """Extract payment terms."""
+        terms = {}
+        
+        # Extract payment amount
+        amount_pattern = r'payment\s+of\s+\$?([0-9,]+\.?[0-9]*)'
+        match = re.search(amount_pattern, text, re.IGNORECASE)
+        if match:
+            terms['amount'] = match.group(1)
+        
+        # Extract payment schedule
+        schedule_pattern = r'(monthly|quarterly|annually|weekly)'
+        match = re.search(schedule_pattern, text, re.IGNORECASE)
+        if match:
+            terms['schedule'] = match.group(1)
+        
+        # Extract payment due date
+        due_pattern = r'due\s+(within)?\s*(\d+)\s+days'
+        match = re.search(due_pattern, text, re.IGNORECASE)
+        if match:
+            terms['due_days'] = int(match.group(2))
+        
+        return terms
+
+# ==================== Table Extractor ====================
+
+class TableExtractor:
+    """Extract tables from documents."""
+    
+    def extract_from_pdf(self, pdf_path: str) -> List[pd.DataFrame]:
+        """Extract tables from PDF."""
+        tables = []
+        
+        try:
+            with pdfplumber.open(pdf_path) as pdf:
+                for page in pdf.pages:
+                    page_tables = page.extract_tables()
+                    for table in page_tables:
+                        if table and len(table) > 1:
+                            # Convert to DataFrame
+                            df = pd.DataFrame(table[1:], columns=table[0])
+                            # Clean empty cells
+                            df = df.replace('', np.nan)
+                            df = df.dropna(how='all')
+                            tables.append(df)
+        except Exception as e:
+            logging.error(f"Error extracting tables: {e}")
+        
+        return tables
+    
+    def extract_from_image(self, image_path: str) -> List[pd.DataFrame]:
+        """Extract tables from image using computer vision."""
+        tables = []
+        
+        # Read image
+        img = cv2.imread(image_path)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        
+        # Detect table structure using lines
+        edges = cv2.Canny(gray, 50, 150)
+        
+        # Find contours
+        contours, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        # Filter table-like contours
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if area > 10000:  # Minimum area for table
+                # Extract region
+                x, y, w, h = cv2.boundingRect(contour)
+                table_region = img[y:y+h, x:x+w]
+                
+                # OCR the table region
+                table_text = pytesseract.image_to_string(table_region)
+                
+                # Parse into DataFrame
+                lines = table_text.split('\n')
+                if len(lines) > 1:
+                    data = [line.split() for line in lines if line.strip()]
+                    if data:
+                        df = pd.DataFrame(data[1:], columns=data[0])
+                        tables.append(df)
+        
+        return tables
+
+# ==================== Document Processor ====================
+
+class DocumentProcessor:
+    """Main document processing engine."""
+    
+    def __init__(self):
+        self.ocr_engine = OCREngine()
+        self.classifier = DocumentClassifier()
+        self.extractors = {
+            DocumentType.INVOICE: InvoiceExtractor(),
+            DocumentType.CONTRACT: ContractExtractor()
+        }
+        self.table_extractor = TableExtractor()
+        self.logger = logging.getLogger(__name__)
+    
+    def process_document(self, file_path: str) -> ExtractedData:
+        """Process a document and extract data."""
+        start_time = datetime.now()
+        
+        # Generate document ID
+        doc_id = self._generate_doc_id(file_path)
+        
+        # Get file metadata
+        metadata = self._get_metadata(file_path, doc_id)
+        
+        # Extract text
+        text, confidence = self._extract_text(file_path)
+        
+        # Classify document
+        doc_type, classification_confidence = self.classifier.classify(text)
+        
+        # Extract structured data
+        extracted_fields = {}
+        if doc_type in self.extractors:
+            extractor = self.extractors[doc_type]
+            extraction_result = extractor.extract(text)
+            
+            if isinstance(extraction_result, dict):
+                extracted_fields = extraction_result.get('fields', {})
+        
+        # Extract tables
+        tables = []
+        if file_path.endswith('.pdf'):
+            tables = self.table_extractor.extract_from_pdf(file_path)
+        
+        # Validate extracted data
+        validation_errors = self._validate_data(doc_type, extracted_fields)
+        
+        # Calculate processing time
+        processing_time = (datetime.now() - start_time).total_seconds()
+        metadata.processing_time = processing_time
+        metadata.confidence_score = confidence
+        
+        # Create result
+        result = ExtractedData(
+            document_id=doc_id,
+            document_type=doc_type,
+            fields=extracted_fields,
+            tables=tables,
+            confidence_scores={'overall': confidence},
+            validation_errors=validation_errors
+        )
+        
+        self.logger.info(f"Processed document {doc_id} in {processing_time:.2f}s")
+        
+        return result
+    
+    def _generate_doc_id(self, file_path: str) -> str:
+        """Generate unique document ID."""
+        content = f"{file_path}_{datetime.now().isoformat()}"
+        return hashlib.sha256(content.encode()).hexdigest()[:16]
+    
+    def _get_metadata(self, file_path: str, doc_id: str) -> DocumentMetadata:
+        """Get document metadata."""
+        file_stat = os.stat(file_path)
+        
+        # Count pages
+        page_count = 1
+        if file_path.endswith('.pdf'):
+            with open(file_path, 'rb') as f:
+                pdf = PyPDF2.PdfReader(f)
+                page_count = len(pdf.pages)
+        
+        return DocumentMetadata(
+            id=doc_id,
+            filename=os.path.basename(file_path),
+            file_type=os.path.splitext(file_path)[1],
+            file_size=file_stat.st_size,
+            page_count=page_count
+        )
+    
+    def _extract_text(self, file_path: str) -> Tuple[str, float]:
+        """Extract text from document."""
+        if file_path.endswith('.pdf'):
+            pages = self.ocr_engine.extract_text_from_pdf(file_path)
+            if pages:
+                texts = [p[0] for p in pages]
+                confidences = [p[1] for p in pages]
+                return '\n'.join(texts), np.mean(confidences)
+        elif file_path.endswith(('.png', '.jpg', '.jpeg', '.tiff')):
+            return self.ocr_engine.extract_text_from_image(file_path)
+        elif file_path.endswith('.docx'):
+            doc = DocxDocument(file_path)
+            text = '\n'.join([p.text for p in doc.paragraphs])
+            return text, 1.0
+        
+        return "", 0.0
+    
+    def _validate_data(self, doc_type: DocumentType, fields: Dict[str, Any]) -> List[str]:
+        """Validate extracted data."""
+        errors = []
+        
+        if doc_type == DocumentType.INVOICE:
+            # Validate invoice fields
+            required_fields = ['invoice_number', 'amount', 'date']
+            for field in required_fields:
+                if field not in fields or not fields[field]:
+                    errors.append(f"Missing required field: {field}")
+            
+            # Validate amount
+            if 'amount' in fields:
+                if not isinstance(fields['amount'], (int, float)) or fields['amount'] <= 0:
+                    errors.append("Invalid amount value")
+        
+        elif doc_type == DocumentType.CONTRACT:
+            # Validate contract fields
+            if 'parties' in fields and len(fields['parties']) < 2:
+                errors.append("Contract must have at least two parties")
+        
+        return errors
+
+# ==================== Batch Processing ====================
+
+class BatchProcessor:
+    """Process multiple documents in batch."""
+    
+    def __init__(self, processor: DocumentProcessor):
+        self.processor = processor
+        self.logger = logging.getLogger(__name__)
+    
+    def process_batch(self, file_paths: List[str], parallel: bool = False) -> List[ExtractedData]:
+        """Process batch of documents."""
+        results = []
+        
+        if parallel:
+            import concurrent.futures
+            
+            with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+                futures = {executor.submit(self.processor.process_document, fp): fp 
+                          for fp in file_paths}
+                
+                for future in concurrent.futures.as_completed(futures):
+                    try:
+                        result = future.result()
+                        results.append(result)
+                    except Exception as e:
+                        self.logger.error(f"Error processing {futures[future]}: {e}")
+        else:
+            for file_path in file_paths:
+                try:
+                    result = self.processor.process_document(file_path)
+                    results.append(result)
+                except Exception as e:
+                    self.logger.error(f"Error processing {file_path}: {e}")
+        
+        return results
+    
+    def process_folder(self, folder_path: str, pattern: str = "*") -> List[ExtractedData]:
+        """Process all documents in folder."""
+        from pathlib import Path
+        
+        folder = Path(folder_path)
+        file_paths = list(folder.glob(pattern))
+        
+        self.logger.info(f"Processing {len(file_paths)} files from {folder_path}")
+        
+        return self.process_batch([str(fp) for fp in file_paths])
+
+# Example usage
+if __name__ == "__main__":
+    print("📄 Document Processing Examples\n")
+    
+    # Example 1: Document types
+    print("1️⃣ Supported Document Types:")
+    for doc_type in DocumentType:
+        if doc_type != DocumentType.UNKNOWN:
+            print(f"   • {doc_type.name}")
+    
+    # Example 2: Processing stages
+    print("\n2️⃣ Document Processing Stages:")
+    stages = [
+        "1. Image Preprocessing - Enhance, deskew, denoise",
+        "2. OCR - Extract text from images",
+        "3. Classification - Identify document type",
+        "4. Extraction - Extract structured data",
+        "5. Validation - Verify extracted data",
+        "6. Integration - Send to downstream systems"
+    ]
+    for stage in stages:
+        print(f"   {stage}")
+    
+    # Example 3: OCR technologies
+    print("\n3️⃣ OCR Technologies:")
+    technologies = [
+        "Tesseract - Open source OCR engine",
+        "Google Cloud Vision - Cloud-based OCR",
+        "Amazon Textract - AWS OCR service",
+        "Azure Form Recognizer - Microsoft OCR",
+        "ABBYY FineReader - Commercial OCR"
+    ]
+    for tech in technologies:
+        print(f"   • {tech}")
+    
+    # Example 4: Data extraction techniques
+    print("\n4️⃣ Data Extraction Techniques:")
+    techniques = [
+        "Regular Expressions - Pattern matching",
+        "NLP/NER - Named entity recognition",
+        "Template Matching - Fixed format documents",
+        "Machine Learning - Trained models",
+        "Rule-based - Business logic"
+    ]
+    for technique in techniques:
+        print(f"   • {technique}")
+    
+    # Example 5: Create sample processor
+    print("\n5️⃣ Initialize Document Processor:")
+    processor = DocumentProcessor()
+    print("   ✓ OCR Engine initialized")
+    print("   ✓ Document Classifier ready")
+    print("   ✓ Data Extractors loaded")
+    print("   ✓ Table Extractor configured")
+    
+    # Example 6: Sample invoice extraction
+    print("\n6️⃣ Sample Invoice Data Extraction:")
+    sample_invoice_text = """
+    INVOICE
+    Invoice Number: INV-2024-001
+    Date: January 15, 2024
+    
+    Bill To:
+    Acme Corporation
+    123 Main Street
+    New York, NY 10001
+    
+    Description     Quantity    Unit Price    Total
+    Widget A        10          $50.00        $500.00
+    Widget B        5           $75.00        $375.00
+    
+    Subtotal: $875.00
+    Tax (10%): $87.50
+    Total: $962.50
+    
+    Payment Due: February 15, 2024
+    """
+    
+    invoice_extractor = InvoiceExtractor()
+    extracted = invoice_extractor.extract(sample_invoice_text)
+    
+    print("   Extracted Fields:")
+    for field, value in extracted['fields'].items():
+        if field != 'line_items':
+            print(f"     • {field}: {value}")
+    
+    if 'line_items' in extracted['fields']:
+        print(f"     • Line Items: {len(extracted['fields']['line_items'])} items")
+    
+    # Example 7: Validation rules
+    print("\n7️⃣ Common Validation Rules:")
+    rules = [
+        "Required fields present",
+        "Data type validation",
+        "Format validation (dates, amounts)",
+        "Business rule validation",
+        "Cross-field validation",
+        "Duplicate detection"
+    ]
+    for rule in rules:
+        print(f"   • {rule}")
+    
+    # Example 8: Performance metrics
+    print("\n8️⃣ Performance Metrics:")
+    metrics = [
+        "Processing Speed: < 30 seconds per document",
+        "Accuracy: > 95% field extraction",
+        "Straight-through Processing: > 80%",
+        "Error Rate: < 5%",
+        "Throughput: 1000+ documents/hour"
+    ]
+    for metric in metrics:
+        print(f"   • {metric}")
+    
+    # Example 9: Best practices
+    print("\n9️⃣ Document Processing Best Practices:")
+    practices = [
+        "🎯 Preprocess images for better OCR accuracy",
+        "📊 Use confidence scores for quality control",
+        "🔄 Implement retry logic for failed extractions",
+        "✅ Validate data against business rules",
+        "📝 Maintain audit logs for compliance",
+        "🔒 Secure sensitive data (PII, financial)",
+        "📈 Monitor and optimize performance",
+        "🧪 Test with various document formats",
+        "💾 Cache processed results",
+        "🚀 Scale horizontally for high volume"
+    ]
+    for practice in practices:
+        print(f"   {practice}")
+    
+    # Example 10: Integration examples
+    print("\n🔟 Integration Points:")
+    integrations = [
+        "ERP Systems - SAP, Oracle, Microsoft Dynamics",
+        "Document Management - SharePoint, Box, Dropbox",
+        "Workflow Systems - ServiceNow, Jira",
+        "Databases - SQL Server, PostgreSQL, MongoDB",
+        "Cloud Storage - AWS S3, Azure Blob, Google Cloud Storage",
+        "APIs - REST, SOAP, GraphQL",
+        "Message Queues - RabbitMQ, Kafka, SQS"
+    ]
+    for integration in integrations:
+        print(f"   • {integration}")
+    
+    print("\n✅ Document processing demonstration complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Image Preprocessing:</strong> Enhance, deskew, and denoise images for better OCR accuracy.</li>
+        
+        <li><strong>Multiple Extraction Methods:</strong> Combine OCR, regex, NLP, and ML for robust extraction.</li>
+        
+        <li><strong>Confidence Scoring:</strong> Track confidence levels for quality assurance.</li>
+        
+        <li><strong>Validation:</strong> Implement comprehensive validation rules for data quality.</li>
+        
+        <li><strong>Error Handling:</strong> Gracefully handle various document formats and quality issues.</li>
+        
+        <li><strong>Performance:</strong> Optimize for speed with parallel processing and caching.</li>
+        
+        <li><strong>Security:</strong> Protect sensitive data throughout the processing pipeline.</li>
+        
+        <li><strong>Scalability:</strong> Design for high-volume processing with batch capabilities.</li>
+    </ul>
+
+    <h3>Document Processing Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of document processing as creating a digital assembly line that transforms unstructured documents into structured, actionable data - each stage adds value and increases data quality. Start with robust image preprocessing - even small improvements in image quality can dramatically increase OCR accuracy. Use multiple extraction techniques in combination: regex for structured patterns, NLP for understanding context, and ML for complex documents. Always track confidence scores - they help identify documents needing human review. Implement tiered validation: format validation (is it a valid date?), business validation (is the amount reasonable?), and cross-validation (do the line items sum to the total?). Design for variety - documents come in many formats, qualities, and structures. Handle tables separately - they require specialized extraction techniques. Use template matching for standardized forms but be flexible for variations. Cache OCR results to avoid reprocessing. Implement security measures for sensitive documents - encryption, access controls, and audit logging. Monitor performance metrics continuously - processing speed, accuracy rates, and error patterns. Plan for exception handling - some documents will always require human intervention. Test with real-world documents including poor quality scans, handwritten notes, and non-standard formats. Most importantly: document processing is iterative - start with basic extraction and continuously improve based on results!</p>
+    </div>
+    
+    <p>Mastering document processing enables you to unlock valuable data trapped in unstructured documents. You can now preprocess images for optimal OCR, classify documents automatically, extract structured data with high accuracy, validate against business rules, and integrate with enterprise systems. Whether you're processing invoices, contracts, forms, or reports, these document processing skills are essential for digital transformation! 🚀</p>
+    
+    <footer>
+        <p>Next up: <a href="rpa_enterprise_reporting.html">Reporting Automation - Create Dynamic Reports Automatically!</a></p>
+    </footer>
+</body>
+</html>

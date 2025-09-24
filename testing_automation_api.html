@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Testing - Python Testing Automation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <h1>🚀 API Testing: Validate Your Backend Services Thoroughly</h1>
+    
+    <p>API testing is the backbone of modern application quality assurance - it validates that your backend services work correctly, handle edge cases gracefully, and maintain contracts between systems. Like testing the engine of a car without needing the entire vehicle, API testing provides fast, reliable validation of business logic and data processing. Whether you're testing REST APIs, GraphQL endpoints, or microservices, mastering API testing is essential for delivering robust backend services. Let's explore the comprehensive world of API test automation! 🔧</p>
+
+    <h2>The API Testing Architecture</h2>
+    
+    <p>Think of API testing as quality control for your application's nervous system - it verifies that data flows correctly between components, responses meet specifications, and services handle various scenarios appropriately. Using tools like requests, pytest, and specialized frameworks, you can create comprehensive test suites that validate functionality, performance, security, and reliability. Understanding request/response cycles, authentication, data validation, and contract testing is crucial for effective API testing!</p>
+
+    <div class="mermaid">
+    graph TB
+        A[API Testing] --> B[Test Types]
+        A --> C[Test Levels]
+        A --> D[Validation]
+        A --> E[Tools]
+        
+        B --> F[Functional]
+        B --> G[Performance]
+        B --> H[Security]
+        B --> I[Contract]
+        
+        C --> J[Unit]
+        C --> K[Integration]
+        C --> L[E2E]
+        C --> M[Load]
+        
+        D --> N[Status Codes]
+        D --> O[Response Body]
+        D --> P[Headers]
+        D --> Q[Schema]
+        
+        E --> R[REST]
+        E --> S[GraphQL]
+        E --> T[gRPC]
+        E --> U[WebSocket]
+        
+        V[Strategies] --> W[Data-Driven]
+        V --> X[Mock Services]
+        V --> Y[Chaining]
+        V --> Z[Automation]
+        
+        style A fill:#ff6b6b
+        style B fill:#51cf66
+        style C fill:#339af0
+        style D fill:#ffd43b
+        style E fill:#ff6b6b
+        style V fill:#51cf66
+    </div>
+
+    <h3>Real-World Scenario: The Microservices API Testing Platform 🌍</h3>
+    
+    <p>You're building a comprehensive API testing platform for a microservices ecosystem that validates REST and GraphQL endpoints, tests authentication and authorization flows, ensures data consistency across services, validates API contracts between teams, performs load and stress testing, monitors API performance metrics, tests error handling and edge cases, and validates webhook deliveries. Your platform must support multiple authentication methods, handle various data formats, provide detailed test reports, and integrate with CI/CD pipelines. Let's build a professional API testing framework!</p>
+
+    <pre><code># Comprehensive API Testing Framework
+# pip install requests pytest pytest-html pytest-benchmark
+# pip install jsonschema pydantic faker factory-boy
+# pip install locust aiohttp httpx grpcio graphql-core
+
+import os
+import json
+import time
+import asyncio
+import logging
+from typing import Dict, List, Any, Optional, Union, Callable, Type
+from dataclasses import dataclass, field, asdict
+from datetime import datetime, timedelta
+from pathlib import Path
+from enum import Enum
+import hashlib
+import hmac
+import base64
+import jwt
+from urllib.parse import urljoin, urlparse, parse_qs
+
+import requests
+import httpx
+import aiohttp
+from requests.auth import HTTPBasicAuth, HTTPDigestAuth
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
+import pytest
+import allure
+from jsonschema import validate, ValidationError
+from pydantic import BaseModel, Field, validator
+from faker import Faker
+import yaml
+
+# Performance testing
+from locust import HttpUser, task, between
+
+# GraphQL support
+from graphql import build_schema, graphql_sync
+
+# ==================== Configuration ====================
+
+@dataclass
+class APITestConfig:
+    """Configuration for API testing."""
+    base_url: str = "http://localhost:8000"
+    timeout: float = 30.0
+    verify_ssl: bool = True
+    
+    # Authentication
+    auth_type: str = "bearer"  # none, basic, bearer, oauth2, api_key
+    auth_token: Optional[str] = None
+    api_key: Optional[str] = None
+    
+    # Retry configuration
+    retry_count: int = 3
+    retry_backoff: float = 1.0
+    retry_status_codes: List[int] = field(default_factory=lambda: [500, 502, 503, 504])
+    
+    # Headers
+    default_headers: Dict[str, str] = field(default_factory=lambda: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    })
+    
+    # Logging
+    log_requests: bool = True
+    log_responses: bool = True
+    
+    # Validation
+    validate_ssl: bool = True
+    validate_schema: bool = True
+    
+    # Performance
+    connection_pool_size: int = 10
+    max_keepalive_connections: int = 5
+
+# ==================== API Client ====================
+
+class APIClient:
+    """Enhanced API client for testing."""
+    
+    def __init__(self, config: APITestConfig):
+        self.config = config
+        self.session = self._create_session()
+        self.logger = logging.getLogger(__name__)
+        self.request_history = []
+        
+    def _create_session(self) -> requests.Session:
+        """Create configured session with retry logic."""
+        session = requests.Session()
+        
+        # Configure retry strategy
+        retry_strategy = Retry(
+            total=self.config.retry_count,
+            backoff_factor=self.config.retry_backoff,
+            status_forcelist=self.config.retry_status_codes,
+            allowed_methods=["GET", "POST", "PUT", "DELETE", "PATCH"]
+        )
+        
+        adapter = HTTPAdapter(
+            pool_connections=self.config.connection_pool_size,
+            pool_maxsize=self.config.connection_pool_size,
+            max_retries=retry_strategy
+        )
+        
+        session.mount("http://", adapter)
+        session.mount("https://", adapter)
+        
+        # Set default headers
+        session.headers.update(self.config.default_headers)
+        
+        # Configure authentication
+        self._setup_authentication(session)
+        
+        return session
+    
+    def _setup_authentication(self, session: requests.Session):
+        """Setup authentication for session."""
+        if self.config.auth_type == "basic":
+            session.auth = HTTPBasicAuth(
+                self.config.auth_token.split(":")[0],
+                self.config.auth_token.split(":")[1]
+            )
+        elif self.config.auth_type == "bearer":
+            if self.config.auth_token:
+                session.headers["Authorization"] = f"Bearer {self.config.auth_token}"
+        elif self.config.auth_type == "api_key":
+            if self.config.api_key:
+                session.headers["X-API-Key"] = self.config.api_key
+    
+    def request(
+        self,
+        method: str,
+        endpoint: str,
+        **kwargs
+    ) -> requests.Response:
+        """Make HTTP request with logging and validation."""
+        # Build full URL
+        url = urljoin(self.config.base_url, endpoint)
+        
+        # Set timeout if not provided
+        kwargs.setdefault("timeout", self.config.timeout)
+        kwargs.setdefault("verify", self.config.verify_ssl)
+        
+        # Log request
+        if self.config.log_requests:
+            self.logger.info(f"{method} {url}")
+            if "json" in kwargs:
+                self.logger.debug(f"Request body: {json.dumps(kwargs['json'], indent=2)}")
+        
+        # Make request
+        start_time = time.time()
+        response = self.session.request(method, url, **kwargs)
+        duration = time.time() - start_time
+        
+        # Store in history
+        self.request_history.append({
+            "method": method,
+            "url": url,
+            "status_code": response.status_code,
+            "duration": duration,
+            "timestamp": datetime.now()
+        })
+        
+        # Log response
+        if self.config.log_responses:
+            self.logger.info(f"Response: {response.status_code} ({duration:.2f}s)")
+            if response.content:
+                try:
+                    self.logger.debug(f"Response body: {response.json()}")
+                except:
+                    self.logger.debug(f"Response body: {response.text[:200]}")
+        
+        return response
+    
+    def get(self, endpoint: str, **kwargs) -> requests.Response:
+        """GET request."""
+        return self.request("GET", endpoint, **kwargs)
+    
+    def post(self, endpoint: str, **kwargs) -> requests.Response:
+        """POST request."""
+        return self.request("POST", endpoint, **kwargs)
+    
+    def put(self, endpoint: str, **kwargs) -> requests.Response:
+        """PUT request."""
+        return self.request("PUT", endpoint, **kwargs)
+    
+    def patch(self, endpoint: str, **kwargs) -> requests.Response:
+        """PATCH request."""
+        return self.request("PATCH", endpoint, **kwargs)
+    
+    def delete(self, endpoint: str, **kwargs) -> requests.Response:
+        """DELETE request."""
+        return self.request("DELETE", endpoint, **kwargs)
+    
+    def get_metrics(self) -> Dict[str, Any]:
+        """Get request metrics."""
+        if not self.request_history:
+            return {}
+        
+        durations = [r["duration"] for r in self.request_history]
+        status_codes = [r["status_code"] for r in self.request_history]
+        
+        return {
+            "total_requests": len(self.request_history),
+            "avg_duration": sum(durations) / len(durations),
+            "min_duration": min(durations),
+            "max_duration": max(durations),
+            "success_rate": len([s for s in status_codes if 200 <= s < 300]) / len(status_codes) * 100
+        }
+
+# ==================== Async API Client ====================
+
+class AsyncAPIClient:
+    """Asynchronous API client for high-performance testing."""
+    
+    def __init__(self, config: APITestConfig):
+        self.config = config
+        self.client = httpx.AsyncClient(
+            base_url=config.base_url,
+            timeout=config.timeout,
+            headers=config.default_headers,
+            verify=config.verify_ssl
+        )
+    
+    async def request(
+        self,
+        method: str,
+        endpoint: str,
+        **kwargs
+    ) -> httpx.Response:
+        """Make async HTTP request."""
+        response = await self.client.request(method, endpoint, **kwargs)
+        return response
+    
+    async def get(self, endpoint: str, **kwargs) -> httpx.Response:
+        """Async GET request."""
+        return await self.request("GET", endpoint, **kwargs)
+    
+    async def post(self, endpoint: str, **kwargs) -> httpx.Response:
+        """Async POST request."""
+        return await self.request("POST", endpoint, **kwargs)
+    
+    async def batch_requests(
+        self,
+        requests: List[Dict[str, Any]]
+    ) -> List[httpx.Response]:
+        """Execute multiple requests concurrently."""
+        tasks = []
+        for req in requests:
+            method = req.pop("method", "GET")
+            endpoint = req.pop("endpoint", "/")
+            tasks.append(self.request(method, endpoint, **req))
+        
+        responses = await asyncio.gather(*tasks)
+        return responses
+    
+    async def close(self):
+        """Close client connection."""
+        await self.client.aclose()
+
+# ==================== Response Validation ====================
+
+class ResponseValidator:
+    """Validate API responses."""
+    
+    @staticmethod
+    def validate_status_code(
+        response: requests.Response,
+        expected: Union[int, List[int]]
+    ):
+        """Validate response status code."""
+        if isinstance(expected, int):
+            expected = [expected]
+        
+        assert response.status_code in expected, \
+            f"Expected status {expected}, got {response.status_code}"
+    
+    @staticmethod
+    def validate_json_schema(
+        response: requests.Response,
+        schema: Dict[str, Any]
+    ):
+        """Validate response against JSON schema."""
+        try:
+            validate(response.json(), schema)
+        except ValidationError as e:
+            pytest.fail(f"Schema validation failed: {e.message}")
+    
+    @staticmethod
+    def validate_response_time(
+        response: requests.Response,
+        max_time: float
+    ):
+        """Validate response time."""
+        assert response.elapsed.total_seconds() < max_time, \
+            f"Response took {response.elapsed.total_seconds()}s, max allowed: {max_time}s"
+    
+    @staticmethod
+    def validate_headers(
+        response: requests.Response,
+        expected_headers: Dict[str, str]
+    ):
+        """Validate response headers."""
+        for header, value in expected_headers.items():
+            assert header in response.headers, f"Missing header: {header}"
+            if value:
+                assert response.headers[header] == value, \
+                    f"Header {header} = {response.headers[header]}, expected {value}"
+    
+    @staticmethod
+    def validate_content_type(
+        response: requests.Response,
+        expected: str = "application/json"
+    ):
+        """Validate content type."""
+        content_type = response.headers.get("Content-Type", "")
+        assert expected in content_type, \
+            f"Expected content type {expected}, got {content_type}"
+
+# ==================== Test Data Models ====================
+
+class UserModel(BaseModel):
+    """User data model for validation."""
+    id: Optional[int] = None
+    username: str = Field(..., min_length=3, max_length=50)
+    email: str = Field(..., regex=r'^[\w\.-]+@[\w\.-]+\.\w+$')
+    first_name: str
+    last_name: str
+    age: Optional[int] = Field(None, ge=0, le=120)
+    created_at: Optional[datetime] = None
+    
+    @validator('email')
+    def email_must_be_valid(cls, v):
+        """Validate email format."""
+        if '@' not in v:
+            raise ValueError('Invalid email')
+        return v
+
+class ProductModel(BaseModel):
+    """Product data model."""
+    id: Optional[int] = None
+    name: str = Field(..., min_length=1, max_length=200)
+    description: Optional[str] = None
+    price: float = Field(..., gt=0)
+    stock: int = Field(..., ge=0)
+    category: str
+    tags: List[str] = []
+
+# ==================== Test Data Factory ====================
+
+class TestDataFactory:
+    """Factory for generating test data."""
+    
+    def __init__(self):
+        self.faker = Faker()
+    
+    def create_user(self, **overrides) -> Dict[str, Any]:
+        """Create user test data."""
+        user_data = {
+            "username": self.faker.user_name(),
+            "email": self.faker.email(),
+            "first_name": self.faker.first_name(),
+            "last_name": self.faker.last_name(),
+            "age": self.faker.random_int(min=18, max=80),
+            "password": self.faker.password()
+        }
+        user_data.update(overrides)
+        return user_data
+    
+    def create_product(self, **overrides) -> Dict[str, Any]:
+        """Create product test data."""
+        product_data = {
+            "name": self.faker.company() + " " + self.faker.word(),
+            "description": self.faker.text(),
+            "price": round(self.faker.random.uniform(1, 1000), 2),
+            "stock": self.faker.random_int(min=0, max=1000),
+            "category": self.faker.random_element(["Electronics", "Clothing", "Books", "Food"]),
+            "tags": [self.faker.word() for _ in range(3)]
+        }
+        product_data.update(overrides)
+        return product_data
+    
+    def create_bulk(
+        self,
+        factory_method: Callable,
+        count: int,
+        **overrides
+    ) -> List[Dict[str, Any]]:
+        """Create multiple test data items."""
+        return [factory_method(**overrides) for _ in range(count)]
+
+# ==================== API Test Base Class ====================
+
+class APITestBase:
+    """Base class for API tests."""
+    
+    @pytest.fixture(autouse=True)
+    def setup(self):
+        """Setup test environment."""
+        self.config = APITestConfig()
+        self.client = APIClient(self.config)
+        self.validator = ResponseValidator()
+        self.data_factory = TestDataFactory()
+        self.created_resources = []
+        
+        yield
+        
+        # Cleanup created resources
+        self.cleanup_resources()
+    
+    def cleanup_resources(self):
+        """Clean up resources created during tests."""
+        for resource_type, resource_id in reversed(self.created_resources):
+            try:
+                self.client.delete(f"/{resource_type}/{resource_id}")
+            except:
+                pass
+    
+    def track_resource(self, resource_type: str, resource_id: Any):
+        """Track resource for cleanup."""
+        self.created_resources.append((resource_type, resource_id))
+
+# ==================== Example API Tests ====================
+
+class TestUserAPI(APITestBase):
+    """User API test cases."""
+    
+    def test_create_user(self):
+        """Test user creation."""
+        # Arrange
+        user_data = self.data_factory.create_user()
+        
+        # Act
+        response = self.client.post("/users", json=user_data)
+        
+        # Assert
+        self.validator.validate_status_code(response, 201)
+        self.validator.validate_content_type(response)
+        
+        # Validate response data
+        created_user = response.json()
+        assert created_user["username"] == user_data["username"]
+        assert created_user["email"] == user_data["email"]
+        assert "id" in created_user
+        
+        # Track for cleanup
+        self.track_resource("users", created_user["id"])
+        
+        # Validate with Pydantic model
+        UserModel(**created_user)
+    
+    def test_get_user(self):
+        """Test getting user by ID."""
+        # Create user first
+        user_data = self.data_factory.create_user()
+        create_response = self.client.post("/users", json=user_data)
+        user_id = create_response.json()["id"]
+        self.track_resource("users", user_id)
+        
+        # Get user
+        response = self.client.get(f"/users/{user_id}")
+        
+        # Validate
+        self.validator.validate_status_code(response, 200)
+        user = response.json()
+        assert user["id"] == user_id
+        assert user["username"] == user_data["username"]
+    
+    def test_update_user(self):
+        """Test updating user."""
+        # Create user
+        user_data = self.data_factory.create_user()
+        create_response = self.client.post("/users", json=user_data)
+        user_id = create_response.json()["id"]
+        self.track_resource("users", user_id)
+        
+        # Update user
+        update_data = {"email": "newemail@example.com"}
+        response = self.client.patch(f"/users/{user_id}", json=update_data)
+        
+        # Validate
+        self.validator.validate_status_code(response, 200)
+        updated_user = response.json()
+        assert updated_user["email"] == update_data["email"]
+    
+    def test_delete_user(self):
+        """Test deleting user."""
+        # Create user
+        user_data = self.data_factory.create_user()
+        create_response = self.client.post("/users", json=user_data)
+        user_id = create_response.json()["id"]
+        
+        # Delete user
+        response = self.client.delete(f"/users/{user_id}")
+        self.validator.validate_status_code(response, 204)
+        
+        # Verify deletion
+        get_response = self.client.get(f"/users/{user_id}")
+        self.validator.validate_status_code(get_response, 404)
+    
+    def test_list_users_pagination(self):
+        """Test user list pagination."""
+        # Create multiple users
+        for _ in range(25):
+            user_data = self.data_factory.create_user()
+            response = self.client.post("/users", json=user_data)
+            self.track_resource("users", response.json()["id"])
+        
+        # Test pagination
+        response = self.client.get("/users", params={"page": 1, "limit": 10})
+        self.validator.validate_status_code(response, 200)
+        
+        data = response.json()
+        assert "users" in data
+        assert len(data["users"]) <= 10
+        assert data["page"] == 1
+        assert "total" in data
+        
+    @pytest.mark.parametrize("invalid_data,expected_error", [
+        ({"username": "ab"}, "username too short"),
+        ({"email": "invalid"}, "invalid email"),
+        ({"age": -1}, "age must be positive"),
+        ({"age": 150}, "age too high"),
+    ])
+    def test_create_user_validation(self, invalid_data, expected_error):
+        """Test user creation with invalid data."""
+        user_data = self.data_factory.create_user()
+        user_data.update(invalid_data)
+        
+        response = self.client.post("/users", json=user_data)
+        self.validator.validate_status_code(response, 400)
+        
+        error = response.json()
+        assert "error" in error
+        # Check error message contains expected error
+
+# ==================== Contract Testing ====================
+
+class ContractTest:
+    """API contract testing."""
+    
+    def __init__(self, contract_file: str):
+        """Load contract definition."""
+        with open(contract_file, 'r') as f:
+            self.contract = yaml.safe_load(f)
+    
+    def validate_endpoint(
+        self,
+        endpoint: str,
+        method: str,
+        response: requests.Response
+    ):
+        """Validate response against contract."""
+        # Find contract for endpoint
+        endpoint_contract = self.find_contract(endpoint, method)
+        if not endpoint_contract:
+            raise ValueError(f"No contract found for {method} {endpoint}")
+        
+        # Validate status code
+        expected_status = endpoint_contract.get("status", 200)
+        assert response.status_code == expected_status
+        
+        # Validate response schema
+        if "response_schema" in endpoint_contract:
+            validate(response.json(), endpoint_contract["response_schema"])
+        
+        # Validate headers
+        if "response_headers" in endpoint_contract:
+            for header, value in endpoint_contract["response_headers"].items():
+                assert header in response.headers
+                if value:
+                    assert response.headers[header] == value
+    
+    def find_contract(self, endpoint: str, method: str) -> Optional[Dict]:
+        """Find contract for endpoint and method."""
+        for path, methods in self.contract.get("paths", {}).items():
+            if self.match_path(endpoint, path):
+                return methods.get(method.lower())
+        return None
+    
+    def match_path(self, endpoint: str, pattern: str) -> bool:
+        """Match endpoint against pattern with parameters."""
+        # Simple pattern matching (can be enhanced)
+        pattern_parts = pattern.split("/")
+        endpoint_parts = endpoint.split("/")
+        
+        if len(pattern_parts) != len(endpoint_parts):
+            return False
+        
+        for pattern_part, endpoint_part in zip(pattern_parts, endpoint_parts):
+            if pattern_part.startswith("{") and pattern_part.endswith("}"):
+                continue  # Parameter placeholder
+            if pattern_part != endpoint_part:
+                return False
+        
+        return True
+
+# ==================== GraphQL Testing ====================
+
+class GraphQLClient:
+    """GraphQL API testing client."""
+    
+    def __init__(self, endpoint: str, headers: Optional[Dict] = None):
+        self.endpoint = endpoint
+        self.headers = headers or {}
+        self.session = requests.Session()
+        self.session.headers.update(self.headers)
+    
+    def query(
+        self,
+        query: str,
+        variables: Optional[Dict] = None,
+        operation_name: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Execute GraphQL query."""
+        payload = {
+            "query": query,
+            "variables": variables or {},
+        }
+        
+        if operation_name:
+            payload["operationName"] = operation_name
+        
+        response = self.session.post(
+            self.endpoint,
+            json=payload
+        )
+        
+        response.raise_for_status()
+        return response.json()
+    
+    def introspect(self) -> Dict[str, Any]:
+        """Get GraphQL schema through introspection."""
+        introspection_query = """
+            query IntrospectionQuery {
+                __schema {
+                    types {
+                        name
+                        kind
+                        description
+                        fields {
+                            name
+                            type {
+                                name
+                                kind
+                            }
+                        }
+                    }
+                }
+            }
+        """
+        
+        return self.query(introspection_query)
+
+class TestGraphQLAPI:
+    """GraphQL API tests."""
+    
+    @pytest.fixture
+    def graphql_client(self):
+        """Create GraphQL client."""
+        return GraphQLClient("http://localhost:8000/graphql")
+    
+    def test_query_users(self, graphql_client):
+        """Test querying users."""
+        query = """
+            query GetUsers($limit: Int) {
+                users(limit: $limit) {
+                    id
+                    username
+                    email
+                    createdAt
+                }
+            }
+        """
+        
+        result = graphql_client.query(query, variables={"limit": 10})
+        
+        assert "data" in result
+        assert "users" in result["data"]
+        assert len(result["data"]["users"]) <= 10
+    
+    def test_mutation_create_user(self, graphql_client):
+        """Test creating user with mutation."""
+        mutation = """
+            mutation CreateUser($input: UserInput!) {
+                createUser(input: $input) {
+                    id
+                    username
+                    email
+                }
+            }
+        """
+        
+        variables = {
+            "input": {
+                "username": "testuser",
+                "email": "test@example.com",
+                "password": "secure123"
+            }
+        }
+        
+        result = graphql_client.query(mutation, variables=variables)
+        
+        assert "data" in result
+        assert "createUser" in result["data"]
+        assert result["data"]["createUser"]["username"] == "testuser"
+
+# ==================== Performance Testing ====================
+
+class APILoadTest(HttpUser):
+    """Load testing with Locust."""
+    wait_time = between(1, 3)
+    
+    def on_start(self):
+        """Setup before testing."""
+        # Login and get token
+        response = self.client.post("/auth/login", json={
+            "username": "testuser",
+            "password": "testpass"
+        })
+        
+        if response.status_code == 200:
+            self.token = response.json()["token"]
+            self.client.headers["Authorization"] = f"Bearer {self.token}"
+    
+    @task(3)
+    def get_users(self):
+        """Get users endpoint."""
+        self.client.get("/users")
+    
+    @task(2)
+    def get_user_detail(self):
+        """Get specific user."""
+        user_id = random.randint(1, 100)
+        self.client.get(f"/users/{user_id}")
+    
+    @task(1)
+    def create_user(self):
+        """Create new user."""
+        self.client.post("/users", json={
+            "username": f"user_{random.randint(1000, 9999)}",
+            "email": f"user{random.randint(1000, 9999)}@example.com",
+            "password": "testpass"
+        })
+
+# ==================== Security Testing ====================
+
+class SecurityTester:
+    """API security testing."""
+    
+    def __init__(self, client: APIClient):
+        self.client = client
+    
+    def test_sql_injection(self, endpoint: str):
+        """Test for SQL injection vulnerabilities."""
+        payloads = [
+            "' OR '1'='1",
+            "'; DROP TABLE users; --",
+            "1' UNION SELECT * FROM users--",
+            "admin'--"
+        ]
+        
+        results = []
+        for payload in payloads:
+            response = self.client.get(f"{endpoint}?id={payload}")
+            
+            # Check for SQL errors in response
+            if response.status_code == 500:
+                response_text = response.text.lower()
+                if any(err in response_text for err in ["sql", "syntax", "query"]):
+                    results.append({
+                        "vulnerable": True,
+                        "payload": payload,
+                        "error": "Possible SQL injection"
+                    })
+        
+        return results
+    
+    def test_authentication_bypass(self):
+        """Test for authentication bypass."""
+        # Test without auth
+        response = self.client.get("/admin/users")
+        assert response.status_code == 401, "Endpoint accessible without auth"
+        
+        # Test with invalid token
+        self.client.session.headers["Authorization"] = "Bearer invalid_token"
+        response = self.client.get("/admin/users")
+        assert response.status_code == 401, "Endpoint accessible with invalid token"
+    
+    def test_rate_limiting(self, endpoint: str, limit: int = 100):
+        """Test rate limiting."""
+        responses = []
+        
+        for _ in range(limit + 10):
+            response = self.client.get(endpoint)
+            responses.append(response.status_code)
+        
+        # Check if rate limiting kicked in
+        rate_limited = any(status == 429 for status in responses)
+        assert rate_limited, f"No rate limiting detected after {limit} requests"
+    
+    def test_cors_headers(self):
+        """Test CORS configuration."""
+        response = self.client.session.options(self.client.config.base_url)
+        
+        # Check CORS headers
+        assert "Access-Control-Allow-Origin" in response.headers
+        assert "Access-Control-Allow-Methods" in response.headers
+        
+        # Verify not too permissive
+        origin = response.headers.get("Access-Control-Allow-Origin")
+        assert origin != "*", "CORS allows all origins (security risk)"
+
+# ==================== Test Report Generator ====================
+
+class TestReporter:
+    """Generate test reports."""
+    
+    def __init__(self):
+        self.results = []
+    
+    def add_result(self, test_name: str, status: str, duration: float, details: Dict = None):
+        """Add test result."""
+        self.results.append({
+            "test_name": test_name,
+            "status": status,
+            "duration": duration,
+            "details": details or {},
+            "timestamp": datetime.now()
+        })
+    
+    def generate_html_report(self, filename: str = "api_test_report.html"):
+        """Generate HTML report."""
+        html = """
+        <html>
+        <head>
+            <title>API Test Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .summary { background: #f0f0f0; padding: 10px; margin: 20px 0; }
+                .passed { color: green; }
+                .failed { color: red; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background: #f2f2f2; }
+            </style>
+        </head>
+        <body>
+            <h1>API Test Report</h1>
+            <div class="summary">
+                <h2>Summary</h2>
+                <p>Total Tests: {total}</p>
+                <p class="passed">Passed: {passed}</p>
+                <p class="failed">Failed: {failed}</p>
+                <p>Success Rate: {success_rate:.1f}%</p>
+            </div>
+            <table>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Status</th>
+                    <th>Duration</th>
+                    <th>Timestamp</th>
+                </tr>
+                {rows}
+            </table>
+        </body>
+        </html>
+        """
+        
+        passed = len([r for r in self.results if r["status"] == "passed"])
+        failed = len([r for r in self.results if r["status"] == "failed"])
+        total = len(self.results)
+        
+        rows = ""
+        for result in self.results:
+            status_class = result["status"]
+            rows += f"""
+                <tr>
+                    <td>{result['test_name']}</td>
+                    <td class="{status_class}">{result['status']}</td>
+                    <td>{result['duration']:.2f}s</td>
+                    <td>{result['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</td>
+                </tr>
+            """
+        
+        report = html.format(
+            total=total,
+            passed=passed,
+            failed=failed,
+            success_rate=(passed/total*100) if total > 0 else 0,
+            rows=rows
+        )
+        
+        with open(filename, 'w') as f:
+            f.write(report)
+
+# Missing import
+import random
+
+# Example usage
+if __name__ == "__main__":
+    print("🚀 API Testing Examples\n")
+    
+    # Example 1: HTTP methods
+    print("1️⃣ HTTP Methods to Test:")
+    methods = [
+        ("GET", "Retrieve resources"),
+        ("POST", "Create resources"),
+        ("PUT", "Update (replace) resources"),
+        ("PATCH", "Partial update resources"),
+        ("DELETE", "Remove resources"),
+        ("OPTIONS", "Check allowed methods"),
+        ("HEAD", "Get headers only")
+    ]
+    for method, description in methods:
+        print(f"   {method}: {description}")
+    
+    # Example 2: Status codes to validate
+    print("\n2️⃣ Common Status Codes:")
+    status_codes = [
+        (200, "OK - Success"),
+        (201, "Created - Resource created"),
+        (204, "No Content - Success with no body"),
+        (400, "Bad Request - Invalid input"),
+        (401, "Unauthorized - Auth required"),
+        (403, "Forbidden - No permission"),
+        (404, "Not Found - Resource doesn't exist"),
+        (422, "Unprocessable Entity - Validation error"),
+        (429, "Too Many Requests - Rate limited"),
+        (500, "Internal Server Error")
+    ]
+    for code, description in status_codes:
+        print(f"   {code}: {description}")
+    
+    # Example 3: Test categories
+    print("\n3️⃣ API Test Categories:")
+    categories = [
+        "Functional - Does it work correctly?",
+        "Performance - Is it fast enough?",
+        "Security - Is it secure?",
+        "Reliability - Is it stable?",
+        "Contract - Does it match specification?",
+        "Integration - Does it work with other services?",
+        "Load - Can it handle traffic?"
+    ]
+    for category in categories:
+        print(f"   • {category}")
+    
+    # Example 4: Validation types
+    print("\n4️⃣ Response Validation:")
+    validations = [
+        "Status code validation",
+        "Response time check",
+        "Schema validation",
+        "Data type validation",
+        "Business logic validation",
+        "Header validation",
+        "Error message format"
+    ]
+    for validation in validations:
+        print(f"   • {validation}")
+    
+    # Example 5: Authentication methods
+    print("\n5️⃣ Authentication Methods:")
+    auth_methods = [
+        ("Basic Auth", "Username:Password in header"),
+        ("Bearer Token", "JWT or OAuth token"),
+        ("API Key", "Key in header or query"),
+        ("OAuth 2.0", "Full OAuth flow"),
+        ("Session", "Cookie-based auth"),
+        ("HMAC", "Signed requests")
+    ]
+    for method, description in auth_methods:
+        print(f"   {method}: {description}")
+    
+    # Example 6: Best practices
+    print("\n6️⃣ API Testing Best Practices:")
+    practices = [
+        "🎯 Test happy path and edge cases",
+        "⚡ Set appropriate timeouts",
+        "🔄 Clean up test data",
+        "📊 Use data-driven testing",
+        "🔐 Test authentication flows",
+        "📝 Validate response schemas",
+        "🎭 Use different test environments",
+        "📈 Monitor performance metrics",
+        "🔍 Test error scenarios",
+        "📋 Generate detailed reports"
+    ]
+    for practice in practices:
+        print(f"   {practice}")
+    
+    # Example 7: Common test scenarios
+    print("\n7️⃣ Common Test Scenarios:")
+    scenarios = [
+        "CRUD operations (Create, Read, Update, Delete)",
+        "Pagination and filtering",
+        "Search functionality",
+        "File upload/download",
+        "Batch operations",
+        "Concurrent requests",
+        "Rate limiting",
+        "Cache behavior",
+        "Timeout handling",
+        "Version compatibility"
+    ]
+    for scenario in scenarios:
+        print(f"   • {scenario}")
+    
+    # Example 8: Test organization
+    print("\n8️⃣ API Test Organization:")
+    structure = """
+    tests/
+    ├── api/
+    │   ├── conftest.py        # Fixtures and setup
+    │   ├── test_auth.py       # Authentication tests
+    │   ├── test_users.py      # User endpoint tests
+    │   ├── test_products.py   # Product endpoint tests
+    │   └── test_integration.py # Cross-service tests
+    ├── contracts/             # API contracts
+    │   └── api_contract.yaml
+    ├── performance/           # Load tests
+    │   └── locustfile.py
+    └── security/             # Security tests
+        └── test_security.py
+    """
+    print(structure)
+    
+    # Example 9: Running tests
+    print("\n9️⃣ Running API Tests:")
+    
+    config = APITestConfig(
+        base_url="https://api.example.com",
+        auth_type="bearer",
+        auth_token="your_token_here"
+    )
+    
+    client = APIClient(config)
+    print(f"   Client configured for: {config.base_url}")
+    print(f"   Authentication: {config.auth_type}")
+    
+    # Example 10: Sample test execution
+    print("\n🔟 Sample Test Execution:")
+    print("   # Run all API tests")
+    print("   pytest tests/api -v")
+    print("")
+    print("   # Run with coverage")
+    print("   pytest tests/api --cov=api --cov-report=html")
+    print("")
+    print("   # Run performance tests")
+    print("   locust -f tests/performance/locustfile.py")
+    
+    print("\n✅ API testing examples complete!")
+</code></pre>
+
+    <h2>Key Takeaways and Best Practices 🎯</h2>
+    
+    <ul>
+        <li><strong>Comprehensive Validation:</strong> Validate status codes, response bodies, headers, and schemas.</li>
+        
+        <li><strong>Test Data Management:</strong> Use factories to generate consistent test data.</li>
+        
+        <li><strong>Authentication Testing:</strong> Test all auth methods and permission boundaries.</li>
+        
+        <li><strong>Error Scenarios:</strong> Test error handling and edge cases thoroughly.</li>
+        
+        <li><strong>Performance Monitoring:</strong> Track response times and throughput.</li>
+        
+        <li><strong>Contract Testing:</strong> Ensure APIs meet their specifications.</li>
+        
+        <li><strong>Security Testing:</strong> Validate against common vulnerabilities.</li>
+        
+        <li><strong>Cleanup:</strong> Always clean up test data to maintain test isolation.</li>
+    </ul>
+
+    <h3>API Testing Best Practices 📋</h3>
+    
+    <div class="comment-block">
+        <p><strong>Pro Tip:</strong> Think of API testing as validating the contract between your backend and its consumers - it should verify not just that endpoints work, but that they behave correctly under all conditions. Start with functional testing of happy paths, then add edge cases, error scenarios, and boundary conditions. Use schema validation (JSON Schema or Pydantic) to ensure response structures are correct - this catches breaking changes early. Implement proper test data management with factories that generate realistic data, and always clean up after tests to maintain isolation. Test authentication and authorization thoroughly - verify that protected endpoints are actually protected and permissions are enforced. Use parameterized tests for similar scenarios with different data. Implement retry logic for flaky network issues but investigate root causes. Test pagination, filtering, and sorting with various data sets. Monitor performance metrics - a functionally correct but slow API is still broken. Use contract testing to ensure API changes don't break consumers. Test rate limiting to ensure it works and document limits. Validate error responses are helpful and consistent. Use different environments (dev, staging) but be careful with production. Chain requests to test workflows, not just individual endpoints. Most importantly: API tests should be fast and reliable - they're your first line of defense against backend issues!</p>
+    </div>
+    
+    <p>Mastering API testing enables you to ensure your backend services are robust, performant, and reliable. You can now create comprehensive test suites that validate functionality, test edge cases, ensure security, monitor performance, and maintain contracts between services. Whether you're testing REST APIs, GraphQL endpoints, or microservices, these API testing skills are essential for delivering quality backend services! 🚀</p>
+    
+    <footer>
+        <p>Next up: <a href="testing_automation_ci.html">Continuous Integration Setup - Automate Your Testing Pipeline!</a></p>
+    </footer>
+</body>
+</html>
