@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slack Integration - Python Chat Bot Development</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Slack Integration - Python Chat Bot Development</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>💼 Slack Integration: Build Workplace Automation Bots</h1>
-    
-    <p>Slack bots are the productivity powerhouses of modern workplaces - they automate workflows, integrate tools, facilitate communication, and transform how teams collaborate. Like having a digital assistant that never takes a break, mastering Slack bot development allows you to streamline operations, connect disparate systems, and create custom tools that boost team efficiency. Let's explore the comprehensive world of Slack bot development! 🚀</p>
-
-    <h2>The Slack Bot Architecture</h2>
-    
-    <p>Think of Slack bots as intelligent coworkers in your digital workspace - they can respond to messages, post updates, create interactive workflows, manage channels, and integrate with countless third-party services. Using Slack's powerful APIs and SDKs, you can build bots that handle everything from simple notifications to complex multi-step workflows. Understanding Slack's event model, Block Kit UI framework, and workspace permissions is essential for building effective workplace bots!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module12">Chatbot Development</a> &gt; 
+        <span>Slack Integration</span>
+</nav>
+<h1>💼 Slack Integration: Build Workplace Automation Bots</h1>
+<p>Slack bots are the productivity powerhouses of modern workplaces - they automate workflows, integrate tools, facilitate communication, and transform how teams collaborate. Like having a digital assistant that never takes a break, mastering Slack bot development allows you to streamline operations, connect disparate systems, and create custom tools that boost team efficiency. Let's explore the comprehensive world of Slack bot development! 🚀</p>
+<h2>The Slack Bot Architecture</h2>
+<p>Think of Slack bots as intelligent coworkers in your digital workspace - they can respond to messages, post updates, create interactive workflows, manage channels, and integrate with countless third-party services. Using Slack's powerful APIs and SDKs, you can build bots that handle everything from simple notifications to complex multi-step workflows. Understanding Slack's event model, Block Kit UI framework, and workspace permissions is essential for building effective workplace bots!</p>
+<div class="mermaid">
     graph TB
-        A[Slack Bot] --> B[Core Components]
-        A --> C[Events & Interactions]
-        A --> D[Messaging]
-        A --> E[Workflows]
+        A[Slack Bot] --&gt; B[Core Components]
+        A --&gt; C[Events &amp; Interactions]
+        A --&gt; D[Messaging]
+        A --&gt; E[Workflows]
         
-        B --> F[Bot User]
-        B --> G[OAuth & Permissions]
-        B --> H[Web API]
-        B --> I[Socket Mode/Events API]
+        B --&gt; F[Bot User]
+        B --&gt; G[OAuth &amp; Permissions]
+        B --&gt; H[Web API]
+        B --&gt; I[Socket Mode/Events API]
         
-        C --> J[Message Events]
-        C --> K[Slash Commands]
-        C --> L[Interactive Components]
-        C --> M[Shortcuts]
+        C --&gt; J[Message Events]
+        C --&gt; K[Slash Commands]
+        C --&gt; L[Interactive Components]
+        C --&gt; M[Shortcuts]
         
-        D --> N[Block Kit UI]
-        D --> O[Ephemeral Messages]
-        D --> P[Threads]
-        D --> Q[DMs & Channels]
+        D --&gt; N[Block Kit UI]
+        D --&gt; O[Ephemeral Messages]
+        D --&gt; P[Threads]
+        D --&gt; Q[DMs &amp; Channels]
         
-        E --> R[Workflows]
-        E --> S[Approvals]
-        E --> T[Forms/Modals]
-        E --> U[Scheduled Messages]
+        E --&gt; R[Workflows]
+        E --&gt; S[Approvals]
+        E --&gt; T[Forms/Modals]
+        E --&gt; U[Scheduled Messages]
         
-        V[Integrations] --> W[Databases]
-        V --> X[External APIs]
-        V --> Y[Cloud Services]
-        V --> Z[Enterprise Systems]
+        V[Integrations] --&gt; W[Databases]
+        V --&gt; X[External APIs]
+        V --&gt; Y[Cloud Services]
+        V --&gt; Z[Enterprise Systems]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Enterprise Productivity Suite 🏢</h3>
-    
-    <p>You're building a comprehensive Slack bot for a tech company that handles standup meetings, manages project tasks, integrates with JIRA and GitHub, sends team notifications, handles expense approvals, manages meeting schedules, provides analytics dashboards, and automates HR workflows. Your bot must handle hundreds of users, maintain security compliance, integrate with enterprise systems, and provide a seamless user experience. Let's build a production-ready Slack bot framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Enterprise Productivity Suite 🏢</h3>
+<p>You're building a comprehensive Slack bot for a tech company that handles standup meetings, manages project tasks, integrates with JIRA and GitHub, sends team notifications, handles expense approvals, manages meeting schedules, provides analytics dashboards, and automates HR workflows. Your bot must handle hundreds of users, maintain security compliance, integrate with enterprise systems, and provide a seamless user experience. Let's build a production-ready Slack bot framework!</p>
+<pre><code># First, install required packages:
 # pip install slack-sdk slack-bolt python-dotenv aiohttp asyncpg redis pandas
 
 import os
@@ -166,7 +215,7 @@ class SlackBot:
         # Register handlers
         self._register_handlers()
         
-    def _setup_logging(self) -> logging.Logger:
+    def _setup_logging(self) -&gt; logging.Logger:
         """Configure logging."""
         logger = logging.getLogger('slack_bot')
         logger.setLevel(logging.INFO)
@@ -226,7 +275,7 @@ class SlackBot:
     def handle_hello(self, message: dict, say: Say):
         """Respond to hello messages."""
         user = message.get("user")
-        say(f"Hello <@{user}>! 👋 How can I help you today?")
+        say(f"Hello &lt;@{user}&gt;! 👋 How can I help you today?")
     
     def handle_help(self, message: dict, say: Say):
         """Show help information."""
@@ -259,14 +308,14 @@ class SlackBot:
         user = event.get("user")
         
         # Remove bot mention to get actual message
-        message = re.sub(r'<@[A-Z0-9]+>', '', text).strip()
+        message = re.sub(r'&lt;@[A-Z0-9]+&gt;', '', text).strip()
         
         # Process the message with AI or pattern matching
         response = self._process_natural_language(message)
         
-        say(f"<@{user}> {response}", thread_ts=event.get("ts"))
+        say(f"&lt;@{user}&gt; {response}", thread_ts=event.get("ts"))
     
-    def _process_natural_language(self, message: str) -> str:
+    def _process_natural_language(self, message: str) -&gt; str:
         """Process natural language requests."""
         message_lower = message.lower()
         
@@ -363,7 +412,7 @@ class SlackBot:
         import shlex
         try:
             parts = shlex.split(command["text"])
-            if len(parts) < 3:
+            if len(parts) &lt; 3:
                 say("Usage: `/poll \"Question\" \"Option 1\" \"Option 2\" [\"Option 3\"]`")
                 return
             
@@ -413,7 +462,7 @@ class SlackBot:
         text = command["text"]
         
         # Parse reminder: @user in 5m message
-        match = re.match(r'<@([A-Z0-9]+)>\s+in\s+(\d+[mhd])\s+(.+)', text)
+        match = re.match(r'&lt;@([A-Z0-9]+)&gt;\s+in\s+(\d+[mhd])\s+(.+)', text)
         
         if not match:
             client.chat_postEphemeral(
@@ -434,7 +483,7 @@ class SlackBot:
         client.chat_postEphemeral(
             channel=command["channel_id"],
             user=command["user_id"],
-            text=f"✅ Reminder set for <@{target_user}> in {time_str}"
+            text=f"✅ Reminder set for &lt;@{target_user}&gt; in {time_str}"
         )
     
     # ==================== Interactive Components ====================
@@ -454,7 +503,7 @@ class SlackBot:
             "elements": [
                 {
                     "type": "mrkdwn",
-                    "text": f"✅ Approved by <@{user}> at {datetime.now().strftime('%H:%M')}"
+                    "text": f"✅ Approved by &lt;@{user}&gt; at {datetime.now().strftime('%H:%M')}"
                 }
             ]
         })
@@ -552,7 +601,7 @@ class SlackBot:
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": f"📋 *New Task Assigned*\n\n*Title:* {title}\n*Description:* {description}\n*Due:* {due_date or 'No deadline'}\n*Created by:* <@{user}>"
+                        "text": f"📋 *New Task Assigned*\n\n*Title:* {title}\n*Description:* {description}\n*Due:* {due_date or 'No deadline'}\n*Created by:* &lt;@{user}&gt;"
                     }
                 },
                 {
@@ -697,12 +746,12 @@ Type `/help` to see available commands or just mention me if you need assistance
         if hasattr(self.config, 'admin_channel'):
             client.chat_postMessage(
                 channel=self.config.admin_channel,
-                text=f"New channel created: #{channel['name']} by <@{channel['creator']}>"
+                text=f"New channel created: #{channel['name']} by &lt;@{channel['creator']}&gt;"
             )
     
     # ==================== Helper Methods ====================
     
-    def _parse_time(self, time_str: str) -> int:
+    def _parse_time(self, time_str: str) -&gt; int:
         """Parse time string to seconds."""
         match = re.match(r'(\d+)([mhd])', time_str)
         if not match:
@@ -732,7 +781,7 @@ Type `/help` to see available commands or just mention me if you need assistance
         timer.start()
     
     def _create_task(self, title: str, description: str, 
-                    assignee: str, due_date: str, creator: str) -> str:
+                    assignee: str, due_date: str, creator: str) -&gt; str:
         """Create a task in the database."""
         # In production, use proper database
         import uuid
@@ -757,13 +806,13 @@ Type `/help` to see available commands or just mention me if you need assistance
         
         return task_id
     
-    def _get_user_tasks(self, user_id: str) -> List[Dict]:
+    def _get_user_tasks(self, user_id: str) -&gt; List[Dict]:
         """Get tasks for a user."""
         # In production, query from database
         tasks = self.cache.get("tasks", [])
         return [t for t in tasks if t["assignee"] == user_id]
     
-    def _get_user_stats(self, user_id: str) -> Dict[str, int]:
+    def _get_user_stats(self, user_id: str) -&gt; Dict[str, int]:
         """Get user statistics."""
         # In production, calculate from database
         return {
@@ -812,7 +861,7 @@ class BlockKitBuilder:
     """Helper class for building Slack Block Kit UI."""
     
     @staticmethod
-    def create_task_card(task: Dict) -> List[Dict]:
+    def create_task_card(task: Dict) -&gt; List[Dict]:
         """Create a task card using Block Kit."""
         return [
             {
@@ -822,7 +871,7 @@ class BlockKitBuilder:
             {
                 "type": "section",
                 "fields": [
-                    {"type": "mrkdwn", "text": f"*Assignee:*\n<@{task['assignee']}>"},
+                    {"type": "mrkdwn", "text": f"*Assignee:*\n&lt;@{task['assignee']}&gt;"},
                     {"type": "mrkdwn", "text": f"*Due Date:*\n{task.get('due_date', 'None')}"},
                     {"type": "mrkdwn", "text": f"*Status:*\n{task['status']}"},
                     {"type": "mrkdwn", "text": f"*Priority:*\n{task.get('priority', 'Normal')}"}
@@ -969,9 +1018,9 @@ if __name__ == "__main__":
         ("~strike~", "Strikethrough"),
         ("`code`", "Inline code"),
         ("```block```", "Code block"),
-        (">quote", "Blockquote"),
-        ("<@U123>", "User mention"),
-        ("<#C123>", "Channel link")
+        ("&gt;quote", "Blockquote"),
+        ("&lt;@U123&gt;", "User mention"),
+        ("&lt;#C123&gt;", "Channel link")
     ]
     
     for syntax, description in formatting:
@@ -1019,37 +1068,28 @@ if __name__ == "__main__":
     print("   3. Set environment variables")
     print("   4. Run with: python slack_bot.py")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Secure Tokens:</strong> Store all tokens and secrets in environment variables.</li>
-        
-        <li><strong>Use Block Kit:</strong> Create rich, interactive UI with Slack's Block Kit.</li>
-        
-        <li><strong>Handle Events Properly:</strong> Acknowledge within 3 seconds to avoid timeouts.</li>
-        
-        <li><strong>Implement Slash Commands:</strong> Modern way for users to interact with bots.</li>
-        
-        <li><strong>Use Modals:</strong> Collect structured data with modal forms.</li>
-        
-        <li><strong>Leverage Ephemeral Messages:</strong> Send private responses when appropriate.</li>
-        
-        <li><strong>Thread Conversations:</strong> Keep channels organized with threaded replies.</li>
-        
-        <li><strong>Monitor Rate Limits:</strong> Respect Slack's API rate limits.</li>
-    </ul>
-
-    <h3>Slack Bot Development Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of Slack bots as digital team members - they should enhance productivity without being intrusive. Start with proper app configuration on api.slack.com, carefully selecting only the OAuth scopes you need. Use Socket Mode for development and internal apps - it's easier than setting up public endpoints. Implement both slash commands and message handlers to give users flexibility. Always acknowledge interactions within 3 seconds to prevent timeouts. Use Block Kit to create beautiful, interactive messages instead of plain text. Implement modals for complex data collection - they provide a better UX than back-and-forth messaging. Use ephemeral messages for sensitive or user-specific information. Thread responses to keep channels clean. Store state and data externally - Slack messages shouldn't be your database. Handle errors gracefully and provide helpful feedback. Test thoroughly in a development workspace before deploying to production. Most importantly: design your bot to augment human work, not replace human interaction!</p>
-    </div>
-    
-    <p>Mastering Slack bot development enables you to build powerful workplace automation tools that streamline operations and boost team productivity. You can now create bots that manage projects, integrate systems, automate workflows, and enhance team collaboration. Whether you're building for a startup or enterprise, these Slack bot skills empower you to transform how teams work! 💪</p>
-    
-    <footer>
-        <p>Next up: <a href="chatbot_telegram_bots.html">Telegram Bots - Create Versatile Messaging Bots!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Secure Tokens:</strong> Store all tokens and secrets in environment variables.</li>
+<li><strong>Use Block Kit:</strong> Create rich, interactive UI with Slack's Block Kit.</li>
+<li><strong>Handle Events Properly:</strong> Acknowledge within 3 seconds to avoid timeouts.</li>
+<li><strong>Implement Slash Commands:</strong> Modern way for users to interact with bots.</li>
+<li><strong>Use Modals:</strong> Collect structured data with modal forms.</li>
+<li><strong>Leverage Ephemeral Messages:</strong> Send private responses when appropriate.</li>
+<li><strong>Thread Conversations:</strong> Keep channels organized with threaded replies.</li>
+<li><strong>Monitor Rate Limits:</strong> Respect Slack's API rate limits.</li>
+</ul>
+<h3>Slack Bot Development Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of Slack bots as digital team members - they should enhance productivity without being intrusive. Start with proper app configuration on api.slack.com, carefully selecting only the OAuth scopes you need. Use Socket Mode for development and internal apps - it's easier than setting up public endpoints. Implement both slash commands and message handlers to give users flexibility. Always acknowledge interactions within 3 seconds to prevent timeouts. Use Block Kit to create beautiful, interactive messages instead of plain text. Implement modals for complex data collection - they provide a better UX than back-and-forth messaging. Use ephemeral messages for sensitive or user-specific information. Thread responses to keep channels clean. Store state and data externally - Slack messages shouldn't be your database. Handle errors gracefully and provide helpful feedback. Test thoroughly in a development workspace before deploying to production. Most importantly: design your bot to augment human work, not replace human interaction!</p>
+</div>
+<p>Mastering Slack bot development enables you to build powerful workplace automation tools that streamline operations and boost team productivity. You can now create bots that manage projects, integrate systems, automate workflows, and enhance team collaboration. Whether you're building for a startup or enterprise, these Slack bot skills empower you to transform how teams work! 💪</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="chatbot_discord_bots.html">← Previous: Discord Bots</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="chatbot_command_handling.html">Next: Command Handling →</a>
+</div>
+</footer>
 </body>
 </html>

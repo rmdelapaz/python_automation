@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading Emails (IMAP) - Python Email Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reading Emails (IMAP) - Python Email Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📥 Reading Emails with IMAP: Process Incoming Messages</h1>
-    
-    <p>IMAP (Internet Message Access Protocol) is your gateway to reading and managing emails programmatically - it's like having a digital assistant that can monitor your inbox, organize messages, extract data, and trigger actions based on incoming emails. From simple inbox monitoring to complex email processing pipelines, mastering IMAP allows you to build intelligent email automation systems that respond to messages in real-time! 📬</p>
-
-    <h2>The IMAP Email Processing Architecture</h2>
-    
-    <p>Think of IMAP as a remote control for your email inbox - you can browse folders, search messages, read content, manage flags, and organize emails without downloading everything locally. Unlike POP3 which downloads and deletes, IMAP keeps emails on the server, allowing multiple clients to access the same mailbox. Understanding IMAP's folder structure, search capabilities, and message handling is essential for building robust email processing systems!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module5">Email Automation</a> &gt; 
+        <span>Reading Emails</span>
+</nav>
+<h1>📥 Reading Emails with IMAP: Process Incoming Messages</h1>
+<p>IMAP (Internet Message Access Protocol) is your gateway to reading and managing emails programmatically - it's like having a digital assistant that can monitor your inbox, organize messages, extract data, and trigger actions based on incoming emails. From simple inbox monitoring to complex email processing pipelines, mastering IMAP allows you to build intelligent email automation systems that respond to messages in real-time! 📬</p>
+<h2>The IMAP Email Processing Architecture</h2>
+<p>Think of IMAP as a remote control for your email inbox - you can browse folders, search messages, read content, manage flags, and organize emails without downloading everything locally. Unlike POP3 which downloads and deletes, IMAP keeps emails on the server, allowing multiple clients to access the same mailbox. Understanding IMAP's folder structure, search capabilities, and message handling is essential for building robust email processing systems!</p>
+<div class="mermaid">
     graph TB
-        A[IMAP Email Processing] --> B[Connection]
-        A --> C[Folder Operations]
-        A --> D[Message Retrieval]
-        A --> E[Search & Filter]
+        A[IMAP Email Processing] --&gt; B[Connection]
+        A --&gt; C[Folder Operations]
+        A --&gt; D[Message Retrieval]
+        A --&gt; E[Search &amp; Filter]
         
-        B --> F[Server Config]
-        B --> G[Authentication]
-        B --> H[SSL/TLS]
-        B --> I[Session Management]
+        B --&gt; F[Server Config]
+        B --&gt; G[Authentication]
+        B --&gt; H[SSL/TLS]
+        B --&gt; I[Session Management]
         
-        C --> J[List Folders]
-        C --> K[Select Folder]
-        C --> L[Create/Delete]
-        C --> M[Folder Stats]
+        C --&gt; J[List Folders]
+        C --&gt; K[Select Folder]
+        C --&gt; L[Create/Delete]
+        C --&gt; M[Folder Stats]
         
-        D --> N[Fetch Headers]
-        D --> O[Fetch Body]
-        D --> P[Attachments]
-        D --> Q[Partial Fetch]
+        D --&gt; N[Fetch Headers]
+        D --&gt; O[Fetch Body]
+        D --&gt; P[Attachments]
+        D --&gt; Q[Partial Fetch]
         
-        E --> R[Search Criteria]
-        E --> S[Date Range]
-        E --> T[Flags/Status]
-        E --> U[Content Search]
+        E --&gt; R[Search Criteria]
+        E --&gt; S[Date Range]
+        E --&gt; T[Flags/Status]
+        E --&gt; U[Content Search]
         
-        V[Processing] --> W[Parse Content]
-        V --> X[Extract Data]
-        V --> Y[Trigger Actions]
-        V --> Z[Update Flags]
+        V[Processing] --&gt; W[Parse Content]
+        V --&gt; X[Extract Data]
+        V --&gt; Y[Trigger Actions]
+        V --&gt; Z[Update Flags]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Intelligent Email Processor 🤖</h3>
-    
-    <p>You're building an intelligent email processing system that monitors multiple inboxes, automatically categorizes messages, extracts attachments and data, responds to customer inquiries, processes orders from emails, generates reports from email data, and triggers workflows based on email content. Your system must handle thousands of emails daily, support multiple email providers, process attachments, and maintain inbox organization. Let's build a comprehensive IMAP email processing framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Intelligent Email Processor 🤖</h3>
+<p>You're building an intelligent email processing system that monitors multiple inboxes, automatically categorizes messages, extracts attachments and data, responds to customer inquiries, processes orders from emails, generates reports from email data, and triggers workflows based on email content. Your system must handle thousands of emails daily, support multiple email providers, process attachments, and maintain inbox organization. Let's build a comprehensive IMAP email processing framework!</p>
+<pre><code># First, install required packages:
 # pip install imap-tools python-dateutil beautifulsoup4 python-magic chardet
 
 import imaplib
@@ -213,7 +262,7 @@ class EmailData:
     folder: str = "INBOX"
     labels: List[str] = field(default_factory=list)
     
-    def get_plain_text(self) -> str:
+    def get_plain_text(self) -&gt; str:
         """Get plain text version of email."""
         if self.text_body:
             return self.text_body
@@ -285,7 +334,7 @@ class IMAPClient:
             self.connection = None
             self.logger.info("Disconnected from IMAP server")
     
-    def list_folders(self) -> List[str]:
+    def list_folders(self) -&gt; List[str]:
         """List all folders in mailbox."""
         if not self.connection:
             self.connect()
@@ -299,7 +348,7 @@ class IMAPClient:
                     # Parse folder string
                     if folder:
                         parts = folder.decode().split(' "." ')
-                        if len(parts) > 0:
+                        if len(parts) &gt; 0:
                             folder_name = parts[-1].strip('"')
                             folder_list.append(folder_name)
                 
@@ -311,7 +360,7 @@ class IMAPClient:
             self.logger.error(f"Failed to list folders: {e}")
             return []
     
-    def select_folder(self, folder: str = None) -> Dict[str, int]:
+    def select_folder(self, folder: str = None) -&gt; Dict[str, int]:
         """
         Select folder for operations.
         
@@ -352,7 +401,7 @@ class IMAPClient:
             raise
     
     def search_messages(self, criteria: str = "ALL", 
-                       limit: Optional[int] = None) -> List[str]:
+                       limit: Optional[int] = None) -&gt; List[str]:
         """
         Search messages using IMAP search criteria.
         
@@ -380,7 +429,7 @@ class IMAPClient:
             if status == 'OK':
                 message_ids = data[0].split()
                 
-                if limit and len(message_ids) > limit:
+                if limit and len(message_ids) &gt; limit:
                     message_ids = message_ids[-limit:]  # Get most recent
                 
                 self.logger.info(f"Found {len(message_ids)} messages matching: {criteria}")
@@ -392,7 +441,7 @@ class IMAPClient:
             self.logger.error(f"Search failed: {e}")
             return []
     
-    def fetch_message(self, message_id: str) -> Optional[EmailData]:
+    def fetch_message(self, message_id: str) -&gt; Optional[EmailData]:
         """Fetch and parse single message."""
         try:
             # Fetch message data
@@ -420,7 +469,7 @@ class IMAPClient:
             self.stats["errors"] += 1
             return None
     
-    def fetch_messages_batch(self, message_ids: List[str]) -> Generator[EmailData, None, None]:
+    def fetch_messages_batch(self, message_ids: List[str]) -&gt; Generator[EmailData, None, None]:
         """Fetch multiple messages in batch."""
         for message_id in message_ids:
             email_data = self.fetch_message(message_id)
@@ -428,7 +477,7 @@ class IMAPClient:
                 yield email_data
     
     def _parse_message(self, msg: email.message.Message, 
-                      uid: str, flags: bytes) -> EmailData:
+                      uid: str, flags: bytes) -&gt; EmailData:
         """Parse email message into EmailData object."""
         # Parse headers
         subject = self._decode_header(msg.get("Subject", ""))
@@ -535,14 +584,14 @@ class IMAPClient:
                     "content_type": part.get_content_type(),
                     "size": len(attachment_data),
                     "data": attachment_data,
-                    "content_id": part.get("Content-ID", "").strip("<>")
+                    "content_id": part.get("Content-ID", "").strip("&lt;&gt;")
                 }
                 
                 email_data.attachments.append(attachment_info)
                 
                 self.logger.debug(f"Found attachment: {filename} ({len(attachment_data)} bytes)")
     
-    def _decode_header(self, header: str) -> str:
+    def _decode_header(self, header: str) -&gt; str:
         """Decode email header."""
         if not header:
             return ""
@@ -562,7 +611,7 @@ class IMAPClient:
         
         return ' '.join(decoded_parts)
     
-    def _decode_content(self, part: email.message.Message) -> str:
+    def _decode_content(self, part: email.message.Message) -&gt; str:
         """Decode email content."""
         payload = part.get_payload(decode=True)
         
@@ -582,13 +631,13 @@ class IMAPClient:
         except:
             return payload.decode('utf-8', errors='ignore')
     
-    def _parse_address(self, address_str: str) -> Tuple[str, Optional[str]]:
+    def _parse_address(self, address_str: str) -&gt; Tuple[str, Optional[str]]:
         """Parse email address into email and name."""
         import email.utils
         name, addr = email.utils.parseaddr(address_str)
         return addr, name if name else None
     
-    def _parse_addresses(self, addresses_str: str) -> List[str]:
+    def _parse_addresses(self, addresses_str: str) -&gt; List[str]:
         """Parse multiple email addresses."""
         if not addresses_str:
             return []
@@ -662,7 +711,7 @@ class IMAPClient:
             return False
     
     def save_attachments(self, email_data: EmailData, 
-                        output_dir: str = "./attachments") -> List[str]:
+                        output_dir: str = "./attachments") -&gt; List[str]:
         """Save email attachments to disk."""
         saved_files = []
         output_path = Path(output_dir)
@@ -672,7 +721,7 @@ class IMAPClient:
             filename = attachment["filename"]
             
             # Sanitize filename
-            filename = re.sub(r'[<>:"/\\|?*]', '_', filename)
+            filename = re.sub(r'[&lt;&gt;:"/\\|?*]', '_', filename)
             
             # Handle duplicate filenames
             file_path = output_path / filename
@@ -840,59 +889,59 @@ class IMAPSearchBuilder:
     def __init__(self):
         self.criteria = []
     
-    def from_address(self, email: str) -> 'IMAPSearchBuilder':
+    def from_address(self, email: str) -&gt; 'IMAPSearchBuilder':
         """Search by sender."""
         self.criteria.append(f'FROM "{email}"')
         return self
     
-    def to_address(self, email: str) -> 'IMAPSearchBuilder':
+    def to_address(self, email: str) -&gt; 'IMAPSearchBuilder':
         """Search by recipient."""
         self.criteria.append(f'TO "{email}"')
         return self
     
-    def subject(self, text: str) -> 'IMAPSearchBuilder':
+    def subject(self, text: str) -&gt; 'IMAPSearchBuilder':
         """Search by subject."""
         self.criteria.append(f'SUBJECT "{text}"')
         return self
     
-    def body(self, text: str) -> 'IMAPSearchBuilder':
+    def body(self, text: str) -&gt; 'IMAPSearchBuilder':
         """Search by body text."""
         self.criteria.append(f'BODY "{text}"')
         return self
     
-    def since(self, date: datetime) -> 'IMAPSearchBuilder':
+    def since(self, date: datetime) -&gt; 'IMAPSearchBuilder':
         """Messages since date."""
         date_str = date.strftime("%d-%b-%Y")
         self.criteria.append(f'SINCE "{date_str}"')
         return self
     
-    def before(self, date: datetime) -> 'IMAPSearchBuilder':
+    def before(self, date: datetime) -&gt; 'IMAPSearchBuilder':
         """Messages before date."""
         date_str = date.strftime("%d-%b-%Y")
         self.criteria.append(f'BEFORE "{date_str}"')
         return self
     
-    def unread(self) -> 'IMAPSearchBuilder':
+    def unread(self) -&gt; 'IMAPSearchBuilder':
         """Unread messages."""
         self.criteria.append("UNSEEN")
         return self
     
-    def read(self) -> 'IMAPSearchBuilder':
+    def read(self) -&gt; 'IMAPSearchBuilder':
         """Read messages."""
         self.criteria.append("SEEN")
         return self
     
-    def flagged(self) -> 'IMAPSearchBuilder':
+    def flagged(self) -&gt; 'IMAPSearchBuilder':
         """Flagged messages."""
         self.criteria.append("FLAGGED")
         return self
     
-    def with_attachments(self) -> 'IMAPSearchBuilder':
+    def with_attachments(self) -&gt; 'IMAPSearchBuilder':
         """Messages with attachments (approximation)."""
         self.criteria.append('HEADER Content-Type "multipart"')
         return self
     
-    def build(self) -> str:
+    def build(self) -&gt; str:
         """Build search query."""
         if not self.criteria:
             return "ALL"
@@ -989,14 +1038,14 @@ if __name__ == "__main__":
     )
     
     print(f"   Subject: {sample_email.subject}")
-    print(f"   From: {sample_email.from_name} <{sample_email.from_addr}>")
+    print(f"   From: {sample_email.from_name} &lt;{sample_email.from_addr}&gt;")
     print(f"   Attachments: {len(sample_email.attachments)}")
     print(f"   Plain text: {sample_email.get_plain_text()[:50]}...")
     
     # Example 6: Processing rules
     print("\n6️⃣ Email Processing Rules:")
     
-    def invoice_condition(email: EmailData) -> bool:
+    def invoice_condition(email: EmailData) -&gt; bool:
         return "invoice" in email.subject.lower()
     
     def invoice_action(email: EmailData, msg_id: str, client: IMAPClient):
@@ -1009,7 +1058,7 @@ if __name__ == "__main__":
     print("     • If subject contains 'invoice' → Save attachments, move to folder")
     print("     • If from VIP sender → Flag and forward")
     print("     • If spam keywords → Move to trash")
-    print("     • If attachment > 10MB → Save locally and remove")
+    print("     • If attachment &gt; 10MB → Save locally and remove")
     
     # Example 7: Monitoring inbox
     print("\n7️⃣ Inbox Monitoring:")
@@ -1067,38 +1116,29 @@ if __name__ == "__main__":
         print(f"   {practice}")
     
     print("\n✅ IMAP email reading demonstration complete!")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use App Passwords:</strong> Modern providers require app-specific passwords for IMAP.</li>
-        
-        <li><strong>Keep Connections Alive:</strong> Reuse IMAP connections for multiple operations.</li>
-        
-        <li><strong>Handle Encoding Properly:</strong> Email content can have various encodings.</li>
-        
-        <li><strong>Process Attachments Carefully:</strong> Sanitize filenames and check file types.</li>
-        
-        <li><strong>Implement Search Efficiently:</strong> Use IMAP search criteria to filter server-side.</li>
-        
-        <li><strong>Monitor Responsibly:</strong> Don't poll too frequently to avoid rate limits.</li>
-        
-        <li><strong>Organize with Folders:</strong> Use IMAP folders to categorize emails.</li>
-        
-        <li><strong>Cache When Possible:</strong> Store processed message IDs to avoid reprocessing.</li>
-    </ul>
-
-    <h3>IMAP Email Processing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of IMAP as having remote access to your email filing cabinet - you can browse, search, and organize without downloading everything. Always use SSL/TLS for secure connections and app passwords for authentication. Keep your IMAP connection alive when processing multiple emails to avoid reconnection overhead. Use server-side search with IMAP criteria instead of fetching all emails and filtering locally. Handle character encodings carefully - emails come in many languages and formats. Process attachments with caution - sanitize filenames and validate file types for security. Implement intelligent monitoring with reasonable check intervals to avoid being rate-limited. Use folders to organize processed emails rather than deleting them. Cache message IDs you've processed to avoid duplicate processing. Most importantly: IMAP keeps emails on the server, so be mindful of mailbox quotas and clean up regularly!</p>
-    </div>
-    
-    <p>Mastering IMAP email reading enables you to build intelligent email processing systems that automate inbox management, extract data from emails, handle customer communications, and trigger workflows based on email content. Whether you're building support ticket systems, order processors, or email analytics tools, these IMAP skills power your email automation! 📨</p>
-    
-    <footer>
-        <p>Next up: <a href="email_automation_html_emails.html">HTML Emails - Create Beautiful Email Templates!</a></p>
-    </footer>
+</msg123@example.com></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use App Passwords:</strong> Modern providers require app-specific passwords for IMAP.</li>
+<li><strong>Keep Connections Alive:</strong> Reuse IMAP connections for multiple operations.</li>
+<li><strong>Handle Encoding Properly:</strong> Email content can have various encodings.</li>
+<li><strong>Process Attachments Carefully:</strong> Sanitize filenames and check file types.</li>
+<li><strong>Implement Search Efficiently:</strong> Use IMAP search criteria to filter server-side.</li>
+<li><strong>Monitor Responsibly:</strong> Don't poll too frequently to avoid rate limits.</li>
+<li><strong>Organize with Folders:</strong> Use IMAP folders to categorize emails.</li>
+<li><strong>Cache When Possible:</strong> Store processed message IDs to avoid reprocessing.</li>
+</ul>
+<h3>IMAP Email Processing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of IMAP as having remote access to your email filing cabinet - you can browse, search, and organize without downloading everything. Always use SSL/TLS for secure connections and app passwords for authentication. Keep your IMAP connection alive when processing multiple emails to avoid reconnection overhead. Use server-side search with IMAP criteria instead of fetching all emails and filtering locally. Handle character encodings carefully - emails come in many languages and formats. Process attachments with caution - sanitize filenames and validate file types for security. Implement intelligent monitoring with reasonable check intervals to avoid being rate-limited. Use folders to organize processed emails rather than deleting them. Cache message IDs you've processed to avoid duplicate processing. Most importantly: IMAP keeps emails on the server, so be mindful of mailbox quotas and clean up regularly!</p>
+</div>
+<p>Mastering IMAP email reading enables you to build intelligent email processing systems that automate inbox management, extract data from emails, handle customer communications, and trigger workflows based on email content. Whether you're building support ticket systems, order processors, or email analytics tools, these IMAP skills power your email automation! 📨</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="email_automation_sending_emails.html">← Previous: Sending Emails</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="email_automation_attachments.html">Next: Email Attachments →</a>
+</div>
+</footer>
 </body>
 </html>

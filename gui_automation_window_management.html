@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Window Management - Python GUI Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Window Management - Python GUI Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🪟 Window Management: Control Desktop Applications Like a Pro</h1>
-    
-    <p>Window management automation gives you complete control over desktop applications - you can find, focus, resize, position, and manipulate windows programmatically, creating sophisticated multi-application workflows and desktop layouts. Like being a conductor orchestrating an entire desktop environment, mastering window management allows you to automate complex application interactions, create custom window arrangements, monitor application states, and build powerful productivity tools. Whether you're automating multi-monitor setups, creating testing environments, or building desktop utilities, window management is essential for professional GUI automation. Let's explore the comprehensive world of window control! 🖥️</p>
-
-    <h2>The Window Management Architecture</h2>
-    
-    <p>Think of window management as controlling a complex theater stage - each window is an actor that needs to be positioned, shown, hidden, and directed at the right time. Using libraries like pygetwindow, win32gui on Windows, and platform-specific APIs, you can enumerate windows, control their properties, monitor their states, and orchestrate complex multi-window interactions. Understanding window hierarchies, process management, and desktop composition is crucial for reliable window automation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module11">GUI Automation</a> &gt; 
+        <span>Window Management</span>
+</nav>
+<h1>🪟 Window Management: Control Desktop Applications Like a Pro</h1>
+<p>Window management automation gives you complete control over desktop applications - you can find, focus, resize, position, and manipulate windows programmatically, creating sophisticated multi-application workflows and desktop layouts. Like being a conductor orchestrating an entire desktop environment, mastering window management allows you to automate complex application interactions, create custom window arrangements, monitor application states, and build powerful productivity tools. Whether you're automating multi-monitor setups, creating testing environments, or building desktop utilities, window management is essential for professional GUI automation. Let's explore the comprehensive world of window control! 🖥️</p>
+<h2>The Window Management Architecture</h2>
+<p>Think of window management as controlling a complex theater stage - each window is an actor that needs to be positioned, shown, hidden, and directed at the right time. Using libraries like pygetwindow, win32gui on Windows, and platform-specific APIs, you can enumerate windows, control their properties, monitor their states, and orchestrate complex multi-window interactions. Understanding window hierarchies, process management, and desktop composition is crucial for reliable window automation!</p>
+<div class="mermaid">
     graph TB
-        A[Window Management] --> B[Window Discovery]
-        A --> C[Window Control]
-        A --> D[Layout Management]
-        A --> E[Multi-Monitor]
+        A[Window Management] --&gt; B[Window Discovery]
+        A --&gt; C[Window Control]
+        A --&gt; D[Layout Management]
+        A --&gt; E[Multi-Monitor]
         
-        B --> F[Find by Title]
-        B --> G[Find by Class]
-        B --> H[Find by Process]
-        B --> I[Enumerate All]
+        B --&gt; F[Find by Title]
+        B --&gt; G[Find by Class]
+        B --&gt; H[Find by Process]
+        B --&gt; I[Enumerate All]
         
-        C --> J[Position/Size]
-        C --> K[State Control]
-        C --> L[Focus/Activate]
-        C --> M[Show/Hide]
+        C --&gt; J[Position/Size]
+        C --&gt; K[State Control]
+        C --&gt; L[Focus/Activate]
+        C --&gt; M[Show/Hide]
         
-        D --> N[Grid Layouts]
-        D --> O[Saved Layouts]
-        D --> P[Dynamic Tiling]
-        D --> Q[Snap Zones]
+        D --&gt; N[Grid Layouts]
+        D --&gt; O[Saved Layouts]
+        D --&gt; P[Dynamic Tiling]
+        D --&gt; Q[Snap Zones]
         
-        E --> R[Monitor Detection]
-        E --> S[Cross-Monitor]
-        E --> T[Virtual Desktops]
-        E --> U[DPI Awareness]
+        E --&gt; R[Monitor Detection]
+        E --&gt; S[Cross-Monitor]
+        E --&gt; T[Virtual Desktops]
+        E --&gt; U[DPI Awareness]
         
-        V[Features] --> W[Automation]
-        V --> X[Productivity]
-        V --> Y[Testing]
-        V --> Z[Accessibility]
+        V[Features] --&gt; W[Automation]
+        V --&gt; X[Productivity]
+        V --&gt; Y[Testing]
+        V --&gt; Z[Accessibility]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Desktop Automation Platform 🎯</h3>
-    
-    <p>You're building a comprehensive desktop automation platform that manages complex multi-window workflows, creates custom desktop layouts for different tasks, monitors application states and responds to changes, handles multi-monitor configurations seamlessly, automates window arrangements for presentations, tests GUI applications across different resolutions, creates virtual workspaces for productivity, and provides accessibility features for users. Your system must work across different operating systems, handle high-DPI displays, manage minimized and hidden windows, and maintain layouts across application restarts. Let's build a professional window management framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Desktop Automation Platform 🎯</h3>
+<p>You're building a comprehensive desktop automation platform that manages complex multi-window workflows, creates custom desktop layouts for different tasks, monitors application states and responds to changes, handles multi-monitor configurations seamlessly, automates window arrangements for presentations, tests GUI applications across different resolutions, creates virtual workspaces for productivity, and provides accessibility features for users. Your system must work across different operating systems, handle high-DPI displays, manage minimized and hidden windows, and maintain layouts across application restarts. Let's build a professional window management framework!</p>
+<pre><code># First, install required packages:
 # pip install pygetwindow pyautogui psutil screeninfo
 # For Windows: pip install pywin32
 # For Linux: pip install python-xlib ewmh
@@ -240,7 +289,7 @@ class WindowManager:
         """Initialize macOS-specific components."""
         pass
         
-    def get_all_windows(self) -> List[WindowInfo]:
+    def get_all_windows(self) -&gt; List[WindowInfo]:
         """Get all windows."""
         if PYGETWINDOW_AVAILABLE:
             return self._get_windows_pygetwindow()
@@ -253,7 +302,7 @@ class WindowManager:
         else:
             return []
             
-    def _get_windows_pygetwindow(self) -> List[WindowInfo]:
+    def _get_windows_pygetwindow(self) -&gt; List[WindowInfo]:
         """Get windows using pygetwindow."""
         windows = []
         
@@ -275,7 +324,7 @@ class WindowManager:
             
         return windows
         
-    def _get_windows_win32(self) -> List[WindowInfo]:
+    def _get_windows_win32(self) -&gt; List[WindowInfo]:
         """Get windows using Win32 API."""
         windows = []
         
@@ -313,7 +362,7 @@ class WindowManager:
         win32gui.EnumWindows(enum_callback, None)
         return windows
         
-    def _get_windows_linux(self) -> List[WindowInfo]:
+    def _get_windows_linux(self) -&gt; List[WindowInfo]:
         """Get windows using X11."""
         windows = []
         
@@ -335,7 +384,7 @@ class WindowManager:
             
         return windows
         
-    def _get_windows_macos(self) -> List[WindowInfo]:
+    def _get_windows_macos(self) -&gt; List[WindowInfo]:
         """Get windows using Quartz."""
         windows = []
         
@@ -369,7 +418,7 @@ class WindowManager:
         title: Optional[str] = None,
         class_name: Optional[str] = None,
         process_name: Optional[str] = None
-    ) -> Optional[WindowInfo]:
+    ) -&gt; Optional[WindowInfo]:
         """Find a window by criteria."""
         windows = self.get_all_windows()
         
@@ -405,7 +454,7 @@ class WindowManager:
             
         return None
         
-    def focus_window(self, window: WindowInfo) -> bool:
+    def focus_window(self, window: WindowInfo) -&gt; bool:
         """Focus/activate a window."""
         try:
             if PYGETWINDOW_AVAILABLE and hasattr(window.handle, 'activate'):
@@ -429,7 +478,7 @@ class WindowManager:
         x: int,
         y: int,
         animate: bool = False
-    ) -> bool:
+    ) -&gt; bool:
         """Move window to position."""
         try:
             if animate:
@@ -457,7 +506,7 @@ class WindowManager:
         width: int,
         height: int,
         animate: bool = False
-    ) -> bool:
+    ) -&gt; bool:
         """Resize window."""
         try:
             if animate:
@@ -479,7 +528,7 @@ class WindowManager:
             self.logger.error(f"Failed to resize window: {e}")
             return False
             
-    def set_window_state(self, window: WindowInfo, state: WindowState) -> bool:
+    def set_window_state(self, window: WindowInfo, state: WindowState) -&gt; bool:
         """Set window state (minimize, maximize, etc)."""
         try:
             if PYGETWINDOW_AVAILABLE and hasattr(window.handle, 'minimize'):
@@ -507,7 +556,7 @@ class WindowManager:
             self.logger.error(f"Failed to set window state: {e}")
             return False
             
-    def close_window(self, window: WindowInfo, force: bool = False) -> bool:
+    def close_window(self, window: WindowInfo, force: bool = False) -&gt; bool:
         """Close a window."""
         if self.config.protect_system_windows:
             if self._is_system_window(window):
@@ -538,7 +587,7 @@ class WindowManager:
         click_y = window.y + offset_y
         pyautogui.click(click_x, click_y)
         
-    def _get_window_state(self, window) -> WindowState:
+    def _get_window_state(self, window) -&gt; WindowState:
         """Get window state from pygetwindow window."""
         if hasattr(window, 'isMinimized') and window.isMinimized:
             return WindowState.MINIMIZED
@@ -547,7 +596,7 @@ class WindowManager:
         else:
             return WindowState.NORMAL
             
-    def _is_system_window(self, window: WindowInfo) -> bool:
+    def _is_system_window(self, window: WindowInfo) -&gt; bool:
         """Check if window is a system window."""
         system_titles = ['Start', 'Taskbar', 'Program Manager']
         system_classes = ['Shell_TrayWnd', 'Progman']
@@ -598,7 +647,7 @@ class LayoutManager:
         self.logger = logging.getLogger(__name__)
         self.layouts = {}
         
-    def save_layout(self, name: str) -> Dict[str, Any]:
+    def save_layout(self, name: str) -&gt; Dict[str, Any]:
         """Save current window layout."""
         windows = self.window_manager.get_all_windows()
         
@@ -627,7 +676,7 @@ class LayoutManager:
         
         return layout
         
-    def load_layout(self, name: str) -> bool:
+    def load_layout(self, name: str) -&gt; bool:
         """Load a saved layout."""
         if name not in self.layouts:
             self.logger.error(f"Layout not found: {name}")
@@ -680,7 +729,7 @@ class LayoutManager:
         
         for row in range(rows):
             for col in range(cols):
-                if window_index >= len(windows):
+                if window_index &gt;= len(windows):
                     return
                     
                 window = windows[window_index]
@@ -749,9 +798,9 @@ class LayoutManager:
             y = base_y + i * offset
             
             # Wrap around if going off screen
-            if x + width > monitor['x'] + monitor['width']:
+            if x + width &gt; monitor['x'] + monitor['width']:
                 x = base_x
-            if y + height > monitor['y'] + monitor['height']:
+            if y + height &gt; monitor['y'] + monitor['height']:
                 y = base_y
                 
             self.window_manager.move_window(window, x, y)
@@ -828,11 +877,11 @@ class LayoutManager:
             self.window_manager.move_window(window, x, y)
             self.window_manager.resize_window(window, width, height)
             
-    def _get_monitor_bounds(self, monitor_index: int = 0) -> Dict[str, int]:
+    def _get_monitor_bounds(self, monitor_index: int = 0) -&gt; Dict[str, int]:
         """Get monitor boundaries."""
         if SCREENINFO_AVAILABLE:
             monitors = get_monitors()
-            if monitor_index < len(monitors):
+            if monitor_index &lt; len(monitors):
                 monitor = monitors[monitor_index]
                 return {
                     'x': monitor.x,
@@ -917,7 +966,7 @@ class WindowMonitor:
                     self._trigger_callbacks('closed', window)
                     
             # Check for changes in existing windows
-            for handle in set(current_windows.keys()) & set(self.window_cache.keys()):
+            for handle in set(current_windows.keys()) &amp; set(self.window_cache.keys()):
                 old = self.window_cache[handle]
                 new = current_windows[handle]
                 
@@ -940,7 +989,7 @@ class WindowMonitor:
             self.window_cache = current_windows
             time.sleep(self.config.poll_interval)
             
-    def _get_window_dict(self) -> Dict[Any, WindowInfo]:
+    def _get_window_dict(self) -&gt; Dict[Any, WindowInfo]:
         """Get dictionary of windows by handle."""
         windows = {}
         for window in self.window_manager.get_all_windows():
@@ -971,7 +1020,7 @@ class ApplicationLauncher:
         args: Optional[List[str]] = None,
         wait_for_window: bool = True,
         timeout: float = 10
-    ) -> Optional[WindowInfo]:
+    ) -&gt; Optional[WindowInfo]:
         """Launch an application."""
         self.logger.info(f"Launching application: {path}")
         
@@ -993,7 +1042,7 @@ class ApplicationLauncher:
                 # Wait for window to appear
                 start_time = time.time()
                 
-                while time.time() - start_time < timeout:
+                while time.time() - start_time &lt; timeout:
                     # Try to find window by process
                     windows = self.window_manager.get_all_windows()
                     
@@ -1012,7 +1061,7 @@ class ApplicationLauncher:
             self.logger.error(f"Failed to launch application: {e}")
             return None
             
-    def close_application(self, pid: int, force: bool = False) -> bool:
+    def close_application(self, pid: int, force: bool = False) -&gt; bool:
         """Close an application."""
         if pid not in self.launched_apps:
             self.logger.warning(f"PID {pid} not in launched apps")
@@ -1036,7 +1085,7 @@ class ApplicationLauncher:
             self.logger.error(f"Failed to close application: {e}")
             return False
             
-    def is_running(self, pid: int) -> bool:
+    def is_running(self, pid: int) -&gt; bool:
         """Check if application is still running."""
         if pid not in self.launched_apps:
             return False
@@ -1054,7 +1103,7 @@ class VirtualDesktopManager:
         self.logger = logging.getLogger(__name__)
         self.workspaces = {}
         
-    def create_workspace(self, name: str) -> Dict[str, Any]:
+    def create_workspace(self, name: str) -&gt; Dict[str, Any]:
         """Create a virtual workspace."""
         workspace = {
             'name': name,
@@ -1098,7 +1147,7 @@ class VirtualDesktopManager:
             
         self.workspaces[workspace_name]['windows'].append(window.handle)
         
-    def _find_window_by_handle(self, handle) -> Optional[WindowInfo]:
+    def _find_window_by_handle(self, handle) -&gt; Optional[WindowInfo]:
         """Find window by handle."""
         for window in self.window_manager.get_all_windows():
             if window.handle == handle:
@@ -1238,37 +1287,28 @@ if __name__ == "__main__":
     for i, window in enumerate(windows[:5]):  # Show first 5
         print(f"   {i+1}. {window.title} ({window.width}x{window.height}) at ({window.x}, {window.y})")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Cross-Platform Support:</strong> Handle platform differences gracefully.</li>
-        
-        <li><strong>Window Verification:</strong> Always verify window exists before operations.</li>
-        
-        <li><strong>Layout Management:</strong> Save and restore window arrangements.</li>
-        
-        <li><strong>Multi-Monitor:</strong> Support multiple displays properly.</li>
-        
-        <li><strong>DPI Awareness:</strong> Handle high-DPI displays correctly.</li>
-        
-        <li><strong>State Management:</strong> Track and respond to window state changes.</li>
-        
-        <li><strong>Animation:</strong> Use smooth transitions for better UX.</li>
-        
-        <li><strong>System Protection:</strong> Avoid modifying critical system windows.</li>
-    </ul>
-
-    <h3>Window Management Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of window management as conducting a desktop orchestra - every window needs to be in the right place at the right time. Always verify windows exist before operating on them - windows can close unexpectedly. Use partial title matching for flexibility but exact matching when precision is needed. Implement smooth animations for window movements to create professional-looking automation. Save window layouts for different tasks (coding, writing, research) and switch between them instantly. Handle multi-monitor setups properly - detect monitor boundaries and don't assume single display. Be DPI-aware for high-resolution displays or your coordinates will be off. Protect system windows (taskbar, start menu) from accidental modification. Use window monitoring to respond to changes in real-time. When launching applications, wait for their windows to appear before attempting control. Implement virtual workspaces for better organization. Test your automation on different screen resolutions and multi-monitor configurations. Remember that window behavior varies across operating systems - test cross-platform code thoroughly. Most importantly: always provide fallback methods when platform-specific APIs aren't available!</p>
-    </div>
-    
-    <p>Mastering window management enables you to orchestrate entire desktop environments programmatically. You can now find and control any window, create custom layouts for different workflows, monitor window changes in real-time, handle multi-monitor setups professionally, and build powerful productivity tools. Whether you're automating complex multi-application workflows, testing GUI applications, or creating desktop utilities, these window management skills provide complete control over the desktop environment! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="gui_automation_cross_platform.html">Cross-Platform Considerations - Write Once, Automate Everywhere!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Cross-Platform Support:</strong> Handle platform differences gracefully.</li>
+<li><strong>Window Verification:</strong> Always verify window exists before operations.</li>
+<li><strong>Layout Management:</strong> Save and restore window arrangements.</li>
+<li><strong>Multi-Monitor:</strong> Support multiple displays properly.</li>
+<li><strong>DPI Awareness:</strong> Handle high-DPI displays correctly.</li>
+<li><strong>State Management:</strong> Track and respond to window state changes.</li>
+<li><strong>Animation:</strong> Use smooth transitions for better UX.</li>
+<li><strong>System Protection:</strong> Avoid modifying critical system windows.</li>
+</ul>
+<h3>Window Management Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of window management as conducting a desktop orchestra - every window needs to be in the right place at the right time. Always verify windows exist before operating on them - windows can close unexpectedly. Use partial title matching for flexibility but exact matching when precision is needed. Implement smooth animations for window movements to create professional-looking automation. Save window layouts for different tasks (coding, writing, research) and switch between them instantly. Handle multi-monitor setups properly - detect monitor boundaries and don't assume single display. Be DPI-aware for high-resolution displays or your coordinates will be off. Protect system windows (taskbar, start menu) from accidental modification. Use window monitoring to respond to changes in real-time. When launching applications, wait for their windows to appear before attempting control. Implement virtual workspaces for better organization. Test your automation on different screen resolutions and multi-monitor configurations. Remember that window behavior varies across operating systems - test cross-platform code thoroughly. Most importantly: always provide fallback methods when platform-specific APIs aren't available!</p>
+</div>
+<p>Mastering window management enables you to orchestrate entire desktop environments programmatically. You can now find and control any window, create custom layouts for different workflows, monitor window changes in real-time, handle multi-monitor setups professionally, and build powerful productivity tools. Whether you're automating complex multi-application workflows, testing GUI applications, or creating desktop utilities, these window management skills provide complete control over the desktop environment! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="gui_automation_screen_capture.html">← Previous: Screen Capture</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="gui_automation_cross_platform.html">Next: Cross-Platform GUI →</a>
+</div>
+</footer>
 </body>
 </html>

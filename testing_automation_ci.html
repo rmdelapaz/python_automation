@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Continuous Integration Setup - Python Testing Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Continuous Integration Setup - Python Testing Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔄 Continuous Integration Setup: Automate Your Testing Pipeline</h1>
-    
-    <p>Continuous Integration (CI) transforms manual testing into an automated safety net - it runs your tests automatically on every code change, catches bugs before they reach production, and ensures your team maintains high code quality standards. Like having a tireless quality inspector checking every piece of code 24/7, CI enables rapid development with confidence. Whether you're using GitHub Actions, Jenkins, or GitLab CI, mastering CI setup is essential for modern software development. Let's explore the comprehensive world of automated testing pipelines! 🚦</p>
-
-    <h2>The CI/CD Pipeline Architecture</h2>
-    
-    <p>Think of CI/CD as your code's journey from development to production - it automates building, testing, and deployment, ensuring only quality code reaches users. Using pipeline configurations, test matrices, and deployment strategies, you can create sophisticated workflows that handle everything from unit tests to production deployments. Understanding pipeline stages, parallel execution, and artifact management is crucial for effective CI/CD!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module9">Testing Automation</a> &gt; 
+        <span>Continuous Integration</span>
+</nav>
+<h1>🔄 Continuous Integration Setup: Automate Your Testing Pipeline</h1>
+<p>Continuous Integration (CI) transforms manual testing into an automated safety net - it runs your tests automatically on every code change, catches bugs before they reach production, and ensures your team maintains high code quality standards. Like having a tireless quality inspector checking every piece of code 24/7, CI enables rapid development with confidence. Whether you're using GitHub Actions, Jenkins, or GitLab CI, mastering CI setup is essential for modern software development. Let's explore the comprehensive world of automated testing pipelines! 🚦</p>
+<h2>The CI/CD Pipeline Architecture</h2>
+<p>Think of CI/CD as your code's journey from development to production - it automates building, testing, and deployment, ensuring only quality code reaches users. Using pipeline configurations, test matrices, and deployment strategies, you can create sophisticated workflows that handle everything from unit tests to production deployments. Understanding pipeline stages, parallel execution, and artifact management is crucial for effective CI/CD!</p>
+<div class="mermaid">
     graph TB
-        A[CI/CD Pipeline] --> B[Source Control]
-        A --> C[Build Stage]
-        A --> D[Test Stage]
-        A --> E[Deploy Stage]
+        A[CI/CD Pipeline] --&gt; B[Source Control]
+        A --&gt; C[Build Stage]
+        A --&gt; D[Test Stage]
+        A --&gt; E[Deploy Stage]
         
-        B --> F[Git Hooks]
-        B --> G[Branch Protection]
-        B --> H[Pull Requests]
-        B --> I[Code Review]
+        B --&gt; F[Git Hooks]
+        B --&gt; G[Branch Protection]
+        B --&gt; H[Pull Requests]
+        B --&gt; I[Code Review]
         
-        C --> J[Dependencies]
-        C --> K[Compilation]
-        C --> L[Packaging]
-        C --> M[Artifacts]
+        C --&gt; J[Dependencies]
+        C --&gt; K[Compilation]
+        C --&gt; L[Packaging]
+        C --&gt; M[Artifacts]
         
-        D --> N[Unit Tests]
-        D --> O[Integration Tests]
-        D --> P[E2E Tests]
-        D --> Q[Security Scans]
+        D --&gt; N[Unit Tests]
+        D --&gt; O[Integration Tests]
+        D --&gt; P[E2E Tests]
+        D --&gt; Q[Security Scans]
         
-        E --> R[Staging]
-        E --> S[Production]
-        E --> T[Rollback]
-        E --> U[Monitoring]
+        E --&gt; R[Staging]
+        E --&gt; S[Production]
+        E --&gt; T[Rollback]
+        E --&gt; U[Monitoring]
         
-        V[Tools] --> W[GitHub Actions]
-        V --> X[Jenkins]
-        V --> Y[GitLab CI]
-        V --> Z[CircleCI]
+        V[Tools] --&gt; W[GitHub Actions]
+        V --&gt; X[Jenkins]
+        V --&gt; Y[GitLab CI]
+        V --&gt; Z[CircleCI]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Enterprise CI/CD Platform 🏢</h3>
-    
-    <p>You're building a comprehensive CI/CD platform for a large organization that runs tests across multiple Python versions and operating systems, performs security scanning and dependency checking, generates code coverage and quality reports, manages deployment to multiple environments, implements blue-green and canary deployments, monitors application performance post-deployment, provides rollback capabilities for failed deployments, and integrates with issue tracking and notification systems. Your platform must handle hundreds of builds daily, provide fast feedback to developers, maintain audit logs for compliance, and scale with the organization. Let's build a professional CI/CD pipeline!</p>
-
-    <pre><code># Comprehensive CI/CD Pipeline Configuration
+<h3>Real-World Scenario: The Enterprise CI/CD Platform 🏢</h3>
+<p>You're building a comprehensive CI/CD platform for a large organization that runs tests across multiple Python versions and operating systems, performs security scanning and dependency checking, generates code coverage and quality reports, manages deployment to multiple environments, implements blue-green and canary deployments, monitors application performance post-deployment, provides rollback capabilities for failed deployments, and integrates with issue tracking and notification systems. Your platform must handle hundreds of builds daily, provide fast feedback to developers, maintain audit logs for compliance, and scale with the organization. Let's build a professional CI/CD pipeline!</p>
+<pre><code># Comprehensive CI/CD Pipeline Configuration
 # This file demonstrates configurations for multiple CI/CD platforms
 
 import os
@@ -147,7 +196,7 @@ jobs:
       run: bandit -r src/ -f json -o bandit-report.json
     
     - name: Check dependencies with Safety
-      run: safety check --json > safety-report.json
+      run: safety check --json &gt; safety-report.json
     
     - name: Upload security reports
       uses: actions/upload-artifact@v3
@@ -230,7 +279,7 @@ jobs:
           POSTGRES_DB: testdb
         ports:
           - 5432:5432
-        options: >-
+        options: &gt;-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
@@ -240,7 +289,7 @@ jobs:
         image: redis:7
         ports:
           - 6379:6379
-        options: >-
+        options: &gt;-
           --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
@@ -328,7 +377,7 @@ jobs:
     
     - name: Start application
       run: |
-        python -m src.main &
+        python -m src.main &amp;
         wait-on http://localhost:8000/health -t 60000
     
     - name: Run E2E tests with Playwright
@@ -345,7 +394,7 @@ jobs:
           playwright-report/
           test-results/
 
-  # ==================== Build & Package ====================
+  # ==================== Build &amp; Package ====================
   build:
     name: Build and Package
     runs-on: ubuntu-latest
@@ -387,7 +436,7 @@ jobs:
     
     - name: Save Docker image
       run: |
-        docker save myapp:${{ github.sha }} | gzip > myapp.tar.gz
+        docker save myapp:${{ github.sha }} | gzip &gt; myapp.tar.gz
     
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
@@ -415,7 +464,7 @@ jobs:
     
     - name: Load Docker image
       run: |
-        docker load < myapp.tar.gz
+        docker load &lt; myapp.tar.gz
     
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -511,7 +560,7 @@ jobs:
       uses: chrnorm/deployment-action@v2
       with:
         token: ${{ github.token }}
-        environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }}
+        environment: ${{ github.ref == 'refs/heads/main' &amp;&amp; 'production' || 'staging' }}
         target_url: https://myapp.example.com
 """
     
@@ -581,7 +630,7 @@ pipeline {
                         sh '''
                             . venv/bin/activate
                             flake8 . --format=checkstyle --output-file=flake8.xml
-                            pylint src/ --output-format=parseable > pylint.log || true
+                            pylint src/ --output-format=parseable &gt; pylint.log || true
                         '''
                         recordIssues(
                             enabledForFailure: true,
@@ -598,7 +647,7 @@ pipeline {
                         sh '''
                             . venv/bin/activate
                             bandit -r src/ -f json -o bandit-report.json
-                            safety check --json > safety-report.json || true
+                            safety check --json &gt; safety-report.json || true
                         '''
                         publishHTML(target: [
                             allowMissing: false,
@@ -654,8 +703,8 @@ pipeline {
                 script {
                     docker.image('postgres:14').withRun(
                         '-e POSTGRES_PASSWORD=testpass -e POSTGRES_DB=testdb'
-                    ) { db ->
-                        docker.image('redis:7').withRun() { redis ->
+                    ) { db -&gt;
+                        docker.image('redis:7').withRun() { redis -&gt;
                             sh '''
                                 . venv/bin/activate
                                 export DATABASE_URL="postgresql://postgres:testpass@${db.host}:5432/testdb"
@@ -734,187 +783,7 @@ pipeline {
                                 )
                             ]) {
                                 sh '''
-                                    ssh -i ${SSH_KEY} deploy@${SERVER} <<EOF
-                                    docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}
-                                    docker stop myapp || true
-                                    docker rm myapp || true
-                                    docker run -d --name myapp \
-                                        -p 8000:8000 \
-                                        ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BUILD_NUMBER}
-                                    EOF
-                                '''
-                            }
-                        }
-                    }
-                }
-                
-                stage('Smoke Tests') {
-                    steps {
-                        sh '''
-                            . venv/bin/activate
-                            python scripts/smoke_tests.py --env staging
-                        '''
-                    }
-                }
-                
-                stage('Deploy to Production') {
-                    input {
-                        message "Deploy to production?"
-                        ok "Deploy"
-                        parameters {
-                            choice(
-                                name: 'DEPLOYMENT_TYPE',
-                                choices: ['Blue-Green', 'Canary', 'Rolling'],
-                                description: 'Select deployment strategy'
-                            )
-                        }
-                    }
-                    steps {
-                        script {
-                            if (params.DEPLOYMENT_TYPE == 'Blue-Green') {
-                                sh 'python scripts/blue_green_deploy.py'
-                            } else if (params.DEPLOYMENT_TYPE == 'Canary') {
-                                sh 'python scripts/canary_deploy.py'
-                            } else {
-                                sh 'python scripts/rolling_deploy.py'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    post {
-        always {
-            cleanWs()
-        }
-        success {
-            slackSend(
-                color: 'good',
-                message: "Build Successful: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
-            )
-        }
-        failure {
-            slackSend(
-                color: 'danger',
-                message: "Build Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
-            )
-            emailext(
-                subject: "Build Failed: ${env.JOB_NAME}",
-                body: "Build ${env.BUILD_NUMBER} failed. Check console output.",
-                to: 'team@example.com'
-            )
-        }
-    }
-}
-"""
-    
-    jenkinsfile_path = Path("Jenkinsfile")
-    jenkinsfile_path.write_text(jenkinsfile)
-    
-    return jenkinsfile_path
-
-# ==================== GitLab CI Configuration ====================
-
-def create_gitlab_ci_config():
-    """Create GitLab CI configuration."""
-    
-    gitlab_ci = """
-variables:
-  PYTHON_VERSION: "3.9"
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: "/certs"
-
-cache:
-  paths:
-    - .cache/pip
-    - venv/
-
-stages:
-  - build
-  - test
-  - security
-  - deploy
-
-before_script:
-  - python --version
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
-
-# ==================== Build Stage ====================
-
-build:
-  stage: build
-  image: python:${PYTHON_VERSION}
-  script:
-    - pip install --upgrade pip
-    - pip install -r requirements.txt
-    - pip install -r requirements-dev.txt
-    - python setup.py build
-  artifacts:
-    paths:
-      - dist/
-    expire_in: 1 week
-
-# ==================== Test Stage ====================
-
-unit-tests:
-  stage: test
-  image: python:${PYTHON_VERSION}
-  needs: ["build"]
-  script:
-    - pip install pytest pytest-cov pytest-html
-    - pytest tests/unit --cov=src --cov-report=xml --cov-report=term
-  coverage: '/TOTAL.*\s+(\d+%)$/'
-  artifacts:
-    when: always
-    reports:
-      junit: test-results.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: coverage.xml
-
-integration-tests:
-  stage: test
-  image: python:${PYTHON_VERSION}
-  needs: ["build"]
-  services:
-    - postgres:14
-    - redis:7
-  variables:
-    POSTGRES_DB: testdb
-    POSTGRES_USER: testuser
-    POSTGRES_PASSWORD: testpass
-    DATABASE_URL: "postgresql://testuser:testpass@postgres:5432/testdb"
-    REDIS_URL: "redis://redis:6379"
-  script:
-    - pip install pytest
-    - pytest tests/integration
-
-performance-tests:
-  stage: test
-  image: python:${PYTHON_VERSION}
-  needs: ["build"]
-  script:
-    - pip install locust
-    - locust -f tests/performance/locustfile.py --headless -u 100 -r 10 -t 60s
-  artifacts:
-    reports:
-      performance: performance-report.json
-
-# ==================== Security Stage ====================
-
-security-scan:
-  stage: security
-  image: python:${PYTHON_VERSION}
-  needs: ["build"]
-  script:
-    - pip install bandit safety
-    - bandit -r src/ -f json -o bandit-report.json
-    - safety check --json > safety-report.json
+                                    ssh -i ${SSH_KEY} deploy@${SERVER} &lt;<eof "="" """="" """create="" "$ci_project_dir="" "3.9"="" "build="" "deploy="" "deploy"="" "postgresql:="" "redis:="" #="Security" ${docker_image}:${build_number}="" ${docker_registry}="" ${env.build_number}="" ${env.build_number}"="" ${env.job_name}="" ${env.job_name}",="" '="" '''="" 'canary',="" 'danger',="" 'deployment_type',="" 'good',="" 'python="" 'rolling'],="" 'select="" 'team@example.com'="" (params.deployment_type="Canary" )="" -="" --cov="src" --cov-report="term" --env="" --headless="" --json="" --name="" --upgrade="" --version="" -d="" -f="" -o="" -p="" -r="" -t="" -u="" .="" .cache="" 1="" 10="" 100="" 60s="" 8000:8000="" ["build"]="" ['blue-green',="" \="" activate="" always="" artifacts:="" bandit="" bandit-report.json="" before_script:="" bin="" blue_green_deploy.py'="" body:="" build="" cache:="" canary_deploy.py'="" certs"="" check="" choice(="" choices:="" ci="" cleanws()="" cobertura="" color:="" configuration="def" configuration."""="" console="" coverage.xml="" coverage:="" coverage_format:="" coverage_report:="" create_gitlab_ci_config():="" database_url:="" deploy="" deployment="" description:="" dist="" docker="" docker_driver:="" docker_tls_certdir:="" else="" emailext(="" eof="" expire_in:="" failed.="" failed:="" failure="" gitlab="" gitlab_ci="" if="" image:="" input="" install="" integration="" integration-tests:="" jenkinsfile_path="" jenkinsfile_path.write_text(jenkinsfile)="" json="" junit:="" locust="" locustfile.py="" message="" message:="" myapp="" name:="" needs:="" ok="" output.",="" overlay2="" parameters="" path:="" paths:="" performance="" performance-report.json="" performance-tests:="" performance:="" pip="" pip"="" pip_cache_dir:="" post="" postgres:14="" postgres_db:="" postgres_password:="" postgres_user:="" production')="" production?"="" pull="" pytest="" pytest-cov="" pytest-html="" python="" python:${python_version}="" python_version:="" redis:6379"="" redis:7="" redis_url:="" reports:="" requirements-dev.txt="" requirements.txt="" return="" rm="" rolling_deploy.py'="" run="" safety="" script="" script:="" scripts="" security="" services:="" setup.py="" sh="" slacksend(="" smoke_tests.py="" source="" src="" stage="security-scan:" stage('deploy="" stage('smoke="" stage:="" stages:="" staging="" steps="" stop="" strategy'="" subject:="" success="" successful:="" test="" test-results.xml="" testdb="" testdb"="" testpass="" tests="" tests')="" testuser="" testuser:testpass@postgres:5432="" to="" to:="" total.*\s+(\d+%)$="" true="" unit="" variables:="" venv="" virtualenv="" week="" when:="" {="" ||="" }=""> safety-report.json
   artifacts:
     reports:
       sast: bandit-report.json
@@ -955,7 +824,7 @@ deploy-staging:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | ssh-add -
   script:
-    - ssh deploy@staging.example.com "cd /app && ./deploy.sh staging $CI_COMMIT_SHA"
+    - ssh deploy@staging.example.com "cd /app &amp;&amp; ./deploy.sh staging $CI_COMMIT_SHA"
 
 deploy-production:
   stage: deploy
@@ -972,7 +841,7 @@ deploy-production:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | ssh-add -
   script:
-    - ssh deploy@production.example.com "cd /app && ./deploy.sh production $CI_COMMIT_SHA"
+    - ssh deploy@production.example.com "cd /app &amp;&amp; ./deploy.sh production $CI_COMMIT_SHA"
   after_script:
     - curl -X POST $SLACK_WEBHOOK -d "{'text':'Deployment to production completed'}"
 """
@@ -1206,7 +1075,7 @@ class PipelineGenerator:
     def __init__(self, config: CIPipelineConfig):
         self.config = config
     
-    def generate(self) -> Path:
+    def generate(self) -&gt; Path:
         """Generate pipeline configuration based on platform."""
         generators = {
             "github": create_github_actions_workflow,
@@ -1482,7 +1351,7 @@ if __name__ == "__main__":
     print("\n6️⃣ CI/CD Best Practices:")
     practices = [
         "🎯 Run tests on every commit",
-        "⚡ Keep pipelines fast (< 10 minutes)",
+        "⚡ Keep pipelines fast (&lt; 10 minutes)",
         "🔄 Use caching for dependencies",
         "📊 Track metrics and coverage",
         "🔐 Scan for security vulnerabilities",
@@ -1556,44 +1425,35 @@ if __name__ == "__main__":
         "bandit -r src/",
         "",
         "# Check code quality",
-        "flake8 . && black --check . && mypy src/"
+        "flake8 . &amp;&amp; black --check . &amp;&amp; mypy src/"
     ]
     for command in commands:
         print(f"   {command}")
     
     print("\n✅ CI/CD setup examples complete!")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Automate Everything:</strong> Every manual process should be automated in the pipeline.</li>
-        
-        <li><strong>Fast Feedback:</strong> Keep pipelines under 10 minutes for rapid iteration.</li>
-        
-        <li><strong>Test Matrix:</strong> Test across multiple versions and platforms.</li>
-        
-        <li><strong>Security First:</strong> Include security scanning in every pipeline.</li>
-        
-        <li><strong>Branch Protection:</strong> Enforce code review and test passing before merge.</li>
-        
-        <li><strong>Deployment Strategies:</strong> Use appropriate strategies for risk mitigation.</li>
-        
-        <li><strong>Monitoring:</strong> Track pipeline metrics and deployment success.</li>
-        
-        <li><strong>Rollback Plan:</strong> Always have a way to revert bad deployments.</li>
-    </ul>
-
-    <h3>CI/CD Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of CI/CD as your development team's assembly line - it should catch problems early, provide fast feedback, and deliver quality code reliably. Start with the basics: run tests on every commit, enforce code style, and check for security issues. Use a test matrix to validate across different Python versions and operating systems - what works on your machine might not work everywhere. Implement caching aggressively - cache pip dependencies, Docker layers, and build artifacts to speed up pipelines. Set up parallel execution where possible - run linting, type checking, and security scanning simultaneously. Use branch protection rules to enforce quality gates - require passing tests, code review, and up-to-date branches before merging. Implement proper secret management - never commit credentials, use environment variables or secret management services. Design your pipeline stages thoughtfully: build once, test everywhere, deploy with confidence. Use deployment strategies appropriate to your risk tolerance - blue-green for zero downtime, canary for gradual rollout. Monitor your pipelines - track success rates, duration trends, and flaky tests. Set up notifications wisely - alert on failures but avoid spam. Document your pipeline - explain what each stage does and how to troubleshoot failures. Most importantly: treat your CI/CD configuration as code - version it, review it, and continuously improve it!</p>
-    </div>
-    
-    <p>Mastering CI/CD setup enables you to deliver high-quality software rapidly and reliably. You can now create comprehensive pipelines that automatically test code, scan for vulnerabilities, manage deployments, and maintain quality standards. Whether you're using GitHub Actions, Jenkins, or any other platform, these CI/CD skills are essential for modern software development! 🚀</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the Testing Automation module. Next: <a href="index.html">Return to Course Overview</a></p>
-    </footer>
+</eof></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Automate Everything:</strong> Every manual process should be automated in the pipeline.</li>
+<li><strong>Fast Feedback:</strong> Keep pipelines under 10 minutes for rapid iteration.</li>
+<li><strong>Test Matrix:</strong> Test across multiple versions and platforms.</li>
+<li><strong>Security First:</strong> Include security scanning in every pipeline.</li>
+<li><strong>Branch Protection:</strong> Enforce code review and test passing before merge.</li>
+<li><strong>Deployment Strategies:</strong> Use appropriate strategies for risk mitigation.</li>
+<li><strong>Monitoring:</strong> Track pipeline metrics and deployment success.</li>
+<li><strong>Rollback Plan:</strong> Always have a way to revert bad deployments.</li>
+</ul>
+<h3>CI/CD Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of CI/CD as your development team's assembly line - it should catch problems early, provide fast feedback, and deliver quality code reliably. Start with the basics: run tests on every commit, enforce code style, and check for security issues. Use a test matrix to validate across different Python versions and operating systems - what works on your machine might not work everywhere. Implement caching aggressively - cache pip dependencies, Docker layers, and build artifacts to speed up pipelines. Set up parallel execution where possible - run linting, type checking, and security scanning simultaneously. Use branch protection rules to enforce quality gates - require passing tests, code review, and up-to-date branches before merging. Implement proper secret management - never commit credentials, use environment variables or secret management services. Design your pipeline stages thoughtfully: build once, test everywhere, deploy with confidence. Use deployment strategies appropriate to your risk tolerance - blue-green for zero downtime, canary for gradual rollout. Monitor your pipelines - track success rates, duration trends, and flaky tests. Set up notifications wisely - alert on failures but avoid spam. Document your pipeline - explain what each stage does and how to troubleshoot failures. Most importantly: treat your CI/CD configuration as code - version it, review it, and continuously improve it!</p>
+</div>
+<p>Mastering CI/CD setup enables you to deliver high-quality software rapidly and reliably. You can now create comprehensive pipelines that automatically test code, scan for vulnerabilities, manage deployments, and maintain quality standards. Whether you're using GitHub Actions, Jenkins, or any other platform, these CI/CD skills are essential for modern software development! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="testing_automation_api.html">← Previous: API Testing</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="systemadmin_scheduled_tasks.html">Next: Scheduled Tasks →</a>
+</div>
+</footer>
 </body>
 </html>

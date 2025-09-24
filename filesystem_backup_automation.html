@@ -1,56 +1,105 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Backup Automation - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Backup Automation - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>💾 Backup Automation: Never Lose Important Files Again</h1>
-    
-    <p>Imagine this: Your hard drive crashes, your laptop gets stolen, or you accidentally delete that crucial project you've been working on for months. Without backups, it's gone forever. But with automated backup systems, you're invincible! Think of backups as time travel for your files – you can always go back! ⏰</p>
-
-    <h2>The 3-2-1 Backup Philosophy</h2>
-    
-    <p>The golden rule of backups: Keep 3 copies of important data, on 2 different media types, with 1 copy off-site. It's like having a safety net under your safety net, with another safety net in a different building! Let's build systems that implement this automatically.</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module1">File and System Automation</a> &gt; 
+        <span>Backup Automation</span>
+</nav>
+<h1>💾 Backup Automation: Never Lose Important Files Again</h1>
+<p>Imagine this: Your hard drive crashes, your laptop gets stolen, or you accidentally delete that crucial project you've been working on for months. Without backups, it's gone forever. But with automated backup systems, you're invincible! Think of backups as time travel for your files – you can always go back! ⏰</p>
+<h2>The 3-2-1 Backup Philosophy</h2>
+<p>The golden rule of backups: Keep 3 copies of important data, on 2 different media types, with 1 copy off-site. It's like having a safety net under your safety net, with another safety net in a different building! Let's build systems that implement this automatically.</p>
+<div class="mermaid">
     graph TB
-        A[Original Files] --> B[Local Backup]
-        A --> C[Network Backup]
-        A --> D[Cloud Backup]
+        A[Original Files] --&gt; B[Local Backup]
+        A --&gt; C[Network Backup]
+        A --&gt; D[Cloud Backup]
         
-        B --> E[Version Control]
-        B --> F[Incremental Saves]
+        B --&gt; E[Version Control]
+        B --&gt; F[Incremental Saves]
         
-        C --> G[NAS/Server]
-        C --> H[Remote Location]
+        C --&gt; G[NAS/Server]
+        C --&gt; H[Remote Location]
         
-        D --> I[Cloud Storage]
-        D --> J[Multiple Providers]
+        D --&gt; I[Cloud Storage]
+        D --&gt; J[Multiple Providers]
         
-        E --> K[Restoration Point]
-        F --> K
-        G --> K
-        H --> K
-        I --> K
-        J --> K
+        E --&gt; K[Restoration Point]
+        F --&gt; K
+        G --&gt; K
+        H --&gt; K
+        I --&gt; K
+        J --&gt; K
         
         style A fill:#ff6b6b
         style K fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Complete Disaster Recovery System 🛡️</h3>
-    
-    <p>You're a freelance designer with years of client work, a developer with countless projects, or a photographer with irreplaceable photos. Let's build a backup system that protects everything automatically, efficiently, and intelligently!</p>
-
-    <pre><code>import os
+<h3>Real-World Scenario: The Complete Disaster Recovery System 🛡️</h3>
+<p>You're a freelance designer with years of client work, a developer with countless projects, or a photographer with irreplaceable photos. Let's build a backup system that protects everything automatically, efficiently, and intelligently!</p>
+<pre><code>import os
 import shutil
 import hashlib
 import json
@@ -122,7 +171,7 @@ class ComprehensiveBackupSystem:
                 self.save_config()
             self.cipher = Fernet(key.encode() if isinstance(key, str) else key)
     
-    def load_config(self, config_dict: Dict) -> Dict:
+    def load_config(self, config_dict: Dict) -&gt; Dict:
         """Load and validate backup configuration."""
         default_config = {
             'local_backup_path': '/backup/local',
@@ -218,7 +267,7 @@ class ComprehensiveBackupSystem:
         conn.commit()
         conn.close()
     
-    def calculate_file_hash(self, file_path: Path) -> str:
+    def calculate_file_hash(self, file_path: Path) -&gt; str:
         """Calculate SHA256 hash of a file."""
         sha256 = hashlib.sha256()
         try:
@@ -230,7 +279,7 @@ class ComprehensiveBackupSystem:
             self.logger.error(f"Error hashing {file_path}: {e}")
             return ""
     
-    def should_backup_file(self, file_path: Path) -> bool:
+    def should_backup_file(self, file_path: Path) -&gt; bool:
         """Determine if a file should be backed up based on filters."""
         # Check exclude patterns
         for pattern in self.exclude_patterns:
@@ -249,13 +298,13 @@ class ComprehensiveBackupSystem:
         
         # Check file size limits
         max_size = self.config.get('max_file_size_mb', 1000) * 1024 * 1024
-        if file_path.stat().st_size > max_size:
+        if file_path.stat().st_size &gt; max_size:
             self.logger.warning(f"Skipping {file_path.name}: exceeds size limit")
             return False
         
         return True
     
-    def full_backup(self, source_dir: Path, backup_id: str) -> Tuple[int, int]:
+    def full_backup(self, source_dir: Path, backup_id: str) -&gt; Tuple[int, int]:
         """
         Perform a full backup of all files.
         Returns (files_backed_up, total_size)
@@ -315,7 +364,7 @@ class ComprehensiveBackupSystem:
         return files_backed_up, total_size
     
     def backup_single_file(self, file_path: Path, source_base: Path, 
-                          backup_dir: Path, backup_id: str) -> Tuple[bool, int]:
+                          backup_dir: Path, backup_id: str) -&gt; Tuple[bool, int]:
         """
         Backup a single file with compression and encryption if enabled.
         Returns (success, file_size)
@@ -358,7 +407,7 @@ class ComprehensiveBackupSystem:
             self.logger.error(f"Failed to backup {file_path}: {e}")
             return False, 0
     
-    def incremental_backup(self, source_dir: Path, backup_id: str) -> Tuple[int, int]:
+    def incremental_backup(self, source_dir: Path, backup_id: str) -&gt; Tuple[int, int]:
         """
         Perform incremental backup - only backup changed files since last backup.
         """
@@ -399,7 +448,7 @@ class ComprehensiveBackupSystem:
         
         return files_backed_up, total_size
     
-    def differential_backup(self, source_dir: Path, backup_id: str) -> Tuple[int, int]:
+    def differential_backup(self, source_dir: Path, backup_id: str) -&gt; Tuple[int, int]:
         """
         Perform differential backup - backup all changes since last full backup.
         """
@@ -436,7 +485,7 @@ class ComprehensiveBackupSystem:
         
         return files_backed_up, total_size
     
-    def mirror_backup(self, source_dir: Path, backup_id: str) -> Tuple[int, int]:
+    def mirror_backup(self, source_dir: Path, backup_id: str) -&gt; Tuple[int, int]:
         """
         Create an exact mirror of the source directory.
         Removes files from backup that no longer exist in source.
@@ -484,7 +533,7 @@ class ComprehensiveBackupSystem:
                 backup_mtime = (backup_path if backup_path.exists() 
                                else backup_path.with_suffix('.gz')).stat().st_mtime
                 
-                if source_mtime <= backup_mtime:
+                if source_mtime &lt;= backup_mtime:
                     needs_backup = False
             
             if needs_backup:
@@ -498,7 +547,7 @@ class ComprehensiveBackupSystem:
         self.logger.info(f"Mirror complete: {files_backed_up} updated, {files_removed} removed")
         return files_backed_up, total_size
     
-    def find_changed_files(self, source_dir: Path, since_backup_id: str) -> List[Path]:
+    def find_changed_files(self, source_dir: Path, since_backup_id: str) -&gt; List[Path]:
         """Find files that have changed since a specific backup."""
         changed_files = []
         
@@ -533,7 +582,7 @@ class ComprehensiveBackupSystem:
             
             # Check if modified
             current_mtime = datetime.fromtimestamp(file_path.stat().st_mtime)
-            if current_mtime > last_backup_files[str_path]['modified']:
+            if current_mtime &gt; last_backup_files[str_path]['modified']:
                 # Verify actual change with hash
                 current_hash = self.calculate_file_hash(file_path)
                 if current_hash != last_backup_files[str_path]['hash']:
@@ -585,7 +634,7 @@ class ComprehensiveBackupSystem:
         conn.commit()
         conn.close()
     
-    def get_last_backup_info(self, source_dir: Path) -> Optional[Dict]:
+    def get_last_backup_info(self, source_dir: Path) -&gt; Optional[Dict]:
         """Get information about the last backup for a source directory."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -611,7 +660,7 @@ class ComprehensiveBackupSystem:
             }
         return None
     
-    def get_last_full_backup_info(self, source_dir: Path) -> Optional[Dict]:
+    def get_last_full_backup_info(self, source_dir: Path) -&gt; Optional[Dict]:
         """Get information about the last full backup."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -670,7 +719,7 @@ class ComprehensiveBackupSystem:
         with open(manifest_file, 'w') as f:
             json.dump(manifest, f, indent=2)
     
-    def verify_backup(self, backup_id: str) -> bool:
+    def verify_backup(self, backup_id: str) -&gt; bool:
         """
         Verify backup integrity by checking hashes.
         """
@@ -792,7 +841,7 @@ class ComprehensiveBackupSystem:
         cursor.execute('''
             SELECT backup_id, destination_path 
             FROM backup_sets 
-            WHERE end_time < ?
+            WHERE end_time &lt; ?
         ''', (cutoff_date,))
         
         old_backups = cursor.fetchall()
@@ -950,31 +999,27 @@ if __name__ == "__main__":
     
     print(f"✅ Backup completed successfully: {backup_id}")
 </code></pre>
-
-    <h2>Specialized Backup Strategies 🎯</h2>
-    
-    <p>Different types of data require different backup strategies. Let's explore specialized approaches for various scenarios, from database backups to real-time synchronization!</p>
-
-    <div class="mermaid">
+<h2>Specialized Backup Strategies 🎯</h2>
+<p>Different types of data require different backup strategies. Let's explore specialized approaches for various scenarios, from database backups to real-time synchronization!</p>
+<div class="mermaid">
     graph LR
-        A[Data Type] --> B{Classification}
-        B --> C[Databases]
-        B --> D[Media Files]
-        B --> E[Code Projects]
-        B --> F[System Config]
+        A[Data Type] --&gt; B{Classification}
+        B --&gt; C[Databases]
+        B --&gt; D[Media Files]
+        B --&gt; E[Code Projects]
+        B --&gt; F[System Config]
         
-        C --> G[Dump & Compress]
-        D --> H[Deduplicate & Archive]
-        E --> I[Version Control]
-        F --> J[Snapshot & Document]
+        C --&gt; G[Dump &amp; Compress]
+        D --&gt; H[Deduplicate &amp; Archive]
+        E --&gt; I[Version Control]
+        F --&gt; J[Snapshot &amp; Document]
         
-        G --> K[Automated Restoration]
-        H --> K
-        I --> K
-        J --> K
+        G --&gt; K[Automated Restoration]
+        H --&gt; K
+        I --&gt; K
+        J --&gt; K
     </div>
-
-    <pre><code>import subprocess
+<pre><code>import subprocess
 import pymongo  # For MongoDB
 import psycopg2  # For PostgreSQL
 import mysql.connector  # For MySQL
@@ -1416,35 +1461,27 @@ if __name__ == "__main__":
     )
     realtime.start()
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Automate Everything:</strong> Manual backups are forgotten backups. Schedule automatic backups that run without your intervention.</li>
-        
-        <li><strong>Test Restores Regularly:</strong> A backup that can't be restored is worse than no backup. Test your restoration process monthly.</li>
-        
-        <li><strong>Use Multiple Strategies:</strong> Combine full, incremental, and differential backups for optimal storage and recovery time.</li>
-        
-        <li><strong>Implement Versioning:</strong> Keep multiple versions of files to protect against corruption and accidental changes.</li>
-        
-        <li><strong>Encrypt Sensitive Data:</strong> Always encrypt backups containing personal or sensitive information.</li>
-        
-        <li><strong>Monitor and Alert:</strong> Set up notifications for backup failures and successes.</li>
-        
-        <li><strong>Document Your System:</strong> Keep clear documentation of your backup strategy and restoration procedures.</li>
-    </ul>
-
-    <h3>The Backup Commandments 📜</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Remember the backup paradox: The value of backups is only realized when you need them, but by then it's too late to create them. Start your backup automation today, test it tomorrow, and sleep peacefully knowing your data is safe!</p>
-    </div>
-    
-    <p>Backup automation is your insurance policy against digital disasters. Whether it's hardware failure, ransomware, or human error, a well-designed backup system ensures you can always recover. The scripts and strategies we've covered give you enterprise-level data protection with Python's power and flexibility! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="workingwithdata_excel_automation.html">Excel Automation with openpyxl - Master Spreadsheets with Python!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Automate Everything:</strong> Manual backups are forgotten backups. Schedule automatic backups that run without your intervention.</li>
+<li><strong>Test Restores Regularly:</strong> A backup that can't be restored is worse than no backup. Test your restoration process monthly.</li>
+<li><strong>Use Multiple Strategies:</strong> Combine full, incremental, and differential backups for optimal storage and recovery time.</li>
+<li><strong>Implement Versioning:</strong> Keep multiple versions of files to protect against corruption and accidental changes.</li>
+<li><strong>Encrypt Sensitive Data:</strong> Always encrypt backups containing personal or sensitive information.</li>
+<li><strong>Monitor and Alert:</strong> Set up notifications for backup failures and successes.</li>
+<li><strong>Document Your System:</strong> Keep clear documentation of your backup strategy and restoration procedures.</li>
+</ul>
+<h3>The Backup Commandments 📜</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Remember the backup paradox: The value of backups is only realized when you need them, but by then it's too late to create them. Start your backup automation today, test it tomorrow, and sleep peacefully knowing your data is safe!</p>
+</div>
+<p>Backup automation is your insurance policy against digital disasters. Whether it's hardware failure, ransomware, or human error, a well-designed backup system ensures you can always recover. The scripts and strategies we've covered give you enterprise-level data protection with Python's power and flexibility! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="filesystem_file_organization_scripts.html">← Previous: File Organization Scripts</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="webscraping_html_css_selectors.html">Next: HTML &amp; CSS Selectors →</a>
+</div>
+</footer>
 </body>
 </html>

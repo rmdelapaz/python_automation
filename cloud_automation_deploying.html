@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deploying to Cloud - Python Cloud Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deploying to Cloud - Python Cloud Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🚀 Deploying to Cloud: Ship Your Applications to Production</h1>
-    
-    <p>Cloud deployment is the bridge between development and production - it transforms your local applications into scalable, globally-accessible services running on cloud infrastructure. Like launching a rocket into orbit, mastering cloud deployment involves understanding containerization, CI/CD pipelines, infrastructure as code, monitoring, and rollback strategies. Whether deploying to AWS, GCP, Azure, or hybrid clouds, these skills enable you to ship applications reliably and efficiently. Let's explore the comprehensive world of cloud deployment! 🌍</p>
-
-    <h2>The Cloud Deployment Architecture</h2>
-    
-    <p>Think of cloud deployment as orchestrating a symphony - you need to coordinate code packaging, environment configuration, infrastructure provisioning, security settings, monitoring setup, and traffic routing all in harmony. Using tools like Docker for containerization, Terraform for infrastructure as code, GitHub Actions for CI/CD, and Kubernetes for orchestration, you can create deployment pipelines that are reproducible, scalable, and resilient. Understanding these deployment patterns is essential for modern application delivery!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module7">Cloud Automation</a> &gt; 
+        <span>Deployment Automation</span>
+</nav>
+<h1>🚀 Deploying to Cloud: Ship Your Applications to Production</h1>
+<p>Cloud deployment is the bridge between development and production - it transforms your local applications into scalable, globally-accessible services running on cloud infrastructure. Like launching a rocket into orbit, mastering cloud deployment involves understanding containerization, CI/CD pipelines, infrastructure as code, monitoring, and rollback strategies. Whether deploying to AWS, GCP, Azure, or hybrid clouds, these skills enable you to ship applications reliably and efficiently. Let's explore the comprehensive world of cloud deployment! 🌍</p>
+<h2>The Cloud Deployment Architecture</h2>
+<p>Think of cloud deployment as orchestrating a symphony - you need to coordinate code packaging, environment configuration, infrastructure provisioning, security settings, monitoring setup, and traffic routing all in harmony. Using tools like Docker for containerization, Terraform for infrastructure as code, GitHub Actions for CI/CD, and Kubernetes for orchestration, you can create deployment pipelines that are reproducible, scalable, and resilient. Understanding these deployment patterns is essential for modern application delivery!</p>
+<div class="mermaid">
     graph TB
-        A[Cloud Deployment] --> B[Containerization]
-        A --> C[CI/CD Pipeline]
-        A --> D[Infrastructure]
-        A --> E[Deployment Strategies]
+        A[Cloud Deployment] --&gt; B[Containerization]
+        A --&gt; C[CI/CD Pipeline]
+        A --&gt; D[Infrastructure]
+        A --&gt; E[Deployment Strategies]
         
-        B --> F[Docker]
-        B --> G[Container Registry]
-        B --> H[Multi-stage Builds]
-        B --> I[Security Scanning]
+        B --&gt; F[Docker]
+        B --&gt; G[Container Registry]
+        B --&gt; H[Multi-stage Builds]
+        B --&gt; I[Security Scanning]
         
-        C --> J[Source Control]
-        C --> K[Build & Test]
-        C --> L[Deploy Stages]
-        C --> M[Rollback]
+        C --&gt; J[Source Control]
+        C --&gt; K[Build &amp; Test]
+        C --&gt; L[Deploy Stages]
+        C --&gt; M[Rollback]
         
-        D --> N[IaC/Terraform]
-        D --> O[Kubernetes]
-        D --> P[Load Balancers]
-        D --> Q[Auto-scaling]
+        D --&gt; N[IaC/Terraform]
+        D --&gt; O[Kubernetes]
+        D --&gt; P[Load Balancers]
+        D --&gt; Q[Auto-scaling]
         
-        E --> R[Blue-Green]
-        E --> S[Canary]
-        E --> T[Rolling Update]
-        E --> U[Feature Flags]
+        E --&gt; R[Blue-Green]
+        E --&gt; S[Canary]
+        E --&gt; T[Rolling Update]
+        E --&gt; U[Feature Flags]
         
-        V[Monitoring] --> W[Health Checks]
-        V --> X[Logging]
-        V --> Y[Metrics]
-        V --> Z[Alerts]
+        V[Monitoring] --&gt; W[Health Checks]
+        V --&gt; X[Logging]
+        V --&gt; Y[Metrics]
+        V --&gt; Z[Alerts]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Multi-Cloud Application Deployment Platform 🏗️</h3>
-    
-    <p>You're building a deployment platform that packages applications in Docker containers, pushes to container registries, deploys to multiple cloud providers (AWS, GCP, Azure), manages Kubernetes clusters, implements blue-green deployments, sets up auto-scaling, configures monitoring and logging, manages secrets and configurations, handles database migrations, and provides instant rollback capabilities. Your system must support multiple environments, ensure zero-downtime deployments, maintain security compliance, and optimize costs. Let's build a production-ready deployment framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Multi-Cloud Application Deployment Platform 🏗️</h3>
+<p>You're building a deployment platform that packages applications in Docker containers, pushes to container registries, deploys to multiple cloud providers (AWS, GCP, Azure), manages Kubernetes clusters, implements blue-green deployments, sets up auto-scaling, configures monitoring and logging, manages secrets and configurations, handles database migrations, and provides instant rollback capabilities. Your system must support multiple environments, ensure zero-downtime deployments, maintain security compliance, and optimize costs. Let's build a production-ready deployment framework!</p>
+<pre><code># First, install required packages:
 # pip install docker kubernetes pyyaml jinja2 boto3 google-cloud-storage azure-storage-blob
 # pip install paramiko fabric gitpython python-terraform prometheus-client
 
@@ -175,7 +224,7 @@ class DockerManager:
         context_path: str,
         build_args: Optional[Dict[str, str]] = None,
         multi_stage_target: Optional[str] = None
-    ) -> str:
+    ) -&gt; str:
         """
         Build Docker image.
         
@@ -224,7 +273,7 @@ class DockerManager:
             self.logger.error(f"Docker build failed: {e}")
             raise
     
-    def push_image(self, image_tag: str, registry_auth: Optional[Dict] = None) -> bool:
+    def push_image(self, image_tag: str, registry_auth: Optional[Dict] = None) -&gt; bool:
         """Push Docker image to registry."""
         try:
             self.logger.info(f"Pushing image to registry: {image_tag}")
@@ -251,7 +300,7 @@ class DockerManager:
             self.logger.error(f"Failed to push image: {e}")
             return False
     
-    def scan_image(self, image_tag: str) -> Dict[str, Any]:
+    def scan_image(self, image_tag: str) -&gt; Dict[str, Any]:
         """Scan Docker image for vulnerabilities."""
         try:
             # Run security scan (using trivy as example)
@@ -290,7 +339,7 @@ class DockerManager:
             self.logger.error(f"Image scan failed: {e}")
             return {'status': 'error', 'error': str(e)}
     
-    def _generate_image_tag(self) -> str:
+    def _generate_image_tag(self) -&gt; str:
         """Generate unique image tag."""
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         short_hash = hashlib.sha256(timestamp.encode()).hexdigest()[:8]
@@ -306,7 +355,7 @@ class DockerManager:
         app_dir: str = "/app",
         requirements_file: str = "requirements.txt",
         entry_command: str = "python app.py"
-    ) -> str:
+    ) -&gt; str:
         """
         Create optimized Dockerfile.
         
@@ -318,9 +367,9 @@ class DockerManager:
 FROM {base_image} AS builder
 
 # Install build dependencies
-RUN apt-get update && apt-get install -y \\
+RUN apt-get update &amp;&amp; apt-get install -y \\
     gcc \\
-    && rm -rf /var/lib/apt/lists/*
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR {app_dir}
@@ -389,7 +438,7 @@ class KubernetesDeploymentManager:
         namespace: str = "default",
         expose_service: bool = True,
         ingress_host: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -&gt; Dict[str, Any]:
         """
         Deploy application to Kubernetes.
         
@@ -455,7 +504,7 @@ class KubernetesDeploymentManager:
                 self.core_v1.create_namespace(namespace_manifest)
                 self.logger.info(f"Created namespace: {namespace}")
     
-    def _create_deployment(self, image: str, namespace: str) -> k8s_client.V1Deployment:
+    def _create_deployment(self, image: str, namespace: str) -&gt; k8s_client.V1Deployment:
         """Create Kubernetes deployment."""
         # Container configuration
         container = k8s_client.V1Container(
@@ -571,7 +620,7 @@ class KubernetesDeploymentManager:
         
         return response
     
-    def _create_service(self, namespace: str) -> k8s_client.V1Service:
+    def _create_service(self, namespace: str) -&gt; k8s_client.V1Service:
         """Create Kubernetes service."""
         service = k8s_client.V1Service(
             api_version='v1',
@@ -615,7 +664,7 @@ class KubernetesDeploymentManager:
         
         return response
     
-    def _create_ingress(self, namespace: str, host: str) -> k8s_client.V1Ingress:
+    def _create_ingress(self, namespace: str, host: str) -&gt; k8s_client.V1Ingress:
         """Create Kubernetes ingress."""
         ingress = k8s_client.V1Ingress(
             api_version='networking.k8s.io/v1',
@@ -681,7 +730,7 @@ class KubernetesDeploymentManager:
         
         return response
     
-    def _create_hpa(self, namespace: str) -> k8s_client.V1HorizontalPodAutoscaler:
+    def _create_hpa(self, namespace: str) -&gt; k8s_client.V1HorizontalPodAutoscaler:
         """Create Horizontal Pod Autoscaler."""
         hpa = k8s_client.V1HorizontalPodAutoscaler(
             api_version='autoscaling/v1',
@@ -952,7 +1001,7 @@ class CICDPipeline:
         self.status = DeploymentStatus.PENDING
         self.deployment_id = self._generate_deployment_id()
     
-    def _generate_deployment_id(self) -> str:
+    def _generate_deployment_id(self) -&gt; str:
         """Generate unique deployment ID."""
         return f"{self.config.app_name}-{datetime.now().strftime('%Y%m%d%H%M%S')}"
     
@@ -961,7 +1010,7 @@ class CICDPipeline:
         source_dir: str,
         dockerfile_path: Optional[str] = None,
         skip_tests: bool = False
-    ) -> Dict[str, Any]:
+    ) -&gt; Dict[str, Any]:
         """
         Run complete CI/CD pipeline.
         
@@ -995,7 +1044,7 @@ class CICDPipeline:
             # Step 3: Security scan
             scan_results = self.docker_manager.scan_image(image_tag)
             if scan_results['status'] == 'completed':
-                if scan_results['vulnerabilities']['critical'] > 0:
+                if scan_results['vulnerabilities']['critical'] &gt; 0:
                     raise Exception("Critical vulnerabilities found in image")
             
             self.status = DeploymentStatus.PUSHING
@@ -1052,7 +1101,7 @@ class CICDPipeline:
         
         self.logger.info("All tests passed")
     
-    def _deploy_to_platform(self, image: str) -> Dict[str, Any]:
+    def _deploy_to_platform(self, image: str) -&gt; Dict[str, Any]:
         """Deploy to configured platform."""
         if self.config.cloud_provider == "kubernetes":
             return self.k8s_manager.deploy_application(
@@ -1070,7 +1119,7 @@ class CICDPipeline:
         else:
             raise ValueError(f"Unsupported platform: {self.config.cloud_provider}")
     
-    def _health_check(self, deployment: Dict[str, Any]) -> bool:
+    def _health_check(self, deployment: Dict[str, Any]) -&gt; bool:
         """Check deployment health."""
         self.logger.info("Performing health check...")
         
@@ -1100,7 +1149,7 @@ class InfrastructureAsCode:
         self.config = config
         self.logger = logging.getLogger(__name__)
     
-    def generate_terraform_config(self) -> str:
+    def generate_terraform_config(self) -&gt; str:
         """Generate Terraform configuration."""
         if self.config.cloud_provider == "aws":
             return self._generate_aws_terraform()
@@ -1111,14 +1160,14 @@ class InfrastructureAsCode:
         else:
             raise ValueError(f"Unsupported provider: {self.config.cloud_provider}")
     
-    def _generate_aws_terraform(self) -> str:
+    def _generate_aws_terraform(self) -&gt; str:
         """Generate Terraform config for AWS."""
         return f"""
 terraform {{
   required_providers {{
     aws = {{
       source  = "hashicorp/aws"
-      version = "~> 4.0"
+      version = "~&gt; 4.0"
     }}
   }}
 }}
@@ -1203,14 +1252,14 @@ resource "aws_security_group" "app" {{
 }}
 """
     
-    def _generate_gcp_terraform(self) -> str:
+    def _generate_gcp_terraform(self) -&gt; str:
         """Generate Terraform config for GCP."""
         return f"""
 terraform {{
   required_providers {{
     google = {{
       source  = "hashicorp/google"
-      version = "~> 4.0"
+      version = "~&gt; 4.0"
     }}
   }}
 }}
@@ -1267,14 +1316,14 @@ resource "google_cloud_run_service_iam_member" "public" {{
 }}
 """
     
-    def _generate_azure_terraform(self) -> str:
+    def _generate_azure_terraform(self) -&gt; str:
         """Generate Terraform config for Azure."""
         return f"""
 terraform {{
   required_providers {{
     azurerm = {{
       source  = "hashicorp/azurerm"
-      version = "~> 3.0"
+      version = "~&gt; 3.0"
     }}
   }}
 }}
@@ -1334,7 +1383,7 @@ if __name__ == "__main__":
     print(f"   Replicas: {config.replicas}")
     
     # Example 2: Docker operations
-    print("\n2️⃣ Docker Build & Push:")
+    print("\n2️⃣ Docker Build &amp; Push:")
     
     print("   docker_manager = DockerManager(config)")
     print("   image = docker_manager.build_image(")
@@ -1421,7 +1470,7 @@ if __name__ == "__main__":
         print(f"   • {resource}")
     
     # Example 9: Monitoring setup
-    print("\n9️⃣ Monitoring & Observability:")
+    print("\n9️⃣ Monitoring &amp; Observability:")
     
     monitoring = [
         "📊 Metrics (Prometheus)",
@@ -1461,37 +1510,28 @@ if __name__ == "__main__":
     print("   4. Have rollback procedures ready")
     print("   5. Test in staging first")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Containerize Everything:</strong> Use Docker for consistent deployments across environments.</li>
-        
-        <li><strong>Automate CI/CD:</strong> Implement pipelines for reliable, repeatable deployments.</li>
-        
-        <li><strong>Use Infrastructure as Code:</strong> Define infrastructure in version-controlled files.</li>
-        
-        <li><strong>Implement Health Checks:</strong> Ensure applications are running correctly.</li>
-        
-        <li><strong>Plan for Rollbacks:</strong> Have quick rollback procedures for failed deployments.</li>
-        
-        <li><strong>Monitor Everything:</strong> Set up comprehensive logging and monitoring.</li>
-        
-        <li><strong>Secure by Default:</strong> Scan images, manage secrets, use least privilege.</li>
-        
-        <li><strong>Test Thoroughly:</strong> Test in staging before production deployment.</li>
-    </ul>
-
-    <h3>Cloud Deployment Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of cloud deployment as shipping code to production safely and efficiently - it requires automation, monitoring, and the ability to roll back quickly. Start with containerization using Docker - it ensures consistency across environments. Implement a proper CI/CD pipeline that builds, tests, scans, and deploys automatically. Use Kubernetes for orchestration when you need advanced features like auto-scaling and self-healing. Choose the right deployment strategy: rolling updates for zero downtime, blue-green for instant rollback, canary for gradual rollout. Always implement comprehensive health checks - liveness, readiness, and startup probes. Use Infrastructure as Code (Terraform/CloudFormation) to make infrastructure reproducible. Implement proper secret management - never hardcode credentials. Set up monitoring and logging from day one - you can't fix what you can't see. Plan for failure with rollback procedures and disaster recovery. Use multi-stage Docker builds to minimize image size. Run containers as non-root users for security. Most importantly: treat deployment as code - version control everything, review changes, and test thoroughly before production!</p>
-    </div>
-    
-    <p>Mastering cloud deployment enables you to ship applications reliably to any cloud platform with confidence. You can now containerize applications, implement CI/CD pipelines, deploy to Kubernetes, manage infrastructure as code, and ensure zero-downtime deployments. Whether you're deploying microservices, monoliths, or serverless functions, these deployment skills ensure your applications reach production safely and efficiently! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="cloud_automation_serverless.html">Serverless Functions - Build Event-Driven Applications!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Containerize Everything:</strong> Use Docker for consistent deployments across environments.</li>
+<li><strong>Automate CI/CD:</strong> Implement pipelines for reliable, repeatable deployments.</li>
+<li><strong>Use Infrastructure as Code:</strong> Define infrastructure in version-controlled files.</li>
+<li><strong>Implement Health Checks:</strong> Ensure applications are running correctly.</li>
+<li><strong>Plan for Rollbacks:</strong> Have quick rollback procedures for failed deployments.</li>
+<li><strong>Monitor Everything:</strong> Set up comprehensive logging and monitoring.</li>
+<li><strong>Secure by Default:</strong> Scan images, manage secrets, use least privilege.</li>
+<li><strong>Test Thoroughly:</strong> Test in staging before production deployment.</li>
+</ul>
+<h3>Cloud Deployment Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of cloud deployment as shipping code to production safely and efficiently - it requires automation, monitoring, and the ability to roll back quickly. Start with containerization using Docker - it ensures consistency across environments. Implement a proper CI/CD pipeline that builds, tests, scans, and deploys automatically. Use Kubernetes for orchestration when you need advanced features like auto-scaling and self-healing. Choose the right deployment strategy: rolling updates for zero downtime, blue-green for instant rollback, canary for gradual rollout. Always implement comprehensive health checks - liveness, readiness, and startup probes. Use Infrastructure as Code (Terraform/CloudFormation) to make infrastructure reproducible. Implement proper secret management - never hardcode credentials. Set up monitoring and logging from day one - you can't fix what you can't see. Plan for failure with rollback procedures and disaster recovery. Use multi-stage Docker builds to minimize image size. Run containers as non-root users for security. Most importantly: treat deployment as code - version control everything, review changes, and test thoroughly before production!</p>
+</div>
+<p>Mastering cloud deployment enables you to ship applications reliably to any cloud platform with confidence. You can now containerize applications, implement CI/CD pipelines, deploy to Kubernetes, manage infrastructure as code, and ensure zero-downtime deployments. Whether you're deploying microservices, monoliths, or serverless functions, these deployment skills ensure your applications reach production safely and efficiently! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="cloud_automation_serverless.html">← Previous: Serverless Functions</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="task_orchestration_airflow_basics.html">Next: Apache Airflow Basics →</a>
+</div>
+</footer>
 </body>
 </html>

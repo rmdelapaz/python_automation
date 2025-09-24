@@ -1,54 +1,106 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy Rotation - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Proxy Rotation - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔄 Proxy Rotation: Scale Your Scraping with Anonymity</h1>
-    
-    <p>Proxy rotation is the art of digital disguise - like having thousands of different identities to access websites without revealing your true location. It's essential for large-scale scraping, bypassing rate limits, accessing geo-restricted content, and maintaining anonymity. Think of it as having an army of digital ambassadors, each making requests on your behalf from different corners of the internet. Let's master the art of distributed scraping! 🎭</p>
-
-    <h2>The Proxy Rotation Architecture</h2>
-    
-    <p>Imagine you're conducting a global survey, but instead of sending one person to ask everyone (who would quickly get exhausted and recognized), you deploy thousands of surveyors worldwide. Each proxy is like a different surveyor with their own identity, location, and approach. Together, they work harmoniously to gather data efficiently without drawing attention!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module13">Advanced Web Scraping</a> &gt; 
+        <span>Proxy Rotation</span>
+</nav>
+<h1>🔄 Proxy Rotation: Scale Your Scraping with Anonymity</h1>
+<p>Proxy rotation is the art of digital disguise - like having thousands of different identities to access websites without revealing your true location. It's essential for large-scale scraping, bypassing rate limits, accessing geo-restricted content, and maintaining anonymity. Think of it as having an army of digital ambassadors, each making requests on your behalf from different corners of the internet. Let's master the art of distributed scraping! 🎭</p>
+<h2>The Proxy Rotation Architecture</h2>
+<p>Imagine you're conducting a global survey, but instead of sending one person to ask everyone (who would quickly get exhausted and recognized), you deploy thousands of surveyors worldwide. Each proxy is like a different surveyor with their own identity, location, and approach. Together, they work harmoniously to gather data efficiently without drawing attention!</p>
+<div class="mermaid">
     graph TB
-        A[Proxy Rotation System] --> B[Proxy Sources]
-        A --> C[Proxy Management]
-        A --> D[Health Monitoring]
-        A --> E[Request Distribution]
+        A[Proxy Rotation System] --&gt; B[Proxy Sources]
+        A --&gt; C[Proxy Management]
+        A --&gt; D[Health Monitoring]
+        A --&gt; E[Request Distribution]
         
-        B --> F[Free Proxies]
-        B --> G[Premium Proxies]
-        B --> H[Residential Proxies]
-        B --> I[Datacenter Proxies]
+        B --&gt; F[Free Proxies]
+        B --&gt; G[Premium Proxies]
+        B --&gt; H[Residential Proxies]
+        B --&gt; I[Datacenter Proxies]
         
-        C --> J[Proxy Pool]
-        C --> K[Authentication]
-        C --> L[Rotation Strategy]
-        C --> M[Geolocation]
+        C --&gt; J[Proxy Pool]
+        C --&gt; K[Authentication]
+        C --&gt; L[Rotation Strategy]
+        C --&gt; M[Geolocation]
         
-        D --> N[Health Checks]
-        D --> O[Response Time]
-        D --> P[Success Rate]
-        D --> Q[Blacklist Detection]
+        D --&gt; N[Health Checks]
+        D --&gt; O[Response Time]
+        D --&gt; P[Success Rate]
+        D --&gt; Q[Blacklist Detection]
         
-        E --> R[Load Balancing]
-        E --> S[Retry Logic]
-        E --> T[Failover]
-        E --> U[Rate Limiting]
+        E --&gt; R[Load Balancing]
+        E --&gt; S[Retry Logic]
+        E --&gt; T[Failover]
+        E --&gt; U[Rate Limiting]
         
-        H --> V[Sticky Sessions]
-        I --> W[High Speed]
+        H --&gt; V[Sticky Sessions]
+        I --&gt; W[High Speed]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -56,12 +108,9 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The Global Price Monitor 🌍</h3>
-    
-    <p>You're building a price monitoring system that tracks products across multiple e-commerce sites in different countries. You need to handle IP bans, rate limits, geo-blocking, and anti-bot measures. Your system must make thousands of requests per minute while appearing as legitimate users from various locations. Proxy rotation is your key to achieving this scale!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Global Price Monitor 🌍</h3>
+<p>You're building a price monitoring system that tracks products across multiple e-commerce sites in different countries. You need to handle IP bans, rate limits, geo-blocking, and anti-bot measures. Your system must make thousands of requests per minute while appearing as legitimate users from various locations. Proxy rotation is your key to achieving this scale!</p>
+<pre><code># First, install required packages:
 # pip install requests[socks] pysocks aiohttp asyncio-throttle proxy-checker-py
 
 import requests
@@ -134,7 +183,7 @@ class Proxy:
     blacklisted: bool = False
     metadata: Dict[str, Any] = field(default_factory=dict)
     
-    def get_url(self) -> str:
+    def get_url(self) -&gt; str:
         """Get proxy URL for requests library."""
         if self.username and self.password:
             auth = f"{self.username}:{self.password}@"
@@ -143,7 +192,7 @@ class Proxy:
         
         return f"{self.type.value}://{auth}{self.host}:{self.port}"
     
-    def get_dict(self) -> Dict[str, str]:
+    def get_dict(self) -&gt; Dict[str, str]:
         """Get proxy dict for requests library."""
         proxy_url = self.get_url()
         if self.type in [ProxyType.HTTP, ProxyType.HTTPS]:
@@ -238,7 +287,7 @@ class ProxyPool:
         
         self.conn.commit()
     
-    def add_proxy(self, proxy: Proxy) -> bool:
+    def add_proxy(self, proxy: Proxy) -&gt; bool:
         """Add a proxy to the pool."""
         with self.lock:
             if proxy not in self.dead_proxies:
@@ -286,7 +335,7 @@ class ProxyPool:
     def get_proxy(self, 
                   country: Optional[str] = None,
                   anonymity: Optional[ProxyAnonymity] = None,
-                  source: Optional[ProxySource] = None) -> Optional[Proxy]:
+                  source: Optional[ProxySource] = None) -&gt; Optional[Proxy]:
         """
         Get next available proxy based on criteria.
         """
@@ -320,14 +369,14 @@ class ProxyPool:
             
             return proxy
     
-    def get_random_proxy(self) -> Optional[Proxy]:
+    def get_random_proxy(self) -&gt; Optional[Proxy]:
         """Get a random proxy from the pool."""
         with self.lock:
             if self.active_proxies:
                 return random.choice(list(self.active_proxies))
             return None
     
-    def get_rotating_proxy(self) -> Optional[Proxy]:
+    def get_rotating_proxy(self) -&gt; Optional[Proxy]:
         """Get next proxy in rotation."""
         with self.lock:
             if not self.proxy_cycle:
@@ -389,8 +438,8 @@ class ProxyPool:
             self._record_proxy_stat(proxy, False, error=error)
             
             # Check if proxy should be removed
-            if (proxy.failures >= self.max_failures or 
-                proxy.success_rate < self.min_success_rate):
+            if (proxy.failures &gt;= self.max_failures or 
+                proxy.success_rate &lt; self.min_success_rate):
                 self._remove_proxy(proxy)
             else:
                 self._save_proxy_to_db(proxy)
@@ -431,7 +480,7 @@ class ProxyPool:
     
     def check_proxy_health(self, proxy: Proxy, 
                           test_url: str = "http://httpbin.org/ip",
-                          timeout: int = 10) -> bool:
+                          timeout: int = 10) -&gt; bool:
         """Check if a proxy is working."""
         try:
             response = requests.get(
@@ -454,7 +503,7 @@ class ProxyPool:
     
     async def check_proxy_health_async(self, proxy: Proxy,
                                       test_url: str = "http://httpbin.org/ip",
-                                      timeout: int = 10) -> bool:
+                                      timeout: int = 10) -&gt; bool:
         """Asynchronously check if a proxy is working."""
         proxy_url = proxy.get_url()
         
@@ -510,7 +559,7 @@ class ProxyPool:
         
         self.last_health_check = datetime.now()
     
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -&gt; Dict[str, Any]:
         """Get pool statistics."""
         with self.lock:
             stats = {
@@ -560,14 +609,14 @@ class ProxyPool:
                 # Parse proxy format: host:port or host:port:username:password
                 parts = line.split(':')
                 
-                if len(parts) >= 2:
+                if len(parts) &gt;= 2:
                     proxy = Proxy(
                         host=parts[0],
                         port=int(parts[1]),
                         type=ProxyType.HTTP
                     )
                     
-                    if len(parts) >= 4:
+                    if len(parts) &gt;= 4:
                         proxy.username = parts[2]
                         proxy.password = parts[3]
                     
@@ -591,7 +640,7 @@ class ProxyScraper:
             self.scrape_sslproxies
         ]
     
-    def scrape_all(self) -> List[Proxy]:
+    def scrape_all(self) -&gt; List[Proxy]:
         """Scrape proxies from all sources."""
         all_proxies = []
         
@@ -605,7 +654,7 @@ class ProxyScraper:
         
         return all_proxies
     
-    def scrape_free_proxy_list(self) -> List[Proxy]:
+    def scrape_free_proxy_list(self) -&gt; List[Proxy]:
         """Scrape from free-proxy-list.net."""
         proxies = []
         
@@ -624,7 +673,7 @@ class ProxyScraper:
             if table:
                 for row in table.find_all('tr')[1:]:
                     cells = row.find_all('td')
-                    if len(cells) >= 7:
+                    if len(cells) &gt;= 7:
                         proxy = Proxy(
                             host=cells[0].text,
                             port=int(cells[1].text),
@@ -639,7 +688,7 @@ class ProxyScraper:
         
         return proxies
     
-    def scrape_proxy_list(self) -> List[Proxy]:
+    def scrape_proxy_list(self) -&gt; List[Proxy]:
         """Scrape from proxy-list.download."""
         proxies = []
         
@@ -664,7 +713,7 @@ class ProxyScraper:
         
         return proxies
     
-    def scrape_sslproxies(self) -> List[Proxy]:
+    def scrape_sslproxies(self) -&gt; List[Proxy]:
         """Scrape from sslproxies.org."""
         proxies = []
         
@@ -681,7 +730,7 @@ class ProxyScraper:
             if table:
                 for row in table.find_all('tr')[1:]:
                     cells = row.find_all('td')
-                    if len(cells) >= 7:
+                    if len(cells) &gt;= 7:
                         proxy = Proxy(
                             host=cells[0].text,
                             port=int(cells[1].text),
@@ -696,7 +745,7 @@ class ProxyScraper:
         
         return proxies
     
-    def _parse_anonymity(self, text: str) -> ProxyAnonymity:
+    def _parse_anonymity(self, text: str) -&gt; ProxyAnonymity:
         """Parse anonymity level from text."""
         text = text.lower()
         if 'elite' in text:
@@ -723,7 +772,7 @@ class SmartProxyRotator:
         self.logger = logging.getLogger(__name__)
     
     def request_with_retry(self, method: str, url: str, 
-                          **kwargs) -> Optional[requests.Response]:
+                          **kwargs) -&gt; Optional[requests.Response]:
         """
         Make request with automatic proxy rotation and retry.
         """
@@ -780,7 +829,7 @@ class SmartProxyRotator:
                 last_exception = e
             
             # Delay before retry
-            if attempt < self.max_retries - 1:
+            if attempt &lt; self.max_retries - 1:
                 time.sleep(self.retry_delay * (attempt + 1))
         
         if last_exception:
@@ -788,7 +837,7 @@ class SmartProxyRotator:
         
         return None
     
-    def _get_unused_proxy(self, used_proxies: Set[Proxy]) -> Optional[Proxy]:
+    def _get_unused_proxy(self, used_proxies: Set[Proxy]) -&gt; Optional[Proxy]:
         """Get a proxy that hasn't been used in current retry cycle."""
         for _ in range(len(self.proxy_pool.active_proxies)):
             proxy = self.proxy_pool.get_rotating_proxy()
@@ -796,7 +845,7 @@ class SmartProxyRotator:
                 return proxy
         return None
     
-    def get_sticky_session(self, session_id: str) -> Proxy:
+    def get_sticky_session(self, session_id: str) -&gt; Proxy:
         """Get or create a sticky session with a specific proxy."""
         if session_id not in self.session_proxies:
             proxy = self.proxy_pool.get_proxy()
@@ -811,7 +860,7 @@ class SmartProxyRotator:
             del self.session_proxies[session_id]
     
     async def async_request(self, method: str, url: str,
-                           **kwargs) -> Optional[aiohttp.ClientResponse]:
+                           **kwargs) -&gt; Optional[aiohttp.ClientResponse]:
         """Make async request with proxy rotation."""
         proxy = self.proxy_pool.get_rotating_proxy()
         
@@ -907,7 +956,7 @@ class ScrapyProxyMiddleware:
         retries = request.meta.get('proxy_retry_times', 0)
         max_retries = spider.settings.get('PROXY_RETRY_TIMES', 3)
         
-        if retries < max_retries:
+        if retries &lt; max_retries:
             request.meta['proxy_retry_times'] = retries + 1
             request.dont_filter = True
             return request
@@ -1046,37 +1095,28 @@ if __name__ == "__main__":
     
     print("\n✅ Proxy rotation demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Verify Proxy Quality:</strong> Always test proxies before adding them to your pool.</li>
-        
-        <li><strong>Monitor Health Continuously:</strong> Regular health checks ensure proxy reliability.</li>
-        
-        <li><strong>Implement Smart Rotation:</strong> Use different strategies for different use cases.</li>
-        
-        <li><strong>Handle Failures Gracefully:</strong> Automatic retry with different proxies.</li>
-        
-        <li><strong>Track Metrics:</strong> Monitor success rates, response times, and failures.</li>
-        
-        <li><strong>Use Appropriate Proxy Types:</strong> Choose between HTTP, HTTPS, SOCKS based on needs.</li>
-        
-        <li><strong>Consider Anonymity Levels:</strong> Balance between anonymity and performance.</li>
-        
-        <li><strong>Respect Rate Limits:</strong> Even with proxies, be respectful of target servers.</li>
-    </ul>
-
-    <h3>Proxy Rotation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Proxy rotation is like managing a fleet of vehicles - you need the right type for each job, regular maintenance, and backup options when one breaks down. Start with a diverse pool of proxies from different providers and geographic locations. Implement intelligent rotation that considers proxy health, response time, and success rate. Free proxies are tempting but unreliable - use them for testing but invest in premium proxies for production. Residential proxies are best for avoiding detection but cost more; datacenter proxies are faster and cheaper but more easily detected. Always implement health checking - a dead proxy is worse than no proxy. Use sticky sessions when scraping sites that require login. Monitor your proxy performance metrics and automatically remove underperforming ones. Remember that proxies aren't a license to abuse - they're a tool for scaling legitimate data collection. Most importantly: have a fallback strategy when all proxies fail!</p>
-    </div>
-    
-    <p>Mastering proxy rotation transforms you from a single-threaded scraper to a distributed data collection network. You can now bypass rate limits, access geo-restricted content, maintain anonymity, and scale your scraping operations globally. Whether you're monitoring prices, collecting market intelligence, or building large-scale data pipelines, proxy rotation is your key to reliable, scalable web scraping! 🌐</p>
-    
-    <footer>
-        <p>Next up: <a href="advanced_scraping_captcha.html">CAPTCHA Considerations - Handle Bot Detection!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Verify Proxy Quality:</strong> Always test proxies before adding them to your pool.</li>
+<li><strong>Monitor Health Continuously:</strong> Regular health checks ensure proxy reliability.</li>
+<li><strong>Implement Smart Rotation:</strong> Use different strategies for different use cases.</li>
+<li><strong>Handle Failures Gracefully:</strong> Automatic retry with different proxies.</li>
+<li><strong>Track Metrics:</strong> Monitor success rates, response times, and failures.</li>
+<li><strong>Use Appropriate Proxy Types:</strong> Choose between HTTP, HTTPS, SOCKS based on needs.</li>
+<li><strong>Consider Anonymity Levels:</strong> Balance between anonymity and performance.</li>
+<li><strong>Respect Rate Limits:</strong> Even with proxies, be respectful of target servers.</li>
+</ul>
+<h3>Proxy Rotation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Proxy rotation is like managing a fleet of vehicles - you need the right type for each job, regular maintenance, and backup options when one breaks down. Start with a diverse pool of proxies from different providers and geographic locations. Implement intelligent rotation that considers proxy health, response time, and success rate. Free proxies are tempting but unreliable - use them for testing but invest in premium proxies for production. Residential proxies are best for avoiding detection but cost more; datacenter proxies are faster and cheaper but more easily detected. Always implement health checking - a dead proxy is worse than no proxy. Use sticky sessions when scraping sites that require login. Monitor your proxy performance metrics and automatically remove underperforming ones. Remember that proxies aren't a license to abuse - they're a tool for scaling legitimate data collection. Most importantly: have a fallback strategy when all proxies fail!</p>
+</div>
+<p>Mastering proxy rotation transforms you from a single-threaded scraper to a distributed data collection network. You can now bypass rate limits, access geo-restricted content, maintain anonymity, and scale your scraping operations globally. Whether you're monitoring prices, collecting market intelligence, or building large-scale data pipelines, proxy rotation is your key to reliable, scalable web scraping! 🌐</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="advanced_scraping_captcha.html">← Previous: CAPTCHA Handling</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="advanced_scraping_data_pipelines.html">Next: Data Pipelines →</a>
+</div>
+</footer>
 </body>
 </html>

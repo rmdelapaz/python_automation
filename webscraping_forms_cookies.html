@@ -1,67 +1,116 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handling Forms and Cookies - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Handling Forms and Cookies - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🍪 Handling Forms and Cookies: Master Web Interactions</h1>
-    
-    <p>Forms and cookies are the gateway to dynamic web interactions. Forms let you submit data, login to sites, and interact with web applications. Cookies maintain your session, remember preferences, and keep you logged in. Together, they're the key to automating any interactive website. Let's become masters of web interaction! 🔐</p>
-
-    <h2>The Web Interaction Ecosystem</h2>
-    
-    <p>Think of forms as conversation starters with websites - you fill them out, submit them, and get responses. Cookies are like membership cards that websites give you, proving you belong and remembering who you are. Master both, and you can automate any web interaction from simple searches to complex multi-step workflows!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module2">Web Scraping</a> &gt; 
+        <span>Forms and Cookies</span>
+</nav>
+<h1>🍪 Handling Forms and Cookies: Master Web Interactions</h1>
+<p>Forms and cookies are the gateway to dynamic web interactions. Forms let you submit data, login to sites, and interact with web applications. Cookies maintain your session, remember preferences, and keep you logged in. Together, they're the key to automating any interactive website. Let's become masters of web interaction! 🔐</p>
+<h2>The Web Interaction Ecosystem</h2>
+<p>Think of forms as conversation starters with websites - you fill them out, submit them, and get responses. Cookies are like membership cards that websites give you, proving you belong and remembering who you are. Master both, and you can automate any web interaction from simple searches to complex multi-step workflows!</p>
+<div class="mermaid">
     graph TB
-        A[Web Interaction] --> B[Forms]
-        A --> C[Cookies]
-        A --> D[Sessions]
+        A[Web Interaction] --&gt; B[Forms]
+        A --&gt; C[Cookies]
+        A --&gt; D[Sessions]
         
-        B --> E[Form Discovery]
-        B --> F[Field Analysis]
-        B --> G[Data Preparation]
-        B --> H[Form Submission]
-        B --> I[File Uploads]
+        B --&gt; E[Form Discovery]
+        B --&gt; F[Field Analysis]
+        B --&gt; G[Data Preparation]
+        B --&gt; H[Form Submission]
+        B --&gt; I[File Uploads]
         
-        C --> J[Cookie Extraction]
-        C --> K[Cookie Storage]
-        C --> L[Cookie Management]
-        C --> M[Cookie Jar]
+        C --&gt; J[Cookie Extraction]
+        C --&gt; K[Cookie Storage]
+        C --&gt; L[Cookie Management]
+        C --&gt; M[Cookie Jar]
         
-        D --> N[Session Creation]
-        D --> O[Session Persistence]
-        D --> P[Authentication]
-        D --> Q[State Management]
+        D --&gt; N[Session Creation]
+        D --&gt; O[Session Persistence]
+        D --&gt; P[Authentication]
+        D --&gt; Q[State Management]
         
-        E --> R[CSRF Tokens]
-        F --> S[Hidden Fields]
-        G --> T[Validation]
-        H --> U[AJAX Forms]
+        E --&gt; R[CSRF Tokens]
+        F --&gt; S[Hidden Fields]
+        G --&gt; T[Validation]
+        H --&gt; U[AJAX Forms]
         
-        J --> V[Browser Cookies]
-        K --> W[Cookie Files]
-        L --> X[Expiration]
+        J --&gt; V[Browser Cookies]
+        K --&gt; W[Cookie Files]
+        L --&gt; X[Expiration]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
         style C fill:#339af0
         style D fill:#ffd43b
     </div>
-
-    <h3>Real-World Scenario: The Multi-Site Authenticator 🔑</h3>
-    
-    <p>You're building an automation system that needs to login to multiple websites, submit forms, handle two-factor authentication, maintain sessions across requests, and deal with complex anti-bot measures. Each site has different form structures, CSRF protection, captchas, and cookie policies. Let's build a robust system that handles it all!</p>
-
-    <pre><code>import requests
+<h3>Real-World Scenario: The Multi-Site Authenticator 🔑</h3>
+<p>You're building an automation system that needs to login to multiple websites, submit forms, handle two-factor authentication, maintain sessions across requests, and deal with complex anti-bot measures. Each site has different form structures, CSRF protection, captchas, and cookie policies. Let's build a robust system that handles it all!</p>
+<pre><code>import requests
 from requests.cookies import RequestsCookieJar, create_cookie
 from http.cookiejar import CookieJar, MozillaCookieJar, LWPCookieJar
 import http.cookiejar as cookiejar
@@ -136,7 +185,7 @@ class FormHandler:
         )
         self.logger = logging.getLogger(__name__)
     
-    def discover_forms(self, url: str) -> List[Form]:
+    def discover_forms(self, url: str) -&gt; List[Form]:
         """
         Discover all forms on a page.
         """
@@ -159,7 +208,7 @@ class FormHandler:
             self.logger.error(f"Error discovering forms: {e}")
             return []
     
-    def parse_form(self, form_element: BeautifulSoup, base_url: str) -> Form:
+    def parse_form(self, form_element: BeautifulSoup, base_url: str) -&gt; Form:
         """
         Parse a form element into Form object.
         """
@@ -216,7 +265,7 @@ class FormHandler:
         
         return form
     
-    def _parse_input_field(self, input_elem: BeautifulSoup) -> Optional[FormField]:
+    def _parse_input_field(self, input_elem: BeautifulSoup) -&gt; Optional[FormField]:
         """Parse input field."""
         name = input_elem.get('name')
         if not name:
@@ -242,7 +291,7 @@ class FormHandler:
         
         return field
     
-    def _parse_select_field(self, select_elem: BeautifulSoup) -> Optional[FormField]:
+    def _parse_select_field(self, select_elem: BeautifulSoup) -&gt; Optional[FormField]:
         """Parse select field."""
         name = select_elem.get('name')
         if not name:
@@ -270,7 +319,7 @@ class FormHandler:
         
         return field
     
-    def _parse_textarea_field(self, textarea_elem: BeautifulSoup) -> Optional[FormField]:
+    def _parse_textarea_field(self, textarea_elem: BeautifulSoup) -&gt; Optional[FormField]:
         """Parse textarea field."""
         name = textarea_elem.get('name')
         if not name:
@@ -284,7 +333,7 @@ class FormHandler:
             attributes=dict(textarea_elem.attrs)
         )
     
-    def _find_csrf_token(self, form_element: BeautifulSoup) -> Optional[str]:
+    def _find_csrf_token(self, form_element: BeautifulSoup) -&gt; Optional[str]:
         """
         Find CSRF token in form.
         """
@@ -309,7 +358,7 @@ class FormHandler:
         return None
     
     def fill_form(self, form: Form, data: Dict[str, Any], 
-                 auto_complete: bool = True) -> Dict[str, Any]:
+                 auto_complete: bool = True) -&gt; Dict[str, Any]:
         """
         Fill form with data.
         
@@ -353,7 +402,7 @@ class FormHandler:
         
         return form_data
     
-    def _generate_default_value(self, field: FormField) -> Any:
+    def _generate_default_value(self, field: FormField) -&gt; Any:
         """Generate default value for a field."""
         if field.field_type == 'email':
             return 'user@example.com'
@@ -369,7 +418,7 @@ class FormHandler:
             return 'default'
     
     def submit_form(self, form: Form, data: Dict[str, Any], 
-                   files: Dict[str, Any] = None) -> requests.Response:
+                   files: Dict[str, Any] = None) -&gt; requests.Response:
         """
         Submit a form with data.
         """
@@ -409,7 +458,7 @@ class FormHandler:
         return response
     
     def handle_login_form(self, login_url: str, username: str, 
-                         password: str) -> bool:
+                         password: str) -&gt; bool:
         """
         Handle a login form automatically.
         """
@@ -526,7 +575,7 @@ class CookieManager:
         except Exception as e:
             self.logger.error(f"Error saving cookies: {e}")
     
-    def load_cookies(self, session: requests.Session, filename: str = None) -> bool:
+    def load_cookies(self, session: requests.Session, filename: str = None) -&gt; bool:
         """
         Load cookies from file into session.
         """
@@ -622,7 +671,7 @@ class CookieManager:
         
         lwp.save()
     
-    def import_browser_cookies(self, browser: str = 'chrome') -> RequestsCookieJar:
+    def import_browser_cookies(self, browser: str = 'chrome') -&gt; RequestsCookieJar:
         """
         Import cookies from browser.
         
@@ -639,7 +688,7 @@ class CookieManager:
         else:
             raise ValueError(f"Unsupported browser: {browser}")
     
-    def _import_chrome_cookies(self) -> RequestsCookieJar:
+    def _import_chrome_cookies(self) -&gt; RequestsCookieJar:
         """Import cookies from Chrome."""
         import sqlite3
         import win32crypt  # Windows only
@@ -686,7 +735,7 @@ class CookieManager:
         
         return jar
     
-    def _import_firefox_cookies(self) -> RequestsCookieJar:
+    def _import_firefox_cookies(self) -&gt; RequestsCookieJar:
         """Import cookies from Firefox."""
         import sqlite3
         
@@ -712,7 +761,7 @@ class CookieManager:
         
         return jar
     
-    def _find_firefox_profile(self) -> str:
+    def _find_firefox_profile(self) -&gt; str:
         """Find Firefox default profile."""
         if sys.platform == 'win32':
             base = os.path.join(os.environ['APPDATA'], 'Mozilla', 'Firefox', 'Profiles')
@@ -727,7 +776,7 @@ class CookieManager:
         
         raise Exception("Firefox profile not found")
     
-    def create_persistent_session(self, session_file: str = 'session.pkl') -> requests.Session:
+    def create_persistent_session(self, session_file: str = 'session.pkl') -&gt; requests.Session:
         """
         Create a persistent session that survives script restarts.
         """
@@ -773,7 +822,7 @@ class SessionManager:
         self.logger = logging.getLogger(__name__)
     
     def login(self, login_url: str, username: str, password: str,
-             persist_session: bool = True) -> bool:
+             persist_session: bool = True) -&gt; bool:
         """
         Login to a website and maintain session.
         """
@@ -793,7 +842,7 @@ class SessionManager:
         
         return success
     
-    def is_logged_in(self, check_url: str) -> bool:
+    def is_logged_in(self, check_url: str) -&gt; bool:
         """
         Check if currently logged in.
         """
@@ -830,7 +879,7 @@ class SessionManager:
             self.logger.error(f"Error checking login status: {e}")
             return False
     
-    def handle_two_factor_auth(self, code: str, submit_url: str = None) -> bool:
+    def handle_two_factor_auth(self, code: str, submit_url: str = None) -&gt; bool:
         """
         Handle two-factor authentication.
         """
@@ -981,17 +1030,17 @@ if __name__ == "__main__":
     # HTML with complex form
     complex_form_html = """
     <form action="/submit" method="post">
-        <input type="hidden" name="csrf_token" value="abc123xyz">
-        <input type="text" name="username" required>
-        <input type="password" name="password" required>
+        <input name="csrf_token" type="hidden" value="abc123xyz"/>
+        <input name="username" required="" type="text"/>
+        <input name="password" required="" type="password"/>
         <select name="country">
             <option value="us">United States</option>
             <option value="uk">United Kingdom</option>
             <option value="ca">Canada</option>
         </select>
-        <input type="checkbox" name="remember" value="1" checked>
+        <input checked="" name="remember" type="checkbox" value="1"/>
         <textarea name="comments">Enter comments here</textarea>
-        <button type="submit" name="action" value="login">Login</button>
+        <button name="action" type="submit" value="login">Login</button>
     </form>
     """
     
@@ -1061,35 +1110,27 @@ if __name__ == "__main__":
     
     print("\n✅ Forms and cookies handling demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Respect robots.txt:</strong> Check and follow website policies before automation.</li>
-        
-        <li><strong>Use Sessions:</strong> Maintain state across requests with session objects.</li>
-        
-        <li><strong>Handle CSRF Tokens:</strong> Always extract and include CSRF tokens when present.</li>
-        
-        <li><strong>Persist Cookies:</strong> Save and reuse cookies to avoid repeated logins.</li>
-        
-        <li><strong>Mimic Real Browsers:</strong> Use appropriate headers and user agents.</li>
-        
-        <li><strong>Handle Failures Gracefully:</strong> Implement retry logic and error handling.</li>
-        
-        <li><strong>Respect Rate Limits:</strong> Add delays between requests to avoid being blocked.</li>
-    </ul>
-
-    <h3>Forms and Cookies Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Forms and cookies are the foundation of web interaction, but they're also security features. Always approach them respectfully. Use session objects to maintain state, save cookies to avoid repeated logins, and handle CSRF tokens properly. When filling forms, validate your data client-side to avoid server errors. For file uploads, use multipart encoding. Remember that cookies expire, so implement refresh mechanisms. Most importantly: always test your form handlers on test sites first, respect rate limits, and never use automation for malicious purposes. Good automation is invisible - it works just like a human would, just faster and more reliably!</p>
-    </div>
-    
-    <p>Mastering forms and cookies transforms you from a passive web observer to an active participant. You can now login to sites, submit data, maintain sessions, and automate complex multi-step workflows. Whether you're building testing tools, data collectors, or automation systems, these skills are essential for modern web interaction! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="webscraping_session_management.html">Session Management - Maintain State Like a Pro!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Respect robots.txt:</strong> Check and follow website policies before automation.</li>
+<li><strong>Use Sessions:</strong> Maintain state across requests with session objects.</li>
+<li><strong>Handle CSRF Tokens:</strong> Always extract and include CSRF tokens when present.</li>
+<li><strong>Persist Cookies:</strong> Save and reuse cookies to avoid repeated logins.</li>
+<li><strong>Mimic Real Browsers:</strong> Use appropriate headers and user agents.</li>
+<li><strong>Handle Failures Gracefully:</strong> Implement retry logic and error handling.</li>
+<li><strong>Respect Rate Limits:</strong> Add delays between requests to avoid being blocked.</li>
+</ul>
+<h3>Forms and Cookies Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Forms and cookies are the foundation of web interaction, but they're also security features. Always approach them respectfully. Use session objects to maintain state, save cookies to avoid repeated logins, and handle CSRF tokens properly. When filling forms, validate your data client-side to avoid server errors. For file uploads, use multipart encoding. Remember that cookies expire, so implement refresh mechanisms. Most importantly: always test your form handlers on test sites first, respect rate limits, and never use automation for malicious purposes. Good automation is invisible - it works just like a human would, just faster and more reliably!</p>
+</div>
+<p>Mastering forms and cookies transforms you from a passive web observer to an active participant. You can now login to sites, submit data, maintain sessions, and automate complex multi-step workflows. Whether you're building testing tools, data collectors, or automation systems, these skills are essential for modern web interaction! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="webscraping_beautifulsoup_mastery.html">← Previous: BeautifulSoup Mastery</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="webscraping_session_management.html">Next: Session Management →</a>
+</div>
+</footer>
 </body>
 </html>

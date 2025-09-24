@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Environment Management - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Environment Management - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🌍 Environment Management: Master System Configurations</h1>
-    
-    <p>Environments are like different stages in a theater - development is rehearsal, staging is dress rehearsal, and production is opening night. Each needs different settings, secrets, and configurations. Environment management ensures your code performs flawlessly on every stage. Let's become the stage managers of the digital world! 🎭</p>
-
-    <h2>The Environment Management Landscape</h2>
-    
-    <p>Think of environment management as creating parallel universes for your applications. Each universe has its own laws (configurations), citizens (services), and secrets (API keys). Python helps you manage these universes, ensuring they never collide and always work in harmony!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module10">System Administration</a> &gt; 
+        <span>Environment Management</span>
+</nav>
+<h1>🌍 Environment Management: Master System Configurations</h1>
+<p>Environments are like different stages in a theater - development is rehearsal, staging is dress rehearsal, and production is opening night. Each needs different settings, secrets, and configurations. Environment management ensures your code performs flawlessly on every stage. Let's become the stage managers of the digital world! 🎭</p>
+<h2>The Environment Management Landscape</h2>
+<p>Think of environment management as creating parallel universes for your applications. Each universe has its own laws (configurations), citizens (services), and secrets (API keys). Python helps you manage these universes, ensuring they never collide and always work in harmony!</p>
+<div class="mermaid">
     graph TB
-        A[Environment Management] --> B[Configuration Management]
-        A --> C[Secret Management]
-        A --> D[Virtual Environments]
-        A --> E[Container Environments]
-        A --> F[System Environment]
+        A[Environment Management] --&gt; B[Configuration Management]
+        A --&gt; C[Secret Management]
+        A --&gt; D[Virtual Environments]
+        A --&gt; E[Container Environments]
+        A --&gt; F[System Environment]
         
-        B --> G[Config Files]
-        B --> H[Environment Variables]
-        B --> I[Feature Flags]
-        B --> J[Dynamic Configuration]
+        B --&gt; G[Config Files]
+        B --&gt; H[Environment Variables]
+        B --&gt; I[Feature Flags]
+        B --&gt; J[Dynamic Configuration]
         
-        C --> K[API Keys]
-        C --> L[Passwords]
-        C --> M[Certificates]
-        C --> N[Encryption]
+        C --&gt; K[API Keys]
+        C --&gt; L[Passwords]
+        C --&gt; M[Certificates]
+        C --&gt; N[Encryption]
         
-        D --> O[Python venv]
-        D --> P[Conda]
-        D --> Q[Poetry]
-        D --> R[Pipenv]
+        D --&gt; O[Python venv]
+        D --&gt; P[Conda]
+        D --&gt; Q[Poetry]
+        D --&gt; R[Pipenv]
         
-        E --> S[Docker]
-        E --> T[Kubernetes]
-        E --> U[Container Registries]
+        E --&gt; S[Docker]
+        E --&gt; T[Kubernetes]
+        E --&gt; U[Container Registries]
         
-        F --> V[System Variables]
-        F --> W[Path Management]
-        F --> X[Service Configuration]
-        F --> Y[User Profiles]
+        F --&gt; V[System Variables]
+        F --&gt; W[Path Management]
+        F --&gt; X[Service Configuration]
+        F --&gt; Y[User Profiles]
         
         style A fill:#ff6b6b
         style G fill:#51cf66
@@ -59,12 +111,9 @@
         style S fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Multi-Environment Application Platform 🚀</h3>
-    
-    <p>You're managing a complex application that runs in development, staging, and production environments. Each environment has different database connections, API endpoints, feature flags, and secrets. Developers need isolated Python environments, operations needs containerized deployments, and security demands encrypted secrets. Let's build a comprehensive environment management system!</p>
-
-    <pre><code>import os
+<h3>Real-World Scenario: The Multi-Environment Application Platform 🚀</h3>
+<p>You're managing a complex application that runs in development, staging, and production environments. Each environment has different database connections, API endpoints, feature flags, and secrets. Developers need isolated Python environments, operations needs containerized deployments, and security demands encrypted secrets. Let's build a comprehensive environment management system!</p>
+<pre><code>import os
 import sys
 import json
 import yaml
@@ -155,7 +204,7 @@ class EnvironmentManager:
         )
         self.logger = logging.getLogger(__name__)
     
-    def create_environment(self, env: Environment) -> bool:
+    def create_environment(self, env: Environment) -&gt; bool:
         """Create a new environment."""
         try:
             # Store environment
@@ -210,7 +259,7 @@ class EnvironmentManager:
                         )
                         self.environments[env.name] = env
     
-    def activate_environment(self, name: str) -> bool:
+    def activate_environment(self, name: str) -&gt; bool:
         """Activate an environment."""
         if name not in self.environments:
             self.logger.error(f"Environment not found: {name}")
@@ -256,7 +305,7 @@ class EnvironmentManager:
         self.logger.info(f"Deactivated environment: {self.current_env.name}")
         self.current_env = None
     
-    def get_config(self, key: str, default: Any = None) -> Any:
+    def get_config(self, key: str, default: Any = None) -&gt; Any:
         """Get configuration value from current environment."""
         if not self.current_env:
             return default
@@ -272,14 +321,14 @@ class EnvironmentManager:
         # Check environment variables
         return os.environ.get(key, default)
     
-    def is_feature_enabled(self, feature: str) -> bool:
+    def is_feature_enabled(self, feature: str) -&gt; bool:
         """Check if a feature is enabled in current environment."""
         if not self.current_env:
             return False
         
         return self.current_env.features.get(feature, False)
     
-    def get_service_config(self, service: str) -> Optional[ServiceConfig]:
+    def get_service_config(self, service: str) -&gt; Optional[ServiceConfig]:
         """Get service configuration for current environment."""
         if not self.current_env:
             return None
@@ -292,7 +341,7 @@ class EnvironmentManager:
         if isinstance(service_data, str):
             # Simple URL format
             parts = service_data.split(':')
-            if len(parts) >= 2:
+            if len(parts) &gt;= 2:
                 return ServiceConfig(
                     name=service,
                     host=parts[0],
@@ -303,7 +352,7 @@ class EnvironmentManager:
         
         return None
     
-    def export_environment(self, name: str, format: str = 'env') -> str:
+    def export_environment(self, name: str, format: str = 'env') -&gt; str:
         """Export environment configuration."""
         if name not in self.environments:
             raise ValueError(f"Environment not found: {name}")
@@ -335,7 +384,7 @@ class EnvironmentManager:
         else:
             raise ValueError(f"Unknown export format: {format}")
     
-    def compare_environments(self, env1_name: str, env2_name: str) -> Dict:
+    def compare_environments(self, env1_name: str, env2_name: str) -&gt; Dict:
         """Compare two environments."""
         if env1_name not in self.environments:
             raise ValueError(f"Environment not found: {env1_name}")
@@ -411,7 +460,7 @@ class SecretManager:
         
         self.logger = logging.getLogger(__name__)
     
-    def _get_or_create_master_key(self) -> bytes:
+    def _get_or_create_master_key(self) -&gt; bytes:
         """Get or create master encryption key."""
         key_file = self.secret_dir / '.master.key'
         
@@ -431,7 +480,7 @@ class SecretManager:
             
             return key
     
-    def store_secret(self, name: str, value: str) -> bool:
+    def store_secret(self, name: str, value: str) -&gt; bool:
         """Store an encrypted secret."""
         try:
             # Encrypt value
@@ -452,7 +501,7 @@ class SecretManager:
             self.logger.error(f"Failed to store secret: {e}")
             return False
     
-    def get_secret(self, name: str) -> Optional[str]:
+    def get_secret(self, name: str) -&gt; Optional[str]:
         """Retrieve and decrypt a secret."""
         try:
             secret_file = self.secret_dir / f"{name}.secret"
@@ -473,7 +522,7 @@ class SecretManager:
             self.logger.error(f"Failed to get secret: {e}")
             return None
     
-    def delete_secret(self, name: str) -> bool:
+    def delete_secret(self, name: str) -&gt; bool:
         """Delete a secret."""
         try:
             secret_file = self.secret_dir / f"{name}.secret"
@@ -493,7 +542,7 @@ class SecretManager:
             self.logger.error(f"Failed to delete secret: {e}")
             return False
     
-    def rotate_secret(self, name: str, new_value: str) -> bool:
+    def rotate_secret(self, name: str, new_value: str) -&gt; bool:
         """Rotate a secret value."""
         # Store old value with timestamp
         old_value = self.get_secret(name)
@@ -515,7 +564,7 @@ class ConfigurationManager:
         self.configs = {}
         self.logger = logging.getLogger(__name__)
     
-    def load_config(self, file_path: str, format: str = None) -> Dict:
+    def load_config(self, file_path: str, format: str = None) -&gt; Dict:
         """Load configuration from file."""
         file_path = Path(file_path)
         
@@ -544,7 +593,7 @@ class ConfigurationManager:
             self.logger.error(f"Failed to load config: {e}")
             return {}
     
-    def merge_configs(self, *configs: Dict) -> Dict:
+    def merge_configs(self, *configs: Dict) -&gt; Dict:
         """Merge multiple configurations with precedence."""
         result = {}
         
@@ -553,7 +602,7 @@ class ConfigurationManager:
         
         return result
     
-    def _deep_merge(self, dict1: Dict, dict2: Dict) -> Dict:
+    def _deep_merge(self, dict1: Dict, dict2: Dict) -&gt; Dict:
         """Deep merge two dictionaries."""
         result = dict1.copy()
         
@@ -565,7 +614,7 @@ class ConfigurationManager:
         
         return result
     
-    def validate_config(self, config: Dict, schema: Dict) -> Tuple[bool, List[str]]:
+    def validate_config(self, config: Dict, schema: Dict) -&gt; Tuple[bool, List[str]]:
         """Validate configuration against schema."""
         errors = []
         
@@ -597,7 +646,7 @@ class ConfigurationManager:
         
         return len(errors) == 0, errors
     
-    def substitute_variables(self, config: Dict, variables: Dict) -> Dict:
+    def substitute_variables(self, config: Dict, variables: Dict) -&gt; Dict:
         """Substitute variables in configuration."""
         def substitute(obj):
             if isinstance(obj, str):
@@ -628,7 +677,7 @@ class PythonEnvironmentManager:
         self.base_dir.mkdir(parents=True, exist_ok=True)
         self.logger = logging.getLogger(__name__)
     
-    def create_venv(self, name: str, python_version: str = None) -> bool:
+    def create_venv(self, name: str, python_version: str = None) -&gt; bool:
         """Create a Python virtual environment."""
         try:
             venv_path = self.base_dir / name
@@ -655,7 +704,7 @@ class PythonEnvironmentManager:
             self.logger.error(f"Failed to create venv: {e}")
             return False
     
-    def activate_venv(self, name: str) -> Optional[str]:
+    def activate_venv(self, name: str) -&gt; Optional[str]:
         """Get activation command for virtual environment."""
         venv_path = self.base_dir / name
         
@@ -670,7 +719,7 @@ class PythonEnvironmentManager:
         
         return str(activate_script)
     
-    def install_requirements(self, name: str, requirements: Union[str, List[str]]) -> bool:
+    def install_requirements(self, name: str, requirements: Union[str, List[str]]) -&gt; bool:
         """Install packages in virtual environment."""
         venv_path = self.base_dir / name
         
@@ -706,7 +755,7 @@ class PythonEnvironmentManager:
             self.logger.error(f"Failed to install requirements: {e}")
             return False
     
-    def freeze_requirements(self, name: str) -> Optional[str]:
+    def freeze_requirements(self, name: str) -&gt; Optional[str]:
         """Get installed packages from virtual environment."""
         venv_path = self.base_dir / name
         
@@ -735,7 +784,7 @@ class PythonEnvironmentManager:
             self.logger.error(f"Failed to freeze requirements: {e}")
             return None
     
-    def delete_venv(self, name: str) -> bool:
+    def delete_venv(self, name: str) -&gt; bool:
         """Delete a virtual environment."""
         venv_path = self.base_dir / name
         
@@ -761,7 +810,7 @@ class ContainerEnvironmentManager:
         self.logger = logging.getLogger(__name__)
     
     def build_environment(self, name: str, dockerfile: str, 
-                         build_args: Dict = None) -> bool:
+                         build_args: Dict = None) -&gt; bool:
         """Build a Docker environment."""
         try:
             image, logs = self.client.images.build(
@@ -784,7 +833,7 @@ class ContainerEnvironmentManager:
     
     def run_in_environment(self, image: str, command: str, 
                           environment: Dict = None,
-                          volumes: Dict = None) -> Tuple[int, str]:
+                          volumes: Dict = None) -&gt; Tuple[int, str]:
         """Run command in containerized environment."""
         try:
             container = self.client.containers.run(
@@ -809,7 +858,7 @@ class ContainerEnvironmentManager:
             self.logger.error(f"Failed to run in environment: {e}")
             return 1, str(e)
     
-    def create_compose_file(self, services: Dict[str, Dict]) -> str:
+    def create_compose_file(self, services: Dict[str, Dict]) -&gt; str:
         """Create Docker Compose configuration."""
         compose = {
             'version': '3.8',
@@ -841,7 +890,7 @@ class SystemEnvironmentManager:
         self.logger = logging.getLogger(__name__)
         self.system = platform.system()
     
-    def get_system_info(self) -> Dict:
+    def get_system_info(self) -&gt; Dict:
         """Get system environment information."""
         return {
             'platform': platform.platform(),
@@ -860,7 +909,7 @@ class SystemEnvironmentManager:
         }
     
     def set_system_variable(self, name: str, value: str, 
-                          persistent: bool = False) -> bool:
+                          persistent: bool = False) -&gt; bool:
         """Set system environment variable."""
         try:
             # Set for current process
@@ -892,7 +941,7 @@ class SystemEnvironmentManager:
             self.logger.error(f"Failed to set system variable: {e}")
             return False
     
-    def update_path(self, directory: str, prepend: bool = True) -> bool:
+    def update_path(self, directory: str, prepend: bool = True) -&gt; bool:
         """Update system PATH variable."""
         try:
             current_path = os.environ.get('PATH', '')
@@ -1114,35 +1163,27 @@ if __name__ == "__main__":
     
     print("\n✅ Environment management demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Never Hardcode Secrets:</strong> Always use environment variables or secret management systems.</li>
-        
-        <li><strong>Separate Environments:</strong> Keep development, staging, and production completely isolated.</li>
-        
-        <li><strong>Use Version Control Wisely:</strong> Store configurations in version control, but never secrets.</li>
-        
-        <li><strong>Encrypt Sensitive Data:</strong> Always encrypt secrets at rest and in transit.</li>
-        
-        <li><strong>Implement Feature Flags:</strong> Control feature rollout across environments.</li>
-        
-        <li><strong>Validate Configurations:</strong> Always validate configurations before deployment.</li>
-        
-        <li><strong>Audit Environment Changes:</strong> Keep logs of all environment modifications.</li>
-    </ul>
-
-    <h3>Environment Management Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Environment management is like being a stage director - you ensure every actor (service) has the right props (configurations) for their scene (environment). Always follow the principle of least privilege for secrets, use immutable infrastructure where possible, and implement proper secret rotation. Remember the 12-factor app methodology: treat configuration as code, but secrets as runtime concerns. Use tools like HashiCorp Vault for production secret management, implement proper RBAC (Role-Based Access Control), and always have a rollback plan. Most importantly: test your disaster recovery procedures - the worst time to discover your backup secrets don't work is during an outage!</p>
-    </div>
-    
-    <p>Environment management mastery transforms you from a configuration juggler to an infrastructure conductor. You can seamlessly deploy applications across multiple environments, manage secrets securely, and ensure consistency from development to production. Whether you're managing a single application or a microservices architecture, these environment management skills are essential for modern DevOps! 🚀</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the System Administration section. Next up: <a href="index.html">Return to Course Overview</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Never Hardcode Secrets:</strong> Always use environment variables or secret management systems.</li>
+<li><strong>Separate Environments:</strong> Keep development, staging, and production completely isolated.</li>
+<li><strong>Use Version Control Wisely:</strong> Store configurations in version control, but never secrets.</li>
+<li><strong>Encrypt Sensitive Data:</strong> Always encrypt secrets at rest and in transit.</li>
+<li><strong>Implement Feature Flags:</strong> Control feature rollout across environments.</li>
+<li><strong>Validate Configurations:</strong> Always validate configurations before deployment.</li>
+<li><strong>Audit Environment Changes:</strong> Keep logs of all environment modifications.</li>
+</ul>
+<h3>Environment Management Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Environment management is like being a stage director - you ensure every actor (service) has the right props (configurations) for their scene (environment). Always follow the principle of least privilege for secrets, use immutable infrastructure where possible, and implement proper secret rotation. Remember the 12-factor app methodology: treat configuration as code, but secrets as runtime concerns. Use tools like HashiCorp Vault for production secret management, implement proper RBAC (Role-Based Access Control), and always have a rollback plan. Most importantly: test your disaster recovery procedures - the worst time to discover your backup secrets don't work is during an outage!</p>
+</div>
+<p>Environment management mastery transforms you from a configuration juggler to an infrastructure conductor. You can seamlessly deploy applications across multiple environments, manage secrets securely, and ensure consistency from development to production. Whether you're managing a single application or a microservices architecture, these environment management skills are essential for modern DevOps! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="systemadmin_system_monitoring.html">← Previous: System Monitoring</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="gui_automation_pyautogui.html">Next: PyAutoGUI Basics →</a>
+</div>
+</footer>
 </body>
 </html>

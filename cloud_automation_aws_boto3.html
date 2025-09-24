@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS SDK (boto3) - Python Cloud Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AWS SDK (boto3) - Python Cloud Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>☁️ AWS SDK (boto3): Master Cloud Automation with Python</h1>
-    
-    <p>AWS SDK for Python (boto3) is your gateway to the entire Amazon Web Services ecosystem - it allows you to programmatically control hundreds of AWS services, from EC2 instances to S3 storage, Lambda functions to DynamoDB databases. Like having the keys to the world's largest cloud infrastructure, mastering boto3 enables you to automate cloud deployments, manage resources at scale, and build sophisticated cloud-native applications. Let's explore the comprehensive world of AWS automation with Python! 🚀</p>
-
-    <h2>The AWS Automation Architecture</h2>
-    
-    <p>Think of boto3 as your universal remote control for AWS - it provides Python interfaces to every AWS service, allowing you to create, configure, monitor, and manage cloud resources programmatically. From simple S3 file operations to complex multi-service orchestrations, boto3 handles authentication, request signing, error handling, and pagination automatically. Understanding boto3's client/resource models, session management, and service integrations is essential for effective cloud automation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module7">Cloud Automation</a> &gt; 
+        <span>AWS with Boto3</span>
+</nav>
+<h1>☁️ AWS SDK (boto3): Master Cloud Automation with Python</h1>
+<p>AWS SDK for Python (boto3) is your gateway to the entire Amazon Web Services ecosystem - it allows you to programmatically control hundreds of AWS services, from EC2 instances to S3 storage, Lambda functions to DynamoDB databases. Like having the keys to the world's largest cloud infrastructure, mastering boto3 enables you to automate cloud deployments, manage resources at scale, and build sophisticated cloud-native applications. Let's explore the comprehensive world of AWS automation with Python! 🚀</p>
+<h2>The AWS Automation Architecture</h2>
+<p>Think of boto3 as your universal remote control for AWS - it provides Python interfaces to every AWS service, allowing you to create, configure, monitor, and manage cloud resources programmatically. From simple S3 file operations to complex multi-service orchestrations, boto3 handles authentication, request signing, error handling, and pagination automatically. Understanding boto3's client/resource models, session management, and service integrations is essential for effective cloud automation!</p>
+<div class="mermaid">
     graph TB
-        A[AWS Automation with boto3] --> B[Core Services]
-        A --> C[Resource Management]
-        A --> D[Security & IAM]
-        A --> E[Monitoring & Logging]
+        A[AWS Automation with boto3] --&gt; B[Core Services]
+        A --&gt; C[Resource Management]
+        A --&gt; D[Security &amp; IAM]
+        A --&gt; E[Monitoring &amp; Logging]
         
-        B --> F[EC2 Instances]
-        B --> G[S3 Storage]
-        B --> H[Lambda Functions]
-        B --> I[DynamoDB]
+        B --&gt; F[EC2 Instances]
+        B --&gt; G[S3 Storage]
+        B --&gt; H[Lambda Functions]
+        B --&gt; I[DynamoDB]
         
-        C --> J[Creation]
-        C --> K[Configuration]
-        C --> L[Scaling]
-        C --> M[Deletion]
+        C --&gt; J[Creation]
+        C --&gt; K[Configuration]
+        C --&gt; L[Scaling]
+        C --&gt; M[Deletion]
         
-        D --> N[IAM Roles]
-        D --> O[Security Groups]
-        D --> P[KMS Encryption]
-        D --> Q[Secrets Manager]
+        D --&gt; N[IAM Roles]
+        D --&gt; O[Security Groups]
+        D --&gt; P[KMS Encryption]
+        D --&gt; Q[Secrets Manager]
         
-        E --> R[CloudWatch]
-        E --> S[CloudTrail]
-        E --> T[Cost Explorer]
-        E --> U[Systems Manager]
+        E --&gt; R[CloudWatch]
+        E --&gt; S[CloudTrail]
+        E --&gt; T[Cost Explorer]
+        E --&gt; U[Systems Manager]
         
-        V[Operations] --> W[Automation]
-        V --> X[Deployment]
-        V --> Y[Backup]
-        V --> Z[Disaster Recovery]
+        V[Operations] --&gt; W[Automation]
+        V --&gt; X[Deployment]
+        V --&gt; Y[Backup]
+        V --&gt; Z[Disaster Recovery]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Cloud Infrastructure Automation Platform 🏗️</h3>
-    
-    <p>You're building a comprehensive AWS automation platform that manages EC2 instances for auto-scaling applications, handles S3 storage for backups and static content, deploys Lambda functions for serverless processing, manages DynamoDB tables for application data, configures VPCs and security groups, monitors resources with CloudWatch, manages costs and billing, and orchestrates multi-service deployments. Your system must handle thousands of resources, implement security best practices, optimize costs, and provide disaster recovery capabilities. Let's build a production-ready AWS automation framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Cloud Infrastructure Automation Platform 🏗️</h3>
+<p>You're building a comprehensive AWS automation platform that manages EC2 instances for auto-scaling applications, handles S3 storage for backups and static content, deploys Lambda functions for serverless processing, manages DynamoDB tables for application data, configures VPCs and security groups, monitors resources with CloudWatch, manages costs and billing, and orchestrates multi-service deployments. Your system must handle thousands of resources, implement security best practices, optimize costs, and provide disaster recovery capabilities. Let's build a production-ready AWS automation framework!</p>
+<pre><code># First, install required packages:
 # pip install boto3 awscli botocore python-dotenv pandas matplotlib
 
 import boto3
@@ -137,7 +186,7 @@ class AWSSessionManager:
         self.resources = {}
         self.logger = logging.getLogger(__name__)
     
-    def _create_session(self) -> boto3.Session:
+    def _create_session(self) -&gt; boto3.Session:
         """Create boto3 session."""
         session_kwargs = {
             'region_name': self.config.region
@@ -152,7 +201,7 @@ class AWSSessionManager:
         
         return boto3.Session(**session_kwargs)
     
-    def get_client(self, service_name: str) -> Any:
+    def get_client(self, service_name: str) -&gt; Any:
         """Get or create service client."""
         if service_name not in self.clients:
             client_kwargs = {}
@@ -166,7 +215,7 @@ class AWSSessionManager:
         
         return self.clients[service_name]
     
-    def get_resource(self, service_name: str) -> Any:
+    def get_resource(self, service_name: str) -&gt; Any:
         """Get or create service resource."""
         if service_name not in self.resources:
             resource_kwargs = {}
@@ -180,7 +229,7 @@ class AWSSessionManager:
         
         return self.resources[service_name]
     
-    def get_credentials(self) -> Dict[str, str]:
+    def get_credentials(self) -&gt; Dict[str, str]:
         """Get current credentials."""
         credentials = self.session.get_credentials()
         return {
@@ -189,7 +238,7 @@ class AWSSessionManager:
             'token': credentials.token
         }
     
-    def list_regions(self, service_name: str = 'ec2') -> List[str]:
+    def list_regions(self, service_name: str = 'ec2') -&gt; List[str]:
         """List available regions for a service."""
         client = self.get_client(service_name)
         regions = client.describe_regions()
@@ -217,7 +266,7 @@ class EC2Manager:
         subnet_id: Optional[str] = None,
         user_data: Optional[str] = None,
         **kwargs
-    ) -> Dict[str, Any]:
+    ) -&gt; Dict[str, Any]:
         """
         Create EC2 instance.
         
@@ -285,7 +334,7 @@ class EC2Manager:
             self.logger.error(f"Failed to create EC2 instance: {e}")
             raise
     
-    def _get_latest_amazon_linux_ami(self) -> str:
+    def _get_latest_amazon_linux_ami(self) -&gt; str:
         """Get the latest Amazon Linux 2 AMI ID."""
         response = self.ec2_client.describe_images(
             Owners=['amazon'],
@@ -303,7 +352,7 @@ class EC2Manager:
         else:
             raise ValueError("No Amazon Linux 2 AMI found")
     
-    def list_instances(self, filters: Optional[List[Dict]] = None) -> List[Dict[str, Any]]:
+    def list_instances(self, filters: Optional[List[Dict]] = None) -&gt; List[Dict[str, Any]]:
         """List EC2 instances."""
         try:
             params = {}
@@ -332,7 +381,7 @@ class EC2Manager:
             self.logger.error(f"Failed to list EC2 instances: {e}")
             raise
     
-    def get_instance_info(self, instance_id: str) -> Dict[str, Any]:
+    def get_instance_info(self, instance_id: str) -&gt; Dict[str, Any]:
         """Get detailed instance information."""
         try:
             response = self.ec2_client.describe_instances(InstanceIds=[instance_id])
@@ -361,7 +410,7 @@ class EC2Manager:
             self.logger.error(f"Failed to get instance info: {e}")
             raise
     
-    def stop_instance(self, instance_id: str, force: bool = False) -> bool:
+    def stop_instance(self, instance_id: str, force: bool = False) -&gt; bool:
         """Stop EC2 instance."""
         try:
             self.ec2_client.stop_instances(InstanceIds=[instance_id], Force=force)
@@ -377,7 +426,7 @@ class EC2Manager:
             self.logger.error(f"Failed to stop instance: {e}")
             return False
     
-    def start_instance(self, instance_id: str) -> bool:
+    def start_instance(self, instance_id: str) -&gt; bool:
         """Start EC2 instance."""
         try:
             self.ec2_client.start_instances(InstanceIds=[instance_id])
@@ -393,7 +442,7 @@ class EC2Manager:
             self.logger.error(f"Failed to start instance: {e}")
             return False
     
-    def terminate_instance(self, instance_id: str) -> bool:
+    def terminate_instance(self, instance_id: str) -&gt; bool:
         """Terminate EC2 instance."""
         try:
             self.ec2_client.terminate_instances(InstanceIds=[instance_id])
@@ -411,7 +460,7 @@ class EC2Manager:
         description: str,
         vpc_id: Optional[str] = None,
         ingress_rules: Optional[List[Dict]] = None
-    ) -> str:
+    ) -&gt; str:
         """Create security group."""
         try:
             params = {
@@ -439,7 +488,7 @@ class EC2Manager:
             self.logger.error(f"Failed to create security group: {e}")
             raise
     
-    def _get_tag_value(self, tags: List[Dict], key: str) -> Optional[str]:
+    def _get_tag_value(self, tags: List[Dict], key: str) -&gt; Optional[str]:
         """Get tag value by key."""
         for tag in tags:
             if tag['Key'] == key:
@@ -465,7 +514,7 @@ class S3Manager:
         versioning: bool = False,
         encryption: bool = True,
         public_access_block: bool = True
-    ) -> bool:
+    ) -&gt; bool:
         """
         Create S3 bucket with security best practices.
         
@@ -552,7 +601,7 @@ class S3Manager:
         object_key: Optional[str] = None,
         metadata: Optional[Dict] = None,
         content_type: Optional[str] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Upload file to S3."""
         try:
             file_path = Path(file_path)
@@ -593,7 +642,7 @@ class S3Manager:
         bucket_name: str,
         object_key: str,
         file_path: str
-    ) -> bool:
+    ) -&gt; bool:
         """Download file from S3."""
         try:
             self.s3_client.download_file(bucket_name, object_key, file_path)
@@ -610,7 +659,7 @@ class S3Manager:
         bucket_name: str,
         prefix: Optional[str] = None,
         max_keys: int = 1000
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """List objects in bucket."""
         try:
             params = {
@@ -638,7 +687,7 @@ class S3Manager:
             self.logger.error(f"Failed to list objects: {e}")
             return []
     
-    def delete_object(self, bucket_name: str, object_key: str) -> bool:
+    def delete_object(self, bucket_name: str, object_key: str) -&gt; bool:
         """Delete object from S3."""
         try:
             self.s3_client.delete_object(Bucket=bucket_name, Key=object_key)
@@ -655,7 +704,7 @@ class S3Manager:
         bucket_name: str,
         object_key: str,
         expiration: int = 3600
-    ) -> Optional[str]:
+    ) -&gt; Optional[str]:
         """Generate presigned URL for object."""
         try:
             url = self.s3_client.generate_presigned_url(
@@ -692,7 +741,7 @@ class LambdaManager:
         memory_size: int = 128,
         timeout: int = 30,
         environment_vars: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+    ) -&gt; Dict[str, Any]:
         """
         Create Lambda function.
         
@@ -754,7 +803,7 @@ class LambdaManager:
             self.logger.error(f"Failed to create Lambda function: {e}")
             raise
     
-    def _create_lambda_execution_role(self, function_name: str) -> str:
+    def _create_lambda_execution_role(self, function_name: str) -&gt; str:
         """Create basic Lambda execution role."""
         role_name = f"{function_name}-execution-role"
         
@@ -798,7 +847,7 @@ class LambdaManager:
         function_name: str,
         payload: Optional[Dict] = None,
         invocation_type: str = 'RequestResponse'
-    ) -> Dict[str, Any]:
+    ) -&gt; Dict[str, Any]:
         """
         Invoke Lambda function.
         
@@ -836,7 +885,7 @@ class LambdaManager:
             self.logger.error(f"Failed to invoke function: {e}")
             raise
     
-    def list_functions(self) -> List[Dict[str, Any]]:
+    def list_functions(self) -&gt; List[Dict[str, Any]]:
         """List Lambda functions."""
         try:
             response = self.lambda_client.list_functions()
@@ -864,7 +913,7 @@ class LambdaManager:
         self,
         function_name: str,
         code_zip_path: str
-    ) -> bool:
+    ) -&gt; bool:
         """Update function code."""
         try:
             with open(code_zip_path, 'rb') as f:
@@ -882,7 +931,7 @@ class LambdaManager:
             self.logger.error(f"Failed to update function code: {e}")
             return False
     
-    def delete_function(self, function_name: str) -> bool:
+    def delete_function(self, function_name: str) -&gt; bool:
         """Delete Lambda function."""
         try:
             self.lambda_client.delete_function(FunctionName=function_name)
@@ -914,7 +963,7 @@ class DynamoDBManager:
         read_capacity: int = 5,
         write_capacity: int = 5,
         billing_mode: str = 'PROVISIONED'
-    ) -> bool:
+    ) -&gt; bool:
         """
         Create DynamoDB table.
         
@@ -987,7 +1036,7 @@ class DynamoDBManager:
             self.logger.error(f"Failed to create table: {e}")
             return False
     
-    def put_item(self, table_name: str, item: Dict[str, Any]) -> bool:
+    def put_item(self, table_name: str, item: Dict[str, Any]) -&gt; bool:
         """Put item in table."""
         try:
             table = self.dynamodb_resource.Table(table_name)
@@ -1003,7 +1052,7 @@ class DynamoDBManager:
         self,
         table_name: str,
         key: Dict[str, Any]
-    ) -> Optional[Dict[str, Any]]:
+    ) -&gt; Optional[Dict[str, Any]]:
         """Get item from table."""
         try:
             table = self.dynamodb_resource.Table(table_name)
@@ -1021,7 +1070,7 @@ class DynamoDBManager:
         key_condition: str,
         expression_values: Dict[str, Any],
         limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """Query table."""
         try:
             table = self.dynamodb_resource.Table(table_name)
@@ -1061,7 +1110,7 @@ class CloudWatchManager:
         value: float,
         unit: str = 'None',
         dimensions: Optional[List[Dict]] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Put custom metric to CloudWatch."""
         try:
             params = {
@@ -1095,7 +1144,7 @@ class CloudWatchManager:
         evaluation_periods: int = 1,
         period: int = 300,
         statistic: str = 'Average'
-    ) -> bool:
+    ) -&gt; bool:
         """Create CloudWatch alarm."""
         try:
             self.cloudwatch_client.put_metric_alarm(
@@ -1146,7 +1195,7 @@ class AWSAutomation:
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
     
-    def get_account_info(self) -> Dict[str, Any]:
+    def get_account_info(self) -&gt; Dict[str, Any]:
         """Get AWS account information."""
         try:
             sts_client = self.session_manager.get_client('sts')
@@ -1163,7 +1212,7 @@ class AWSAutomation:
             self.logger.error(f"Failed to get account info: {e}")
             return {}
     
-    def estimate_monthly_cost(self) -> float:
+    def estimate_monthly_cost(self) -&gt; float:
         """Estimate monthly AWS costs."""
         try:
             ce_client = self.session_manager.get_client('ce')
@@ -1344,37 +1393,28 @@ if __name__ == "__main__":
     print("   3. Set environment variables or use IAM roles")
     print("   4. Install boto3: pip install boto3")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Secure Credentials:</strong> Never hardcode AWS credentials in your code.</li>
-        
-        <li><strong>Use IAM Roles:</strong> Prefer IAM roles over access keys when possible.</li>
-        
-        <li><strong>Handle Errors:</strong> Always catch and handle ClientError exceptions.</li>
-        
-        <li><strong>Tag Resources:</strong> Implement consistent tagging for cost tracking.</li>
-        
-        <li><strong>Monitor Costs:</strong> Set up billing alerts and monitor usage.</li>
-        
-        <li><strong>Use Pagination:</strong> Handle large result sets with pagination.</li>
-        
-        <li><strong>Implement Retries:</strong> Use exponential backoff for transient failures.</li>
-        
-        <li><strong>Clean Up Resources:</strong> Delete unused resources to avoid charges.</li>
-    </ul>
-
-    <h3>AWS Automation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of boto3 as your Swiss Army knife for AWS - it can do everything, but you need to use it wisely. Always start with proper credential management: use IAM roles on EC2, environment variables locally, and never commit credentials to version control. Understand the difference between clients (low-level, full control) and resources (high-level, convenient) - use resources for simple operations and clients for advanced features. Implement comprehensive error handling - AWS operations can fail for many reasons (permissions, limits, network). Always tag your resources consistently for cost tracking and organization. Use waiters when creating resources to ensure they're ready before using them. Implement pagination for list operations to handle large result sets. Monitor your AWS costs regularly and set up billing alerts. Use CloudWatch for monitoring and logging. Test your automation in a development account before running in production. Most importantly: always follow the principle of least privilege - grant only the minimum permissions necessary for your automation to function!</p>
-    </div>
-    
-    <p>Mastering AWS automation with boto3 enables you to harness the full power of cloud computing programmatically. You can now provision infrastructure, deploy applications, manage storage, process data, and orchestrate complex cloud workflows all through Python code. Whether you're building scalable web applications, data pipelines, or enterprise systems, these AWS automation skills empower you to leverage the cloud effectively! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="cloud_automation_google_cloud.html">Google Cloud Automation - Master GCP with Python!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Secure Credentials:</strong> Never hardcode AWS credentials in your code.</li>
+<li><strong>Use IAM Roles:</strong> Prefer IAM roles over access keys when possible.</li>
+<li><strong>Handle Errors:</strong> Always catch and handle ClientError exceptions.</li>
+<li><strong>Tag Resources:</strong> Implement consistent tagging for cost tracking.</li>
+<li><strong>Monitor Costs:</strong> Set up billing alerts and monitor usage.</li>
+<li><strong>Use Pagination:</strong> Handle large result sets with pagination.</li>
+<li><strong>Implement Retries:</strong> Use exponential backoff for transient failures.</li>
+<li><strong>Clean Up Resources:</strong> Delete unused resources to avoid charges.</li>
+</ul>
+<h3>AWS Automation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of boto3 as your Swiss Army knife for AWS - it can do everything, but you need to use it wisely. Always start with proper credential management: use IAM roles on EC2, environment variables locally, and never commit credentials to version control. Understand the difference between clients (low-level, full control) and resources (high-level, convenient) - use resources for simple operations and clients for advanced features. Implement comprehensive error handling - AWS operations can fail for many reasons (permissions, limits, network). Always tag your resources consistently for cost tracking and organization. Use waiters when creating resources to ensure they're ready before using them. Implement pagination for list operations to handle large result sets. Monitor your AWS costs regularly and set up billing alerts. Use CloudWatch for monitoring and logging. Test your automation in a development account before running in production. Most importantly: always follow the principle of least privilege - grant only the minimum permissions necessary for your automation to function!</p>
+</div>
+<p>Mastering AWS automation with boto3 enables you to harness the full power of cloud computing programmatically. You can now provision infrastructure, deploy applications, manage storage, process data, and orchestrate complex cloud workflows all through Python code. Whether you're building scalable web applications, data pipelines, or enterprise systems, these AWS automation skills empower you to leverage the cloud effectively! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="api_automation_api_testing.html">← Previous: API Testing</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="cloud_automation_google_cloud.html">Next: Google Cloud Platform →</a>
+</div>
+</footer>
 </body>
 </html>

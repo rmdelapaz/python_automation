@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Emails - Python Email Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HTML Emails - Python Email Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🎨 HTML Emails: Create Beautiful Email Templates</h1>
-    
-    <p>HTML emails are the canvas of digital communication - they transform plain text into visually stunning, interactive messages that engage readers and drive action. Like crafting a mini website that travels through inboxes, mastering HTML emails allows you to create newsletters, marketing campaigns, transactional emails, and branded communications that look professional across all email clients. Let's master the art and science of HTML email design! 🖼️</p>
-
-    <h2>The HTML Email Design Architecture</h2>
-    
-    <p>Think of HTML emails as building a time machine to 1999 - you need to use table-based layouts, inline CSS, and careful testing because email clients are notoriously inconsistent. Unlike modern web development, email HTML requires special techniques to ensure your beautiful designs don't break in Outlook, Gmail, or mobile clients. Understanding these constraints and workarounds is crucial for creating emails that look great everywhere!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module5">Email Automation</a> &gt; 
+        <span>HTML Emails</span>
+</nav>
+<h1>🎨 HTML Emails: Create Beautiful Email Templates</h1>
+<p>HTML emails are the canvas of digital communication - they transform plain text into visually stunning, interactive messages that engage readers and drive action. Like crafting a mini website that travels through inboxes, mastering HTML emails allows you to create newsletters, marketing campaigns, transactional emails, and branded communications that look professional across all email clients. Let's master the art and science of HTML email design! 🖼️</p>
+<h2>The HTML Email Design Architecture</h2>
+<p>Think of HTML emails as building a time machine to 1999 - you need to use table-based layouts, inline CSS, and careful testing because email clients are notoriously inconsistent. Unlike modern web development, email HTML requires special techniques to ensure your beautiful designs don't break in Outlook, Gmail, or mobile clients. Understanding these constraints and workarounds is crucial for creating emails that look great everywhere!</p>
+<div class="mermaid">
     graph TB
-        A[HTML Email Design] --> B[Template Structure]
-        A --> C[Styling Methods]
-        A --> D[Content Components]
-        A --> E[Testing & Optimization]
+        A[HTML Email Design] --&gt; B[Template Structure]
+        A --&gt; C[Styling Methods]
+        A --&gt; D[Content Components]
+        A --&gt; E[Testing &amp; Optimization]
         
-        B --> F[Table Layout]
-        B --> G[Responsive Design]
-        B --> H[Dark Mode]
-        B --> I[Accessibility]
+        B --&gt; F[Table Layout]
+        B --&gt; G[Responsive Design]
+        B --&gt; H[Dark Mode]
+        B --&gt; I[Accessibility]
         
-        C --> J[Inline CSS]
-        C --> K[Media Queries]
-        C --> L[Email-Safe CSS]
-        C --> M[Fallbacks]
+        C --&gt; J[Inline CSS]
+        C --&gt; K[Media Queries]
+        C --&gt; L[Email-Safe CSS]
+        C --&gt; M[Fallbacks]
         
-        D --> N[Images]
-        D --> O[Buttons]
-        D --> P[Typography]
-        D --> Q[Dynamic Content]
+        D --&gt; N[Images]
+        D --&gt; O[Buttons]
+        D --&gt; P[Typography]
+        D --&gt; Q[Dynamic Content]
         
-        E --> R[Client Testing]
-        E --> S[Spam Score]
-        E --> T[Deliverability]
-        E --> U[Analytics]
+        E --&gt; R[Client Testing]
+        E --&gt; S[Spam Score]
+        E --&gt; T[Deliverability]
+        E --&gt; U[Analytics]
         
-        V[Email Clients] --> W[Gmail]
-        V --> X[Outlook]
-        V --> Y[Apple Mail]
-        V --> Z[Mobile]
+        V[Email Clients] --&gt; W[Gmail]
+        V --&gt; X[Outlook]
+        V --&gt; Y[Apple Mail]
+        V --&gt; Z[Mobile]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Email Campaign Platform 📧</h3>
-    
-    <p>You're building an email campaign platform that creates responsive newsletters, promotional emails, transactional notifications, and automated drip campaigns. Your system must generate beautiful HTML emails that work across all clients, support dark mode, include tracking pixels, personalize content, optimize for mobile, pass spam filters, and scale to millions of recipients. Let's build a comprehensive HTML email framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Email Campaign Platform 📧</h3>
+<p>You're building an email campaign platform that creates responsive newsletters, promotional emails, transactional notifications, and automated drip campaigns. Your system must generate beautiful HTML emails that work across all clients, support dark mode, include tracking pixels, personalize content, optimize for mobile, pass spam filters, and scale to millions of recipients. Let's build a comprehensive HTML email framework!</p>
+<pre><code># First, install required packages:
 # pip install premailer beautifulsoup4 css-inline jinja2 pillow python-dateutil
 
 import os
@@ -112,18 +161,18 @@ class HTMLEmailBuilder:
         self.link_color = "#007bff"
         return self
     
-    def set_title(self, title: str) -> 'HTMLEmailBuilder':
+    def set_title(self, title: str) -&gt; 'HTMLEmailBuilder':
         """Set email title."""
         self.title = title
         return self
     
-    def set_preheader(self, text: str) -> 'HTMLEmailBuilder':
+    def set_preheader(self, text: str) -&gt; 'HTMLEmailBuilder':
         """Set preheader text (preview text)."""
         self.preheader = text
         return self
     
     def set_colors(self, primary: str = None, text: str = None, 
-                   background: str = None, link: str = None) -> 'HTMLEmailBuilder':
+                   background: str = None, link: str = None) -&gt; 'HTMLEmailBuilder':
         """Set color scheme."""
         if primary:
             self.primary_color = primary
@@ -135,26 +184,24 @@ class HTMLEmailBuilder:
             self.link_color = link
         return self
     
-    def add_style(self, css: str) -> 'HTMLEmailBuilder':
+    def add_style(self, css: str) -&gt; 'HTMLEmailBuilder':
         """Add custom CSS styles."""
         self.styles.append(css)
         return self
     
-    def add_header(self, logo_url: str = None, company_name: str = None) -> 'HTMLEmailBuilder':
+    def add_header(self, logo_url: str = None, company_name: str = None) -&gt; 'HTMLEmailBuilder':
         """Add email header."""
         header_html = f"""
         <tr>
             <td align="center" style="padding: 40px 0 30px 0;">
-                <table border="0" cellspacing="0" cellpadding="0">
+                <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                         <td align="center">
         """
         
         if logo_url:
             header_html += f"""
-                            <img src="{logo_url}" alt="{company_name or 'Logo'}" 
-                                 style="display: block; max-width: 200px; height: auto;"
-                                 border="0" />
+                            <img alt="{company_name or 'Logo'}" border="0" src="{logo_url}" style="display: block; max-width: 200px; height: auto;"/>
             """
         elif company_name:
             header_html += f"""
@@ -176,7 +223,7 @@ class HTMLEmailBuilder:
         return self
     
     def add_hero(self, image_url: str, alt_text: str = "", 
-                 link_url: str = None) -> 'HTMLEmailBuilder':
+                 link_url: str = None) -&gt; 'HTMLEmailBuilder':
         """Add hero image."""
         hero_html = f"""
         <tr>
@@ -187,9 +234,8 @@ class HTMLEmailBuilder:
             hero_html += f'<a href="{link_url}" target="_blank">'
         
         hero_html += f"""
-                <img src="{image_url}" alt="{alt_text}" width="{self.container_width}"
-                     style="display: block; width: 100%; max-width: {self.container_width}px; 
-                           height: auto;" border="0" />
+                <img alt="{alt_text}" border="0" src="{image_url}" style="display: block; width: 100%; max-width: {self.container_width}px; 
+                           height: auto;" width="{self.container_width}"/>
         """
         
         if link_url:
@@ -204,7 +250,7 @@ class HTMLEmailBuilder:
         return self
     
     def add_text(self, text: str, align: str = "left", 
-                 size: int = 16, bold: bool = False) -> 'HTMLEmailBuilder':
+                 size: int = 16, bold: bool = False) -&gt; 'HTMLEmailBuilder':
         """Add text paragraph."""
         weight = "bold" if bold else "normal"
         
@@ -224,7 +270,7 @@ class HTMLEmailBuilder:
         self.body_content.append(text_html)
         return self
     
-    def add_heading(self, text: str, level: int = 2) -> 'HTMLEmailBuilder':
+    def add_heading(self, text: str, level: int = 2) -&gt; 'HTMLEmailBuilder':
         """Add heading."""
         size_map = {1: 32, 2: 28, 3: 24, 4: 20, 5: 18, 6: 16}
         size = size_map.get(level, 20)
@@ -247,7 +293,7 @@ class HTMLEmailBuilder:
     def add_button(self, text: str, url: str, 
                    background_color: str = None,
                    text_color: str = "#ffffff",
-                   full_width: bool = False) -> 'HTMLEmailBuilder':
+                   full_width: bool = False) -&gt; 'HTMLEmailBuilder':
         """Add call-to-action button."""
         bg_color = background_color or self.primary_color
         width_style = "width: 100%;" if full_width else ""
@@ -255,16 +301,14 @@ class HTMLEmailBuilder:
         button_html = f"""
         <tr>
             <td align="center" style="padding: 30px;">
-                <table border="0" cellspacing="0" cellpadding="0" {width_style}>
+                <table border="0" cellpadding="0" cellspacing="0" {width_style}="">
                     <tr>
-                        <td align="center" style="border-radius: 4px;" 
-                            bgcolor="{bg_color}">
-                            <a href="{url}" target="_blank" 
-                               style="display: inline-block; padding: 14px 30px; 
+                        <td align="center" bgcolor="{bg_color}" style="border-radius: 4px;">
+                            <a href="{url}" style="display: inline-block; padding: 14px 30px; 
                                       font-family: {self.font_family}; 
                                       font-size: 16px; font-weight: bold; 
                                       color: {text_color}; text-decoration: none; 
-                                      border-radius: 4px;">
+                                      border-radius: 4px;" target="_blank">
                                 {text}
                             </a>
                         </td>
@@ -278,16 +322,16 @@ class HTMLEmailBuilder:
         return self
     
     def add_divider(self, color: str = "#dddddd", 
-                    margin: int = 20) -> 'HTMLEmailBuilder':
+                    margin: int = 20) -&gt; 'HTMLEmailBuilder':
         """Add horizontal divider."""
         divider_html = f"""
         <tr>
             <td style="padding: {margin}px 30px;">
-                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td style="border-bottom: 1px solid {color}; font-size: 0; 
                                   line-height: 0;">
-                            &nbsp;
+                             
                         </td>
                     </tr>
                 </table>
@@ -298,7 +342,7 @@ class HTMLEmailBuilder:
         self.body_content.append(divider_html)
         return self
     
-    def add_columns(self, columns: List[Dict[str, str]]) -> 'HTMLEmailBuilder':
+    def add_columns(self, columns: List[Dict[str, str]]) -&gt; 'HTMLEmailBuilder':
         """Add multi-column layout."""
         num_columns = len(columns)
         column_width = int(self.container_width / num_columns) - 20
@@ -306,25 +350,22 @@ class HTMLEmailBuilder:
         columns_html = """
         <tr>
             <td style="padding: 20px 10px;">
-                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
         """
         
         for col in columns:
             columns_html += f"""
-                        <td valign="top" style="padding: 0 10px;">
-                            <table border="0" cellspacing="0" cellpadding="0" 
-                                   width="{column_width}">
+                        <td style="padding: 0 10px;" valign="top">
+                            <table border="0" cellpadding="0" cellspacing="0" width="{column_width}">
             """
             
             if col.get('image'):
                 columns_html += f"""
                                 <tr>
                                     <td align="center">
-                                        <img src="{col['image']}" alt="" 
-                                             width="{column_width}" 
-                                             style="display: block; max-width: 100%; 
-                                                   height: auto;" />
+                                        <img alt="" src="{col['image']}" style="display: block; max-width: 100%; 
+                                                   height: auto;" width="{column_width}"/>
                                     </td>
                                 </tr>
                 """
@@ -358,8 +399,7 @@ class HTMLEmailBuilder:
                 columns_html += f"""
                                 <tr>
                                     <td style="padding: 10px 0;">
-                                        <a href="{col['link_url']}" 
-                                           style="color: {self.link_color}; 
+                                        <a href="{col['link_url']}" style="color: {self.link_color}; 
                                                  text-decoration: underline;">
                                             {col['link_text']}
                                         </a>
@@ -382,12 +422,12 @@ class HTMLEmailBuilder:
         self.body_content.append(columns_html)
         return self
     
-    def add_social_links(self, links: Dict[str, str]) -> 'HTMLEmailBuilder':
+    def add_social_links(self, links: Dict[str, str]) -&gt; 'HTMLEmailBuilder':
         """Add social media links."""
         social_html = """
         <tr>
             <td align="center" style="padding: 30px;">
-                <table border="0" cellspacing="0" cellpadding="0">
+                <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
         """
         
@@ -405,9 +445,7 @@ class HTMLEmailBuilder:
                 social_html += f"""
                         <td style="padding: 0 10px;">
                             <a href="{url}" target="_blank">
-                                <img src="{icon}" alt="{platform}" 
-                                     width="32" height="32" 
-                                     style="display: block;" border="0" />
+                                <img alt="{platform}" border="0" height="32" src="{icon}" style="display: block;" width="32"/>
                             </a>
                         </td>
                 """
@@ -425,12 +463,12 @@ class HTMLEmailBuilder:
     def add_footer(self, company_name: str, 
                    address: str = None,
                    unsubscribe_url: str = None,
-                   privacy_url: str = None) -> 'HTMLEmailBuilder':
+                   privacy_url: str = None) -&gt; 'HTMLEmailBuilder':
         """Add email footer."""
         footer_html = f"""
         <tr>
             <td style="padding: 30px; background-color: #f8f8f8;">
-                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr>
                         <td align="center" style="font-family: {self.font_family}; 
                                                  font-size: 12px; color: #666666;">
@@ -474,15 +512,16 @@ class HTMLEmailBuilder:
         self.body_content.append(footer_html)
         return self
     
-    def build(self) -> str:
+    def build(self) -&gt; str:
         """Build complete HTML email."""
         # Base template
         html = f"""<!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
     <title>{self.title}</title>
     
     <!--[if mso]>
@@ -543,10 +582,8 @@ class HTMLEmailBuilder:
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
             <td align="center" style="padding: 40px 0;">
-                <table class="container" border="0" cellpadding="0" cellspacing="0" 
-                       width="{self.container_width}" 
-                       style="background-color: #ffffff; border-radius: 8px; 
-                             box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <table border="0" cellpadding="0" cellspacing="0" class="container" style="background-color: #ffffff; border-radius: 8px; 
+                             box-shadow: 0 2px 4px rgba(0,0,0,0.1);" width="{self.container_width}">
                     {''.join(self.body_content)}
                 </table>
             </td>
@@ -574,17 +611,17 @@ class EmailTemplateSystem:
         
         self.logger = logging.getLogger(__name__)
     
-    def _format_currency(self, value: float, currency: str = "$") -> str:
+    def _format_currency(self, value: float, currency: str = "$") -&gt; str:
         """Format currency value."""
         return f"{currency}{value:,.2f}"
     
-    def _format_date(self, value: datetime, format: str = "%B %d, %Y") -> str:
+    def _format_date(self, value: datetime, format: str = "%B %d, %Y") -&gt; str:
         """Format date value."""
         if isinstance(value, str):
             value = datetime.fromisoformat(value)
         return value.strftime(format)
     
-    def render_template(self, template_name: str, **context) -> str:
+    def render_template(self, template_name: str, **context) -&gt; str:
         """Render template with context."""
         try:
             template = self.env.get_template(template_name)
@@ -613,7 +650,7 @@ class CSSInliner:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
     
-    def inline_css(self, html: str, preserve_media_queries: bool = True) -> str:
+    def inline_css(self, html: str, preserve_media_queries: bool = True) -&gt; str:
         """
         Inline CSS styles for email compatibility.
         
@@ -641,7 +678,7 @@ class CSSInliner:
             # Return original HTML if inlining fails
             return html
     
-    def optimize_for_email(self, html: str) -> str:
+    def optimize_for_email(self, html: str) -&gt; str:
         """Optimize HTML for email clients."""
         soup = BeautifulSoup(html, 'html.parser')
         
@@ -672,14 +709,15 @@ class ResponsiveEmailTemplates:
     """
     
     @staticmethod
-    def newsletter_template() -> str:
+    def newsletter_template() -&gt; str:
         """Newsletter template."""
         return """
 <!DOCTYPE html>
+
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>{{ title }}</title>
     <style>
         @media only screen and (max-width: 600px) {
@@ -690,11 +728,11 @@ class ResponsiveEmailTemplates:
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f4f4f4;">
-    <table class="container" width="600" align="center" style="background: white;">
+    <table align="center" class="container" style="background: white;" width="600">
         <!-- Header -->
         <tr>
             <td align="center" style="padding: 40px 0;">
-                <img src="{{ logo_url }}" alt="{{ company_name }}" style="max-width: 200px;">
+                <img alt="{{ company_name }}" src="{{ logo_url }}" style="max-width: 200px;"/>
             </td>
         </tr>
         
@@ -702,7 +740,7 @@ class ResponsiveEmailTemplates:
         {% if hero_image %}
         <tr>
             <td>
-                <img src="{{ hero_image }}" alt="" width="600" style="width: 100%; max-width: 600px;">
+                <img alt="" src="{{ hero_image }}" style="width: 100%; max-width: 600px;" width="600"/>
             </td>
         </tr>
         {% endif %}
@@ -722,11 +760,11 @@ class ResponsiveEmailTemplates:
                 <table width="100%">
                     <tr>
                         {% if article.image %}
-                        <td width="150" valign="top">
-                            <img src="{{ article.image }}" alt="" width="150" style="max-width: 100%;">
+                        <td valign="top" width="150">
+                            <img alt="" src="{{ article.image }}" style="max-width: 100%;" width="150"/>
                         </td>
                         {% endif %}
-                        <td valign="top" style="padding-left: 20px;">
+                        <td style="padding-left: 20px;" valign="top">
                             <h2 style="margin: 0 0 10px 0; font-size: 20px;">{{ article.title }}</h2>
                             <p style="margin: 0 0 10px 0; color: #666;">{{ article.summary }}</p>
                             <a href="{{ article.link }}" style="color: #007bff;">Read more →</a>
@@ -741,7 +779,7 @@ class ResponsiveEmailTemplates:
         <tr>
             <td style="padding: 30px; background: #f8f8f8; text-align: center;">
                 <p style="margin: 0; color: #666; font-size: 14px;">
-                    © {{ year }} {{ company_name }}<br>
+                    © {{ year }} {{ company_name }}<br/>
                     <a href="{{ unsubscribe_url }}" style="color: #666;">Unsubscribe</a> |
                     <a href="{{ privacy_url }}" style="color: #666;">Privacy</a>
                 </p>
@@ -753,20 +791,21 @@ class ResponsiveEmailTemplates:
         """
     
     @staticmethod
-    def transactional_template() -> str:
+    def transactional_template() -&gt; str:
         """Transactional email template."""
         return """
 <!DOCTYPE html>
+
 <html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8"/>
     <title>{{ subject }}</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background: #f4f4f4;">
-    <table width="100%" cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
             <td align="center" style="padding: 40px 0;">
-                <table width="600" style="background: white; border-radius: 8px;">
+                <table style="background: white; border-radius: 8px;" width="600">
                     <!-- Header -->
                     <tr>
                         <td style="padding: 30px; border-bottom: 2px solid #eee;">
@@ -781,7 +820,7 @@ class ResponsiveEmailTemplates:
                             
                             {% if order %}
                             <!-- Order Details -->
-                            <table width="100%" style="border: 1px solid #ddd; margin: 20px 0;">
+                            <table style="border: 1px solid #ddd; margin: 20px 0;" width="100%">
                                 <tr style="background: #f8f8f8;">
                                     <td style="padding: 10px;"><strong>Order #{{ order.id }}</strong></td>
                                     <td style="padding: 10px; text-align: right;">{{ order.date }}</td>
@@ -789,7 +828,7 @@ class ResponsiveEmailTemplates:
                                 {% for item in order.items %}
                                 <tr>
                                     <td style="padding: 10px; border-top: 1px solid #eee;">
-                                        {{ item.name }}<br>
+                                        {{ item.name }}<br/>
                                         <small style="color: #666;">Qty: {{ item.quantity }}</small>
                                     </td>
                                     <td style="padding: 10px; border-top: 1px solid #eee; text-align: right;">
@@ -811,11 +850,10 @@ class ResponsiveEmailTemplates:
                             {{ message | safe }}
                             
                             {% if action_url %}
-                            <table width="100%" style="margin: 30px 0;">
+                            <table style="margin: 30px 0;" width="100%">
                                 <tr>
                                     <td align="center">
-                                        <a href="{{ action_url }}" 
-                                           style="display: inline-block; padding: 12px 30px; 
+                                        <a href="{{ action_url }}" style="display: inline-block; padding: 12px 30px; 
                                                   background: #007bff; color: white; 
                                                   text-decoration: none; border-radius: 4px;">
                                             {{ action_text }}
@@ -831,7 +869,7 @@ class ResponsiveEmailTemplates:
                     <tr>
                         <td style="padding: 20px; background: #f8f8f8; text-align: center; 
                                   font-size: 12px; color: #666;">
-                            This is an automated message. Please do not reply.<br>
+                            This is an automated message. Please do not reply.<br/>
                             © {{ year }} {{ company_name }}
                         </td>
                     </tr>
@@ -853,7 +891,7 @@ class EmailTester:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
     
-    def validate_html(self, html: str) -> Dict[str, Any]:
+    def validate_html(self, html: str) -&gt; Dict[str, Any]:
         """Validate HTML for email compatibility."""
         soup = BeautifulSoup(html, 'html.parser')
         
@@ -885,7 +923,7 @@ class EmailTester:
         
         # Check for divs (less compatible)
         divs = soup.find_all('div')
-        if len(divs) > 10:
+        if len(divs) &gt; 10:
             warnings.append("Heavy use of divs - consider tables for better compatibility")
         
         # Check viewport meta
@@ -905,7 +943,7 @@ class EmailTester:
             }
         }
     
-    def check_spam_score(self, html: str, subject: str = "") -> Dict[str, Any]:
+    def check_spam_score(self, html: str, subject: str = "") -&gt; Dict[str, Any]:
         """Check for spam triggers."""
         spam_triggers = []
         score = 0
@@ -929,7 +967,7 @@ class EmailTester:
             score += 2
         
         # Check for excessive exclamation marks
-        if html.count('!') > 5:
+        if html.count('!') &gt; 5:
             spam_triggers.append("Too many exclamation marks")
             score += 1
         
@@ -943,17 +981,17 @@ class EmailTester:
         text_length = len(soup.get_text())
         image_count = len(soup.find_all('img'))
         
-        if text_length < 100 and image_count > 0:
+        if text_length &lt; 100 and image_count &gt; 0:
             spam_triggers.append("Low text to image ratio")
             score += 1
         
         return {
             "score": score,
-            "risk_level": "high" if score > 5 else "medium" if score > 2 else "low",
+            "risk_level": "high" if score &gt; 5 else "medium" if score &gt; 2 else "low",
             "triggers": spam_triggers
         }
     
-    def preview_in_clients(self, html: str) -> Dict[str, str]:
+    def preview_in_clients(self, html: str) -&gt; Dict[str, str]:
         """Generate preview for different email clients."""
         previews = {}
         
@@ -971,7 +1009,7 @@ class EmailTester:
         
         return previews
     
-    def _simulate_gmail(self, html: str) -> str:
+    def _simulate_gmail(self, html: str) -&gt; str:
         """Simulate Gmail rendering."""
         soup = BeautifulSoup(html, 'html.parser')
         
@@ -985,7 +1023,7 @@ class EmailTester:
         
         return str(soup)
     
-    def _simulate_outlook(self, html: str) -> str:
+    def _simulate_outlook(self, html: str) -&gt; str:
         """Simulate Outlook rendering."""
         soup = BeautifulSoup(html, 'html.parser')
         
@@ -996,7 +1034,7 @@ class EmailTester:
         
         return str(soup)
     
-    def _simulate_mobile(self, html: str) -> str:
+    def _simulate_mobile(self, html: str) -&gt; str:
         """Simulate mobile rendering."""
         soup = BeautifulSoup(html, 'html.parser')
         
@@ -1105,7 +1143,7 @@ if __name__ == "__main__":
     image_tips = [
         "Always include alt text",
         "Use absolute URLs for images",
-        "Optimize file size (< 100KB)",
+        "Optimize file size (&lt; 100KB)",
         "Use standard formats (JPG, PNG, GIF)",
         "Consider retina displays (2x images)",
         "Host images on reliable CDN",
@@ -1165,37 +1203,28 @@ if __name__ == "__main__":
     
     print("\n✅ HTML email demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Tables for Layout:</strong> Email clients have limited CSS support.</li>
-        
-        <li><strong>Inline Your CSS:</strong> Many clients strip style tags.</li>
-        
-        <li><strong>Test Extensively:</strong> Email clients render HTML differently.</li>
-        
-        <li><strong>Optimize Images:</strong> Use alt text and proper sizing.</li>
-        
-        <li><strong>Keep It Simple:</strong> Complex layouts often break.</li>
-        
-        <li><strong>Mobile-First Design:</strong> Most emails are read on mobile.</li>
-        
-        <li><strong>Avoid JavaScript:</strong> Not supported in email clients.</li>
-        
-        <li><strong>Include Plain Text:</strong> Always provide a text alternative.</li>
-    </ul>
-
-    <h3>HTML Email Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of HTML emails as building for the web of 1999 - tables for layout, inline CSS, and lots of testing! Always start with a solid table-based structure that works without CSS, then enhance with inline styles. Test in actual email clients, not just browsers - Gmail, Outlook, and Apple Mail all render differently. Keep your design width to 600px maximum for best compatibility. Use web-safe fonts with fallbacks. Always include alt text for images as many clients block images by default. Make your CTAs buttons large and touch-friendly for mobile users. Test dark mode rendering - many clients now auto-convert emails. Check your spam score to ensure deliverability. Include both HTML and plain text versions. Most importantly: keep it simple - fancy effects that work on the web often fail in email!</p>
-    </div>
-    
-    <p>Mastering HTML email design enables you to create beautiful, engaging emails that work across all clients and devices. You can now build responsive newsletters, transactional emails, and marketing campaigns that look professional and drive results. Whether you're sending to thousands or millions, these HTML email skills ensure your messages look great everywhere! 🎨</p>
-    
-    <footer>
-        <p>Next up: <a href="email_automation_attachments.html">Attachments - Send Files and Documents!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Tables for Layout:</strong> Email clients have limited CSS support.</li>
+<li><strong>Inline Your CSS:</strong> Many clients strip style tags.</li>
+<li><strong>Test Extensively:</strong> Email clients render HTML differently.</li>
+<li><strong>Optimize Images:</strong> Use alt text and proper sizing.</li>
+<li><strong>Keep It Simple:</strong> Complex layouts often break.</li>
+<li><strong>Mobile-First Design:</strong> Most emails are read on mobile.</li>
+<li><strong>Avoid JavaScript:</strong> Not supported in email clients.</li>
+<li><strong>Include Plain Text:</strong> Always provide a text alternative.</li>
+</ul>
+<h3>HTML Email Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of HTML emails as building for the web of 1999 - tables for layout, inline CSS, and lots of testing! Always start with a solid table-based structure that works without CSS, then enhance with inline styles. Test in actual email clients, not just browsers - Gmail, Outlook, and Apple Mail all render differently. Keep your design width to 600px maximum for best compatibility. Use web-safe fonts with fallbacks. Always include alt text for images as many clients block images by default. Make your CTAs buttons large and touch-friendly for mobile users. Test dark mode rendering - many clients now auto-convert emails. Check your spam score to ensure deliverability. Include both HTML and plain text versions. Most importantly: keep it simple - fancy effects that work on the web often fail in email!</p>
+</div>
+<p>Mastering HTML email design enables you to create beautiful, engaging emails that work across all clients and devices. You can now build responsive newsletters, transactional emails, and marketing campaigns that look professional and drive results. Whether you're sending to thousands or millions, these HTML email skills ensure your messages look great everywhere! 🎨</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="email_automation_attachments.html">← Previous: Email Attachments</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="email_automation_filtering_rules.html">Next: Email Filtering Rules →</a>
+</div>
+</footer>
 </body>
 </html>

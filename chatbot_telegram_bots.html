@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Bots - Python Chat Bot Development</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Telegram Bots - Python Chat Bot Development</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>✈️ Telegram Bots: Create Versatile Messaging Bots</h1>
-    
-    <p>Telegram bots are the Swiss Army knives of messaging automation - they can handle payments, manage groups, share files, play games, provide customer support, and even run entire businesses. With Telegram's powerful Bot API and extensive features like inline keyboards, custom keyboards, inline queries, and webhook support, you can build bots that serve millions of users worldwide. Let's explore the comprehensive world of Telegram bot development! 🤖</p>
-
-    <h2>The Telegram Bot Architecture</h2>
-    
-    <p>Think of Telegram bots as virtual assistants that live in the cloud - they can chat privately, manage groups with thousands of members, send rich media, process payments, and integrate with web services. Using libraries like python-telegram-bot or aiogram, you can create bots that handle everything from simple commands to complex conversational AI. Understanding Telegram's update system, message types, and inline features is crucial for building powerful bots!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module12">Chatbot Development</a> &gt; 
+        <span>Telegram Bots</span>
+</nav>
+<h1>✈️ Telegram Bots: Create Versatile Messaging Bots</h1>
+<p>Telegram bots are the Swiss Army knives of messaging automation - they can handle payments, manage groups, share files, play games, provide customer support, and even run entire businesses. With Telegram's powerful Bot API and extensive features like inline keyboards, custom keyboards, inline queries, and webhook support, you can build bots that serve millions of users worldwide. Let's explore the comprehensive world of Telegram bot development! 🤖</p>
+<h2>The Telegram Bot Architecture</h2>
+<p>Think of Telegram bots as virtual assistants that live in the cloud - they can chat privately, manage groups with thousands of members, send rich media, process payments, and integrate with web services. Using libraries like python-telegram-bot or aiogram, you can create bots that handle everything from simple commands to complex conversational AI. Understanding Telegram's update system, message types, and inline features is crucial for building powerful bots!</p>
+<div class="mermaid">
     graph TB
-        A[Telegram Bot] --> B[Core Components]
-        A --> C[Message Handling]
-        A --> D[Keyboards & UI]
-        A --> E[Advanced Features]
+        A[Telegram Bot] --&gt; B[Core Components]
+        A --&gt; C[Message Handling]
+        A --&gt; D[Keyboards &amp; UI]
+        A --&gt; E[Advanced Features]
         
-        B --> F[Bot Father Setup]
-        B --> G[Updates/Webhooks]
-        B --> H[Bot API]
-        B --> I[Persistence]
+        B --&gt; F[Bot Father Setup]
+        B --&gt; G[Updates/Webhooks]
+        B --&gt; H[Bot API]
+        B --&gt; I[Persistence]
         
-        C --> J[Commands]
-        C --> K[Text Messages]
-        C --> L[Media Handling]
-        C --> M[Callbacks]
+        C --&gt; J[Commands]
+        C --&gt; K[Text Messages]
+        C --&gt; L[Media Handling]
+        C --&gt; M[Callbacks]
         
-        D --> N[Inline Keyboards]
-        D --> O[Reply Keyboards]
-        D --> P[Force Reply]
-        D --> Q[Remove Keyboard]
+        D --&gt; N[Inline Keyboards]
+        D --&gt; O[Reply Keyboards]
+        D --&gt; P[Force Reply]
+        D --&gt; Q[Remove Keyboard]
         
-        E --> R[Inline Mode]
-        E --> S[Payments]
-        E --> T[Games]
-        E --> U[Web Apps]
+        E --&gt; R[Inline Mode]
+        E --&gt; S[Payments]
+        E --&gt; T[Games]
+        E --&gt; U[Web Apps]
         
-        V[Use Cases] --> W[Customer Support]
-        V --> X[E-commerce]
-        V --> Y[Notifications]
-        V --> Z[Group Management]
+        V[Use Cases] --&gt; W[Customer Support]
+        V --&gt; X[E-commerce]
+        V --&gt; Y[Notifications]
+        V --&gt; Z[Group Management]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Multi-Purpose Service Bot 🌐</h3>
-    
-    <p>You're building a comprehensive Telegram bot for a digital services company that handles customer support inquiries, processes orders and payments, manages subscription services, sends notifications and alerts, moderates community groups, provides interactive tutorials, tracks deliveries, and integrates with CRM systems. Your bot must handle thousands of concurrent users, support multiple languages, process media files, and maintain conversation context. Let's build a production-ready Telegram bot framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Multi-Purpose Service Bot 🌐</h3>
+<p>You're building a comprehensive Telegram bot for a digital services company that handles customer support inquiries, processes orders and payments, manages subscription services, sends notifications and alerts, moderates community groups, provides interactive tutorials, tracks deliveries, and integrates with CRM systems. Your bot must handle thousands of concurrent users, support multiple languages, process media files, and maintain conversation context. Let's build a production-ready Telegram bot framework!</p>
+<pre><code># First, install required packages:
 # pip install python-telegram-bot aiogram redis asyncpg pillow qrcode stripe
 
 import os
@@ -169,7 +218,7 @@ class TelegramBot:
         # Register handlers
         self._register_handlers()
         
-    def _setup_logging(self) -> logging.Logger:
+    def _setup_logging(self) -&gt; logging.Logger:
         """Setup logging configuration."""
         logging.basicConfig(
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -191,10 +240,10 @@ class TelegramBot:
             entry_points=[CommandHandler("register", self.start_registration)],
             states={
                 ConversationStates.WAITING_NAME: [
-                    MessageHandler(filters.TEXT & ~filters.COMMAND, self.receive_name)
+                    MessageHandler(filters.TEXT &amp; ~filters.COMMAND, self.receive_name)
                 ],
                 ConversationStates.WAITING_EMAIL: [
-                    MessageHandler(filters.TEXT & ~filters.COMMAND, self.receive_email)
+                    MessageHandler(filters.TEXT &amp; ~filters.COMMAND, self.receive_email)
                 ],
             },
             fallbacks=[CommandHandler("cancel", self.cancel_registration)]
@@ -209,7 +258,7 @@ class TelegramBot:
                     CallbackQueryHandler(self.select_product, pattern="^product_")
                 ],
                 ConversationStates.ORDER_QUANTITY: [
-                    MessageHandler(filters.TEXT & ~filters.COMMAND, self.set_quantity)
+                    MessageHandler(filters.TEXT &amp; ~filters.COMMAND, self.set_quantity)
                 ],
                 ConversationStates.ORDER_CONFIRM: [
                     CallbackQueryHandler(self.confirm_order, pattern="^confirm_")
@@ -223,7 +272,7 @@ class TelegramBot:
         self.application.add_handler(CallbackQueryHandler(self.button_callback))
         
         # Message handlers
-        self.application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, self.handle_message))
+        self.application.add_handler(MessageHandler(filters.TEXT &amp; ~filters.COMMAND, self.handle_message))
         self.application.add_handler(MessageHandler(filters.PHOTO, self.handle_photo))
         self.application.add_handler(MessageHandler(filters.Document.ALL, self.handle_document))
         
@@ -502,7 +551,7 @@ class TelegramBot:
         """Set order quantity."""
         try:
             quantity = int(update.message.text)
-            if quantity < 1:
+            if quantity &lt; 1:
                 raise ValueError
         except ValueError:
             await update.message.reply_text(
@@ -830,7 +879,7 @@ class KeyboardBuilder:
     @staticmethod
     def create_reply_keyboard(buttons: List[List[str]], 
                             resize: bool = True,
-                            one_time: bool = False) -> ReplyKeyboardMarkup:
+                            one_time: bool = False) -&gt; ReplyKeyboardMarkup:
         """Create reply keyboard."""
         keyboard = []
         for row in buttons:
@@ -843,7 +892,7 @@ class KeyboardBuilder:
         )
     
     @staticmethod
-    def create_inline_keyboard(buttons: List[List[Dict[str, str]]]) -> InlineKeyboardMarkup:
+    def create_inline_keyboard(buttons: List[List[Dict[str, str]]]) -&gt; InlineKeyboardMarkup:
         """Create inline keyboard."""
         keyboard = []
         for row in buttons:
@@ -1026,37 +1075,28 @@ if __name__ == "__main__":
     print("   3. Set TELEGRAM_BOT_TOKEN environment variable")
     print("   4. Run with: python telegram_bot.py")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Secure Your Token:</strong> Never expose your bot token publicly.</li>
-        
-        <li><strong>Use Conversations:</strong> Implement ConversationHandler for multi-step interactions.</li>
-        
-        <li><strong>Rich Keyboards:</strong> Use inline and reply keyboards for better UX.</li>
-        
-        <li><strong>Handle Media:</strong> Process photos, documents, and other media types.</li>
-        
-        <li><strong>Implement Inline Mode:</strong> Allow bot usage in any chat.</li>
-        
-        <li><strong>Add Payment Support:</strong> Monetize with Telegram Payments API.</li>
-        
-        <li><strong>Error Handling:</strong> Always handle exceptions gracefully.</li>
-        
-        <li><strong>Use Webhooks in Production:</strong> More efficient than polling.</li>
-    </ul>
-
-    <h3>Telegram Bot Development Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of Telegram bots as Swiss Army knives - they should be versatile, reliable, and user-friendly. Start by creating your bot with @BotFather and securing your token immediately. Use the python-telegram-bot library for comprehensive features and clean async handling. Implement ConversationHandler for complex interactions - it maintains state across multiple messages. Always use keyboards (inline or reply) instead of making users type commands. Handle all media types - users love sending photos and files. Implement inline mode to make your bot accessible from any chat. Use webhooks in production for better performance than polling. Add payment support if you're monetizing - Telegram handles the payment processing. Store user data securely and implement proper authentication for sensitive features. Support multiple languages if you have international users. Track analytics to understand usage patterns. Most importantly: make your bot conversational and helpful - users should feel like they're chatting with a smart assistant, not typing commands to a machine!</p>
-    </div>
-    
-    <p>Mastering Telegram bot development enables you to create powerful, versatile bots that serve millions of users worldwide. You can now build bots for customer support, e-commerce, notifications, group management, and countless other use cases. Whether you're building for a small community or a global audience, these Telegram bot skills empower you to create engaging, interactive experiences! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="chatbot_nlp.html">Natural Language Processing - Make Bots Understand Human Language!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Secure Your Token:</strong> Never expose your bot token publicly.</li>
+<li><strong>Use Conversations:</strong> Implement ConversationHandler for multi-step interactions.</li>
+<li><strong>Rich Keyboards:</strong> Use inline and reply keyboards for better UX.</li>
+<li><strong>Handle Media:</strong> Process photos, documents, and other media types.</li>
+<li><strong>Implement Inline Mode:</strong> Allow bot usage in any chat.</li>
+<li><strong>Add Payment Support:</strong> Monetize with Telegram Payments API.</li>
+<li><strong>Error Handling:</strong> Always handle exceptions gracefully.</li>
+<li><strong>Use Webhooks in Production:</strong> More efficient than polling.</li>
+</ul>
+<h3>Telegram Bot Development Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of Telegram bots as Swiss Army knives - they should be versatile, reliable, and user-friendly. Start by creating your bot with @BotFather and securing your token immediately. Use the python-telegram-bot library for comprehensive features and clean async handling. Implement ConversationHandler for complex interactions - it maintains state across multiple messages. Always use keyboards (inline or reply) instead of making users type commands. Handle all media types - users love sending photos and files. Implement inline mode to make your bot accessible from any chat. Use webhooks in production for better performance than polling. Add payment support if you're monetizing - Telegram handles the payment processing. Store user data securely and implement proper authentication for sensitive features. Support multiple languages if you have international users. Track analytics to understand usage patterns. Most importantly: make your bot conversational and helpful - users should feel like they're chatting with a smart assistant, not typing commands to a machine!</p>
+</div>
+<p>Mastering Telegram bot development enables you to create powerful, versatile bots that serve millions of users worldwide. You can now build bots for customer support, e-commerce, notifications, group management, and countless other use cases. Whether you're building for a small community or a global audience, these Telegram bot skills empower you to create engaging, interactive experiences! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="gui_automation_cross_platform.html">← Previous: Cross-Platform GUI</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="chatbot_discord_bots.html">Next: Discord Bots →</a>
+</div>
+</footer>
 </body>
 </html>

@@ -1,54 +1,103 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Automation with openpyxl - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Excel Automation with openpyxl - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📊 Excel Automation with openpyxl: Master Spreadsheets with Python</h1>
-    
-    <p>Excel is the lingua franca of business data. Love it or hate it, spreadsheets are everywhere. But what if you could harness Excel's power without ever opening it? That's where openpyxl comes in – it's like having a robot accountant who never makes calculation errors and can process thousands of spreadsheets in seconds! 🤖</p>
-
-    <h2>Beyond Basic Spreadsheet Manipulation</h2>
-    
-    <p>Think of openpyxl as your Swiss Army knife for Excel. It doesn't just read and write cells – it creates charts, applies formulas, formats data beautifully, and even generates complete reports. It's like being able to control Excel with your mind, except your mind is Python!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module4">Data Processing</a> &gt; 
+        <span>Excel Automation</span>
+</nav>
+<h1>📊 Excel Automation with openpyxl: Master Spreadsheets with Python</h1>
+<p>Excel is the lingua franca of business data. Love it or hate it, spreadsheets are everywhere. But what if you could harness Excel's power without ever opening it? That's where openpyxl comes in – it's like having a robot accountant who never makes calculation errors and can process thousands of spreadsheets in seconds! 🤖</p>
+<h2>Beyond Basic Spreadsheet Manipulation</h2>
+<p>Think of openpyxl as your Swiss Army knife for Excel. It doesn't just read and write cells – it creates charts, applies formulas, formats data beautifully, and even generates complete reports. It's like being able to control Excel with your mind, except your mind is Python!</p>
+<div class="mermaid">
     graph TB
-        A[Raw Data Sources] --> B[Python + openpyxl]
-        B --> C[Read & Parse]
-        B --> D[Transform & Calculate]
-        B --> E[Format & Style]
-        B --> F[Charts & Visualizations]
-        B --> G[Formulas & Functions]
+        A[Raw Data Sources] --&gt; B[Python + openpyxl]
+        B --&gt; C[Read &amp; Parse]
+        B --&gt; D[Transform &amp; Calculate]
+        B --&gt; E[Format &amp; Style]
+        B --&gt; F[Charts &amp; Visualizations]
+        B --&gt; G[Formulas &amp; Functions]
         
-        C --> H[Analysis Engine]
-        D --> H
+        C --&gt; H[Analysis Engine]
+        D --&gt; H
         
-        H --> I[Generated Reports]
-        E --> I
-        F --> I
-        G --> I
+        H --&gt; I[Generated Reports]
+        E --&gt; I
+        F --&gt; I
+        G --&gt; I
         
-        I --> J[Automated Distribution]
+        I --&gt; J[Automated Distribution]
         
         style A fill:#ff6b6b
         style I fill:#51cf66
         style J fill:#339af0
     </div>
-
-    <h3>Real-World Scenario: The Financial Report Automation System 💰</h3>
-    
-    <p>Imagine you're managing financial data for multiple departments. Every month, you need to collect data from various sources, calculate KPIs, create charts, apply corporate formatting, and distribute customized reports to 50 different managers. Let's automate the entire process!</p>
-
-    <pre><code>import openpyxl
+<h3>Real-World Scenario: The Financial Report Automation System 💰</h3>
+<p>Imagine you're managing financial data for multiple departments. Every month, you need to collect data from various sources, calculate KPIs, create charts, apply corporate formatting, and distribute customized reports to 50 different managers. Let's automate the entire process!</p>
+<pre><code>import openpyxl
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side, NamedStyle
 from openpyxl.chart import BarChart, PieChart, LineChart, Reference
@@ -87,7 +136,7 @@ class ExcelAutomationMaster:
             'light': 'F5F5F5'
         }
         
-    def _create_custom_styles(self) -> Dict[str, NamedStyle]:
+    def _create_custom_styles(self) -&gt; Dict[str, NamedStyle]:
         """Create reusable named styles for consistent formatting."""
         styles = {}
         
@@ -209,7 +258,7 @@ class ExcelAutomationMaster:
                     cell.style = 'header_style'
                 
                 # Apply data formatting based on column
-                elif col_num > 1:  # Skip first column (usually labels)
+                elif col_num &gt; 1:  # Skip first column (usually labels)
                     if 'revenue' in str(ws.cell(start_row, col_num).value).lower():
                         cell.style = 'currency_style'
                     elif 'percent' in str(ws.cell(start_row, col_num).value).lower():
@@ -386,7 +435,7 @@ class ExcelAutomationMaster:
             
             for cell in column:
                 try:
-                    if len(str(cell.value)) > max_length:
+                    if len(str(cell.value)) &gt; max_length:
                         max_length = len(str(cell.value))
                 except:
                     pass
@@ -667,8 +716,8 @@ class AdvancedExcelOperations:
         
         Example formulas:
         {
-            'Sheet1!E2:E100': '=IF(D2>1000,D2*0.1,D2*0.05)',
-            'Summary!B2': '=SUMIFS(Sheet1!D:D,Sheet1!A:A,">2024-01-01")',
+            'Sheet1!E2:E100': '=IF(D2&gt;1000,D2*0.1,D2*0.05)',
+            'Summary!B2': '=SUMIFS(Sheet1!D:D,Sheet1!A:A,"&gt;2024-01-01")',
             'Analysis!C2:C50': '=VLOOKUP(A2,Sheet1!A:D,4,FALSE)'
         }
         """
@@ -878,7 +927,7 @@ class ExcelReportGenerator:
                     cell.font = Font(bold=True)
                     cell.fill = PatternFill(start_color='E8E8E8', end_color='E8E8E8', fill_type='solid')
                 
-                if isinstance(value, (int, float)) and col_num > 1:
+                if isinstance(value, (int, float)) and col_num &gt; 1:
                     cell.number_format = '#,##0.00'
 
 # Example usage
@@ -912,35 +961,27 @@ if __name__ == "__main__":
     
     print("✅ Excel automation complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use DataFrames as Intermediaries:</strong> Convert Excel data to pandas DataFrames for complex operations, then write back to Excel.</li>
-        
-        <li><strong>Apply Consistent Styling:</strong> Create reusable NamedStyles for consistent formatting across your workbooks.</li>
-        
-        <li><strong>Leverage Formulas:</strong> Let Excel do calculations with formulas rather than pre-calculating everything in Python.</li>
-        
-        <li><strong>Batch Processing:</strong> Process multiple files efficiently using loops and consistent patterns.</li>
-        
-        <li><strong>Add Interactivity:</strong> Use hyperlinks, data validation, and protection to create user-friendly spreadsheets.</li>
-        
-        <li><strong>Visualize with Charts:</strong> Excel charts are powerful - use them to make data more digestible.</li>
-        
-        <li><strong>Handle Large Data Carefully:</strong> For files with millions of rows, consider using openpyxl's read_only and write_only modes.</li>
-    </ul>
-
-    <h3>Excel Automation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of Excel files as databases that business users can understand. Design your automated spreadsheets with the end user in mind - add clear headers, helpful formatting, data validation, and even instructions. The best automated Excel file is one that looks like it was carefully crafted by hand, but was actually generated in seconds!</p>
-    </div>
-    
-    <p>Excel automation with openpyxl transforms you from a spreadsheet user to a spreadsheet wizard. You can process thousands of files, generate complex reports, and create interactive dashboards - all without ever opening Excel. Whether you're in finance, data analysis, or business operations, these skills will save you countless hours and eliminate human error from repetitive tasks! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="workingwithdata_pdf_manipulation.html">PDF Manipulation with PyPDF2 - Master the Portable Document Format!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use DataFrames as Intermediaries:</strong> Convert Excel data to pandas DataFrames for complex operations, then write back to Excel.</li>
+<li><strong>Apply Consistent Styling:</strong> Create reusable NamedStyles for consistent formatting across your workbooks.</li>
+<li><strong>Leverage Formulas:</strong> Let Excel do calculations with formulas rather than pre-calculating everything in Python.</li>
+<li><strong>Batch Processing:</strong> Process multiple files efficiently using loops and consistent patterns.</li>
+<li><strong>Add Interactivity:</strong> Use hyperlinks, data validation, and protection to create user-friendly spreadsheets.</li>
+<li><strong>Visualize with Charts:</strong> Excel charts are powerful - use them to make data more digestible.</li>
+<li><strong>Handle Large Data Carefully:</strong> For files with millions of rows, consider using openpyxl's read_only and write_only modes.</li>
+</ul>
+<h3>Excel Automation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of Excel files as databases that business users can understand. Design your automated spreadsheets with the end user in mind - add clear headers, helpful formatting, data validation, and even instructions. The best automated Excel file is one that looks like it was carefully crafted by hand, but was actually generated in seconds!</p>
+</div>
+<p>Excel automation with openpyxl transforms you from a spreadsheet user to a spreadsheet wizard. You can process thousands of files, generate complex reports, and create interactive dashboards - all without ever opening Excel. Whether you're in finance, data analysis, or business operations, these skills will save you countless hours and eliminate human error from repetitive tasks! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="workingwithdata_csv_processing.html">← Previous: CSV Processing</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="workingwithdata_json_xml_parsing.html">Next: JSON &amp; XML Parsing →</a>
+</div>
+</footer>
 </body>
 </html>

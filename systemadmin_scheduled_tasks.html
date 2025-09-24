@@ -1,66 +1,115 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scheduled Tasks - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scheduled Tasks - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>⏰ Scheduled Tasks: Automate with Cron and Task Scheduler</h1>
-    
-    <p>Time is the ultimate automation trigger. Whether it's backing up databases at 2 AM, generating reports every Monday, or cleaning temp files hourly, scheduled tasks are the heartbeat of system automation. Python gives you the power to create, manage, and orchestrate scheduled tasks across any operating system. Let's master the art of temporal automation! 🕐</p>
-
-    <h2>The Scheduling Ecosystem</h2>
-    
-    <p>Think of scheduled tasks as your digital workforce that never sleeps. Like a well-orchestrated factory where machines start and stop at precise times, your scheduled tasks ensure critical operations happen exactly when needed - whether you're awake or asleep, at work or on vacation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module10">System Administration</a> &gt; 
+        <span>Scheduled Tasks</span>
+</nav>
+<h1>⏰ Scheduled Tasks: Automate with Cron and Task Scheduler</h1>
+<p>Time is the ultimate automation trigger. Whether it's backing up databases at 2 AM, generating reports every Monday, or cleaning temp files hourly, scheduled tasks are the heartbeat of system automation. Python gives you the power to create, manage, and orchestrate scheduled tasks across any operating system. Let's master the art of temporal automation! 🕐</p>
+<h2>The Scheduling Ecosystem</h2>
+<p>Think of scheduled tasks as your digital workforce that never sleeps. Like a well-orchestrated factory where machines start and stop at precise times, your scheduled tasks ensure critical operations happen exactly when needed - whether you're awake or asleep, at work or on vacation!</p>
+<div class="mermaid">
     graph TB
-        A[Task Scheduling] --> B[Unix/Linux]
-        A --> C[Windows]
-        A --> D[Cross-Platform]
+        A[Task Scheduling] --&gt; B[Unix/Linux]
+        A --&gt; C[Windows]
+        A --&gt; D[Cross-Platform]
         
-        B --> E[Cron]
-        B --> F[Systemd Timers]
-        B --> G[At Command]
+        B --&gt; E[Cron]
+        B --&gt; F[Systemd Timers]
+        B --&gt; G[At Command]
         
-        C --> H[Task Scheduler]
-        C --> I[Scheduled Tasks API]
-        C --> J[PowerShell Jobs]
+        C --&gt; H[Task Scheduler]
+        C --&gt; I[Scheduled Tasks API]
+        C --&gt; J[PowerShell Jobs]
         
-        D --> K[Python Schedulers]
-        D --> L[APScheduler]
-        D --> M[Schedule Library]
+        D --&gt; K[Python Schedulers]
+        D --&gt; L[APScheduler]
+        D --&gt; M[Schedule Library]
         
-        E --> N[Crontab Management]
-        E --> O[Cron Expressions]
-        E --> P[User/System Crons]
+        E --&gt; N[Crontab Management]
+        E --&gt; O[Cron Expressions]
+        E --&gt; P[User/System Crons]
         
-        H --> Q[Task Creation]
-        H --> R[Triggers & Actions]
-        H --> S[Task Management]
+        H --&gt; Q[Task Creation]
+        H --&gt; R[Triggers &amp; Actions]
+        H --&gt; S[Task Management]
         
-        K --> T[In-Process Scheduling]
-        K --> U[Persistent Scheduling]
-        K --> V[Distributed Scheduling]
+        K --&gt; T[In-Process Scheduling]
+        K --&gt; U[Persistent Scheduling]
+        K --&gt; V[Distributed Scheduling]
         
         style A fill:#ff6b6b
         style E fill:#51cf66
         style H fill:#339af0
         style K fill:#ffd43b
     </div>
-
-    <h3>Real-World Scenario: The Automation Orchestra 🎭</h3>
-    
-    <p>You're managing a complex infrastructure where dozens of tasks need perfect timing: database backups at night, report generation before business hours, log rotation every hour, security scans on weekends, and monitoring checks every minute. Let's build a comprehensive scheduling system that conducts this orchestra flawlessly!</p>
-
-    <pre><code>import os
+<h3>Real-World Scenario: The Automation Orchestra 🎭</h3>
+<p>You're managing a complex infrastructure where dozens of tasks need perfect timing: database backups at night, report generation before business hours, log rotation every hour, security scans on weekends, and monitoring checks every minute. Let's build a comprehensive scheduling system that conducts this orchestra flawlessly!</p>
+<pre><code>import os
 import sys
 import subprocess
 import platform
@@ -155,7 +204,7 @@ class TaskScheduler:
         self.setup_scheduler()
         self.load_tasks()
         
-    def get_default_config(self) -> Dict:
+    def get_default_config(self) -&gt; Dict:
         """Get default configuration."""
         return {
             'db_path': 'scheduler.db',
@@ -313,7 +362,7 @@ class TaskScheduler:
         
         self.logger.info(f"Loaded {len(self.tasks)} tasks")
     
-    def add_task(self, task: ScheduledTask) -> bool:
+    def add_task(self, task: ScheduledTask) -&gt; bool:
         """Add a new scheduled task."""
         try:
             # Store in memory
@@ -417,7 +466,7 @@ class TaskScheduler:
         except Exception as e:
             self.logger.error(f"Failed to schedule task {task.name}: {e}")
     
-    def _parse_interval(self, interval_str: str) -> int:
+    def _parse_interval(self, interval_str: str) -&gt; int:
         """Parse interval string to seconds."""
         units = {
             's': 1,
@@ -488,7 +537,7 @@ class TaskScheduler:
                     self._send_notification(task, execution)
                 
                 # Retry if configured
-                if task.retry_count > 0:
+                if task.retry_count &gt; 0:
                     self._retry_task(task, execution)
             
             # Update task last run
@@ -660,7 +709,7 @@ Error:
         self.scheduler.shutdown()
         self.logger.info("Scheduler stopped")
     
-    def get_task_status(self, task_id: str) -> Dict:
+    def get_task_status(self, task_id: str) -&gt; Dict:
         """Get task status and history."""
         task = self.tasks.get(task_id)
         if not task:
@@ -693,7 +742,7 @@ Error:
             ]
         }
     
-    def list_tasks(self) -> List[Dict]:
+    def list_tasks(self) -&gt; List[Dict]:
         """List all scheduled tasks."""
         return [asdict(task) for task in self.tasks.values()]
     
@@ -748,7 +797,7 @@ class CronManager:
         if platform.system() not in ['Linux', 'Darwin']:
             raise OSError("CronManager only works on Unix-like systems")
     
-    def list_crontab(self, user: str = None) -> List[str]:
+    def list_crontab(self, user: str = None) -&gt; List[str]:
         """List crontab entries."""
         cmd = ['crontab', '-l']
         if user:
@@ -766,7 +815,7 @@ class CronManager:
             self.logger.error(f"Failed to list crontab: {e}")
             return []
     
-    def add_cron_job(self, schedule: str, command: str, user: str = None) -> bool:
+    def add_cron_job(self, schedule: str, command: str, user: str = None) -&gt; bool:
         """Add a cron job."""
         try:
             # Get current crontab
@@ -783,7 +832,7 @@ class CronManager:
             self.logger.error(f"Failed to add cron job: {e}")
             return False
     
-    def remove_cron_job(self, pattern: str, user: str = None) -> bool:
+    def remove_cron_job(self, pattern: str, user: str = None) -&gt; bool:
         """Remove cron jobs matching pattern."""
         try:
             # Get current crontab
@@ -802,7 +851,7 @@ class CronManager:
             self.logger.error(f"Failed to remove cron job: {e}")
             return False
     
-    def _write_crontab(self, lines: List[str], user: str = None) -> bool:
+    def _write_crontab(self, lines: List[str], user: str = None) -&gt; bool:
         """Write crontab entries."""
         try:
             # Create temporary file
@@ -827,7 +876,7 @@ class CronManager:
             self.logger.error(f"Failed to write crontab: {e}")
             return False
     
-    def validate_cron_expression(self, expression: str) -> bool:
+    def validate_cron_expression(self, expression: str) -&gt; bool:
         """Validate cron expression."""
         try:
             croniter(expression)
@@ -835,7 +884,7 @@ class CronManager:
         except:
             return False
     
-    def get_next_run(self, expression: str, n: int = 5) -> List[datetime]:
+    def get_next_run(self, expression: str, n: int = 5) -&gt; List[datetime]:
         """Get next N run times for a cron expression."""
         try:
             cron = croniter(expression, datetime.now())
@@ -854,7 +903,7 @@ class WindowsTaskScheduler:
         if platform.system() != 'Windows':
             raise OSError("WindowsTaskScheduler only works on Windows")
     
-    def list_tasks(self, folder: str = "\\") -> List[Dict]:
+    def list_tasks(self, folder: str = "\\") -&gt; List[Dict]:
         """List scheduled tasks."""
         try:
             # Use schtasks command
@@ -889,7 +938,7 @@ class WindowsTaskScheduler:
             return []
     
     def create_task(self, name: str, command: str, 
-                   schedule: str, description: str = "") -> bool:
+                   schedule: str, description: str = "") -&gt; bool:
         """Create a scheduled task."""
         try:
             # Build schtasks command
@@ -921,7 +970,7 @@ class WindowsTaskScheduler:
             self.logger.error(f"Failed to create task: {e}")
             return False
     
-    def delete_task(self, name: str) -> bool:
+    def delete_task(self, name: str) -&gt; bool:
         """Delete a scheduled task."""
         try:
             result = subprocess.run(
@@ -942,7 +991,7 @@ class WindowsTaskScheduler:
             self.logger.error(f"Failed to delete task: {e}")
             return False
     
-    def run_task(self, name: str) -> bool:
+    def run_task(self, name: str) -&gt; bool:
         """Run a task immediately."""
         try:
             result = subprocess.run(
@@ -958,7 +1007,7 @@ class WindowsTaskScheduler:
             self.logger.error(f"Failed to run task: {e}")
             return False
     
-    def _parse_schedule_type(self, schedule: str) -> str:
+    def _parse_schedule_type(self, schedule: str) -&gt; str:
         """Parse schedule type for schtasks."""
         schedule_lower = schedule.lower()
         
@@ -977,7 +1026,7 @@ class WindowsTaskScheduler:
         else:
             return 'daily'  # Default
     
-    def _parse_schedule_params(self, schedule: str) -> List[str]:
+    def _parse_schedule_params(self, schedule: str) -&gt; List[str]:
         """Parse schedule parameters for schtasks."""
         params = []
         
@@ -1006,7 +1055,7 @@ class TaskOrchestrator:
         self.workflows = {}
         self.logger = logging.getLogger(__name__)
     
-    def create_workflow(self, name: str, tasks: List[Dict]) -> bool:
+    def create_workflow(self, name: str, tasks: List[Dict]) -&gt; bool:
         """
         Create a workflow with dependent tasks.
         
@@ -1078,7 +1127,7 @@ class TaskOrchestrator:
             # In production, use proper synchronization
             time.sleep(1)
     
-    def _topological_sort(self, tasks: List[Dict]) -> List[str]:
+    def _topological_sort(self, tasks: List[Dict]) -&gt; List[str]:
         """Sort tasks by dependencies."""
         # Build dependency graph
         graph = defaultdict(list)
@@ -1128,7 +1177,7 @@ if __name__ == "__main__":
     backup_task = ScheduledTask(
         id="daily_backup",
         name="Daily Database Backup",
-        command="pg_dump mydb > /backups/mydb_$(date +%Y%m%d).sql",
+        command="pg_dump mydb &gt; /backups/mydb_$(date +%Y%m%d).sql",
         schedule_type=ScheduleType.DAILY,
         schedule_value="02:00",
         description="Daily database backup at 2 AM",
@@ -1260,35 +1309,27 @@ if __name__ == "__main__":
         scheduler.stop()
         print("✅ Scheduler stopped")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use the Right Tool:</strong> Cron for Unix/Linux, Task Scheduler for Windows, Python schedulers for cross-platform.</li>
-        
-        <li><strong>Handle Failures Gracefully:</strong> Always implement retry logic and notifications for critical tasks.</li>
-        
-        <li><strong>Log Everything:</strong> Keep detailed logs of task executions for debugging and auditing.</li>
-        
-        <li><strong>Test Schedules:</strong> Always test cron expressions and schedules before deploying.</li>
-        
-        <li><strong>Consider Time Zones:</strong> Be explicit about time zones, especially for distributed systems.</li>
-        
-        <li><strong>Monitor Task Health:</strong> Track success rates, execution times, and resource usage.</li>
-        
-        <li><strong>Implement Dependencies:</strong> Use workflows for tasks that depend on each other.</li>
-    </ul>
-
-    <h3>Task Scheduling Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Scheduled tasks are the backbone of automation - they ensure critical operations happen reliably without human intervention. Always design with failure in mind: what happens if a task fails? How do you know? Can it recover automatically? Use proper locking mechanisms to prevent task overlap, implement health checks to ensure tasks are actually running, and always have a manual override option. Remember that scheduled tasks run in the background with limited interaction capability, so make them self-sufficient with proper error handling and logging. And most importantly: test your schedules thoroughly - there's nothing worse than discovering your backup task hasn't run for months!</p>
-    </div>
-    
-    <p>Task scheduling mastery transforms you from a manual operator to an automation architect. You can orchestrate complex workflows, ensure critical maintenance happens on schedule, and sleep soundly knowing your systems are taking care of themselves. Whether you're managing a single server or a distributed infrastructure, these scheduling skills are essential for reliable automation! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="systemadmin_environment_management.html">Environment Management - Master System Configurations!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use the Right Tool:</strong> Cron for Unix/Linux, Task Scheduler for Windows, Python schedulers for cross-platform.</li>
+<li><strong>Handle Failures Gracefully:</strong> Always implement retry logic and notifications for critical tasks.</li>
+<li><strong>Log Everything:</strong> Keep detailed logs of task executions for debugging and auditing.</li>
+<li><strong>Test Schedules:</strong> Always test cron expressions and schedules before deploying.</li>
+<li><strong>Consider Time Zones:</strong> Be explicit about time zones, especially for distributed systems.</li>
+<li><strong>Monitor Task Health:</strong> Track success rates, execution times, and resource usage.</li>
+<li><strong>Implement Dependencies:</strong> Use workflows for tasks that depend on each other.</li>
+</ul>
+<h3>Task Scheduling Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Scheduled tasks are the backbone of automation - they ensure critical operations happen reliably without human intervention. Always design with failure in mind: what happens if a task fails? How do you know? Can it recover automatically? Use proper locking mechanisms to prevent task overlap, implement health checks to ensure tasks are actually running, and always have a manual override option. Remember that scheduled tasks run in the background with limited interaction capability, so make them self-sufficient with proper error handling and logging. And most importantly: test your schedules thoroughly - there's nothing worse than discovering your backup task hasn't run for months!</p>
+</div>
+<p>Task scheduling mastery transforms you from a manual operator to an automation architect. You can orchestrate complex workflows, ensure critical maintenance happens on schedule, and sleep soundly knowing your systems are taking care of themselves. Whether you're managing a single server or a distributed infrastructure, these scheduling skills are essential for reliable automation! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="testing_automation_ci.html">← Previous: Continuous Integration</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="systemadmin_process_management.html">Next: Process Management →</a>
+</div>
+</footer>
 </body>
 </html>

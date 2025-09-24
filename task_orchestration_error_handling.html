@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error Handling - Python Task Orchestration</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Error Handling - Python Task Orchestration</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🛡️ Error Handling: Build Resilient Workflows That Never Fail</h1>
-    
-    <p>Robust error handling transforms fragile workflows into resilient production systems - it's the difference between pipelines that break at 3 AM requiring manual intervention and those that self-heal, retry intelligently, and gracefully degrade when necessary. Like building safety systems for a spacecraft, comprehensive error handling ensures your workflows can handle unexpected failures, recover automatically, and provide clear diagnostics when intervention is needed. Whether you're dealing with transient network issues, data quality problems, or system failures, mastering error handling is crucial for production-grade orchestration. Let's explore the comprehensive world of workflow error management! 🚨</p>
-
-    <h2>The Error Handling Architecture</h2>
-    
-    <p>Think of error handling as your workflow's immune system - it detects problems, attempts recovery, isolates failures, and maintains overall system health even when individual components fail. Using Airflow's sophisticated retry mechanisms, callbacks, trigger rules, and custom error handlers, you can build workflows that anticipate failures, recover gracefully, and provide comprehensive diagnostics. Understanding error types, retry strategies, and recovery patterns is essential for building reliable automation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module8">Task Orchestration</a> &gt; 
+        <span>Error Handling</span>
+</nav>
+<h1>🛡️ Error Handling: Build Resilient Workflows That Never Fail</h1>
+<p>Robust error handling transforms fragile workflows into resilient production systems - it's the difference between pipelines that break at 3 AM requiring manual intervention and those that self-heal, retry intelligently, and gracefully degrade when necessary. Like building safety systems for a spacecraft, comprehensive error handling ensures your workflows can handle unexpected failures, recover automatically, and provide clear diagnostics when intervention is needed. Whether you're dealing with transient network issues, data quality problems, or system failures, mastering error handling is crucial for production-grade orchestration. Let's explore the comprehensive world of workflow error management! 🚨</p>
+<h2>The Error Handling Architecture</h2>
+<p>Think of error handling as your workflow's immune system - it detects problems, attempts recovery, isolates failures, and maintains overall system health even when individual components fail. Using Airflow's sophisticated retry mechanisms, callbacks, trigger rules, and custom error handlers, you can build workflows that anticipate failures, recover gracefully, and provide comprehensive diagnostics. Understanding error types, retry strategies, and recovery patterns is essential for building reliable automation!</p>
+<div class="mermaid">
     graph TB
-        A[Error Handling] --> B[Error Types]
-        A --> C[Retry Strategies]
-        A --> D[Recovery Patterns]
-        A --> E[Monitoring]
+        A[Error Handling] --&gt; B[Error Types]
+        A --&gt; C[Retry Strategies]
+        A --&gt; D[Recovery Patterns]
+        A --&gt; E[Monitoring]
         
-        B --> F[Transient]
-        B --> G[Permanent]
-        B --> H[Data Quality]
-        B --> I[System]
+        B --&gt; F[Transient]
+        B --&gt; G[Permanent]
+        B --&gt; H[Data Quality]
+        B --&gt; I[System]
         
-        C --> J[Fixed Retry]
-        C --> K[Exponential Backoff]
-        C --> L[Custom Logic]
-        C --> M[Circuit Breaker]
+        C --&gt; J[Fixed Retry]
+        C --&gt; K[Exponential Backoff]
+        C --&gt; L[Custom Logic]
+        C --&gt; M[Circuit Breaker]
         
-        D --> N[Graceful Degradation]
-        D --> O[Compensating Actions]
-        D --> P[Rollback]
-        D --> Q[Alternative Paths]
+        D --&gt; N[Graceful Degradation]
+        D --&gt; O[Compensating Actions]
+        D --&gt; P[Rollback]
+        D --&gt; Q[Alternative Paths]
         
-        E --> R[Alerting]
-        E --> S[Logging]
-        E --> T[Metrics]
-        E --> U[Debugging]
+        E --&gt; R[Alerting]
+        E --&gt; S[Logging]
+        E --&gt; T[Metrics]
+        E --&gt; U[Debugging]
         
-        V[Implementation] --> W[Callbacks]
-        V --> X[Hooks]
-        V --> Y[Sensors]
-        V --> Z[Handlers]
+        V[Implementation] --&gt; W[Callbacks]
+        V --&gt; X[Hooks]
+        V --&gt; Y[Sensors]
+        V --&gt; Z[Handlers]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Fault-Tolerant Data Platform 🏗️</h3>
-    
-    <p>You're building a fault-tolerant data platform that processes critical business data from unreliable sources, handles network failures and service outages gracefully, implements intelligent retry logic with backoff strategies, provides detailed error diagnostics and root cause analysis, maintains data consistency despite partial failures, implements circuit breakers for failing services, creates compensating transactions for rollback scenarios, and ensures zero data loss even during catastrophic failures. Your platform must handle thousands of potential failure points, provide clear visibility into error patterns, recover automatically when possible, and alert appropriately when manual intervention is required. Let's build a comprehensive error handling framework!</p>
-
-    <pre><code># Advanced Error Handling for Apache Airflow
+<h3>Real-World Scenario: The Fault-Tolerant Data Platform 🏗️</h3>
+<p>You're building a fault-tolerant data platform that processes critical business data from unreliable sources, handles network failures and service outages gracefully, implements intelligent retry logic with backoff strategies, provides detailed error diagnostics and root cause analysis, maintains data consistency despite partial failures, implements circuit breakers for failing services, creates compensating transactions for rollback scenarios, and ensures zero data loss even during catastrophic failures. Your platform must handle thousands of potential failure points, provide clear visibility into error patterns, recover automatically when possible, and alert appropriately when manual intervention is required. Let's build a comprehensive error handling framework!</p>
+<pre><code># Advanced Error Handling for Apache Airflow
 # pip install apache-airflow tenacity requests circuitbreaker prometheus-client
 
 import os
@@ -157,7 +206,7 @@ class ErrorClassifier:
     ]
     
     @classmethod
-    def classify(cls, exception: Exception) -> ErrorType:
+    def classify(cls, exception: Exception) -&gt; ErrorType:
         """Classify an exception into an error type."""
         error_str = str(exception).lower()
         
@@ -191,7 +240,7 @@ class ErrorClassifier:
         return ErrorType.UNKNOWN
     
     @classmethod
-    def should_retry(cls, error_type: ErrorType) -> bool:
+    def should_retry(cls, error_type: ErrorType) -&gt; bool:
         """Determine if error type should be retried."""
         retryable_types = [
             ErrorType.TRANSIENT,
@@ -293,7 +342,7 @@ class RetryStrategy:
         error_history = context.get('error_history', [])
         
         # Analyze error pattern
-        if len(error_history) > 5:
+        if len(error_history) &gt; 5:
             # Too many errors, use longer delays
             return RetryStrategy.exponential_backoff(max_attempts=3, initial_delay=10)
         elif any(e.error_type == ErrorType.NETWORK for e in error_history):
@@ -317,7 +366,7 @@ class CircuitBreakerManager:
         service_name: str,
         failure_threshold: int = 5,
         recovery_timeout: float = 60.0
-    ) -> circuitbreaker.CircuitBreaker:
+    ) -&gt; circuitbreaker.CircuitBreaker:
         """Get or create circuit breaker for service."""
         if service_name not in self.breakers:
             self.breakers[service_name] = circuitbreaker.CircuitBreaker(
@@ -333,7 +382,7 @@ class CircuitBreakerManager:
         func: Callable,
         *args,
         **kwargs
-    ) -> Any:
+    ) -&gt; Any:
         """Call function with circuit breaker protection."""
         breaker = self.get_breaker(service_name)
         
@@ -435,7 +484,7 @@ class CheckpointManager:
         except Exception as e:
             self.logger.error(f"Failed to save checkpoint: {e}")
     
-    def restore(self, checkpoint_id: str) -> Optional[Any]:
+    def restore(self, checkpoint_id: str) -&gt; Optional[Any]:
         """Restore checkpoint data."""
         checkpoint_file = self.storage_path / f"{checkpoint_id}.json"
         
@@ -503,7 +552,7 @@ class ErrorCallbacks:
         logging.info(f"Task {task_instance.task_id} retrying (attempt {task_instance.try_number})")
         
         # Check if we should continue retrying
-        if task_instance.try_number >= 3:
+        if task_instance.try_number &gt;= 3:
             # Consider circuit breaking or changing strategy
             logging.warning(f"Task {task_instance.task_id} has failed {task_instance.try_number} times")
     
@@ -512,7 +561,7 @@ class ErrorCallbacks:
         """Callback for task success."""
         task_instance = context['task_instance']
         
-        if task_instance.try_number > 1:
+        if task_instance.try_number &gt; 1:
             logging.info(f"Task {task_instance.task_id} succeeded after {task_instance.try_number} attempts")
     
     @staticmethod
@@ -604,7 +653,7 @@ def resilient_pipeline():
         import random
         
         # Simulate occasional failures
-        if random.random() < 0.3:
+        if random.random() &lt; 0.3:
             raise ConnectionError("Failed to connect to data source")
         
         return {'data': 'extracted', 'records': 1000}
@@ -615,7 +664,7 @@ def resilient_pipeline():
         if not data.get('records'):
             raise ValueError("No records found in data")
         
-        if data['records'] < 100:
+        if data['records'] &lt; 100:
             raise AirflowException("Insufficient data for processing")
         
         return {**data, 'validated': True}
@@ -627,7 +676,7 @@ def resilient_pipeline():
         def api_call():
             # Simulate external API call
             import random
-            if random.random() < 0.2:
+            if random.random() &lt; 0.2:
                 raise Exception("API service unavailable")
             return {'processed': True}
         
@@ -698,7 +747,7 @@ def resilient_pipeline():
                     # Keep last 7 days of data
                     cutoff_date = datetime.now() - timedelta(days=7)
                     for file in Path(temp_dir).iterdir():
-                        if file.stat().st_mtime < cutoff_date.timestamp():
+                        if file.stat().st_mtime &lt; cutoff_date.timestamp():
                             file.unlink()
                 except Exception as e:
                     logging.warning(f"Cleanup failed for {temp_dir}: {e}")
@@ -718,7 +767,7 @@ def resilient_pipeline():
     clean = cleanup()
     
     # Dependencies
-    processed >> error_info >> compensation >> clean
+    processed &gt;&gt; error_info &gt;&gt; compensation &gt;&gt; clean
 
 # Instantiate DAG
 resilient_dag = resilient_pipeline()
@@ -732,7 +781,7 @@ class ErrorMonitor:
         self.logger = logging.getLogger(__name__)
         self.error_stats = {}
     
-    def analyze_error_patterns(self, dag_id: str, days: int = 7) -> Dict[str, Any]:
+    def analyze_error_patterns(self, dag_id: str, days: int = 7) -&gt; Dict[str, Any]:
         """Analyze error patterns for a DAG."""
         from airflow.models import TaskFail
         from collections import Counter
@@ -761,22 +810,22 @@ class ErrorMonitor:
         self,
         error_types: Counter,
         task_failures: Counter
-    ) -> List[str]:
+    ) -&gt; List[str]:
         """Generate recommendations based on error patterns."""
         recommendations = []
         
         # Check for high network errors
-        if error_types.get('NETWORK', 0) > 10:
+        if error_types.get('NETWORK', 0) &gt; 10:
             recommendations.append("High network errors - consider increasing timeouts or adding circuit breakers")
         
         # Check for recurring task failures
         for task, count in task_failures.items():
-            if count > 5:
+            if count &gt; 5:
                 recommendations.append(f"Task '{task}' failing frequently - review logic and add better error handling")
         
         return recommendations
     
-    def create_error_dashboard(self) -> Dict[str, Any]:
+    def create_error_dashboard(self) -&gt; Dict[str, Any]:
         """Create error dashboard data."""
         return {
             'total_dags_with_errors': len(self.error_stats),
@@ -785,17 +834,17 @@ class ErrorMonitor:
             'recovery_success_rate': self._calculate_recovery_rate()
         }
     
-    def _get_top_errors(self, limit: int = 10) -> List[Dict[str, Any]]:
+    def _get_top_errors(self, limit: int = 10) -&gt; List[Dict[str, Any]]:
         """Get top error types."""
         # Implementation would query error storage
         return []
     
-    def _get_recent_failures(self, limit: int = 20) -> List[Dict[str, Any]]:
+    def _get_recent_failures(self, limit: int = 20) -&gt; List[Dict[str, Any]]:
         """Get recent failures."""
         # Implementation would query error storage
         return []
     
-    def _calculate_recovery_rate(self) -> float:
+    def _calculate_recovery_rate(self) -&gt; float:
         """Calculate automatic recovery success rate."""
         # Implementation would analyze retry success
         return 0.0
@@ -814,7 +863,7 @@ class ErrorHandlingTester:
         @RetryStrategy.exponential_backoff(max_attempts=3, initial_delay=0.1)
         def flaky_function():
             import random
-            if random.random() < 0.7:
+            if random.random() &lt; 0.7:
                 raise ConnectionError("Simulated failure")
             return "Success"
         
@@ -833,7 +882,7 @@ class ErrorHandlingTester:
         
         def unreliable_service():
             import random
-            if random.random() < 0.8:
+            if random.random() &lt; 0.8:
                 raise Exception("Service error")
             return "Service response"
         
@@ -976,37 +1025,28 @@ if __name__ == "__main__":
 
 # Path import fix
 from pathlib import Path</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Error Classification:</strong> Categorize errors to determine appropriate handling strategies.</li>
-        
-        <li><strong>Intelligent Retries:</strong> Use exponential backoff and respect retry limits.</li>
-        
-        <li><strong>Circuit Breakers:</strong> Prevent cascading failures with circuit breaker pattern.</li>
-        
-        <li><strong>Graceful Degradation:</strong> Provide fallback functionality when primary fails.</li>
-        
-        <li><strong>Comprehensive Logging:</strong> Log detailed context for debugging and analysis.</li>
-        
-        <li><strong>Cleanup Tasks:</strong> Always clean up resources with ALL_DONE trigger rule.</li>
-        
-        <li><strong>Error Monitoring:</strong> Track patterns and trends for proactive improvement.</li>
-        
-        <li><strong>Testing:</strong> Explicitly test error handling paths and recovery mechanisms.</li>
-    </ul>
-
-    <h3>Error Handling Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of error handling as your workflow's safety net and immune system combined - it should catch problems, attempt recovery, and learn from failures. Always classify errors first - transient errors (network timeouts) should be retried with exponential backoff, while permanent errors (invalid configuration) should fail fast with clear diagnostics. Implement the circuit breaker pattern for external services to prevent cascading failures - after a threshold of failures, stop trying and fail fast. Use checkpoint recovery for long-running tasks so they can resume from the last good state rather than starting over. Design for graceful degradation - if the primary data source fails, can you use a cache or alternative source? Implement compensating transactions for critical operations that must be rolled back on failure. Set up comprehensive monitoring to detect patterns - if a task fails every Monday morning, there's likely a systemic issue. Use appropriate trigger rules: ALL_DONE for cleanup tasks that must always run, ONE_FAILED for error handlers, NONE_FAILED_MIN_ONE_SUCCESS for convergence points. Log rich context with errors - not just the error message but the full stack trace, input parameters, and system state. Test your error handling explicitly - inject failures and verify recovery. Remember: production systems fail in unexpected ways, so build defense in depth with multiple layers of error handling!</p>
-    </div>
-    
-    <p>Mastering error handling transforms brittle workflows into resilient production systems. You can now classify and handle different error types appropriately, implement sophisticated retry strategies with backoff, use circuit breakers to prevent cascade failures, create checkpoints for recovery, and monitor error patterns for continuous improvement. Whether you're building critical data pipelines, ML training workflows, or business automation, these error handling skills ensure your systems stay resilient and self-healing! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="task_orchestration_monitoring.html">Monitoring and Alerts - Keep Your Workflows Running Smoothly!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Error Classification:</strong> Categorize errors to determine appropriate handling strategies.</li>
+<li><strong>Intelligent Retries:</strong> Use exponential backoff and respect retry limits.</li>
+<li><strong>Circuit Breakers:</strong> Prevent cascading failures with circuit breaker pattern.</li>
+<li><strong>Graceful Degradation:</strong> Provide fallback functionality when primary fails.</li>
+<li><strong>Comprehensive Logging:</strong> Log detailed context for debugging and analysis.</li>
+<li><strong>Cleanup Tasks:</strong> Always clean up resources with ALL_DONE trigger rule.</li>
+<li><strong>Error Monitoring:</strong> Track patterns and trends for proactive improvement.</li>
+<li><strong>Testing:</strong> Explicitly test error handling paths and recovery mechanisms.</li>
+</ul>
+<h3>Error Handling Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of error handling as your workflow's safety net and immune system combined - it should catch problems, attempt recovery, and learn from failures. Always classify errors first - transient errors (network timeouts) should be retried with exponential backoff, while permanent errors (invalid configuration) should fail fast with clear diagnostics. Implement the circuit breaker pattern for external services to prevent cascading failures - after a threshold of failures, stop trying and fail fast. Use checkpoint recovery for long-running tasks so they can resume from the last good state rather than starting over. Design for graceful degradation - if the primary data source fails, can you use a cache or alternative source? Implement compensating transactions for critical operations that must be rolled back on failure. Set up comprehensive monitoring to detect patterns - if a task fails every Monday morning, there's likely a systemic issue. Use appropriate trigger rules: ALL_DONE for cleanup tasks that must always run, ONE_FAILED for error handlers, NONE_FAILED_MIN_ONE_SUCCESS for convergence points. Log rich context with errors - not just the error message but the full stack trace, input parameters, and system state. Test your error handling explicitly - inject failures and verify recovery. Remember: production systems fail in unexpected ways, so build defense in depth with multiple layers of error handling!</p>
+</div>
+<p>Mastering error handling transforms brittle workflows into resilient production systems. You can now classify and handle different error types appropriately, implement sophisticated retry strategies with backoff, use circuit breakers to prevent cascade failures, create checkpoints for recovery, and monitor error patterns for continuous improvement. Whether you're building critical data pipelines, ML training workflows, or business automation, these error handling skills ensure your systems stay resilient and self-healing! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="task_orchestration_dependencies.html">← Previous: Task Dependencies</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="task_orchestration_monitoring.html">Next: Monitoring and Alerts →</a>
+</div>
+</footer>
 </body>
 </html>

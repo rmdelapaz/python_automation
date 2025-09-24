@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sending Emails (SMTP) - Python Email Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sending Emails (SMTP) - Python Email Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📧 Sending Emails with SMTP: Master Email Automation</h1>
-    
-    <p>SMTP (Simple Mail Transfer Protocol) is the backbone of email communication - it's how your Python scripts can send emails to anyone, anywhere in the world. Like having a digital postal service at your fingertips, mastering SMTP allows you to automate notifications, reports, alerts, and communications at scale. Whether you're sending simple text messages or complex HTML newsletters, SMTP is your gateway to automated email communication! 📮</p>
-
-    <h2>The SMTP Email Architecture</h2>
-    
-    <p>Think of SMTP as the postal system of the internet - you compose your letter (email), address it (recipients), add stamps (authentication), and drop it in the mailbox (SMTP server). The postal service (email servers) then handles delivery to the recipient's mailbox. Understanding this flow is crucial for building reliable email automation systems!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module5">Email Automation</a> &gt; 
+        <span>Sending Emails</span>
+</nav>
+<h1>📧 Sending Emails with SMTP: Master Email Automation</h1>
+<p>SMTP (Simple Mail Transfer Protocol) is the backbone of email communication - it's how your Python scripts can send emails to anyone, anywhere in the world. Like having a digital postal service at your fingertips, mastering SMTP allows you to automate notifications, reports, alerts, and communications at scale. Whether you're sending simple text messages or complex HTML newsletters, SMTP is your gateway to automated email communication! 📮</p>
+<h2>The SMTP Email Architecture</h2>
+<p>Think of SMTP as the postal system of the internet - you compose your letter (email), address it (recipients), add stamps (authentication), and drop it in the mailbox (SMTP server). The postal service (email servers) then handles delivery to the recipient's mailbox. Understanding this flow is crucial for building reliable email automation systems!</p>
+<div class="mermaid">
     graph TB
-        A[Email Automation] --> B[SMTP Configuration]
-        A --> C[Email Composition]
-        A --> D[Sending Methods]
-        A --> E[Error Handling]
+        A[Email Automation] --&gt; B[SMTP Configuration]
+        A --&gt; C[Email Composition]
+        A --&gt; D[Sending Methods]
+        A --&gt; E[Error Handling]
         
-        B --> F[Server Settings]
-        B --> G[Authentication]
-        B --> H[Security/TLS]
-        B --> I[Port Configuration]
+        B --&gt; F[Server Settings]
+        B --&gt; G[Authentication]
+        B --&gt; H[Security/TLS]
+        B --&gt; I[Port Configuration]
         
-        C --> J[Plain Text]
-        C --> K[HTML Content]
-        C --> L[Attachments]
-        C --> M[Headers]
+        C --&gt; J[Plain Text]
+        C --&gt; K[HTML Content]
+        C --&gt; L[Attachments]
+        C --&gt; M[Headers]
         
-        D --> N[Single Send]
-        D --> O[Bulk Send]
-        D --> P[Scheduled Send]
-        D --> Q[Template Based]
+        D --&gt; N[Single Send]
+        D --&gt; O[Bulk Send]
+        D --&gt; P[Scheduled Send]
+        D --&gt; Q[Template Based]
         
-        E --> R[Retry Logic]
-        E --> S[Bounce Handling]
-        E --> T[Rate Limiting]
-        E --> U[Logging]
+        E --&gt; R[Retry Logic]
+        E --&gt; S[Bounce Handling]
+        E --&gt; T[Rate Limiting]
+        E --&gt; U[Logging]
         
-        V[Email Providers] --> W[Gmail]
-        V --> X[Outlook]
-        V --> Y[SendGrid]
-        V --> Z[AWS SES]
+        V[Email Providers] --&gt; W[Gmail]
+        V --&gt; X[Outlook]
+        V --&gt; Y[SendGrid]
+        V --&gt; Z[AWS SES]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Enterprise Communication System 📨</h3>
-    
-    <p>You're building an enterprise email automation system that handles everything from transactional emails (password resets, order confirmations) to marketing campaigns (newsletters, promotions) and internal communications (reports, alerts). Your system must handle multiple email providers, support templates, manage bounces, respect rate limits, track delivery, and scale to millions of emails. Let's build a comprehensive SMTP email framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Enterprise Communication System 📨</h3>
+<p>You're building an enterprise email automation system that handles everything from transactional emails (password resets, order confirmations) to marketing campaigns (newsletters, promotions) and internal communications (reports, alerts). Your system must handle multiple email providers, support templates, manage bounces, respect rate limits, track delivery, and scale to millions of emails. Let's build a comprehensive SMTP email framework!</p>
+<pre><code># First, install required packages:
 # pip install python-dotenv jinja2 premailer beautifulsoup4 python-dateutil
 
 import smtplib
@@ -306,7 +355,7 @@ class SMTPClient:
             self.connection = None
             self.logger.info("Disconnected from SMTP server")
     
-    def send(self, message: EmailMessage, retry: bool = True) -> bool:
+    def send(self, message: EmailMessage, retry: bool = True) -&gt; bool:
         """
         Send email message.
         
@@ -357,7 +406,7 @@ class SMTPClient:
                 self.disconnect()
                 self.connect()
                 
-                if attempt < max_retries - 1:
+                if attempt &lt; max_retries - 1:
                     self.stats["retried"] += 1
                     time.sleep(self.config.retry_delay)
                     continue
@@ -365,7 +414,7 @@ class SMTPClient:
             except smtplib.SMTPException as e:
                 self.logger.error(f"Failed to send email: {e}")
                 
-                if attempt < max_retries - 1:
+                if attempt &lt; max_retries - 1:
                     self.stats["retried"] += 1
                     time.sleep(self.config.retry_delay)
                     continue
@@ -381,7 +430,7 @@ class SMTPClient:
         return False
     
     def send_bulk(self, messages: List[EmailMessage], 
-                  batch_size: int = 50) -> Dict[str, int]:
+                  batch_size: int = 50) -&gt; Dict[str, int]:
         """
         Send multiple emails in batches.
         
@@ -409,7 +458,7 @@ class SMTPClient:
         
         return results
     
-    def _build_message(self, message: EmailMessage) -> MIMEMultipart:
+    def _build_message(self, message: EmailMessage) -&gt; MIMEMultipart:
         """Build MIME message from EmailMessage."""
         # Create multipart message
         msg = MIMEMultipart('mixed')
@@ -520,35 +569,35 @@ class SMTPClient:
         
         with open(path, 'rb') as f:
             img = MIMEImage(f.read())
-            img.add_header('Content-ID', f'<{cid}>')
+            img.add_header('Content-ID', f'&lt;{cid}&gt;')
             img.add_header('Content-Disposition', 'inline')
             msg.attach(img)
     
-    def _check_rate_limit(self) -> bool:
+    def _check_rate_limit(self) -&gt; bool:
         """Check if sending is within rate limits."""
         now = datetime.now()
         
         # Reset daily counter
-        if now.date() > self.daily_reset:
+        if now.date() &gt; self.daily_reset:
             self.daily_count = 0
             self.daily_reset = now.date()
         
         # Check daily limit
-        if self.daily_count >= self.config.max_sends_per_day:
+        if self.daily_count &gt;= self.config.max_sends_per_day:
             return False
         
         # Check minute limit
         minute_ago = now - timedelta(minutes=1)
-        self.send_times = [t for t in self.send_times if t > minute_ago]
+        self.send_times = [t for t in self.send_times if t &gt; minute_ago]
         
-        if len(self.send_times) >= self.config.max_sends_per_minute:
+        if len(self.send_times) &gt;= self.config.max_sends_per_minute:
             return False
         
         # Check hourly limit
         hour_ago = now - timedelta(hours=1)
-        hourly_sends = len([t for t in self.send_times if t > hour_ago])
+        hourly_sends = len([t for t in self.send_times if t &gt; hour_ago])
         
-        if hourly_sends >= self.config.max_sends_per_hour:
+        if hourly_sends &gt;= self.config.max_sends_per_hour:
             return False
         
         return True
@@ -559,7 +608,7 @@ class SMTPClient:
         self.send_times.append(now)
         self.daily_count += 1
     
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -&gt; Dict[str, int]:
         """Get sending statistics."""
         return dict(self.stats)
 
@@ -580,7 +629,7 @@ class EmailTemplate:
         
         self.logger = logging.getLogger(__name__)
     
-    def render(self, template_name: str, **context) -> str:
+    def render(self, template_name: str, **context) -&gt; str:
         """Render template with context."""
         try:
             template = self.env.get_template(template_name)
@@ -589,7 +638,7 @@ class EmailTemplate:
             self.logger.error(f"Template rendering failed: {e}")
             raise
     
-    def render_string(self, template_string: str, **context) -> str:
+    def render_string(self, template_string: str, **context) -&gt; str:
         """Render template string with context."""
         try:
             template = self.env.from_string(template_string)
@@ -677,57 +726,57 @@ class EmailBuilder:
             body=""
         )
     
-    def to(self, *recipients: str) -> 'EmailBuilder':
+    def to(self, *recipients: str) -&gt; 'EmailBuilder':
         """Set recipients."""
         self.message.to = list(recipients)
         return self
     
-    def cc(self, *recipients: str) -> 'EmailBuilder':
+    def cc(self, *recipients: str) -&gt; 'EmailBuilder':
         """Set CC recipients."""
         self.message.cc = list(recipients)
         return self
     
-    def bcc(self, *recipients: str) -> 'EmailBuilder':
+    def bcc(self, *recipients: str) -&gt; 'EmailBuilder':
         """Set BCC recipients."""
         self.message.bcc = list(recipients)
         return self
     
-    def subject(self, subject: str) -> 'EmailBuilder':
+    def subject(self, subject: str) -&gt; 'EmailBuilder':
         """Set subject."""
         self.message.subject = subject
         return self
     
-    def body(self, body: str) -> 'EmailBuilder':
+    def body(self, body: str) -&gt; 'EmailBuilder':
         """Set plain text body."""
         self.message.body = body
         return self
     
-    def html(self, html: str) -> 'EmailBuilder':
+    def html(self, html: str) -&gt; 'EmailBuilder':
         """Set HTML body."""
         self.message.html_body = html
         return self
     
-    def attach(self, file_path: str) -> 'EmailBuilder':
+    def attach(self, file_path: str) -&gt; 'EmailBuilder':
         """Add attachment."""
         self.message.attachments.append(file_path)
         return self
     
-    def embed_image(self, cid: str, image_path: str) -> 'EmailBuilder':
+    def embed_image(self, cid: str, image_path: str) -&gt; 'EmailBuilder':
         """Embed image."""
         self.message.embedded_images[cid] = image_path
         return self
     
-    def header(self, name: str, value: str) -> 'EmailBuilder':
+    def header(self, name: str, value: str) -&gt; 'EmailBuilder':
         """Add custom header."""
         self.message.headers[name] = value
         return self
     
-    def high_priority(self) -> 'EmailBuilder':
+    def high_priority(self) -&gt; 'EmailBuilder':
         """Set high priority."""
         self.message.priority = 1
         return self
     
-    def build(self) -> EmailMessage:
+    def build(self) -&gt; EmailMessage:
         """Build and return email message."""
         return self.message
 
@@ -737,7 +786,7 @@ class CommonTemplates:
     """Common email templates."""
     
     @staticmethod
-    def welcome_email(user_name: str, app_name: str) -> str:
+    def welcome_email(user_name: str, app_name: str) -&gt; str:
         """Welcome email template."""
         return f"""
         Dear {user_name},
@@ -756,7 +805,7 @@ class CommonTemplates:
         """
     
     @staticmethod
-    def password_reset(user_name: str, reset_link: str) -> str:
+    def password_reset(user_name: str, reset_link: str) -&gt; str:
         """Password reset email template."""
         return f"""
         Hi {user_name},
@@ -774,7 +823,7 @@ class CommonTemplates:
         """
     
     @staticmethod
-    def order_confirmation(order_id: str, items: List[Dict], total: float) -> str:
+    def order_confirmation(order_id: str, items: List[Dict], total: float) -&gt; str:
         """Order confirmation email template."""
         items_text = "\n".join([f"  • {item['name']} x {item['quantity']} - ${item['price']}" 
                                 for item in items])
@@ -855,8 +904,8 @@ if __name__ == "__main__":
         <body>
             <h1>Welcome!</h1>
             <p>Thanks for signing up.</p>
-            <img src="cid:logo" width="200">
-            <p>Best regards,<br>The Team</p>
+            <img src="cid:logo" width="200"/>
+            <p>Best regards,<br/>The Team</p>
         </body>
     </html>
     """
@@ -961,37 +1010,28 @@ if __name__ == "__main__":
     
     print("\n✅ SMTP email sending demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use App Passwords:</strong> Modern providers require app-specific passwords.</li>
-        
-        <li><strong>Always Use TLS/SSL:</strong> Encrypt email transmission for security.</li>
-        
-        <li><strong>Validate Addresses:</strong> Check email format before sending.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Implement retry logic and logging.</li>
-        
-        <li><strong>Respect Rate Limits:</strong> Don't overwhelm SMTP servers.</li>
-        
-        <li><strong>Use Templates:</strong> Maintain consistent email formatting.</li>
-        
-        <li><strong>Queue for Reliability:</strong> Process emails asynchronously.</li>
-        
-        <li><strong>Monitor Delivery:</strong> Track success rates and bounces.</li>
-    </ul>
-
-    <h3>SMTP Email Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of SMTP email sending as running a digital post office - you need proper credentials, correct addresses, and reliable delivery mechanisms. Always use app passwords or OAuth2 instead of regular passwords - most providers block less secure access. Keep your SMTP connection alive when sending multiple emails to avoid connection overhead. Implement proper rate limiting to avoid being flagged as spam. Use HTML templates for rich content but always include a plain text fallback. Handle attachments carefully - large files can cause delivery issues. Queue emails for asynchronous processing to avoid blocking your application. Monitor delivery rates and handle bounces properly. Test with different email providers as each has quirks. Most importantly: respect recipients' privacy with BCC for bulk sends and always provide unsubscribe options!</p>
-    </div>
-    
-    <p>Mastering SMTP email sending enables you to build powerful communication systems that keep users informed and engaged. You can now send transactional emails, newsletters, alerts, and reports programmatically. Whether you're building notification systems, marketing platforms, or enterprise communications, these SMTP skills power your email automation! 📬</p>
-    
-    <footer>
-        <p>Next up: <a href="email_automation_reading_emails.html">Reading Emails (IMAP) - Process Incoming Messages!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use App Passwords:</strong> Modern providers require app-specific passwords.</li>
+<li><strong>Always Use TLS/SSL:</strong> Encrypt email transmission for security.</li>
+<li><strong>Validate Addresses:</strong> Check email format before sending.</li>
+<li><strong>Handle Errors Gracefully:</strong> Implement retry logic and logging.</li>
+<li><strong>Respect Rate Limits:</strong> Don't overwhelm SMTP servers.</li>
+<li><strong>Use Templates:</strong> Maintain consistent email formatting.</li>
+<li><strong>Queue for Reliability:</strong> Process emails asynchronously.</li>
+<li><strong>Monitor Delivery:</strong> Track success rates and bounces.</li>
+</ul>
+<h3>SMTP Email Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of SMTP email sending as running a digital post office - you need proper credentials, correct addresses, and reliable delivery mechanisms. Always use app passwords or OAuth2 instead of regular passwords - most providers block less secure access. Keep your SMTP connection alive when sending multiple emails to avoid connection overhead. Implement proper rate limiting to avoid being flagged as spam. Use HTML templates for rich content but always include a plain text fallback. Handle attachments carefully - large files can cause delivery issues. Queue emails for asynchronous processing to avoid blocking your application. Monitor delivery rates and handle bounces properly. Test with different email providers as each has quirks. Most importantly: respect recipients' privacy with BCC for bulk sends and always provide unsubscribe options!</p>
+</div>
+<p>Mastering SMTP email sending enables you to build powerful communication systems that keep users informed and engaged. You can now send transactional emails, newsletters, alerts, and reports programmatically. Whether you're building notification systems, marketing platforms, or enterprise communications, these SMTP skills power your email automation! 📬</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="workingwithdata_database_automation.html">← Previous: Database Automation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="email_automation_reading_emails.html">Next: Reading Emails →</a>
+</div>
+</footer>
 </body>
 </html>

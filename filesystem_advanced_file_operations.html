@@ -1,43 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced File Operations - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advanced File Operations - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🗂️ Advanced File Operations</h1>
-    
-    <p>Welcome to the world of advanced file operations! Think of Python as your digital filing assistant that never gets tired, never makes mistakes, and can organize thousands of files faster than you can say "where did I save that document?" 📁</p>
-
-    <h2>Understanding File Operations Beyond the Basics</h2>
-    
-    <p>If basic file operations are like using scissors and glue, advanced file operations are like having a Swiss Army knife combined with a robotic assistant. You're not just reading and writing files anymore – you're orchestrating entire file systems! 🤖</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module1">File and System Automation</a> &gt; 
+        <span>Advanced File Operations</span>
+</nav>
+<h1>🗂️ Advanced File Operations</h1>
+<p>Welcome to the world of advanced file operations! Think of Python as your digital filing assistant that never gets tired, never makes mistakes, and can organize thousands of files faster than you can say "where did I save that document?" 📁</p>
+<h2>Understanding File Operations Beyond the Basics</h2>
+<p>If basic file operations are like using scissors and glue, advanced file operations are like having a Swiss Army knife combined with a robotic assistant. You're not just reading and writing files anymore – you're orchestrating entire file systems! 🤖</p>
+<div class="mermaid">
     graph TD
-        A[File Operations] --> B[Basic Operations]
-        A --> C[Advanced Operations]
-        B --> D[Read/Write]
-        B --> E[Create/Delete]
-        C --> F[Atomic Operations]
-        C --> G[Memory Mapping]
-        C --> H[File Locking]
-        C --> I[Metadata Manipulation]
-        C --> J[Bulk Processing]
+        A[File Operations] --&gt; B[Basic Operations]
+        A --&gt; C[Advanced Operations]
+        B --&gt; D[Read/Write]
+        B --&gt; E[Create/Delete]
+        C --&gt; F[Atomic Operations]
+        C --&gt; G[Memory Mapping]
+        C --&gt; H[File Locking]
+        C --&gt; I[Metadata Manipulation]
+        C --&gt; J[Bulk Processing]
     </div>
-
-    <h3>Real-World Scenario: The Digital Photo Organizer 📸</h3>
-    
-    <p>Imagine you've just returned from a year-long trip with 10,000 photos scattered across different devices. Your camera names them DSC_0001.jpg, your phone uses IMG_20240315.jpg, and your friend's camera has completely different naming. Let's build a smart organizer!</p>
-
-    <pre><code>import os
+<h3>Real-World Scenario: The Digital Photo Organizer 📸</h3>
+<p>Imagine you've just returned from a year-long trip with 10,000 photos scattered across different devices. Your camera names them DSC_0001.jpg, your phone uses IMG_20240315.jpg, and your friend's camera has completely different naming. Let's build a smart organizer!</p>
+<pre><code>import os
 import shutil
 from pathlib import Path
 from datetime import datetime
@@ -164,12 +213,9 @@ if __name__ == "__main__":
     )
     organizer.process_all_photos()
 </code></pre>
-
-    <h2>Atomic File Operations: The All-or-Nothing Approach 🔒</h2>
-    
-    <p>Imagine you're updating your company's configuration file that controls critical services. What if your script crashes halfway through writing? You'd have a corrupted config file! Atomic operations are like having a safety net – either the entire operation succeeds, or nothing changes at all.</p>
-
-    <pre><code>import tempfile
+<h2>Atomic File Operations: The All-or-Nothing Approach 🔒</h2>
+<p>Imagine you're updating your company's configuration file that controls critical services. What if your script crashes halfway through writing? You'd have a corrupted config file! Atomic operations are like having a safety net – either the entire operation succeeds, or nothing changes at all.</p>
+<pre><code>import tempfile
 import os
 from contextlib import contextmanager
 
@@ -234,12 +280,9 @@ config = {
 update_config_safely("/etc/myapp/config.json", config)
 print("✅ Configuration updated safely!")
 </code></pre>
-
-    <h3>Memory-Mapped Files: The Speed Demon's Choice 🏎️</h3>
-    
-    <p>Memory-mapped files are like having a magic portal between your RAM and your hard drive. Instead of reading a huge file piece by piece, you can treat it like it's already in memory! This is incredibly powerful for processing large files.</p>
-
-    <pre><code>import mmap
+<h3>Memory-Mapped Files: The Speed Demon's Choice 🏎️</h3>
+<p>Memory-mapped files are like having a magic portal between your RAM and your hard drive. Instead of reading a huge file piece by piece, you can treat it like it's already in memory! This is incredibly powerful for processing large files.</p>
+<pre><code>import mmap
 import os
 import time
 
@@ -324,29 +367,25 @@ critical_errors = analyzer.find_pattern_in_huge_file("CRITICAL")
 for error in critical_errors[:5]:  # Show first 5
     print(f"Line {error['line_number']}: {error['line'].strip()}")
 </code></pre>
-
-    <h2>File Locking: Preventing Chaos in Concurrent Access 🔐</h2>
-    
-    <p>Think of file locking like a "Do Not Disturb" sign on a hotel room door. When multiple processes or scripts try to access the same file simultaneously, chaos can ensue. File locking ensures orderly access, preventing data corruption and race conditions.</p>
-
-    <div class="mermaid">
+<h2>File Locking: Preventing Chaos in Concurrent Access 🔐</h2>
+<p>Think of file locking like a "Do Not Disturb" sign on a hotel room door. When multiple processes or scripts try to access the same file simultaneously, chaos can ensue. File locking ensures orderly access, preventing data corruption and race conditions.</p>
+<div class="mermaid">
     sequenceDiagram
         participant P1 as Process 1
         participant Lock as File Lock
         participant File as Data File
         participant P2 as Process 2
         
-        P1->>Lock: Request lock
-        Lock-->>P1: Lock granted
-        P1->>File: Write data
-        P2->>Lock: Request lock
-        Lock-->>P2: Wait...
-        P1->>Lock: Release lock
-        Lock-->>P2: Lock granted
-        P2->>File: Write data
+        P1-&gt;&gt;Lock: Request lock
+        Lock--&gt;&gt;P1: Lock granted
+        P1-&gt;&gt;File: Write data
+        P2-&gt;&gt;Lock: Request lock
+        Lock--&gt;&gt;P2: Wait...
+        P1-&gt;&gt;Lock: Release lock
+        Lock--&gt;&gt;P2: Lock granted
+        P2-&gt;&gt;File: Write data
     </div>
-
-    <pre><code>import fcntl
+<pre><code>import fcntl
 import time
 import os
 from contextlib import contextmanager
@@ -418,12 +457,9 @@ counter_file = "/tmp/visitor_counter.txt"
 for _ in range(5):
     increment_counter(counter_file)
 </code></pre>
-
-    <h3>Advanced Metadata Manipulation 📊</h3>
-    
-    <p>Files aren't just about content – they carry rich metadata that tells a story. Creation time, modification time, permissions, extended attributes... it's like each file has its own passport with stamps from its journey through your system!</p>
-
-    <pre><code>import os
+<h3>Advanced Metadata Manipulation 📊</h3>
+<p>Files aren't just about content – they carry rich metadata that tells a story. Creation time, modification time, permissions, extended attributes... it's like each file has its own passport with stamps from its journey through your system!</p>
+<pre><code>import os
 import stat
 import platform
 from datetime import datetime
@@ -605,12 +641,9 @@ for entity in ['owner', 'group', 'others']:
     x = 'x' if rights['execute'] else '-'
     print(f"  {entity}: {r}{w}{x}")
 </code></pre>
-
-    <h2>Practical Exercise: Build Your Own File Sync System 🔄</h2>
-    
-    <p>Let's combine everything we've learned to build a simple but powerful file synchronization system. This is like having your own personal Dropbox that you control completely!</p>
-
-    <pre><code>import hashlib
+<h2>Practical Exercise: Build Your Own File Sync System 🔄</h2>
+<p>Let's combine everything we've learned to build a simple but powerful file synchronization system. This is like having your own personal Dropbox that you control completely!</p>
+<pre><code>import hashlib
 import json
 import os
 import shutil
@@ -744,35 +777,27 @@ syncer = SmartFileSync(
 )
 syncer.sync_all()
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Use Context Managers:</strong> They ensure files are properly closed, even if errors occur. It's like having an automatic cleanup crew!</li>
-        
-        <li><strong>Think Atomically:</strong> For critical operations, use atomic writes. Better safe than sorry when dealing with important data.</li>
-        
-        <li><strong>Memory-Map for Performance:</strong> When dealing with large files (logs, databases, media files), memory mapping can provide 10-100x performance improvements.</li>
-        
-        <li><strong>Respect File Locking:</strong> In multi-process environments, proper locking prevents the digital equivalent of two people trying to go through a door at once.</li>
-        
-        <li><strong>Preserve Metadata:</strong> When copying or moving files, remember that metadata tells a story. Use shutil.copy2() instead of shutil.copy() to preserve timestamps.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Files can disappear, drives can fill up, permissions can change. Always expect the unexpected!</li>
-        
-        <li><strong>Use Pathlib:</strong> It's more intuitive and cross-platform than os.path. Think of it as the Swiss Army knife of path manipulation.</li>
-    </ul>
-
-    <h3>Your Advanced File Operations Toolbox 🧰</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Always test file operations on a small subset first. It's much easier to recover from mistakes with 10 files than 10,000!</p>
-    </div>
-    
-    <p>You now have the power to manipulate files like a maestro conducts an orchestra. Whether you're organizing thousands of photos, synchronizing important documents, or analyzing massive log files, these advanced techniques will serve you well. Remember: with great power comes great responsibility – always backup before bulk operations! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="filesystem_directory_watching.html">Directory Watching - React to File System Changes in Real-Time!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Use Context Managers:</strong> They ensure files are properly closed, even if errors occur. It's like having an automatic cleanup crew!</li>
+<li><strong>Think Atomically:</strong> For critical operations, use atomic writes. Better safe than sorry when dealing with important data.</li>
+<li><strong>Memory-Map for Performance:</strong> When dealing with large files (logs, databases, media files), memory mapping can provide 10-100x performance improvements.</li>
+<li><strong>Respect File Locking:</strong> In multi-process environments, proper locking prevents the digital equivalent of two people trying to go through a door at once.</li>
+<li><strong>Preserve Metadata:</strong> When copying or moving files, remember that metadata tells a story. Use shutil.copy2() instead of shutil.copy() to preserve timestamps.</li>
+<li><strong>Handle Errors Gracefully:</strong> Files can disappear, drives can fill up, permissions can change. Always expect the unexpected!</li>
+<li><strong>Use Pathlib:</strong> It's more intuitive and cross-platform than os.path. Think of it as the Swiss Army knife of path manipulation.</li>
+</ul>
+<h3>Your Advanced File Operations Toolbox 🧰</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Always test file operations on a small subset first. It's much easier to recover from mistakes with 10 files than 10,000!</p>
+</div>
+<p>You now have the power to manipulate files like a maestro conducts an orchestra. Whether you're organizing thousands of photos, synchronizing important documents, or analyzing massive log files, these advanced techniques will serve you well. Remember: with great power comes great responsibility – always backup before bulk operations! 🚀</p>
+<footer>
+<div class="navigation-links">
+<span class="nav-prev"></span>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="filesystem_batch_renaming.html">Next: Batch Renaming →</a>
+</div>
+</footer>
 </body>
 </html>

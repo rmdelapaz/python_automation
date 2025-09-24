@@ -1,59 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Manipulation with PyPDF2 - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PDF Manipulation with PyPDF2 - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📄 PDF Manipulation with PyPDF2: Master the Portable Document Format</h1>
-    
-    <p>PDFs are everywhere - invoices, contracts, reports, ebooks, forms. They're designed to be read-only, but what if you need to merge hundreds of contracts, extract text from thousands of invoices, or add watermarks to confidential documents? PyPDF2 turns Python into your PDF Swiss Army knife! 🔧</p>
-
-    <h2>Beyond Simple PDF Reading</h2>
-    
-    <p>Think of PDFs as locked treasure chests. PyPDF2 gives you the keys to not just open them, but to reorganize their contents, combine them, split them, and even add your own elements. It's like having X-ray vision for documents!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module4">Data Processing</a> &gt; 
+        <span>PDF Manipulation</span>
+</nav>
+<h1>📄 PDF Manipulation with PyPDF2: Master the Portable Document Format</h1>
+<p>PDFs are everywhere - invoices, contracts, reports, ebooks, forms. They're designed to be read-only, but what if you need to merge hundreds of contracts, extract text from thousands of invoices, or add watermarks to confidential documents? PyPDF2 turns Python into your PDF Swiss Army knife! 🔧</p>
+<h2>Beyond Simple PDF Reading</h2>
+<p>Think of PDFs as locked treasure chests. PyPDF2 gives you the keys to not just open them, but to reorganize their contents, combine them, split them, and even add your own elements. It's like having X-ray vision for documents!</p>
+<div class="mermaid">
     graph TB
-        A[PDF Operations] --> B[Read & Extract]
-        A --> C[Merge & Split]
-        A --> D[Transform & Rotate]
-        A --> E[Secure & Protect]
-        A --> F[Annotate & Watermark]
+        A[PDF Operations] --&gt; B[Read &amp; Extract]
+        A --&gt; C[Merge &amp; Split]
+        A --&gt; D[Transform &amp; Rotate]
+        A --&gt; E[Secure &amp; Protect]
+        A --&gt; F[Annotate &amp; Watermark]
         
-        B --> G[Text Extraction]
-        B --> H[Metadata Reading]
-        B --> I[Image Extraction]
+        B --&gt; G[Text Extraction]
+        B --&gt; H[Metadata Reading]
+        B --&gt; I[Image Extraction]
         
-        C --> J[Document Assembly]
-        C --> K[Page Management]
+        C --&gt; J[Document Assembly]
+        C --&gt; K[Page Management]
         
-        D --> L[Page Rotation]
-        D --> M[Scaling & Cropping]
+        D --&gt; L[Page Rotation]
+        D --&gt; M[Scaling &amp; Cropping]
         
-        E --> N[Encryption]
-        E --> O[Password Protection]
+        E --&gt; N[Encryption]
+        E --&gt; O[Password Protection]
         
-        F --> P[Watermarking]
-        F --> Q[Stamping]
+        F --&gt; P[Watermarking]
+        F --&gt; Q[Stamping]
         
         style A fill:#ff6b6b
         style J fill:#51cf66
         style N fill:#339af0
     </div>
-
-    <h3>Real-World Scenario: The Document Processing Pipeline 📋</h3>
-    
-    <p>Imagine you're managing documents for a law firm. Every day, you receive hundreds of PDFs - contracts that need combining, confidential documents requiring watermarks, client files needing password protection, and reports that must be split by chapter. Let's automate this entire workflow!</p>
-
-    <pre><code>import PyPDF2
+<h3>Real-World Scenario: The Document Processing Pipeline 📋</h3>
+<p>Imagine you're managing documents for a law firm. Every day, you receive hundreds of PDFs - contracts that need combining, confidential documents requiring watermarks, client files needing password protection, and reports that must be split by chapter. Let's automate this entire workflow!</p>
+<pre><code>import PyPDF2
 from PyPDF2 import PdfReader, PdfWriter, PdfMerger
 from PyPDF2.generic import AnnotationBuilder
 import io
@@ -92,7 +141,7 @@ class PDFMasterAutomation:
         self.config['temp_dir'].mkdir(exist_ok=True)
     
     def merge_pdfs(self, pdf_files: List[str], output_file: str, 
-                   bookmark_names: List[str] = None) -> bool:
+                   bookmark_names: List[str] = None) -&gt; bool:
         """
         Merge multiple PDF files into one with bookmarks.
         """
@@ -139,7 +188,7 @@ class PDFMasterAutomation:
             return False
     
     def split_pdf(self, input_file: str, output_dir: str, 
-                  split_strategy: str = 'single', **kwargs) -> List[str]:
+                  split_strategy: str = 'single', **kwargs) -&gt; List[str]:
         """
         Split PDF based on different strategies.
         
@@ -241,7 +290,7 @@ class PDFMasterAutomation:
             print(f"❌ Error splitting PDF: {e}")
             return []
     
-    def _get_bookmarks_with_pages(self, reader: PdfReader) -> List[Tuple[str, int, int]]:
+    def _get_bookmarks_with_pages(self, reader: PdfReader) -&gt; List[Tuple[str, int, int]]:
         """Extract bookmarks with their page ranges."""
         bookmarks = []
         outlines = reader.outline
@@ -262,12 +311,12 @@ class PDFMasterAutomation:
         for i in range(len(bookmarks)):
             title = bookmarks[i][0]
             start_page = bookmarks[i][1]
-            end_page = bookmarks[i + 1][1] if i + 1 < len(bookmarks) else len(reader.pages)
+            end_page = bookmarks[i + 1][1] if i + 1 &lt; len(bookmarks) else len(reader.pages)
             bookmark_ranges.append((title, start_page, end_page))
         
         return bookmark_ranges
     
-    def _find_text_markers(self, reader: PdfReader, marker: str) -> List[Tuple[int, int]]:
+    def _find_text_markers(self, reader: PdfReader, marker: str) -&gt; List[Tuple[int, int]]:
         """Find pages containing specific text markers."""
         marker_pages = []
         
@@ -280,7 +329,7 @@ class PDFMasterAutomation:
         ranges = []
         for i in range(len(marker_pages)):
             start = marker_pages[i]
-            end = marker_pages[i + 1] if i + 1 < len(marker_pages) else len(reader.pages)
+            end = marker_pages[i + 1] if i + 1 &lt; len(marker_pages) else len(reader.pages)
             ranges.append((start, end))
         
         return ranges
@@ -288,7 +337,7 @@ class PDFMasterAutomation:
     def add_watermark(self, input_file: str, output_file: str, 
                      watermark_text: str = None, 
                      watermark_image: str = None,
-                     opacity: float = 0.3) -> bool:
+                     opacity: float = 0.3) -&gt; bool:
         """
         Add text or image watermark to all pages of a PDF.
         """
@@ -328,7 +377,7 @@ class PDFMasterAutomation:
             print(f"❌ Error adding watermark: {e}")
             return False
     
-    def _create_text_watermark(self, text: str, opacity: float) -> PdfReader:
+    def _create_text_watermark(self, text: str, opacity: float) -&gt; PdfReader:
         """Create a PDF with text watermark."""
         # Create watermark using reportlab
         packet = io.BytesIO()
@@ -351,7 +400,7 @@ class PDFMasterAutomation:
         packet.seek(0)
         return PdfReader(packet)
     
-    def _create_image_watermark(self, image_path: str, opacity: float) -> PdfReader:
+    def _create_image_watermark(self, image_path: str, opacity: float) -&gt; PdfReader:
         """Create a PDF with image watermark."""
         packet = io.BytesIO()
         can = canvas.Canvas(packet, pagesize=letter)
@@ -386,7 +435,7 @@ class PDFMasterAutomation:
         return PdfReader(packet)
     
     def extract_text(self, input_file: str, output_format: str = 'text',
-                    page_range: Tuple[int, int] = None) -> str:
+                    page_range: Tuple[int, int] = None) -&gt; str:
         """
         Extract text from PDF with various output formats.
         """
@@ -430,14 +479,14 @@ class PDFMasterAutomation:
             print(f"❌ Error extracting text: {e}")
             return ""
     
-    def _extract_paragraphs(self, text: str) -> List[str]:
+    def _extract_paragraphs(self, text: str) -&gt; List[str]:
         """Extract paragraphs from text."""
         # Split by multiple newlines
         paragraphs = re.split(r'\n{2,}', text)
         # Clean and filter
         return [p.strip() for p in paragraphs if p.strip()]
     
-    def extract_images(self, input_file: str, output_dir: str) -> List[str]:
+    def extract_images(self, input_file: str, output_dir: str) -&gt; List[str]:
         """
         Extract all images from a PDF.
         """
@@ -458,7 +507,7 @@ class PDFMasterAutomation:
                     pix = fitz.Pixmap(pdf_document, xref)
                     
                     # Save image
-                    if pix.n - pix.alpha < 4:  # GRAY or RGB
+                    if pix.n - pix.alpha &lt; 4:  # GRAY or RGB
                         img_name = output_path / f"page{page_num + 1}_img{img_index + 1}.png"
                         pix.save(str(img_name))
                         extracted_images.append(str(img_name))
@@ -480,7 +529,7 @@ class PDFMasterAutomation:
             return []
     
     def rotate_pages(self, input_file: str, output_file: str, 
-                    rotation: int = 90, page_range: Tuple[int, int] = None) -> bool:
+                    rotation: int = 90, page_range: Tuple[int, int] = None) -&gt; bool:
         """
         Rotate PDF pages by specified degrees (90, 180, 270).
         """
@@ -492,7 +541,7 @@ class PDFMasterAutomation:
                 for page_num, page in enumerate(reader.pages):
                     # Check if page is in range
                     if page_range:
-                        if page_num < page_range[0] or page_num >= page_range[1]:
+                        if page_num &lt; page_range[0] or page_num &gt;= page_range[1]:
                             writer.add_page(page)
                             continue
                     
@@ -513,7 +562,7 @@ class PDFMasterAutomation:
     
     def encrypt_pdf(self, input_file: str, output_file: str, 
                    user_password: str, owner_password: str = None,
-                   encryption_algorithm: str = None) -> bool:
+                   encryption_algorithm: str = None) -&gt; bool:
         """
         Encrypt PDF with password protection.
         """
@@ -550,7 +599,7 @@ class PDFMasterAutomation:
             print(f"❌ Error encrypting PDF: {e}")
             return False
     
-    def decrypt_pdf(self, input_file: str, output_file: str, password: str) -> bool:
+    def decrypt_pdf(self, input_file: str, output_file: str, password: str) -&gt; bool:
         """
         Decrypt a password-protected PDF.
         """
@@ -582,7 +631,7 @@ class PDFMasterAutomation:
             return False
     
     def add_annotations(self, input_file: str, output_file: str, 
-                       annotations: List[Dict]) -> bool:
+                       annotations: List[Dict]) -&gt; bool:
         """
         Add annotations (comments, highlights, notes) to PDF.
         
@@ -636,7 +685,7 @@ class PDFMasterAutomation:
             return False
     
     def compress_pdf(self, input_file: str, output_file: str, 
-                    compression_level: str = 'medium') -> bool:
+                    compression_level: str = 'medium') -&gt; bool:
         """
         Compress PDF to reduce file size.
         """
@@ -688,7 +737,7 @@ class PDFFormProcessor:
     def __init__(self):
         self.form_data_cache = {}
     
-    def extract_form_fields(self, pdf_file: str) -> Dict:
+    def extract_form_fields(self, pdf_file: str) -&gt; Dict:
         """
         Extract all form fields from a PDF.
         """
@@ -723,7 +772,7 @@ class PDFFormProcessor:
             return {}
     
     def fill_form(self, template_file: str, output_file: str, 
-                 form_data: Dict, flatten: bool = False) -> bool:
+                 form_data: Dict, flatten: bool = False) -&gt; bool:
         """
         Fill PDF form with provided data.
         """
@@ -759,7 +808,7 @@ class PDFFormProcessor:
             return False
     
     def batch_fill_forms(self, template_file: str, data_source: str, 
-                        output_dir: str) -> List[str]:
+                        output_dir: str) -&gt; List[str]:
         """
         Fill multiple forms from CSV or JSON data source.
         """
@@ -895,7 +944,7 @@ class PDFBatchProcessor:
         }
     
     def process_directory(self, input_dir: str, output_dir: str, 
-                         operations: List[Dict]) -> Dict:
+                         operations: List[Dict]) -&gt; Dict:
         """
         Process all PDFs in a directory with specified operations.
         
@@ -1055,29 +1104,25 @@ if __name__ == "__main__":
     
     print("\n✅ PDF automation complete!")
 </code></pre>
-
-    <h2>Advanced PDF Techniques 🔬</h2>
-    
-    <p>Let's explore more sophisticated PDF operations that handle complex real-world scenarios!</p>
-
-    <div class="mermaid">
+<h2>Advanced PDF Techniques 🔬</h2>
+<p>Let's explore more sophisticated PDF operations that handle complex real-world scenarios!</p>
+<div class="mermaid">
     sequenceDiagram
         participant User
         participant System
         participant PDF
         participant Output
         
-        User->>System: Upload PDFs
-        System->>PDF: Analyze Structure
-        PDF-->>System: Metadata & Content
-        System->>System: Apply Operations
-        System->>Output: Generate Result
-        Output-->>User: Processed PDFs
+        User-&gt;&gt;System: Upload PDFs
+        System-&gt;&gt;PDF: Analyze Structure
+        PDF--&gt;&gt;System: Metadata &amp; Content
+        System-&gt;&gt;System: Apply Operations
+        System-&gt;&gt;Output: Generate Result
+        Output--&gt;&gt;User: Processed PDFs
         
         Note over System: Watermark, Encrypt,<br/>Compress, Split, Merge
     </div>
-
-    <pre><code>class PDFIntelligentProcessor:
+<pre><code>class PDFIntelligentProcessor:
     """
     Intelligent PDF processing with OCR and content analysis.
     """
@@ -1085,7 +1130,7 @@ if __name__ == "__main__":
     def __init__(self):
         self.ocr_enabled = self._check_ocr_availability()
     
-    def _check_ocr_availability(self) -> bool:
+    def _check_ocr_availability(self) -&gt; bool:
         """Check if OCR tools are available."""
         try:
             import pytesseract
@@ -1095,7 +1140,7 @@ if __name__ == "__main__":
             print("⚠️ OCR libraries not installed")
             return False
     
-    def ocr_pdf(self, input_file: str, output_file: str, language: str = 'eng') -> bool:
+    def ocr_pdf(self, input_file: str, output_file: str, language: str = 'eng') -&gt; bool:
         """
         Perform OCR on scanned PDFs to make them searchable.
         """
@@ -1135,7 +1180,7 @@ if __name__ == "__main__":
     
     def smart_merge(self, pdf_files: List[str], output_file: str,
                    remove_duplicates: bool = True,
-                   sort_by: str = 'name') -> bool:
+                   sort_by: str = 'name') -&gt; bool:
         """
         Intelligently merge PDFs with duplicate detection and sorting.
         """
@@ -1173,7 +1218,7 @@ if __name__ == "__main__":
             print(f"❌ Smart merge failed: {e}")
             return False
     
-    def _calculate_file_hash(self, file_path: str) -> str:
+    def _calculate_file_hash(self, file_path: str) -&gt; str:
         """Calculate SHA256 hash of a file."""
         import hashlib
         sha256_hash = hashlib.sha256()
@@ -1183,7 +1228,7 @@ if __name__ == "__main__":
         return sha256_hash.hexdigest()
     
     def redact_sensitive_info(self, input_file: str, output_file: str,
-                             patterns: List[str]) -> bool:
+                             patterns: List[str]) -&gt; bool:
         """
         Redact sensitive information from PDFs.
         
@@ -1217,35 +1262,27 @@ if __name__ == "__main__":
             print(f"❌ Redaction failed: {e}")
             return False
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Validate PDFs:</strong> Check if a PDF is valid before processing to avoid crashes.</li>
-        
-        <li><strong>Preserve Metadata:</strong> Keep original metadata when modifying PDFs for audit trails.</li>
-        
-        <li><strong>Handle Encryption Properly:</strong> Always check if a PDF is encrypted before attempting operations.</li>
-        
-        <li><strong>Use Appropriate Libraries:</strong> PyPDF2 for basic operations, PyMuPDF for advanced features, pikepdf for robust handling.</li>
-        
-        <li><strong>Batch Processing:</strong> Process multiple PDFs efficiently using loops and error handling.</li>
-        
-        <li><strong>Memory Management:</strong> For large PDFs, use streaming and chunking to avoid memory issues.</li>
-        
-        <li><strong>Test with Various PDFs:</strong> PDFs can vary greatly in structure - test with different sources.</li>
-    </ul>
-
-    <h3>PDF Automation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> PDFs are complex beasts - they can contain forms, multimedia, JavaScript, and more. Always have a fallback plan when automation fails. Keep original files, log all operations, and verify outputs. Remember that PDF/A is the best format for long-term archival, and always consider accessibility when creating PDFs!</p>
-    </div>
-    
-    <p>PDF automation with PyPDF2 and related libraries transforms you from a document reader to a document master. You can process thousands of PDFs, extract valuable data, apply security, and create professional documents - all programmatically. Whether you're in legal, finance, or any document-heavy industry, these skills will revolutionize your workflow! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="workingwithdata_csv_processing.html">CSV Processing - Master Tabular Data with Python!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Validate PDFs:</strong> Check if a PDF is valid before processing to avoid crashes.</li>
+<li><strong>Preserve Metadata:</strong> Keep original metadata when modifying PDFs for audit trails.</li>
+<li><strong>Handle Encryption Properly:</strong> Always check if a PDF is encrypted before attempting operations.</li>
+<li><strong>Use Appropriate Libraries:</strong> PyPDF2 for basic operations, PyMuPDF for advanced features, pikepdf for robust handling.</li>
+<li><strong>Batch Processing:</strong> Process multiple PDFs efficiently using loops and error handling.</li>
+<li><strong>Memory Management:</strong> For large PDFs, use streaming and chunking to avoid memory issues.</li>
+<li><strong>Test with Various PDFs:</strong> PDFs can vary greatly in structure - test with different sources.</li>
+</ul>
+<h3>PDF Automation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> PDFs are complex beasts - they can contain forms, multimedia, JavaScript, and more. Always have a fallback plan when automation fails. Keep original files, log all operations, and verify outputs. Remember that PDF/A is the best format for long-term archival, and always consider accessibility when creating PDFs!</p>
+</div>
+<p>PDF automation with PyPDF2 and related libraries transforms you from a document reader to a document master. You can process thousands of PDFs, extract valuable data, apply security, and create professional documents - all programmatically. Whether you're in legal, finance, or any document-heavy industry, these skills will revolutionize your workflow! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="workingwithdata_json_xml_parsing.html">← Previous: JSON &amp; XML Parsing</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="workingwithdata_database_automation.html">Next: Database Automation →</a>
+</div>
+</footer>
 </body>
 </html>

@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Bots - Python Chat Bot Development</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Discord Bots - Python Chat Bot Development</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🤖 Discord Bots: Build Interactive Chat Automation</h1>
-    
-    <p>Discord bots are the digital assistants of online communities - they can moderate conversations, play music, run games, manage roles, provide information, and create engaging experiences for millions of users. Like having a tireless team member who's always online, mastering Discord bot development allows you to automate community management, create interactive features, and build powerful tools that enhance any Discord server. Let's dive into the exciting world of Discord bot development! 🎮</p>
-
-    <h2>The Discord Bot Architecture</h2>
-    
-    <p>Think of Discord bots as intelligent participants in your server - they listen to events, respond to commands, interact with users, and can even manage the server itself. Using Discord's powerful API and the discord.py library, you can create bots that do everything from simple responses to complex game mechanics. Understanding Discord's permission system, event model, and interaction patterns is crucial for building effective bots!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module12">Chatbot Development</a> &gt; 
+        <span>Discord Bots</span>
+</nav>
+<h1>🤖 Discord Bots: Build Interactive Chat Automation</h1>
+<p>Discord bots are the digital assistants of online communities - they can moderate conversations, play music, run games, manage roles, provide information, and create engaging experiences for millions of users. Like having a tireless team member who's always online, mastering Discord bot development allows you to automate community management, create interactive features, and build powerful tools that enhance any Discord server. Let's dive into the exciting world of Discord bot development! 🎮</p>
+<h2>The Discord Bot Architecture</h2>
+<p>Think of Discord bots as intelligent participants in your server - they listen to events, respond to commands, interact with users, and can even manage the server itself. Using Discord's powerful API and the discord.py library, you can create bots that do everything from simple responses to complex game mechanics. Understanding Discord's permission system, event model, and interaction patterns is crucial for building effective bots!</p>
+<div class="mermaid">
     graph TB
-        A[Discord Bot] --> B[Core Components]
-        A --> C[Event Handling]
-        A --> D[Commands]
-        A --> E[Interactions]
+        A[Discord Bot] --&gt; B[Core Components]
+        A --&gt; C[Event Handling]
+        A --&gt; D[Commands]
+        A --&gt; E[Interactions]
         
-        B --> F[Bot Client]
-        B --> G[Intents/Permissions]
-        B --> H[Cogs/Extensions]
-        B --> I[Database]
+        B --&gt; F[Bot Client]
+        B --&gt; G[Intents/Permissions]
+        B --&gt; H[Cogs/Extensions]
+        B --&gt; I[Database]
         
-        C --> J[Message Events]
-        C --> K[Member Events]
-        C --> L[Guild Events]
-        C --> M[Voice Events]
+        C --&gt; J[Message Events]
+        C --&gt; K[Member Events]
+        C --&gt; L[Guild Events]
+        C --&gt; M[Voice Events]
         
-        D --> N[Prefix Commands]
-        D --> O[Slash Commands]
-        D --> P[Context Menus]
-        D --> Q[Hybrid Commands]
+        D --&gt; N[Prefix Commands]
+        D --&gt; O[Slash Commands]
+        D --&gt; P[Context Menus]
+        D --&gt; Q[Hybrid Commands]
         
-        E --> R[Buttons]
-        E --> S[Select Menus]
-        E --> T[Modals/Forms]
-        E --> U[Embeds]
+        E --&gt; R[Buttons]
+        E --&gt; S[Select Menus]
+        E --&gt; T[Modals/Forms]
+        E --&gt; U[Embeds]
         
-        V[Features] --> W[Moderation]
-        V --> X[Music]
-        V --> Y[Games]
-        V --> Z[Utilities]
+        V[Features] --&gt; W[Moderation]
+        V --&gt; X[Music]
+        V --&gt; Y[Games]
+        V --&gt; Z[Utilities]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Ultimate Community Bot 🏆</h3>
-    
-    <p>You're building a comprehensive Discord bot for a gaming community that handles member verification, moderates content, manages roles and permissions, runs mini-games and tournaments, plays music in voice channels, tracks statistics, sends announcements, and integrates with external APIs. Your bot must handle thousands of concurrent users, respond instantly to commands, maintain persistent data, and provide a smooth user experience. Let's build a production-ready Discord bot framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Ultimate Community Bot 🏆</h3>
+<p>You're building a comprehensive Discord bot for a gaming community that handles member verification, moderates content, manages roles and permissions, runs mini-games and tournaments, plays music in voice channels, tracks statistics, sends announcements, and integrates with external APIs. Your bot must handle thousands of concurrent users, respond instantly to commands, maintain persistent data, and provide a smooth user experience. Let's build a production-ready Discord bot framework!</p>
+<pre><code># First, install required packages:
 # pip install discord.py python-dotenv aiohttp asyncpg redis pillow
 
 import discord
@@ -142,7 +191,7 @@ class DiscordBot(commands.Bot):
         self.db = None
         self.cache = {}
         
-    def _setup_logging(self) -> logging.Logger:
+    def _setup_logging(self) -&gt; logging.Logger:
         """Set up logging configuration."""
         logger = logging.getLogger('discord_bot')
         logger.setLevel(logging.INFO)
@@ -338,7 +387,7 @@ class CoreCommands(commands.Cog):
         embed = discord.Embed(
             title="🏓 Pong!",
             description=f"Latency: {latency}ms",
-            color=discord.Color.green() if latency < 100 else discord.Color.yellow()
+            color=discord.Color.green() if latency &lt; 100 else discord.Color.yellow()
         )
         
         await ctx.send(embed=embed)
@@ -459,7 +508,7 @@ class Moderation(commands.Cog):
             await ctx.send("❌ You cannot kick yourself!")
             return
         
-        if member.top_role >= ctx.author.top_role:
+        if member.top_role &gt;= ctx.author.top_role:
             await ctx.send("❌ You cannot kick someone with an equal or higher role!")
             return
         
@@ -489,7 +538,7 @@ class Moderation(commands.Cog):
             await ctx.send("❌ You cannot ban yourself!")
             return
         
-        if member.top_role >= ctx.author.top_role:
+        if member.top_role &gt;= ctx.author.top_role:
             await ctx.send("❌ You cannot ban someone with an equal or higher role!")
             return
         
@@ -514,7 +563,7 @@ class Moderation(commands.Cog):
     @commands.guild_only()
     async def clear(self, ctx: commands.Context, amount: int):
         """Clear a specified number of messages."""
-        if amount < 1 or amount > 100:
+        if amount &lt; 1 or amount &gt; 100:
             await ctx.send("❌ Please specify a number between 1 and 100.")
             return
         
@@ -554,7 +603,7 @@ class Moderation(commands.Cog):
         unit = match.group(2)
         seconds = amount * time_units[unit]
         
-        if seconds > 2419200:  # 28 days max
+        if seconds &gt; 2419200:  # 28 days max
             await ctx.send("❌ Maximum mute duration is 28 days.")
             return
         
@@ -595,7 +644,7 @@ class Fun(commands.Cog):
         num_dice = int(match.group(1))
         num_sides = int(match.group(2))
         
-        if num_dice > 100 or num_sides > 1000:
+        if num_dice &gt; 100 or num_sides &gt; 1000:
             await ctx.send("❌ That's too many dice or sides!")
             return
         
@@ -608,7 +657,7 @@ class Fun(commands.Cog):
             color=discord.Color.blue()
         )
         
-        if len(rolls) <= 10:
+        if len(rolls) &lt;= 10:
             embed.add_field(name="Rolls", value=" ".join(map(str, rolls)), inline=False)
         
         embed.add_field(name="Total", value=total, inline=True)
@@ -817,7 +866,7 @@ if __name__ == "__main__":
         ("Prefix Commands", "!help, !ping", "Traditional text commands"),
         ("Slash Commands", "/help, /poll", "Modern UI commands"),
         ("Context Menus", "Right-click actions", "User/message menus"),
-        ("Hybrid Commands", "Both prefix & slash", "Maximum compatibility")
+        ("Hybrid Commands", "Both prefix &amp; slash", "Maximum compatibility")
     ]
     
     for cmd_type, example, description in command_types:
@@ -941,37 +990,28 @@ if __name__ == "__main__":
     print("   3. Set up .env file with DISCORD_TOKEN")
     print("   4. Run with: python bot.py")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Secure Your Token:</strong> Never share or commit your bot token.</li>
-        
-        <li><strong>Use Intents Properly:</strong> Only request intents you need.</li>
-        
-        <li><strong>Implement Slash Commands:</strong> Modern UI for better UX.</li>
-        
-        <li><strong>Organize with Cogs:</strong> Keep features modular and maintainable.</li>
-        
-        <li><strong>Handle Permissions:</strong> Check permissions before actions.</li>
-        
-        <li><strong>Add Error Handling:</strong> Gracefully handle all errors.</li>
-        
-        <li><strong>Use Embeds:</strong> Create rich, formatted messages.</li>
-        
-        <li><strong>Implement Cooldowns:</strong> Prevent command spam.</li>
-    </ul>
-
-    <h3>Discord Bot Development Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of Discord bots as digital community managers - they need to be responsive, reliable, and respectful of users' experience. Always start with proper bot setup: create your application on Discord Developer Portal, configure intents based on your needs, and secure your token using environment variables. Use the modern discord.py library which supports both traditional prefix commands and slash commands. Organize your bot with cogs (extensions) to keep features modular - this makes maintenance and updates much easier. Implement proper permission checking before executing sensitive commands. Use Discord's embed system to create visually appealing responses. Add interactive components like buttons and dropdowns for better user engagement. Handle rate limits gracefully - Discord has strict limits to prevent abuse. Store persistent data in a database rather than memory. Test thoroughly in a development server before deploying. Most importantly: respect Discord's Terms of Service and rate limits to keep your bot running smoothly!</p>
-    </div>
-    
-    <p>Mastering Discord bot development enables you to create powerful automation tools that enhance any Discord community. You can now build bots that moderate content, play games, manage roles, provide information, and create engaging interactive experiences. Whether you're managing a small friend group or a massive gaming community, these Discord bot skills empower you to automate and enhance your server! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="chatbot_slack_integration.html">Slack Integration - Build Workplace Bots!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Secure Your Token:</strong> Never share or commit your bot token.</li>
+<li><strong>Use Intents Properly:</strong> Only request intents you need.</li>
+<li><strong>Implement Slash Commands:</strong> Modern UI for better UX.</li>
+<li><strong>Organize with Cogs:</strong> Keep features modular and maintainable.</li>
+<li><strong>Handle Permissions:</strong> Check permissions before actions.</li>
+<li><strong>Add Error Handling:</strong> Gracefully handle all errors.</li>
+<li><strong>Use Embeds:</strong> Create rich, formatted messages.</li>
+<li><strong>Implement Cooldowns:</strong> Prevent command spam.</li>
+</ul>
+<h3>Discord Bot Development Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of Discord bots as digital community managers - they need to be responsive, reliable, and respectful of users' experience. Always start with proper bot setup: create your application on Discord Developer Portal, configure intents based on your needs, and secure your token using environment variables. Use the modern discord.py library which supports both traditional prefix commands and slash commands. Organize your bot with cogs (extensions) to keep features modular - this makes maintenance and updates much easier. Implement proper permission checking before executing sensitive commands. Use Discord's embed system to create visually appealing responses. Add interactive components like buttons and dropdowns for better user engagement. Handle rate limits gracefully - Discord has strict limits to prevent abuse. Store persistent data in a database rather than memory. Test thoroughly in a development server before deploying. Most importantly: respect Discord's Terms of Service and rate limits to keep your bot running smoothly!</p>
+</div>
+<p>Mastering Discord bot development enables you to create powerful automation tools that enhance any Discord community. You can now build bots that moderate content, play games, manage roles, provide information, and create engaging interactive experiences. Whether you're managing a small friend group or a massive gaming community, these Discord bot skills empower you to automate and enhance your server! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="chatbot_telegram_bots.html">← Previous: Telegram Bots</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="chatbot_slack_integration.html">Next: Slack Integration →</a>
+</div>
+</footer>
 </body>
 </html>

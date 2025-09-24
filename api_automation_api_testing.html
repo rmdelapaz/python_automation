@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Testing Automation - Python API Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API Testing Automation - Python API Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🧪 API Testing Automation: Ensure API Quality</h1>
-    
-    <p>API testing automation is the quality control system of the API world - it ensures your APIs work correctly, perform well, and remain reliable as they evolve. Like having an army of tireless testers checking every endpoint, parameter, and response, automated API testing catches bugs before they reach production. Master these patterns to build bulletproof APIs that deliver consistent, reliable service! 🎯</p>
-
-    <h2>The API Testing Framework</h2>
-    
-    <p>Think of API testing as a comprehensive health checkup for your APIs - from basic functionality tests to complex integration scenarios, performance benchmarks, and security audits. A well-designed testing framework covers all aspects: request validation, response verification, error handling, performance metrics, and contract testing. Understanding these patterns is essential for maintaining API quality at scale!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module6">API Automation</a> &gt; 
+        <span>API Testing</span>
+</nav>
+<h1>🧪 API Testing Automation: Ensure API Quality</h1>
+<p>API testing automation is the quality control system of the API world - it ensures your APIs work correctly, perform well, and remain reliable as they evolve. Like having an army of tireless testers checking every endpoint, parameter, and response, automated API testing catches bugs before they reach production. Master these patterns to build bulletproof APIs that deliver consistent, reliable service! 🎯</p>
+<h2>The API Testing Framework</h2>
+<p>Think of API testing as a comprehensive health checkup for your APIs - from basic functionality tests to complex integration scenarios, performance benchmarks, and security audits. A well-designed testing framework covers all aspects: request validation, response verification, error handling, performance metrics, and contract testing. Understanding these patterns is essential for maintaining API quality at scale!</p>
+<div class="mermaid">
     graph TB
-        A[API Testing] --> B[Test Types]
-        A --> C[Test Design]
-        A --> D[Test Execution]
-        A --> E[Test Validation]
+        A[API Testing] --&gt; B[Test Types]
+        A --&gt; C[Test Design]
+        A --&gt; D[Test Execution]
+        A --&gt; E[Test Validation]
         
-        B --> F[Unit Tests]
-        B --> G[Integration Tests]
-        B --> H[Contract Tests]
-        B --> I[Performance Tests]
-        B --> J[Security Tests]
+        B --&gt; F[Unit Tests]
+        B --&gt; G[Integration Tests]
+        B --&gt; H[Contract Tests]
+        B --&gt; I[Performance Tests]
+        B --&gt; J[Security Tests]
         
-        C --> K[Test Cases]
-        C --> L[Test Data]
-        C --> M[Test Scenarios]
-        C --> N[Edge Cases]
+        C --&gt; K[Test Cases]
+        C --&gt; L[Test Data]
+        C --&gt; M[Test Scenarios]
+        C --&gt; N[Edge Cases]
         
-        D --> O[Test Runners]
-        D --> P[CI/CD Integration]
-        D --> Q[Parallel Execution]
-        D --> R[Test Environments]
+        D --&gt; O[Test Runners]
+        D --&gt; P[CI/CD Integration]
+        D --&gt; Q[Parallel Execution]
+        D --&gt; R[Test Environments]
         
-        E --> S[Assertions]
-        E --> T[Schema Validation]
-        E --> U[Response Time]
-        E --> V[Coverage Metrics]
+        E --&gt; S[Assertions]
+        E --&gt; T[Schema Validation]
+        E --&gt; U[Response Time]
+        E --&gt; V[Coverage Metrics]
         
-        W[Reporting] --> X[Test Results]
-        W --> Y[Coverage Reports]
-        W --> Z[Performance Metrics]
+        W[Reporting] --&gt; X[Test Results]
+        W --&gt; Y[Coverage Reports]
+        W --&gt; Z[Performance Metrics]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style W fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The API Quality Platform 🏆</h3>
-    
-    <p>You're building a comprehensive API testing platform that validates multiple microservices - RESTful APIs, GraphQL endpoints, WebSocket connections, and gRPC services. Your platform must run thousands of tests, validate contracts, measure performance, check security, generate detailed reports, integrate with CI/CD pipelines, and provide real-time monitoring. Let's build a production-ready API testing framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The API Quality Platform 🏆</h3>
+<p>You're building a comprehensive API testing platform that validates multiple microservices - RESTful APIs, GraphQL endpoints, WebSocket connections, and gRPC services. Your platform must run thousands of tests, validate contracts, measure performance, check security, generate detailed reports, integrate with CI/CD pipelines, and provide real-time monitoring. Let's build a production-ready API testing framework!</p>
+<pre><code># First, install required packages:
 # pip install pytest requests pytest-html pytest-cov pytest-benchmark hypothesis jsonschema pydantic locust
 
 import pytest
@@ -141,7 +190,7 @@ class BaseAPITest:
             "failures": []
         }
     
-    def _create_session(self) -> requests.Session:
+    def _create_session(self) -&gt; requests.Session:
         """Create configured session."""
         session = requests.Session()
         session.verify = self.config.verify_ssl
@@ -157,7 +206,7 @@ class BaseAPITest:
         return session
     
     def make_request(self, method: str, endpoint: str, 
-                     **kwargs) -> requests.Response:
+                     **kwargs) -&gt; requests.Response:
         """Make HTTP request with metrics tracking."""
         url = f"{self.config.base_url}{endpoint}"
         
@@ -193,7 +242,7 @@ class BaseAPITest:
             f"Expected status {expected_status}, got {response.status_code}"
         
         # Response time
-        assert response.elapsed.total_seconds() <= self.config.max_response_time, \
+        assert response.elapsed.total_seconds() &lt;= self.config.max_response_time, \
             f"Response time {response.elapsed.total_seconds()}s exceeds threshold"
         
         # Headers
@@ -221,22 +270,22 @@ class TestDataGenerator:
     """Generate test data for API testing."""
     
     @staticmethod
-    def random_string(length: int = 10) -> str:
+    def random_string(length: int = 10) -&gt; str:
         """Generate random string."""
         return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
     
     @staticmethod
-    def random_email() -> str:
+    def random_email() -&gt; str:
         """Generate random email."""
         return f"test_{TestDataGenerator.random_string(8)}@example.com"
     
     @staticmethod
-    def random_phone() -> str:
+    def random_phone() -&gt; str:
         """Generate random phone number."""
         return f"+1{random.randint(2000000000, 9999999999)}"
     
     @staticmethod
-    def random_user() -> Dict[str, Any]:
+    def random_user() -&gt; Dict[str, Any]:
         """Generate random user data."""
         return {
             "username": f"user_{TestDataGenerator.random_string(6)}",
@@ -249,7 +298,7 @@ class TestDataGenerator:
         }
     
     @staticmethod
-    def random_product() -> Dict[str, Any]:
+    def random_product() -&gt; Dict[str, Any]:
         """Generate random product data."""
         categories = ["Electronics", "Clothing", "Books", "Home", "Sports"]
         
@@ -362,7 +411,7 @@ class APITestSuite(BaseAPITest):
         
         data = response.json()
         assert "items" in data
-        assert len(data["items"]) <= 2
+        assert len(data["items"]) &lt;= 2
         assert "total" in data
         assert "page" in data
     
@@ -397,7 +446,7 @@ class ContractTest:
         self.contract = self._load_contract(contract_file)
         self.logger = logging.getLogger(__name__)
     
-    def _load_contract(self, file_path: str) -> Dict:
+    def _load_contract(self, file_path: str) -&gt; Dict:
         """Load API contract (OpenAPI/Swagger)."""
         with open(file_path, 'r') as f:
             if file_path.endswith('.yaml') or file_path.endswith('.yml'):
@@ -406,7 +455,7 @@ class ContractTest:
                 return json.load(f)
     
     def validate_endpoint(self, method: str, path: str, 
-                         response: requests.Response) -> bool:
+                         response: requests.Response) -&gt; bool:
         """Validate response against contract."""
         # Find endpoint in contract
         endpoint = self.contract["paths"].get(path, {}).get(method.lower())
@@ -449,7 +498,7 @@ class PerformanceTest:
     def load_test(self, endpoint: str, method: str = "GET",
                   num_requests: int = 100,
                   concurrent_users: int = 10,
-                  **kwargs) -> Dict[str, Any]:
+                  **kwargs) -&gt; Dict[str, Any]:
         """Run load test on endpoint."""
         import concurrent.futures
         
@@ -467,7 +516,7 @@ class PerformanceTest:
                 elapsed = time.time() - start_time
                 
                 return {
-                    "success": response.status_code < 400,
+                    "success": response.status_code &lt; 400,
                     "status_code": response.status_code,
                     "response_time": elapsed
                 }
@@ -509,7 +558,7 @@ class PerformanceTest:
         self.results.append(metrics)
         return metrics
     
-    def _percentile(self, values: List[float], percentile: int) -> float:
+    def _percentile(self, values: List[float], percentile: int) -&gt; float:
         """Calculate percentile."""
         if not values:
             return 0
@@ -522,7 +571,7 @@ class PerformanceTest:
                     initial_users: int = 1,
                     max_users: int = 100,
                     step: int = 10,
-                    duration: int = 60) -> List[Dict]:
+                    duration: int = 60) -&gt; List[Dict]:
         """Run stress test with increasing load."""
         stress_results = []
         
@@ -543,7 +592,7 @@ class PerformanceTest:
             stress_results.append(result)
             
             # Stop if performance degrades
-            if result["success_rate"] < 95 or result["avg_response_time"] > 5:
+            if result["success_rate"] &lt; 95 or result["avg_response_time"] &gt; 5:
                 self.logger.warning("Performance threshold breached, stopping test")
                 break
         
@@ -559,7 +608,7 @@ class SecurityTest:
         self.vulnerabilities = []
         self.logger = logging.getLogger(__name__)
     
-    def test_sql_injection(self, endpoint: str, param: str) -> bool:
+    def test_sql_injection(self, endpoint: str, param: str) -&gt; bool:
         """Test for SQL injection vulnerability."""
         sql_payloads = [
             "' OR '1'='1",
@@ -602,13 +651,13 @@ class SecurityTest:
         
         return False
     
-    def test_xss(self, endpoint: str, param: str) -> bool:
+    def test_xss(self, endpoint: str, param: str) -&gt; bool:
         """Test for XSS vulnerability."""
         xss_payloads = [
             "<script>alert('XSS')</script>",
-            "<img src=x onerror=alert('XSS')>",
+            "<img onerror="alert('XSS')" src="x"/>",
             "javascript:alert('XSS')",
-            "<body onload=alert('XSS')>"
+            "<body onload="alert('XSS')">"
         ]
         
         for payload in xss_payloads:
@@ -634,7 +683,7 @@ class SecurityTest:
         
         return False
     
-    def test_authentication(self) -> Dict[str, bool]:
+    def test_authentication(self) -&gt; Dict[str, bool]:
         """Test authentication security."""
         results = {
             "requires_auth": False,
@@ -733,13 +782,13 @@ class APITestRunner:
             )
             
             # Check thresholds
-            if metrics["avg_response_time"] > self.config.max_response_time:
+            if metrics["avg_response_time"] &gt; self.config.max_response_time:
                 self.logger.warning(
                     f"Response time {metrics['avg_response_time']:.2f}s "
                     f"exceeds threshold {self.config.max_response_time}s"
                 )
             
-            if metrics["requests_per_second"] < self.config.min_throughput:
+            if metrics["requests_per_second"] &lt; self.config.min_throughput:
                 self.logger.warning(
                     f"Throughput {metrics['requests_per_second']:.1f} req/s "
                     f"below threshold {self.config.min_throughput} req/s"
@@ -781,7 +830,7 @@ class APITestRunner:
                 "total": self.results["passed"] + self.results["failed"],
                 "pass_rate": self.results["passed"] / 
                            (self.results["passed"] + self.results["failed"]) * 100
-                           if self.results["passed"] + self.results["failed"] > 0 else 0
+                           if self.results["passed"] + self.results["failed"] &gt; 0 else 0
             }
         }
         
@@ -986,38 +1035,29 @@ if __name__ == "__main__":
         print(f"     Solution: {solution}")
     
     print("\n✅ API testing automation demonstration complete!")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Test All Layers:</strong> Unit, integration, contract, performance, and security.</li>
-        
-        <li><strong>Automate Everything:</strong> From test execution to report generation.</li>
-        
-        <li><strong>Use Test Data Generators:</strong> Avoid hard-coded test data.</li>
-        
-        <li><strong>Validate Thoroughly:</strong> Check status, schema, headers, and performance.</li>
-        
-        <li><strong>Make Tests Independent:</strong> Each test should be self-contained.</li>
-        
-        <li><strong>Set Performance Thresholds:</strong> Define acceptable response times.</li>
-        
-        <li><strong>Include Security Testing:</strong> Check for common vulnerabilities.</li>
-        
-        <li><strong>Generate Reports:</strong> Document test results and metrics.</li>
-    </ul>
-
-    <h3>API Testing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of API testing as quality assurance for your digital services - thorough testing prevents problems before they reach production. Start with a solid test structure: organize tests by functionality, use descriptive names, and keep them independent. Generate test data dynamically - hard-coded data leads to brittle tests. Test both success and failure scenarios - your API should handle errors gracefully. Validate everything: status codes, response schemas, headers, and performance metrics. Use contract testing to ensure API compatibility. Performance test regularly to catch degradation early. Include security testing - check for SQL injection, XSS, and authentication issues. Integrate tests into CI/CD pipelines for automatic validation. Generate detailed reports with metrics and coverage. Most importantly: treat test code with the same care as production code - well-maintained tests are your safety net for confident deployments!</p>
-    </div>
-    
-    <p>Mastering API testing automation ensures your APIs are reliable, performant, and secure. You can now build comprehensive test suites that validate functionality, measure performance, check security, and maintain quality at scale. Whether you're testing microservices, public APIs, or enterprise systems, these testing skills ensure your APIs deliver consistent, high-quality service! 🏆</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the API Automation section. You're now equipped to build, consume, and test APIs like a pro! 🎉</p>
-    </footer>
+</body></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Test All Layers:</strong> Unit, integration, contract, performance, and security.</li>
+<li><strong>Automate Everything:</strong> From test execution to report generation.</li>
+<li><strong>Use Test Data Generators:</strong> Avoid hard-coded test data.</li>
+<li><strong>Validate Thoroughly:</strong> Check status, schema, headers, and performance.</li>
+<li><strong>Make Tests Independent:</strong> Each test should be self-contained.</li>
+<li><strong>Set Performance Thresholds:</strong> Define acceptable response times.</li>
+<li><strong>Include Security Testing:</strong> Check for common vulnerabilities.</li>
+<li><strong>Generate Reports:</strong> Document test results and metrics.</li>
+</ul>
+<h3>API Testing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of API testing as quality assurance for your digital services - thorough testing prevents problems before they reach production. Start with a solid test structure: organize tests by functionality, use descriptive names, and keep them independent. Generate test data dynamically - hard-coded data leads to brittle tests. Test both success and failure scenarios - your API should handle errors gracefully. Validate everything: status codes, response schemas, headers, and performance metrics. Use contract testing to ensure API compatibility. Performance test regularly to catch degradation early. Include security testing - check for SQL injection, XSS, and authentication issues. Integrate tests into CI/CD pipelines for automatic validation. Generate detailed reports with metrics and coverage. Most importantly: treat test code with the same care as production code - well-maintained tests are your safety net for confident deployments!</p>
+</div>
+<p>Mastering API testing automation ensures your APIs are reliable, performant, and secure. You can now build comprehensive test suites that validate functionality, measure performance, check security, and maintain quality at scale. Whether you're testing microservices, public APIs, or enterprise systems, these testing skills ensure your APIs deliver consistent, high-quality service! 🏆</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="api_automation_webhook_implementation.html">← Previous: Webhook Implementation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="cloud_automation_aws_boto3.html">Next: AWS with Boto3 →</a>
+</div>
+</footer>
 </body>
 </html>

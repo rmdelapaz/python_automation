@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Natural Language Processing - Python Chat Bot Development</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Natural Language Processing - Python Chat Bot Development</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🧠 Natural Language Processing: Make Bots Understand Human Language</h1>
-    
-    <p>Natural Language Processing (NLP) is the bridge between human communication and machine understanding - it transforms the messy, ambiguous world of human language into structured data that bots can process and respond to intelligently. Like teaching a computer to truly understand conversation, mastering NLP allows you to build bots that comprehend intent, extract information, analyze sentiment, and engage in natural dialogue. Let's explore the fascinating world of NLP for chatbot development! 🤖</p>
-
-    <h2>The NLP Architecture for Chatbots</h2>
-    
-    <p>Think of NLP as giving your bot a brain that can decode human language - it processes text through multiple layers of analysis, from basic tokenization to complex semantic understanding. Using libraries like NLTK, spaCy, and Transformers, combined with AI services like Dialogflow and LUIS, you can create bots that understand context, handle multiple languages, and provide intelligent responses. Understanding these NLP techniques is essential for building truly conversational bots!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module12">Chatbot Development</a> &gt; 
+        <span>Natural Language Processing</span>
+</nav>
+<h1>🧠 Natural Language Processing: Make Bots Understand Human Language</h1>
+<p>Natural Language Processing (NLP) is the bridge between human communication and machine understanding - it transforms the messy, ambiguous world of human language into structured data that bots can process and respond to intelligently. Like teaching a computer to truly understand conversation, mastering NLP allows you to build bots that comprehend intent, extract information, analyze sentiment, and engage in natural dialogue. Let's explore the fascinating world of NLP for chatbot development! 🤖</p>
+<h2>The NLP Architecture for Chatbots</h2>
+<p>Think of NLP as giving your bot a brain that can decode human language - it processes text through multiple layers of analysis, from basic tokenization to complex semantic understanding. Using libraries like NLTK, spaCy, and Transformers, combined with AI services like Dialogflow and LUIS, you can create bots that understand context, handle multiple languages, and provide intelligent responses. Understanding these NLP techniques is essential for building truly conversational bots!</p>
+<div class="mermaid">
     graph TB
-        A[NLP for Chatbots] --> B[Text Processing]
-        A --> C[Understanding]
-        A --> D[Generation]
-        A --> E[Learning]
+        A[NLP for Chatbots] --&gt; B[Text Processing]
+        A --&gt; C[Understanding]
+        A --&gt; D[Generation]
+        A --&gt; E[Learning]
         
-        B --> F[Tokenization]
-        B --> G[Normalization]
-        B --> H[POS Tagging]
-        B --> I[Parsing]
+        B --&gt; F[Tokenization]
+        B --&gt; G[Normalization]
+        B --&gt; H[POS Tagging]
+        B --&gt; I[Parsing]
         
-        C --> J[Intent Recognition]
-        C --> K[Entity Extraction]
-        C --> L[Sentiment Analysis]
-        C --> M[Context Management]
+        C --&gt; J[Intent Recognition]
+        C --&gt; K[Entity Extraction]
+        C --&gt; L[Sentiment Analysis]
+        C --&gt; M[Context Management]
         
-        D --> N[Response Templates]
-        D --> O[Dynamic Generation]
-        D --> P[Language Models]
-        D --> Q[Personalization]
+        D --&gt; N[Response Templates]
+        D --&gt; O[Dynamic Generation]
+        D --&gt; P[Language Models]
+        D --&gt; Q[Personalization]
         
-        E --> R[Training Data]
-        E --> S[Model Fine-tuning]
-        E --> T[Feedback Loop]
-        E --> U[Continuous Learning]
+        E --&gt; R[Training Data]
+        E --&gt; S[Model Fine-tuning]
+        E --&gt; T[Feedback Loop]
+        E --&gt; U[Continuous Learning]
         
-        V[Technologies] --> W[NLTK/spaCy]
-        V --> X[Transformers]
-        V --> Y[Dialogflow/LUIS]
-        V --> Z[OpenAI/Claude]
+        V[Technologies] --&gt; W[NLTK/spaCy]
+        V --&gt; X[Transformers]
+        V --&gt; Y[Dialogflow/LUIS]
+        V --&gt; Z[OpenAI/Claude]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Intelligent Virtual Assistant 🎯</h3>
-    
-    <p>You're building an intelligent virtual assistant that understands natural language queries, extracts key information from conversations, handles multiple intents in a single message, maintains context across interactions, supports multiple languages, analyzes user sentiment, generates human-like responses, learns from interactions, and integrates with various services. Your bot must handle ambiguous inputs, understand slang and typos, and provide helpful responses even when uncertain. Let's build a comprehensive NLP framework for chatbots!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Intelligent Virtual Assistant 🎯</h3>
+<p>You're building an intelligent virtual assistant that understands natural language queries, extracts key information from conversations, handles multiple intents in a single message, maintains context across interactions, supports multiple languages, analyzes user sentiment, generates human-like responses, learns from interactions, and integrates with various services. Your bot must handle ambiguous inputs, understand slang and typos, and provide helpful responses even when uncertain. Let's build a comprehensive NLP framework for chatbots!</p>
+<pre><code># First, install required packages:
 # pip install nltk spacy transformers torch tensorflow dialogflow google-cloud-language textblob rasa
 
 import re
@@ -184,7 +233,7 @@ class TextPreprocessor:
         self.config = config
         self.stopwords = set(nltk.corpus.stopwords.words('english'))
         
-    def process(self, text: str) -> str:
+    def process(self, text: str) -&gt; str:
         """Full preprocessing pipeline."""
         # Clean text
         text = self.clean_text(text)
@@ -198,7 +247,7 @@ class TextPreprocessor:
         
         return text
     
-    def clean_text(self, text: str) -> str:
+    def clean_text(self, text: str) -&gt; str:
         """Clean and standardize text."""
         # Remove extra whitespace
         text = ' '.join(text.split())
@@ -227,33 +276,33 @@ class TextPreprocessor:
         
         return text
     
-    def correct_spelling(self, text: str) -> str:
+    def correct_spelling(self, text: str) -&gt; str:
         """Correct spelling mistakes."""
         blob = TextBlob(text)
         return str(blob.correct())
     
-    def normalize_text(self, text: str) -> str:
+    def normalize_text(self, text: str) -&gt; str:
         """Normalize text (numbers, dates, etc.)."""
         # Normalize numbers
-        text = re.sub(r'\b\d+\b', '<NUMBER>', text)
+        text = re.sub(r'\b\d+\b', '<number>', text)
         
         # Normalize URLs
-        text = re.sub(r'http\S+|www\S+', '<URL>', text)
+        text = re.sub(r'http\S+|www\S+', '<url>', text)
         
         # Normalize emails
-        text = re.sub(r'\S+@\S+', '<EMAIL>', text)
+        text = re.sub(r'\S+@\S+', '<email>', text)
         
         return text
     
-    def tokenize(self, text: str) -> List[str]:
+    def tokenize(self, text: str) -&gt; List[str]:
         """Tokenize text into words."""
         return nltk.word_tokenize(text)
     
-    def remove_stopwords(self, tokens: List[str]) -> List[str]:
+    def remove_stopwords(self, tokens: List[str]) -&gt; List[str]:
         """Remove stopwords from tokens."""
         return [t for t in tokens if t.lower() not in self.stopwords]
     
-    def lemmatize(self, tokens: List[str]) -> List[str]:
+    def lemmatize(self, tokens: List[str]) -&gt; List[str]:
         """Lemmatize tokens."""
         lemmatizer = nltk.WordNetLemmatizer()
         return [lemmatizer.lemmatize(token) for token in tokens]
@@ -267,7 +316,7 @@ class IntentClassifier:
         self.patterns = self._load_intent_patterns()
         self.ml_classifier = None  # Can load trained model
         
-    def _load_intent_patterns(self) -> Dict[Intent, List[str]]:
+    def _load_intent_patterns(self) -&gt; Dict[Intent, List[str]]:
         """Load regex patterns for intent matching."""
         return {
             Intent.GREETING: [
@@ -296,7 +345,7 @@ class IntentClassifier:
             ]
         }
     
-    def classify(self, text: str) -> Tuple[Intent, float]:
+    def classify(self, text: str) -&gt; Tuple[Intent, float]:
         """Classify intent from text."""
         text_lower = text.lower()
         
@@ -313,7 +362,7 @@ class IntentClassifier:
         # Default to unknown
         return Intent.UNKNOWN, 0.5
     
-    def _ml_classify(self, text: str) -> Tuple[Intent, float]:
+    def _ml_classify(self, text: str) -&gt; Tuple[Intent, float]:
         """Use ML model for classification."""
         # Placeholder for ML classification
         # In production, use trained model
@@ -334,7 +383,7 @@ class EntityExtractor:
         self.config = config
         self.nlp = nlp  # spaCy model
         
-    def extract(self, text: str) -> List[Entity]:
+    def extract(self, text: str) -&gt; List[Entity]:
         """Extract entities from text."""
         doc = self.nlp(text)
         entities = []
@@ -355,7 +404,7 @@ class EntityExtractor:
         
         return entities
     
-    def _extract_custom_entities(self, text: str) -> List[Entity]:
+    def _extract_custom_entities(self, text: str) -&gt; List[Entity]:
         """Extract custom entities like email, phone, etc."""
         entities = []
         
@@ -397,7 +446,7 @@ class EntityExtractor:
         
         return entities
     
-    def _parse_date(self, date_text: str) -> str:
+    def _parse_date(self, date_text: str) -&gt; str:
         """Parse date text to standard format."""
         date_lower = date_text.lower()
         
@@ -429,7 +478,7 @@ class SentimentAnalyzer:
         from nltk.sentiment.vader import SentimentIntensityAnalyzer
         self.vader = SentimentIntensityAnalyzer()
     
-    def analyze(self, text: str) -> Tuple[str, float, Optional[str]]:
+    def analyze(self, text: str) -&gt; Tuple[str, float, Optional[str]]:
         """
         Analyze sentiment of text.
         
@@ -457,9 +506,9 @@ class SentimentAnalyzer:
             # Fallback to VADER
             vader_scores = self.vader.polarity_scores(text)
             
-            if vader_scores['compound'] >= 0.05:
+            if vader_scores['compound'] &gt;= 0.05:
                 sentiment = 'positive'
-            elif vader_scores['compound'] <= -0.05:
+            elif vader_scores['compound'] &lt;= -0.05:
                 sentiment = 'negative'
             else:
                 sentiment = 'neutral'
@@ -471,7 +520,7 @@ class SentimentAnalyzer:
         
         return sentiment, score, emotion
     
-    def _detect_emotion(self, text: str, sentiment: str) -> Optional[str]:
+    def _detect_emotion(self, text: str, sentiment: str) -&gt; Optional[str]:
         """Detect specific emotion from text."""
         text_lower = text.lower()
         
@@ -497,9 +546,9 @@ class ContextManager:
     
     def __init__(self, config: NLPConfig):
         self.config = config
-        self.sessions = {}  # user_id -> session data
+        self.sessions = {}  # user_id -&gt; session data
         
-    def get_session(self, user_id: str) -> Dict[str, Any]:
+    def get_session(self, user_id: str) -&gt; Dict[str, Any]:
         """Get or create user session."""
         if user_id not in self.sessions:
             self.sessions[user_id] = {
@@ -514,7 +563,7 @@ class ContextManager:
         session = self.sessions[user_id]
         
         # Check session timeout
-        if (datetime.now() - session['last_activity']).seconds > self.config.session_timeout:
+        if (datetime.now() - session['last_activity']).seconds &gt; self.config.session_timeout:
             # Reset session
             self.sessions[user_id] = {
                 'user_id': user_id,
@@ -541,7 +590,7 @@ class ContextManager:
         })
         
         # Keep only recent messages
-        if len(session['messages']) > self.config.context_window_size:
+        if len(session['messages']) &gt; self.config.context_window_size:
             session['messages'] = session['messages'][-self.config.context_window_size:]
         
         # Update entities
@@ -550,13 +599,13 @@ class ContextManager:
         
         # Update intent history
         session['intent_history'].append(nlp_result.intent)
-        if len(session['intent_history']) > 10:
+        if len(session['intent_history']) &gt; 10:
             session['intent_history'] = session['intent_history'][-10:]
         
         # Update last activity
         session['last_activity'] = datetime.now()
     
-    def get_context_summary(self, user_id: str) -> str:
+    def get_context_summary(self, user_id: str) -&gt; str:
         """Get summary of conversation context."""
         session = self.get_session(user_id)
         
@@ -582,7 +631,7 @@ class ResponseGenerator:
     def __init__(self):
         self.templates = self._load_response_templates()
         
-    def _load_response_templates(self) -> Dict[Intent, List[str]]:
+    def _load_response_templates(self) -&gt; Dict[Intent, List[str]]:
         """Load response templates for each intent."""
         return {
             Intent.GREETING: [
@@ -612,7 +661,7 @@ class ResponseGenerator:
             ]
         }
     
-    def generate(self, nlp_result: NLPResult, context: Dict[str, Any]) -> str:
+    def generate(self, nlp_result: NLPResult, context: Dict[str, Any]) -&gt; str:
         """Generate response based on NLP result and context."""
         # Get base response from template
         templates = self.templates.get(nlp_result.intent, self.templates[Intent.UNKNOWN])
@@ -634,7 +683,7 @@ class ResponseGenerator:
         return response
     
     def _personalize(self, response: str, nlp_result: NLPResult, 
-                    context: Dict[str, Any]) -> str:
+                    context: Dict[str, Any]) -&gt; str:
         """Personalize response based on context."""
         # Add user name if known
         if 'PERSON' in context.get('entities', {}):
@@ -642,7 +691,7 @@ class ResponseGenerator:
             response = response.replace("!", f", {name}!")
         
         # Reference previous context if relevant
-        if len(context.get('messages', [])) > 1:
+        if len(context.get('messages', [])) &gt; 1:
             # Could add references to previous conversation
             pass
         
@@ -664,7 +713,7 @@ class NLPProcessor:
         
         self.logger = logging.getLogger(__name__)
     
-    def process(self, text: str, user_id: str = "default") -> Tuple[NLPResult, str]:
+    def process(self, text: str, user_id: str = "default") -&gt; Tuple[NLPResult, str]:
         """
         Process text and generate response.
         
@@ -708,7 +757,7 @@ class NLPProcessor:
             sentiment_score=sentiment_score,
             emotion=emotion,
             keywords=keywords,
-            requires_clarification=(intent_confidence < self.config.intent_confidence_threshold)
+            requires_clarification=(intent_confidence &lt; self.config.intent_confidence_threshold)
         )
         
         # Get context
@@ -723,14 +772,14 @@ class NLPProcessor:
         return nlp_result, response
     
     def _extract_keywords(self, tokens: List[str], 
-                         pos_tags: List[Tuple[str, str]]) -> List[str]:
+                         pos_tags: List[Tuple[str, str]]) -&gt; List[str]:
         """Extract keywords from tokens."""
         # Extract nouns and verbs as keywords
         keywords = []
         important_pos = ['NN', 'NNS', 'NNP', 'NNPS', 'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']
         
         for token, pos in pos_tags:
-            if pos in important_pos and len(token) > 2:
+            if pos in important_pos and len(token) &gt; 2:
                 keywords.append(token.lower())
         
         # Remove duplicates while preserving order
@@ -749,7 +798,7 @@ class NLPChatbot:
         self.processor = NLPProcessor(self.config)
         self.logger = logging.getLogger(__name__)
     
-    def chat(self, message: str, user_id: str = "default") -> Dict[str, Any]:
+    def chat(self, message: str, user_id: str = "default") -&gt; Dict[str, Any]:
         """
         Process a chat message and return response.
         
@@ -800,7 +849,7 @@ class NLPChatbot:
         
         self.processor.intent_classifier.train(converted_data)
     
-    def get_context(self, user_id: str) -> str:
+    def get_context(self, user_id: str) -&gt; str:
         """Get conversation context summary."""
         return self.processor.context_manager.get_context_summary(user_id)
     
@@ -956,38 +1005,29 @@ if __name__ == "__main__":
         print(f"   {practice}")
     
     print("\n✅ NLP demonstration complete!")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Preprocess Text:</strong> Clean and normalize input for better understanding.</li>
-        
-        <li><strong>Use Multiple Techniques:</strong> Combine rule-based and ML approaches.</li>
-        
-        <li><strong>Extract Entities:</strong> Identify key information from user input.</li>
-        
-        <li><strong>Analyze Sentiment:</strong> Understand user emotions and respond appropriately.</li>
-        
-        <li><strong>Maintain Context:</strong> Track conversation history for coherent responses.</li>
-        
-        <li><strong>Handle Uncertainty:</strong> Ask for clarification when confidence is low.</li>
-        
-        <li><strong>Train Continuously:</strong> Improve models with user interactions.</li>
-        
-        <li><strong>Support Languages:</strong> Consider multilingual support for wider reach.</li>
-    </ul>
-
-    <h3>NLP for Chatbots Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of NLP as teaching your bot to truly understand humans - it's not just about keywords, but comprehending intent, context, and emotion. Start with robust text preprocessing: clean, normalize, and tokenize text properly. Use both rule-based patterns and machine learning models - rules handle common cases reliably while ML handles complexity. Always extract entities (names, dates, numbers) as they often contain critical information. Implement sentiment analysis to gauge user mood and adjust responses accordingly. Maintain conversation context across messages - humans expect you to remember what was just discussed. Set confidence thresholds and ask for clarification when uncertain rather than guessing wrong. Use frameworks like spaCy or NLTK for core NLP tasks, but consider cloud services like Dialogflow for production. Train your models continuously with real user data, but always validate before deploying updates. Support multiple languages if you have international users. Most importantly: NLP is about understanding humans, not just processing text - design your bot to be helpful, empathetic, and genuinely conversational!</p>
-    </div>
-    
-    <p>Mastering NLP for chatbots enables you to create truly intelligent conversational agents that understand and respond to users naturally. You can now build bots that comprehend intent, extract information, analyze sentiment, maintain context, and engage in meaningful dialogue. Whether you're building customer service bots, virtual assistants, or conversational AI, these NLP skills make your bots genuinely intelligent! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="chatbot_command_handling.html">Command Handling - Structure Bot Interactions!</a></p>
-    </footer>
+</email></url></number></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Preprocess Text:</strong> Clean and normalize input for better understanding.</li>
+<li><strong>Use Multiple Techniques:</strong> Combine rule-based and ML approaches.</li>
+<li><strong>Extract Entities:</strong> Identify key information from user input.</li>
+<li><strong>Analyze Sentiment:</strong> Understand user emotions and respond appropriately.</li>
+<li><strong>Maintain Context:</strong> Track conversation history for coherent responses.</li>
+<li><strong>Handle Uncertainty:</strong> Ask for clarification when confidence is low.</li>
+<li><strong>Train Continuously:</strong> Improve models with user interactions.</li>
+<li><strong>Support Languages:</strong> Consider multilingual support for wider reach.</li>
+</ul>
+<h3>NLP for Chatbots Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of NLP as teaching your bot to truly understand humans - it's not just about keywords, but comprehending intent, context, and emotion. Start with robust text preprocessing: clean, normalize, and tokenize text properly. Use both rule-based patterns and machine learning models - rules handle common cases reliably while ML handles complexity. Always extract entities (names, dates, numbers) as they often contain critical information. Implement sentiment analysis to gauge user mood and adjust responses accordingly. Maintain conversation context across messages - humans expect you to remember what was just discussed. Set confidence thresholds and ask for clarification when uncertain rather than guessing wrong. Use frameworks like spaCy or NLTK for core NLP tasks, but consider cloud services like Dialogflow for production. Train your models continuously with real user data, but always validate before deploying updates. Support multiple languages if you have international users. Most importantly: NLP is about understanding humans, not just processing text - design your bot to be helpful, empathetic, and genuinely conversational!</p>
+</div>
+<p>Mastering NLP for chatbots enables you to create truly intelligent conversational agents that understand and respond to users naturally. You can now build bots that comprehend intent, extract information, analyze sentiment, maintain context, and engage in meaningful dialogue. Whether you're building customer service bots, virtual assistants, or conversational AI, these NLP skills make your bots genuinely intelligent! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="chatbot_command_handling.html">← Previous: Command Handling</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="advanced_scraping_selenium.html">Next: Advanced Selenium →</a>
+</div>
+</footer>
 </body>
 </html>

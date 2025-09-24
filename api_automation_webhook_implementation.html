@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webhook Implementation - Python API Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Webhook Implementation - Python API Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🪝 Webhook Implementation: Real-time Event Processing</h1>
-    
-    <p>Webhooks are the push notifications of the API world - instead of constantly polling for updates, webhooks deliver events directly to you in real-time. Like having a personal assistant who taps you on the shoulder whenever something important happens, webhooks enable event-driven architectures that are efficient, scalable, and responsive. Master webhook implementation to build real-time integrations that react instantly to changes! ⚡</p>
-
-    <h2>The Webhook Architecture</h2>
-    
-    <p>Think of webhooks as a subscription service for events - you tell an API where to send notifications, and it pushes updates to you as they happen. This reversal of the traditional request-response pattern requires careful implementation of receivers, validators, processors, and reliability mechanisms. Understanding these patterns is crucial for building robust event-driven systems!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module6">API Automation</a> &gt; 
+        <span>Webhook Implementation</span>
+</nav>
+<h1>🪝 Webhook Implementation: Real-time Event Processing</h1>
+<p>Webhooks are the push notifications of the API world - instead of constantly polling for updates, webhooks deliver events directly to you in real-time. Like having a personal assistant who taps you on the shoulder whenever something important happens, webhooks enable event-driven architectures that are efficient, scalable, and responsive. Master webhook implementation to build real-time integrations that react instantly to changes! ⚡</p>
+<h2>The Webhook Architecture</h2>
+<p>Think of webhooks as a subscription service for events - you tell an API where to send notifications, and it pushes updates to you as they happen. This reversal of the traditional request-response pattern requires careful implementation of receivers, validators, processors, and reliability mechanisms. Understanding these patterns is crucial for building robust event-driven systems!</p>
+<div class="mermaid">
     graph TB
-        A[Webhooks] --> B[Webhook Server]
-        A --> C[Event Processing]
-        A --> D[Security]
-        A --> E[Reliability]
+        A[Webhooks] --&gt; B[Webhook Server]
+        A --&gt; C[Event Processing]
+        A --&gt; D[Security]
+        A --&gt; E[Reliability]
         
-        B --> F[HTTP Endpoints]
-        B --> G[Request Handling]
-        B --> H[Response Codes]
-        B --> I[Async Processing]
+        B --&gt; F[HTTP Endpoints]
+        B --&gt; G[Request Handling]
+        B --&gt; H[Response Codes]
+        B --&gt; I[Async Processing]
         
-        C --> J[Event Parsing]
-        C --> K[Validation]
-        C --> L[Routing]
-        C --> M[Actions]
+        C --&gt; J[Event Parsing]
+        C --&gt; K[Validation]
+        C --&gt; L[Routing]
+        C --&gt; M[Actions]
         
-        D --> N[Signature Verification]
-        D --> O[IP Whitelisting]
-        D --> P[Token Auth]
-        D --> Q[HTTPS/TLS]
+        D --&gt; N[Signature Verification]
+        D --&gt; O[IP Whitelisting]
+        D --&gt; P[Token Auth]
+        D --&gt; Q[HTTPS/TLS]
         
-        E --> R[Retry Logic]
-        E --> S[Idempotency]
-        E --> T[Dead Letter Queue]
-        E --> U[Circuit Breaker]
+        E --&gt; R[Retry Logic]
+        E --&gt; S[Idempotency]
+        E --&gt; T[Dead Letter Queue]
+        E --&gt; U[Circuit Breaker]
         
-        V[Monitoring] --> W[Metrics]
-        V --> X[Logging]
-        V --> Y[Alerting]
-        V --> Z[Debugging]
+        V[Monitoring] --&gt; W[Metrics]
+        V --&gt; X[Logging]
+        V --&gt; Y[Alerting]
+        V --&gt; Z[Debugging]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Event Processing Hub 🎯</h3>
-    
-    <p>You're building a webhook processing system that handles events from multiple sources - payment notifications from Stripe, repository events from GitHub, messaging from Slack, and order updates from e-commerce platforms. Your system must validate signatures, handle retries, process events asynchronously, maintain delivery guarantees, scale to thousands of events per second, and provide detailed monitoring. Let's build a production-ready webhook framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Event Processing Hub 🎯</h3>
+<p>You're building a webhook processing system that handles events from multiple sources - payment notifications from Stripe, repository events from GitHub, messaging from Slack, and order updates from e-commerce platforms. Your system must validate signatures, handle retries, process events asynchronously, maintain delivery guarantees, scale to thousands of events per second, and provide detailed monitoring. Let's build a production-ready webhook framework!</p>
+<pre><code># First, install required packages:
 # pip install flask fastapi uvicorn celery redis pydantic cryptography ngrok
 
 import os
@@ -148,7 +197,7 @@ class WebhookSecurity:
         self.logger.info(f"Registered webhook secret for {source}")
     
     def verify_signature(self, source: str, payload: bytes, 
-                        signature: str, algorithm: str = "sha256") -> bool:
+                        signature: str, algorithm: str = "sha256") -&gt; bool:
         """
         Verify webhook signature.
         
@@ -218,7 +267,7 @@ class WebhookSecurity:
             self.logger.error(f"Signature verification failed: {e}")
             return False
     
-    def _extract_timestamp(self, payload: bytes) -> str:
+    def _extract_timestamp(self, payload: bytes) -&gt; str:
         """Extract timestamp from payload for Slack verification."""
         try:
             data = json.loads(payload)
@@ -226,7 +275,7 @@ class WebhookSecurity:
         except:
             return ""
     
-    def verify_ip_whitelist(self, ip: str, whitelist: List[str]) -> bool:
+    def verify_ip_whitelist(self, ip: str, whitelist: List[str]) -&gt; bool:
         """Verify request IP against whitelist."""
         import ipaddress
         
@@ -249,7 +298,7 @@ class WebhookSecurity:
             self.logger.error(f"IP verification failed: {e}")
             return False
     
-    def generate_webhook_secret(self, length: int = 32) -> str:
+    def generate_webhook_secret(self, length: int = 32) -&gt; str:
         """Generate a secure webhook secret."""
         import secrets
         return secrets.token_hex(length)
@@ -264,7 +313,7 @@ def create_flask_webhook_server(security: WebhookSecurity):
     # Event queue
     event_queue = Queue()
     
-    @app.route('/webhook/<source>', methods=['POST'])
+    @app.route('/webhook/<source/>', methods=['POST'])
     def webhook_endpoint(source):
         """Generic webhook endpoint."""
         try:
@@ -485,7 +534,7 @@ class WebhookProcessor:
         self.handlers[key] = handler
         self.logger.info(f"Registered handler for {key}")
     
-    def process_event(self, event: WebhookEvent) -> bool:
+    def process_event(self, event: WebhookEvent) -&gt; bool:
         """
         Process webhook event.
         Returns True if successful, False otherwise.
@@ -523,7 +572,7 @@ class WebhookProcessor:
             event.attempts += 1
             
             # Check if should retry
-            if event.attempts < event.max_attempts:
+            if event.attempts &lt; event.max_attempts:
                 event.status = EventStatus.RETRYING
                 self.metrics["retried"] += 1
                 
@@ -628,7 +677,7 @@ class WebhookClient:
     
     def send_webhook(self, url: str, event_type: str, 
                      payload: Dict[str, Any], 
-                     max_retries: int = 3) -> bool:
+                     max_retries: int = 3) -&gt; bool:
         """Send webhook with retries."""
         event = {
             "id": str(uuid.uuid4()),
@@ -662,7 +711,7 @@ class WebhookClient:
                 if response.status_code in [200, 201, 202, 204]:
                     self.logger.info(f"Webhook sent successfully to {url}")
                     return True
-                elif response.status_code >= 500:
+                elif response.status_code &gt;= 500:
                     # Server error, retry
                     self.logger.warning(f"Server error {response.status_code}, retrying...")
                     time.sleep(2 ** attempt)
@@ -674,7 +723,7 @@ class WebhookClient:
             except requests.exceptions.RequestException as e:
                 self.logger.error(f"Request failed: {e}")
                 
-                if attempt < max_retries - 1:
+                if attempt &lt; max_retries - 1:
                     time.sleep(2 ** attempt)
                     continue
                     
@@ -683,7 +732,7 @@ class WebhookClient:
         return False
     
     def register_webhook(self, api_url: str, webhook_url: str, 
-                        events: List[str]) -> bool:
+                        events: List[str]) -&gt; bool:
         """Register webhook with an API."""
         registration = {
             "url": webhook_url,
@@ -717,7 +766,7 @@ class WebhookTester:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
     
-    def create_test_payload(self, event_type: str) -> Dict[str, Any]:
+    def create_test_payload(self, event_type: str) -&gt; Dict[str, Any]:
         """Create test webhook payload."""
         payloads = {
             "payment.success": {
@@ -750,11 +799,11 @@ class WebhookTester:
         
         return client.send_webhook(url, event_type, payload)
     
-    def verify_endpoint(self, url: str) -> bool:
+    def verify_endpoint(self, url: str) -&gt; bool:
         """Verify webhook endpoint is reachable."""
         try:
             response = requests.get(url, timeout=5)
-            return response.status_code < 500
+            return response.status_code &lt; 500
         except:
             return False
 
@@ -799,7 +848,7 @@ class WebhookMonitor:
             "timestamp": datetime.now()
         }
     
-    def get_metrics(self, source: Optional[str] = None) -> Dict:
+    def get_metrics(self, source: Optional[str] = None) -&gt; Dict:
         """Get webhook metrics."""
         if source:
             return dict(self.metrics[source])
@@ -807,7 +856,7 @@ class WebhookMonitor:
     
     def check_health(self, source: str, 
                     max_failure_rate: float = 0.1,
-                    max_silence_minutes: int = 60) -> Dict[str, bool]:
+                    max_silence_minutes: int = 60) -&gt; Dict[str, bool]:
         """Check webhook health."""
         metrics = self.metrics[source]
         
@@ -819,9 +868,9 @@ class WebhookMonitor:
         
         # Check failure rate
         total = metrics["received"]
-        if total > 0:
+        if total &gt; 0:
             failure_rate = metrics["failed"] / total
-            if failure_rate > max_failure_rate:
+            if failure_rate &gt; max_failure_rate:
                 health["is_healthy"] = False
                 health["processing_successfully"] = False
         
@@ -829,7 +878,7 @@ class WebhookMonitor:
         last_received = metrics["last_received"]
         if last_received:
             silence_duration = (datetime.now() - last_received).total_seconds() / 60
-            if silence_duration > max_silence_minutes:
+            if silence_duration &gt; max_silence_minutes:
                 health["is_healthy"] = False
                 health["receiving_events"] = False
         
@@ -877,7 +926,7 @@ if __name__ == "__main__":
     print("\n3️⃣ Flask Webhook Server:")
     
     print("   Endpoints:")
-    print("     POST /webhook/<source> - Generic endpoint")
+    print("     POST /webhook/<source/> - Generic endpoint")
     print("     POST /webhook/github - GitHub events")
     print("     POST /webhook/stripe - Stripe events")
     print("     GET /health - Health check")
@@ -971,7 +1020,7 @@ if __name__ == "__main__":
     
     practices = [
         "🔐 Always verify signatures",
-        "⚡ Respond quickly (< 3s)",
+        "⚡ Respond quickly (&lt; 3s)",
         "🔄 Process asynchronously",
         "💾 Store events before processing",
         "🔁 Implement idempotency",
@@ -1004,37 +1053,28 @@ if __name__ == "__main__":
     
     print("\n✅ Webhook implementation demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Verify Signatures:</strong> Always validate webhook authenticity.</li>
-        
-        <li><strong>Respond Quickly:</strong> Acknowledge receipt immediately, process async.</li>
-        
-        <li><strong>Handle Retries:</strong> Implement exponential backoff for failures.</li>
-        
-        <li><strong>Be Idempotent:</strong> Handle duplicate events gracefully.</li>
-        
-        <li><strong>Queue Events:</strong> Use queues for reliable processing.</li>
-        
-        <li><strong>Monitor Everything:</strong> Track metrics and set up alerts.</li>
-        
-        <li><strong>Test Thoroughly:</strong> Use tools like ngrok for local testing.</li>
-        
-        <li><strong>Document Endpoints:</strong> Clearly specify expected payloads.</li>
-    </ul>
-
-    <h3>Webhook Implementation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of webhooks as phone calls from APIs - you need to answer quickly, verify who's calling, and handle the message properly. Always verify signatures first - accepting unsigned webhooks is like answering calls from unknown numbers without checking. Respond immediately with a 200 OK and process asynchronously - holding up the response is like keeping someone on hold. Implement proper retry logic with exponential backoff - if processing fails, you want another chance. Design for idempotency - webhooks might be sent multiple times, so processing should be safe to repeat. Use message queues (Redis, RabbitMQ, SQS) for reliable processing at scale. Monitor everything: response times, success rates, and error patterns. Test locally with ngrok before deploying. Store raw events before processing for debugging and replay. Most importantly: webhooks are about real-time event processing - design your system to handle events as they come, in any order, at any scale!</p>
-    </div>
-    
-    <p>Mastering webhook implementation enables you to build real-time, event-driven systems that react instantly to changes. You can now receive events from any service, process them reliably, handle failures gracefully, and scale to thousands of events per second. Whether you're building payment systems, CI/CD pipelines, or real-time notifications, these webhook skills power your event-driven architecture! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="api_automation_api_testing.html">API Testing Automation - Ensure API Quality!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Verify Signatures:</strong> Always validate webhook authenticity.</li>
+<li><strong>Respond Quickly:</strong> Acknowledge receipt immediately, process async.</li>
+<li><strong>Handle Retries:</strong> Implement exponential backoff for failures.</li>
+<li><strong>Be Idempotent:</strong> Handle duplicate events gracefully.</li>
+<li><strong>Queue Events:</strong> Use queues for reliable processing.</li>
+<li><strong>Monitor Everything:</strong> Track metrics and set up alerts.</li>
+<li><strong>Test Thoroughly:</strong> Use tools like ngrok for local testing.</li>
+<li><strong>Document Endpoints:</strong> Clearly specify expected payloads.</li>
+</ul>
+<h3>Webhook Implementation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of webhooks as phone calls from APIs - you need to answer quickly, verify who's calling, and handle the message properly. Always verify signatures first - accepting unsigned webhooks is like answering calls from unknown numbers without checking. Respond immediately with a 200 OK and process asynchronously - holding up the response is like keeping someone on hold. Implement proper retry logic with exponential backoff - if processing fails, you want another chance. Design for idempotency - webhooks might be sent multiple times, so processing should be safe to repeat. Use message queues (Redis, RabbitMQ, SQS) for reliable processing at scale. Monitor everything: response times, success rates, and error patterns. Test locally with ngrok before deploying. Store raw events before processing for debugging and replay. Most importantly: webhooks are about real-time event processing - design your system to handle events as they come, in any order, at any scale!</p>
+</div>
+<p>Mastering webhook implementation enables you to build real-time, event-driven systems that react instantly to changes. You can now receive events from any service, process them reliably, handle failures gracefully, and scale to thousands of events per second. Whether you're building payment systems, CI/CD pipelines, or real-time notifications, these webhook skills power your event-driven architecture! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="api_automation_rate_limiting.html">← Previous: Rate Limiting</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="api_automation_api_testing.html">Next: API Testing →</a>
+</div>
+</footer>
 </body>
 </html>

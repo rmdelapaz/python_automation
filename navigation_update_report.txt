@@ -1,0 +1,178 @@
+Course Navigation Update Report
+==================================================
+
+Total files found: 70
+Files in structure: 70
+Successfully updated: 70
+Skipped/Failed: 0
+
+Course Structure:
+------------------------------
+
+Module 1: File and System Automation
+  1.1 - Advanced File Operations
+       File: filesystem_advanced_file_operations.html
+  1.2 - Batch Renaming
+       File: filesystem_batch_renaming.html
+  1.3 - Directory Watching
+       File: filesystem_directory_watching.html
+  1.4 - File Organization Scripts
+       File: filesystem_file_organization_scripts.html
+  1.5 - Backup Automation
+       File: filesystem_backup_automation.html
+
+Module 2: Web Scraping
+  2.1 - HTML & CSS Selectors
+       File: webscraping_html_css_selectors.html
+  2.2 - BeautifulSoup Mastery
+       File: webscraping_beautifulsoup_mastery.html
+  2.3 - Forms and Cookies
+       File: webscraping_forms_cookies.html
+  2.4 - Session Management
+       File: webscraping_session_management.html
+  2.5 - Ethics and Robots.txt
+       File: webscraping_ethics_robots.html
+
+Module 3: Browser Automation
+  3.1 - WebDriver Setup
+       File: browser_automation_webdriver_setup.html
+  3.2 - Element Interaction
+       File: browser_automation_element_interaction.html
+  3.3 - Waiting Strategies
+       File: browser_automation_waiting_strategies.html
+  3.4 - Page Object Model
+       File: browser_automation_page_object_model.html
+  3.5 - Headless Browsing
+       File: browser_automation_headless_browsing.html
+
+Module 4: Data Processing
+  4.1 - CSV Processing
+       File: workingwithdata_csv_processing.html
+  4.2 - Excel Automation
+       File: workingwithdata_excel_automation.html
+  4.3 - JSON & XML Parsing
+       File: workingwithdata_json_xml_parsing.html
+  4.4 - PDF Manipulation
+       File: workingwithdata_pdf_manipulation.html
+  4.5 - Database Automation
+       File: workingwithdata_database_automation.html
+
+Module 5: Email Automation
+  5.1 - Sending Emails
+       File: email_automation_sending_emails.html
+  5.2 - Reading Emails
+       File: email_automation_reading_emails.html
+  5.3 - Email Attachments
+       File: email_automation_attachments.html
+  5.4 - HTML Emails
+       File: email_automation_html_emails.html
+  5.5 - Email Filtering Rules
+       File: email_automation_filtering_rules.html
+
+Module 6: API Automation
+  6.1 - RESTful API Consumption
+       File: api_automation_restful_consumption.html
+  6.2 - Authentication Methods
+       File: api_automation_authentication_methods.html
+  6.3 - Rate Limiting
+       File: api_automation_rate_limiting.html
+  6.4 - Webhook Implementation
+       File: api_automation_webhook_implementation.html
+  6.5 - API Testing
+       File: api_automation_api_testing.html
+
+Module 7: Cloud Automation
+  7.1 - AWS with Boto3
+       File: cloud_automation_aws_boto3.html
+  7.2 - Google Cloud Platform
+       File: cloud_automation_google_cloud.html
+  7.3 - Cloud Storage
+       File: cloud_automation_storage.html
+  7.4 - Serverless Functions
+       File: cloud_automation_serverless.html
+  7.5 - Deployment Automation
+       File: cloud_automation_deploying.html
+
+Module 8: Task Orchestration
+  8.1 - Apache Airflow Basics
+       File: task_orchestration_airflow_basics.html
+  8.2 - Creating DAGs
+       File: task_orchestration_creating_dags.html
+  8.3 - Task Dependencies
+       File: task_orchestration_dependencies.html
+  8.4 - Error Handling
+       File: task_orchestration_error_handling.html
+  8.5 - Monitoring and Alerts
+       File: task_orchestration_monitoring.html
+
+Module 9: Testing Automation
+  9.1 - Unit Test Automation
+       File: testing_automation_unit.html
+  9.2 - Integration Testing
+       File: testing_automation_integration.html
+  9.3 - UI Testing with Selenium
+       File: testing_automation_ui_selenium.html
+  9.4 - API Testing
+       File: testing_automation_api.html
+  9.5 - Continuous Integration
+       File: testing_automation_ci.html
+
+Module 10: System Administration
+  10.1 - Scheduled Tasks
+       File: systemadmin_scheduled_tasks.html
+  10.2 - Process Management
+       File: systemadmin_process_management.html
+  10.3 - Log Analysis
+       File: systemadmin_log_analysis.html
+  10.4 - System Monitoring
+       File: systemadmin_system_monitoring.html
+  10.5 - Environment Management
+       File: systemadmin_environment_management.html
+
+Module 11: GUI Automation
+  11.1 - PyAutoGUI Basics
+       File: gui_automation_pyautogui.html
+  11.2 - Mouse and Keyboard Control
+       File: gui_automation_mouse_keyboard.html
+  11.3 - Screen Capture
+       File: gui_automation_screen_capture.html
+  11.4 - Window Management
+       File: gui_automation_window_management.html
+  11.5 - Cross-Platform GUI
+       File: gui_automation_cross_platform.html
+
+Module 12: Chatbot Development
+  12.1 - Telegram Bots
+       File: chatbot_telegram_bots.html
+  12.2 - Discord Bots
+       File: chatbot_discord_bots.html
+  12.3 - Slack Integration
+       File: chatbot_slack_integration.html
+  12.4 - Command Handling
+       File: chatbot_command_handling.html
+  12.5 - Natural Language Processing
+       File: chatbot_nlp.html
+
+Module 13: Advanced Web Scraping
+  13.1 - Advanced Selenium
+       File: advanced_scraping_selenium.html
+  13.2 - Scrapy Framework
+       File: advanced_scraping_scrapy.html
+  13.3 - CAPTCHA Handling
+       File: advanced_scraping_captcha.html
+  13.4 - Proxy Rotation
+       File: advanced_scraping_proxy_rotation.html
+  13.5 - Data Pipelines
+       File: advanced_scraping_data_pipelines.html
+
+Module 14: RPA and Enterprise Automation
+  14.1 - RPA Concepts
+       File: rpa_enterprise_concepts.html
+  14.2 - UiPath/Python Integration
+       File: rpa_enterprise_uipath_integration.html
+  14.3 - Business Process Automation
+       File: rpa_enterprise_business_process.html
+  14.4 - Document Processing
+       File: rpa_enterprise_document_processing.html
+  14.5 - Reporting Automation
+       File: rpa_enterprise_reporting.html

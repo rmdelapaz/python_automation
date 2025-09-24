@@ -1,43 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batch Renaming - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Batch Renaming - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🏷️ Batch Renaming: Master the Art of File Naming at Scale</h1>
-    
-    <p>Ever downloaded 500 photos from your camera named DSC_0001 through DSC_0500? Or inherited a project with files named "final_v2_REALLY_FINAL_USE_THIS_ONE.doc"? Batch renaming is your superpower for bringing order to naming chaos. It's like being a librarian with superhuman speed! 📚</p>
-
-    <h2>The Psychology of Good File Names</h2>
-    
-    <p>A good filename tells a story. It should answer three questions: What is it? When was it created? What version is it? Think of filenames as the DNA of your digital organization – they carry essential information that helps you (and your scripts) identify files instantly.</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module1">File and System Automation</a> &gt; 
+        <span>Batch Renaming</span>
+</nav>
+<h1>🏷️ Batch Renaming: Master the Art of File Naming at Scale</h1>
+<p>Ever downloaded 500 photos from your camera named DSC_0001 through DSC_0500? Or inherited a project with files named "final_v2_REALLY_FINAL_USE_THIS_ONE.doc"? Batch renaming is your superpower for bringing order to naming chaos. It's like being a librarian with superhuman speed! 📚</p>
+<h2>The Psychology of Good File Names</h2>
+<p>A good filename tells a story. It should answer three questions: What is it? When was it created? What version is it? Think of filenames as the DNA of your digital organization – they carry essential information that helps you (and your scripts) identify files instantly.</p>
+<div class="mermaid">
     graph LR
-        A[Chaotic Names] --> B[Rename Strategy]
-        B --> C[Pattern Analysis]
-        C --> D[Rule Definition]
-        D --> E[Preview Changes]
-        E --> F[Apply Safely]
-        F --> G[Organized Names]
+        A[Chaotic Names] --&gt; B[Rename Strategy]
+        B --&gt; C[Pattern Analysis]
+        C --&gt; D[Rule Definition]
+        D --&gt; E[Preview Changes]
+        E --&gt; F[Apply Safely]
+        F --&gt; G[Organized Names]
         
         style A fill:#ff6b6b
         style G fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Wedding Photographer's Nightmare 📸</h3>
-    
-    <p>Imagine you're a wedding photographer. You've just shot three weddings in one weekend, each with multiple photographers, different cameras, and various memory cards. You have 5,000 photos with names like IMG_1234.jpg, DSC_5678.NEF, and _MG_9012.CR2. Let's build a system that brings order to this chaos!</p>
-
-    <pre><code>import os
+<h3>Real-World Scenario: The Wedding Photographer's Nightmare 📸</h3>
+<p>Imagine you're a wedding photographer. You've just shot three weddings in one weekend, each with multiple photographers, different cameras, and various memory cards. You have 5,000 photos with names like IMG_1234.jpg, DSC_5678.NEF, and _MG_9012.CR2. Let's build a system that brings order to this chaos!</p>
+<pre><code>import os
 import re
 import shutil
 from pathlib import Path
@@ -58,7 +107,7 @@ class SmartBatchRenamer:
         self.rename_history = []
         self.collision_counter = defaultdict(int)
         
-    def analyze_naming_patterns(self) -> Dict[str, List[Path]]:
+    def analyze_naming_patterns(self) -&gt; Dict[str, List[Path]]:
         """
         Analyze existing naming patterns to understand the chaos.
         Groups files by their naming pattern for targeted renaming.
@@ -98,13 +147,13 @@ class SmartBatchRenamer:
                 examples = files[:3]
                 for example in examples:
                     print(f"    → {example.name}")
-                if len(files) > 3:
+                if len(files) &gt; 3:
                     print(f"    ... and {len(files) - 3} more")
         print("=" * 50)
         
         return patterns
     
-    def extract_metadata(self, file_path: Path) -> Dict:
+    def extract_metadata(self, file_path: Path) -&gt; Dict:
         """
         Extract all available metadata from a file.
         This is like doing forensics on each file!
@@ -153,7 +202,7 @@ class SmartBatchRenamer:
         
         return metadata
     
-    def _calculate_file_hash(self, file_path: Path, chunk_size: int = 8192) -> str:
+    def _calculate_file_hash(self, file_path: Path, chunk_size: int = 8192) -&gt; str:
         """Calculate MD5 hash of file for duplicate detection."""
         md5_hash = hashlib.md5()
         try:
@@ -165,7 +214,7 @@ class SmartBatchRenamer:
             return 'unknown'
     
     def create_new_name(self, file_path: Path, template: str, 
-                        metadata: Dict, index: int = 0) -> str:
+                        metadata: Dict, index: int = 0) -&gt; str:
         """
         Create a new filename based on a template and metadata.
         Templates can include placeholders like {date}, {index}, {original}, etc.
@@ -261,14 +310,14 @@ class SmartBatchRenamer:
             new_name = new_path.name
             
             # Highlight changes
-            if len(old_name) > 30:
+            if len(old_name) &gt; 30:
                 old_name = old_name[:27] + "..."
-            if len(new_name) > 30:
+            if len(new_name) &gt; 30:
                 new_name = new_name[:27] + "..."
             
             print(f"  {old_name:&lt;30} → {new_name}")
         
-        if len(operations) > 10:
+        if len(operations) &gt; 10:
             print(f"  ... and {len(operations) - 10} more files")
         
         print("-" * 60)
@@ -325,7 +374,7 @@ class AdvancedRenamingStrategies:
     @staticmethod
     def sequential_numbering(files: List[Path], prefix: str = "", 
                            suffix: str = "", start: int = 1, 
-                           padding: int = 3) -> List[Tuple[Path, str]]:
+                           padding: int = 3) -&gt; List[Tuple[Path, str]]:
         """
         Simple sequential numbering with optional prefix/suffix.
         Example: photo_001.jpg, photo_002.jpg, ...
@@ -338,7 +387,7 @@ class AdvancedRenamingStrategies:
     
     @staticmethod
     def date_based_naming(files: List[Path], 
-                         format: str = "%Y%m%d_%H%M%S") -> List[Tuple[Path, str]]:
+                         format: str = "%Y%m%d_%H%M%S") -&gt; List[Tuple[Path, str]]:
         """
         Rename based on file modification date.
         Handles same-second conflicts by adding microseconds.
@@ -351,7 +400,7 @@ class AdvancedRenamingStrategies:
             base_name = mtime.strftime(format)
             
             # Handle conflicts
-            if seen_names[base_name] > 0:
+            if seen_names[base_name] &gt; 0:
                 new_name = f"{base_name}_{seen_names[base_name]:03d}{file_path.suffix}"
             else:
                 new_name = f"{base_name}{file_path.suffix}"
@@ -362,7 +411,7 @@ class AdvancedRenamingStrategies:
         return operations
     
     @staticmethod
-    def clean_and_standardize(files: List[Path]) -> List[Tuple[Path, str]]:
+    def clean_and_standardize(files: List[Path]) -&gt; List[Tuple[Path, str]]:
         """
         Clean up messy filenames by removing special characters,
         fixing spacing, and standardizing format.
@@ -399,7 +448,7 @@ class AdvancedRenamingStrategies:
     
     @staticmethod
     def add_prefix_suffix(files: List[Path], prefix: str = "", 
-                         suffix: str = "") -> List[Tuple[Path, str]]:
+                         suffix: str = "") -&gt; List[Tuple[Path, str]]:
         """Add prefix or suffix to existing filenames."""
         operations = []
         
@@ -413,7 +462,7 @@ class AdvancedRenamingStrategies:
     
     @staticmethod
     def replace_text(files: List[Path], search: str, 
-                    replace: str, case_sensitive: bool = False) -> List[Tuple[Path, str]]:
+                    replace: str, case_sensitive: bool = False) -&gt; List[Tuple[Path, str]]:
         """Replace text in filenames."""
         operations = []
         
@@ -430,7 +479,7 @@ class AdvancedRenamingStrategies:
         return operations
     
     @staticmethod
-    def smart_case_correction(files: List[Path]) -> List[Tuple[Path, str]]:
+    def smart_case_correction(files: List[Path]) -&gt; List[Tuple[Path, str]]:
         """
         Intelligently correct the case of filenames.
         Capitalizes first letter of words, fixes extension case.
@@ -559,12 +608,9 @@ if __name__ == "__main__":
     # Example 2: Clean downloads
     cleanup_downloads_folder("/home/user/Downloads")
 </code></pre>
-
-    <h2>Pattern-Based Renaming with Regular Expressions 🎭</h2>
-    
-    <p>Regular expressions are like surgical tools for filename manipulation. They let you extract, replace, and rearrange parts of filenames with precision. Think of them as the Swiss Army knife of text processing!</p>
-
-    <pre><code>import re
+<h2>Pattern-Based Renaming with Regular Expressions 🎭</h2>
+<p>Regular expressions are like surgical tools for filename manipulation. They let you extract, replace, and rearrange parts of filenames with precision. Think of them as the Swiss Army knife of text processing!</p>
+<pre><code>import re
 from pathlib import Path
 from typing import List, Pattern, Optional
 
@@ -577,7 +623,7 @@ class RegexRenamer:
     def __init__(self):
         self.common_patterns = self._load_common_patterns()
     
-    def _load_common_patterns(self) -> Dict[str, Pattern]:
+    def _load_common_patterns(self) -&gt; Dict[str, Pattern]:
         """Load commonly used regex patterns for file renaming."""
         return {
             # Extract episode information: S01E05
@@ -616,7 +662,7 @@ class RegexRenamer:
             )
         }
     
-    def extract_episode_info(self, filename: str) -> Optional[Dict]:
+    def extract_episode_info(self, filename: str) -&gt; Optional[Dict]:
         """
         Extract TV show episode information from filename.
         Returns dict with season, episode, and show name.
@@ -686,7 +732,7 @@ class RegexRenamer:
             if not new_path.exists():
                 file.rename(new_path)
     
-    def extract_and_reorganize_dates(self, files: List[Path]) -> Dict[str, List[Path]]:
+    def extract_and_reorganize_dates(self, files: List[Path]) -&gt; Dict[str, List[Path]]:
         """
         Extract dates from filenames and organize files by date.
         Handles multiple date formats intelligently.
@@ -742,7 +788,7 @@ class RegexRenamer:
         
         return {'dated': dated_files, 'undated': undated_files}
     
-    def clean_filename_aggressive(self, filename: str, preserve_info: bool = True) -> str:
+    def clean_filename_aggressive(self, filename: str, preserve_info: bool = True) -&gt; str:
         """
         Aggressively clean a filename while optionally preserving important info.
         """
@@ -813,7 +859,7 @@ class SmartSeriesRenamer:
     def __init__(self):
         self.series_patterns = self._identify_series_patterns()
     
-    def _identify_series_patterns(self) -> Dict:
+    def _identify_series_patterns(self) -&gt; Dict:
         """Identify common series patterns."""
         return {
             'numbered': re.compile(r'(\d+)'),
@@ -823,7 +869,7 @@ class SmartSeriesRenamer:
             'volume': re.compile(r'vol(?:ume)?[_\s]*(\d+)', re.IGNORECASE)
         }
     
-    def detect_series(self, files: List[Path]) -> Dict[str, List[Path]]:
+    def detect_series(self, files: List[Path]) -&gt; Dict[str, List[Path]]:
         """
         Detect series of related files based on naming patterns.
         Groups files that appear to be part of the same series.
@@ -838,7 +884,7 @@ class SmartSeriesRenamer:
         # Filter out single files (not a series)
         series_groups = {
             k: v for k, v in series_groups.items() 
-            if len(v) > 1
+            if len(v) &gt; 1
         }
         
         return series_groups
@@ -867,7 +913,7 @@ class SmartSeriesRenamer:
         
         return operations
     
-    def _smart_sort(self, files: List[Path]) -> List[Path]:
+    def _smart_sort(self, files: List[Path]) -&gt; List[Path]:
         """
         Smart sorting that handles mixed alphanumeric names.
         E.g., correctly sorts: file1, file2, file10 (not file1, file10, file2)
@@ -888,7 +934,7 @@ class SmartSeriesRenamer:
         
         return sorted(files, key=natural_key)
     
-    def _extract_subtitle(self, filename: str, series_name: str) -> Optional[str]:
+    def _extract_subtitle(self, filename: str, series_name: str) -&gt; Optional[str]:
         """Extract subtitle or additional info from filename."""
         # Remove series name if present
         remainder = filename.replace(series_name, '', 1).strip()
@@ -921,28 +967,24 @@ if __name__ == "__main__":
         for file in files:
             file.rename(date_folder / file.name)
 </code></pre>
-
-    <h2>Safety Measures and Undo Operations 🛡️</h2>
-    
-    <p>Renaming files is like surgery – measure twice, cut once! Always implement safety measures to prevent disasters. Think of this as your safety net when walking the tightrope of bulk file operations.</p>
-
-    <div class="mermaid">
+<h2>Safety Measures and Undo Operations 🛡️</h2>
+<p>Renaming files is like surgery – measure twice, cut once! Always implement safety measures to prevent disasters. Think of this as your safety net when walking the tightrope of bulk file operations.</p>
+<div class="mermaid">
     graph TD
-        A[Start Rename] --> B{Dry Run?}
-        B -->|Yes| C[Preview Changes]
-        B -->|No| D[Create Backup]
-        C --> E{User Confirms?}
-        E -->|Yes| D
-        E -->|No| F[Cancel]
-        D --> G[Log Operations]
-        G --> H[Apply Renames]
-        H --> I{Success?}
-        I -->|Yes| J[Complete]
-        I -->|No| K[Rollback]
-        K --> L[Restore from Log]
+        A[Start Rename] --&gt; B{Dry Run?}
+        B --&gt;|Yes| C[Preview Changes]
+        B --&gt;|No| D[Create Backup]
+        C --&gt; E{User Confirms?}
+        E --&gt;|Yes| D
+        E --&gt;|No| F[Cancel]
+        D --&gt; G[Log Operations]
+        G --&gt; H[Apply Renames]
+        H --&gt; I{Success?}
+        I --&gt;|Yes| J[Complete]
+        I --&gt;|No| K[Rollback]
+        K --&gt; L[Restore from Log]
     </div>
-
-    <pre><code>import json
+<pre><code>import json
 import sqlite3
 from datetime import datetime
 from pathlib import Path
@@ -984,11 +1026,11 @@ class SafeRenamer:
         conn.commit()
         conn.close()
     
-    def create_operation_id(self) -> str:
+    def create_operation_id(self) -&gt; str:
         """Generate unique operation ID."""
         return datetime.now().strftime('%Y%m%d_%H%M%S_%f')
     
-    def backup_files(self, files: List[Path], operation_id: str) -> Path:
+    def backup_files(self, files: List[Path], operation_id: str) -&gt; Path:
         """
         Create backup of files before renaming.
         Returns path to backup archive.
@@ -1004,7 +1046,7 @@ class SafeRenamer:
         print(f"💾 Backup created: {backup_path.name}")
         return backup_path
     
-    def validate_rename_operation(self, old_path: Path, new_path: Path) -> Tuple[bool, str]:
+    def validate_rename_operation(self, old_path: Path, new_path: Path) -&gt; Tuple[bool, str]:
         """
         Validate a rename operation before applying.
         Returns (is_valid, error_message).
@@ -1022,7 +1064,7 @@ class SafeRenamer:
             return False, "Cannot rename across different filesystems"
         
         # Check path length limits
-        if len(str(new_path)) > 255:  # Most systems limit
+        if len(str(new_path)) &gt; 255:  # Most systems limit
             return False, f"Path too long: {len(str(new_path))} characters"
         
         # Check for invalid characters in new name
@@ -1037,7 +1079,7 @@ class SafeRenamer:
         return True, ""
     
     def safe_rename_with_rollback(self, operations: List[Tuple[Path, Path]], 
-                                  dry_run: bool = True) -> Dict:
+                                  dry_run: bool = True) -&gt; Dict:
         """
         Perform rename operations with automatic rollback on failure.
         """
@@ -1065,7 +1107,7 @@ class SafeRenamer:
                 })
                 results['failed'] += 1
         
-        if results['failed'] > 0:
+        if results['failed'] &gt; 0:
             print(f"❌ Validation failed for {results['failed']} files")
             return results
         
@@ -1190,7 +1232,7 @@ class SafeRenamer:
         conn.close()
         print("✅ Undo operation completed")
     
-    def get_operation_history(self, limit: int = 10) -> List[Dict]:
+    def get_operation_history(self, limit: int = 10) -&gt; List[Dict]:
         """Get recent rename operation history."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -1253,35 +1295,27 @@ if __name__ == "__main__":
         print(f"  {op['timestamp']}: {op['completed']}/{op['file_count']} files")
         print(f"    ID: {op['operation_id']}")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Preview First:</strong> Use dry-run mode to see what will happen before committing changes.</li>
-        
-        <li><strong>Maintain Order:</strong> When renaming series of files, preserve their logical order using natural sorting.</li>
-        
-        <li><strong>Handle Collisions:</strong> Always check if the target filename exists and have a strategy for handling duplicates.</li>
-        
-        <li><strong>Preserve Metadata:</strong> Don't lose important information like dates, version numbers, or quality indicators when renaming.</li>
-        
-        <li><strong>Use Templates:</strong> Create reusable naming templates for consistency across similar projects.</li>
-        
-        <li><strong>Log Everything:</strong> Keep detailed logs of rename operations for debugging and potential rollback.</li>
-        
-        <li><strong>Think in Patterns:</strong> Use regex to identify and extract patterns rather than hardcoding specific cases.</li>
-    </ul>
-
-    <h3>The Golden Rules of Batch Renaming 📜</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> The best file naming system is one that works for both humans and machines. Use dates in YYYYMMDD format for easy sorting, avoid special characters that might cause issues on different systems, and be consistent with your separators (underscores vs hyphens). Your future self will thank you!</p>
-    </div>
-    
-    <p>Batch renaming is more than just changing filenames – it's about creating order from chaos, making your digital life searchable and organized. Whether you're managing a photo library, organizing downloads, or maintaining a media collection, these tools give you the power to rename thousands of files with confidence and precision! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="filesystem_file_organization_scripts.html">File Organization Scripts - Build Smart Systems That Organize Themselves!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Preview First:</strong> Use dry-run mode to see what will happen before committing changes.</li>
+<li><strong>Maintain Order:</strong> When renaming series of files, preserve their logical order using natural sorting.</li>
+<li><strong>Handle Collisions:</strong> Always check if the target filename exists and have a strategy for handling duplicates.</li>
+<li><strong>Preserve Metadata:</strong> Don't lose important information like dates, version numbers, or quality indicators when renaming.</li>
+<li><strong>Use Templates:</strong> Create reusable naming templates for consistency across similar projects.</li>
+<li><strong>Log Everything:</strong> Keep detailed logs of rename operations for debugging and potential rollback.</li>
+<li><strong>Think in Patterns:</strong> Use regex to identify and extract patterns rather than hardcoding specific cases.</li>
+</ul>
+<h3>The Golden Rules of Batch Renaming 📜</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> The best file naming system is one that works for both humans and machines. Use dates in YYYYMMDD format for easy sorting, avoid special characters that might cause issues on different systems, and be consistent with your separators (underscores vs hyphens). Your future self will thank you!</p>
+</div>
+<p>Batch renaming is more than just changing filenames – it's about creating order from chaos, making your digital life searchable and organized. Whether you're managing a photo library, organizing downloads, or maintaining a media collection, these tools give you the power to rename thousands of files with confidence and precision! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="filesystem_advanced_file_operations.html">← Previous: Advanced File Operations</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="filesystem_directory_watching.html">Next: Directory Watching →</a>
+</div>
+</footer>
 </body>
 </html>

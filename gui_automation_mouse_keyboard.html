@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouse and Keyboard Control - Python GUI Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mouse and Keyboard Control - Python GUI Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🎮 Mouse and Keyboard Control: Master Precise Input Automation</h1>
-    
-    <p>Precise mouse and keyboard control forms the foundation of sophisticated GUI automation - it enables you to simulate complex user interactions, create realistic input patterns, automate gaming actions, perform stress testing, and control applications that resist traditional automation. Like having invisible hands that can type and click with superhuman speed and precision, mastering input control allows you to automate any desktop interaction. Whether you're creating macros, testing UIs, or building game bots, advanced input control is essential for professional automation. Let's explore the advanced world of mouse and keyboard automation! 🖱️⌨️</p>
-
-    <h2>The Input Control Architecture</h2>
-    
-    <p>Think of mouse and keyboard control as choreographing a digital ballet - every movement, click, and keystroke must be precisely timed and executed. Using libraries like PyAutoGUI, pynput, and platform-specific APIs, you can create natural input patterns, handle multi-button combinations, simulate human-like movements, and even bypass basic anti-automation measures. Understanding event simulation, input queuing, and timing patterns is crucial for reliable input automation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module11">GUI Automation</a> &gt; 
+        <span>Mouse and Keyboard Control</span>
+</nav>
+<h1>🎮 Mouse and Keyboard Control: Master Precise Input Automation</h1>
+<p>Precise mouse and keyboard control forms the foundation of sophisticated GUI automation - it enables you to simulate complex user interactions, create realistic input patterns, automate gaming actions, perform stress testing, and control applications that resist traditional automation. Like having invisible hands that can type and click with superhuman speed and precision, mastering input control allows you to automate any desktop interaction. Whether you're creating macros, testing UIs, or building game bots, advanced input control is essential for professional automation. Let's explore the advanced world of mouse and keyboard automation! 🖱️⌨️</p>
+<h2>The Input Control Architecture</h2>
+<p>Think of mouse and keyboard control as choreographing a digital ballet - every movement, click, and keystroke must be precisely timed and executed. Using libraries like PyAutoGUI, pynput, and platform-specific APIs, you can create natural input patterns, handle multi-button combinations, simulate human-like movements, and even bypass basic anti-automation measures. Understanding event simulation, input queuing, and timing patterns is crucial for reliable input automation!</p>
+<div class="mermaid">
     graph TB
-        A[Input Control] --> B[Mouse Control]
-        A --> C[Keyboard Control]
-        A --> D[Advanced Patterns]
-        A --> E[Human Simulation]
+        A[Input Control] --&gt; B[Mouse Control]
+        A --&gt; C[Keyboard Control]
+        A --&gt; D[Advanced Patterns]
+        A --&gt; E[Human Simulation]
         
-        B --> F[Movement]
-        B --> G[Buttons]
-        B --> H[Wheel]
-        B --> I[Gestures]
+        B --&gt; F[Movement]
+        B --&gt; G[Buttons]
+        B --&gt; H[Wheel]
+        B --&gt; I[Gestures]
         
-        C --> J[Typing]
-        C --> K[Hotkeys]
-        C --> L[Modifiers]
-        C --> M[Special Keys]
+        C --&gt; J[Typing]
+        C --&gt; K[Hotkeys]
+        C --&gt; L[Modifiers]
+        C --&gt; M[Special Keys]
         
-        D --> N[Macros]
-        D --> O[Combos]
-        D --> P[Sequences]
-        D --> Q[Recording]
+        D --&gt; N[Macros]
+        D --&gt; O[Combos]
+        D --&gt; P[Sequences]
+        D --&gt; Q[Recording]
         
-        E --> R[Natural Movement]
-        E --> S[Typing Speed]
-        E --> T[Random Delays]
-        E --> U[Mistakes]
+        E --&gt; R[Natural Movement]
+        E --&gt; S[Typing Speed]
+        E --&gt; T[Random Delays]
+        E --&gt; U[Mistakes]
         
-        V[Applications] --> W[Gaming]
-        V --> X[Testing]
-        V --> Y[Accessibility]
-        V --> Z[Productivity]
+        V[Applications] --&gt; W[Gaming]
+        V --&gt; X[Testing]
+        V --&gt; Y[Accessibility]
+        V --&gt; Z[Productivity]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Advanced Input Automation System 🎯</h3>
-    
-    <p>You're building an advanced input automation system that performs complex gaming combos with frame-perfect timing, simulates realistic human typing with errors and corrections, creates stress tests with thousands of inputs per second, automates CAD software with precise mouse movements, handles multi-monitor setups with seamless transitions, records and replays user input patterns, creates accessibility tools for disabled users, and bypasses basic automation detection. Your system must support all input devices, work across different applications, maintain precise timing, and provide both low-level and high-level control. Let's build a professional input control framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Advanced Input Automation System 🎯</h3>
+<p>You're building an advanced input automation system that performs complex gaming combos with frame-perfect timing, simulates realistic human typing with errors and corrections, creates stress tests with thousands of inputs per second, automates CAD software with precise mouse movements, handles multi-monitor setups with seamless transitions, records and replays user input patterns, creates accessibility tools for disabled users, and bypasses basic automation detection. Your system must support all input devices, work across different applications, maintain precise timing, and provide both low-level and high-level control. Let's build a professional input control framework!</p>
+<pre><code># First, install required packages:
 # pip install pyautogui pynput keyboard mouse pyperclip numpy scipy
 
 import time
@@ -198,7 +247,7 @@ class AdvancedMouseController:
         # Move through points with acceleration
         for i, (px, py) in enumerate(points):
             # Add small random noise
-            if self.config.human_mouse_noise > 0:
+            if self.config.human_mouse_noise &gt; 0:
                 px += random.gauss(0, self.config.human_mouse_noise)
                 py += random.gauss(0, self.config.human_mouse_noise)
                 
@@ -214,7 +263,7 @@ class AdvancedMouseController:
         start: Tuple[int, int],
         end: Tuple[int, int],
         duration: float
-    ) -> List[Tuple[float, float]]:
+    ) -&gt; List[Tuple[float, float]]:
         """Generate points along a bezier curve."""
         # Control points for curve
         control1 = (
@@ -248,9 +297,9 @@ class AdvancedMouseController:
             
         return points
         
-    def _ease_in_out_quad(self, t: float) -> float:
+    def _ease_in_out_quad(self, t: float) -&gt; float:
         """Quadratic easing function."""
-        if t < 0.5:
+        if t &lt; 0.5:
             return 2 * t * t
         return -1 + (4 - 2 * t) * t
         
@@ -282,7 +331,7 @@ class AdvancedMouseController:
                 time.sleep(max(0.01, duration))
                 pyautogui.mouseUp(button=button)
                 
-                if clicks > 1:
+                if clicks &gt; 1:
                     time.sleep(random.gauss(self.config.double_click_interval, 0.05))
             else:
                 pyautogui.click(button=button)
@@ -326,9 +375,9 @@ class AdvancedMouseController:
         if x is not None and y is not None:
             self.move_to(x, y)
             
-        if smooth and abs(clicks) > 1:
+        if smooth and abs(clicks) &gt; 1:
             # Smooth scrolling
-            direction = 1 if clicks > 0 else -1
+            direction = 1 if clicks &gt; 0 else -1
             for _ in range(abs(clicks)):
                 pyautogui.scroll(direction)
                 time.sleep(0.05)
@@ -438,8 +487,8 @@ class AdvancedKeyboardController:
             interval = max(0.01, interval)  # Minimum interval
             
             # Occasional typos
-            if (random.random() < self.config.typo_probability and 
-                char.lower() in self.typo_map and i < len(text) - 1):
+            if (random.random() &lt; self.config.typo_probability and 
+                char.lower() in self.typo_map and i &lt; len(text) - 1):
                 
                 # Make a typo
                 typo_char = random.choice(self.typo_map[char.lower()])
@@ -457,13 +506,13 @@ class AdvancedKeyboardController:
             time.sleep(interval)
             
             # Occasional pauses (thinking)
-            if char in '.!?' and random.random() < 0.3:
+            if char in '.!?' and random.random() &lt; 0.3:
                 time.sleep(random.uniform(0.5, 1.5))
                 
     def press_key(self, key: Union[str, Key], duration: float = 0):
         """Press and release a key."""
         if isinstance(key, str):
-            if duration > 0:
+            if duration &gt; 0:
                 pyautogui.keyDown(key)
                 time.sleep(duration)
                 pyautogui.keyUp(key)
@@ -472,7 +521,7 @@ class AdvancedKeyboardController:
         else:
             # pynput Key
             self.keyboard.press(key)
-            if duration > 0:
+            if duration &gt; 0:
                 time.sleep(duration)
             self.keyboard.release(key)
             
@@ -588,7 +637,7 @@ class InputRecorder:
             last_pos = self.events[-1].data
             distance = math.sqrt((x - last_pos['x'])**2 + (y - last_pos['y'])**2)
             
-            if distance < self.config.compression_threshold:
+            if distance &lt; self.config.compression_threshold:
                 # Update last position instead of adding new event
                 self.events[-1].data = {'x': x, 'y': y}
                 return
@@ -705,7 +754,7 @@ class InputRecorder:
                 # Calculate delay
                 if self.config.record_timestamps:
                     delay = (event.timestamp - last_timestamp) / speed
-                    if delay > 0:
+                    if delay &gt; 0:
                         time.sleep(delay)
                     last_timestamp = event.timestamp
                     
@@ -761,7 +810,7 @@ class MacroSystem:
         self.mouse = AdvancedMouseController(config)
         self.keyboard = AdvancedKeyboardController(config)
         
-    def create_macro(self, name: str) -> 'MacroBuilder':
+    def create_macro(self, name: str) -&gt; 'MacroBuilder':
         """Create a new macro."""
         return MacroBuilder(name, self)
         
@@ -786,10 +835,10 @@ class MacroSystem:
             for action in self.macros[name]:
                 action()
                 
-            if i < repeat - 1 and delay_between > 0:
+            if i &lt; repeat - 1 and delay_between &gt; 0:
                 time.sleep(delay_between)
                 
-    def list_macros(self) -> List[str]:
+    def list_macros(self) -&gt; List[str]:
         """List all registered macros."""
         return list(self.macros.keys())
 
@@ -801,28 +850,28 @@ class MacroBuilder:
         self.system = system
         self.actions = []
         
-    def move_to(self, x: int, y: int, duration: float = 0.5) -> 'MacroBuilder':
+    def move_to(self, x: int, y: int, duration: float = 0.5) -&gt; 'MacroBuilder':
         """Add mouse move action."""
         self.actions.append(lambda: self.system.mouse.move_to(x, y, duration))
         return self
         
     def click(self, x: Optional[int] = None, y: Optional[int] = None, 
-             button: str = 'left') -> 'MacroBuilder':
+             button: str = 'left') -&gt; 'MacroBuilder':
         """Add click action."""
         self.actions.append(lambda: self.system.mouse.click(x, y, button))
         return self
         
-    def type_text(self, text: str) -> 'MacroBuilder':
+    def type_text(self, text: str) -&gt; 'MacroBuilder':
         """Add typing action."""
         self.actions.append(lambda: self.system.keyboard.type_text(text))
         return self
         
-    def hotkey(self, *keys) -> 'MacroBuilder':
+    def hotkey(self, *keys) -&gt; 'MacroBuilder':
         """Add hotkey action."""
         self.actions.append(lambda: self.system.keyboard.hotkey(*keys))
         return self
         
-    def wait(self, duration: float) -> 'MacroBuilder':
+    def wait(self, duration: float) -&gt; 'MacroBuilder':
         """Add wait action."""
         self.actions.append(lambda: time.sleep(duration))
         return self
@@ -926,7 +975,7 @@ class InputTester:
         duration: float,
         clicks_per_second: int = 10,
         keys_per_second: int = 20
-    ) -> Dict[str, Any]:
+    ) -&gt; Dict[str, Any]:
         """Perform input stress test."""
         self.logger.info(f"Starting stress test for {duration} seconds")
         
@@ -942,11 +991,11 @@ class InputTester:
         last_click = 0
         last_key = 0
         
-        while time.time() - start_time < duration:
+        while time.time() - start_time &lt; duration:
             current_time = time.time()
             
             # Click test
-            if current_time - last_click >= click_interval:
+            if current_time - last_click &gt;= click_interval:
                 try:
                     pyautogui.click()
                     click_count += 1
@@ -955,7 +1004,7 @@ class InputTester:
                     errors += 1
                     
             # Key test
-            if current_time - last_key >= key_interval:
+            if current_time - last_key &gt;= key_interval:
                 try:
                     pyautogui.press('a')
                     key_count += 1
@@ -974,7 +1023,7 @@ class InputTester:
             'errors': errors
         }
         
-    def latency_test(self, samples: int = 100) -> Dict[str, float]:
+    def latency_test(self, samples: int = 100) -&gt; Dict[str, float]:
         """Test input latency."""
         self.logger.info(f"Testing latency with {samples} samples")
         
@@ -1134,37 +1183,28 @@ if __name__ == "__main__":
     
     print("\n✅ Mouse and keyboard control demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Human Simulation:</strong> Natural movements avoid detection and feel realistic.</li>
-        
-        <li><strong>Implement Failsafes:</strong> Always have emergency stop mechanisms.</li>
-        
-        <li><strong>Add Timing Variance:</strong> Random delays make automation more natural.</li>
-        
-        <li><strong>Record and Replay:</strong> Save complex sequences for reuse.</li>
-        
-        <li><strong>Test Performance:</strong> Monitor latency and stress test your automation.</li>
-        
-        <li><strong>Handle Errors:</strong> Gracefully recover from input failures.</li>
-        
-        <li><strong>Use Appropriate Speed:</strong> Balance speed with reliability.</li>
-        
-        <li><strong>Consider Anti-Detection:</strong> Implement human-like patterns when needed.</li>
-    </ul>
-
-    <h3>Input Control Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of input automation as conducting an orchestra - every action must be precisely timed and coordinated. For mouse control, use bezier curves instead of straight lines for natural movement. Add small random noise (1-3 pixels) to make movements less robotic. Implement variable click durations (30-70ms) like real humans. For keyboard control, vary typing speed based on word difficulty and add occasional pauses for "thinking". Include realistic typos with backspace corrections. Use WPM (words per minute) settings for consistent typing speed. For gaming automation, frame-perfect timing is crucial - use high-precision timers and account for input lag. Record complex sequences once and replay them with adjustments rather than hardcoding. Implement stress testing to ensure your automation can handle high-speed inputs. Monitor system performance - excessive automation can lag the system. Use platform-specific APIs when PyAutoGUI isn't fast enough. Remember that some applications detect automated input - implement anti-detection measures like human-like patterns, random delays, and gradual movements. Most importantly: always test your automation thoroughly before deploying to production!</p>
-    </div>
-    
-    <p>Mastering mouse and keyboard control enables you to create sophisticated automation that can interact with any application naturally and efficiently. You can now simulate complex user interactions, create gaming macros with frame-perfect timing, implement human-like typing and movement patterns, and build comprehensive input testing frameworks. Whether you're automating games, testing UIs, or creating accessibility tools, these advanced input control skills provide professional-grade automation capabilities! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="gui_automation_window_management.html">Window Management - Control Desktop Applications Like a Pro!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Human Simulation:</strong> Natural movements avoid detection and feel realistic.</li>
+<li><strong>Implement Failsafes:</strong> Always have emergency stop mechanisms.</li>
+<li><strong>Add Timing Variance:</strong> Random delays make automation more natural.</li>
+<li><strong>Record and Replay:</strong> Save complex sequences for reuse.</li>
+<li><strong>Test Performance:</strong> Monitor latency and stress test your automation.</li>
+<li><strong>Handle Errors:</strong> Gracefully recover from input failures.</li>
+<li><strong>Use Appropriate Speed:</strong> Balance speed with reliability.</li>
+<li><strong>Consider Anti-Detection:</strong> Implement human-like patterns when needed.</li>
+</ul>
+<h3>Input Control Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of input automation as conducting an orchestra - every action must be precisely timed and coordinated. For mouse control, use bezier curves instead of straight lines for natural movement. Add small random noise (1-3 pixels) to make movements less robotic. Implement variable click durations (30-70ms) like real humans. For keyboard control, vary typing speed based on word difficulty and add occasional pauses for "thinking". Include realistic typos with backspace corrections. Use WPM (words per minute) settings for consistent typing speed. For gaming automation, frame-perfect timing is crucial - use high-precision timers and account for input lag. Record complex sequences once and replay them with adjustments rather than hardcoding. Implement stress testing to ensure your automation can handle high-speed inputs. Monitor system performance - excessive automation can lag the system. Use platform-specific APIs when PyAutoGUI isn't fast enough. Remember that some applications detect automated input - implement anti-detection measures like human-like patterns, random delays, and gradual movements. Most importantly: always test your automation thoroughly before deploying to production!</p>
+</div>
+<p>Mastering mouse and keyboard control enables you to create sophisticated automation that can interact with any application naturally and efficiently. You can now simulate complex user interactions, create gaming macros with frame-perfect timing, implement human-like typing and movement patterns, and build comprehensive input testing frameworks. Whether you're automating games, testing UIs, or creating accessibility tools, these advanced input control skills provide professional-grade automation capabilities! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="gui_automation_pyautogui.html">← Previous: PyAutoGUI Basics</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="gui_automation_screen_capture.html">Next: Screen Capture →</a>
+</div>
+</footer>
 </body>
 </html>

@@ -1,60 +1,109 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSV Processing - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CSV Processing - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📊 CSV Processing: Master Tabular Data with Python</h1>
-    
-    <p>CSV files are the unsung heroes of data exchange. They're simple, universal, and everywhere - from Excel exports to database dumps, API responses to IoT sensor logs. But beneath their simple comma-separated surface lies a world of complexity. Let's turn Python into your CSV command center! 🎯</p>
-
-    <h2>The Hidden Complexity of CSV Files</h2>
-    
-    <p>CSV files seem simple - just commas and data, right? Wrong! They can have different delimiters, encodings, quote characters, escape sequences, and more. It's like each CSV file speaks a slightly different dialect of the same language. Python helps you become a polyglot!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module4">Data Processing</a> &gt; 
+        <span>CSV Processing</span>
+</nav>
+<h1>📊 CSV Processing: Master Tabular Data with Python</h1>
+<p>CSV files are the unsung heroes of data exchange. They're simple, universal, and everywhere - from Excel exports to database dumps, API responses to IoT sensor logs. But beneath their simple comma-separated surface lies a world of complexity. Let's turn Python into your CSV command center! 🎯</p>
+<h2>The Hidden Complexity of CSV Files</h2>
+<p>CSV files seem simple - just commas and data, right? Wrong! They can have different delimiters, encodings, quote characters, escape sequences, and more. It's like each CSV file speaks a slightly different dialect of the same language. Python helps you become a polyglot!</p>
+<div class="mermaid">
     graph TB
-        A[CSV Data Sources] --> B[Input Processing]
-        B --> C[Encoding Detection]
-        B --> D[Delimiter Detection]
-        B --> E[Header Analysis]
+        A[CSV Data Sources] --&gt; B[Input Processing]
+        B --&gt; C[Encoding Detection]
+        B --&gt; D[Delimiter Detection]
+        B --&gt; E[Header Analysis]
         
-        C --> F[Data Parsing]
-        D --> F
-        E --> F
+        C --&gt; F[Data Parsing]
+        D --&gt; F
+        E --&gt; F
         
-        F --> G[Validation]
-        F --> H[Transformation]
-        F --> I[Analysis]
+        F --&gt; G[Validation]
+        F --&gt; H[Transformation]
+        F --&gt; I[Analysis]
         
-        G --> J[Clean Data]
-        H --> J
-        I --> J
+        G --&gt; J[Clean Data]
+        H --&gt; J
+        I --&gt; J
         
-        J --> K[Output Formats]
-        K --> L[CSV]
-        K --> M[JSON]
-        K --> N[Database]
-        K --> O[Excel]
+        J --&gt; K[Output Formats]
+        K --&gt; L[CSV]
+        K --&gt; M[JSON]
+        K --&gt; N[Database]
+        K --&gt; O[Excel]
         
         style A fill:#ff6b6b
         style J fill:#51cf66
         style K fill:#339af0
     </div>
-
-    <h3>Real-World Scenario: The Data Pipeline Orchestrator 🏭</h3>
-    
-    <p>You're the data engineer for a retail company. Every day, you receive CSV files from 50 stores (sales data), 20 suppliers (inventory), 5 marketing platforms (campaigns), and 3 payment processors (transactions). Each has different formats, encodings, and quirks. Let's build a system that handles them all!</p>
-
-    <pre><code>import csv
+<h3>Real-World Scenario: The Data Pipeline Orchestrator 🏭</h3>
+<p>You're the data engineer for a retail company. Every day, you receive CSV files from 50 stores (sales data), 20 suppliers (inventory), 5 marketing platforms (campaigns), and 3 payment processors (transactions). Each has different formats, encodings, and quirks. Let's build a system that handles them all!</p>
+<pre><code>import csv
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -116,7 +165,7 @@ class CSVMasterProcessor:
         )
         self.logger = logging.getLogger(__name__)
     
-    def detect_encoding(self, file_path: str, sample_size: int = 10000) -> str:
+    def detect_encoding(self, file_path: str, sample_size: int = 10000) -&gt; str:
         """
         Detect file encoding using chardet.
         """
@@ -130,7 +179,7 @@ class CSVMasterProcessor:
                 self.logger.info(f"Detected encoding: {encoding} (confidence: {confidence:.2%})")
                 
                 # Fallback for low confidence
-                if confidence < 0.7:
+                if confidence &lt; 0.7:
                     # Try common encodings
                     for enc in ['utf-8', 'latin-1', 'cp1252', 'iso-8859-1']:
                         try:
@@ -145,7 +194,7 @@ class CSVMasterProcessor:
             self.logger.warning(f"Encoding detection failed: {e}, using utf-8")
             return 'utf-8'
     
-    def detect_delimiter(self, file_path: str, encoding: str = 'utf-8') -> str:
+    def detect_delimiter(self, file_path: str, encoding: str = 'utf-8') -&gt; str:
         """
         Intelligently detect CSV delimiter.
         """
@@ -185,7 +234,7 @@ class CSVMasterProcessor:
             
             return ','
     
-    def analyze_csv_structure(self, file_path: str) -> Dict:
+    def analyze_csv_structure(self, file_path: str) -&gt; Dict:
         """
         Comprehensive CSV structure analysis.
         """
@@ -216,9 +265,9 @@ class CSVMasterProcessor:
             )
             
             # Detect if first row is header
-            first_row = df.iloc[0] if len(df) > 0 else []
+            first_row = df.iloc[0] if len(df) &gt; 0 else []
             numeric_count = sum(1 for val in first_row if self._is_numeric(str(val)))
-            structure['has_header'] = numeric_count < len(first_row) / 2
+            structure['has_header'] = numeric_count &lt; len(first_row) / 2
             
             if not structure['has_header']:
                 # Re-read without header
@@ -260,7 +309,7 @@ class CSVMasterProcessor:
         
         return structure
     
-    def _is_numeric(self, value: str) -> bool:
+    def _is_numeric(self, value: str) -&gt; bool:
         """Check if a string value is numeric."""
         try:
             float(value)
@@ -268,7 +317,7 @@ class CSVMasterProcessor:
         except:
             return False
     
-    def _infer_data_type(self, series: pd.Series) -> str:
+    def _infer_data_type(self, series: pd.Series) -&gt; str:
         """Infer the data type of a pandas series."""
         # Remove nulls for analysis
         non_null = series.dropna()
@@ -294,7 +343,7 @@ class CSVMasterProcessor:
         return 'string'
     
     def clean_csv(self, input_file: str, output_file: str, 
-                  cleaning_options: Dict = None) -> Dict:
+                  cleaning_options: Dict = None) -&gt; Dict:
         """
         Clean and standardize CSV file.
         """
@@ -331,7 +380,7 @@ class CSVMasterProcessor:
                 before = len(df)
                 df = df.drop_duplicates()
                 stats['duplicates_removed'] = before - len(df)
-                if stats['duplicates_removed'] > 0:
+                if stats['duplicates_removed'] &gt; 0:
                     stats['modifications'].append(f"Removed {stats['duplicates_removed']} duplicates")
             
             # Handle missing values
@@ -339,7 +388,7 @@ class CSVMasterProcessor:
                 before = len(df)
                 df = df.dropna()
                 stats['missing_handled'] = before - len(df)
-                if stats['missing_handled'] > 0:
+                if stats['missing_handled'] &gt; 0:
                     stats['modifications'].append(f"Dropped {stats['missing_handled']} rows with missing values")
             
             elif options['handle_missing'] == 'fill':
@@ -416,7 +465,7 @@ class CSVMasterProcessor:
         return stats
     
     def merge_csv_files(self, files: List[str], output_file: str,
-                       merge_type: str = 'concat', **kwargs) -> bool:
+                       merge_type: str = 'concat', **kwargs) -&gt; bool:
         """
         Merge multiple CSV files using various strategies.
         
@@ -461,7 +510,7 @@ class CSVMasterProcessor:
                 
                 for df in dataframes[1:]:
                     # Find common columns
-                    common_cols = list(set(result.columns) & set(df.columns))
+                    common_cols = list(set(result.columns) &amp; set(df.columns))
                     
                     if common_cols:
                         # Merge on common columns
@@ -481,7 +530,7 @@ class CSVMasterProcessor:
             return False
     
     def split_csv(self, input_file: str, output_dir: str,
-                 split_by: str = 'rows', **kwargs) -> List[str]:
+                 split_by: str = 'rows', **kwargs) -&gt; List[str]:
         """
         Split CSV file into multiple files.
         
@@ -544,7 +593,7 @@ class CSVMasterProcessor:
                 for _, row in df.iterrows():
                     row_size = len(row.to_csv())
                     
-                    if current_size + row_size > max_size_bytes and current_chunk:
+                    if current_size + row_size &gt; max_size_bytes and current_chunk:
                         # Save current chunk
                         output_file = output_path / f"chunk_{chunk_num:04d}.csv"
                         pd.DataFrame(current_chunk).to_csv(output_file, index=False)
@@ -588,7 +637,7 @@ class CSVMasterProcessor:
             return []
     
     def transform_csv(self, input_file: str, output_file: str,
-                     transformations: List[Dict]) -> bool:
+                     transformations: List[Dict]) -&gt; bool:
         """
         Apply transformations to CSV data.
         
@@ -596,7 +645,7 @@ class CSVMasterProcessor:
             {'type': 'rename', 'columns': {'old_name': 'new_name'}},
             {'type': 'drop', 'columns': ['col1', 'col2']},
             {'type': 'add', 'column': 'new_col', 'formula': 'col1 + col2'},
-            {'type': 'filter', 'condition': 'col1 > 100'},
+            {'type': 'filter', 'condition': 'col1 &gt; 100'},
             {'type': 'sort', 'by': ['col1'], 'ascending': True}
         ]
         """
@@ -674,7 +723,7 @@ class CSVMasterProcessor:
             self.logger.error(f"Transformation failed: {e}")
             return False
     
-    def validate_csv(self, file_path: str, schema: Dict) -> Dict:
+    def validate_csv(self, file_path: str, schema: Dict) -&gt; Dict:
         """
         Validate CSV against a schema.
         
@@ -745,7 +794,7 @@ class CSVMasterProcessor:
                     # Not null constraint
                     if constraints.get('not_null'):
                         null_count = df[col].isnull().sum()
-                        if null_count > 0:
+                        if null_count &gt; 0:
                             validation_results['errors'].append(
                                 f"Column '{col}' has {null_count} null values"
                             )
@@ -754,7 +803,7 @@ class CSVMasterProcessor:
                     # Min/max constraints
                     if 'min' in constraints:
                         min_val = df[col].min()
-                        if min_val < constraints['min']:
+                        if min_val &lt; constraints['min']:
                             validation_results['errors'].append(
                                 f"Column '{col}' has values below minimum {constraints['min']}"
                             )
@@ -762,7 +811,7 @@ class CSVMasterProcessor:
                     
                     if 'max' in constraints:
                         max_val = df[col].max()
-                        if max_val > constraints['max']:
+                        if max_val &gt; constraints['max']:
                             validation_results['errors'].append(
                                 f"Column '{col}' has values above maximum {constraints['max']}"
                             )
@@ -773,7 +822,7 @@ class CSVMasterProcessor:
                         pattern = re.compile(constraints['pattern'])
                         non_matching = df[~df[col].astype(str).str.match(pattern)]
                         
-                        if len(non_matching) > 0:
+                        if len(non_matching) &gt; 0:
                             validation_results['errors'].append(
                                 f"Column '{col}' has {len(non_matching)} values not matching pattern"
                             )
@@ -782,7 +831,7 @@ class CSVMasterProcessor:
                     # Unique constraint
                     if constraints.get('unique'):
                         duplicates = df[col].duplicated().sum()
-                        if duplicates > 0:
+                        if duplicates &gt; 0:
                             validation_results['errors'].append(
                                 f"Column '{col}' has {duplicates} duplicate values"
                             )
@@ -802,7 +851,7 @@ class CSVMasterProcessor:
         
         return validation_results
     
-    def _types_compatible(self, actual: str, expected: str) -> bool:
+    def _types_compatible(self, actual: str, expected: str) -&gt; bool:
         """Check if actual type is compatible with expected type."""
         compatibility = {
             'integer': ['integer', 'float'],
@@ -815,7 +864,7 @@ class CSVMasterProcessor:
         return actual in compatibility.get(expected, [expected])
     
     def csv_to_database(self, csv_file: str, db_path: str, 
-                       table_name: str, if_exists: str = 'replace') -> bool:
+                       table_name: str, if_exists: str = 'replace') -&gt; bool:
         """
         Import CSV to SQLite database.
         """
@@ -892,7 +941,7 @@ class CSVAnalyzer:
     Advanced CSV analysis and profiling.
     """
     
-    def profile_csv(self, file_path: str) -> Dict:
+    def profile_csv(self, file_path: str) -&gt; Dict:
         """
         Create comprehensive profile of CSV data.
         """
@@ -955,14 +1004,14 @@ class CSVAnalyzer:
             }
         
         # Recommendations
-        if profile['quality']['completeness'] < 90:
+        if profile['quality']['completeness'] &lt; 90:
             profile['recommendations'].append("High number of missing values detected")
         
-        if profile['quality']['duplicate_ratio'] > 5:
+        if profile['quality']['duplicate_ratio'] &gt; 5:
             profile['recommendations'].append("Significant number of duplicate rows found")
         
         for col, stats in profile['statistics']['numeric_columns'].items():
-            if stats['std'] > stats['mean'] * 2:
+            if stats['std'] &gt; stats['mean'] * 2:
                 profile['recommendations'].append(f"High variance in column '{col}'")
         
         return profile
@@ -1003,7 +1052,7 @@ if __name__ == "__main__":
         transformations=[
             {'type': 'rename', 'columns': {'old_col': 'new_col'}},
             {'type': 'add', 'column': 'total', 'formula': 'price * quantity'},
-            {'type': 'filter', 'condition': 'total > 100'},
+            {'type': 'filter', 'condition': 'total &gt; 100'},
             {'type': 'sort', 'by': ['total'], 'ascending': False}
         ]
     )
@@ -1039,35 +1088,27 @@ if __name__ == "__main__":
     
     print("\n✅ CSV processing complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Detect Encoding:</strong> Never assume UTF-8. Use chardet or try multiple encodings.</li>
-        
-        <li><strong>Handle Large Files Efficiently:</strong> Use chunking for files that don't fit in memory.</li>
-        
-        <li><strong>Validate Early and Often:</strong> Check data quality before processing to avoid garbage in, garbage out.</li>
-        
-        <li><strong>Preserve Data Types:</strong> Be careful with automatic type inference - dates and numbers can be tricky.</li>
-        
-        <li><strong>Clean Before Processing:</strong> Remove duplicates, handle missing values, and standardize formats.</li>
-        
-        <li><strong>Use Appropriate Tools:</strong> csv module for simple operations, pandas for complex analysis.</li>
-        
-        <li><strong>Document Your Schemas:</strong> Keep clear documentation of expected CSV formats.</li>
-    </ul>
-
-    <h3>CSV Processing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> CSV files are deceptively complex. What looks like a simple comma-separated file can have nested quotes, multiline fields, different encodings, and various delimiters. Always profile your CSV files first, handle edge cases gracefully, and keep audit logs of all transformations. Remember: pandas is powerful but memory-hungry - for truly massive files, consider using Dask or processing in chunks!</p>
-    </div>
-    
-    <p>CSV processing mastery turns you from a data janitor into a data architect. You can handle any CSV thrown at you - from messy exports to perfectly structured datasets. Whether you're doing ETL pipelines, data migration, or analysis, these skills will save you countless hours of manual data cleaning! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="workingwithdata_json_xml_parsing.html">JSON/XML Parsing - Navigate Complex Data Structures!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Detect Encoding:</strong> Never assume UTF-8. Use chardet or try multiple encodings.</li>
+<li><strong>Handle Large Files Efficiently:</strong> Use chunking for files that don't fit in memory.</li>
+<li><strong>Validate Early and Often:</strong> Check data quality before processing to avoid garbage in, garbage out.</li>
+<li><strong>Preserve Data Types:</strong> Be careful with automatic type inference - dates and numbers can be tricky.</li>
+<li><strong>Clean Before Processing:</strong> Remove duplicates, handle missing values, and standardize formats.</li>
+<li><strong>Use Appropriate Tools:</strong> csv module for simple operations, pandas for complex analysis.</li>
+<li><strong>Document Your Schemas:</strong> Keep clear documentation of expected CSV formats.</li>
+</ul>
+<h3>CSV Processing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> CSV files are deceptively complex. What looks like a simple comma-separated file can have nested quotes, multiline fields, different encodings, and various delimiters. Always profile your CSV files first, handle edge cases gracefully, and keep audit logs of all transformations. Remember: pandas is powerful but memory-hungry - for truly massive files, consider using Dask or processing in chunks!</p>
+</div>
+<p>CSV processing mastery turns you from a data janitor into a data architect. You can handle any CSV thrown at you - from messy exports to perfectly structured datasets. Whether you're doing ETL pipelines, data migration, or analysis, these skills will save you countless hours of manual data cleaning! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="browser_automation_headless_browsing.html">← Previous: Headless Browsing</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="workingwithdata_excel_automation.html">Next: Excel Automation →</a>
+</div>
+</footer>
 </body>
 </html>

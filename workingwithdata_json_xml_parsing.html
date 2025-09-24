@@ -1,68 +1,117 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON and XML Parsing - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JSON and XML Parsing - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🌐 JSON/XML Parsing: Navigate Complex Data Structures</h1>
-    
-    <p>JSON and XML are the languages of the internet. APIs speak JSON, configuration files use XML, and every modern application exchanges data in these formats. They're like the DNA of digital communication - structured, hierarchical, and sometimes surprisingly complex. Let's master the art of parsing, transforming, and generating these ubiquitous data formats! 🚀</p>
-
-    <h2>The Architecture of Structured Data</h2>
-    
-    <p>Think of JSON as a modern skyscraper - clean lines, efficient structure, easy to navigate. XML is like a Gothic cathedral - ornate, detailed, with namespaces like flying buttresses supporting complex structures. Both have their place, and Python gives you the tools to be an architect of both!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module4">Data Processing</a> &gt; 
+        <span>JSON &amp; XML Parsing</span>
+</nav>
+<h1>🌐 JSON/XML Parsing: Navigate Complex Data Structures</h1>
+<p>JSON and XML are the languages of the internet. APIs speak JSON, configuration files use XML, and every modern application exchanges data in these formats. They're like the DNA of digital communication - structured, hierarchical, and sometimes surprisingly complex. Let's master the art of parsing, transforming, and generating these ubiquitous data formats! 🚀</p>
+<h2>The Architecture of Structured Data</h2>
+<p>Think of JSON as a modern skyscraper - clean lines, efficient structure, easy to navigate. XML is like a Gothic cathedral - ornate, detailed, with namespaces like flying buttresses supporting complex structures. Both have their place, and Python gives you the tools to be an architect of both!</p>
+<div class="mermaid">
     graph TB
-        A[Data Sources] --> B{Format Detection}
-        B --> C[JSON]
-        B --> D[XML]
-        B --> E[YAML]
+        A[Data Sources] --&gt; B{Format Detection}
+        B --&gt; C[JSON]
+        B --&gt; D[XML]
+        B --&gt; E[YAML]
         
-        C --> F[Parse & Validate]
-        D --> F
-        E --> F
+        C --&gt; F[Parse &amp; Validate]
+        D --&gt; F
+        E --&gt; F
         
-        F --> G[Schema Validation]
-        F --> H[Data Extraction]
-        F --> I[Transformation]
+        F --&gt; G[Schema Validation]
+        F --&gt; H[Data Extraction]
+        F --&gt; I[Transformation]
         
-        G --> J[Clean Data Structure]
-        H --> J
-        I --> J
+        G --&gt; J[Clean Data Structure]
+        H --&gt; J
+        I --&gt; J
         
-        J --> K[Processing Engine]
-        K --> L[Query & Filter]
-        K --> M[Merge & Transform]
-        K --> N[Convert Format]
+        J --&gt; K[Processing Engine]
+        K --&gt; L[Query &amp; Filter]
+        K --&gt; M[Merge &amp; Transform]
+        K --&gt; N[Convert Format]
         
-        L --> O[Output]
-        M --> O
-        N --> O
+        L --&gt; O[Output]
+        M --&gt; O
+        N --&gt; O
         
-        O --> P[JSON]
-        O --> Q[XML]
-        O --> R[Database]
-        O --> S[API Response]
+        O --&gt; P[JSON]
+        O --&gt; Q[XML]
+        O --&gt; R[Database]
+        O --&gt; S[API Response]
         
         style A fill:#ff6b6b
         style J fill:#51cf66
         style O fill:#339af0
     </div>
-
-    <h3>Real-World Scenario: The API Integration Hub 🔌</h3>
-    
-    <p>You're building an integration platform that connects 20 different services. Each API returns different JSON structures, legacy systems send XML, configuration comes in YAML, and you need to transform everything into a unified format for your data warehouse. Let's build a universal parser!</p>
-
-    <pre><code>import json
+<h3>Real-World Scenario: The API Integration Hub 🔌</h3>
+<p>You're building an integration platform that connects 20 different services. Each API returns different JSON structures, legacy systems send XML, configuration comes in YAML, and you need to transform everything into a unified format for your data warehouse. Let's build a universal parser!</p>
+<pre><code>import json
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 from lxml import etree
@@ -117,7 +166,7 @@ class UniversalDataParser:
         )
         self.logger = logging.getLogger(__name__)
     
-    def detect_format(self, data: Union[str, bytes], file_path: str = None) -> str:
+    def detect_format(self, data: Union[str, bytes], file_path: str = None) -&gt; str:
         """
         Intelligently detect data format.
         """
@@ -171,7 +220,7 @@ class UniversalDataParser:
         return 'unknown'
     
     def parse_json(self, data: Union[str, bytes], schema: Dict = None, 
-                   strict: bool = False) -> Dict:
+                   strict: bool = False) -&gt; Dict:
         """
         Parse JSON with validation and error handling.
         """
@@ -208,12 +257,12 @@ class UniversalDataParser:
             self.logger.error(f"JSON parsing error: {e}")
             # Try to provide helpful error information
             lines = data.split('\n')
-            error_line = lines[e.lineno - 1] if e.lineno <= len(lines) else ''
+            error_line = lines[e.lineno - 1] if e.lineno &lt;= len(lines) else ''
             self.logger.error(f"Error at line {e.lineno}: {error_line[:100]}")
             raise
     
     def parse_xml(self, data: Union[str, bytes], schema_path: str = None,
-                  remove_namespaces: bool = False) -> Dict:
+                  remove_namespaces: bool = False) -&gt; Dict:
         """
         Parse XML with multiple strategies and options.
         """
@@ -247,7 +296,7 @@ class UniversalDataParser:
             self.logger.error(f"XML parsing error: {e}")
             raise
     
-    def xml_to_dict_lxml(self, element) -> Dict:
+    def xml_to_dict_lxml(self, element) -&gt; Dict:
         """
         Convert lxml element to dictionary.
         """
@@ -282,7 +331,7 @@ class UniversalDataParser:
         
         return result if result else None
     
-    def xml_to_dict_etree(self, element) -> Dict:
+    def xml_to_dict_etree(self, element) -&gt; Dict:
         """
         Convert ElementTree element to dictionary.
         """
@@ -355,7 +404,7 @@ class UniversalDataParser:
             self.logger.error(f"Schema validation error: {e}")
             raise
     
-    def parse_yaml(self, data: Union[str, bytes]) -> Dict:
+    def parse_yaml(self, data: Union[str, bytes]) -&gt; Dict:
         """
         Parse YAML data safely.
         """
@@ -374,7 +423,7 @@ class UniversalDataParser:
             raise
     
     def convert_format(self, data: Any, from_format: str, to_format: str,
-                      pretty: bool = True) -> str:
+                      pretty: bool = True) -&gt; str:
         """
         Convert between different data formats.
         """
@@ -397,7 +446,7 @@ class UniversalDataParser:
         else:
             raise ValueError(f"Unsupported output format: {to_format}")
     
-    def to_json(self, data: Any, pretty: bool = True) -> str:
+    def to_json(self, data: Any, pretty: bool = True) -&gt; str:
         """
         Convert data to JSON string.
         """
@@ -406,7 +455,7 @@ class UniversalDataParser:
         else:
             return json.dumps(data, ensure_ascii=False, default=str)
     
-    def to_xml(self, data: Dict, pretty: bool = True, root_name: str = 'root') -> str:
+    def to_xml(self, data: Dict, pretty: bool = True, root_name: str = 'root') -&gt; str:
         """
         Convert dictionary to XML string.
         """
@@ -436,27 +485,27 @@ class UniversalDataParser:
         else:
             return ET.tostring(root, encoding='unicode')
     
-    def prettify_xml(self, xml_string: str) -> str:
+    def prettify_xml(self, xml_string: str) -&gt; str:
         """
         Prettify XML string.
         """
         parsed = minidom.parseString(xml_string)
         return parsed.toprettyxml(indent="  ")
     
-    def to_yaml(self, data: Any) -> str:
+    def to_yaml(self, data: Any) -&gt; str:
         """
         Convert data to YAML string.
         """
         return yaml.dump(data, default_flow_style=False, allow_unicode=True)
     
-    def query_json(self, data: Dict, path: str) -> Any:
+    def query_json(self, data: Dict, path: str) -&gt; Any:
         """
         Query JSON data using JSONPath-like syntax.
         
         Examples:
         - "$.store.book[0].title"
         - "$.store.book[*].author"
-        - "$.store.book[?(@.price < 10)]"
+        - "$.store.book[?(@.price &lt; 10)]"
         """
         from jsonpath_ng import parse
         
@@ -476,7 +525,7 @@ class UniversalDataParser:
             return None
     
     def query_xml(self, xml_data: Union[str, bytes, ET.Element], 
-                  xpath: str) -> List:
+                  xpath: str) -&gt; List:
         """
         Query XML data using XPath.
         """
@@ -504,7 +553,7 @@ class UniversalDataParser:
             self.logger.error(f"XPath query error: {e}")
             return []
     
-    def merge_json(self, *json_objects, strategy: str = 'deep') -> Dict:
+    def merge_json(self, *json_objects, strategy: str = 'deep') -&gt; Dict:
         """
         Merge multiple JSON objects.
         
@@ -544,7 +593,7 @@ class UniversalDataParser:
             return result
     
     def flatten_json(self, data: Dict, separator: str = '.', 
-                     prefix: str = '') -> Dict:
+                     prefix: str = '') -&gt; Dict:
         """
         Flatten nested JSON structure.
         """
@@ -570,7 +619,7 @@ class UniversalDataParser:
         
         return dict(items)
     
-    def unflatten_json(self, data: Dict, separator: str = '.') -> Dict:
+    def unflatten_json(self, data: Dict, separator: str = '.') -&gt; Dict:
         """
         Unflatten a flattened JSON structure.
         """
@@ -590,7 +639,7 @@ class UniversalDataParser:
                         d[base] = []
                     
                     # Extend array if needed
-                    while len(d[base]) <= index:
+                    while len(d[base]) &lt;= index:
                         d[base].append({})
                     
                     d = d[base][index]
@@ -608,7 +657,7 @@ class UniversalDataParser:
                 if base not in d:
                     d[base] = []
                 
-                while len(d[base]) <= index:
+                while len(d[base]) &lt;= index:
                     d[base].append(None)
                 
                 d[base][index] = value
@@ -627,7 +676,7 @@ class APIDataProcessor:
         self.session = requests.Session()
         
     def fetch_and_parse(self, url: str, headers: Dict = None, 
-                       params: Dict = None) -> Any:
+                       params: Dict = None) -&gt; Any:
         """
         Fetch data from API and parse response.
         """
@@ -659,7 +708,7 @@ class APIDataProcessor:
             self.parser.logger.error(f"API request failed: {e}")
             raise
     
-    def parse_html(self, html: str) -> Dict:
+    def parse_html(self, html: str) -&gt; Dict:
         """
         Parse HTML and extract structured data.
         """
@@ -699,7 +748,7 @@ class APIDataProcessor:
     
     def process_paginated_api(self, base_url: str, 
                              page_param: str = 'page',
-                             max_pages: int = None) -> List:
+                             max_pages: int = None) -&gt; List:
         """
         Process paginated API responses.
         """
@@ -707,7 +756,7 @@ class APIDataProcessor:
         page = 1
         
         while True:
-            if max_pages and page > max_pages:
+            if max_pages and page &gt; max_pages:
                 break
             
             try:
@@ -751,7 +800,7 @@ class DataTransformer:
         self.transformations.append((func, args, kwargs))
         return self
     
-    def apply(self, data: Any) -> Any:
+    def apply(self, data: Any) -&gt; Any:
         """
         Apply all transformations in sequence.
         """
@@ -764,7 +813,7 @@ class DataTransformer:
     
     @staticmethod
     def filter_keys(data: Dict, keep: List[str] = None, 
-                   remove: List[str] = None) -> Dict:
+                   remove: List[str] = None) -&gt; Dict:
         """
         Filter dictionary keys.
         """
@@ -775,7 +824,7 @@ class DataTransformer:
         return data
     
     @staticmethod
-    def rename_keys(data: Dict, mapping: Dict[str, str]) -> Dict:
+    def rename_keys(data: Dict, mapping: Dict[str, str]) -&gt; Dict:
         """
         Rename dictionary keys.
         """
@@ -786,7 +835,7 @@ class DataTransformer:
         return result
     
     @staticmethod
-    def apply_to_nested(data: Any, path: str, func, *args, **kwargs) -> Any:
+    def apply_to_nested(data: Any, path: str, func, *args, **kwargs) -&gt; Any:
         """
         Apply function to nested element.
         """
@@ -824,7 +873,7 @@ class SchemaGenerator:
     """
     
     @staticmethod
-    def generate_json_schema(data: Any, title: str = "Generated Schema") -> Dict:
+    def generate_json_schema(data: Any, title: str = "Generated Schema") -&gt; Dict:
         """
         Generate JSON Schema from sample data.
         """
@@ -884,7 +933,7 @@ class SchemaGenerator:
         return schema
     
     @staticmethod
-    def generate_xsd_schema(xml_data: str, root_element: str = "root") -> str:
+    def generate_xsd_schema(xml_data: str, root_element: str = "root") -&gt; str:
         """
         Generate XSD schema from sample XML.
         """
@@ -901,7 +950,7 @@ class SchemaGenerator:
             elem_def.set("name", element.tag)
             
             # Check if it has children
-            if len(element) > 0:
+            if len(element) &gt; 0:
                 complex_type = ET.SubElement(elem_def, "{http://www.w3.org/2001/XMLSchema}complexType")
                 sequence = ET.SubElement(complex_type, "{http://www.w3.org/2001/XMLSchema}sequence")
                 
@@ -1058,12 +1107,9 @@ if __name__ == "__main__":
     
     print("\n✅ JSON/XML parsing complete!")
 </code></pre>
-
-    <h2>Advanced Parsing Techniques 🔍</h2>
-    
-    <p>Let's explore more sophisticated techniques for handling complex, real-world data scenarios!</p>
-
-    <div class="mermaid">
+<h2>Advanced Parsing Techniques 🔍</h2>
+<p>Let's explore more sophisticated techniques for handling complex, real-world data scenarios!</p>
+<div class="mermaid">
     sequenceDiagram
         participant Client
         participant Parser
@@ -1071,17 +1117,16 @@ if __name__ == "__main__":
         participant Transformer
         participant Output
         
-        Client->>Parser: Raw Data
-        Parser->>Parser: Detect Format
-        Parser->>Validator: Parsed Data
-        Validator->>Validator: Schema Check
-        Validator->>Transformer: Valid Data
-        Transformer->>Transformer: Apply Rules
-        Transformer->>Output: Formatted Result
-        Output-->>Client: Processed Data
+        Client-&gt;&gt;Parser: Raw Data
+        Parser-&gt;&gt;Parser: Detect Format
+        Parser-&gt;&gt;Validator: Parsed Data
+        Validator-&gt;&gt;Validator: Schema Check
+        Validator-&gt;&gt;Transformer: Valid Data
+        Transformer-&gt;&gt;Transformer: Apply Rules
+        Transformer-&gt;&gt;Output: Formatted Result
+        Output--&gt;&gt;Client: Processed Data
     </div>
-
-    <pre><code>class AdvancedDataHandler:
+<pre><code>class AdvancedDataHandler:
     """
     Advanced techniques for complex data scenarios.
     """
@@ -1102,7 +1147,7 @@ if __name__ == "__main__":
                     break
     
     @staticmethod
-    def parse_ndjson(file_path: str) -> List[Dict]:
+    def parse_ndjson(file_path: str) -&gt; List[Dict]:
         """
         Parse newline-delimited JSON (NDJSON/JSONL).
         """
@@ -1120,7 +1165,7 @@ if __name__ == "__main__":
         return results
     
     @staticmethod
-    def parse_xml_with_namespaces(xml_data: str) -> Dict:
+    def parse_xml_with_namespaces(xml_data: str) -&gt; Dict:
         """
         Parse XML with namespace handling.
         """
@@ -1144,7 +1189,7 @@ if __name__ == "__main__":
         return result
     
     @staticmethod
-    def extract_json_from_text(text: str) -> List[Dict]:
+    def extract_json_from_text(text: str) -&gt; List[Dict]:
         """
         Extract JSON objects from mixed text.
         """
@@ -1170,7 +1215,7 @@ if __name__ == "__main__":
         return json_objects
     
     @staticmethod
-    def handle_circular_references(data: Any) -> str:
+    def handle_circular_references(data: Any) -&gt; str:
         """
         Serialize data with circular references.
         """
@@ -1178,7 +1223,7 @@ if __name__ == "__main__":
         
         def serialize(obj, path="root"):
             if id(obj) in seen:
-                return f"<CircularReference: {path}>"
+                return f"<circularreference: {path}="">"
             
             seen.add(id(obj))
             
@@ -1202,7 +1247,7 @@ class DataValidator:
     """
     
     @staticmethod
-    def validate_json_structure(data: Dict, template: Dict) -> List[str]:
+    def validate_json_structure(data: Dict, template: Dict) -&gt; List[str]:
         """
         Validate JSON structure against a template.
         """
@@ -1220,7 +1265,7 @@ class DataValidator:
                     else:
                         check_structure(actual[key], expected[key], f"{path}.{key}")
             
-            elif isinstance(expected, list) and len(expected) > 0:
+            elif isinstance(expected, list) and len(expected) &gt; 0:
                 if len(actual) == 0:
                     errors.append(f"Empty array at {path}")
                 else:
@@ -1232,7 +1277,7 @@ class DataValidator:
         return errors
     
     @staticmethod
-    def validate_data_types(data: Dict, type_map: Dict) -> List[str]:
+    def validate_data_types(data: Dict, type_map: Dict) -&gt; List[str]:
         """
         Validate data types in a structure.
         """
@@ -1261,36 +1306,28 @@ class DataValidator:
                         errors.append(f"Invalid phone format: {key}")
         
         return errors
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Validate:</strong> Never trust external data. Validate against schemas before processing.</li>
-        
-        <li><strong>Handle Encodings:</strong> JSON should be UTF-8, but XML can have various encodings declared.</li>
-        
-        <li><strong>Use Appropriate Parsers:</strong> json for simple JSON, lxml for complex XML, BeautifulSoup for HTML.</li>
-        
-        <li><strong>Stream Large Files:</strong> Use streaming parsers (ijson, iterparse) for files too large for memory.</li>
-        
-        <li><strong>Preserve Data Types:</strong> Be careful with number precision and date formats during conversions.</li>
-        
-        <li><strong>Handle Namespaces:</strong> XML namespaces can be tricky - decide whether to preserve or strip them.</li>
-        
-        <li><strong>Error Recovery:</strong> Implement graceful error handling for malformed data.</li>
-    </ul>
-
-    <h3>JSON/XML Parsing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> The key to mastering data parsing is understanding that data is rarely perfect. Real-world JSON has comments and trailing commas, XML has namespaces and CDATA sections, and APIs return inconsistent structures. Build your parsers defensively - validate everything, handle edge cases, and always have a plan B. Remember: it's better to reject bad data early than to process it incorrectly!</p>
-    </div>
-    
-    <p>JSON and XML parsing mastery transforms you from a data consumer to a data conductor. You can integrate any API, process any configuration, and transform any data structure. Whether you're building microservices, data pipelines, or automation systems, these skills are fundamental to modern software development! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="workingwithdata_database_automation.html">Database Automation - Master Data Persistence with Python!</a></p>
-    </footer>
+</circularreference:></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Validate:</strong> Never trust external data. Validate against schemas before processing.</li>
+<li><strong>Handle Encodings:</strong> JSON should be UTF-8, but XML can have various encodings declared.</li>
+<li><strong>Use Appropriate Parsers:</strong> json for simple JSON, lxml for complex XML, BeautifulSoup for HTML.</li>
+<li><strong>Stream Large Files:</strong> Use streaming parsers (ijson, iterparse) for files too large for memory.</li>
+<li><strong>Preserve Data Types:</strong> Be careful with number precision and date formats during conversions.</li>
+<li><strong>Handle Namespaces:</strong> XML namespaces can be tricky - decide whether to preserve or strip them.</li>
+<li><strong>Error Recovery:</strong> Implement graceful error handling for malformed data.</li>
+</ul>
+<h3>JSON/XML Parsing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> The key to mastering data parsing is understanding that data is rarely perfect. Real-world JSON has comments and trailing commas, XML has namespaces and CDATA sections, and APIs return inconsistent structures. Build your parsers defensively - validate everything, handle edge cases, and always have a plan B. Remember: it's better to reject bad data early than to process it incorrectly!</p>
+</div>
+<p>JSON and XML parsing mastery transforms you from a data consumer to a data conductor. You can integrate any API, process any configuration, and transform any data structure. Whether you're building microservices, data pipelines, or automation systems, these skills are fundamental to modern software development! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="workingwithdata_excel_automation.html">← Previous: Excel Automation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="workingwithdata_pdf_manipulation.html">Next: PDF Manipulation →</a>
+</div>
+</footer>
 </body>
 </html>

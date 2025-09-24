@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring and Alerts - Python Task Orchestration</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Monitoring and Alerts - Python Task Orchestration</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📊 Monitoring and Alerts: Keep Your Workflows Running Smoothly</h1>
-    
-    <p>Effective monitoring and alerting transform reactive firefighting into proactive system management - it's the difference between discovering failures from angry users and preventing issues before they impact production. Like having a mission control center for your workflows, comprehensive monitoring provides real-time visibility, predictive insights, and intelligent alerting that keeps your automation running smoothly. Whether you're tracking SLAs, detecting anomalies, or optimizing performance, mastering monitoring and alerts is crucial for production operations. Let's explore the comprehensive world of workflow observability! 📡</p>
-
-    <h2>The Monitoring and Alerting Architecture</h2>
-    
-    <p>Think of monitoring as your workflow's nervous system - it collects signals from every component, processes them for insights, and triggers appropriate responses when something needs attention. Using metrics, logs, traces, and custom instrumentation, you can build observability that provides complete visibility into workflow health, performance, and behavior. Understanding metrics collection, alert design, and dashboard creation is essential for operational excellence!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module8">Task Orchestration</a> &gt; 
+        <span>Monitoring and Alerts</span>
+</nav>
+<h1>📊 Monitoring and Alerts: Keep Your Workflows Running Smoothly</h1>
+<p>Effective monitoring and alerting transform reactive firefighting into proactive system management - it's the difference between discovering failures from angry users and preventing issues before they impact production. Like having a mission control center for your workflows, comprehensive monitoring provides real-time visibility, predictive insights, and intelligent alerting that keeps your automation running smoothly. Whether you're tracking SLAs, detecting anomalies, or optimizing performance, mastering monitoring and alerts is crucial for production operations. Let's explore the comprehensive world of workflow observability! 📡</p>
+<h2>The Monitoring and Alerting Architecture</h2>
+<p>Think of monitoring as your workflow's nervous system - it collects signals from every component, processes them for insights, and triggers appropriate responses when something needs attention. Using metrics, logs, traces, and custom instrumentation, you can build observability that provides complete visibility into workflow health, performance, and behavior. Understanding metrics collection, alert design, and dashboard creation is essential for operational excellence!</p>
+<div class="mermaid">
     graph TB
-        A[Monitoring & Alerts] --> B[Metrics]
-        A --> C[Logging]
-        A --> D[Alerting]
-        A --> E[Dashboards]
+        A[Monitoring &amp; Alerts] --&gt; B[Metrics]
+        A --&gt; C[Logging]
+        A --&gt; D[Alerting]
+        A --&gt; E[Dashboards]
         
-        B --> F[Performance]
-        B --> G[Health]
-        B --> H[Business]
-        B --> I[Custom]
+        B --&gt; F[Performance]
+        B --&gt; G[Health]
+        B --&gt; H[Business]
+        B --&gt; I[Custom]
         
-        C --> J[Structured]
-        C --> K[Centralized]
-        C --> L[Searchable]
-        C --> M[Contextual]
+        C --&gt; J[Structured]
+        C --&gt; K[Centralized]
+        C --&gt; L[Searchable]
+        C --&gt; M[Contextual]
         
-        D --> N[Thresholds]
-        D --> O[Anomalies]
-        D --> P[Predictions]
-        D --> Q[Escalation]
+        D --&gt; N[Thresholds]
+        D --&gt; O[Anomalies]
+        D --&gt; P[Predictions]
+        D --&gt; Q[Escalation]
         
-        E --> R[Real-time]
-        E --> S[Historical]
-        E --> T[Executive]
-        E --> U[Operational]
+        E --&gt; R[Real-time]
+        E --&gt; S[Historical]
+        E --&gt; T[Executive]
+        E --&gt; U[Operational]
         
-        V[Integration] --> W[Prometheus]
-        V --> X[Grafana]
-        V --> Y[ELK Stack]
-        V --> Z[PagerDuty]
+        V[Integration] --&gt; W[Prometheus]
+        V --&gt; X[Grafana]
+        V --&gt; Y[ELK Stack]
+        V --&gt; Z[PagerDuty]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Intelligent Operations Platform 🎮</h3>
-    
-    <p>You're building an intelligent operations platform that monitors hundreds of production workflows in real-time, tracks SLAs and performance metrics across all pipelines, detects anomalies and predicts failures before they occur, provides customizable dashboards for different stakeholders, implements intelligent alerting with context and runbooks, maintains comprehensive audit logs for compliance, performs root cause analysis automatically, and optimizes resource usage based on patterns. Your platform must handle massive data volumes, provide sub-second query performance, reduce alert fatigue through intelligent grouping, and deliver actionable insights. Let's build a comprehensive monitoring and alerting system!</p>
-
-    <pre><code># Advanced Monitoring and Alerting for Apache Airflow
+<h3>Real-World Scenario: The Intelligent Operations Platform 🎮</h3>
+<p>You're building an intelligent operations platform that monitors hundreds of production workflows in real-time, tracks SLAs and performance metrics across all pipelines, detects anomalies and predicts failures before they occur, provides customizable dashboards for different stakeholders, implements intelligent alerting with context and runbooks, maintains comprehensive audit logs for compliance, performs root cause analysis automatically, and optimizes resource usage based on patterns. Your platform must handle massive data volumes, provide sub-second query performance, reduce alert fatigue through intelligent grouping, and deliver actionable insights. Let's build a comprehensive monitoring and alerting system!</p>
+<pre><code># Advanced Monitoring and Alerting for Apache Airflow
 # pip install apache-airflow prometheus-client grafana-api statsd datadog slack-sdk
 # pip install elasticsearch pandas matplotlib seaborn plotly
 
@@ -230,7 +279,7 @@ class CustomMetricsManager:
         cutoff = datetime.now() - timedelta(hours=24)
         self.metrics[key] = [
             m for m in self.metrics[key]
-            if m.timestamp > cutoff
+            if m.timestamp &gt; cutoff
         ]
     
     def get_metric(
@@ -238,7 +287,7 @@ class CustomMetricsManager:
         name: str,
         labels: Optional[Dict[str, str]] = None,
         time_range: Optional[Tuple[datetime, datetime]] = None
-    ) -> List[CustomMetric]:
+    ) -&gt; List[CustomMetric]:
         """Retrieve metrics by name and labels."""
         results = []
         
@@ -253,7 +302,7 @@ class CustomMetricsManager:
                 
                 for metric in metrics:
                     if time_range:
-                        if not (time_range[0] <= metric.timestamp <= time_range[1]):
+                        if not (time_range[0] &lt;= metric.timestamp &lt;= time_range[1]):
                             continue
                     results.append(metric)
         
@@ -264,7 +313,7 @@ class CustomMetricsManager:
         name: str,
         aggregation: str = 'mean',
         time_window: timedelta = timedelta(hours=1)
-    ) -> Dict[str, float]:
+    ) -&gt; Dict[str, float]:
         """Calculate aggregated metrics."""
         cutoff = datetime.now() - time_window
         metrics = self.get_metric(name, time_range=(cutoff, datetime.now()))
@@ -279,7 +328,7 @@ class CustomMetricsManager:
             'sum': sum(values),
             'mean': statistics.mean(values) if values else 0,
             'median': statistics.median(values) if values else 0,
-            'std': statistics.stdev(values) if len(values) > 1 else 0,
+            'std': statistics.stdev(values) if len(values) &gt; 1 else 0,
             'min': min(values) if values else 0,
             'max': max(values) if values else 0
         }
@@ -312,7 +361,7 @@ class SLAMonitor:
         self.sla_definitions[sla.name] = sla
         self.logger.info(f"Registered SLA: {sla.name}")
     
-    def evaluate_sla(self, sla_name: str) -> Tuple[bool, Optional[float]]:
+    def evaluate_sla(self, sla_name: str) -&gt; Tuple[bool, Optional[float]]:
         """Evaluate if SLA is being met."""
         if sla_name not in self.sla_definitions:
             return False, None
@@ -332,10 +381,10 @@ class SLAMonitor:
         
         # Evaluate based on operator
         operators = {
-            'gt': lambda x, y: x > y,
-            'lt': lambda x, y: x < y,
-            'gte': lambda x, y: x >= y,
-            'lte': lambda x, y: x <= y,
+            'gt': lambda x, y: x &gt; y,
+            'lt': lambda x, y: x &lt; y,
+            'gte': lambda x, y: x &gt;= y,
+            'lte': lambda x, y: x &lt;= y,
             'eq': lambda x, y: x == y
         }
         
@@ -358,7 +407,7 @@ class SLAMonitor:
         self.sla_violations.append(violation)
         self.logger.warning(f"SLA violation: {violation}")
     
-    def get_sla_report(self) -> Dict[str, Any]:
+    def get_sla_report(self) -&gt; Dict[str, Any]:
         """Generate SLA compliance report."""
         report = {}
         
@@ -369,7 +418,7 @@ class SLAMonitor:
             recent_violations = [
                 v for v in self.sla_violations
                 if v['sla_name'] == sla_name and
-                v['timestamp'] > datetime.now() - timedelta(days=7)
+                v['timestamp'] &gt; datetime.now() - timedelta(days=7)
             ]
             
             compliance_rate = 1 - (len(recent_violations) / 168) * 100  # 168 hours in week
@@ -403,11 +452,11 @@ class AnomalyDetector:
         metric_name: str,
         current_value: float,
         z_threshold: float = 3.0
-    ) -> bool:
+    ) -&gt; bool:
         """Detect anomaly using z-score."""
         window = list(self.metric_windows[metric_name])
         
-        if len(window) < 10:  # Need minimum samples
+        if len(window) &lt; 10:  # Need minimum samples
             return False
         
         mean = np.mean(window)
@@ -418,7 +467,7 @@ class AnomalyDetector:
         
         z_score = abs((current_value - mean) / std)
         
-        is_anomaly = z_score > z_threshold
+        is_anomaly = z_score &gt; z_threshold
         
         if is_anomaly:
             self.logger.warning(
@@ -432,11 +481,11 @@ class AnomalyDetector:
         self,
         metric_name: str,
         threshold_pct: float = 50.0
-    ) -> Optional[str]:
+    ) -&gt; Optional[str]:
         """Detect anomalous trends."""
         window = list(self.metric_windows[metric_name])
         
-        if len(window) < 20:
+        if len(window) &lt; 20:
             return None
         
         # Calculate trend using linear regression
@@ -452,8 +501,8 @@ class AnomalyDetector:
         else:
             pct_change = 0
         
-        if abs(pct_change) > threshold_pct:
-            trend = "increasing" if pct_change > 0 else "decreasing"
+        if abs(pct_change) &gt; threshold_pct:
+            trend = "increasing" if pct_change &gt; 0 else "decreasing"
             self.logger.warning(
                 f"Anomalous trend in {metric_name}: "
                 f"{trend} by {abs(pct_change):.1f}%"
@@ -466,11 +515,11 @@ class AnomalyDetector:
         self,
         metric_name: str,
         pattern_window: int = 24  # For hourly patterns
-    ) -> bool:
+    ) -&gt; bool:
         """Detect anomalies in periodic patterns."""
         window = list(self.metric_windows[metric_name])
         
-        if len(window) < pattern_window * 2:
+        if len(window) &lt; pattern_window * 2:
             return False
         
         # Compare current pattern with historical
@@ -490,7 +539,7 @@ class AnomalyDetector:
         deviation = np.mean(np.abs(current_pattern - avg_pattern))
         threshold = np.std(avg_pattern) * 2
         
-        is_anomaly = deviation > threshold
+        is_anomaly = deviation &gt; threshold
         
         if is_anomaly:
             self.logger.warning(
@@ -554,7 +603,7 @@ class AlertManager:
         fingerprint = f"{alert.name}:{alert.severity.name}"
         if fingerprint in self.alert_fingerprints:
             last_alert_time = self.alert_fingerprints[fingerprint]
-            if datetime.now() - last_alert_time < timedelta(minutes=5):
+            if datetime.now() - last_alert_time &lt; timedelta(minutes=5):
                 self.logger.info(f"Alert deduplicated: {alert.name}")
                 return
         
@@ -703,7 +752,7 @@ class DashboardGenerator:
         self.alert_manager = alert_manager
         self.logger = logging.getLogger(__name__)
     
-    def generate_operational_dashboard(self) -> Dict[str, Any]:
+    def generate_operational_dashboard(self) -&gt; Dict[str, Any]:
         """Generate operational dashboard data."""
         return {
             'timestamp': datetime.now().isoformat(),
@@ -714,7 +763,7 @@ class DashboardGenerator:
             'system_health': self._calculate_system_health()
         }
     
-    def generate_executive_dashboard(self) -> Dict[str, Any]:
+    def generate_executive_dashboard(self) -&gt; Dict[str, Any]:
         """Generate executive dashboard data."""
         return {
             'timestamp': datetime.now().isoformat(),
@@ -724,7 +773,7 @@ class DashboardGenerator:
             'incident_summary': self._get_incident_summary()
         }
     
-    def _get_alert_summary(self) -> Dict[str, int]:
+    def _get_alert_summary(self) -&gt; Dict[str, int]:
         """Get summary of alerts by severity."""
         summary = defaultdict(int)
         
@@ -733,7 +782,7 @@ class DashboardGenerator:
         
         return dict(summary)
     
-    def _get_recent_metrics(self) -> Dict[str, Any]:
+    def _get_recent_metrics(self) -&gt; Dict[str, Any]:
         """Get recent key metrics."""
         metrics = {}
         
@@ -757,7 +806,7 @@ class DashboardGenerator:
         
         return metrics
     
-    def _calculate_system_health(self) -> float:
+    def _calculate_system_health(self) -&gt; float:
         """Calculate overall system health score."""
         factors = []
         
@@ -778,7 +827,7 @@ class DashboardGenerator:
         
         return np.mean(factors) if factors else 100.0
     
-    def _calculate_kpis(self) -> Dict[str, float]:
+    def _calculate_kpis(self) -&gt; Dict[str, float]:
         """Calculate key performance indicators."""
         return {
             'pipeline_success_rate': 95.5,  # Placeholder
@@ -787,7 +836,7 @@ class DashboardGenerator:
             'cost_per_pipeline_run': 2.50  # Placeholder
         }
     
-    def _calculate_trends(self) -> Dict[str, str]:
+    def _calculate_trends(self) -&gt; Dict[str, str]:
         """Calculate metric trends."""
         return {
             'task_duration': 'decreasing',
@@ -795,7 +844,7 @@ class DashboardGenerator:
             'throughput': 'increasing'
         }
     
-    def _calculate_overall_sla_compliance(self) -> float:
+    def _calculate_overall_sla_compliance(self) -&gt; float:
         """Calculate overall SLA compliance percentage."""
         sla_report = self.sla_monitor.get_sla_report()
         
@@ -805,13 +854,13 @@ class DashboardGenerator:
         compliance_rates = [sla['compliance_rate'] for sla in sla_report.values()]
         return np.mean(compliance_rates)
     
-    def _get_incident_summary(self) -> Dict[str, Any]:
+    def _get_incident_summary(self) -&gt; Dict[str, Any]:
         """Get summary of incidents."""
         # Last 7 days
         cutoff = datetime.now() - timedelta(days=7)
         recent_alerts = [
             a for a in self.alert_manager.alert_history
-            if a.timestamp > cutoff
+            if a.timestamp &gt; cutoff
         ]
         
         return {
@@ -820,7 +869,7 @@ class DashboardGenerator:
             'mttr': self._calculate_mttr(recent_alerts)  # Mean Time To Resolution
         }
     
-    def _calculate_mttr(self, alerts: List[Alert]) -> float:
+    def _calculate_mttr(self, alerts: List[Alert]) -&gt; float:
         """Calculate mean time to resolution."""
         resolution_times = []
         
@@ -868,7 +917,7 @@ def monitoring_pipeline():
         
         # Get recent task instances
         recent_tasks = TaskInstance.query.filter(
-            TaskInstance.end_date >= datetime.now() - timedelta(minutes=5)
+            TaskInstance.end_date &gt;= datetime.now() - timedelta(minutes=5)
         ).all()
         
         for ti in recent_tasks:
@@ -1004,7 +1053,7 @@ def monitoring_pipeline():
     health = health_check()
     
     # Dependencies
-    metrics >> [sla_check, anomaly_check] >> dashboards
+    metrics &gt;&gt; [sla_check, anomaly_check] &gt;&gt; dashboards
     health  # Runs independently
 
 # Instantiate DAG
@@ -1012,17 +1061,17 @@ monitoring_dag = monitoring_pipeline()
 
 # ==================== Helper Functions ====================
 
-def check_scheduler_health() -> bool:
+def check_scheduler_health() -&gt; bool:
     """Check if scheduler is healthy."""
     # Simplified check - in production, check scheduler heartbeat
     return True
 
-def check_database_health() -> bool:
+def check_database_health() -&gt; bool:
     """Check if database is healthy."""
     # Simplified check - in production, check database connection
     return True
 
-def check_worker_health() -> bool:
+def check_worker_health() -&gt; bool:
     """Check if workers are healthy."""
     # Simplified check - in production, check celery workers
     return True
@@ -1073,7 +1122,7 @@ if __name__ == "__main__":
         evaluation_period=timedelta(minutes=5)
     ))
     
-    print("   Registered SLA: data_freshness <= 60 minutes")
+    print("   Registered SLA: data_freshness &lt;= 60 minutes")
     
     # Example 4: Anomaly detection
     print("\n4️⃣ Anomaly Detection Methods:")
@@ -1178,37 +1227,28 @@ if __name__ == "__main__":
     
     print("\n✅ Monitoring and alerts demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Comprehensive Metrics:</strong> Collect technical, business, and custom metrics.</li>
-        
-        <li><strong>SLA Monitoring:</strong> Define and track service level agreements.</li>
-        
-        <li><strong>Anomaly Detection:</strong> Identify issues before they become incidents.</li>
-        
-        <li><strong>Intelligent Alerting:</strong> Reduce noise with deduplication and suppression.</li>
-        
-        <li><strong>Multiple Channels:</strong> Use appropriate notification channels by severity.</li>
-        
-        <li><strong>Dashboard Design:</strong> Create role-specific views of system health.</li>
-        
-        <li><strong>Historical Analysis:</strong> Maintain metrics history for trend analysis.</li>
-        
-        <li><strong>Automated Response:</strong> Implement self-healing where possible.</li>
-    </ul>
-
-    <h3>Monitoring and Alerting Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of monitoring as your system's sensory network - it should provide complete visibility without overwhelming you with noise. Start by defining clear SLIs (Service Level Indicators) that align with business objectives, then build SLAs around them. Monitor the Four Golden Signals: latency, traffic, errors, and saturation. Implement multi-layer monitoring: infrastructure, application, and business metrics. Use statistical anomaly detection to catch unknown issues - not everything can be anticipated with thresholds. Design alerts that are actionable - every alert should have a clear response action or it's just noise. Implement alert fatigue prevention: deduplication, suppression rules, and intelligent grouping. Use severity levels appropriately - not everything is CRITICAL. Create dashboards for different audiences: operational (real-time), tactical (daily), and strategic (trends). Implement proper metric retention policies - high-resolution for recent data, aggregated for historical. Use distributed tracing for complex workflows to understand performance bottlenecks. Set up synthetic monitoring to detect issues before users do. Maintain runbooks linked to alerts so on-call engineers know exactly what to do. Use escalation policies - start with the owner, escalate if not resolved. Remember: good monitoring tells you not just that something is wrong, but why it's wrong and how to fix it!</p>
-    </div>
-    
-    <p>Mastering monitoring and alerting transforms reactive firefighting into proactive system management. You can now build comprehensive observability with metrics and logging, implement intelligent alerting that reduces fatigue, detect anomalies before they become incidents, track SLA compliance automatically, and create insightful dashboards for all stakeholders. Whether you're managing production pipelines, ensuring data quality, or optimizing performance, these monitoring skills ensure your workflows run smoothly and reliably! 🚀</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the Task Orchestration module. Next: <a href="index.html">Return to Course Overview</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Comprehensive Metrics:</strong> Collect technical, business, and custom metrics.</li>
+<li><strong>SLA Monitoring:</strong> Define and track service level agreements.</li>
+<li><strong>Anomaly Detection:</strong> Identify issues before they become incidents.</li>
+<li><strong>Intelligent Alerting:</strong> Reduce noise with deduplication and suppression.</li>
+<li><strong>Multiple Channels:</strong> Use appropriate notification channels by severity.</li>
+<li><strong>Dashboard Design:</strong> Create role-specific views of system health.</li>
+<li><strong>Historical Analysis:</strong> Maintain metrics history for trend analysis.</li>
+<li><strong>Automated Response:</strong> Implement self-healing where possible.</li>
+</ul>
+<h3>Monitoring and Alerting Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of monitoring as your system's sensory network - it should provide complete visibility without overwhelming you with noise. Start by defining clear SLIs (Service Level Indicators) that align with business objectives, then build SLAs around them. Monitor the Four Golden Signals: latency, traffic, errors, and saturation. Implement multi-layer monitoring: infrastructure, application, and business metrics. Use statistical anomaly detection to catch unknown issues - not everything can be anticipated with thresholds. Design alerts that are actionable - every alert should have a clear response action or it's just noise. Implement alert fatigue prevention: deduplication, suppression rules, and intelligent grouping. Use severity levels appropriately - not everything is CRITICAL. Create dashboards for different audiences: operational (real-time), tactical (daily), and strategic (trends). Implement proper metric retention policies - high-resolution for recent data, aggregated for historical. Use distributed tracing for complex workflows to understand performance bottlenecks. Set up synthetic monitoring to detect issues before users do. Maintain runbooks linked to alerts so on-call engineers know exactly what to do. Use escalation policies - start with the owner, escalate if not resolved. Remember: good monitoring tells you not just that something is wrong, but why it's wrong and how to fix it!</p>
+</div>
+<p>Mastering monitoring and alerting transforms reactive firefighting into proactive system management. You can now build comprehensive observability with metrics and logging, implement intelligent alerting that reduces fatigue, detect anomalies before they become incidents, track SLA compliance automatically, and create insightful dashboards for all stakeholders. Whether you're managing production pipelines, ensuring data quality, or optimizing performance, these monitoring skills ensure your workflows run smoothly and reliably! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="task_orchestration_error_handling.html">← Previous: Error Handling</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="testing_automation_unit.html">Next: Unit Test Automation →</a>
+</div>
+</footer>
 </body>
 </html>

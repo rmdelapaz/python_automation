@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Test Automation - Python Testing Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Unit Test Automation - Python Testing Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🧪 Unit Test Automation: Build Bulletproof Code with Automated Testing</h1>
-    
-    <p>Unit test automation is the foundation of reliable software development - it transforms fragile, fear-driven coding into confident, rapid iteration by ensuring every piece of code works as expected. Like having a safety net for trapeze artists, comprehensive unit tests allow you to refactor fearlessly, catch bugs early, and maintain code quality at scale. Whether you're building libraries, APIs, or complex applications, mastering unit test automation is essential for professional software development. Let's explore the comprehensive world of automated unit testing! 🎯</p>
-
-    <h2>The Unit Testing Architecture</h2>
-    
-    <p>Think of unit testing as quality control at the molecular level - each test examines a single unit of code in isolation, verifying its behavior under various conditions. Using frameworks like pytest, unittest, and specialized tools, you can create test suites that run automatically, provide clear feedback, and integrate seamlessly with development workflows. Understanding test design patterns, mocking, fixtures, and coverage analysis is crucial for effective test automation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module9">Testing Automation</a> &gt; 
+        <span>Unit Test Automation</span>
+</nav>
+<h1>🧪 Unit Test Automation: Build Bulletproof Code with Automated Testing</h1>
+<p>Unit test automation is the foundation of reliable software development - it transforms fragile, fear-driven coding into confident, rapid iteration by ensuring every piece of code works as expected. Like having a safety net for trapeze artists, comprehensive unit tests allow you to refactor fearlessly, catch bugs early, and maintain code quality at scale. Whether you're building libraries, APIs, or complex applications, mastering unit test automation is essential for professional software development. Let's explore the comprehensive world of automated unit testing! 🎯</p>
+<h2>The Unit Testing Architecture</h2>
+<p>Think of unit testing as quality control at the molecular level - each test examines a single unit of code in isolation, verifying its behavior under various conditions. Using frameworks like pytest, unittest, and specialized tools, you can create test suites that run automatically, provide clear feedback, and integrate seamlessly with development workflows. Understanding test design patterns, mocking, fixtures, and coverage analysis is crucial for effective test automation!</p>
+<div class="mermaid">
     graph TB
-        A[Unit Testing] --> B[Test Frameworks]
-        A --> C[Test Patterns]
-        A --> D[Mocking]
-        A --> E[Coverage]
+        A[Unit Testing] --&gt; B[Test Frameworks]
+        A --&gt; C[Test Patterns]
+        A --&gt; D[Mocking]
+        A --&gt; E[Coverage]
         
-        B --> F[pytest]
-        B --> G[unittest]
-        B --> H[nose2]
-        B --> I[doctest]
+        B --&gt; F[pytest]
+        B --&gt; G[unittest]
+        B --&gt; H[nose2]
+        B --&gt; I[doctest]
         
-        C --> J[AAA Pattern]
-        C --> K[Given-When-Then]
-        C --> L[Test Doubles]
-        C --> M[Fixtures]
+        C --&gt; J[AAA Pattern]
+        C --&gt; K[Given-When-Then]
+        C --&gt; L[Test Doubles]
+        C --&gt; M[Fixtures]
         
-        D --> N[Mock Objects]
-        D --> O[Stubs]
-        D --> P[Spies]
-        D --> Q[Fakes]
+        D --&gt; N[Mock Objects]
+        D --&gt; O[Stubs]
+        D --&gt; P[Spies]
+        D --&gt; Q[Fakes]
         
-        E --> R[Line Coverage]
-        E --> S[Branch Coverage]
-        E --> T[Path Coverage]
-        E --> U[Mutation Testing]
+        E --&gt; R[Line Coverage]
+        E --&gt; S[Branch Coverage]
+        E --&gt; T[Path Coverage]
+        E --&gt; U[Mutation Testing]
         
-        V[Best Practices] --> W[Fast Tests]
-        V --> X[Isolated]
-        V --> Y[Repeatable]
-        V --> Z[Self-Validating]
+        V[Best Practices] --&gt; W[Fast Tests]
+        V --&gt; X[Isolated]
+        V --&gt; Y[Repeatable]
+        V --&gt; Z[Self-Validating]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Test-Driven Development Platform 🏗️</h3>
-    
-    <p>You're building a comprehensive testing platform for a microservices architecture that automatically generates test cases from specifications, maintains 100% code coverage across all services, performs property-based testing for edge cases, implements continuous testing in CI/CD pipelines, tracks test performance and flakiness, provides detailed failure diagnostics, mocks external dependencies intelligently, and ensures tests run in milliseconds. Your platform must support multiple testing frameworks, integrate with development tools, provide real-time feedback, and scale to thousands of tests. Let's build a professional unit testing automation framework!</p>
-
-    <pre><code># Comprehensive Unit Test Automation Framework
+<h3>Real-World Scenario: The Test-Driven Development Platform 🏗️</h3>
+<p>You're building a comprehensive testing platform for a microservices architecture that automatically generates test cases from specifications, maintains 100% code coverage across all services, performs property-based testing for edge cases, implements continuous testing in CI/CD pipelines, tracks test performance and flakiness, provides detailed failure diagnostics, mocks external dependencies intelligently, and ensures tests run in milliseconds. Your platform must support multiple testing frameworks, integrate with development tools, provide real-time feedback, and scale to thousands of tests. Let's build a professional unit testing automation framework!</p>
+<pre><code># Comprehensive Unit Test Automation Framework
 # pip install pytest pytest-cov pytest-mock pytest-xdist pytest-benchmark
 # pip install hypothesis faker factory-boy pytest-asyncio pytest-timeout
 # pip install coverage mock responses freezegun
@@ -108,7 +157,7 @@ class TestConfig:
     random_seed: Optional[int] = None
     test_data_dir: Path = Path("test_data")
     
-    def pytest_args(self) -> List[str]:
+    def pytest_args(self) -&gt; List[str]:
         """Generate pytest arguments from config."""
         args = []
         if self.verbose:
@@ -149,7 +198,7 @@ class BaseTestCase:
         self.logger.info(f"Test {method.__name__} took {duration:.3f}s")
         
         # Warn if test is slow
-        if duration > 1.0:
+        if duration &gt; 1.0:
             self.logger.warning(f"Slow test detected: {method.__name__}")
     
     @staticmethod
@@ -276,7 +325,7 @@ class TestPropertyBased(BaseTestCase):
         
         # Ordering property
         for i in range(len(sorted_list) - 1):
-            assert sorted_list[i] <= sorted_list[i + 1]
+            assert sorted_list[i] &lt;= sorted_list[i + 1]
         
         # Element preservation
         assert sorted(lst) == sorted_list
@@ -287,11 +336,11 @@ class TestPropertyBased(BaseTestCase):
     )
     def test_string_repetition(self, text, n):
         """Test string repetition properties."""
-        assume(n < 50)  # Avoid very long strings
+        assume(n &lt; 50)  # Avoid very long strings
         
         result = text * n
         assert len(result) == len(text) * n
-        assert result.count(text) == n if n > 0 else 0
+        assert result.count(text) == n if n &gt; 0 else 0
     
     @given(st.dictionaries(
         st.text(min_size=1),
@@ -558,7 +607,7 @@ class CoverageAnalyzer:
         """Stop coverage collection."""
         self.cov.stop()
     
-    def report(self) -> Dict[str, Any]:
+    def report(self) -&gt; Dict[str, Any]:
         """Generate coverage report."""
         self.cov.save()
         
@@ -596,7 +645,7 @@ class TestRunner:
         self.results = []
         self.logger = logging.getLogger(__name__)
     
-    def run_tests(self, test_path: str = "tests") -> Dict[str, Any]:
+    def run_tests(self, test_path: str = "tests") -&gt; Dict[str, Any]:
         """Run tests and collect results."""
         import subprocess
         import sys
@@ -624,7 +673,7 @@ class TestRunner:
             'stderr': result.stderr
         }
     
-    def _parse_results(self, results_file: str) -> Dict[str, Any]:
+    def _parse_results(self, results_file: str) -&gt; Dict[str, Any]:
         """Parse test results from JSON."""
         try:
             with open(results_file, 'r') as f:
@@ -642,21 +691,21 @@ class TestRunner:
 
 # ==================== Test Utilities ====================
 
-def fibonacci(n: int) -> int:
+def fibonacci(n: int) -&gt; int:
     """Calculate fibonacci number."""
-    if n <= 1:
+    if n &lt;= 1:
         return n
     return fibonacci(n - 1) + fibonacci(n - 2)
 
-def add(a: int, b: int) -> int:
+def add(a: int, b: int) -&gt; int:
     """Add two numbers."""
     return a + b
 
-def validate_input(input: str) -> bool:
+def validate_input(input: str) -&gt; bool:
     """Validate input string."""
     return input != "invalid_input"
 
-def fetch_data(url: str) -> Dict:
+def fetch_data(url: str) -&gt; Dict:
     """Fetch data from API."""
     import requests
     response = requests.get(url)
@@ -729,8 +778,8 @@ class TestPerformance:
         current, peak = tracemalloc.get_traced_memory()
         tracemalloc.stop()
         
-        # Assert memory usage is reasonable (< 100MB)
-        assert peak < 100 * 1024 * 1024
+        # Assert memory usage is reasonable (&lt; 100MB)
+        assert peak &lt; 100 * 1024 * 1024
 
 def expensive_operation():
     """Simulate expensive operation."""
@@ -824,7 +873,7 @@ if __name__ == "__main__":
     print("\n7️⃣ Unit Testing Best Practices:")
     practices = [
         "🎯 Test one thing per test",
-        "⚡ Keep tests fast (< 1 second)",
+        "⚡ Keep tests fast (&lt; 1 second)",
         "🔄 Make tests repeatable",
         "🏝️ Isolate tests from each other",
         "📝 Use descriptive test names",
@@ -873,37 +922,28 @@ if __name__ == "__main__":
     
     print("\n✅ Unit test automation examples complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Test Isolation:</strong> Each test should be independent and not affect others.</li>
-        
-        <li><strong>Fast Execution:</strong> Unit tests should run in milliseconds, not seconds.</li>
-        
-        <li><strong>Clear Naming:</strong> Test names should describe what is being tested and expected behavior.</li>
-        
-        <li><strong>AAA Pattern:</strong> Arrange, Act, Assert - structure tests clearly.</li>
-        
-        <li><strong>Mock External Dependencies:</strong> Isolate the unit under test from external systems.</li>
-        
-        <li><strong>High Coverage:</strong> Aim for 80%+ code coverage but focus on critical paths.</li>
-        
-        <li><strong>Test Edge Cases:</strong> Don't just test the happy path, test boundaries and errors.</li>
-        
-        <li><strong>Continuous Testing:</strong> Run tests automatically on every code change.</li>
-    </ul>
-
-    <h3>Unit Testing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of unit tests as living documentation for your code - they show how the code is meant to be used and what it should do. Follow the FIRST principles: Fast (milliseconds not seconds), Independent (no test depends on another), Repeatable (same result every time), Self-validating (pass or fail, no manual interpretation), and Timely (written just before or after the code). Use the AAA pattern: Arrange (set up test data), Act (execute the function), Assert (verify the result). Keep each test focused on one behavior - if you use "and" in the test name, consider splitting it. Mock external dependencies but don't over-mock - if you're mocking everything, you might not be testing anything real. Use fixtures for common setup but avoid complex fixture hierarchies. Leverage parameterized tests to test multiple inputs efficiently. Implement property-based testing for algorithmic code - let the computer generate test cases you wouldn't think of. Use factories for complex test data creation. Make tests deterministic - no random values unless testing randomness itself. Test error conditions explicitly - what happens with null, empty, or invalid inputs? Keep test code as clean as production code - refactor and maintain it. Most importantly: a failing test should immediately tell you what's wrong without debugging!</p>
-    </div>
-    
-    <p>Mastering unit test automation transforms your development process from fear-driven to confidence-driven. You can now write comprehensive test suites that catch bugs early, enable fearless refactoring, serve as documentation, and ensure code quality. Whether you're building libraries, APIs, or complex applications, these unit testing skills are essential for professional software development! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="testing_automation_integration.html">Integration Testing - Ensure Components Work Together Flawlessly!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Test Isolation:</strong> Each test should be independent and not affect others.</li>
+<li><strong>Fast Execution:</strong> Unit tests should run in milliseconds, not seconds.</li>
+<li><strong>Clear Naming:</strong> Test names should describe what is being tested and expected behavior.</li>
+<li><strong>AAA Pattern:</strong> Arrange, Act, Assert - structure tests clearly.</li>
+<li><strong>Mock External Dependencies:</strong> Isolate the unit under test from external systems.</li>
+<li><strong>High Coverage:</strong> Aim for 80%+ code coverage but focus on critical paths.</li>
+<li><strong>Test Edge Cases:</strong> Don't just test the happy path, test boundaries and errors.</li>
+<li><strong>Continuous Testing:</strong> Run tests automatically on every code change.</li>
+</ul>
+<h3>Unit Testing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of unit tests as living documentation for your code - they show how the code is meant to be used and what it should do. Follow the FIRST principles: Fast (milliseconds not seconds), Independent (no test depends on another), Repeatable (same result every time), Self-validating (pass or fail, no manual interpretation), and Timely (written just before or after the code). Use the AAA pattern: Arrange (set up test data), Act (execute the function), Assert (verify the result). Keep each test focused on one behavior - if you use "and" in the test name, consider splitting it. Mock external dependencies but don't over-mock - if you're mocking everything, you might not be testing anything real. Use fixtures for common setup but avoid complex fixture hierarchies. Leverage parameterized tests to test multiple inputs efficiently. Implement property-based testing for algorithmic code - let the computer generate test cases you wouldn't think of. Use factories for complex test data creation. Make tests deterministic - no random values unless testing randomness itself. Test error conditions explicitly - what happens with null, empty, or invalid inputs? Keep test code as clean as production code - refactor and maintain it. Most importantly: a failing test should immediately tell you what's wrong without debugging!</p>
+</div>
+<p>Mastering unit test automation transforms your development process from fear-driven to confidence-driven. You can now write comprehensive test suites that catch bugs early, enable fearless refactoring, serve as documentation, and ensure code quality. Whether you're building libraries, APIs, or complex applications, these unit testing skills are essential for professional software development! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="task_orchestration_monitoring.html">← Previous: Monitoring and Alerts</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="testing_automation_integration.html">Next: Integration Testing →</a>
+</div>
+</footer>
 </body>
 </html>

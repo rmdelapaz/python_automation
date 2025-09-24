@@ -1,53 +1,105 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waiting Strategies - Python Browser Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Waiting Strategies - Python Browser Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>⏰ Waiting Strategies: Master the Art of Timing</h1>
-    
-    <p>Waiting strategies are the rhythm section of browser automation - they ensure everything happens at the right time. Like a conductor timing an orchestra, proper waits coordinate your automation with the dynamic nature of modern web applications. The difference between flaky tests and rock-solid automation often comes down to mastering the art of waiting. Let's explore every waiting technique to make your automation bulletproof! 🎼</p>
-
-    <h2>The Waiting Strategy Framework</h2>
-    
-    <p>Modern web apps are asynchronous symphonies - elements load at different times, AJAX requests fly back and forth, and JavaScript constantly modifies the DOM. Your automation must dance with this complexity, waiting for the right moment to act. Too early and elements aren't ready; too late and you're wasting time. Master waiting strategies to achieve perfect timing!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module3">Browser Automation</a> &gt; 
+        <span>Waiting Strategies</span>
+</nav>
+<h1>⏰ Waiting Strategies: Master the Art of Timing</h1>
+<p>Waiting strategies are the rhythm section of browser automation - they ensure everything happens at the right time. Like a conductor timing an orchestra, proper waits coordinate your automation with the dynamic nature of modern web applications. The difference between flaky tests and rock-solid automation often comes down to mastering the art of waiting. Let's explore every waiting technique to make your automation bulletproof! 🎼</p>
+<h2>The Waiting Strategy Framework</h2>
+<p>Modern web apps are asynchronous symphonies - elements load at different times, AJAX requests fly back and forth, and JavaScript constantly modifies the DOM. Your automation must dance with this complexity, waiting for the right moment to act. Too early and elements aren't ready; too late and you're wasting time. Master waiting strategies to achieve perfect timing!</p>
+<div class="mermaid">
     graph TB
-        A[Waiting Strategies] --> B[Implicit Waits]
-        A --> C[Explicit Waits]
-        A --> D[Fluent Waits]
-        A --> E[Custom Waits]
+        A[Waiting Strategies] --&gt; B[Implicit Waits]
+        A --&gt; C[Explicit Waits]
+        A --&gt; D[Fluent Waits]
+        A --&gt; E[Custom Waits]
         
-        B --> F[Global Timeout]
-        B --> G[Simple Setup]
-        B --> H[Always Active]
+        B --&gt; F[Global Timeout]
+        B --&gt; G[Simple Setup]
+        B --&gt; H[Always Active]
         
-        C --> I[Expected Conditions]
-        C --> J[Element-Specific]
-        C --> K[Flexible Timeout]
+        C --&gt; I[Expected Conditions]
+        C --&gt; J[Element-Specific]
+        C --&gt; K[Flexible Timeout]
         
-        D --> L[Polling Interval]
-        D --> M[Ignore Exceptions]
-        D --> N[Dynamic Conditions]
+        D --&gt; L[Polling Interval]
+        D --&gt; M[Ignore Exceptions]
+        D --&gt; N[Dynamic Conditions]
         
-        E --> O[JavaScript Waits]
-        E --> P[AJAX Completion]
-        E --> Q[Animation End]
-        E --> R[Custom Logic]
+        E --&gt; O[JavaScript Waits]
+        E --&gt; P[AJAX Completion]
+        E --&gt; Q[Animation End]
+        E --&gt; R[Custom Logic]
         
-        S[Page States] --> T[DOM Ready]
-        S --> U[Page Load]
-        S --> V[AJAX Done]
-        S --> W[Animations]
+        S[Page States] --&gt; T[DOM Ready]
+        S --&gt; U[Page Load]
+        S --&gt; V[AJAX Done]
+        S --&gt; W[Animations]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -56,12 +108,9 @@
         style E fill:#ff6b6b
         style S fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Dynamic Dashboard Automator 📊</h3>
-    
-    <p>You're automating a complex analytics dashboard that loads data progressively - first the layout, then charts via AJAX, followed by real-time updates, with animations between states. Some elements appear after user interaction, others after data loads, and some only when certain conditions are met. Your automation must handle all these timing challenges gracefully. Let's build a comprehensive waiting strategy system!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Dynamic Dashboard Automator 📊</h3>
+<p>You're automating a complex analytics dashboard that loads data progressively - first the layout, then charts via AJAX, followed by real-time updates, with animations between states. Some elements appear after user interaction, others after data loads, and some only when certain conditions are met. Your automation must handle all these timing challenges gracefully. Let's build a comprehensive waiting strategy system!</p>
+<pre><code># First, install required packages:
 # pip install selenium webdriver-manager
 
 import time
@@ -180,7 +229,7 @@ class SmartWait:
     # -------------------- Explicit Waits --------------------
     
     def wait_for_element(self, locator: Tuple[str, str], 
-                         timeout: Optional[int] = None) -> WebElement:
+                         timeout: Optional[int] = None) -&gt; WebElement:
         """Wait for element to be present in DOM."""
         timeout = timeout or self.default_timeout
         wait = WebDriverWait(self.driver, timeout)
@@ -194,7 +243,7 @@ class SmartWait:
             raise
     
     def wait_for_visible(self, locator: Tuple[str, str], 
-                         timeout: Optional[int] = None) -> WebElement:
+                         timeout: Optional[int] = None) -&gt; WebElement:
         """Wait for element to be visible."""
         timeout = timeout or self.default_timeout
         wait = WebDriverWait(self.driver, timeout)
@@ -208,7 +257,7 @@ class SmartWait:
             raise
     
     def wait_for_clickable(self, locator: Tuple[str, str], 
-                           timeout: Optional[int] = None) -> WebElement:
+                           timeout: Optional[int] = None) -&gt; WebElement:
         """Wait for element to be clickable."""
         timeout = timeout or self.default_timeout
         wait = WebDriverWait(self.driver, timeout)
@@ -222,7 +271,7 @@ class SmartWait:
             raise
     
     def wait_for_text(self, locator: Tuple[str, str], text: str,
-                      timeout: Optional[int] = None) -> bool:
+                      timeout: Optional[int] = None) -&gt; bool:
         """Wait for specific text in element."""
         timeout = timeout or self.default_timeout
         wait = WebDriverWait(self.driver, timeout)
@@ -236,7 +285,7 @@ class SmartWait:
             raise
     
     def wait_for_invisible(self, locator: Tuple[str, str],
-                           timeout: Optional[int] = None) -> bool:
+                           timeout: Optional[int] = None) -&gt; bool:
         """Wait for element to become invisible or not present."""
         timeout = timeout or self.default_timeout
         wait = WebDriverWait(self.driver, timeout)
@@ -254,7 +303,7 @@ class SmartWait:
     def fluent_wait(self, condition: Callable, 
                    timeout: Optional[int] = None,
                    poll_frequency: Optional[float] = None,
-                   ignored_exceptions: Optional[tuple] = None) -> Any:
+                   ignored_exceptions: Optional[tuple] = None) -&gt; Any:
         """
         Fluent wait with custom polling and exception handling.
         """
@@ -281,7 +330,7 @@ class SmartWait:
     
     def wait_for_element_count(self, locator: Tuple[str, str], 
                                count: int, 
-                               timeout: Optional[int] = None) -> List[WebElement]:
+                               timeout: Optional[int] = None) -&gt; List[WebElement]:
         """Wait for specific number of elements."""
         timeout = timeout or self.default_timeout
         
@@ -304,7 +353,7 @@ class SmartWait:
     def wait_for_element_attribute(self, locator: Tuple[str, str],
                                    attribute: str,
                                    value: str,
-                                   timeout: Optional[int] = None) -> WebElement:
+                                   timeout: Optional[int] = None) -&gt; WebElement:
         """Wait for element to have specific attribute value."""
         timeout = timeout or self.default_timeout
         
@@ -330,7 +379,7 @@ class SmartWait:
     def wait_for_element_css_value(self, locator: Tuple[str, str],
                                    property_name: str,
                                    value: str,
-                                   timeout: Optional[int] = None) -> WebElement:
+                                   timeout: Optional[int] = None) -&gt; WebElement:
         """Wait for element to have specific CSS value."""
         timeout = timeout or self.default_timeout
         
@@ -364,11 +413,11 @@ class JavaScriptWait:
         self.driver = driver
         self.logger = logging.getLogger(__name__)
     
-    def wait_for_page_load(self, timeout: int = 30) -> bool:
+    def wait_for_page_load(self, timeout: int = 30) -&gt; bool:
         """Wait for page to be completely loaded."""
         end_time = time.time() + timeout
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 ready_state = self.driver.execute_script("return document.readyState")
                 if ready_state == "complete":
@@ -381,11 +430,11 @@ class JavaScriptWait:
         self.logger.warning("Page did not complete loading")
         return False
     
-    def wait_for_jquery(self, timeout: int = 30) -> bool:
+    def wait_for_jquery(self, timeout: int = 30) -&gt; bool:
         """Wait for jQuery to be ready and no active AJAX calls."""
         end_time = time.time() + timeout
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 # Check if jQuery exists
                 jquery_defined = self.driver.execute_script("return typeof jQuery !== 'undefined'")
@@ -393,7 +442,7 @@ class JavaScriptWait:
                 if jquery_defined:
                     # Check jQuery ready state and active AJAX calls
                     jquery_ready = self.driver.execute_script(
-                        "return jQuery.active == 0 && jQuery(':animated').length == 0"
+                        "return jQuery.active == 0 &amp;&amp; jQuery(':animated').length == 0"
                     )
                     if jquery_ready:
                         self.logger.debug("jQuery ready, no active AJAX")
@@ -409,14 +458,14 @@ class JavaScriptWait:
         self.logger.warning("jQuery/AJAX did not complete")
         return False
     
-    def wait_for_angular(self, timeout: int = 30) -> bool:
+    def wait_for_angular(self, timeout: int = 30) -&gt; bool:
         """Wait for Angular to be ready."""
         end_time = time.time() + timeout
         
         # Angular 1.x check
         angular1_script = """
         try {
-            if (window.angular && angular.element(document).injector()) {
+            if (window.angular &amp;&amp; angular.element(document).injector()) {
                 var injector = angular.element(document).injector();
                 var $browser = injector.get('$browser');
                 return $browser.defer.queue.length === 0;
@@ -437,7 +486,7 @@ class JavaScriptWait:
         return true;
         """
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 angular1_ready = self.driver.execute_script(angular1_script)
                 angular2_ready = self.driver.execute_script(angular2_script)
@@ -453,7 +502,7 @@ class JavaScriptWait:
         self.logger.warning("Angular did not stabilize")
         return False
     
-    def wait_for_react(self, timeout: int = 30) -> bool:
+    def wait_for_react(self, timeout: int = 30) -&gt; bool:
         """Wait for React to be ready."""
         end_time = time.time() + timeout
         
@@ -467,14 +516,14 @@ class JavaScriptWait:
         
         // Alternative check
         try {
-            return document.readyState === 'complete' && 
+            return document.readyState === 'complete' &amp;&amp; 
                    (!window.React || !window.React.isPending);
         } catch(err) {}
         
         return true;
         """
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 react_ready = self.driver.execute_script(react_script)
                 if react_ready:
@@ -488,7 +537,7 @@ class JavaScriptWait:
         self.logger.warning("React did not stabilize")
         return False
     
-    def wait_for_animation(self, element: WebElement, timeout: int = 10) -> bool:
+    def wait_for_animation(self, element: WebElement, timeout: int = 10) -&gt; bool:
         """Wait for CSS animations to complete on element."""
         end_time = time.time() + timeout
         
@@ -508,7 +557,7 @@ class JavaScriptWait:
         function parseDuration(duration) {
             if (duration === 'none' || duration === '0s') return 0;
             var value = parseFloat(duration);
-            if (duration.indexOf('ms') > -1) return value;
+            if (duration.indexOf('ms') &gt; -1) return value;
             return value * 1000;
         }
         
@@ -518,7 +567,7 @@ class JavaScriptWait:
         return Math.max(totalAnimation, totalTransition) === 0;
         """
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 animation_complete = self.driver.execute_script(animation_script, element)
                 if animation_complete:
@@ -532,11 +581,11 @@ class JavaScriptWait:
         self.logger.warning("Animation did not complete")
         return False
     
-    def wait_for_custom_js(self, script: str, timeout: int = 30) -> Any:
+    def wait_for_custom_js(self, script: str, timeout: int = 30) -&gt; Any:
         """Wait for custom JavaScript condition."""
         end_time = time.time() + timeout
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 result = self.driver.execute_script(script)
                 if result:
@@ -563,7 +612,7 @@ class AdvancedWaitStrategies:
         self.logger = logging.getLogger(__name__)
     
     def wait_for_any_condition(self, conditions: List[Callable],
-                               timeout: int = 30) -> Any:
+                               timeout: int = 30) -&gt; Any:
         """Wait for any of the conditions to be true."""
         wait = WebDriverWait(self.driver, timeout)
         
@@ -586,7 +635,7 @@ class AdvancedWaitStrategies:
             raise
     
     def wait_for_all_conditions(self, conditions: List[Callable],
-                                timeout: int = 30) -> List[Any]:
+                                timeout: int = 30) -&gt; List[Any]:
         """Wait for all conditions to be true."""
         wait = WebDriverWait(self.driver, timeout)
         
@@ -613,7 +662,7 @@ class AdvancedWaitStrategies:
     def wait_with_retry(self, action: Callable, 
                        validation: Callable,
                        max_retries: int = 3,
-                       retry_delay: int = 2) -> Any:
+                       retry_delay: int = 2) -&gt; Any:
         """Execute action and wait for validation, with retries."""
         for attempt in range(max_retries):
             try:
@@ -629,7 +678,7 @@ class AdvancedWaitStrategies:
             except Exception as e:
                 self.logger.warning(f"Attempt {attempt + 1} failed: {e}")
                 
-                if attempt < max_retries - 1:
+                if attempt &lt; max_retries - 1:
                     time.sleep(retry_delay)
                 else:
                     raise
@@ -638,7 +687,7 @@ class AdvancedWaitStrategies:
     
     def wait_for_stable_element(self, locator: Tuple[str, str],
                                stability_time: int = 2,
-                               timeout: int = 30) -> WebElement:
+                               timeout: int = 30) -&gt; WebElement:
         """Wait for element to be stable (not moving/changing)."""
         end_time = time.time() + timeout
         element = None
@@ -646,7 +695,7 @@ class AdvancedWaitStrategies:
         last_size = None
         stable_start = None
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 element = self.driver.find_element(*locator)
                 current_location = element.location
@@ -657,7 +706,7 @@ class AdvancedWaitStrategies:
                     
                     if stable_start is None:
                         stable_start = time.time()
-                    elif time.time() - stable_start >= stability_time:
+                    elif time.time() - stable_start &gt;= stability_time:
                         self.logger.debug("Element is stable")
                         return element
                 else:
@@ -687,7 +736,7 @@ class AdvancedWaitStrategies:
                 window.networkMonitor.pendingRequests++;
                 window.networkMonitor.lastActivity = Date.now();
                 
-                return originalFetch.apply(this, args).finally(() => {
+                return originalFetch.apply(this, args).finally(() =&gt; {
                     window.networkMonitor.pendingRequests--;
                     window.networkMonitor.lastActivity = Date.now();
                 });
@@ -698,12 +747,12 @@ class AdvancedWaitStrategies:
             const originalSend = XMLHttpRequest.prototype.send;
             
             XMLHttpRequest.prototype.open = function(...args) {
-                this.addEventListener('loadstart', () => {
+                this.addEventListener('loadstart', () =&gt; {
                     window.networkMonitor.pendingRequests++;
                     window.networkMonitor.lastActivity = Date.now();
                 });
                 
-                this.addEventListener('loadend', () => {
+                this.addEventListener('loadend', () =&gt; {
                     window.networkMonitor.pendingRequests--;
                     window.networkMonitor.lastActivity = Date.now();
                 });
@@ -724,11 +773,11 @@ class AdvancedWaitStrategies:
         self.driver.execute_script(script)
         time.sleep(0.5)
         
-        while time.time() < end_time:
+        while time.time() &lt; end_time:
             try:
                 status = self.driver.execute_script(script)
                 
-                if status['pending'] == 0 and status['idleTime'] >= idle_time:
+                if status['pending'] == 0 and status['idleTime'] &gt;= idle_time:
                     self.logger.debug("Network is idle")
                     return True
                     
@@ -783,7 +832,7 @@ def retry_on_stale_element(max_retries: int = 3, delay: float = 0.5):
                 try:
                     return func(*args, **kwargs)
                 except StaleElementReferenceException:
-                    if attempt < max_retries - 1:
+                    if attempt &lt; max_retries - 1:
                         time.sleep(delay)
                         logging.debug(f"Retrying due to stale element (attempt {attempt + 1})")
                     else:
@@ -878,7 +927,7 @@ if __name__ == "__main__":
         print("   ```python")
         print("   def wait_for_count(driver):")
         print("       elements = driver.find_elements(By.CLASS_NAME, 'item')")
-        print("       return len(elements) >= 10")
+        print("       return len(elements) &gt;= 10")
         print("   ")
         print("   wait.until(wait_for_count)")
         print("   ```")
@@ -967,37 +1016,28 @@ if __name__ == "__main__":
     
     print("\n✅ Waiting strategies demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Prefer Explicit Waits:</strong> More precise and efficient than implicit waits.</li>
-        
-        <li><strong>Choose the Right Condition:</strong> Presence ≠ Visible ≠ Clickable.</li>
-        
-        <li><strong>Avoid time.sleep():</strong> Use proper waits for reliability and speed.</li>
-        
-        <li><strong>Handle Framework-Specific Waits:</strong> Angular, React, jQuery have unique needs.</li>
-        
-        <li><strong>Consider Animations:</strong> Wait for CSS animations and transitions.</li>
-        
-        <li><strong>Monitor Network Activity:</strong> Wait for AJAX and fetch requests to complete.</li>
-        
-        <li><strong>Implement Retry Logic:</strong> Handle transient failures gracefully.</li>
-        
-        <li><strong>Log Timeout Failures:</strong> Essential for debugging flaky tests.</li>
-    </ul>
-
-    <h3>Waiting Strategy Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Waiting is the secret sauce that makes automation reliable. Think of it as teaching your code patience - knowing when to act is just as important as knowing what to do. Start with explicit waits for specific conditions rather than blanket implicit waits. Remember the hierarchy: element present (in DOM) → visible (displayed) → clickable (enabled and visible). For modern SPAs, standard Selenium waits aren't enough - implement JavaScript-based waits for framework readiness (Angular, React, Vue). Always wait for animations to complete before interacting. Monitor network activity for true page readiness. Create a library of custom wait conditions for your specific application. Use fluent waits with appropriate polling intervals to balance speed and CPU usage. Most importantly: what seems like a timing issue is often a synchronization issue - understand what you're really waiting for!</p>
-    </div>
-    
-    <p>Mastering waiting strategies transforms flaky automation into rock-solid reliability. You now have the tools to handle any timing challenge - from simple element appearance to complex asynchronous operations. Whether you're testing SPAs, handling AJAX, or dealing with animations, these waiting strategies ensure your automation runs smoothly every time! ⏳</p>
-    
-    <footer>
-        <p>Next up: <a href="browser_automation_page_object_model.html">Page Object Model - Build Maintainable Test Automation!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Prefer Explicit Waits:</strong> More precise and efficient than implicit waits.</li>
+<li><strong>Choose the Right Condition:</strong> Presence ≠ Visible ≠ Clickable.</li>
+<li><strong>Avoid time.sleep():</strong> Use proper waits for reliability and speed.</li>
+<li><strong>Handle Framework-Specific Waits:</strong> Angular, React, jQuery have unique needs.</li>
+<li><strong>Consider Animations:</strong> Wait for CSS animations and transitions.</li>
+<li><strong>Monitor Network Activity:</strong> Wait for AJAX and fetch requests to complete.</li>
+<li><strong>Implement Retry Logic:</strong> Handle transient failures gracefully.</li>
+<li><strong>Log Timeout Failures:</strong> Essential for debugging flaky tests.</li>
+</ul>
+<h3>Waiting Strategy Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Waiting is the secret sauce that makes automation reliable. Think of it as teaching your code patience - knowing when to act is just as important as knowing what to do. Start with explicit waits for specific conditions rather than blanket implicit waits. Remember the hierarchy: element present (in DOM) → visible (displayed) → clickable (enabled and visible). For modern SPAs, standard Selenium waits aren't enough - implement JavaScript-based waits for framework readiness (Angular, React, Vue). Always wait for animations to complete before interacting. Monitor network activity for true page readiness. Create a library of custom wait conditions for your specific application. Use fluent waits with appropriate polling intervals to balance speed and CPU usage. Most importantly: what seems like a timing issue is often a synchronization issue - understand what you're really waiting for!</p>
+</div>
+<p>Mastering waiting strategies transforms flaky automation into rock-solid reliability. You now have the tools to handle any timing challenge - from simple element appearance to complex asynchronous operations. Whether you're testing SPAs, handling AJAX, or dealing with animations, these waiting strategies ensure your automation runs smoothly every time! ⏳</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="browser_automation_element_interaction.html">← Previous: Element Interaction</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="browser_automation_page_object_model.html">Next: Page Object Model →</a>
+</div>
+</footer>
 </body>
 </html>

@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creating DAGs - Python Task Orchestration</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Creating DAGs - Python Task Orchestration</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔧 Creating DAGs: Design Complex Workflows with Code</h1>
-    
-    <p>Creating effective DAGs (Directed Acyclic Graphs) in Apache Airflow is both an art and a science - it requires understanding workflow patterns, dependency management, and best practices for maintainable pipeline design. Like architecting a complex system, well-designed DAGs are modular, reusable, testable, and scalable. Whether you're building simple linear pipelines or complex branching workflows with hundreds of tasks, mastering DAG creation patterns is essential for production-grade orchestration. Let's explore the comprehensive world of DAG design and implementation! 🏗️</p>
-
-    <h2>The DAG Design Architecture</h2>
-    
-    <p>Think of DAG creation as building with intelligent LEGO blocks - each task is a self-contained unit that connects to others through dependencies, forming complex workflows that can branch, merge, and adapt dynamically. Using Python's flexibility, Airflow allows you to create DAGs programmatically, generate them from configuration, implement complex patterns, and build reusable components. Understanding DAG lifecycle, task patterns, and design principles is crucial for scalable orchestration!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module8">Task Orchestration</a> &gt; 
+        <span>Creating DAGs</span>
+</nav>
+<h1>🔧 Creating DAGs: Design Complex Workflows with Code</h1>
+<p>Creating effective DAGs (Directed Acyclic Graphs) in Apache Airflow is both an art and a science - it requires understanding workflow patterns, dependency management, and best practices for maintainable pipeline design. Like architecting a complex system, well-designed DAGs are modular, reusable, testable, and scalable. Whether you're building simple linear pipelines or complex branching workflows with hundreds of tasks, mastering DAG creation patterns is essential for production-grade orchestration. Let's explore the comprehensive world of DAG design and implementation! 🏗️</p>
+<h2>The DAG Design Architecture</h2>
+<p>Think of DAG creation as building with intelligent LEGO blocks - each task is a self-contained unit that connects to others through dependencies, forming complex workflows that can branch, merge, and adapt dynamically. Using Python's flexibility, Airflow allows you to create DAGs programmatically, generate them from configuration, implement complex patterns, and build reusable components. Understanding DAG lifecycle, task patterns, and design principles is crucial for scalable orchestration!</p>
+<div class="mermaid">
     graph TB
-        A[DAG Creation] --> B[Design Patterns]
-        A --> C[Task Patterns]
-        A --> D[Dependencies]
-        A --> E[Advanced Features]
+        A[DAG Creation] --&gt; B[Design Patterns]
+        A --&gt; C[Task Patterns]
+        A --&gt; D[Dependencies]
+        A --&gt; E[Advanced Features]
         
-        B --> F[Linear Pipeline]
-        B --> G[Fan-Out/Fan-In]
-        B --> H[Conditional]
-        B --> I[Dynamic]
+        B --&gt; F[Linear Pipeline]
+        B --&gt; G[Fan-Out/Fan-In]
+        B --&gt; H[Conditional]
+        B --&gt; I[Dynamic]
         
-        C --> J[ETL Tasks]
-        C --> K[ML Tasks]
-        C --> L[Notification]
-        C --> M[Validation]
+        C --&gt; J[ETL Tasks]
+        C --&gt; K[ML Tasks]
+        C --&gt; L[Notification]
+        C --&gt; M[Validation]
         
-        D --> N[Sequential]
-        D --> O[Parallel]
-        D --> P[Cross-DAG]
-        D --> Q[External]
+        D --&gt; N[Sequential]
+        D --&gt; O[Parallel]
+        D --&gt; P[Cross-DAG]
+        D --&gt; Q[External]
         
-        E --> R[SubDAGs]
-        E --> S[Task Groups]
-        E --> T[Dynamic Tasks]
-        E --> U[Templating]
+        E --&gt; R[SubDAGs]
+        E --&gt; S[Task Groups]
+        E --&gt; T[Dynamic Tasks]
+        E --&gt; U[Templating]
         
-        V[Components] --> W[Operators]
-        V --> X[Sensors]
-        V --> Y[Hooks]
-        V --> Z[Executors]
+        V[Components] --&gt; W[Operators]
+        V --&gt; X[Sensors]
+        V --&gt; Y[Hooks]
+        V --&gt; Z[Executors]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Enterprise Data Platform 🏢</h3>
-    
-    <p>You're building an enterprise data platform that orchestrates hundreds of data pipelines, handles complex ETL/ELT workflows with dependencies, manages machine learning model training and deployment, processes real-time and batch data streams, coordinates multi-cloud data operations, implements data quality gates and validation, provides self-service DAG generation for teams, and maintains audit trails and compliance. Your platform must support dynamic workflow generation, handle failures gracefully, scale horizontally, and provide clear visibility into pipeline operations. Let's build a comprehensive DAG creation framework!</p>
-
-    <pre><code># Advanced DAG Creation Patterns and Best Practices
+<h3>Real-World Scenario: The Enterprise Data Platform 🏢</h3>
+<p>You're building an enterprise data platform that orchestrates hundreds of data pipelines, handles complex ETL/ELT workflows with dependencies, manages machine learning model training and deployment, processes real-time and batch data streams, coordinates multi-cloud data operations, implements data quality gates and validation, provides self-service DAG generation for teams, and maintains audit trails and compliance. Your platform must support dynamic workflow generation, handle failures gracefully, scale horizontally, and provide clear visibility into pipeline operations. Let's build a comprehensive DAG creation framework!</p>
+<pre><code># Advanced DAG Creation Patterns and Best Practices
 # pip install apache-airflow pandas pyyaml jinja2
 
 import os
@@ -117,7 +166,7 @@ class DAGFactory:
         schedule_interval: str = '@daily',
         tags: Optional[List[str]] = None,
         **kwargs
-    ) -> DAG:
+    ) -&gt; DAG:
         """Create a DAG with standard configuration."""
         
         # Merge default args with any provided args
@@ -147,7 +196,7 @@ class DAGFactory:
         destination: str,
         transform_func: Optional[Callable] = None,
         **kwargs
-    ) -> DAG:
+    ) -&gt; DAG:
         """Create a standard ETL DAG."""
         
         dag = self.create_dag(
@@ -182,11 +231,11 @@ class DAGFactory:
             )
             
             # Set dependencies
-            extract >> transform >> load
+            extract &gt;&gt; transform &gt;&gt; load
         
         return dag
     
-    def _create_extract_task(self, source: str) -> Callable:
+    def _create_extract_task(self, source: str) -&gt; Callable:
         """Create extraction function for source."""
         def extract_data(**context):
             print(f"Extracting data from {source}")
@@ -196,7 +245,7 @@ class DAGFactory:
             return data
         return extract_data
     
-    def _create_load_task(self, destination: str) -> Callable:
+    def _create_load_task(self, destination: str) -&gt; Callable:
         """Create load function for destination."""
         def load_data(**context):
             data = context['task_instance'].xcom_pull(task_ids='transform', key='return_value')
@@ -229,7 +278,7 @@ class ConfigDrivenDAG:
         self.dags = {}
         self._create_dags()
     
-    def _load_configs(self) -> List[PipelineConfig]:
+    def _load_configs(self) -&gt; List[PipelineConfig]:
         """Load pipeline configurations from file."""
         configs = []
         
@@ -267,7 +316,7 @@ class ConfigDrivenDAG:
             
             self.dags[dag_id] = dag
     
-    def _build_pipeline_tasks(self, config: PipelineConfig) -> Dict[str, Any]:
+    def _build_pipeline_tasks(self, config: PipelineConfig) -&gt; Dict[str, Any]:
         """Build tasks for pipeline configuration."""
         tasks = {}
         
@@ -372,7 +421,7 @@ class ConfigDrivenDAG:
         # In production, parse dependency configuration
         task_list = list(tasks.values())
         for i in range(len(task_list) - 1):
-            task_list[i] >> task_list[i + 1]
+            task_list[i] &gt;&gt; task_list[i + 1]
 
 # ==================== Dynamic Task Generation ====================
 
@@ -391,13 +440,13 @@ def dynamic_task_dag():
     """DAG that generates tasks dynamically based on data."""
     
     @task
-    def get_processing_list() -> List[str]:
+    def get_processing_list() -&gt; List[str]:
         """Get list of items to process."""
         # In production, this could query a database or API
         return ['dataset_a', 'dataset_b', 'dataset_c', 'dataset_d']
     
     @task
-    def process_dataset(dataset_name: str) -> Dict[str, Any]:
+    def process_dataset(dataset_name: str) -&gt; Dict[str, Any]:
         """Process a single dataset."""
         import time
         import random
@@ -417,7 +466,7 @@ def dynamic_task_dag():
         return result
     
     @task
-    def aggregate_results(results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def aggregate_results(results: List[Dict[str, Any]]) -&gt; Dict[str, Any]:
         """Aggregate results from all processing tasks."""
         total_records = sum(r['records_processed'] for r in results)
         
@@ -462,15 +511,15 @@ class DependencyPatterns:
     def fan_out_fan_in(dag: DAG, source_task, processing_tasks: List, sink_task):
         """
         Fan-out/fan-in pattern:
-        source -> [task1, task2, task3] -> sink
+        source -&gt; [task1, task2, task3] -&gt; sink
         """
-        source_task >> processing_tasks >> sink_task
+        source_task &gt;&gt; processing_tasks &gt;&gt; sink_task
     
     @staticmethod
     def conditional_branching(dag: DAG, condition_task, branch_tasks: Dict[str, List]):
         """
         Conditional branching pattern:
-        condition -> branch_a or branch_b -> merge
+        condition -&gt; branch_a or branch_b -&gt; merge
         """
         from airflow.operators.python import BranchPythonOperator
         
@@ -481,8 +530,8 @@ class DependencyPatterns:
             )
             
             for branch_id, tasks in branch_tasks.items():
-                condition_task >> tasks[0]
-                tasks[-1] >> merge
+                condition_task &gt;&gt; tasks[0]
+                tasks[-1] &gt;&gt; merge
             
             return merge
     
@@ -490,21 +539,21 @@ class DependencyPatterns:
     def parallel_sequential(dag: DAG, parallel_groups: List[List]):
         """
         Parallel groups in sequence:
-        [group1_tasks] -> [group2_tasks] -> [group3_tasks]
+        [group1_tasks] -&gt; [group2_tasks] -&gt; [group3_tasks]
         """
         for i in range(len(parallel_groups) - 1):
             for task in parallel_groups[i]:
-                task >> parallel_groups[i + 1]
+                task &gt;&gt; parallel_groups[i + 1]
     
     @staticmethod
     def diamond_dependency(dag: DAG, start_task, parallel_tasks: List, end_task):
         """
         Diamond pattern:
-           -> task1 ->
+           -&gt; task1 -&gt;
         start        end
-           -> task2 ->
+           -&gt; task2 -&gt;
         """
-        start_task >> parallel_tasks >> end_task
+        start_task &gt;&gt; parallel_tasks &gt;&gt; end_task
 
 # ==================== Task Group Patterns ====================
 
@@ -512,31 +561,31 @@ def create_data_quality_group(
     parent_dag: DAG,
     group_id: str,
     table_name: str
-) -> TaskGroup:
+) -&gt; TaskGroup:
     """Create a reusable data quality check task group."""
     
     with TaskGroup(group_id=group_id, dag=parent_dag) as quality_group:
         
         @task(task_id=f'{group_id}.check_nulls')
-        def check_nulls(table: str) -> Dict[str, Any]:
+        def check_nulls(table: str) -&gt; Dict[str, Any]:
             """Check for null values."""
             print(f"Checking nulls in {table}")
             return {'table': table, 'nulls_found': False}
         
         @task(task_id=f'{group_id}.check_duplicates')
-        def check_duplicates(table: str) -> Dict[str, Any]:
+        def check_duplicates(table: str) -&gt; Dict[str, Any]:
             """Check for duplicate records."""
             print(f"Checking duplicates in {table}")
             return {'table': table, 'duplicates_found': False}
         
         @task(task_id=f'{group_id}.check_schema')
-        def check_schema(table: str) -> Dict[str, Any]:
+        def check_schema(table: str) -&gt; Dict[str, Any]:
             """Validate table schema."""
             print(f"Validating schema for {table}")
             return {'table': table, 'schema_valid': True}
         
         @task(task_id=f'{group_id}.aggregate_checks')
-        def aggregate_checks(*check_results) -> Dict[str, Any]:
+        def aggregate_checks(*check_results) -&gt; Dict[str, Any]:
             """Aggregate all quality check results."""
             all_passed = all(
                 not r.get('nulls_found', False) and
@@ -567,7 +616,7 @@ def create_subdag(
     child_dag_id: str,
     default_args: Dict[str, Any],
     schedule_interval: str
-) -> DAG:
+) -&gt; DAG:
     """Create a SubDAG for modular workflow components."""
     
     subdag = DAG(
@@ -586,14 +635,14 @@ def create_subdag(
                 task_id=f'subdag_task_{i}',
                 python_callable=lambda x=i: print(f"SubDAG task {x}")
             )
-            start >> task
+            start &gt;&gt; task
         
         end = DummyOperator(task_id='subdag_end')
         
         # Connect all tasks to end
         for task in subdag.tasks:
             if task.task_id != 'subdag_end' and task.task_id != 'subdag_start':
-                task >> end
+                task &gt;&gt; end
     
     return subdag
 
@@ -611,7 +660,7 @@ def master_pipeline():
     """Master DAG that coordinates multiple child DAGs."""
     
     @task
-    def prepare_environment() -> Dict[str, Any]:
+    def prepare_environment() -&gt; Dict[str, Any]:
         """Prepare environment for child DAGs."""
         print("Preparing environment...")
         
@@ -645,7 +694,7 @@ def master_pipeline():
     )
     
     @task
-    def validate_results() -> Dict[str, Any]:
+    def validate_results() -&gt; Dict[str, Any]:
         """Validate results from child DAGs."""
         print("Validating results from child DAGs...")
         
@@ -674,7 +723,7 @@ def master_pipeline():
     validation = validate_results()
     clean = cleanup()
     
-    env_prep >> [trigger_etl, trigger_ml] >> validation >> clean
+    env_prep &gt;&gt; [trigger_etl, trigger_ml] &gt;&gt; validation &gt;&gt; clean
 
 master_dag = master_pipeline()
 
@@ -693,7 +742,7 @@ class TemplateDAG:
         self.env = Environment(loader=FileSystemLoader(self.template_dir))
         self.template = self.env.get_template(self.template_name)
     
-    def render_dag(self, **context) -> str:
+    def render_dag(self, **context) -&gt; str:
         """Render DAG code from template."""
         return self.template.render(**context)
     
@@ -712,7 +761,7 @@ class DAGValidator:
     """Validate DAG structure and configuration."""
     
     @staticmethod
-    def validate_dag(dag: DAG) -> Dict[str, Any]:
+    def validate_dag(dag: DAG) -&gt; Dict[str, Any]:
         """Validate a DAG for common issues."""
         issues = []
         warnings = []
@@ -740,7 +789,7 @@ class DAGValidator:
             warnings.append("No email configured for notifications")
         
         # Check task count
-        if len(dag.tasks) > 100:
+        if len(dag.tasks) &gt; 100:
             warnings.append(f"DAG has {len(dag.tasks)} tasks - consider breaking it up")
         
         return {
@@ -752,7 +801,7 @@ class DAGValidator:
         }
     
     @staticmethod
-    def test_dag_execution(dag: DAG, execution_date: datetime = None) -> Dict[str, Any]:
+    def test_dag_execution(dag: DAG, execution_date: datetime = None) -&gt; Dict[str, Any]:
         """Test DAG execution in a controlled environment."""
         from airflow.models import DagBag
         from airflow.utils.state import State
@@ -791,7 +840,7 @@ class DAGMetrics:
     """Collect and report DAG metrics."""
     
     @staticmethod
-    def calculate_dag_complexity(dag: DAG) -> Dict[str, Any]:
+    def calculate_dag_complexity(dag: DAG) -&gt; Dict[str, Any]:
         """Calculate complexity metrics for a DAG."""
         
         # Calculate depth (longest path)
@@ -872,10 +921,10 @@ if __name__ == "__main__":
     # Example 4: Dependency patterns
     print("\n4️⃣ Common Dependency Patterns:")
     dep_patterns = [
-        ("Linear", "task1 >> task2 >> task3"),
-        ("Fan-out/Fan-in", "start >> [task1, task2, task3] >> end"),
-        ("Conditional", "check >> [branch_a, branch_b]"),
-        ("Diamond", "start >> [parallel1, parallel2] >> end"),
+        ("Linear", "task1 &gt;&gt; task2 &gt;&gt; task3"),
+        ("Fan-out/Fan-in", "start &gt;&gt; [task1, task2, task3] &gt;&gt; end"),
+        ("Conditional", "check &gt;&gt; [branch_a, branch_b]"),
+        ("Diamond", "start &gt;&gt; [parallel1, parallel2] &gt;&gt; end"),
         ("Cross-DAG", "ExternalTaskSensor + TriggerDagRunOperator")
     ]
     
@@ -921,7 +970,7 @@ if __name__ == "__main__":
         t1 = DummyOperator(task_id='task1')
         t2 = DummyOperator(task_id='task2')
         t3 = DummyOperator(task_id='task3')
-        t1 >> t2 >> t3
+        t1 &gt;&gt; t2 &gt;&gt; t3
     
     validator = DAGValidator()
     validation_result = validator.validate_dag(test_dag)
@@ -993,37 +1042,28 @@ if __name__ == "__main__":
     
     print("\n✅ DAG creation patterns demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Modular Design:</strong> Create reusable components with task groups and factory patterns.</li>
-        
-        <li><strong>Configuration-Driven:</strong> Generate DAGs from YAML/JSON for easier management.</li>
-        
-        <li><strong>Dynamic Generation:</strong> Use dynamic task mapping for scalable workflows.</li>
-        
-        <li><strong>Clear Dependencies:</strong> Define explicit task dependencies and use appropriate patterns.</li>
-        
-        <li><strong>Validation:</strong> Test and validate DAGs before deployment.</li>
-        
-        <li><strong>Documentation:</strong> Document DAG purpose, dependencies, and requirements.</li>
-        
-        <li><strong>Error Handling:</strong> Implement comprehensive error handling and recovery.</li>
-        
-        <li><strong>Performance:</strong> Optimize for parallelism and resource usage.</li>
-    </ul>
-
-    <h3>DAG Creation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of DAG creation as software architecture - each DAG should have a single, clear purpose and be composed of modular, reusable components. Use the DAG Factory pattern to standardize DAG creation across your organization. Leverage configuration-driven DAGs for repetitive patterns - define pipelines in YAML/JSON and generate DAGs programmatically. Implement task groups to organize related tasks visually and logically. Use dynamic task generation for scalable workflows that adapt to data. Keep DAGs focused - it's better to have multiple simple DAGs than one complex monolith. Implement proper dependency patterns: use fan-out/fan-in for parallel processing, conditional branching for decision logic, and cross-DAG dependencies for complex orchestration. Always validate DAGs before deployment - check for cycles, orphaned tasks, and missing configuration. Use template variables for dynamic behavior but avoid top-level code execution. Implement comprehensive monitoring with SLA checks and alerting. Version control your DAGs and use CI/CD for deployment. Test DAGs thoroughly - use Airflow's testing utilities to validate execution order and behavior. Remember: DAGs are code - apply software engineering best practices including code review, testing, and documentation!</p>
-    </div>
-    
-    <p>Mastering DAG creation enables you to build sophisticated, maintainable workflow orchestration at scale. You can now design complex workflows with multiple patterns, generate DAGs dynamically from configuration, create reusable components with task groups, implement cross-DAG dependencies, and validate workflows before deployment. Whether you're building data pipelines, ML workflows, or business process automation, these DAG creation skills provide the foundation for enterprise-grade orchestration! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="task_orchestration_dependencies.html">Task Dependencies - Master Complex Workflow Relationships!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Modular Design:</strong> Create reusable components with task groups and factory patterns.</li>
+<li><strong>Configuration-Driven:</strong> Generate DAGs from YAML/JSON for easier management.</li>
+<li><strong>Dynamic Generation:</strong> Use dynamic task mapping for scalable workflows.</li>
+<li><strong>Clear Dependencies:</strong> Define explicit task dependencies and use appropriate patterns.</li>
+<li><strong>Validation:</strong> Test and validate DAGs before deployment.</li>
+<li><strong>Documentation:</strong> Document DAG purpose, dependencies, and requirements.</li>
+<li><strong>Error Handling:</strong> Implement comprehensive error handling and recovery.</li>
+<li><strong>Performance:</strong> Optimize for parallelism and resource usage.</li>
+</ul>
+<h3>DAG Creation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of DAG creation as software architecture - each DAG should have a single, clear purpose and be composed of modular, reusable components. Use the DAG Factory pattern to standardize DAG creation across your organization. Leverage configuration-driven DAGs for repetitive patterns - define pipelines in YAML/JSON and generate DAGs programmatically. Implement task groups to organize related tasks visually and logically. Use dynamic task generation for scalable workflows that adapt to data. Keep DAGs focused - it's better to have multiple simple DAGs than one complex monolith. Implement proper dependency patterns: use fan-out/fan-in for parallel processing, conditional branching for decision logic, and cross-DAG dependencies for complex orchestration. Always validate DAGs before deployment - check for cycles, orphaned tasks, and missing configuration. Use template variables for dynamic behavior but avoid top-level code execution. Implement comprehensive monitoring with SLA checks and alerting. Version control your DAGs and use CI/CD for deployment. Test DAGs thoroughly - use Airflow's testing utilities to validate execution order and behavior. Remember: DAGs are code - apply software engineering best practices including code review, testing, and documentation!</p>
+</div>
+<p>Mastering DAG creation enables you to build sophisticated, maintainable workflow orchestration at scale. You can now design complex workflows with multiple patterns, generate DAGs dynamically from configuration, create reusable components with task groups, implement cross-DAG dependencies, and validate workflows before deployment. Whether you're building data pipelines, ML workflows, or business process automation, these DAG creation skills provide the foundation for enterprise-grade orchestration! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="task_orchestration_airflow_basics.html">← Previous: Apache Airflow Basics</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="task_orchestration_dependencies.html">Next: Task Dependencies →</a>
+</div>
+</footer>
 </body>
 </html>

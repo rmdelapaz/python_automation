@@ -1,53 +1,105 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication Methods - Python API Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Authentication Methods - Python API Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔐 Authentication Methods: Secure Your API Connections</h1>
-    
-    <p>Authentication is the digital bouncer of the API world - it verifies who you are and what you're allowed to access. Like having the right keys for different doors, mastering authentication methods lets you securely access any API, from simple token-based services to complex OAuth flows. Whether you're integrating with enterprise systems or public APIs, understanding authentication is crucial for secure and reliable API automation! 🗝️</p>
-
-    <h2>The Authentication Landscape</h2>
-    
-    <p>Modern APIs use various authentication methods, each with its own security model and use cases. Think of it as a security clearance system - some doors need just a password, others require biometric scans, and the most secure ones need multiple forms of identification. Master these patterns to access any API securely and efficiently!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module6">API Automation</a> &gt; 
+        <span>Authentication Methods</span>
+</nav>
+<h1>🔐 Authentication Methods: Secure Your API Connections</h1>
+<p>Authentication is the digital bouncer of the API world - it verifies who you are and what you're allowed to access. Like having the right keys for different doors, mastering authentication methods lets you securely access any API, from simple token-based services to complex OAuth flows. Whether you're integrating with enterprise systems or public APIs, understanding authentication is crucial for secure and reliable API automation! 🗝️</p>
+<h2>The Authentication Landscape</h2>
+<p>Modern APIs use various authentication methods, each with its own security model and use cases. Think of it as a security clearance system - some doors need just a password, others require biometric scans, and the most secure ones need multiple forms of identification. Master these patterns to access any API securely and efficiently!</p>
+<div class="mermaid">
     graph TB
-        A[API Authentication] --> B[Basic Methods]
-        A --> C[Token-Based]
-        A --> D[OAuth Flows]
-        A --> E[Advanced Security]
+        A[API Authentication] --&gt; B[Basic Methods]
+        A --&gt; C[Token-Based]
+        A --&gt; D[OAuth Flows]
+        A --&gt; E[Advanced Security]
         
-        B --> F[API Key]
-        B --> G[Basic Auth]
-        B --> H[Digest Auth]
+        B --&gt; F[API Key]
+        B --&gt; G[Basic Auth]
+        B --&gt; H[Digest Auth]
         
-        C --> I[Bearer Token]
-        C --> J[JWT]
-        C --> K[Personal Access Token]
+        C --&gt; I[Bearer Token]
+        C --&gt; J[JWT]
+        C --&gt; K[Personal Access Token]
         
-        D --> L[OAuth 1.0]
-        D --> M[OAuth 2.0]
-        D --> N[OpenID Connect]
+        D --&gt; L[OAuth 1.0]
+        D --&gt; M[OAuth 2.0]
+        D --&gt; N[OpenID Connect]
         
-        E --> O[HMAC Signing]
-        E --> P[Mutual TLS]
-        E --> Q[SAML]
-        E --> R[AWS Signature]
+        E --&gt; O[HMAC Signing]
+        E --&gt; P[Mutual TLS]
+        E --&gt; Q[SAML]
+        E --&gt; R[AWS Signature]
         
-        S[Token Management] --> T[Storage]
-        S --> U[Refresh]
-        S --> V[Rotation]
-        S --> W[Expiration]
+        S[Token Management] --&gt; T[Storage]
+        S --&gt; U[Refresh]
+        S --&gt; V[Rotation]
+        S --&gt; W[Expiration]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -56,12 +108,9 @@
         style E fill:#ff6b6b
         style S fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Multi-Service Auth Manager 🌟</h3>
-    
-    <p>You're building an authentication management system that handles multiple APIs - social media with OAuth2, payment gateways with HMAC signing, enterprise systems with SAML, cloud services with JWT, and internal APIs with mTLS. Your system must securely store credentials, automatically refresh tokens, handle multi-factor authentication, rotate keys, and provide detailed audit logging. Let's build a comprehensive authentication framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Multi-Service Auth Manager 🌟</h3>
+<p>You're building an authentication management system that handles multiple APIs - social media with OAuth2, payment gateways with HMAC signing, enterprise systems with SAML, cloud services with JWT, and internal APIs with mTLS. Your system must securely store credentials, automatically refresh tokens, handle multi-factor authentication, rotate keys, and provide detailed audit logging. Let's build a comprehensive authentication framework!</p>
+<pre><code># First, install required packages:
 # pip install requests pyjwt cryptography python-jose oauthlib requests-oauthlib python-dotenv keyring
 
 import os
@@ -138,7 +187,7 @@ class SecureCredentialStore:
             self.logger.error(f"Failed to store credential: {e}")
             raise
     
-    def get_credential(self, api_name: str, key: str) -> Optional[str]:
+    def get_credential(self, api_name: str, key: str) -&gt; Optional[str]:
         """Retrieve credential from secure storage."""
         # Check memory cache first
         if api_name in self._memory_cache and key in self._memory_cache[api_name]:
@@ -213,7 +262,7 @@ class APIKeyAuth(BaseAuthHandler):
         elif self.location == "query":
             # Add to query parameters
             if "?" in request.url:
-                request.url += f"&{self.key_name}={self.api_key}"
+                request.url += f"&amp;{self.key_name}={self.api_key}"
             else:
                 request.url += f"?{self.key_name}={self.api_key}"
         elif self.location == "body":
@@ -242,7 +291,7 @@ class BearerTokenAuth(BaseAuthHandler):
     def __call__(self, request):
         """Add bearer token to request."""
         # Check if token needs refresh
-        if self.token_expiry and datetime.now() >= self.token_expiry:
+        if self.token_expiry and datetime.now() &gt;= self.token_expiry:
             self.refresh()
         
         request.headers["Authorization"] = f"Bearer {self.token}"
@@ -286,7 +335,7 @@ class JWTAuth(BaseAuthHandler):
         self._token = None
         self._token_expiry = None
     
-    def create_token(self, payload: Dict[str, Any]) -> str:
+    def create_token(self, payload: Dict[str, Any]) -&gt; str:
         """Create a JWT token."""
         now = datetime.utcnow()
         
@@ -316,7 +365,7 @@ class JWTAuth(BaseAuthHandler):
         
         return token
     
-    def decode_token(self, token: str) -> Dict[str, Any]:
+    def decode_token(self, token: str) -&gt; Dict[str, Any]:
         """Decode and validate a JWT token."""
         try:
             payload = jwt.decode(
@@ -337,7 +386,7 @@ class JWTAuth(BaseAuthHandler):
     def __call__(self, request):
         """Add JWT to request."""
         # Create or refresh token if needed
-        if not self._token or (self._token_expiry and datetime.utcnow() >= self._token_expiry):
+        if not self._token or (self._token_expiry and datetime.utcnow() &gt;= self._token_expiry):
             self.create_token({"sub": "api_client"})
         
         request.headers["Authorization"] = f"Bearer {self._token}"
@@ -366,7 +415,7 @@ class OAuth2Handler:
         self.session = None
         self.token = None
     
-    def get_authorization_url(self) -> Tuple[str, str]:
+    def get_authorization_url(self) -&gt; Tuple[str, str]:
         """
         Get authorization URL for user consent.
         Returns (authorization_url, state).
@@ -383,7 +432,7 @@ class OAuth2Handler:
         
         return authorization_url, state
     
-    def fetch_token(self, authorization_response: str, state: str) -> Dict:
+    def fetch_token(self, authorization_response: str, state: str) -&gt; Dict:
         """
         Exchange authorization code for access token.
         """
@@ -402,7 +451,7 @@ class OAuth2Handler:
         self.token = token
         return token
     
-    def refresh_token(self, refresh_token: str) -> Dict:
+    def refresh_token(self, refresh_token: str) -&gt; Dict:
         """Refresh access token."""
         extra = {
             'client_id': self.client_id,
@@ -422,7 +471,7 @@ class OAuth2Handler:
         
         return self.token
     
-    def client_credentials_grant(self) -> Dict:
+    def client_credentials_grant(self) -&gt; Dict:
         """
         OAuth2 client credentials grant (for server-to-server).
         """
@@ -439,7 +488,7 @@ class OAuth2Handler:
         self.token = token
         return token
     
-    def get_authenticated_session(self) -> OAuth2Session:
+    def get_authenticated_session(self) -&gt; OAuth2Session:
         """Get authenticated OAuth2 session."""
         if not self.token:
             raise ValueError("No token available. Authenticate first.")
@@ -521,11 +570,11 @@ class AWSSignatureV4Auth(BaseAuthHandler):
         self.service = service
         self.session_token = session_token
     
-    def _sign(self, key: bytes, msg: str) -> bytes:
+    def _sign(self, key: bytes, msg: str) -&gt; bytes:
         """Sign message with key."""
         return hmac.new(key, msg.encode('utf-8'), hashlib.sha256).digest()
     
-    def _get_signature_key(self, date_stamp: str) -> bytes:
+    def _get_signature_key(self, date_stamp: str) -&gt; bytes:
         """Derive signing key."""
         k_date = self._sign(('AWS4' + self.secret_key).encode('utf-8'), date_stamp)
         k_region = self._sign(k_date, self.region)
@@ -600,24 +649,24 @@ class MFAHandler:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
     
-    def generate_totp_secret(self) -> str:
+    def generate_totp_secret(self) -&gt; str:
         """Generate TOTP secret for 2FA."""
         import pyotp
         return pyotp.random_base32()
     
-    def get_totp_token(self, secret: str) -> str:
+    def get_totp_token(self, secret: str) -&gt; str:
         """Get current TOTP token."""
         import pyotp
         totp = pyotp.TOTP(secret)
         return totp.now()
     
-    def verify_totp_token(self, secret: str, token: str) -> bool:
+    def verify_totp_token(self, secret: str, token: str) -&gt; bool:
         """Verify TOTP token."""
         import pyotp
         totp = pyotp.TOTP(secret)
         return totp.verify(token, valid_window=1)
     
-    def generate_backup_codes(self, count: int = 10) -> List[str]:
+    def generate_backup_codes(self, count: int = 10) -&gt; List[str]:
         """Generate backup codes for 2FA."""
         codes = []
         for _ in range(count):
@@ -660,7 +709,7 @@ class AuthenticationManager:
     
     def _create_auth_handler(self, auth_type: AuthType, 
                            api_name: str, 
-                           credentials: Dict) -> Optional[AuthBase]:
+                           credentials: Dict) -&gt; Optional[AuthBase]:
         """Create appropriate auth handler."""
         if auth_type == AuthType.API_KEY:
             api_key = self.credential_store.get_credential(api_name, "api_key")
@@ -698,7 +747,7 @@ class AuthenticationManager:
         else:
             return None
     
-    def get_auth_handler(self, api_name: str) -> Optional[AuthBase]:
+    def get_auth_handler(self, api_name: str) -&gt; Optional[AuthBase]:
         """Get auth handler for API."""
         return self.auth_handlers.get(api_name)
     
@@ -769,7 +818,7 @@ class AuthenticationManager:
                 latest = self.audit_log[-1]
                 f.write(json.dumps(latest) + "\n")
     
-    def get_audit_log(self, api_name: Optional[str] = None) -> List[Dict]:
+    def get_audit_log(self, api_name: Optional[str] = None) -&gt; List[Dict]:
         """Get audit log entries."""
         if api_name:
             return [e for e in self.audit_log if e["api_name"] == api_name]
@@ -807,11 +856,11 @@ def rate_limit_auth(calls: int, period: int):
             
             # Remove old calls outside the period
             nonlocal call_times
-            call_times = [t for t in call_times if now - t < period]
+            call_times = [t for t in call_times if now - t &lt; period]
             
-            if len(call_times) >= calls:
+            if len(call_times) &gt;= calls:
                 sleep_time = period - (now - call_times[0])
-                if sleep_time > 0:
+                if sleep_time &gt; 0:
                     time.sleep(sleep_time)
                     call_times = []
             
@@ -1009,37 +1058,28 @@ if __name__ == "__main__":
     
     print("\n✅ Authentication methods demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Never Hardcode Credentials:</strong> Use secure storage and environment variables.</li>
-        
-        <li><strong>Implement Token Refresh:</strong> Automatically refresh expired tokens.</li>
-        
-        <li><strong>Use Appropriate Auth Method:</strong> Match security requirements to use case.</li>
-        
-        <li><strong>Rotate Credentials Regularly:</strong> Implement key rotation policies.</li>
-        
-        <li><strong>Audit Everything:</strong> Log all authentication events for security.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Implement retry logic for auth failures.</li>
-        
-        <li><strong>Use HTTPS Always:</strong> Never send credentials over unencrypted connections.</li>
-        
-        <li><strong>Implement MFA:</strong> Add extra security layers for sensitive operations.</li>
-    </ul>
-
-    <h3>Authentication Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of API authentication as a security checkpoint - you need the right credentials, presented the right way, at the right time. Never, ever hardcode credentials in your code - use environment variables, secure vaults, or OS keyrings. Implement automatic token refresh before they expire - it's like renewing your passport before it runs out. Choose the right auth method for your needs: API keys for simple scenarios, OAuth for user delegation, JWT for stateless auth, and HMAC for request signing. Always use HTTPS - sending credentials over HTTP is like shouting your password in public. Implement comprehensive audit logging - you need to know who accessed what and when. Rotate credentials regularly like changing locks. Handle auth errors gracefully with exponential backoff - don't hammer the API when auth fails. For sensitive operations, implement multi-factor authentication. Most importantly: treat credentials like house keys - guard them carefully and change them if compromised!</p>
-    </div>
-    
-    <p>Mastering authentication methods ensures your API integrations are both secure and reliable. You can now implement any authentication scheme, from simple API keys to complex OAuth flows, while maintaining security best practices. Whether you're building enterprise integrations or public APIs, these authentication skills keep your connections secure! 🔒</p>
-    
-    <footer>
-        <p>Next up: <a href="api_automation_rate_limiting.html">Rate Limiting - Respect API Boundaries!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Never Hardcode Credentials:</strong> Use secure storage and environment variables.</li>
+<li><strong>Implement Token Refresh:</strong> Automatically refresh expired tokens.</li>
+<li><strong>Use Appropriate Auth Method:</strong> Match security requirements to use case.</li>
+<li><strong>Rotate Credentials Regularly:</strong> Implement key rotation policies.</li>
+<li><strong>Audit Everything:</strong> Log all authentication events for security.</li>
+<li><strong>Handle Errors Gracefully:</strong> Implement retry logic for auth failures.</li>
+<li><strong>Use HTTPS Always:</strong> Never send credentials over unencrypted connections.</li>
+<li><strong>Implement MFA:</strong> Add extra security layers for sensitive operations.</li>
+</ul>
+<h3>Authentication Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of API authentication as a security checkpoint - you need the right credentials, presented the right way, at the right time. Never, ever hardcode credentials in your code - use environment variables, secure vaults, or OS keyrings. Implement automatic token refresh before they expire - it's like renewing your passport before it runs out. Choose the right auth method for your needs: API keys for simple scenarios, OAuth for user delegation, JWT for stateless auth, and HMAC for request signing. Always use HTTPS - sending credentials over HTTP is like shouting your password in public. Implement comprehensive audit logging - you need to know who accessed what and when. Rotate credentials regularly like changing locks. Handle auth errors gracefully with exponential backoff - don't hammer the API when auth fails. For sensitive operations, implement multi-factor authentication. Most importantly: treat credentials like house keys - guard them carefully and change them if compromised!</p>
+</div>
+<p>Mastering authentication methods ensures your API integrations are both secure and reliable. You can now implement any authentication scheme, from simple API keys to complex OAuth flows, while maintaining security best practices. Whether you're building enterprise integrations or public APIs, these authentication skills keep your connections secure! 🔒</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="api_automation_restful_consumption.html">← Previous: RESTful API Consumption</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="api_automation_rate_limiting.html">Next: Rate Limiting →</a>
+</div>
+</footer>
 </body>
 </html>

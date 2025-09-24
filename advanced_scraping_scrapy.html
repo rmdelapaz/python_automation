@@ -1,54 +1,106 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scrapy Framework - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scrapy Framework - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🕷️ Scrapy Framework: Industrial-Strength Web Scraping</h1>
-    
-    <p>Scrapy is the Ferrari of web scraping frameworks - powerful, fast, and built for scale. While BeautifulSoup is like a Swiss Army knife for parsing HTML, Scrapy is a complete factory for extracting, processing, and storing web data. It handles concurrent requests, automatic retries, data pipelines, and distributed scraping out of the box. Let's master the art of industrial web scraping! 🏭</p>
-
-    <h2>The Scrapy Architecture</h2>
-    
-    <p>Think of Scrapy as a well-orchestrated assembly line where spiders crawl websites, extractors pull out data, pipelines process it, and exporters save it - all running concurrently with military precision. It's not just a tool; it's a complete ecosystem for professional web scraping at any scale!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module13">Advanced Web Scraping</a> &gt; 
+        <span>Scrapy Framework</span>
+</nav>
+<h1>🕷️ Scrapy Framework: Industrial-Strength Web Scraping</h1>
+<p>Scrapy is the Ferrari of web scraping frameworks - powerful, fast, and built for scale. While BeautifulSoup is like a Swiss Army knife for parsing HTML, Scrapy is a complete factory for extracting, processing, and storing web data. It handles concurrent requests, automatic retries, data pipelines, and distributed scraping out of the box. Let's master the art of industrial web scraping! 🏭</p>
+<h2>The Scrapy Architecture</h2>
+<p>Think of Scrapy as a well-orchestrated assembly line where spiders crawl websites, extractors pull out data, pipelines process it, and exporters save it - all running concurrently with military precision. It's not just a tool; it's a complete ecosystem for professional web scraping at any scale!</p>
+<div class="mermaid">
     graph TB
-        A[Scrapy Engine] --> B[Scheduler]
-        A --> C[Downloader]
-        A --> D[Spiders]
-        A --> E[Item Pipeline]
+        A[Scrapy Engine] --&gt; B[Scheduler]
+        A --&gt; C[Downloader]
+        A --&gt; D[Spiders]
+        A --&gt; E[Item Pipeline]
         
-        B --> F[Request Queue]
-        B --> G[Duplication Filter]
-        B --> H[Priority Queue]
+        B --&gt; F[Request Queue]
+        B --&gt; G[Duplication Filter]
+        B --&gt; H[Priority Queue]
         
-        C --> I[Downloader Middlewares]
-        C --> J[HTTP/HTTPS Handler]
-        C --> K[Concurrent Requests]
+        C --&gt; I[Downloader Middlewares]
+        C --&gt; J[HTTP/HTTPS Handler]
+        C --&gt; K[Concurrent Requests]
         
-        D --> L[Spider Middlewares]
-        D --> M[Parse Methods]
-        D --> N[Item Extraction]
-        D --> O[Request Generation]
+        D --&gt; L[Spider Middlewares]
+        D --&gt; M[Parse Methods]
+        D --&gt; N[Item Extraction]
+        D --&gt; O[Request Generation]
         
-        E --> P[Data Validation]
-        E --> Q[Data Cleaning]
-        E --> R[Database Storage]
-        E --> S[Export Formats]
+        E --&gt; P[Data Validation]
+        E --&gt; Q[Data Cleaning]
+        E --&gt; R[Database Storage]
+        E --&gt; S[Export Formats]
         
-        I --> T[User-Agent]
-        I --> U[Proxies]
-        I --> V[Cookies]
-        I --> W[Retry Logic]
+        I --&gt; T[User-Agent]
+        I --&gt; U[Proxies]
+        I --&gt; V[Cookies]
+        I --&gt; W[Retry Logic]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -56,12 +108,9 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The E-Commerce Intelligence Platform 🛒</h3>
-    
-    <p>You're building a competitive intelligence platform that monitors thousands of e-commerce sites, tracking prices, inventory, reviews, and product launches. You need to handle JavaScript-rendered pages, rotating proxies, CAPTCHA challenges, rate limiting, and real-time data processing. Scrapy will be your industrial-strength solution for this massive undertaking!</p>
-
-    <pre><code># First, install Scrapy: pip install scrapy scrapy-splash scrapy-redis scrapy-rotating-proxies
+<h3>Real-World Scenario: The E-Commerce Intelligence Platform 🛒</h3>
+<p>You're building a competitive intelligence platform that monitors thousands of e-commerce sites, tracking prices, inventory, reviews, and product launches. You need to handle JavaScript-rendered pages, rotating proxies, CAPTCHA challenges, rate limiting, and real-time data processing. Scrapy will be your industrial-strength solution for this massive undertaking!</p>
+<pre><code># First, install Scrapy: pip install scrapy scrapy-splash scrapy-redis scrapy-rotating-proxies
 
 import scrapy
 from scrapy import Spider, Request, FormRequest
@@ -152,7 +201,7 @@ class ProductLoader(ItemLoader):
     features_out = Identity()  # Keep as list
     image_urls_out = Identity()  # Keep as list
 
-def parse_price(price_string: str) -> float:
+def parse_price(price_string: str) -&gt; float:
     """Parse price from string."""
     if not price_string:
         return None
@@ -166,7 +215,7 @@ def parse_price(price_string: str) -> float:
         price_string = price_string.replace(',', '')
     elif ',' in price_string:
         # Could be decimal separator (European format)
-        if price_string.count(',') == 1 and len(price_string.split(',')[1]) <= 2:
+        if price_string.count(',') == 1 and len(price_string.split(',')[1]) &lt;= 2:
             price_string = price_string.replace(',', '.')
         else:
             price_string = price_string.replace(',', '')
@@ -216,7 +265,7 @@ class BaseEcommerceSpider(scrapy.Spider):
         """Parse product page - to be implemented by subclasses."""
         raise NotImplementedError
     
-    def extract_json_ld(self, response) -> Dict:
+    def extract_json_ld(self, response) -&gt; Dict:
         """Extract JSON-LD structured data."""
         json_ld = response.xpath('//script[@type="application/ld+json"]/text()').getall()
         
@@ -251,7 +300,7 @@ class AmazonSpider(BaseEcommerceSpider):
         # Start URLs based on category
         if category:
             self.start_urls = [
-                f'https://www.amazon.com/s?k={category}&page=1'
+                f'https://www.amazon.com/s?k={category}&amp;page=1'
             ]
         else:
             self.start_urls = [
@@ -330,7 +379,7 @@ class AmazonSpider(BaseEcommerceSpider):
         categories = response.css('div#wayfinding-breadcrumbs_feature_div a::text').getall()
         if categories:
             loader.add_value('category', categories[0] if categories else None)
-            loader.add_value('subcategory', categories[-1] if len(categories) > 1 else None)
+            loader.add_value('subcategory', categories[-1] if len(categories) &gt; 1 else None)
         
         product = loader.load_item()
         
@@ -340,12 +389,12 @@ class AmazonSpider(BaseEcommerceSpider):
         # Scrape reviews
         yield from self.parse_reviews(response, product['product_id'])
     
-    def extract_asin(self, url: str) -> str:
+    def extract_asin(self, url: str) -&gt; str:
         """Extract ASIN from Amazon URL."""
         match = re.search(r'/dp/([A-Z0-9]{10})', url)
         return match.group(1) if match else None
     
-    def get_full_image_url(self, thumbnail_url: str) -> str:
+    def get_full_image_url(self, thumbnail_url: str) -&gt; str:
         """Convert thumbnail URL to full size image."""
         # Amazon image URL manipulation
         if '._' in thumbnail_url:
@@ -507,7 +556,7 @@ class ValidationPipeline:
             original = parse_price(str(item['original_price']))
             current = item['price']
             
-            if original and current and original > current:
+            if original and current and original &gt; current:
                 item['discount'] = round((original - current) / original * 100, 2)
         
         return item
@@ -939,37 +988,28 @@ if __name__ == "__main__":
     
     print("\n✅ Scrapy framework demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Item Classes:</strong> Define clear data structures for consistency.</li>
-        
-        <li><strong>Implement Pipelines:</strong> Process, validate, and store data systematically.</li>
-        
-        <li><strong>Configure AutoThrottle:</strong> Let Scrapy automatically adjust speed.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Use retry middleware and error callbacks.</li>
-        
-        <li><strong>Cache Responses:</strong> Save bandwidth and time during development.</li>
-        
-        <li><strong>Use Selectors Efficiently:</strong> CSS selectors are faster than XPath.</li>
-        
-        <li><strong>Monitor Performance:</strong> Use Scrapy's built-in stats collection.</li>
-        
-        <li><strong>Scale Horizontally:</strong> Use Scrapy-Redis for distributed crawling.</li>
-    </ul>
-
-    <h3>Scrapy Framework Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Scrapy isn't just a library - it's a complete framework with opinions about how web scraping should be done. Embrace its architecture! Always define Items for data structure, use ItemLoaders for consistent extraction, implement Pipelines for processing, and leverage Middlewares for request/response handling. AutoThrottle is your friend - it automatically adjusts crawling speed based on server response. Use Scrapy Shell for testing selectors before writing spiders. Cache responses during development to avoid hitting servers repeatedly. For JavaScript-heavy sites, integrate Scrapy-Splash or Scrapy-Selenium. When scaling, use Scrapy-Redis for distributed crawling across multiple machines. Most importantly: Scrapy is asynchronous by design - don't block the reactor with synchronous code! Let Scrapy's twisted engine handle concurrency for maximum performance.</p>
-    </div>
-    
-    <p>Mastering Scrapy transforms you from a casual scraper to an industrial-scale data extraction engineer. You now have the power to build robust, scalable, and maintainable web scraping systems that can handle millions of pages efficiently. Whether you're building price monitors, search engines, or data aggregation platforms, Scrapy provides the industrial-strength foundation you need! 🏗️</p>
-    
-    <footer>
-        <p>Next up: <a href="advanced_scraping_selenium.html">Dynamic Content with Selenium - Scrape JavaScript-Heavy Sites!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Item Classes:</strong> Define clear data structures for consistency.</li>
+<li><strong>Implement Pipelines:</strong> Process, validate, and store data systematically.</li>
+<li><strong>Configure AutoThrottle:</strong> Let Scrapy automatically adjust speed.</li>
+<li><strong>Handle Errors Gracefully:</strong> Use retry middleware and error callbacks.</li>
+<li><strong>Cache Responses:</strong> Save bandwidth and time during development.</li>
+<li><strong>Use Selectors Efficiently:</strong> CSS selectors are faster than XPath.</li>
+<li><strong>Monitor Performance:</strong> Use Scrapy's built-in stats collection.</li>
+<li><strong>Scale Horizontally:</strong> Use Scrapy-Redis for distributed crawling.</li>
+</ul>
+<h3>Scrapy Framework Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Scrapy isn't just a library - it's a complete framework with opinions about how web scraping should be done. Embrace its architecture! Always define Items for data structure, use ItemLoaders for consistent extraction, implement Pipelines for processing, and leverage Middlewares for request/response handling. AutoThrottle is your friend - it automatically adjusts crawling speed based on server response. Use Scrapy Shell for testing selectors before writing spiders. Cache responses during development to avoid hitting servers repeatedly. For JavaScript-heavy sites, integrate Scrapy-Splash or Scrapy-Selenium. When scaling, use Scrapy-Redis for distributed crawling across multiple machines. Most importantly: Scrapy is asynchronous by design - don't block the reactor with synchronous code! Let Scrapy's twisted engine handle concurrency for maximum performance.</p>
+</div>
+<p>Mastering Scrapy transforms you from a casual scraper to an industrial-scale data extraction engineer. You now have the power to build robust, scalable, and maintainable web scraping systems that can handle millions of pages efficiently. Whether you're building price monitors, search engines, or data aggregation platforms, Scrapy provides the industrial-strength foundation you need! 🏗️</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="advanced_scraping_selenium.html">← Previous: Advanced Selenium</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="advanced_scraping_captcha.html">Next: CAPTCHA Handling →</a>
+</div>
+</footer>
 </body>
 </html>

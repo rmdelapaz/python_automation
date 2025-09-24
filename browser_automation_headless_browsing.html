@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Headless Browsing - Python Browser Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Headless Browsing - Python Browser Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>👻 Headless Browsing: Automation Without the GUI</h1>
-    
-    <p>Headless browsing is like having an invisible browser that runs in the background - all the power of a full browser without the overhead of rendering graphics. It's the stealth mode of web automation, perfect for servers, CI/CD pipelines, and high-performance scraping. Like a submarine navigating underwater, headless browsers do their work unseen but with full capability. Let's master the art of GUI-less browser automation! 🚀</p>
-
-    <h2>The Headless Browser Ecosystem</h2>
-    
-    <p>Headless browsers are the workhorses of modern automation - they consume less memory, run faster, and can scale to hundreds of instances. But with great power comes unique challenges: debugging without seeing, handling downloads without a UI, and dealing with sites that detect headless mode. Master these challenges to unlock unprecedented automation scale!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module3">Browser Automation</a> &gt; 
+        <span>Headless Browsing</span>
+</nav>
+<h1>👻 Headless Browsing: Automation Without the GUI</h1>
+<p>Headless browsing is like having an invisible browser that runs in the background - all the power of a full browser without the overhead of rendering graphics. It's the stealth mode of web automation, perfect for servers, CI/CD pipelines, and high-performance scraping. Like a submarine navigating underwater, headless browsers do their work unseen but with full capability. Let's master the art of GUI-less browser automation! 🚀</p>
+<h2>The Headless Browser Ecosystem</h2>
+<p>Headless browsers are the workhorses of modern automation - they consume less memory, run faster, and can scale to hundreds of instances. But with great power comes unique challenges: debugging without seeing, handling downloads without a UI, and dealing with sites that detect headless mode. Master these challenges to unlock unprecedented automation scale!</p>
+<div class="mermaid">
     graph TB
-        A[Headless Browsing] --> B[Browser Options]
-        A --> C[Use Cases]
-        A --> D[Detection & Evasion]
-        A --> E[Performance]
+        A[Headless Browsing] --&gt; B[Browser Options]
+        A --&gt; C[Use Cases]
+        A --&gt; D[Detection &amp; Evasion]
+        A --&gt; E[Performance]
         
-        B --> F[Chrome Headless]
-        B --> G[Firefox Headless]
-        B --> H[Playwright]
-        B --> I[Puppeteer]
+        B --&gt; F[Chrome Headless]
+        B --&gt; G[Firefox Headless]
+        B --&gt; H[Playwright]
+        B --&gt; I[Puppeteer]
         
-        C --> J[CI/CD Testing]
-        C --> K[Web Scraping]
-        C --> L[Screenshot Generation]
-        C --> M[PDF Generation]
+        C --&gt; J[CI/CD Testing]
+        C --&gt; K[Web Scraping]
+        C --&gt; L[Screenshot Generation]
+        C --&gt; M[PDF Generation]
         
-        D --> N[User Agent]
-        D --> O[WebDriver Detection]
-        D --> P[Browser Fingerprinting]
-        D --> Q[Behavior Patterns]
+        D --&gt; N[User Agent]
+        D --&gt; O[WebDriver Detection]
+        D --&gt; P[Browser Fingerprinting]
+        D --&gt; Q[Behavior Patterns]
         
-        E --> R[Memory Usage]
-        E --> S[Speed Optimization]
-        E --> T[Parallel Execution]
-        E --> U[Resource Management]
+        E --&gt; R[Memory Usage]
+        E --&gt; S[Speed Optimization]
+        E --&gt; T[Parallel Execution]
+        E --&gt; U[Resource Management]
         
-        V[Debugging] --> W[Screenshots]
-        V --> X[Console Logs]
-        V --> Y[Network Logs]
-        V --> Z[Video Recording]
+        V[Debugging] --&gt; W[Screenshots]
+        V --&gt; X[Console Logs]
+        V --&gt; Y[Network Logs]
+        V --&gt; Z[Video Recording]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Cloud-Based Testing Farm 🌩️</h3>
-    
-    <p>You're building a cloud-based testing infrastructure that runs thousands of browser tests in parallel on serverless functions and containers. The system must handle screenshots, videos, network interception, console logging, and performance metrics - all without any GUI. It needs to evade headless detection, manage resources efficiently, and provide detailed debugging capabilities when tests fail. Let's build a comprehensive headless browsing system!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Cloud-Based Testing Farm 🌩️</h3>
+<p>You're building a cloud-based testing infrastructure that runs thousands of browser tests in parallel on serverless functions and containers. The system must handle screenshots, videos, network interception, console logging, and performance metrics - all without any GUI. It needs to evade headless detection, manage resources efficiently, and provide detailed debugging capabilities when tests fail. Let's build a comprehensive headless browsing system!</p>
+<pre><code># First, install required packages:
 # pip install selenium playwright pyppeteer pillow opencv-python pyvirtualdisplay
 
 import os
@@ -156,7 +205,7 @@ class HeadlessBrowserManager:
             "errors": []
         }
     
-    def _setup_logging(self) -> logging.Logger:
+    def _setup_logging(self) -&gt; logging.Logger:
         """Setup logging for headless browser."""
         logger = logging.getLogger("HeadlessBrowser")
         logger.setLevel(getattr(logging, self.config.log_level))
@@ -176,7 +225,7 @@ class HeadlessBrowserManager:
         if self.config.download_dir:
             Path(self.config.download_dir).mkdir(parents=True, exist_ok=True)
     
-    def create_chrome_headless(self) -> webdriver.Chrome:
+    def create_chrome_headless(self) -&gt; webdriver.Chrome:
         """Create headless Chrome browser."""
         options = ChromeOptions()
         
@@ -265,7 +314,7 @@ class HeadlessBrowserManager:
             self.logger.error(f"Failed to create headless Chrome: {e}")
             raise
     
-    def _apply_stealth_options(self, options: ChromeOptions) -> ChromeOptions:
+    def _apply_stealth_options(self, options: ChromeOptions) -&gt; ChromeOptions:
         """Apply stealth mode options to avoid detection."""
         
         # Remove automation indicators
@@ -290,7 +339,7 @@ class HeadlessBrowserManager:
         
         return options
     
-    def create_firefox_headless(self) -> webdriver.Firefox:
+    def create_firefox_headless(self) -&gt; webdriver.Firefox:
         """Create headless Firefox browser."""
         options = FirefoxOptions()
         
@@ -350,17 +399,17 @@ class HeadlessBrowserManager:
         stealth_js = """
         // Override navigator.webdriver
         Object.defineProperty(navigator, 'webdriver', {
-            get: () => undefined
+            get: () =&gt; undefined
         });
         
         // Override navigator.plugins
         Object.defineProperty(navigator, 'plugins', {
-            get: () => [1, 2, 3, 4, 5]
+            get: () =&gt; [1, 2, 3, 4, 5]
         });
         
         // Override navigator.languages
         Object.defineProperty(navigator, 'languages', {
-            get: () => ['en-US', 'en']
+            get: () =&gt; ['en-US', 'en']
         });
         
         // Override chrome
@@ -370,7 +419,7 @@ class HeadlessBrowserManager:
         
         // Override permissions
         const originalQuery = window.navigator.permissions.query;
-        window.navigator.permissions.query = (parameters) => (
+        window.navigator.permissions.query = (parameters) =&gt; (
             parameters.name === 'notifications' ?
             Promise.resolve({ state: Notification.permission }) :
             originalQuery(parameters)
@@ -386,7 +435,7 @@ class HeadlessBrowserManager:
             # Fallback for non-CDP browsers
             self.driver.execute_script(stealth_js)
 
-# ==================== Screenshot & Video Capture ====================
+# ==================== Screenshot &amp; Video Capture ====================
 
 class HeadlessCapture:
     """
@@ -399,7 +448,7 @@ class HeadlessCapture:
         self.video_writer = None
         self.video_frames = []
     
-    def take_screenshot(self, filename: Optional[str] = None) -> bytes:
+    def take_screenshot(self, filename: Optional[str] = None) -&gt; bytes:
         """Take a screenshot and return as bytes."""
         screenshot = self.driver.get_screenshot_as_png()
         
@@ -410,7 +459,7 @@ class HeadlessCapture:
         
         return screenshot
     
-    def take_full_page_screenshot(self, filename: Optional[str] = None) -> bytes:
+    def take_full_page_screenshot(self, filename: Optional[str] = None) -&gt; bytes:
         """Take a full page screenshot by scrolling."""
         # Get dimensions
         total_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -421,7 +470,7 @@ class HeadlessCapture:
         screenshots = []
         scroll_position = 0
         
-        while scroll_position < total_height:
+        while scroll_position &lt; total_height:
             # Scroll to position
             self.driver.execute_script(f"window.scrollTo(0, {scroll_position})")
             time.sleep(0.5)  # Wait for render
@@ -452,7 +501,7 @@ class HeadlessCapture:
         
         return screenshot_bytes
     
-    def take_element_screenshot(self, element, filename: Optional[str] = None) -> bytes:
+    def take_element_screenshot(self, element, filename: Optional[str] = None) -&gt; bytes:
         """Take screenshot of specific element."""
         # Get element location and size
         location = element.location
@@ -546,7 +595,7 @@ class NetworkInterceptor:
         
         self.logger.info("Network logging enabled")
     
-    def get_network_logs(self) -> List[Dict]:
+    def get_network_logs(self) -&gt; List[Dict]:
         """Get network request logs."""
         logs = self.driver.get_log("performance")
         
@@ -592,7 +641,7 @@ class NetworkInterceptor:
         
         self.driver.execute_script(script)
 
-# ==================== Console & Error Logging ====================
+# ==================== Console &amp; Error Logging ====================
 
 class HeadlessDebugger:
     """
@@ -657,7 +706,7 @@ class HeadlessDebugger:
         self.driver.execute_script(script)
         self.logger.info("Console logging enabled")
     
-    def get_console_logs(self) -> List[Dict]:
+    def get_console_logs(self) -&gt; List[Dict]:
         """Get captured console logs."""
         try:
             # Get logs from injected script
@@ -688,7 +737,7 @@ class HeadlessDebugger:
         
         self.logger.info(f"Logs saved to {filename}")
     
-    def check_for_js_errors(self) -> List[str]:
+    def check_for_js_errors(self) -&gt; List[str]:
         """Check for JavaScript errors on the page."""
         errors = []
         
@@ -711,7 +760,7 @@ class PerformanceMonitor:
         self.driver = driver
         self.logger = logging.getLogger(__name__)
     
-    def get_performance_metrics(self) -> Dict[str, Any]:
+    def get_performance_metrics(self) -&gt; Dict[str, Any]:
         """Get browser performance metrics."""
         # Navigation timing
         navigation_timing = self.driver.execute_script("""
@@ -728,7 +777,7 @@ class PerformanceMonitor:
         
         # Resource timing
         resources = self.driver.execute_script("""
-            return performance.getEntriesByType('resource').map(r => ({
+            return performance.getEntriesByType('resource').map(r =&gt; ({
                 name: r.name,
                 duration: r.duration,
                 size: r.transferSize,
@@ -755,7 +804,7 @@ class PerformanceMonitor:
             "memory": memory
         }
     
-    def get_coverage_report(self) -> Dict[str, Any]:
+    def get_coverage_report(self) -&gt; Dict[str, Any]:
         """Get CSS and JS coverage report."""
         # Enable coverage
         self.driver.execute_cdp_cmd("Profiler.enable", {})
@@ -1043,7 +1092,7 @@ if __name__ == "__main__":
         print(f"   • {resource}")
     
     # Example 8: Common issues
-    print("\n8️⃣ Common Headless Issues & Solutions:")
+    print("\n8️⃣ Common Headless Issues &amp; Solutions:")
     
     issues = [
         ("Font rendering", "Install system fonts"),
@@ -1093,37 +1142,28 @@ if __name__ == "__main__":
     
     print("\n✅ Headless browsing demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Proper Configuration:</strong> Set window size, user agent, and options appropriately.</li>
-        
-        <li><strong>Implement Stealth Mode:</strong> Avoid detection with proper browser fingerprinting.</li>
-        
-        <li><strong>Enable Debugging Tools:</strong> Screenshots, logs, and videos are crucial for troubleshooting.</li>
-        
-        <li><strong>Monitor Performance:</strong> Track memory, CPU, and load times.</li>
-        
-        <li><strong>Handle Downloads:</strong> Configure download directories properly.</li>
-        
-        <li><strong>Use Virtual Display:</strong> Essential for Linux servers without GUI.</li>
-        
-        <li><strong>Implement Error Recovery:</strong> Graceful failures with detailed logging.</li>
-        
-        <li><strong>Optimize Resources:</strong> Disable unnecessary features for better performance.</li>
-    </ul>
-
-    <h3>Headless Browsing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Headless browsing is like having a ninja browser - invisible but fully capable. The key to success is proper configuration and debugging capabilities. Always set a realistic window size (1920x1080 is standard) even in headless mode - some sites behave differently at different resolutions. Implement stealth mode to avoid detection: override navigator.webdriver, set realistic user agents, and add fake plugins. For debugging, screenshots are your eyes - take them liberally, especially on failures. Enable console logging to catch JavaScript errors that would be visible in a normal browser. Use video recording for complex flows - it's like having a replay button for debugging. On Linux servers, use Xvfb or pyvirtualdisplay for a virtual display. Optimize performance by disabling images, CSS, and unnecessary features when they're not needed. Monitor resource usage to prevent memory leaks. Most importantly: what works in GUI mode might fail in headless, so always test both!</p>
-    </div>
-    
-    <p>Mastering headless browsing unlocks the full potential of browser automation at scale. You can now run hundreds of browser instances on servers, integrate with CI/CD pipelines, and build high-performance scraping systems. Whether you're testing, scraping, or generating content, headless browsing ensures your automation runs efficiently anywhere! 👻</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the Browser Automation with Selenium section. You're now equipped to build powerful, scalable browser automation solutions! 🎉</p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Proper Configuration:</strong> Set window size, user agent, and options appropriately.</li>
+<li><strong>Implement Stealth Mode:</strong> Avoid detection with proper browser fingerprinting.</li>
+<li><strong>Enable Debugging Tools:</strong> Screenshots, logs, and videos are crucial for troubleshooting.</li>
+<li><strong>Monitor Performance:</strong> Track memory, CPU, and load times.</li>
+<li><strong>Handle Downloads:</strong> Configure download directories properly.</li>
+<li><strong>Use Virtual Display:</strong> Essential for Linux servers without GUI.</li>
+<li><strong>Implement Error Recovery:</strong> Graceful failures with detailed logging.</li>
+<li><strong>Optimize Resources:</strong> Disable unnecessary features for better performance.</li>
+</ul>
+<h3>Headless Browsing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Headless browsing is like having a ninja browser - invisible but fully capable. The key to success is proper configuration and debugging capabilities. Always set a realistic window size (1920x1080 is standard) even in headless mode - some sites behave differently at different resolutions. Implement stealth mode to avoid detection: override navigator.webdriver, set realistic user agents, and add fake plugins. For debugging, screenshots are your eyes - take them liberally, especially on failures. Enable console logging to catch JavaScript errors that would be visible in a normal browser. Use video recording for complex flows - it's like having a replay button for debugging. On Linux servers, use Xvfb or pyvirtualdisplay for a virtual display. Optimize performance by disabling images, CSS, and unnecessary features when they're not needed. Monitor resource usage to prevent memory leaks. Most importantly: what works in GUI mode might fail in headless, so always test both!</p>
+</div>
+<p>Mastering headless browsing unlocks the full potential of browser automation at scale. You can now run hundreds of browser instances on servers, integrate with CI/CD pipelines, and build high-performance scraping systems. Whether you're testing, scraping, or generating content, headless browsing ensures your automation runs efficiently anywhere! 👻</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="browser_automation_page_object_model.html">← Previous: Page Object Model</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="workingwithdata_csv_processing.html">Next: CSV Processing →</a>
+</div>
+</footer>
 </body>
 </html>

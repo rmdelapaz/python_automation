@@ -1,57 +1,109 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML/CSS Selectors - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HTML/CSS Selectors - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🎯 HTML/CSS Selectors: Master the Art of Web Element Targeting</h1>
-    
-    <p>HTML/CSS selectors are the sniper scopes of web scraping - they let you precisely target any element on a webpage. Like a skilled surgeon who knows exactly where to make the incision, mastering selectors allows you to extract data with surgical precision. Let's become web element sharpshooters! 🎪</p>
-
-    <h2>The Selector Ecosystem</h2>
-    
-    <p>Think of a webpage as a city, HTML as its architecture, and CSS selectors as your GPS coordinates. Every building (element) has an address (selector), and knowing how to navigate these addresses lets you reach any destination instantly. Python gives you the tools to become a master navigator of this digital cityscape!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module2">Web Scraping</a> &gt; 
+        <span>HTML &amp; CSS Selectors</span>
+</nav>
+<h1>🎯 HTML/CSS Selectors: Master the Art of Web Element Targeting</h1>
+<p>HTML/CSS selectors are the sniper scopes of web scraping - they let you precisely target any element on a webpage. Like a skilled surgeon who knows exactly where to make the incision, mastering selectors allows you to extract data with surgical precision. Let's become web element sharpshooters! 🎪</p>
+<h2>The Selector Ecosystem</h2>
+<p>Think of a webpage as a city, HTML as its architecture, and CSS selectors as your GPS coordinates. Every building (element) has an address (selector), and knowing how to navigate these addresses lets you reach any destination instantly. Python gives you the tools to become a master navigator of this digital cityscape!</p>
+<div class="mermaid">
     graph TB
-        A[HTML Document] --> B[DOM Tree]
-        B --> C[Element Selection]
+        A[HTML Document] --&gt; B[DOM Tree]
+        B --&gt; C[Element Selection]
         
-        C --> D[Basic Selectors]
-        C --> E[Attribute Selectors]
-        C --> F[Pseudo Selectors]
-        C --> G[Combinators]
-        C --> H[XPath]
+        C --&gt; D[Basic Selectors]
+        C --&gt; E[Attribute Selectors]
+        C --&gt; F[Pseudo Selectors]
+        C --&gt; G[Combinators]
+        C --&gt; H[XPath]
         
-        D --> I[Type/Tag]
-        D --> J[Class]
-        D --> K[ID]
-        D --> L[Universal]
+        D --&gt; I[Type/Tag]
+        D --&gt; J[Class]
+        D --&gt; K[ID]
+        D --&gt; L[Universal]
         
-        E --> M[Exact Match]
-        E --> N[Partial Match]
-        E --> O[Pattern Match]
+        E --&gt; M[Exact Match]
+        E --&gt; N[Partial Match]
+        E --&gt; O[Pattern Match]
         
-        F --> P[Structural]
-        F --> Q[State]
-        F --> R[Content]
+        F --&gt; P[Structural]
+        F --&gt; Q[State]
+        F --&gt; R[Content]
         
-        G --> S[Descendant]
-        G --> T[Child]
-        G --> U[Sibling]
-        G --> V[Adjacent]
+        G --&gt; S[Descendant]
+        G --&gt; T[Child]
+        G --&gt; U[Sibling]
+        G --&gt; V[Adjacent]
         
-        H --> W[Axes]
-        H --> X[Predicates]
-        H --> Y[Functions]
+        H --&gt; W[Axes]
+        H --&gt; X[Predicates]
+        H --&gt; Y[Functions]
         
         style A fill:#ff6b6b
         style D fill:#51cf66
@@ -60,12 +112,9 @@
         style G fill:#ff6b6b
         style H fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The E-Commerce Data Extractor 🛒</h3>
-    
-    <p>You're building a price monitoring system that tracks products across multiple e-commerce sites. Each site has different HTML structures, dynamic content, nested elements, and tricky layouts. You need to extract product names, prices, ratings, reviews, and availability from chaotic HTML. Let's master every selector technique to handle any website!</p>
-
-    <pre><code>from bs4 import BeautifulSoup
+<h3>Real-World Scenario: The E-Commerce Data Extractor 🛒</h3>
+<p>You're building a price monitoring system that tracks products across multiple e-commerce sites. Each site has different HTML structures, dynamic content, nested elements, and tricky layouts. You need to extract product names, prices, ratings, reviews, and availability from chaotic HTML. Let's master every selector technique to handle any website!</p>
+<pre><code>from bs4 import BeautifulSoup
 import requests
 from lxml import html, etree
 import re
@@ -121,7 +170,7 @@ class SelectorMaster:
     
     # ==================== Basic Selectors ====================
     
-    def select_by_tag(self, html_content: str, tag: str) -> List[BeautifulSoup]:
+    def select_by_tag(self, html_content: str, tag: str) -&gt; List[BeautifulSoup]:
         """
         Select elements by tag name.
         Examples: 'div', 'p', 'a', 'span'
@@ -129,10 +178,10 @@ class SelectorMaster:
         soup = BeautifulSoup(html_content, 'html.parser')
         elements = soup.find_all(tag)
         
-        self.logger.info(f"Found {len(elements)} <{tag}> elements")
+        self.logger.info(f"Found {len(elements)} &lt;{tag}&gt; elements")
         return elements
     
-    def select_by_id(self, html_content: str, element_id: str) -> Optional[BeautifulSoup]:
+    def select_by_id(self, html_content: str, element_id: str) -&gt; Optional[BeautifulSoup]:
         """
         Select element by ID (should be unique).
         Example: '#header', '#main-content'
@@ -152,7 +201,7 @@ class SelectorMaster:
         
         return element
     
-    def select_by_class(self, html_content: str, class_name: str) -> List[BeautifulSoup]:
+    def select_by_class(self, html_content: str, class_name: str) -&gt; List[BeautifulSoup]:
         """
         Select elements by class name.
         Example: '.product', '.price', '.highlight'
@@ -168,7 +217,7 @@ class SelectorMaster:
         self.logger.info(f"Found {len(elements)} elements with class='{class_name}'")
         return elements
     
-    def select_by_multiple_classes(self, html_content: str, classes: List[str]) -> List[BeautifulSoup]:
+    def select_by_multiple_classes(self, html_content: str, classes: List[str]) -&gt; List[BeautifulSoup]:
         """
         Select elements that have all specified classes.
         Example: ['product', 'featured', 'sale']
@@ -186,7 +235,7 @@ class SelectorMaster:
     
     def select_by_attribute(self, html_content: str, attr_name: str, 
                           attr_value: Optional[str] = None,
-                          match_type: str = 'exact') -> List[BeautifulSoup]:
+                          match_type: str = 'exact') -&gt; List[BeautifulSoup]:
         """
         Select elements by attribute.
         
@@ -225,7 +274,7 @@ class SelectorMaster:
         return elements
     
     def select_by_data_attribute(self, html_content: str, data_attr: str, 
-                                value: Optional[str] = None) -> List[BeautifulSoup]:
+                                value: Optional[str] = None) -&gt; List[BeautifulSoup]:
         """
         Select elements by data attribute.
         Example: data-product-id="123", data-category="electronics"
@@ -236,7 +285,7 @@ class SelectorMaster:
     # ==================== Combinators ====================
     
     def select_descendants(self, html_content: str, ancestor: str, 
-                          descendant: str) -> List[BeautifulSoup]:
+                          descendant: str) -&gt; List[BeautifulSoup]:
         """
         Select descendant elements (any level deep).
         Example: 'div p' selects all <p> inside <div>
@@ -249,20 +298,20 @@ class SelectorMaster:
         return elements
     
     def select_direct_children(self, html_content: str, parent: str, 
-                              child: str) -> List[BeautifulSoup]:
+                              child: str) -&gt; List[BeautifulSoup]:
         """
         Select direct child elements (immediate children only).
-        Example: 'div > p' selects <p> that are direct children of <div>
+        Example: 'div &gt; p' selects <p> that are direct children of <div>
         """
         soup = BeautifulSoup(html_content, 'html.parser')
-        selector = f'{parent} > {child}'
+        selector = f'{parent} &gt; {child}'
         elements = soup.select(selector)
         
         self.logger.info(f"Found {len(elements)} direct children with selector '{selector}'")
         return elements
     
     def select_adjacent_sibling(self, html_content: str, first: str, 
-                               second: str) -> List[BeautifulSoup]:
+                               second: str) -&gt; List[BeautifulSoup]:
         """
         Select adjacent sibling element.
         Example: 'h1 + p' selects <p> immediately after <h1>
@@ -275,7 +324,7 @@ class SelectorMaster:
         return elements
     
     def select_general_siblings(self, html_content: str, first: str, 
-                               sibling: str) -> List[BeautifulSoup]:
+                               sibling: str) -&gt; List[BeautifulSoup]:
         """
         Select all sibling elements.
         Example: 'h1 ~ p' selects all <p> that are siblings of <h1>
@@ -290,7 +339,7 @@ class SelectorMaster:
     # ==================== Pseudo Selectors ====================
     
     def select_with_pseudo(self, html_content: str, base_selector: str, 
-                          pseudo: str) -> List[BeautifulSoup]:
+                          pseudo: str) -&gt; List[BeautifulSoup]:
         """
         Select elements using pseudo-selectors.
         
@@ -322,7 +371,7 @@ class SelectorMaster:
         return elements
     
     def select_nth_elements(self, html_content: str, selector: str, 
-                           positions: Union[int, List[int], str]) -> List[BeautifulSoup]:
+                           positions: Union[int, List[int], str]) -&gt; List[BeautifulSoup]:
         """
         Select elements at specific positions.
         
@@ -352,7 +401,7 @@ class SelectorMaster:
     
     # ==================== XPath Selectors ====================
     
-    def select_by_xpath(self, html_content: str, xpath: str) -> List[html.HtmlElement]:
+    def select_by_xpath(self, html_content: str, xpath: str) -&gt; List[html.HtmlElement]:
         """
         Select elements using XPath.
         
@@ -369,7 +418,7 @@ class SelectorMaster:
         return elements
     
     def xpath_with_text(self, html_content: str, tag: str, 
-                       text: str, exact: bool = False) -> List[html.HtmlElement]:
+                       text: str, exact: bool = False) -&gt; List[html.HtmlElement]:
         """
         Select elements by text content using XPath.
         """
@@ -385,7 +434,7 @@ class SelectorMaster:
         return elements
     
     def xpath_with_position(self, html_content: str, base_xpath: str, 
-                           position: int) -> Optional[html.HtmlElement]:
+                           position: int) -&gt; Optional[html.HtmlElement]:
         """
         Select element at specific position using XPath.
         Note: XPath positions are 1-based.
@@ -404,7 +453,7 @@ class SelectorMaster:
                               attributes: Optional[Dict[str, str]] = None,
                               pseudo: Optional[str] = None,
                               parent: Optional[str] = None,
-                              position: Optional[int] = None) -> str:
+                              position: Optional[int] = None) -&gt; str:
         """
         Build a complex CSS selector from components.
         """
@@ -448,7 +497,7 @@ class SelectorMaster:
         self.logger.info(f"Built complex selector: {selector}")
         return selector
     
-    def select_with_complex_selector(self, html_content: str, **kwargs) -> List[BeautifulSoup]:
+    def select_with_complex_selector(self, html_content: str, **kwargs) -&gt; List[BeautifulSoup]:
         """
         Select elements using a complex selector built from components.
         """
@@ -461,7 +510,7 @@ class SelectorMaster:
     
     # ==================== Practical Selector Patterns ====================
     
-    def select_product_cards(self, html_content: str) -> List[Dict[str, Any]]:
+    def select_product_cards(self, html_content: str) -&gt; List[Dict[str, Any]]:
         """
         Extract product information using various selector strategies.
         """
@@ -525,13 +574,13 @@ class SelectorMaster:
         
         return products
     
-    def _extract_price(self, price_text: str) -> Optional[float]:
+    def _extract_price(self, price_text: str) -&gt; Optional[float]:
         """Extract numeric price from text."""
         import re
         match = re.search(r'[\d,]+\.?\d*', price_text.replace(',', ''))
         return float(match.group()) if match else None
     
-    def _extract_rating(self, rating_element) -> Optional[float]:
+    def _extract_rating(self, rating_element) -&gt; Optional[float]:
         """Extract rating from various formats."""
         # Check for aria-label
         if rating_element.get('aria-label'):
@@ -555,9 +604,9 @@ class SelectorMaster:
         
         return None
     
-    # ==================== Selector Validation & Testing ====================
+    # ==================== Selector Validation &amp; Testing ====================
     
-    def validate_selector(self, selector: str, selector_type: SelectorType = SelectorType.CSS) -> bool:
+    def validate_selector(self, selector: str, selector_type: SelectorType = SelectorType.CSS) -&gt; bool:
         """
         Validate if a selector is syntactically correct.
         """
@@ -579,7 +628,7 @@ class SelectorMaster:
             return False
     
     def test_selector(self, html_content: str, selector: str, 
-                     expected_count: Optional[int] = None) -> bool:
+                     expected_count: Optional[int] = None) -&gt; bool:
         """
         Test if a selector returns expected results.
         """
@@ -595,11 +644,11 @@ class SelectorMaster:
                     f"got {actual_count}"
                 )
         else:
-            success = actual_count > 0
+            success = actual_count &gt; 0
         
         return success
     
-    def generate_selector(self, element: BeautifulSoup) -> str:
+    def generate_selector(self, element: BeautifulSoup) -&gt; str:
         """
         Generate a unique selector for an element.
         """
@@ -625,7 +674,7 @@ class SelectorMaster:
         parent = element.parent
         if parent and parent.name != 'body':
             parent_selector = self.generate_selector(parent)
-            selector = f'{parent_selector} > {selector}'
+            selector = f'{parent_selector} &gt; {selector}'
         
         return selector
 
@@ -637,7 +686,7 @@ class SelectorOptimizer:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
     
-    def optimize_selector(self, selector: str) -> str:
+    def optimize_selector(self, selector: str) -&gt; str:
         """
         Optimize a CSS selector for better performance.
         """
@@ -656,7 +705,7 @@ class SelectorOptimizer:
             optimizations.append("Avoid universal selector (*)")
         
         # Limit descendant selectors
-        if selector.count(' ') > 3:
+        if selector.count(' ') &gt; 3:
             optimizations.append("Too many descendant selectors, consider simplifying")
         
         # Prefer class over attribute selectors
@@ -670,7 +719,7 @@ class SelectorOptimizer:
         
         return selector
     
-    def benchmark_selector(self, html_content: str, selector: str) -> float:
+    def benchmark_selector(self, html_content: str, selector: str) -&gt; float:
         """
         Benchmark selector performance.
         """
@@ -693,7 +742,7 @@ class SelectorCheatSheet:
     """
     
     @staticmethod
-    def get_common_patterns() -> Dict[str, str]:
+    def get_common_patterns() -&gt; Dict[str, str]:
         """Get common selector patterns with descriptions."""
         return {
             # Basic Selectors
@@ -712,7 +761,7 @@ class SelectorCheatSheet:
             
             # Combinators
             "descendant": "div p - Any descendant",
-            "child": "ul > li - Direct child",
+            "child": "ul &gt; li - Direct child",
             "adjacent": "h1 + p - Adjacent sibling",
             "general_sibling": "h1 ~ p - General sibling",
             
@@ -740,7 +789,7 @@ class SelectorCheatSheet:
         }
     
     @staticmethod
-    def get_performance_tips() -> List[str]:
+    def get_performance_tips() -&gt; List[str]:
         """Get selector performance tips."""
         return [
             "ID selectors (#id) are fastest",
@@ -748,7 +797,7 @@ class SelectorCheatSheet:
             "Avoid universal selector (*)",
             "Right-to-left evaluation: rightmost selector should be specific",
             "Limit selector depth (avoid deep nesting)",
-            "Use child selector (>) instead of descendant when possible",
+            "Use child selector (&gt;) instead of descendant when possible",
             "Avoid pseudo-selectors in high-frequency operations",
             "Cache selector results when reusing",
             "Prefer CSS selectors over XPath for simple selections",
@@ -760,6 +809,7 @@ if __name__ == "__main__":
     # Sample HTML for testing
     sample_html = """
     <!DOCTYPE html>
+
     <html>
     <head><title>Sample E-commerce Page</title></head>
     <body>
@@ -776,7 +826,7 @@ if __name__ == "__main__":
         <div class="container">
             <div class="product-list">
                 <article class="product featured" data-product-id="1">
-                    <img src="product1.jpg" alt="Product 1">
+                    <img alt="Product 1" src="product1.jpg"/>
                     <h3 class="product-title">Premium Laptop</h3>
                     <div class="price-container">
                         <span class="price">$1,299.99</span>
@@ -787,7 +837,7 @@ if __name__ == "__main__":
                 </article>
                 
                 <article class="product" data-product-id="2">
-                    <img src="product2.jpg" alt="Product 2">
+                    <img alt="Product 2" src="product2.jpg"/>
                     <h3 class="product-title">Wireless Mouse</h3>
                     <div class="price-container">
                         <span class="price">$29.99</span>
@@ -797,7 +847,7 @@ if __name__ == "__main__":
                 </article>
                 
                 <article class="product sale" data-product-id="3">
-                    <img src="product3.jpg" alt="Product 3">
+                    <img alt="Product 3" src="product3.jpg"/>
                     <h3 class="product-title">USB-C Hub</h3>
                     <div class="price-container">
                         <span class="price sale-price">$39.99</span>
@@ -821,8 +871,12 @@ if __name__ == "__main__":
         </div>
         
         <footer>
-            <p>&copy; 2024 Sample Store. All rights reserved.</p>
-        </footer>
+<div class="navigation-links">
+<a class="nav-prev" href="filesystem_backup_automation.html">← Previous: Backup Automation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="webscraping_beautifulsoup_mastery.html">Next: BeautifulSoup Mastery →</a>
+</div>
+</footer>
     </body>
     </html>
     """
@@ -936,13 +990,13 @@ if __name__ == "__main__":
     
     valid_selectors = [
         '.product:first-child',
-        '#header > nav',
+        '#header &gt; nav',
         '[data-rating="4.5"]'
     ]
     
     invalid_selectors = [
         '.product::invalid',  # Invalid pseudo-element
-        '#header >>>> nav',   # Invalid syntax
+        '#header &gt;&gt;&gt;&gt; nav',   # Invalid syntax
     ]
     
     for selector in valid_selectors:
@@ -965,36 +1019,24 @@ if __name__ == "__main__":
         print(f"     {i}. {tip}")
     
     print("\n✅ HTML/CSS selector demonstration complete!")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Start Simple:</strong> Use the simplest selector that uniquely identifies your target.</li>
-        
-        <li><strong>Prioritize Performance:</strong> ID > Class > Tag > Attribute > Pseudo-selectors.</li>
-        
-        <li><strong>Be Specific but Flexible:</strong> Too specific = brittle; too generic = slow and unreliable.</li>
-        
-        <li><strong>Test Your Selectors:</strong> Always verify selectors work across different page states.</li>
-        
-        <li><strong>Handle Dynamic Content:</strong> Account for AJAX-loaded content and DOM changes.</li>
-        
-        <li><strong>Use Appropriate Tools:</strong> CSS for simple selections, XPath for complex text/position queries.</li>
-        
-        <li><strong>Cache Results:</strong> Store selector results when reusing to improve performance.</li>
-    </ul>
-
-    <h3>Selector Mastery Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of selectors as addresses in a city. A good address is specific enough to find the right building but flexible enough to work even if the street name changes slightly. Start with developer tools in your browser - inspect elements and test selectors in the console before coding. Use the browser's copy selector feature as a starting point, but always optimize it. Remember that websites change, so build robust selectors that rely on semantic HTML rather than presentation classes. And always have a fallback strategy - if your primary selector fails, what's Plan B?</p>
-    </div>
-    
-    <p>Mastering HTML/CSS selectors transforms you from a web scraping novice to a precision data extractor. You can now target any element on any webpage, no matter how complex the structure. Whether you're scraping e-commerce sites, news portals, or social media, these selector skills are your foundation for web automation success! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="webscraping_beautifulsoup_mastery.html">BeautifulSoup Mastery - Parse HTML Like a Pro!</a></p>
-    </footer>
+</h1></p></h1></p></div></p></div></p></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Start Simple:</strong> Use the simplest selector that uniquely identifies your target.</li>
+<li><strong>Prioritize Performance:</strong> ID &gt; Class &gt; Tag &gt; Attribute &gt; Pseudo-selectors.</li>
+<li><strong>Be Specific but Flexible:</strong> Too specific = brittle; too generic = slow and unreliable.</li>
+<li><strong>Test Your Selectors:</strong> Always verify selectors work across different page states.</li>
+<li><strong>Handle Dynamic Content:</strong> Account for AJAX-loaded content and DOM changes.</li>
+<li><strong>Use Appropriate Tools:</strong> CSS for simple selections, XPath for complex text/position queries.</li>
+<li><strong>Cache Results:</strong> Store selector results when reusing to improve performance.</li>
+</ul>
+<h3>Selector Mastery Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of selectors as addresses in a city. A good address is specific enough to find the right building but flexible enough to work even if the street name changes slightly. Start with developer tools in your browser - inspect elements and test selectors in the console before coding. Use the browser's copy selector feature as a starting point, but always optimize it. Remember that websites change, so build robust selectors that rely on semantic HTML rather than presentation classes. And always have a fallback strategy - if your primary selector fails, what's Plan B?</p>
+</div>
+<p>Mastering HTML/CSS selectors transforms you from a web scraping novice to a precision data extractor. You can now target any element on any webpage, no matter how complex the structure. Whether you're scraping e-commerce sites, news portals, or social media, these selector skills are your foundation for web automation success! 🚀</p>
+<footer>
+<p>Next up: <a href="webscraping_beautifulsoup_mastery.html">BeautifulSoup Mastery - Parse HTML Like a Pro!</a></p>
+</footer>
 </body>
 </html>

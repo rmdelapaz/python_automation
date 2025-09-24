@@ -1,52 +1,104 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Object Model - Python Browser Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Page Object Model - Python Browser Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🏗️ Page Object Model: Build Maintainable Test Automation</h1>
-    
-    <p>The Page Object Model (POM) is the architectural blueprint for scalable test automation - it transforms chaotic test scripts into organized, maintainable masterpieces. Like a well-designed building with clear floors and rooms, POM separates your page structure from test logic, making your automation as easy to maintain as it is to write. Let's master the art of building robust, reusable page objects! 🏛️</p>
-
-    <h2>The Page Object Architecture</h2>
-    
-    <p>Think of POM as creating a digital map of your application - each page becomes a class, elements become properties, and actions become methods. This separation of concerns means when the UI changes, you update one place instead of hundreds of tests. It's the difference between maintaining a mansion and maintaining a house of cards!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module3">Browser Automation</a> &gt; 
+        <span>Page Object Model</span>
+</nav>
+<h1>🏗️ Page Object Model: Build Maintainable Test Automation</h1>
+<p>The Page Object Model (POM) is the architectural blueprint for scalable test automation - it transforms chaotic test scripts into organized, maintainable masterpieces. Like a well-designed building with clear floors and rooms, POM separates your page structure from test logic, making your automation as easy to maintain as it is to write. Let's master the art of building robust, reusable page objects! 🏛️</p>
+<h2>The Page Object Architecture</h2>
+<p>Think of POM as creating a digital map of your application - each page becomes a class, elements become properties, and actions become methods. This separation of concerns means when the UI changes, you update one place instead of hundreds of tests. It's the difference between maintaining a mansion and maintaining a house of cards!</p>
+<div class="mermaid">
     graph TB
-        A[Page Object Model] --> B[Page Classes]
-        A --> C[Element Locators]
-        A --> D[Page Actions]
-        A --> E[Page Validation]
+        A[Page Object Model] --&gt; B[Page Classes]
+        A --&gt; C[Element Locators]
+        A --&gt; D[Page Actions]
+        A --&gt; E[Page Validation]
         
-        B --> F[Base Page]
-        B --> G[Login Page]
-        B --> H[Dashboard Page]
-        B --> I[Components]
+        B --&gt; F[Base Page]
+        B --&gt; G[Login Page]
+        B --&gt; H[Dashboard Page]
+        B --&gt; I[Components]
         
-        C --> J[Centralized Locators]
-        C --> K[Dynamic Locators]
-        C --> L[Locator Strategies]
+        C --&gt; J[Centralized Locators]
+        C --&gt; K[Dynamic Locators]
+        C --&gt; L[Locator Strategies]
         
-        D --> M[User Actions]
-        D --> N[Workflows]
-        D --> O[Chained Actions]
+        D --&gt; M[User Actions]
+        D --&gt; N[Workflows]
+        D --&gt; O[Chained Actions]
         
-        E --> P[Assertions]
-        E --> Q[Wait Conditions]
-        E --> R[State Validation]
+        E --&gt; P[Assertions]
+        E --&gt; Q[Wait Conditions]
+        E --&gt; R[State Validation]
         
-        S[Test Layer] --> T[Test Cases]
-        S --> U[Test Data]
-        S --> V[Test Utilities]
+        S[Test Layer] --&gt; T[Test Cases]
+        S --&gt; U[Test Data]
+        S --&gt; V[Test Utilities]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -54,12 +106,9 @@
         style D fill:#ffd43b
         style S fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The E-Commerce Test Suite 🛍️</h3>
-    
-    <p>You're building a comprehensive test automation framework for a complex e-commerce platform with hundreds of pages, dynamic content, multiple user flows, and frequent UI updates. Your framework must handle login flows, product searches, cart management, checkout processes, and admin operations - all while being maintainable by a team of testers with varying technical skills. Let's build an enterprise-grade Page Object Model!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The E-Commerce Test Suite 🛍️</h3>
+<p>You're building a comprehensive test automation framework for a complex e-commerce platform with hundreds of pages, dynamic content, multiple user flows, and frequent UI updates. Your framework must handle login flows, product searches, cart management, checkout processes, and admin operations - all while being maintainable by a team of testers with varying technical skills. Let's build an enterprise-grade Page Object Model!</p>
+<pre><code># First, install required packages:
 # pip install selenium pytest pytest-html allure-pytest
 
 import logging
@@ -108,11 +157,11 @@ class BasePage:
         self.driver.get(url)
         self.logger.info(f"Opened URL: {url}")
     
-    def get_current_url(self) -> str:
+    def get_current_url(self) -&gt; str:
         """Get current page URL."""
         return self.driver.current_url
     
-    def get_title(self) -> str:
+    def get_title(self) -&gt; str:
         """Get page title."""
         return self.driver.title
     
@@ -133,7 +182,7 @@ class BasePage:
     
     # -------------------- Element Finding --------------------
     
-    def find_element(self, locator: Tuple[str, str]) -> WebElement:
+    def find_element(self, locator: Tuple[str, str]) -&gt; WebElement:
         """Find a single element."""
         try:
             element = self.wait.until(EC.presence_of_element_located(locator))
@@ -143,7 +192,7 @@ class BasePage:
             self.logger.error(f"Element not found: {locator}")
             raise
     
-    def find_elements(self, locator: Tuple[str, str]) -> List[WebElement]:
+    def find_elements(self, locator: Tuple[str, str]) -&gt; List[WebElement]:
         """Find multiple elements."""
         try:
             self.wait.until(EC.presence_of_element_located(locator))
@@ -154,7 +203,7 @@ class BasePage:
             self.logger.error(f"Elements not found: {locator}")
             return []
     
-    def find_visible_element(self, locator: Tuple[str, str]) -> WebElement:
+    def find_visible_element(self, locator: Tuple[str, str]) -&gt; WebElement:
         """Find visible element."""
         try:
             element = self.wait.until(EC.visibility_of_element_located(locator))
@@ -164,7 +213,7 @@ class BasePage:
             self.logger.error(f"Visible element not found: {locator}")
             raise
     
-    def find_clickable_element(self, locator: Tuple[str, str]) -> WebElement:
+    def find_clickable_element(self, locator: Tuple[str, str]) -&gt; WebElement:
         """Find clickable element."""
         try:
             element = self.wait.until(EC.element_to_be_clickable(locator))
@@ -190,12 +239,12 @@ class BasePage:
         element.send_keys(text)
         self.logger.info(f"Typed '{text}' into element: {locator}")
     
-    def get_text(self, locator: Tuple[str, str]) -> str:
+    def get_text(self, locator: Tuple[str, str]) -&gt; str:
         """Get element text."""
         element = self.find_visible_element(locator)
         return element.text
     
-    def get_attribute(self, locator: Tuple[str, str], attribute: str) -> str:
+    def get_attribute(self, locator: Tuple[str, str], attribute: str) -&gt; str:
         """Get element attribute."""
         element = self.find_element(locator)
         return element.get_attribute(attribute)
@@ -246,7 +295,7 @@ class BasePage:
     
     # -------------------- Validation Methods --------------------
     
-    def is_element_present(self, locator: Tuple[str, str]) -> bool:
+    def is_element_present(self, locator: Tuple[str, str]) -&gt; bool:
         """Check if element is present in DOM."""
         try:
             self.driver.find_element(*locator)
@@ -254,7 +303,7 @@ class BasePage:
         except NoSuchElementException:
             return False
     
-    def is_element_visible(self, locator: Tuple[str, str]) -> bool:
+    def is_element_visible(self, locator: Tuple[str, str]) -&gt; bool:
         """Check if element is visible."""
         try:
             element = self.driver.find_element(*locator)
@@ -262,7 +311,7 @@ class BasePage:
         except NoSuchElementException:
             return False
     
-    def is_element_enabled(self, locator: Tuple[str, str]) -> bool:
+    def is_element_enabled(self, locator: Tuple[str, str]) -&gt; bool:
         """Check if element is enabled."""
         try:
             element = self.driver.find_element(*locator)
@@ -270,7 +319,7 @@ class BasePage:
         except NoSuchElementException:
             return False
     
-    def is_element_selected(self, locator: Tuple[str, str]) -> bool:
+    def is_element_selected(self, locator: Tuple[str, str]) -&gt; bool:
         """Check if element is selected."""
         try:
             element = self.driver.find_element(*locator)
@@ -280,7 +329,7 @@ class BasePage:
     
     # -------------------- JavaScript Execution --------------------
     
-    def execute_script(self, script: str, *args) -> Any:
+    def execute_script(self, script: str, *args) -&gt; Any:
         """Execute JavaScript."""
         return self.driver.execute_script(script, *args)
     
@@ -315,14 +364,14 @@ class Component(ABC):
         self.wait = WebDriverWait(driver, 10)
         self.logger = logging.getLogger(self.__class__.__name__)
     
-    def get_root_element(self) -> WebElement:
+    def get_root_element(self) -&gt; WebElement:
         """Get the root element of the component."""
         if self.root_locator:
             return self.wait.until(EC.presence_of_element_located(self.root_locator))
         return self.driver
     
     @abstractmethod
-    def is_loaded(self) -> bool:
+    def is_loaded(self) -&gt; bool:
         """Check if component is loaded."""
         pass
 
@@ -340,7 +389,7 @@ class NavigationMenu(Component):
     def __init__(self, driver: webdriver.Remote):
         super().__init__(driver, self.MENU_CONTAINER)
     
-    def is_loaded(self) -> bool:
+    def is_loaded(self) -&gt; bool:
         """Check if navigation menu is loaded."""
         try:
             self.get_root_element()
@@ -368,7 +417,7 @@ class NavigationMenu(Component):
         self.wait.until(EC.element_to_be_clickable(self.ACCOUNT_LINK)).click()
         self.logger.info("Navigated to Account")
     
-    def get_cart_count(self) -> int:
+    def get_cart_count(self) -&gt; int:
         """Get number of items in cart."""
         try:
             count_text = self.driver.find_element(*self.CART_COUNT).text
@@ -388,7 +437,7 @@ class SearchBar(Component):
     def __init__(self, driver: webdriver.Remote):
         super().__init__(driver)
     
-    def is_loaded(self) -> bool:
+    def is_loaded(self) -&gt; bool:
         """Check if search bar is loaded."""
         try:
             self.wait.until(EC.presence_of_element_located(self.SEARCH_INPUT))
@@ -416,7 +465,7 @@ class SearchBar(Component):
         
         self.logger.info(f"Searched for: {query}")
     
-    def get_suggestions(self) -> List[str]:
+    def get_suggestions(self) -&gt; List[str]:
         """Get search suggestions."""
         try:
             # Type something to trigger suggestions
@@ -428,7 +477,7 @@ class SearchBar(Component):
     def select_suggestion(self, index: int):
         """Select a search suggestion by index."""
         suggestions = self.driver.find_elements(*self.SUGGESTION_ITEMS)
-        if 0 <= index < len(suggestions):
+        if 0 &lt;= index &lt; len(suggestions):
             suggestions[index].click()
             self.logger.info(f"Selected suggestion at index {index}")
 
@@ -455,7 +504,7 @@ class LoginPage(BasePage):
         """Navigate to login page."""
         super().open(self.URL)
     
-    def login(self, username: str, password: str, remember: bool = False) -> 'DashboardPage':
+    def login(self, username: str, password: str, remember: bool = False) -&gt; 'DashboardPage':
         """
         Perform login action.
         Returns DashboardPage object for method chaining.
@@ -473,14 +522,14 @@ class LoginPage(BasePage):
         # Return next page object for chaining
         return DashboardPage(self.driver)
     
-    def get_error_message(self) -> str:
+    def get_error_message(self) -&gt; str:
         """Get login error message."""
         try:
             return self.get_text(self.ERROR_MESSAGE)
         except TimeoutException:
             return ""
     
-    def is_error_displayed(self) -> bool:
+    def is_error_displayed(self) -&gt; bool:
         """Check if error message is displayed."""
         return self.is_element_visible(self.ERROR_MESSAGE)
     
@@ -505,7 +554,7 @@ class DashboardPage(BasePage):
         self.navigation = NavigationMenu(driver)
         self.search_bar = SearchBar(driver)
     
-    def is_loaded(self) -> bool:
+    def is_loaded(self) -&gt; bool:
         """Check if dashboard is loaded."""
         try:
             self.wait_for_element_visible(self.WELCOME_MESSAGE)
@@ -513,11 +562,11 @@ class DashboardPage(BasePage):
         except TimeoutException:
             return False
     
-    def get_welcome_message(self) -> str:
+    def get_welcome_message(self) -&gt; str:
         """Get welcome message text."""
         return self.get_text(self.WELCOME_MESSAGE)
     
-    def get_username(self) -> str:
+    def get_username(self) -&gt; str:
         """Get logged in username."""
         return self.get_text(self.USER_NAME)
     
@@ -526,7 +575,7 @@ class DashboardPage(BasePage):
         self.click(self.LOGOUT_BUTTON)
         self.logger.info("Logged out")
     
-    def get_stats(self) -> List[Dict[str, str]]:
+    def get_stats(self) -&gt; List[Dict[str, str]]:
         """Get dashboard statistics."""
         widgets = self.find_elements(self.STATS_WIDGETS)
         stats = []
@@ -556,11 +605,11 @@ class ProductPage(BasePage):
     def __init__(self, driver: webdriver.Remote):
         super().__init__(driver)
     
-    def get_product_title(self) -> str:
+    def get_product_title(self) -&gt; str:
         """Get product title."""
         return self.get_text(self.PRODUCT_TITLE)
     
-    def get_product_price(self) -> float:
+    def get_product_price(self) -&gt; float:
         """Get product price as float."""
         price_text = self.get_text(self.PRODUCT_PRICE)
         # Extract numeric value
@@ -587,12 +636,12 @@ class ProductPage(BasePage):
         self.click(self.ADD_TO_CART_BUTTON)
         self.logger.info("Added product to cart")
     
-    def is_in_stock(self) -> bool:
+    def is_in_stock(self) -&gt; bool:
         """Check if product is in stock."""
         status_text = self.get_text(self.IN_STOCK_INDICATOR)
         return "in stock" in status_text.lower()
     
-    def get_image_urls(self) -> List[str]:
+    def get_image_urls(self) -&gt; List[str]:
         """Get all product image URLs."""
         images = self.find_elements(self.PRODUCT_IMAGES)
         return [img.get_attribute("src") for img in images]
@@ -613,7 +662,7 @@ class CartPage(BasePage):
     def __init__(self, driver: webdriver.Remote):
         super().__init__(driver)
     
-    def get_cart_items(self) -> List[Dict[str, Any]]:
+    def get_cart_items(self) -&gt; List[Dict[str, Any]]:
         """Get all items in cart."""
         items = self.find_elements(self.CART_ITEMS)
         cart_items = []
@@ -631,7 +680,7 @@ class CartPage(BasePage):
         
         return cart_items
     
-    def get_total(self) -> float:
+    def get_total(self) -&gt; float:
         """Get cart total."""
         total_text = self.get_text(self.CART_TOTAL)
         total = re.findall(r'[\d.]+', total_text)[0]
@@ -640,24 +689,24 @@ class CartPage(BasePage):
     def remove_item(self, index: int):
         """Remove item from cart by index."""
         remove_buttons = self.find_elements(self.REMOVE_ITEM_BUTTON)
-        if 0 <= index < len(remove_buttons):
+        if 0 &lt;= index &lt; len(remove_buttons):
             remove_buttons[index].click()
             self.logger.info(f"Removed item at index {index}")
     
     def update_quantity(self, index: int, quantity: int):
         """Update item quantity."""
         quantity_inputs = self.find_elements(self.QUANTITY_INPUT)
-        if 0 <= index < len(quantity_inputs):
+        if 0 &lt;= index &lt; len(quantity_inputs):
             quantity_inputs[index].clear()
             quantity_inputs[index].send_keys(str(quantity))
             self.click(self.UPDATE_CART_BUTTON)
             self.logger.info(f"Updated quantity at index {index} to {quantity}")
     
-    def is_empty(self) -> bool:
+    def is_empty(self) -&gt; bool:
         """Check if cart is empty."""
         return self.is_element_visible(self.EMPTY_CART_MESSAGE)
     
-    def proceed_to_checkout(self) -> 'CheckoutPage':
+    def proceed_to_checkout(self) -&gt; 'CheckoutPage':
         """Proceed to checkout."""
         self.click(self.CHECKOUT_BUTTON)
         self.logger.info("Proceeded to checkout")
@@ -727,13 +776,13 @@ class CheckoutPage(BasePage):
             self.click(self.SAME_AS_BILLING)
         self.logger.info("Using billing address for shipping")
     
-    def place_order(self) -> 'OrderConfirmationPage':
+    def place_order(self) -&gt; 'OrderConfirmationPage':
         """Place the order."""
         self.click(self.PLACE_ORDER_BUTTON)
         self.logger.info("Placed order")
         return OrderConfirmationPage(self.driver)
     
-    def get_order_summary(self) -> str:
+    def get_order_summary(self) -&gt; str:
         """Get order summary text."""
         return self.get_text(self.ORDER_SUMMARY)
 
@@ -750,11 +799,11 @@ class OrderConfirmationPage(BasePage):
     def __init__(self, driver: webdriver.Remote):
         super().__init__(driver)
     
-    def get_order_number(self) -> str:
+    def get_order_number(self) -&gt; str:
         """Get order number."""
         return self.get_text(self.ORDER_NUMBER)
     
-    def get_confirmation_message(self) -> str:
+    def get_confirmation_message(self) -&gt; str:
         """Get confirmation message."""
         return self.get_text(self.CONFIRMATION_MESSAGE)
     
@@ -776,27 +825,27 @@ class PageFactory:
     def __init__(self, driver: webdriver.Remote):
         self.driver = driver
     
-    def get_login_page(self) -> LoginPage:
+    def get_login_page(self) -&gt; LoginPage:
         """Get login page instance."""
         return LoginPage(self.driver)
     
-    def get_dashboard_page(self) -> DashboardPage:
+    def get_dashboard_page(self) -&gt; DashboardPage:
         """Get dashboard page instance."""
         return DashboardPage(self.driver)
     
-    def get_product_page(self) -> ProductPage:
+    def get_product_page(self) -&gt; ProductPage:
         """Get product page instance."""
         return ProductPage(self.driver)
     
-    def get_cart_page(self) -> CartPage:
+    def get_cart_page(self) -&gt; CartPage:
         """Get cart page instance."""
         return CartPage(self.driver)
     
-    def get_checkout_page(self) -> CheckoutPage:
+    def get_checkout_page(self) -&gt; CheckoutPage:
         """Get checkout page instance."""
         return CheckoutPage(self.driver)
     
-    def get_order_confirmation_page(self) -> OrderConfirmationPage:
+    def get_order_confirmation_page(self) -&gt; OrderConfirmationPage:
         """Get order confirmation page instance."""
         return OrderConfirmationPage(self.driver)
 
@@ -1040,37 +1089,28 @@ if __name__ == "__main__":
     
     print("\n✅ Page Object Model demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>One Class Per Page:</strong> Each page/screen gets its own page object class.</li>
-        
-        <li><strong>Centralize Locators:</strong> Keep all locators as class constants.</li>
-        
-        <li><strong>No Test Logic in Pages:</strong> Page objects handle interactions, tests handle assertions.</li>
-        
-        <li><strong>Return Page Objects:</strong> Enable method chaining by returning next page.</li>
-        
-        <li><strong>Create Reusable Components:</strong> Extract common UI elements into components.</li>
-        
-        <li><strong>Use Descriptive Names:</strong> Methods should describe user actions clearly.</li>
-        
-        <li><strong>Implement Page Validation:</strong> Add is_loaded() methods to verify page state.</li>
-        
-        <li><strong>Handle Dynamic Content:</strong> Include appropriate waits in page methods.</li>
-    </ul>
-
-    <h3>Page Object Model Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of Page Object Model as creating a user manual for your application - each page is a chapter, methods are the instructions, and tests are the readers following along. Start with a solid BasePage that handles common operations, then let specific pages inherit and extend. Keep your locators as class constants at the top - when UI changes, you'll thank yourself. Never put assertions in page objects; they describe "how" not "what to expect". Use method chaining by returning page objects - it makes tests read like stories. Create component classes for reusable elements like headers, footers, and modals. Implement is_loaded() methods to verify page state before interactions. Name methods after user actions, not technical operations (login() not fillUsernameAndPasswordAndClickSubmit()). Most importantly: if you find yourself copying code between page objects, it's time to refactor into the base class or create a component!</p>
-    </div>
-    
-    <p>Mastering the Page Object Model transforms chaotic test scripts into maintainable, scalable test automation frameworks. You now have the architectural knowledge to build test suites that survive UI changes, scale with your application, and remain readable by your entire team. Whether you're automating e-commerce sites, dashboards, or complex applications, POM ensures your tests stand the test of time! 🏰</p>
-    
-    <footer>
-        <p>Next up: <a href="browser_automation_headless_browsing.html">Headless Browsing - Automation Without the GUI!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>One Class Per Page:</strong> Each page/screen gets its own page object class.</li>
+<li><strong>Centralize Locators:</strong> Keep all locators as class constants.</li>
+<li><strong>No Test Logic in Pages:</strong> Page objects handle interactions, tests handle assertions.</li>
+<li><strong>Return Page Objects:</strong> Enable method chaining by returning next page.</li>
+<li><strong>Create Reusable Components:</strong> Extract common UI elements into components.</li>
+<li><strong>Use Descriptive Names:</strong> Methods should describe user actions clearly.</li>
+<li><strong>Implement Page Validation:</strong> Add is_loaded() methods to verify page state.</li>
+<li><strong>Handle Dynamic Content:</strong> Include appropriate waits in page methods.</li>
+</ul>
+<h3>Page Object Model Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of Page Object Model as creating a user manual for your application - each page is a chapter, methods are the instructions, and tests are the readers following along. Start with a solid BasePage that handles common operations, then let specific pages inherit and extend. Keep your locators as class constants at the top - when UI changes, you'll thank yourself. Never put assertions in page objects; they describe "how" not "what to expect". Use method chaining by returning page objects - it makes tests read like stories. Create component classes for reusable elements like headers, footers, and modals. Implement is_loaded() methods to verify page state before interactions. Name methods after user actions, not technical operations (login() not fillUsernameAndPasswordAndClickSubmit()). Most importantly: if you find yourself copying code between page objects, it's time to refactor into the base class or create a component!</p>
+</div>
+<p>Mastering the Page Object Model transforms chaotic test scripts into maintainable, scalable test automation frameworks. You now have the architectural knowledge to build test suites that survive UI changes, scale with your application, and remain readable by your entire team. Whether you're automating e-commerce sites, dashboards, or complex applications, POM ensures your tests stand the test of time! 🏰</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="browser_automation_waiting_strategies.html">← Previous: Waiting Strategies</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="browser_automation_headless_browsing.html">Next: Headless Browsing →</a>
+</div>
+</footer>
 </body>
 </html>

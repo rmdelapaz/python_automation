@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Attachments - Python Email Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Attachments - Python Email Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📎 Email Attachments: Send Files and Documents</h1>
-    
-    <p>Email attachments are the cargo containers of digital communication - they let you send documents, images, spreadsheets, and any file type alongside your messages. From simple PDFs to complex zip archives, mastering attachment handling allows you to build automated systems that distribute reports, share documents, send invoices, and deliver digital content at scale. Let's explore the complete toolkit for managing email attachments! 📦</p>
-
-    <h2>The Attachment Processing Architecture</h2>
-    
-    <p>Think of email attachments as carefully packaged parcels - each file must be properly encoded, labeled with the correct MIME type, sized appropriately, and attached securely to your email. Whether you're sending a single document or multiple files, understanding encoding methods, size limitations, and security considerations is essential for reliable attachment handling!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module5">Email Automation</a> &gt; 
+        <span>Email Attachments</span>
+</nav>
+<h1>📎 Email Attachments: Send Files and Documents</h1>
+<p>Email attachments are the cargo containers of digital communication - they let you send documents, images, spreadsheets, and any file type alongside your messages. From simple PDFs to complex zip archives, mastering attachment handling allows you to build automated systems that distribute reports, share documents, send invoices, and deliver digital content at scale. Let's explore the complete toolkit for managing email attachments! 📦</p>
+<h2>The Attachment Processing Architecture</h2>
+<p>Think of email attachments as carefully packaged parcels - each file must be properly encoded, labeled with the correct MIME type, sized appropriately, and attached securely to your email. Whether you're sending a single document or multiple files, understanding encoding methods, size limitations, and security considerations is essential for reliable attachment handling!</p>
+<div class="mermaid">
     graph TB
-        A[Email Attachments] --> B[File Types]
-        A --> C[Encoding Methods]
-        A --> D[Size Management]
-        A --> E[Security]
+        A[Email Attachments] --&gt; B[File Types]
+        A --&gt; C[Encoding Methods]
+        A --&gt; D[Size Management]
+        A --&gt; E[Security]
         
-        B --> F[Documents]
-        B --> G[Images]
-        B --> H[Archives]
-        B --> I[Data Files]
+        B --&gt; F[Documents]
+        B --&gt; G[Images]
+        B --&gt; H[Archives]
+        B --&gt; I[Data Files]
         
-        C --> J[Base64]
-        C --> K[Quoted-Printable]
-        C --> L[Binary]
-        C --> M[7bit/8bit]
+        C --&gt; J[Base64]
+        C --&gt; K[Quoted-Printable]
+        C --&gt; L[Binary]
+        C --&gt; M[7bit/8bit]
         
-        D --> N[Compression]
-        D --> O[Chunking]
-        D --> P[Cloud Links]
-        D --> Q[Size Limits]
+        D --&gt; N[Compression]
+        D --&gt; O[Chunking]
+        D --&gt; P[Cloud Links]
+        D --&gt; Q[Size Limits]
         
-        E --> R[Virus Scanning]
-        E --> S[File Validation]
-        E --> T[Encryption]
-        E --> U[Access Control]
+        E --&gt; R[Virus Scanning]
+        E --&gt; S[File Validation]
+        E --&gt; T[Encryption]
+        E --&gt; U[Access Control]
         
-        V[Processing] --> W[Send Attachments]
-        V --> X[Receive & Extract]
-        V --> Y[Convert Formats]
-        V --> Z[Generate Reports]
+        V[Processing] --&gt; W[Send Attachments]
+        V --&gt; X[Receive &amp; Extract]
+        V --&gt; Y[Convert Formats]
+        V --&gt; Z[Generate Reports]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Document Distribution System 📨</h3>
-    
-    <p>You're building a document distribution system that sends reports to clients, invoices to customers, contracts for signatures, batch documents to departments, and archives to backup systems. Your system must handle various file types, compress large files, validate attachments for security, respect email size limits, track delivery, and process incoming attachments automatically. Let's build a comprehensive attachment handling framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Document Distribution System 📨</h3>
+<p>You're building a document distribution system that sends reports to clients, invoices to customers, contracts for signatures, batch documents to departments, and archives to backup systems. Your system must handle various file types, compress large files, validate attachments for security, respect email size limits, track delivery, and process incoming attachments automatically. Let's build a comprehensive attachment handling framework!</p>
+<pre><code># First, install required packages:
 # pip install python-magic pymupdf pillow openpyxl python-docx zipfile36 rarfile py7zr
 
 import os
@@ -160,7 +209,7 @@ class AttachmentHandler:
             shutil.rmtree(self.temp_dir)
     
     def prepare_attachment(self, file_path: str, 
-                          validate: bool = True) -> Optional[MIMEBase]:
+                          validate: bool = True) -&gt; Optional[MIMEBase]:
         """
         Prepare file for email attachment.
         
@@ -184,7 +233,7 @@ class AttachmentHandler:
         # Check size and compress if needed
         file_size_mb = file_path.stat().st_size / (1024 * 1024)
         
-        if file_size_mb > self.config.max_size_mb:
+        if file_size_mb &gt; self.config.max_size_mb:
             self.logger.warning(f"File too large: {file_size_mb:.2f}MB")
             
             if self.config.auto_compress:
@@ -204,7 +253,7 @@ class AttachmentHandler:
         
         return attachment
     
-    def _create_mime_attachment(self, file_path: Path) -> Optional[MIMEBase]:
+    def _create_mime_attachment(self, file_path: Path) -&gt; Optional[MIMEBase]:
         """Create MIME attachment from file."""
         try:
             # Detect MIME type
@@ -254,7 +303,7 @@ class AttachmentHandler:
             # Add content ID for inline references
             attachment.add_header(
                 'Content-ID',
-                f'<{file_path.stem}@attachment>'
+                f'&lt;{file_path.stem}@attachment&gt;'
             )
             
             return attachment
@@ -264,7 +313,7 @@ class AttachmentHandler:
             self.stats["errors"] += 1
             return None
     
-    def validate_file(self, file_path: str) -> bool:
+    def validate_file(self, file_path: str) -&gt; bool:
         """
         Validate file for attachment.
         
@@ -293,7 +342,7 @@ class AttachmentHandler:
         # Check file size
         file_size_mb = file_path.stat().st_size / (1024 * 1024)
         
-        if file_size_mb > self.config.max_size_mb and not self.config.auto_compress:
+        if file_size_mb &gt; self.config.max_size_mb and not self.config.auto_compress:
             self.logger.warning(f"File too large: {file_size_mb:.2f}MB")
             return False
         
@@ -304,7 +353,7 @@ class AttachmentHandler:
         
         return True
     
-    def _scan_for_viruses(self, file_path: str) -> bool:
+    def _scan_for_viruses(self, file_path: str) -&gt; bool:
         """
         Scan file for viruses (placeholder - integrate with actual AV).
         
@@ -318,7 +367,7 @@ class AttachmentHandler:
         return True
     
     def compress_file(self, file_path: str, 
-                     output_path: Optional[str] = None) -> Optional[str]:
+                     output_path: Optional[str] = None) -&gt; Optional[str]:
         """
         Compress file to reduce size.
         
@@ -344,7 +393,7 @@ class AttachmentHandler:
             
             self.logger.info(
                 f"Compressed {file_path.name}: "
-                f"{original_size/1024/1024:.2f}MB -> "
+                f"{original_size/1024/1024:.2f}MB -&gt; "
                 f"{compressed_size/1024/1024:.2f}MB "
                 f"({compression_ratio:.1f}% reduction)"
             )
@@ -358,7 +407,7 @@ class AttachmentHandler:
             return None
     
     def compress_multiple(self, file_paths: List[str], 
-                         archive_name: str = "archive.zip") -> Optional[str]:
+                         archive_name: str = "archive.zip") -&gt; Optional[str]:
         """
         Compress multiple files into single archive.
         
@@ -390,7 +439,7 @@ class AttachmentHandler:
             return None
     
     def extract_attachments(self, msg: MIMEMultipart, 
-                          output_dir: str = None) -> List[Dict[str, Any]]:
+                          output_dir: str = None) -&gt; List[Dict[str, Any]]:
         """
         Extract attachments from email message.
         
@@ -436,7 +485,7 @@ class AttachmentHandler:
                         "path": file_path,
                         "size": len(payload),
                         "content_type": part.get_content_type(),
-                        "content_id": part.get("Content-ID", "").strip("<>"),
+                        "content_id": part.get("Content-ID", "").strip("&lt;&gt;"),
                         "extracted_at": datetime.now().isoformat()
                     }
                     
@@ -450,25 +499,25 @@ class AttachmentHandler:
         
         return extracted
     
-    def _sanitize_filename(self, filename: str) -> str:
+    def _sanitize_filename(self, filename: str) -&gt; str:
         """Sanitize filename for safe storage."""
         # Remove path components
         filename = os.path.basename(filename)
         
         # Remove dangerous characters
-        dangerous_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|', '\0']
+        dangerous_chars = ['/', '\\', ':', '*', '?', '"', '&lt;', '&gt;', '|', '\0']
         for char in dangerous_chars:
             filename = filename.replace(char, '_')
         
         # Limit length
         max_length = 255
-        if len(filename) > max_length:
+        if len(filename) &gt; max_length:
             name, ext = os.path.splitext(filename)
             filename = name[:max_length - len(ext)] + ext
         
         return filename
     
-    def _get_unique_path(self, file_path: str) -> str:
+    def _get_unique_path(self, file_path: str) -&gt; str:
         """Get unique file path to avoid overwriting."""
         if not os.path.exists(file_path):
             return file_path
@@ -490,7 +539,7 @@ class FileMetadataExtractor:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
     
-    def extract_metadata(self, file_path: str) -> Dict[str, Any]:
+    def extract_metadata(self, file_path: str) -&gt; Dict[str, Any]:
         """Extract metadata based on file type."""
         file_path = Path(file_path)
         
@@ -524,7 +573,7 @@ class FileMetadataExtractor:
         
         return metadata
     
-    def _extract_pdf_metadata(self, file_path: str) -> Dict[str, Any]:
+    def _extract_pdf_metadata(self, file_path: str) -&gt; Dict[str, Any]:
         """Extract PDF metadata."""
         metadata = {}
         
@@ -545,7 +594,7 @@ class FileMetadataExtractor:
         
         return metadata
     
-    def _extract_image_metadata(self, file_path: str) -> Dict[str, Any]:
+    def _extract_image_metadata(self, file_path: str) -&gt; Dict[str, Any]:
         """Extract image metadata."""
         metadata = {}
         
@@ -565,7 +614,7 @@ class FileMetadataExtractor:
         
         return metadata
     
-    def _extract_word_metadata(self, file_path: str) -> Dict[str, Any]:
+    def _extract_word_metadata(self, file_path: str) -&gt; Dict[str, Any]:
         """Extract Word document metadata."""
         metadata = {}
         
@@ -584,7 +633,7 @@ class FileMetadataExtractor:
         
         return metadata
     
-    def _extract_excel_metadata(self, file_path: str) -> Dict[str, Any]:
+    def _extract_excel_metadata(self, file_path: str) -&gt; Dict[str, Any]:
         """Extract Excel metadata."""
         metadata = {}
         
@@ -611,7 +660,7 @@ class AdvancedAttachmentProcessor:
         self.logger = logging.getLogger(__name__)
         self.temp_dir = tempfile.mkdtemp(prefix="attachment_proc_")
     
-    def convert_to_pdf(self, file_path: str) -> Optional[str]:
+    def convert_to_pdf(self, file_path: str) -&gt; Optional[str]:
         """
         Convert document to PDF.
         
@@ -637,7 +686,7 @@ class AdvancedAttachmentProcessor:
             self.logger.error(f"PDF conversion failed: {e}")
             return None
     
-    def _image_to_pdf(self, image_path: str, output_path: str) -> str:
+    def _image_to_pdf(self, image_path: str, output_path: str) -&gt; str:
         """Convert image to PDF."""
         img = Image.open(image_path)
         
@@ -648,7 +697,7 @@ class AdvancedAttachmentProcessor:
         img.save(output_path, 'PDF')
         return output_path
     
-    def _text_to_pdf(self, text_path: str, output_path: str) -> str:
+    def _text_to_pdf(self, text_path: str, output_path: str) -&gt; str:
         """Convert text file to PDF."""
         # This is a simplified version - use reportlab for better formatting
         from PyPDF2 import PdfWriter
@@ -664,14 +713,14 @@ class AdvancedAttachmentProcessor:
         
         return output_path
     
-    def _word_to_pdf(self, word_path: str, output_path: str) -> str:
+    def _word_to_pdf(self, word_path: str, output_path: str) -&gt; str:
         """Convert Word document to PDF."""
         # This requires Microsoft Word or LibreOffice
         # Placeholder implementation
         self.logger.info(f"Word to PDF conversion placeholder for: {word_path}")
         return output_path
     
-    def _excel_to_pdf(self, excel_path: str, output_path: str) -> str:
+    def _excel_to_pdf(self, excel_path: str, output_path: str) -&gt; str:
         """Convert Excel to PDF."""
         # This requires Microsoft Excel or LibreOffice
         # Placeholder implementation
@@ -679,7 +728,7 @@ class AdvancedAttachmentProcessor:
         return output_path
     
     def generate_thumbnail(self, file_path: str, 
-                         size: Tuple[int, int] = (150, 150)) -> Optional[str]:
+                         size: Tuple[int, int] = (150, 150)) -&gt; Optional[str]:
         """Generate thumbnail for file."""
         file_path = Path(file_path)
         output_path = self.temp_dir + f"/{file_path.stem}_thumb.jpg"
@@ -703,7 +752,7 @@ class AdvancedAttachmentProcessor:
             return None
     
     def split_large_file(self, file_path: str, 
-                        chunk_size_mb: int = 10) -> List[str]:
+                        chunk_size_mb: int = 10) -&gt; List[str]:
         """Split large file into chunks."""
         file_path = Path(file_path)
         chunk_size = chunk_size_mb * 1024 * 1024
@@ -735,7 +784,7 @@ class AdvancedAttachmentProcessor:
             return []
     
     def merge_chunks(self, chunk_paths: List[str], 
-                    output_path: str) -> Optional[str]:
+                    output_path: str) -&gt; Optional[str]:
         """Merge file chunks back together."""
         try:
             with open(output_path, 'wb') as output:
@@ -759,7 +808,7 @@ class CloudStorageHandler:
         self.provider = provider
         self.logger = logging.getLogger(__name__)
     
-    def upload_to_cloud(self, file_path: str) -> Optional[str]:
+    def upload_to_cloud(self, file_path: str) -&gt; Optional[str]:
         """
         Upload file to cloud storage and return shareable link.
         
@@ -782,7 +831,7 @@ class CloudStorageHandler:
         return f"https://storage.example.com/files/{Path(file_path).name}"
     
     def create_download_link(self, file_path: str, 
-                           expiry_hours: int = 48) -> str:
+                           expiry_hours: int = 48) -&gt; str:
         """Create temporary download link."""
         # Upload to cloud
         cloud_url = self.upload_to_cloud(file_path)
@@ -804,14 +853,7 @@ class AttachmentSecurityScanner:
         
         # Suspicious patterns
         self.suspicious_patterns = [
-            b'<script',  # JavaScript
-            b'eval(',    # Code execution
-            b'exec(',    # Code execution
-            b'cmd.exe',  # Command execution
-            b'powershell',  # PowerShell
-        ]
-    
-    def scan_file(self, file_path: str) -> Dict[str, Any]:
+            b'<script', #="" -="" ]="" b'cmd.exe',="" b'eval(',="" b'exec(',="" b'powershell',="" code="" command="" def="" execution="" file_path:="" javascript="" powershell="" scan_file(self,="" str)=""> Dict[str, Any]:
         """Comprehensive security scan."""
         results = {
             "file": file_path,
@@ -849,7 +891,7 @@ class AttachmentSecurityScanner:
         
         return results
     
-    def _calculate_hash(self, file_path: str) -> str:
+    def _calculate_hash(self, file_path: str) -&gt; str:
         """Calculate file hash."""
         sha256_hash = hashlib.sha256()
         
@@ -859,7 +901,7 @@ class AttachmentSecurityScanner:
         
         return sha256_hash.hexdigest()
     
-    def _check_malware_database(self, file_hash: str) -> bool:
+    def _check_malware_database(self, file_hash: str) -&gt; bool:
         """Check hash against malware database."""
         # Placeholder - integrate with:
         # - VirusTotal API
@@ -1016,38 +1058,29 @@ if __name__ == "__main__":
         print(f"     Solution: {solution}")
     
     print("\n✅ Attachment handling demonstration complete!")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Check Size Limits:</strong> Different providers have different limits.</li>
-        
-        <li><strong>Compress When Needed:</strong> ZIP files to reduce size.</li>
-        
-        <li><strong>Validate File Types:</strong> Block dangerous extensions.</li>
-        
-        <li><strong>Scan for Security:</strong> Check for viruses and malware.</li>
-        
-        <li><strong>Use Cloud for Large Files:</strong> Send links instead of huge attachments.</li>
-        
-        <li><strong>Encode Properly:</strong> Use base64 for binary files.</li>
-        
-        <li><strong>Handle Metadata:</strong> Preserve file information.</li>
-        
-        <li><strong>Test Extraction:</strong> Verify attachments can be opened.</li>
-    </ul>
-
-    <h3>Attachment Handling Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of email attachments as shipping packages - they need proper packaging (encoding), size limits (provider restrictions), and security checks (virus scanning). Always check file sizes before attaching - most providers limit attachments to 25MB total. Compress files when possible using ZIP to reduce size and bundle multiple files. Validate file extensions to block dangerous types like .exe or .bat. Scan attachments for viruses before sending. For large files, upload to cloud storage and send a download link instead. Use descriptive filenames that recipients will understand. Encode binary files properly with base64. Handle character encoding in filenames for international compatibility. Extract and preserve metadata when processing received attachments. Test that attachments can be properly extracted before sending. Most importantly: always have a fallback plan for when attachments fail - provide alternative download methods!</p>
-    </div>
-    
-    <p>Mastering email attachments enables you to build robust document distribution systems that handle any file type and size. You can now send reports, invoices, documents, and media files programmatically while handling compression, security, and delivery challenges. Whether you're building automated reporting systems or document workflows, these attachment skills power your file distribution! 📨</p>
-    
-    <footer>
-        <p>Next up: <a href="email_automation_filtering_rules.html">Email Filtering and Rules - Automate Inbox Management!</a></p>
-    </footer>
+</script',></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Check Size Limits:</strong> Different providers have different limits.</li>
+<li><strong>Compress When Needed:</strong> ZIP files to reduce size.</li>
+<li><strong>Validate File Types:</strong> Block dangerous extensions.</li>
+<li><strong>Scan for Security:</strong> Check for viruses and malware.</li>
+<li><strong>Use Cloud for Large Files:</strong> Send links instead of huge attachments.</li>
+<li><strong>Encode Properly:</strong> Use base64 for binary files.</li>
+<li><strong>Handle Metadata:</strong> Preserve file information.</li>
+<li><strong>Test Extraction:</strong> Verify attachments can be opened.</li>
+</ul>
+<h3>Attachment Handling Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of email attachments as shipping packages - they need proper packaging (encoding), size limits (provider restrictions), and security checks (virus scanning). Always check file sizes before attaching - most providers limit attachments to 25MB total. Compress files when possible using ZIP to reduce size and bundle multiple files. Validate file extensions to block dangerous types like .exe or .bat. Scan attachments for viruses before sending. For large files, upload to cloud storage and send a download link instead. Use descriptive filenames that recipients will understand. Encode binary files properly with base64. Handle character encoding in filenames for international compatibility. Extract and preserve metadata when processing received attachments. Test that attachments can be properly extracted before sending. Most importantly: always have a fallback plan for when attachments fail - provide alternative download methods!</p>
+</div>
+<p>Mastering email attachments enables you to build robust document distribution systems that handle any file type and size. You can now send reports, invoices, documents, and media files programmatically while handling compression, security, and delivery challenges. Whether you're building automated reporting systems or document workflows, these attachment skills power your file distribution! 📨</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="email_automation_reading_emails.html">← Previous: Reading Emails</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="email_automation_html_emails.html">Next: HTML Emails →</a>
+</div>
+</footer>
 </body>
 </html>

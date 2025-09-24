@@ -1,53 +1,105 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Process Management - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Process Management - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>⚙️ Process Management: Control System Resources with Python</h1>
-    
-    <p>Your computer is like a bustling city, with thousands of processes running like cars on highways, each consuming resources and performing tasks. Process management is your traffic control system - you can start new processes, stop runaway ones, monitor resource usage, and orchestrate complex workflows. Let's become the mayors of our digital cities! 🏙️</p>
-
-    <h2>The Process Management Ecosystem</h2>
-    
-    <p>Think of processes as workers in a factory. Some are assembly line workers (CPU-intensive), others are delivery drivers (I/O-intensive), and some are managers (orchestrating other processes). Python gives you the power to hire, fire, monitor, and coordinate all these workers efficiently!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module10">System Administration</a> &gt; 
+        <span>Process Management</span>
+</nav>
+<h1>⚙️ Process Management: Control System Resources with Python</h1>
+<p>Your computer is like a bustling city, with thousands of processes running like cars on highways, each consuming resources and performing tasks. Process management is your traffic control system - you can start new processes, stop runaway ones, monitor resource usage, and orchestrate complex workflows. Let's become the mayors of our digital cities! 🏙️</p>
+<h2>The Process Management Ecosystem</h2>
+<p>Think of processes as workers in a factory. Some are assembly line workers (CPU-intensive), others are delivery drivers (I/O-intensive), and some are managers (orchestrating other processes). Python gives you the power to hire, fire, monitor, and coordinate all these workers efficiently!</p>
+<div class="mermaid">
     graph TB
-        A[Process Management] --> B[Process Control]
-        A --> C[Resource Monitoring]
-        A --> D[Inter-Process Communication]
-        A --> E[Process Scheduling]
-        A --> F[System Optimization]
+        A[Process Management] --&gt; B[Process Control]
+        A --&gt; C[Resource Monitoring]
+        A --&gt; D[Inter-Process Communication]
+        A --&gt; E[Process Scheduling]
+        A --&gt; F[System Optimization]
         
-        B --> G[Start/Stop Processes]
-        B --> H[Signal Handling]
-        B --> I[Process Trees]
+        B --&gt; G[Start/Stop Processes]
+        B --&gt; H[Signal Handling]
+        B --&gt; I[Process Trees]
         
-        C --> J[CPU Usage]
-        C --> K[Memory Usage]
-        C --> L[Disk I/O]
-        C --> M[Network I/O]
+        C --&gt; J[CPU Usage]
+        C --&gt; K[Memory Usage]
+        C --&gt; L[Disk I/O]
+        C --&gt; M[Network I/O]
         
-        D --> N[Pipes]
-        D --> O[Queues]
-        D --> P[Shared Memory]
+        D --&gt; N[Pipes]
+        D --&gt; O[Queues]
+        D --&gt; P[Shared Memory]
         
-        E --> Q[Priority Management]
-        E --> R[Resource Limits]
-        E --> S[Affinity Control]
+        E --&gt; Q[Priority Management]
+        E --&gt; R[Resource Limits]
+        E --&gt; S[Affinity Control]
         
-        F --> T[Load Balancing]
-        F --> U[Resource Allocation]
-        F --> V[Performance Tuning]
+        F --&gt; T[Load Balancing]
+        F --&gt; U[Resource Allocation]
+        F --&gt; V[Performance Tuning]
         
         style A fill:#ff6b6b
         style G fill:#51cf66
@@ -56,12 +108,9 @@
         style Q fill:#51cf66
         style T fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Server Resource Manager 🖥️</h3>
-    
-    <p>You're managing a server farm running web applications, background jobs, databases, and monitoring tools. Some processes consume too much memory, others spawn zombie children, and occasionally something goes haywire and needs immediate termination. Let's build a comprehensive process management system that keeps everything running smoothly!</p>
-
-    <pre><code>import psutil
+<h3>Real-World Scenario: The Server Resource Manager 🖥️</h3>
+<p>You're managing a server farm running web applications, background jobs, databases, and monitoring tools. Some processes consume too much memory, others spawn zombie children, and occasionally something goes haywire and needs immediate termination. Let's build a comprehensive process management system that keeps everything running smoothly!</p>
+<pre><code>import psutil
 import subprocess
 import os
 import signal
@@ -130,7 +179,7 @@ class ProcessManager:
             'systemd', 'init', 'kernel', 'sshd', 'systemd-resolved'
         }
     
-    def get_default_config(self) -> Dict:
+    def get_default_config(self) -&gt; Dict:
         """Get default configuration."""
         return {
             'monitoring_interval': 5,  # seconds
@@ -154,7 +203,7 @@ class ProcessManager:
         )
         self.logger = logging.getLogger(__name__)
     
-    def get_process_info(self, pid: int) -> Optional[ProcessInfo]:
+    def get_process_info(self, pid: int) -&gt; Optional[ProcessInfo]:
         """Get detailed information about a process."""
         try:
             proc = psutil.Process(pid)
@@ -183,7 +232,7 @@ class ProcessManager:
             self.logger.warning(f"Cannot access process {pid}: {e}")
             return None
     
-    def list_all_processes(self, sort_by: str = 'cpu') -> List[ProcessInfo]:
+    def list_all_processes(self, sort_by: str = 'cpu') -&gt; List[ProcessInfo]:
         """List all running processes sorted by specified criteria."""
         processes = []
         
@@ -207,7 +256,7 @@ class ProcessManager:
         
         return processes
     
-    def find_processes(self, pattern: str) -> List[ProcessInfo]:
+    def find_processes(self, pattern: str) -&gt; List[ProcessInfo]:
         """Find processes matching a pattern."""
         matching_processes = []
         
@@ -231,7 +280,7 @@ class ProcessManager:
         
         return matching_processes
     
-    def kill_process(self, pid: int, force: bool = False) -> bool:
+    def kill_process(self, pid: int, force: bool = False) -&gt; bool:
         """Kill a process by PID."""
         try:
             proc = psutil.Process(pid)
@@ -267,7 +316,7 @@ class ProcessManager:
             self.logger.error(f"Error killing process {pid}: {e}")
             return False
     
-    def kill_process_tree(self, pid: int, include_parent: bool = True) -> int:
+    def kill_process_tree(self, pid: int, include_parent: bool = True) -&gt; int:
         """Kill a process and all its children."""
         try:
             parent = psutil.Process(pid)
@@ -309,7 +358,7 @@ class ProcessManager:
             self.logger.error(f"Error killing process tree {pid}: {e}")
             return 0
     
-    def start_process(self, command: List[str], **kwargs) -> subprocess.Popen:
+    def start_process(self, command: List[str], **kwargs) -&gt; subprocess.Popen:
         """Start a new process."""
         try:
             # Default subprocess options
@@ -338,7 +387,7 @@ class ProcessManager:
             self.logger.error(f"Failed to start process: {e}")
             raise
     
-    def restart_process(self, pid: int) -> Optional[subprocess.Popen]:
+    def restart_process(self, pid: int) -&gt; Optional[subprocess.Popen]:
         """Restart a process."""
         try:
             # Get process info before killing
@@ -362,7 +411,7 @@ class ProcessManager:
             self.logger.error(f"Failed to restart process {pid}: {e}")
             return None
     
-    def monitor_process(self, pid: int, callback: Callable = None) -> Dict:
+    def monitor_process(self, pid: int, callback: Callable = None) -&gt; Dict:
         """Monitor a specific process."""
         try:
             proc = psutil.Process(pid)
@@ -387,7 +436,7 @@ class ProcessManager:
             
             # Limit history size
             max_history = self.config.get('history_size', 100)
-            if len(self.process_history[pid]) > max_history:
+            if len(self.process_history[pid]) &gt; max_history:
                 self.process_history[pid].popleft()
             
             # Check thresholds
@@ -411,12 +460,12 @@ class ProcessManager:
         alerts = []
         
         # Check CPU usage
-        if metrics.get('cpu_percent', 0) > self.thresholds['cpu_percent']:
+        if metrics.get('cpu_percent', 0) &gt; self.thresholds['cpu_percent']:
             alert = f"High CPU usage for process {metrics['pid']} ({metrics['name']}): {metrics['cpu_percent']:.1f}%"
             alerts.append(alert)
         
         # Check memory usage
-        if metrics.get('memory_percent', 0) > self.thresholds['memory_percent']:
+        if metrics.get('memory_percent', 0) &gt; self.thresholds['memory_percent']:
             alert = f"High memory usage for process {metrics['pid']} ({metrics['name']}): {metrics['memory_percent']:.1f}%"
             alerts.append(alert)
         
@@ -435,7 +484,7 @@ class ProcessManager:
         # Implement additional alert methods here
         # Email, Slack, SMS, etc.
     
-    def get_resource_usage(self) -> Dict:
+    def get_resource_usage(self) -&gt; Dict:
         """Get system-wide resource usage."""
         return {
             'cpu': {
@@ -468,12 +517,12 @@ class ProcessManager:
             }
         }
     
-    def find_resource_hogs(self, resource_type: str = 'cpu', top_n: int = 10) -> List[ProcessInfo]:
+    def find_resource_hogs(self, resource_type: str = 'cpu', top_n: int = 10) -&gt; List[ProcessInfo]:
         """Find processes consuming the most resources."""
         processes = self.list_all_processes(sort_by=resource_type)
         return processes[:top_n]
     
-    def cleanup_zombies(self) -> int:
+    def cleanup_zombies(self) -&gt; int:
         """Clean up zombie processes."""
         zombies_cleaned = 0
         
@@ -487,12 +536,12 @@ class ProcessManager:
             except:
                 continue
         
-        if zombies_cleaned > 0:
+        if zombies_cleaned &gt; 0:
             self.logger.info(f"Cleaned up {zombies_cleaned} zombie processes")
         
         return zombies_cleaned
     
-    def set_process_priority(self, pid: int, priority: int) -> bool:
+    def set_process_priority(self, pid: int, priority: int) -&gt; bool:
         """Set process priority (nice value)."""
         try:
             proc = psutil.Process(pid)
@@ -507,7 +556,7 @@ class ProcessManager:
             self.logger.error(f"Failed to set process priority: {e}")
             return False
     
-    def set_process_affinity(self, pid: int, cpus: List[int]) -> bool:
+    def set_process_affinity(self, pid: int, cpus: List[int]) -&gt; bool:
         """Set CPU affinity for a process."""
         try:
             proc = psutil.Process(pid)
@@ -522,7 +571,7 @@ class ProcessManager:
             self.logger.error(f"Failed to set process affinity: {e}")
             return False
     
-    def limit_process_resources(self, pid: int, limits: Dict) -> bool:
+    def limit_process_resources(self, pid: int, limits: Dict) -&gt; bool:
         """Set resource limits for a process."""
         try:
             # This requires running as root on Unix systems
@@ -565,7 +614,7 @@ class ProcessPoolManager:
         self.results = {}
         self.logger = logging.getLogger(__name__)
     
-    def create_pool(self, name: str, workers: int = None) -> Pool:
+    def create_pool(self, name: str, workers: int = None) -&gt; Pool:
         """Create a named process pool."""
         workers = workers or self.max_workers
         
@@ -577,7 +626,7 @@ class ProcessPoolManager:
     
     def execute_parallel(self, func: Callable, tasks: List, 
                         pool_name: str = 'default',
-                        chunk_size: int = 1) -> List:
+                        chunk_size: int = 1) -&gt; List:
         """Execute tasks in parallel using process pool."""
         if pool_name not in self.pools:
             self.create_pool(pool_name)
@@ -597,7 +646,7 @@ class ProcessPoolManager:
     
     def execute_async(self, func: Callable, tasks: List, 
                      pool_name: str = 'default',
-                     callback: Callable = None) -> List:
+                     callback: Callable = None) -&gt; List:
         """Execute tasks asynchronously."""
         if pool_name not in self.pools:
             self.create_pool(pool_name)
@@ -616,7 +665,7 @@ class ProcessPoolManager:
         return async_results
     
     def get_results(self, pool_name: str = 'default', 
-                   timeout: int = None) -> List:
+                   timeout: int = None) -&gt; List:
         """Get results from async execution."""
         if pool_name not in self.results:
             return []
@@ -659,7 +708,7 @@ class ProcessOrchestrator:
         self.shared_state = self.manager.dict()
         self.logger = logging.getLogger(__name__)
     
-    def create_workflow(self, name: str, steps: List[Dict]) -> bool:
+    def create_workflow(self, name: str, steps: List[Dict]) -&gt; bool:
         """
         Create a workflow definition.
         
@@ -676,7 +725,7 @@ class ProcessOrchestrator:
         self.logger.info(f"Created workflow '{name}' with {len(steps)} steps")
         return True
     
-    def execute_workflow(self, name: str, context: Dict = None) -> Dict:
+    def execute_workflow(self, name: str, context: Dict = None) -&gt; Dict:
         """Execute a complete workflow."""
         if name not in self.workflows:
             raise ValueError(f"Workflow '{name}' not found")
@@ -794,7 +843,7 @@ class SystemProcessMonitor:
             except Exception as e:
                 self.logger.error(f"Monitoring error: {e}")
     
-    def collect_metrics(self) -> Dict:
+    def collect_metrics(self) -&gt; Dict:
         """Collect comprehensive system metrics."""
         metrics = {
             'timestamp': datetime.now(),
@@ -836,21 +885,21 @@ class SystemProcessMonitor:
         
         # Check CPU usage
         cpu_percent = metrics['system']['cpu']['percent']
-        if cpu_percent > 90:
+        if cpu_percent &gt; 90:
             alerts.append(f"Critical CPU usage: {cpu_percent:.1f}%")
-        elif cpu_percent > 75:
+        elif cpu_percent &gt; 75:
             alerts.append(f"High CPU usage: {cpu_percent:.1f}%")
         
         # Check memory usage
         mem_percent = metrics['system']['memory']['percent']
-        if mem_percent > 90:
+        if mem_percent &gt; 90:
             alerts.append(f"Critical memory usage: {mem_percent:.1f}%")
-        elif mem_percent > 75:
+        elif mem_percent &gt; 75:
             alerts.append(f"High memory usage: {mem_percent:.1f}%")
         
         # Check zombie processes
         zombie_count = metrics['system']['processes']['zombies']
-        if zombie_count > 10:
+        if zombie_count &gt; 10:
             alerts.append(f"High number of zombie processes: {zombie_count}")
             # Auto-clean if configured
             if self.process_manager.config.get('auto_kill_zombies'):
@@ -875,7 +924,7 @@ class SystemProcessMonitor:
         
         # Implement additional alerting mechanisms here
     
-    def get_metrics_summary(self) -> Dict:
+    def get_metrics_summary(self) -&gt; Dict:
         """Get summary of collected metrics."""
         if not self.metrics_history:
             return {}
@@ -979,12 +1028,9 @@ if __name__ == "__main__":
     
     print("\n✅ Process management demonstration complete!")
 </code></pre>
-
-    <h2>Advanced Process Control Techniques 🎮</h2>
-    
-    <p>Let's explore more sophisticated process control patterns for complex scenarios!</p>
-
-    <div class="mermaid">
+<h2>Advanced Process Control Techniques 🎮</h2>
+<p>Let's explore more sophisticated process control patterns for complex scenarios!</p>
+<div class="mermaid">
     sequenceDiagram
         participant User
         participant Manager
@@ -992,22 +1038,21 @@ if __name__ == "__main__":
         participant Monitor
         participant System
         
-        User->>Manager: Start Process
-        Manager->>Process: Create & Launch
-        Process->>Monitor: Register for Monitoring
-        Monitor->>System: Check Resources
-        System-->>Monitor: Resource Status
-        Monitor->>Manager: Health Report
-        Manager->>User: Process Status
+        User-&gt;&gt;Manager: Start Process
+        Manager-&gt;&gt;Process: Create &amp; Launch
+        Process-&gt;&gt;Monitor: Register for Monitoring
+        Monitor-&gt;&gt;System: Check Resources
+        System--&gt;&gt;Monitor: Resource Status
+        Monitor-&gt;&gt;Manager: Health Report
+        Manager-&gt;&gt;User: Process Status
         
         Note over Monitor: Continuous Monitoring
         
-        Monitor->>Manager: Alert: High Resource Usage
-        Manager->>Process: Apply Limits
-        Process->>System: Reduced Resource Usage
+        Monitor-&gt;&gt;Manager: Alert: High Resource Usage
+        Manager-&gt;&gt;Process: Apply Limits
+        Process-&gt;&gt;System: Reduced Resource Usage
     </div>
-
-    <pre><code>class AdvancedProcessControl:
+<pre><code>class AdvancedProcessControl:
     """
     Advanced process control techniques.
     """
@@ -1018,7 +1063,7 @@ if __name__ == "__main__":
         # First fork
         try:
             pid = os.fork()
-            if pid > 0:
+            if pid &gt; 0:
                 # Parent process returns
                 return pid
         except OSError as e:
@@ -1033,7 +1078,7 @@ if __name__ == "__main__":
         # Second fork
         try:
             pid = os.fork()
-            if pid > 0:
+            if pid &gt; 0:
                 # First child exits
                 sys.exit(0)
         except OSError as e:
@@ -1060,7 +1105,7 @@ if __name__ == "__main__":
         """Create a supervised process that auto-restarts on failure."""
         restart_count = 0
         
-        while restart_count < max_restarts:
+        while restart_count &lt; max_restarts:
             try:
                 process = subprocess.Popen(command)
                 
@@ -1096,7 +1141,7 @@ if __name__ == "__main__":
                 else:
                     break
         
-        if restart_count >= max_restarts:
+        if restart_count &gt;= max_restarts:
             logging.error(f"Process failed {max_restarts} times, giving up")
     
     @staticmethod
@@ -1113,7 +1158,7 @@ if __name__ == "__main__":
             
             # Check if circuit is open
             if circuit_open:
-                if time.time() - last_failure_time > timeout:
+                if time.time() - last_failure_time &gt; timeout:
                     # Try to close circuit
                     circuit_open = False
                     failure_count = 0
@@ -1129,7 +1174,7 @@ if __name__ == "__main__":
                 failure_count += 1
                 last_failure_time = time.time()
                 
-                if failure_count >= failure_threshold:
+                if failure_count &gt;= failure_threshold:
                     circuit_open = True
                     logging.error(f"Circuit breaker opened after {failure_count} failures")
                 
@@ -1137,35 +1182,27 @@ if __name__ == "__main__":
         
         return wrapper
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Use Context Managers:</strong> Ensure proper cleanup of processes and resources.</li>
-        
-        <li><strong>Monitor Resource Usage:</strong> Track CPU, memory, and I/O to prevent resource exhaustion.</li>
-        
-        <li><strong>Handle Zombie Processes:</strong> Regularly clean up zombie processes to prevent resource leaks.</li>
-        
-        <li><strong>Implement Graceful Shutdown:</strong> Always try SIGTERM before SIGKILL.</li>
-        
-        <li><strong>Use Process Pools:</strong> For parallel execution, use process pools instead of creating processes manually.</li>
-        
-        <li><strong>Set Resource Limits:</strong> Prevent runaway processes from consuming all system resources.</li>
-        
-        <li><strong>Log Everything:</strong> Comprehensive logging helps debug process-related issues.</li>
-    </ul>
-
-    <h3>Process Management Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Process management is like conducting an orchestra - you need to know when to start instruments (processes), when to stop them, and how to keep them in harmony. Always implement proper monitoring and alerting. Remember that killing processes is easy, but understanding why they misbehave is valuable. Use tools like strace and ltrace to debug process issues, and always test process management scripts thoroughly before deploying to production!</p>
-    </div>
-    
-    <p>Process management mastery gives you complete control over your system's computational resources. You can orchestrate complex workflows, optimize resource usage, and ensure system stability. Whether you're managing a single server or a distributed system, these skills are essential for system automation! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="systemadmin_system_monitoring.html">System Monitoring - Build Your Own Monitoring Dashboard!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Use Context Managers:</strong> Ensure proper cleanup of processes and resources.</li>
+<li><strong>Monitor Resource Usage:</strong> Track CPU, memory, and I/O to prevent resource exhaustion.</li>
+<li><strong>Handle Zombie Processes:</strong> Regularly clean up zombie processes to prevent resource leaks.</li>
+<li><strong>Implement Graceful Shutdown:</strong> Always try SIGTERM before SIGKILL.</li>
+<li><strong>Use Process Pools:</strong> For parallel execution, use process pools instead of creating processes manually.</li>
+<li><strong>Set Resource Limits:</strong> Prevent runaway processes from consuming all system resources.</li>
+<li><strong>Log Everything:</strong> Comprehensive logging helps debug process-related issues.</li>
+</ul>
+<h3>Process Management Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Process management is like conducting an orchestra - you need to know when to start instruments (processes), when to stop them, and how to keep them in harmony. Always implement proper monitoring and alerting. Remember that killing processes is easy, but understanding why they misbehave is valuable. Use tools like strace and ltrace to debug process issues, and always test process management scripts thoroughly before deploying to production!</p>
+</div>
+<p>Process management mastery gives you complete control over your system's computational resources. You can orchestrate complex workflows, optimize resource usage, and ensure system stability. Whether you're managing a single server or a distributed system, these skills are essential for system automation! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="systemadmin_scheduled_tasks.html">← Previous: Scheduled Tasks</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="systemadmin_log_analysis.html">Next: Log Analysis →</a>
+</div>
+</footer>
 </body>
 </html>

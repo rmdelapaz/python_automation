@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Cloud Automation - Python Cloud Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Google Cloud Automation - Python Cloud Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>☁️ Google Cloud Automation: Master GCP with Python</h1>
-    
-    <p>Google Cloud Platform (GCP) offers powerful Python libraries that enable you to automate everything from Compute Engine VMs to BigQuery analytics, Cloud Storage to Kubernetes Engine. Like having a command center for Google's global infrastructure, mastering GCP automation allows you to deploy applications, process big data, manage machine learning models, and orchestrate cloud-native solutions at scale. Let's explore the comprehensive world of Google Cloud automation with Python! 🌐</p>
-
-    <h2>The Google Cloud Automation Architecture</h2>
-    
-    <p>Think of GCP's Python libraries as your toolkit for building on Google's infrastructure - they provide intuitive interfaces to services like Compute Engine for VMs, Cloud Storage for objects, BigQuery for analytics, Cloud Functions for serverless, and Kubernetes Engine for containers. With built-in authentication, automatic retry logic, and comprehensive APIs, you can automate complex cloud workflows seamlessly. Understanding GCP's service ecosystem and Python client libraries is essential for effective cloud automation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module7">Cloud Automation</a> &gt; 
+        <span>Google Cloud Platform</span>
+</nav>
+<h1>☁️ Google Cloud Automation: Master GCP with Python</h1>
+<p>Google Cloud Platform (GCP) offers powerful Python libraries that enable you to automate everything from Compute Engine VMs to BigQuery analytics, Cloud Storage to Kubernetes Engine. Like having a command center for Google's global infrastructure, mastering GCP automation allows you to deploy applications, process big data, manage machine learning models, and orchestrate cloud-native solutions at scale. Let's explore the comprehensive world of Google Cloud automation with Python! 🌐</p>
+<h2>The Google Cloud Automation Architecture</h2>
+<p>Think of GCP's Python libraries as your toolkit for building on Google's infrastructure - they provide intuitive interfaces to services like Compute Engine for VMs, Cloud Storage for objects, BigQuery for analytics, Cloud Functions for serverless, and Kubernetes Engine for containers. With built-in authentication, automatic retry logic, and comprehensive APIs, you can automate complex cloud workflows seamlessly. Understanding GCP's service ecosystem and Python client libraries is essential for effective cloud automation!</p>
+<div class="mermaid">
     graph TB
-        A[GCP Automation with Python] --> B[Compute Services]
-        A --> C[Storage & Data]
-        A --> D[Serverless]
-        A --> E[Containers & Orchestration]
+        A[GCP Automation with Python] --&gt; B[Compute Services]
+        A --&gt; C[Storage &amp; Data]
+        A --&gt; D[Serverless]
+        A --&gt; E[Containers &amp; Orchestration]
         
-        B --> F[Compute Engine]
-        B --> G[App Engine]
-        B --> H[Cloud Run]
-        B --> I[Instance Groups]
+        B --&gt; F[Compute Engine]
+        B --&gt; G[App Engine]
+        B --&gt; H[Cloud Run]
+        B --&gt; I[Instance Groups]
         
-        C --> J[Cloud Storage]
-        C --> K[BigQuery]
-        C --> L[Firestore]
-        C --> M[Cloud SQL]
+        C --&gt; J[Cloud Storage]
+        C --&gt; K[BigQuery]
+        C --&gt; L[Firestore]
+        C --&gt; M[Cloud SQL]
         
-        D --> N[Cloud Functions]
-        D --> O[Cloud Tasks]
-        D --> P[Cloud Scheduler]
-        D --> Q[Pub/Sub]
+        D --&gt; N[Cloud Functions]
+        D --&gt; O[Cloud Tasks]
+        D --&gt; P[Cloud Scheduler]
+        D --&gt; Q[Pub/Sub]
         
-        E --> R[Kubernetes Engine]
-        E --> S[Container Registry]
-        E --> T[Cloud Build]
-        E --> U[Anthos]
+        E --&gt; R[Kubernetes Engine]
+        E --&gt; S[Container Registry]
+        E --&gt; T[Cloud Build]
+        E --&gt; U[Anthos]
         
-        V[Operations] --> W[Monitoring]
-        V --> X[Logging]
-        V --> Y[IAM & Security]
-        V --> Z[Cost Management]
+        V[Operations] --&gt; W[Monitoring]
+        V --&gt; X[Logging]
+        V --&gt; Y[IAM &amp; Security]
+        V --&gt; Z[Cost Management]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Multi-Service GCP Platform 🚀</h3>
-    
-    <p>You're building a comprehensive GCP automation platform that provisions Compute Engine instances for applications, manages Cloud Storage for data lakes, processes analytics with BigQuery, deploys serverless functions for event processing, orchestrates containers with Kubernetes Engine, implements Pub/Sub for messaging, monitors with Cloud Operations, and manages IAM security. Your system must handle petabyte-scale data, support global deployments, optimize costs, and maintain enterprise security. Let's build a production-ready GCP automation framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Multi-Service GCP Platform 🚀</h3>
+<p>You're building a comprehensive GCP automation platform that provisions Compute Engine instances for applications, manages Cloud Storage for data lakes, processes analytics with BigQuery, deploys serverless functions for event processing, orchestrates containers with Kubernetes Engine, implements Pub/Sub for messaging, monitors with Cloud Operations, and manages IAM security. Your system must handle petabyte-scale data, support global deployments, optimize costs, and maintain enterprise security. Let's build a production-ready GCP automation framework!</p>
+<pre><code># First, install required packages:
 # pip install google-cloud-compute google-cloud-storage google-cloud-bigquery 
 # pip install google-cloud-functions google-cloud-pubsub google-cloud-firestore
 # pip install google-cloud-monitoring google-cloud-logging google-auth
@@ -174,7 +223,7 @@ class ComputeEngineManager:
         startup_script: Optional[str] = None,
         metadata: Optional[Dict[str, str]] = None,
         tags: Optional[List[str]] = None
-    ) -> compute_v1.Instance:
+    ) -&gt; compute_v1.Instance:
         """
         Create a Compute Engine instance.
         
@@ -289,7 +338,7 @@ class ComputeEngineManager:
     def list_instances(
         self,
         zone: Optional[str] = None
-    ) -> List[compute_v1.Instance]:
+    ) -&gt; List[compute_v1.Instance]:
         """List all instances in a zone."""
         try:
             zone = zone or self.config.zone
@@ -305,7 +354,7 @@ class ComputeEngineManager:
             self.logger.error(f"Failed to list instances: {e}")
             return []
     
-    def get_instance(self, instance_name: str) -> Optional[compute_v1.Instance]:
+    def get_instance(self, instance_name: str) -&gt; Optional[compute_v1.Instance]:
         """Get instance details."""
         try:
             return self.instances_client.get(
@@ -319,7 +368,7 @@ class ComputeEngineManager:
             self.logger.error(f"Failed to get instance: {e}")
             return None
     
-    def stop_instance(self, instance_name: str) -> bool:
+    def stop_instance(self, instance_name: str) -&gt; bool:
         """Stop an instance."""
         try:
             operation = self.instances_client.stop(
@@ -337,7 +386,7 @@ class ComputeEngineManager:
             self.logger.error(f"Failed to stop instance: {e}")
             return False
     
-    def start_instance(self, instance_name: str) -> bool:
+    def start_instance(self, instance_name: str) -&gt; bool:
         """Start an instance."""
         try:
             operation = self.instances_client.start(
@@ -355,7 +404,7 @@ class ComputeEngineManager:
             self.logger.error(f"Failed to start instance: {e}")
             return False
     
-    def delete_instance(self, instance_name: str) -> bool:
+    def delete_instance(self, instance_name: str) -&gt; bool:
         """Delete an instance."""
         try:
             operation = self.instances_client.delete(
@@ -380,7 +429,7 @@ class ComputeEngineManager:
         source_ranges: List[str],
         allowed_ports: List[Dict[str, Any]],
         target_tags: Optional[List[str]] = None
-    ) -> bool:
+    ) -&gt; bool:
         """
         Create a firewall rule.
         
@@ -471,7 +520,7 @@ class CloudStorageManager:
         storage_class: str = "STANDARD",
         versioning: bool = False,
         lifecycle_rules: Optional[List[Dict]] = None
-    ) -> storage.Bucket:
+    ) -&gt; storage.Bucket:
         """
         Create a Cloud Storage bucket.
         
@@ -522,7 +571,7 @@ class CloudStorageManager:
         destination_blob_name: Optional[str] = None,
         content_type: Optional[str] = None,
         metadata: Optional[Dict[str, str]] = None
-    ) -> storage.Blob:
+    ) -&gt; storage.Blob:
         """Upload a file to Cloud Storage."""
         try:
             bucket = self.client.bucket(bucket_name)
@@ -558,7 +607,7 @@ class CloudStorageManager:
         bucket_name: str,
         source_blob_name: str,
         destination_file_path: str
-    ) -> bool:
+    ) -&gt; bool:
         """Download a file from Cloud Storage."""
         try:
             bucket = self.client.bucket(bucket_name)
@@ -580,7 +629,7 @@ class CloudStorageManager:
         bucket_name: str,
         prefix: Optional[str] = None,
         delimiter: Optional[str] = None
-    ) -> List[storage.Blob]:
+    ) -&gt; List[storage.Blob]:
         """List blobs in a bucket."""
         try:
             bucket = self.client.bucket(bucket_name)
@@ -592,7 +641,7 @@ class CloudStorageManager:
             self.logger.error(f"Failed to list blobs: {e}")
             return []
     
-    def delete_blob(self, bucket_name: str, blob_name: str) -> bool:
+    def delete_blob(self, bucket_name: str, blob_name: str) -&gt; bool:
         """Delete a blob from Cloud Storage."""
         try:
             bucket = self.client.bucket(bucket_name)
@@ -612,7 +661,7 @@ class CloudStorageManager:
         blob_name: str,
         expiration: timedelta = timedelta(hours=1),
         method: str = "GET"
-    ) -> str:
+    ) -&gt; str:
         """Generate a signed URL for a blob."""
         try:
             bucket = self.client.bucket(bucket_name)
@@ -648,7 +697,7 @@ class BigQueryManager:
         dataset_id: str,
         location: Optional[str] = None,
         description: Optional[str] = None
-    ) -> bigquery.Dataset:
+    ) -&gt; bigquery.Dataset:
         """Create a BigQuery dataset."""
         try:
             dataset_ref = f"{self.config.project_id}.{dataset_id}"
@@ -682,7 +731,7 @@ class BigQueryManager:
         schema: List[bigquery.SchemaField],
         partition_field: Optional[str] = None,
         clustering_fields: Optional[List[str]] = None
-    ) -> bigquery.Table:
+    ) -&gt; bigquery.Table:
         """
         Create a BigQuery table.
         
@@ -730,7 +779,7 @@ class BigQueryManager:
         self,
         query: str,
         job_config: Optional[bigquery.QueryJobConfig] = None
-    ) -> bigquery.QueryJob:
+    ) -&gt; bigquery.QueryJob:
         """
         Execute a BigQuery query.
         
@@ -763,7 +812,7 @@ class BigQueryManager:
         schema: Optional[List[bigquery.SchemaField]] = None,
         source_format: str = "CSV",
         skip_leading_rows: int = 0
-    ) -> bigquery.LoadJob:
+    ) -&gt; bigquery.LoadJob:
         """Load data from Cloud Storage into BigQuery."""
         try:
             table_ref = f"{self.config.project_id}.{dataset_id}.{table_id}"
@@ -801,7 +850,7 @@ class BigQueryManager:
         table_id: str,
         destination_uri: str,
         export_format: str = "CSV"
-    ) -> bigquery.ExtractJob:
+    ) -&gt; bigquery.ExtractJob:
         """Export BigQuery table to Cloud Storage."""
         try:
             table_ref = f"{self.config.project_id}.{dataset_id}.{table_id}"
@@ -847,7 +896,7 @@ class CloudFunctionsManager:
         memory_mb: int = 256,
         timeout_seconds: int = 60,
         environment_variables: Optional[Dict[str, str]] = None
-    ) -> functions_v1.CloudFunction:
+    ) -&gt; functions_v1.CloudFunction:
         """
         Deploy a Cloud Function.
         
@@ -920,7 +969,7 @@ class PubSubManager:
         self.subscriber = pubsub_v1.SubscriberClient()
         self.logger = logging.getLogger(__name__)
     
-    def create_topic(self, topic_name: str) -> str:
+    def create_topic(self, topic_name: str) -&gt; str:
         """Create a Pub/Sub topic."""
         try:
             topic_path = self.publisher.topic_path(
@@ -945,7 +994,7 @@ class PubSubManager:
         subscription_name: str,
         topic_name: str,
         ack_deadline_seconds: int = 10
-    ) -> str:
+    ) -&gt; str:
         """Create a Pub/Sub subscription."""
         try:
             topic_path = self.publisher.topic_path(
@@ -981,7 +1030,7 @@ class PubSubManager:
         topic_name: str,
         message: str,
         attributes: Optional[Dict[str, str]] = None
-    ) -> str:
+    ) -&gt; str:
         """Publish a message to a topic."""
         try:
             topic_path = self.publisher.topic_path(
@@ -1014,7 +1063,7 @@ class PubSubManager:
         subscription_name: str,
         max_messages: int = 10,
         timeout: int = 30
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """Pull messages from a subscription."""
         try:
             subscription_path = self.subscriber.subscription_path(
@@ -1076,7 +1125,7 @@ class FirestoreManager:
         collection: str,
         document_id: Optional[str],
         data: Dict[str, Any]
-    ) -> str:
+    ) -&gt; str:
         """Create a document in Firestore."""
         try:
             # Add timestamp
@@ -1100,7 +1149,7 @@ class FirestoreManager:
         self,
         collection: str,
         document_id: str
-    ) -> Optional[Dict[str, Any]]:
+    ) -&gt; Optional[Dict[str, Any]]:
         """Get a document from Firestore."""
         try:
             doc_ref = self.client.collection(collection).document(document_id)
@@ -1121,7 +1170,7 @@ class FirestoreManager:
         filters: Optional[List[Tuple[str, str, Any]]] = None,
         order_by: Optional[str] = None,
         limit: Optional[int] = None
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """
         Query documents from Firestore.
         
@@ -1183,7 +1232,7 @@ class GCPAutomation:
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
     
-    def get_project_info(self) -> Dict[str, Any]:
+    def get_project_info(self) -&gt; Dict[str, Any]:
         """Get GCP project information."""
         return {
             'project_id': self.config.project_id,
@@ -1250,7 +1299,7 @@ if __name__ == "__main__":
     print("   instance = gcp.compute.create_instance(")
     print("       instance_name='web-server',")
     print("       machine_type='e2-micro',")
-    print("       startup_script='apt-get update && apt-get install -y nginx'")
+    print("       startup_script='apt-get update &amp;&amp; apt-get install -y nginx'")
     print("   )")
     
     # Example 3: Cloud Storage operations
@@ -1356,37 +1405,28 @@ if __name__ == "__main__":
     print("   3. Set up authentication: gcloud auth application-default login")
     print("   4. Install Python libraries: pip install google-cloud-*")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Service Accounts:</strong> Prefer service accounts over user credentials.</li>
-        
-        <li><strong>Handle Exceptions:</strong> Catch GoogleAPIError and specific exceptions.</li>
-        
-        <li><strong>Label Resources:</strong> Apply consistent labels for organization and billing.</li>
-        
-        <li><strong>Choose Regions Wisely:</strong> Consider latency and compliance requirements.</li>
-        
-        <li><strong>Implement Retry Logic:</strong> Use built-in retry decorators for reliability.</li>
-        
-        <li><strong>Monitor Costs:</strong> Set up billing alerts and track resource usage.</li>
-        
-        <li><strong>Use Appropriate Services:</strong> Choose between IaaS, PaaS, and serverless options.</li>
-        
-        <li><strong>Enable Audit Logging:</strong> Track all API calls for security and compliance.</li>
-    </ul>
-
-    <h3>GCP Automation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of GCP as a toolkit where each service has a specific purpose - choose the right tool for each job. Start with proper authentication using service accounts, not personal credentials. Understand the service hierarchy: projects contain resources, resources have labels, and IAM controls access. Use Compute Engine for full VMs, Cloud Run for containers, and Cloud Functions for event-driven code. For data, use Cloud Storage for objects, Firestore for documents, Cloud SQL for relational data, and BigQuery for analytics. Always apply consistent labels to track costs and organize resources. Implement proper error handling - GCP operations can fail due to quotas, permissions, or network issues. Use Cloud Operations (formerly Stackdriver) for comprehensive monitoring and logging. Take advantage of GCP's global infrastructure by choosing appropriate regions for your workloads. Leverage serverless options when possible to reduce operational overhead. Set up billing alerts early to avoid surprise charges. Most importantly: design for scalability from the start - GCP makes it easy to scale, but your architecture needs to support it!</p>
-    </div>
-    
-    <p>Mastering Google Cloud automation with Python enables you to leverage Google's powerful infrastructure and services programmatically. You can now provision compute resources, manage storage, process big data with BigQuery, deploy serverless functions, and orchestrate complex cloud workflows. Whether you're building data pipelines, machine learning systems, or global applications, these GCP automation skills empower you to harness the cloud effectively! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="cloud_automation_deploying.html">Deploying to Cloud - Ship Your Applications!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Service Accounts:</strong> Prefer service accounts over user credentials.</li>
+<li><strong>Handle Exceptions:</strong> Catch GoogleAPIError and specific exceptions.</li>
+<li><strong>Label Resources:</strong> Apply consistent labels for organization and billing.</li>
+<li><strong>Choose Regions Wisely:</strong> Consider latency and compliance requirements.</li>
+<li><strong>Implement Retry Logic:</strong> Use built-in retry decorators for reliability.</li>
+<li><strong>Monitor Costs:</strong> Set up billing alerts and track resource usage.</li>
+<li><strong>Use Appropriate Services:</strong> Choose between IaaS, PaaS, and serverless options.</li>
+<li><strong>Enable Audit Logging:</strong> Track all API calls for security and compliance.</li>
+</ul>
+<h3>GCP Automation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of GCP as a toolkit where each service has a specific purpose - choose the right tool for each job. Start with proper authentication using service accounts, not personal credentials. Understand the service hierarchy: projects contain resources, resources have labels, and IAM controls access. Use Compute Engine for full VMs, Cloud Run for containers, and Cloud Functions for event-driven code. For data, use Cloud Storage for objects, Firestore for documents, Cloud SQL for relational data, and BigQuery for analytics. Always apply consistent labels to track costs and organize resources. Implement proper error handling - GCP operations can fail due to quotas, permissions, or network issues. Use Cloud Operations (formerly Stackdriver) for comprehensive monitoring and logging. Take advantage of GCP's global infrastructure by choosing appropriate regions for your workloads. Leverage serverless options when possible to reduce operational overhead. Set up billing alerts early to avoid surprise charges. Most importantly: design for scalability from the start - GCP makes it easy to scale, but your architecture needs to support it!</p>
+</div>
+<p>Mastering Google Cloud automation with Python enables you to leverage Google's powerful infrastructure and services programmatically. You can now provision compute resources, manage storage, process big data with BigQuery, deploy serverless functions, and orchestrate complex cloud workflows. Whether you're building data pipelines, machine learning systems, or global applications, these GCP automation skills empower you to harness the cloud effectively! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="cloud_automation_aws_boto3.html">← Previous: AWS with Boto3</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="cloud_automation_storage.html">Next: Cloud Storage →</a>
+</div>
+</footer>
 </body>
 </html>

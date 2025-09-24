@@ -1,59 +1,111 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Pipelines - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Pipelines - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🚀 Data Pipelines: Process and Store Data at Scale</h1>
-    
-    <p>Data pipelines are the highways of information - transforming raw scraped data into valuable insights. Like a sophisticated factory assembly line, they take messy input, clean it, enrich it, validate it, and deliver it exactly where it needs to go. Whether you're handling gigabytes or terabytes, streaming or batch processing, a well-designed pipeline is the difference between data chaos and data mastery. Let's build industrial-strength data pipelines! 🏭</p>
-
-    <h2>The Data Pipeline Architecture</h2>
-    
-    <p>Think of a data pipeline as a river system where data flows from multiple sources, gets filtered through various processing stages, and eventually reaches its destination lakes and oceans (databases, warehouses, APIs). Each component must handle failures gracefully, scale elastically, and maintain data quality throughout the journey!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module13">Advanced Web Scraping</a> &gt; 
+        <span>Data Pipelines</span>
+</nav>
+<h1>🚀 Data Pipelines: Process and Store Data at Scale</h1>
+<p>Data pipelines are the highways of information - transforming raw scraped data into valuable insights. Like a sophisticated factory assembly line, they take messy input, clean it, enrich it, validate it, and deliver it exactly where it needs to go. Whether you're handling gigabytes or terabytes, streaming or batch processing, a well-designed pipeline is the difference between data chaos and data mastery. Let's build industrial-strength data pipelines! 🏭</p>
+<h2>The Data Pipeline Architecture</h2>
+<p>Think of a data pipeline as a river system where data flows from multiple sources, gets filtered through various processing stages, and eventually reaches its destination lakes and oceans (databases, warehouses, APIs). Each component must handle failures gracefully, scale elastically, and maintain data quality throughout the journey!</p>
+<div class="mermaid">
     graph TB
-        A[Data Sources] --> B[Ingestion]
-        B --> C[Validation]
-        C --> D[Transformation]
-        D --> E[Enrichment]
-        E --> F[Storage]
+        A[Data Sources] --&gt; B[Ingestion]
+        B --&gt; C[Validation]
+        C --&gt; D[Transformation]
+        D --&gt; E[Enrichment]
+        E --&gt; F[Storage]
         
-        A --> G[Web Scraping]
-        A --> H[APIs]
-        A --> I[Files]
-        A --> J[Streams]
+        A --&gt; G[Web Scraping]
+        A --&gt; H[APIs]
+        A --&gt; I[Files]
+        A --&gt; J[Streams]
         
-        C --> K[Schema Validation]
-        C --> L[Data Quality]
-        C --> M[Deduplication]
+        C --&gt; K[Schema Validation]
+        C --&gt; L[Data Quality]
+        C --&gt; M[Deduplication]
         
-        D --> N[Cleaning]
-        D --> O[Normalization]
-        D --> P[Aggregation]
-        D --> Q[Feature Engineering]
+        D --&gt; N[Cleaning]
+        D --&gt; O[Normalization]
+        D --&gt; P[Aggregation]
+        D --&gt; Q[Feature Engineering]
         
-        E --> R[Geocoding]
-        E --> S[Sentiment Analysis]
-        E --> T[Classification]
+        E --&gt; R[Geocoding]
+        E --&gt; S[Sentiment Analysis]
+        E --&gt; T[Classification]
         
-        F --> U[Databases]
-        F --> V[Data Lakes]
-        F --> W[Message Queues]
-        F --> X[APIs]
+        F --&gt; U[Databases]
+        F --&gt; V[Data Lakes]
+        F --&gt; W[Message Queues]
+        F --&gt; X[APIs]
         
-        Y[Monitoring] --> Z[Metrics]
-        Y --> AA[Alerts]
-        Y --> AB[Logging]
+        Y[Monitoring] --&gt; Z[Metrics]
+        Y --&gt; AA[Alerts]
+        Y --&gt; AB[Logging]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -61,12 +113,9 @@
         style F fill:#ffd43b
         style Y fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The Market Intelligence Platform 📈</h3>
-    
-    <p>You're building a market intelligence platform that processes millions of product listings, reviews, and price changes daily from hundreds of sources. The system must handle different data formats, validate quality, enrich with ML predictions, detect anomalies, and serve real-time analytics to thousands of users. Your pipeline must be bulletproof, scalable, and maintainable!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Market Intelligence Platform 📈</h3>
+<p>You're building a market intelligence platform that processes millions of product listings, reviews, and price changes daily from hundreds of sources. The system must handle different data formats, validate quality, enrich with ML predictions, detect anomalies, and serve real-time analytics to thousands of users. Your pipeline must be bulletproof, scalable, and maintainable!</p>
+<pre><code># First, install required packages:
 # pip install apache-beam pandas sqlalchemy psycopg2 redis kafka-python elasticsearch pymongo pydantic luigi airflow
 
 import json
@@ -132,7 +181,7 @@ class ProductData(BaseModel):
     
     @validator('price')
     def price_must_be_positive(cls, v):
-        if v <= 0:
+        if v &lt;= 0:
             raise ValueError('Price must be positive')
         return round(v, 2)
     
@@ -170,7 +219,7 @@ class DataPipeline:
         self.metrics = PipelineMetrics()
         self.logger = self._setup_logging()
         
-    def _setup_logging(self) -> logging.Logger:
+    def _setup_logging(self) -&gt; logging.Logger:
         """Setup pipeline logging."""
         logger = logging.getLogger(f"pipeline.{self.name}")
         logger.setLevel(logging.INFO)
@@ -185,19 +234,19 @@ class DataPipeline:
         
         return logger
     
-    def process(self, data: Any) -> Any:
+    def process(self, data: Any) -&gt; Any:
         """Process data through pipeline."""
         raise NotImplementedError
     
-    def validate(self, data: Any) -> bool:
+    def validate(self, data: Any) -&gt; bool:
         """Validate data."""
         raise NotImplementedError
     
-    def transform(self, data: Any) -> Any:
+    def transform(self, data: Any) -&gt; Any:
         """Transform data."""
         raise NotImplementedError
     
-    def store(self, data: Any) -> bool:
+    def store(self, data: Any) -&gt; bool:
         """Store processed data."""
         raise NotImplementedError
 
@@ -217,7 +266,7 @@ class ETLPipeline(DataPipeline):
         self.transformers = transformers or []
         self.loaders = loaders or []
     
-    def extract(self, source: str) -> Generator[Dict, None, None]:
+    def extract(self, source: str) -&gt; Generator[Dict, None, None]:
         """Extract data from source."""
         for extractor in self.extractors:
             try:
@@ -226,7 +275,7 @@ class ETLPipeline(DataPipeline):
             except Exception as e:
                 self.logger.error(f"Extraction failed: {e}")
     
-    def transform(self, data: Iterator[Dict]) -> Generator[Dict, None, None]:
+    def transform(self, data: Iterator[Dict]) -&gt; Generator[Dict, None, None]:
         """Transform extracted data."""
         for item in data:
             try:
@@ -242,7 +291,7 @@ class ETLPipeline(DataPipeline):
                 self.logger.error(f"Transformation failed for item: {e}")
                 self.metrics.items_failed += 1
     
-    def load(self, data: Iterator[Dict]) -> int:
+    def load(self, data: Iterator[Dict]) -&gt; int:
         """Load transformed data."""
         loaded_count = 0
         
@@ -258,7 +307,7 @@ class ETLPipeline(DataPipeline):
         
         return loaded_count
     
-    def run(self, source: str) -> PipelineMetrics:
+    def run(self, source: str) -&gt; PipelineMetrics:
         """Run complete ETL pipeline."""
         start_time = time.time()
         
@@ -275,7 +324,7 @@ class ETLPipeline(DataPipeline):
             # Update metrics
             self.metrics.items_processed = loaded
             self.metrics.processing_time = time.time() - start_time
-            self.metrics.throughput = loaded / self.metrics.processing_time if self.metrics.processing_time > 0 else 0
+            self.metrics.throughput = loaded / self.metrics.processing_time if self.metrics.processing_time &gt; 0 else 0
             
         except Exception as e:
             self.logger.error(f"Pipeline failed: {e}")
@@ -327,7 +376,7 @@ class StreamProcessor:
         
         self.logger.info("Stream processor stopped")
     
-    def process(self, item: Dict) -> bool:
+    def process(self, item: Dict) -&gt; bool:
         """Process single item."""
         with self.lock:
             # Validate item
@@ -338,12 +387,12 @@ class StreamProcessor:
             self.buffer.append(item)
             
             # Check if batch is full
-            if len(self.buffer) >= self.batch_size:
+            if len(self.buffer) &gt;= self.batch_size:
                 self.flush()
             
             return True
     
-    def validate(self, item: Dict) -> bool:
+    def validate(self, item: Dict) -&gt; bool:
         """Validate stream item."""
         # Override in subclass
         return True
@@ -376,7 +425,7 @@ class StreamProcessor:
             time.sleep(1)
             
             # Check if flush interval reached
-            if time.time() - self.last_flush >= self.flush_interval:
+            if time.time() - self.last_flush &gt;= self.flush_interval:
                 self.flush()
 
 # ==================== Data Validators ====================
@@ -396,7 +445,7 @@ class DataValidator:
             'cleaned': 0
         }
     
-    def validate(self, data: Dict) -> Tuple[bool, Optional[Dict]]:
+    def validate(self, data: Dict) -&gt; Tuple[bool, Optional[Dict]]:
         """
         Validate data against schema.
         
@@ -424,7 +473,7 @@ class DataValidator:
         
         return False, None
     
-    def clean_data(self, data: Dict) -> Optional[Dict]:
+    def clean_data(self, data: Dict) -&gt; Optional[Dict]:
         """Clean and normalize data."""
         cleaned = {}
         
@@ -449,7 +498,7 @@ class DataValidator:
         self.stats['cleaned'] += 1
         return cleaned if cleaned else None
     
-    def check_quality(self, data: Dict) -> DataQuality:
+    def check_quality(self, data: Dict) -&gt; DataQuality:
         """Assess data quality."""
         if not data:
             return DataQuality.INVALID
@@ -477,7 +526,7 @@ class DataTransformer:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
     
-    def transform(self, data: Dict) -> Dict:
+    def transform(self, data: Dict) -&gt; Dict:
         """Apply transformations to data."""
         # Override in subclass
         return data
@@ -490,7 +539,7 @@ class PriceNormalizer(DataTransformer):
         self.target_currency = target_currency
         self.exchange_rates = self._load_exchange_rates()
     
-    def _load_exchange_rates(self) -> Dict[str, float]:
+    def _load_exchange_rates(self) -&gt; Dict[str, float]:
         """Load exchange rates (simplified)."""
         return {
             "USD": 1.0,
@@ -500,7 +549,7 @@ class PriceNormalizer(DataTransformer):
             "CNY": 6.45
         }
     
-    def transform(self, data: Dict) -> Dict:
+    def transform(self, data: Dict) -&gt; Dict:
         """Normalize price to target currency."""
         if 'price' in data and 'currency' in data:
             currency = data['currency']
@@ -519,7 +568,7 @@ class PriceNormalizer(DataTransformer):
 class TextCleaner(DataTransformer):
     """Clean and normalize text fields."""
     
-    def transform(self, data: Dict) -> Dict:
+    def transform(self, data: Dict) -&gt; Dict:
         """Clean text fields."""
         text_fields = ['name', 'description', 'category', 'brand']
         
@@ -530,7 +579,7 @@ class TextCleaner(DataTransformer):
                 
                 # Remove HTML tags if present
                 import re
-                data[field] = re.sub(r'<[^>]+>', '', data[field])
+                data[field] = re.sub(r'&lt;[^&gt;]+&gt;', '', data[field])
                 
                 # Normalize unicode
                 data[field] = data[field].encode('ascii', 'ignore').decode('ascii')
@@ -540,16 +589,16 @@ class TextCleaner(DataTransformer):
 class FeatureEnricher(DataTransformer):
     """Enrich data with additional features."""
     
-    def transform(self, data: Dict) -> Dict:
+    def transform(self, data: Dict) -&gt; Dict:
         """Add computed features."""
         # Price tier
         if 'price' in data:
             price = data['price']
-            if price < 10:
+            if price &lt; 10:
                 data['price_tier'] = 'budget'
-            elif price < 50:
+            elif price &lt; 50:
                 data['price_tier'] = 'mid-range'
-            elif price < 200:
+            elif price &lt; 200:
                 data['price_tier'] = 'premium'
             else:
                 data['price_tier'] = 'luxury'
@@ -564,7 +613,7 @@ class FeatureEnricher(DataTransformer):
             reviews = data.get('review_count', 0)
             
             # Weighted by review count
-            if reviews > 0:
+            if reviews &gt; 0:
                 weight = min(1.0, reviews / 100)
                 data['quality_score'] = rating * weight
             else:
@@ -580,11 +629,11 @@ class FeatureEnricher(DataTransformer):
 class StorageBackend:
     """Base class for storage backends."""
     
-    def store(self, data: Dict) -> bool:
+    def store(self, data: Dict) -&gt; bool:
         """Store data."""
         raise NotImplementedError
     
-    def retrieve(self, query: Dict) -> List[Dict]:
+    def retrieve(self, query: Dict) -&gt; List[Dict]:
         """Retrieve data."""
         raise NotImplementedError
 
@@ -617,7 +666,7 @@ class PostgreSQLStorage(StorageBackend):
         Base.metadata.create_all(self.engine)
         self.Product = Product
     
-    def store(self, data: Dict) -> bool:
+    def store(self, data: Dict) -&gt; bool:
         """Store data in PostgreSQL."""
         session = self.Session()
         
@@ -647,7 +696,7 @@ class MongoDBStorage(StorageBackend):
         self.collection.create_index([("id", 1)], unique=True)
         self.collection.create_index([("scraped_at", -1)])
     
-    def store(self, data: Dict) -> bool:
+    def store(self, data: Dict) -&gt; bool:
         """Store data in MongoDB."""
         try:
             # Upsert document
@@ -673,7 +722,7 @@ class ElasticsearchStorage(StorageBackend):
         if not self.es.indices.exists(index=self.index):
             self.es.indices.create(index=self.index)
     
-    def store(self, data: Dict) -> bool:
+    def store(self, data: Dict) -&gt; bool:
         """Store data in Elasticsearch."""
         try:
             # Index document
@@ -694,7 +743,7 @@ class RedisCache(StorageBackend):
     def __init__(self, host: str = "localhost", port: int = 6379):
         self.redis = redis.Redis(host=host, port=port, decode_responses=True)
     
-    def store(self, data: Dict, ttl: int = 3600) -> bool:
+    def store(self, data: Dict, ttl: int = 3600) -&gt; bool:
         """Store data in Redis with TTL."""
         try:
             key = f"product:{data.get('id')}"
@@ -709,7 +758,7 @@ class RedisCache(StorageBackend):
             logging.error(f"Redis storage failed: {e}")
             return False
     
-    def retrieve(self, product_id: str) -> Optional[Dict]:
+    def retrieve(self, product_id: str) -&gt; Optional[Dict]:
         """Retrieve data from Redis."""
         try:
             key = f"product:{product_id}"
@@ -736,7 +785,7 @@ class BatchProcessor:
         self.logger = logging.getLogger(__name__)
     
     def process_parallel(self, data: List[Dict], 
-                        processor: callable) -> List[Dict]:
+                        processor: callable) -&gt; List[Dict]:
         """Process data in parallel."""
         results = []
         
@@ -764,7 +813,7 @@ class BatchProcessor:
         return results
     
     def _process_batch(self, batch: List[Dict], 
-                      processor: callable) -> List[Dict]:
+                      processor: callable) -&gt; List[Dict]:
         """Process single batch."""
         results = []
         
@@ -800,7 +849,7 @@ class PipelineOrchestrator:
         
         self.logger.info(f"Registered pipeline: {name}")
     
-    def run_pipeline(self, name: str, **kwargs) -> PipelineMetrics:
+    def run_pipeline(self, name: str, **kwargs) -&gt; PipelineMetrics:
         """Run a specific pipeline."""
         if name not in self.pipelines:
             raise ValueError(f"Pipeline not found: {name}")
@@ -825,7 +874,7 @@ class PipelineOrchestrator:
             self.logger.error(f"Pipeline failed: {name} - {e}")
             raise
     
-    def run_all(self) -> Dict[str, PipelineMetrics]:
+    def run_all(self) -&gt; Dict[str, PipelineMetrics]:
         """Run all registered pipelines."""
         results = {}
         
@@ -1064,37 +1113,28 @@ if __name__ == "__main__":
     
     print("\n✅ Data pipeline demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Validate Early:</strong> Catch data quality issues at the source.</li>
-        
-        <li><strong>Transform Incrementally:</strong> Apply transformations in logical stages.</li>
-        
-        <li><strong>Handle Failures Gracefully:</strong> Implement retry logic and dead letter queues.</li>
-        
-        <li><strong>Monitor Everything:</strong> Track metrics, throughput, and error rates.</li>
-        
-        <li><strong>Scale Horizontally:</strong> Design for distributed processing from the start.</li>
-        
-        <li><strong>Use Appropriate Storage:</strong> Match storage backend to data characteristics.</li>
-        
-        <li><strong>Implement Checkpointing:</strong> Enable recovery from failures.</li>
-        
-        <li><strong>Version Schemas:</strong> Handle schema evolution gracefully.</li>
-    </ul>
-
-    <h3>Data Pipeline Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of data pipelines as assembly lines in a factory - each station has a specific job, quality checks happen throughout, and the whole system should handle hiccups without stopping production. Start with validation - bad data is worse than no data. Use schemas (Pydantic, JSON Schema) to enforce structure. Transform data incrementally with clear, testable functions. Choose storage based on your needs: SQL for structured queries, NoSQL for flexibility, object storage for raw data, and caches for speed. Implement both batch and stream processing - batch for historical data, streams for real-time. Monitor everything: throughput, latency, error rates, data quality scores. Use orchestrators like Airflow or Luigi for complex workflows. Always design for failure - implement retries, dead letter queues, and circuit breakers. Most importantly: make your pipelines idempotent so they can be safely re-run without duplicating data!</p>
-    </div>
-    
-    <p>Mastering data pipelines transforms you from a data collector to a data engineer. You can now build robust, scalable systems that process millions of records reliably. Whether you're building ETL pipelines, real-time streams, or complex data workflows, these pipeline skills ensure your data flows smoothly from source to insight! 🌊</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the Advanced Scraping section. Your web scraping skills are now industrial-strength! 🎓</p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Validate Early:</strong> Catch data quality issues at the source.</li>
+<li><strong>Transform Incrementally:</strong> Apply transformations in logical stages.</li>
+<li><strong>Handle Failures Gracefully:</strong> Implement retry logic and dead letter queues.</li>
+<li><strong>Monitor Everything:</strong> Track metrics, throughput, and error rates.</li>
+<li><strong>Scale Horizontally:</strong> Design for distributed processing from the start.</li>
+<li><strong>Use Appropriate Storage:</strong> Match storage backend to data characteristics.</li>
+<li><strong>Implement Checkpointing:</strong> Enable recovery from failures.</li>
+<li><strong>Version Schemas:</strong> Handle schema evolution gracefully.</li>
+</ul>
+<h3>Data Pipeline Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of data pipelines as assembly lines in a factory - each station has a specific job, quality checks happen throughout, and the whole system should handle hiccups without stopping production. Start with validation - bad data is worse than no data. Use schemas (Pydantic, JSON Schema) to enforce structure. Transform data incrementally with clear, testable functions. Choose storage based on your needs: SQL for structured queries, NoSQL for flexibility, object storage for raw data, and caches for speed. Implement both batch and stream processing - batch for historical data, streams for real-time. Monitor everything: throughput, latency, error rates, data quality scores. Use orchestrators like Airflow or Luigi for complex workflows. Always design for failure - implement retries, dead letter queues, and circuit breakers. Most importantly: make your pipelines idempotent so they can be safely re-run without duplicating data!</p>
+</div>
+<p>Mastering data pipelines transforms you from a data collector to a data engineer. You can now build robust, scalable systems that process millions of records reliably. Whether you're building ETL pipelines, real-time streams, or complex data workflows, these pipeline skills ensure your data flows smoothly from source to insight! 🌊</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="advanced_scraping_proxy_rotation.html">← Previous: Proxy Rotation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="rpa_enterprise_concepts.html">Next: RPA Concepts →</a>
+</div>
+</footer>
 </body>
 </html>

@@ -1,72 +1,121 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAPTCHA Considerations - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CAPTCHA Considerations - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔐 CAPTCHA Considerations: Handle Bot Detection Like a Pro</h1>
-    
-    <p>CAPTCHAs are the gatekeepers of the web - puzzles designed to separate humans from bots. They're like bouncers at an exclusive club, checking if you're on the guest list. From simple text puzzles to complex behavioral analysis, CAPTCHAs protect websites from automated access. But with the right approach, patience, and tools, we can handle them ethically and effectively. Let's master the art of CAPTCHA handling! 🧩</p>
-
-    <h2>The CAPTCHA Ecosystem</h2>
-    
-    <p>Think of CAPTCHA handling as a chess game where each move must be carefully calculated. You're not trying to "break" the CAPTCHA but rather solve it legitimately, either manually, through services, or by avoiding it altogether through smart automation practices. It's about finding the right balance between automation efficiency and respecting website security!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module13">Advanced Web Scraping</a> &gt; 
+        <span>CAPTCHA Handling</span>
+</nav>
+<h1>🔐 CAPTCHA Considerations: Handle Bot Detection Like a Pro</h1>
+<p>CAPTCHAs are the gatekeepers of the web - puzzles designed to separate humans from bots. They're like bouncers at an exclusive club, checking if you're on the guest list. From simple text puzzles to complex behavioral analysis, CAPTCHAs protect websites from automated access. But with the right approach, patience, and tools, we can handle them ethically and effectively. Let's master the art of CAPTCHA handling! 🧩</p>
+<h2>The CAPTCHA Ecosystem</h2>
+<p>Think of CAPTCHA handling as a chess game where each move must be carefully calculated. You're not trying to "break" the CAPTCHA but rather solve it legitimately, either manually, through services, or by avoiding it altogether through smart automation practices. It's about finding the right balance between automation efficiency and respecting website security!</p>
+<div class="mermaid">
     graph TB
-        A[CAPTCHA Types] --> B[Text-based]
-        A --> C[Image-based]
-        A --> D[Audio]
-        A --> E[Behavioral]
-        A --> F[Invisible]
+        A[CAPTCHA Types] --&gt; B[Text-based]
+        A --&gt; C[Image-based]
+        A --&gt; D[Audio]
+        A --&gt; E[Behavioral]
+        A --&gt; F[Invisible]
         
-        B --> G[Simple Text]
-        B --> H[Distorted Text]
-        B --> I[Math Problems]
+        B --&gt; G[Simple Text]
+        B --&gt; H[Distorted Text]
+        B --&gt; I[Math Problems]
         
-        C --> J[Image Selection]
-        C --> K[Image Rotation]
-        C --> L[Object Recognition]
+        C --&gt; J[Image Selection]
+        C --&gt; K[Image Rotation]
+        C --&gt; L[Object Recognition]
         
-        E --> M[Mouse Movement]
-        E --> N[Typing Patterns]
-        E --> O[Browser Fingerprint]
+        E --&gt; M[Mouse Movement]
+        E --&gt; N[Typing Patterns]
+        E --&gt; O[Browser Fingerprint]
         
-        F --> P[reCAPTCHA v3]
-        F --> Q[hCaptcha Invisible]
+        F --&gt; P[reCAPTCHA v3]
+        F --&gt; Q[hCaptcha Invisible]
         
-        R[Handling Strategies] --> S[Manual Solving]
-        R --> T[CAPTCHA Services]
-        R --> U[Avoidance]
-        R --> V[Browser Automation]
+        R[Handling Strategies] --&gt; S[Manual Solving]
+        R --&gt; T[CAPTCHA Services]
+        R --&gt; U[Avoidance]
+        R --&gt; V[Browser Automation]
         
-        T --> W[2captcha]
-        T --> X[Anti-Captcha]
-        T --> Y[DeathByCaptcha]
+        T --&gt; W[2captcha]
+        T --&gt; X[Anti-Captcha]
+        T --&gt; Y[DeathByCaptcha]
         
-        U --> Z[Session Persistence]
-        U --> AA[Human-like Behavior]
-        U --> AB[Proxy Rotation]
+        U --&gt; Z[Session Persistence]
+        U --&gt; AA[Human-like Behavior]
+        U --&gt; AB[Proxy Rotation]
         
         style A fill:#ff6b6b
         style R fill:#51cf66
         style B fill:#339af0
         style E fill:#ffd43b
     </div>
-
-    <h3>Real-World Scenario: The Data Intelligence Platform 🎯</h3>
-    
-    <p>You're building a competitive intelligence platform that monitors product listings, prices, and reviews across multiple e-commerce sites. These sites use various CAPTCHA systems to prevent automated access. You need to handle reCAPTCHA, hCaptcha, image puzzles, and behavioral detection while maintaining efficiency and staying within legal boundaries. Let's build a comprehensive CAPTCHA handling system!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Data Intelligence Platform 🎯</h3>
+<p>You're building a competitive intelligence platform that monitors product listings, prices, and reviews across multiple e-commerce sites. These sites use various CAPTCHA systems to prevent automated access. You need to handle reCAPTCHA, hCaptcha, image puzzles, and behavioral detection while maintaining efficiency and staying within legal boundaries. Let's build a comprehensive CAPTCHA handling system!</p>
+<pre><code># First, install required packages:
 # pip install selenium pillow opencv-python pytesseract 2captcha-python anticaptchaofficial
 
 import time
@@ -171,7 +220,7 @@ class CaptchaDetector:
             ]
         }
     
-    def detect_captcha(self) -> Optional[CaptchaChallenge]:
+    def detect_captcha(self) -&gt; Optional[CaptchaChallenge]:
         """
         Detect CAPTCHA on current page.
         """
@@ -188,13 +237,13 @@ class CaptchaDetector:
         
         return None
     
-    def _check_signature(self, signature: str) -> bool:
+    def _check_signature(self, signature: str) -&gt; bool:
         """Check if signature exists on page."""
         try:
             if signature.startswith("//"):
                 # XPath selector
                 elements = self.driver.find_elements(By.XPATH, signature)
-                return len(elements) > 0
+                return len(elements) &gt; 0
             else:
                 # JavaScript check
                 result = self.driver.execute_script(f"return typeof {signature} !== 'undefined'")
@@ -202,7 +251,7 @@ class CaptchaDetector:
         except:
             return False
     
-    def _check_generic_captcha(self) -> bool:
+    def _check_generic_captcha(self) -&gt; bool:
         """Check for generic CAPTCHA indicators."""
         indicators = [
             "captcha",
@@ -220,7 +269,7 @@ class CaptchaDetector:
         
         return False
     
-    def _extract_challenge(self, captcha_type: CaptchaType) -> CaptchaChallenge:
+    def _extract_challenge(self, captcha_type: CaptchaType) -&gt; CaptchaChallenge:
         """Extract CAPTCHA challenge details."""
         challenge = CaptchaChallenge(
             type=captcha_type,
@@ -234,7 +283,7 @@ class CaptchaDetector:
         
         return challenge
     
-    def _extract_recaptcha_sitekey(self) -> Optional[str]:
+    def _extract_recaptcha_sitekey(self) -&gt; Optional[str]:
         """Extract reCAPTCHA site key."""
         try:
             # Method 1: From div attribute
@@ -255,7 +304,7 @@ class CaptchaDetector:
         
         return None
     
-    def _extract_hcaptcha_sitekey(self) -> Optional[str]:
+    def _extract_hcaptcha_sitekey(self) -&gt; Optional[str]:
         """Extract hCaptcha site key."""
         try:
             element = self.driver.find_element(By.CLASS_NAME, "h-captcha")
@@ -312,7 +361,7 @@ class HumanBehaviorSimulator:
     
     def _generate_bezier_curve(self, start: Tuple[float, float], 
                                end: Tuple[float, float], 
-                               num_points: int = 20) -> List[Tuple[float, float]]:
+                               num_points: int = 20) -&gt; List[Tuple[float, float]]:
         """Generate points along a bezier curve for natural mouse movement."""
         # Control points for curve
         control1 = (
@@ -362,7 +411,7 @@ class HumanBehaviorSimulator:
             time.sleep(delay)
             
             # Occasional pauses (thinking)
-            if random.random() < 0.1:
+            if random.random() &lt; 0.1:
                 time.sleep(random.uniform(0.5, 1.5))
     
     def random_scrolling(self):
@@ -384,7 +433,7 @@ class HumanBehaviorSimulator:
         
         start_time = time.time()
         
-        while time.time() - start_time < duration:
+        while time.time() - start_time &lt; duration:
             # Small scroll movements
             self.driver.execute_script(
                 f"window.scrollBy(0, {random.randint(50, 200)})"
@@ -394,7 +443,7 @@ class HumanBehaviorSimulator:
             time.sleep(random.uniform(1, 3))
             
             # Occasional mouse movement
-            if random.random() < 0.3:
+            if random.random() &lt; 0.3:
                 x = random.randint(100, 500)
                 y = random.randint(100, 500)
                 self.actions.move_by_offset(x, y).perform()
@@ -411,7 +460,7 @@ class CaptchaSolverService:
         self.api_key = api_key
         self.logger = logging.getLogger(__name__)
     
-    def solve(self, challenge: CaptchaChallenge) -> Optional[str]:
+    def solve(self, challenge: CaptchaChallenge) -&gt; Optional[str]:
         """Solve CAPTCHA challenge."""
         raise NotImplementedError
 
@@ -424,7 +473,7 @@ class TwoCaptchaSolver(CaptchaSolverService):
         super().__init__(api_key)
         self.base_url = "http://2captcha.com"
     
-    def solve(self, challenge: CaptchaChallenge) -> Optional[str]:
+    def solve(self, challenge: CaptchaChallenge) -&gt; Optional[str]:
         """Solve CAPTCHA using 2captcha service."""
         if challenge.type == CaptchaType.RECAPTCHA_V2:
             return self._solve_recaptcha_v2(challenge)
@@ -436,7 +485,7 @@ class TwoCaptchaSolver(CaptchaSolverService):
             self.logger.warning(f"Unsupported CAPTCHA type: {challenge.type}")
             return None
     
-    def _solve_recaptcha_v2(self, challenge: CaptchaChallenge) -> Optional[str]:
+    def _solve_recaptcha_v2(self, challenge: CaptchaChallenge) -&gt; Optional[str]:
         """Solve reCAPTCHA v2."""
         # Submit CAPTCHA
         params = {
@@ -480,7 +529,7 @@ class TwoCaptchaSolver(CaptchaSolverService):
         
         return None
     
-    def _solve_image(self, challenge: CaptchaChallenge) -> Optional[str]:
+    def _solve_image(self, challenge: CaptchaChallenge) -&gt; Optional[str]:
         """Solve image CAPTCHA."""
         if not challenge.image_data:
             return None
@@ -522,7 +571,7 @@ class TwoCaptchaSolver(CaptchaSolverService):
         
         return None
     
-    def _solve_hcaptcha(self, challenge: CaptchaChallenge) -> Optional[str]:
+    def _solve_hcaptcha(self, challenge: CaptchaChallenge) -&gt; Optional[str]:
         """Solve hCaptcha."""
         params = {
             'key': self.api_key,
@@ -572,7 +621,7 @@ class OCRSolver:
         import pytesseract
         self.logger = logging.getLogger(__name__)
     
-    def solve_text_captcha(self, image: Union[Image.Image, np.ndarray]) -> Optional[str]:
+    def solve_text_captcha(self, image: Union[Image.Image, np.ndarray]) -&gt; Optional[str]:
         """Solve text CAPTCHA using OCR."""
         try:
             # Preprocess image
@@ -597,7 +646,7 @@ class OCRSolver:
         
         return None
     
-    def _preprocess_image(self, image: Union[Image.Image, np.ndarray]) -> np.ndarray:
+    def _preprocess_image(self, image: Union[Image.Image, np.ndarray]) -&gt; np.ndarray:
         """Preprocess image for better OCR results."""
         # Convert to numpy array if needed
         if isinstance(image, Image.Image):
@@ -617,7 +666,7 @@ class OCRSolver:
         
         # Resize for better OCR
         height, width = denoised.shape
-        if height < 50:
+        if height &lt; 50:
             scale = 50 / height
             new_width = int(width * scale)
             denoised = cv2.resize(denoised, (new_width, 50))
@@ -658,7 +707,7 @@ class SliderSolver:
             self.logger.error(f"Slider solving failed: {e}")
             return False
     
-    def _detect_target_position(self) -> int:
+    def _detect_target_position(self) -&gt; int:
         """Detect target position for slider (puzzle piece matching)."""
         # This would involve image processing to find the gap
         # Simplified version - return random position
@@ -675,7 +724,7 @@ class SliderSolver:
         
         for i in range(steps):
             # Acceleration curve
-            if i < steps / 2:
+            if i &lt; steps / 2:
                 step = (distance / steps) * (1 + i / steps)
             else:
                 step = (distance / steps) * (2 - i / steps)
@@ -684,14 +733,14 @@ class SliderSolver:
             moved += step
             
             # Small random variations
-            if random.random() < 0.3:
+            if random.random() &lt; 0.3:
                 self.actions.move_by_offset(0, random.randint(-2, 2)).perform()
             
             time.sleep(random.uniform(0.01, 0.03))
         
         # Adjust final position
         final_adjustment = distance - moved
-        if abs(final_adjustment) > 0:
+        if abs(final_adjustment) &gt; 0:
             self.actions.move_by_offset(final_adjustment, 0).perform()
         
         # Release
@@ -731,7 +780,7 @@ class CaptchaManager:
             'avoided': 0
         }
     
-    def handle_captcha(self, max_attempts: int = 3) -> bool:
+    def handle_captcha(self, max_attempts: int = 3) -&gt; bool:
         """
         Detect and handle CAPTCHA if present.
         """
@@ -766,14 +815,14 @@ class CaptchaManager:
                     return True
             
             # Wait before retry
-            if attempt < max_attempts - 1:
+            if attempt &lt; max_attempts - 1:
                 time.sleep(random.uniform(2, 5))
         
         self.stats['failed'] += 1
         self.logger.error(f"Failed to solve CAPTCHA after {max_attempts} attempts")
         return False
     
-    def _solve_challenge(self, challenge: CaptchaChallenge) -> Optional[str]:
+    def _solve_challenge(self, challenge: CaptchaChallenge) -&gt; Optional[str]:
         """Solve CAPTCHA challenge based on strategy."""
         if self.strategy == SolverStrategy.SERVICE and self.service_solver:
             return self.service_solver.solve(challenge)
@@ -792,7 +841,7 @@ class CaptchaManager:
         
         return None
     
-    def _get_captcha_image(self) -> Optional[Image.Image]:
+    def _get_captcha_image(self) -&gt; Optional[Image.Image]:
         """Extract CAPTCHA image from page."""
         try:
             # Look for common CAPTCHA image selectors
@@ -826,7 +875,7 @@ class CaptchaManager:
         
         return None
     
-    def _submit_solution(self, challenge: CaptchaChallenge) -> bool:
+    def _submit_solution(self, challenge: CaptchaChallenge) -&gt; bool:
         """Submit CAPTCHA solution."""
         try:
             if challenge.type == CaptchaType.RECAPTCHA_V2:
@@ -838,7 +887,7 @@ class CaptchaManager:
                 # Trigger callback if exists
                 self.driver.execute_script(
                     "if(typeof ___grecaptcha_cfg !== 'undefined') { "
-                    "Object.entries(___grecaptcha_cfg.clients).forEach(([key, client]) => { "
+                    "Object.entries(___grecaptcha_cfg.clients).forEach(([key, client]) =&gt; { "
                     "if(client.callback) { client.callback('" + challenge.solution + "'); } "
                     "}); }"
                 )
@@ -886,10 +935,10 @@ class CaptchaManager:
         # Simulate thinking time
         time.sleep(random.uniform(5, 15))
     
-    def get_statistics(self) -> Dict[str, Any]:
+    def get_statistics(self) -&gt; Dict[str, Any]:
         """Get CAPTCHA handling statistics."""
         total = self.stats['total_captchas']
-        if total > 0:
+        if total &gt; 0:
             self.stats['success_rate'] = self.stats['solved'] / total
         else:
             self.stats['success_rate'] = 0
@@ -997,7 +1046,7 @@ if __name__ == "__main__":
     print("     ROI depends on your use case")
     
     # Example 8: Legal and ethical notes
-    print("\n8️⃣ Legal & Ethical Considerations:")
+    print("\n8️⃣ Legal &amp; Ethical Considerations:")
     
     considerations = [
         "⚖️ Always respect Terms of Service",
@@ -1048,37 +1097,28 @@ if __name__ == "__main__":
     
     print("\n✅ CAPTCHA handling demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Prevention is Better:</strong> Try to avoid triggering CAPTCHAs in the first place.</li>
-        
-        <li><strong>Use Human-like Behavior:</strong> Natural mouse movements and typing patterns.</li>
-        
-        <li><strong>Choose the Right Strategy:</strong> Balance between cost, speed, and success rate.</li>
-        
-        <li><strong>Have Multiple Fallbacks:</strong> Don't rely on a single solving method.</li>
-        
-        <li><strong>Monitor Success Rates:</strong> Track and optimize your solving strategies.</li>
-        
-        <li><strong>Respect the Purpose:</strong> CAPTCHAs protect websites from abuse.</li>
-        
-        <li><strong>Consider Alternatives:</strong> APIs might be available for legitimate use.</li>
-        
-        <li><strong>Budget Appropriately:</strong> Factor CAPTCHA solving costs into your project.</li>
-    </ul>
-
-    <h3>CAPTCHA Handling Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> CAPTCHAs are like security guards - the best approach is to not look suspicious in the first place. Focus on prevention through human-like behavior: use realistic delays, natural mouse movements, and complete user journeys. When you must solve CAPTCHAs, choose your strategy wisely. Services like 2captcha are reliable but cost money; OCR works for simple text but has lower success rates; behavioral simulation can bypass some detection entirely. Always have multiple strategies - what works today might not work tomorrow as CAPTCHA systems evolve. Remember that CAPTCHAs exist for good reasons - to protect websites from abuse. If you're hitting lots of CAPTCHAs, consider whether there's a legitimate API you could use instead. Most importantly: respect the intent behind CAPTCHAs. They're not obstacles to break but security measures to work with responsibly!</p>
-    </div>
-    
-    <p>Mastering CAPTCHA handling transforms you from someone blocked by bot detection to someone who can navigate it responsibly and effectively. You now understand detection methods, solving strategies, behavioral simulation, and service integration. Whether you're building testing tools, data collectors, or automation systems, these CAPTCHA handling skills ensure your automation can handle real-world challenges! 🔓</p>
-    
-    <footer>
-        <p>Next up: <a href="advanced_scraping_data_pipelines.html">Data Pipelines - Process and Store Data at Scale!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Prevention is Better:</strong> Try to avoid triggering CAPTCHAs in the first place.</li>
+<li><strong>Use Human-like Behavior:</strong> Natural mouse movements and typing patterns.</li>
+<li><strong>Choose the Right Strategy:</strong> Balance between cost, speed, and success rate.</li>
+<li><strong>Have Multiple Fallbacks:</strong> Don't rely on a single solving method.</li>
+<li><strong>Monitor Success Rates:</strong> Track and optimize your solving strategies.</li>
+<li><strong>Respect the Purpose:</strong> CAPTCHAs protect websites from abuse.</li>
+<li><strong>Consider Alternatives:</strong> APIs might be available for legitimate use.</li>
+<li><strong>Budget Appropriately:</strong> Factor CAPTCHA solving costs into your project.</li>
+</ul>
+<h3>CAPTCHA Handling Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> CAPTCHAs are like security guards - the best approach is to not look suspicious in the first place. Focus on prevention through human-like behavior: use realistic delays, natural mouse movements, and complete user journeys. When you must solve CAPTCHAs, choose your strategy wisely. Services like 2captcha are reliable but cost money; OCR works for simple text but has lower success rates; behavioral simulation can bypass some detection entirely. Always have multiple strategies - what works today might not work tomorrow as CAPTCHA systems evolve. Remember that CAPTCHAs exist for good reasons - to protect websites from abuse. If you're hitting lots of CAPTCHAs, consider whether there's a legitimate API you could use instead. Most importantly: respect the intent behind CAPTCHAs. They're not obstacles to break but security measures to work with responsibly!</p>
+</div>
+<p>Mastering CAPTCHA handling transforms you from someone blocked by bot detection to someone who can navigate it responsibly and effectively. You now understand detection methods, solving strategies, behavioral simulation, and service integration. Whether you're building testing tools, data collectors, or automation systems, these CAPTCHA handling skills ensure your automation can handle real-world challenges! 🔓</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="advanced_scraping_scrapy.html">← Previous: Scrapy Framework</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="advanced_scraping_proxy_rotation.html">Next: Proxy Rotation →</a>
+</div>
+</footer>
 </body>
 </html>

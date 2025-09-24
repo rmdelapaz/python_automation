@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Integration Testing - Python Testing Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Integration Testing - Python Testing Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔗 Integration Testing: Ensure Components Work Together Flawlessly</h1>
-    
-    <p>Integration testing bridges the gap between unit tests and system tests - it verifies that independently developed components work correctly when combined, catching issues that arise from component interactions, data flow, and interface mismatches. Like testing the gears of a complex machine working together, integration testing ensures your application's parts mesh seamlessly. Whether you're testing database interactions, API integrations, or microservice communications, mastering integration testing is crucial for building reliable systems. Let's explore the comprehensive world of integration test automation! 🏗️</p>
-
-    <h2>The Integration Testing Architecture</h2>
-    
-    <p>Think of integration testing as quality assurance for assembled systems - while unit tests verify individual parts work, integration tests ensure they work together harmoniously. Using test containers, mock servers, and orchestration tools, you can create realistic test environments that validate component interactions without the complexity of full system testing. Understanding test boundaries, data management, and environment setup is essential for effective integration testing!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module9">Testing Automation</a> &gt; 
+        <span>Integration Testing</span>
+</nav>
+<h1>🔗 Integration Testing: Ensure Components Work Together Flawlessly</h1>
+<p>Integration testing bridges the gap between unit tests and system tests - it verifies that independently developed components work correctly when combined, catching issues that arise from component interactions, data flow, and interface mismatches. Like testing the gears of a complex machine working together, integration testing ensures your application's parts mesh seamlessly. Whether you're testing database interactions, API integrations, or microservice communications, mastering integration testing is crucial for building reliable systems. Let's explore the comprehensive world of integration test automation! 🏗️</p>
+<h2>The Integration Testing Architecture</h2>
+<p>Think of integration testing as quality assurance for assembled systems - while unit tests verify individual parts work, integration tests ensure they work together harmoniously. Using test containers, mock servers, and orchestration tools, you can create realistic test environments that validate component interactions without the complexity of full system testing. Understanding test boundaries, data management, and environment setup is essential for effective integration testing!</p>
+<div class="mermaid">
     graph TB
-        A[Integration Testing] --> B[Test Strategies]
-        A --> C[Test Environments]
-        A --> D[Data Management]
-        A --> E[Test Types]
+        A[Integration Testing] --&gt; B[Test Strategies]
+        A --&gt; C[Test Environments]
+        A --&gt; D[Data Management]
+        A --&gt; E[Test Types]
         
-        B --> F[Big Bang]
-        B --> G[Top-Down]
-        B --> H[Bottom-Up]
-        B --> I[Sandwich]
+        B --&gt; F[Big Bang]
+        B --&gt; G[Top-Down]
+        B --&gt; H[Bottom-Up]
+        B --&gt; I[Sandwich]
         
-        C --> J[Containers]
-        C --> K[Mock Services]
-        C --> L[Test Databases]
-        C --> M[Message Queues]
+        C --&gt; J[Containers]
+        C --&gt; K[Mock Services]
+        C --&gt; L[Test Databases]
+        C --&gt; M[Message Queues]
         
-        D --> N[Fixtures]
-        D --> O[Migrations]
-        D --> P[Cleanup]
-        D --> Q[Isolation]
+        D --&gt; N[Fixtures]
+        D --&gt; O[Migrations]
+        D --&gt; P[Cleanup]
+        D --&gt; Q[Isolation]
         
-        E --> R[Database]
-        E --> S[API]
-        E --> T[Messaging]
-        E --> U[Service]
+        E --&gt; R[Database]
+        E --&gt; S[API]
+        E --&gt; T[Messaging]
+        E --&gt; U[Service]
         
-        V[Tools] --> W[TestContainers]
-        V --> X[Docker]
-        V --> Y[WireMock]
-        V --> Z[LocalStack]
+        V[Tools] --&gt; W[TestContainers]
+        V --&gt; X[Docker]
+        V --&gt; Y[WireMock]
+        V --&gt; Z[LocalStack]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Microservices Testing Platform 🌐</h3>
-    
-    <p>You're building a comprehensive integration testing platform for a microservices architecture that tests service-to-service communication, validates database transactions across services, ensures message queue reliability, verifies API contracts between teams, tests failover and circuit breaker behaviors, validates data consistency across systems, simulates network conditions and failures, and ensures backward compatibility during deployments. Your platform must support parallel test execution, provide isolated test environments, maintain test data consistency, and deliver clear diagnostics. Let's build a professional integration testing framework!</p>
-
-    <pre><code># Comprehensive Integration Testing Framework
+<h3>Real-World Scenario: The Microservices Testing Platform 🌐</h3>
+<p>You're building a comprehensive integration testing platform for a microservices architecture that tests service-to-service communication, validates database transactions across services, ensures message queue reliability, verifies API contracts between teams, tests failover and circuit breaker behaviors, validates data consistency across systems, simulates network conditions and failures, and ensures backward compatibility during deployments. Your platform must support parallel test execution, provide isolated test environments, maintain test data consistency, and deliver clear diagnostics. Let's build a professional integration testing framework!</p>
+<pre><code># Comprehensive Integration Testing Framework
 # pip install pytest testcontainers docker requests sqlalchemy
 # pip install redis pymongo kafka-python elasticsearch aiohttp
 # pip install faker factory-boy pytest-asyncio pytest-docker
@@ -178,7 +227,7 @@ class DatabaseTestBase:
         cls.Order = Order
     
     @contextmanager
-    def get_session(self) -> Generator[Session, None, None]:
+    def get_session(self) -&gt; Generator[Session, None, None]:
         """Get database session with automatic cleanup."""
         session = self.SessionLocal()
         try:
@@ -251,7 +300,7 @@ class APITestClient:
         method: str,
         endpoint: str,
         **kwargs
-    ) -> requests.Response:
+    ) -&gt; requests.Response:
         """Make API request with error handling."""
         url = f"{self.base_url}{endpoint}"
         kwargs.setdefault('timeout', self.timeout)
@@ -259,19 +308,19 @@ class APITestClient:
         response = self.session.request(method, url, **kwargs)
         return response
     
-    def get(self, endpoint: str, **kwargs) -> requests.Response:
+    def get(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """GET request."""
         return self.request('GET', endpoint, **kwargs)
     
-    def post(self, endpoint: str, **kwargs) -> requests.Response:
+    def post(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """POST request."""
         return self.request('POST', endpoint, **kwargs)
     
-    def put(self, endpoint: str, **kwargs) -> requests.Response:
+    def put(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """PUT request."""
         return self.request('PUT', endpoint, **kwargs)
     
-    def delete(self, endpoint: str, **kwargs) -> requests.Response:
+    def delete(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """DELETE request."""
         return self.request('DELETE', endpoint, **kwargs)
 
@@ -436,7 +485,7 @@ class MessageQueueTestBase:
         consumed = []
         timeout = time.time() + 10
         
-        while len(consumed) < 5 and time.time() < timeout:
+        while len(consumed) &lt; 5 and time.time() &lt; timeout:
             msg_pack = self.consumer.poll(timeout_ms=1000)
             for tp, messages in msg_pack.items():
                 for message in messages:
@@ -479,7 +528,7 @@ class ServiceIntegrationTest:
         start_time = time.time()
         
         for url, name in services:
-            while time.time() - start_time < timeout:
+            while time.time() - start_time &lt; timeout:
                 try:
                     if url.startswith("http"):
                         response = requests.get(url, timeout=1)
@@ -549,7 +598,7 @@ class ContractTest:
         with open(contract_file, 'r') as f:
             self.contract = json.load(f)
     
-    def validate_response(self, response: Dict, contract_name: str) -> bool:
+    def validate_response(self, response: Dict, contract_name: str) -&gt; bool:
         """Validate response against contract."""
         contract = self.contract.get(contract_name)
         if not contract:
@@ -568,7 +617,7 @@ class ContractTest:
         
         return True
     
-    def _check_type(self, value: Any, expected_type: str) -> bool:
+    def _check_type(self, value: Any, expected_type: str) -&gt; bool:
         """Check if value matches expected type."""
         type_map = {
             'string': str,
@@ -593,7 +642,7 @@ class TestDataManager:
         self.engine = create_engine(database_url)
         self.created_records = []
     
-    def create_test_user(self, **kwargs) -> Dict:
+    def create_test_user(self, **kwargs) -&gt; Dict:
         """Create test user with defaults."""
         defaults = {
             'username': f'test_user_{datetime.now().timestamp()}',
@@ -654,7 +703,7 @@ class PerformanceIntegrationTest:
         duration = time.time() - start_time
         
         # Should handle 100 queries in under 2 seconds with pooling
-        assert duration < 2.0
+        assert duration &lt; 2.0
     
     def test_api_throughput(self):
         """Test API throughput with database."""
@@ -672,7 +721,7 @@ class PerformanceIntegrationTest:
         throughput = successful_requests / duration
         
         # Should handle at least 50 requests per second
-        assert throughput > 50
+        assert throughput &gt; 50
 
 # ==================== Integration Test Fixtures ====================
 
@@ -924,37 +973,28 @@ if __name__ == "__main__":
     
     print("\n✅ Integration testing examples complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Test Isolation:</strong> Use containers or transactions to isolate tests from each other.</li>
-        
-        <li><strong>Data Management:</strong> Create and clean up test data reliably.</li>
-        
-        <li><strong>Service Dependencies:</strong> Use test containers for databases, queues, and caches.</li>
-        
-        <li><strong>API Testing:</strong> Test complete workflows, not just individual endpoints.</li>
-        
-        <li><strong>Error Scenarios:</strong> Test failure modes and error handling between components.</li>
-        
-        <li><strong>Performance:</strong> Verify integration performance meets requirements.</li>
-        
-        <li><strong>Contract Testing:</strong> Ensure services adhere to their contracts.</li>
-        
-        <li><strong>Environment Parity:</strong> Make test environment as close to production as possible.</li>
-    </ul>
-
-    <h3>Integration Testing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of integration testing as verifying the plumbing of your application - while unit tests check individual components work, integration tests ensure they work together. Use test containers (Docker) to create isolated, reproducible test environments - this eliminates "works on my machine" issues. Always test the boundaries where components meet: database queries, API calls, message passing, and cache interactions. Design tests to be independent - each test should set up its own data and clean up afterward. Use transactions for database tests when possible - roll back after each test for speed and isolation. Test both success and failure scenarios - what happens when the database is down, the API returns 500, or the message queue is full? Implement retry logic for flaky tests but investigate the root cause. Use factories or builders for test data creation - this makes tests more maintainable. Test at different levels: single integration (one database call), workflow (multiple components), and end-to-end (complete user journey). Monitor test execution time - integration tests are slower than unit tests but shouldn't take minutes. Use parallel execution when possible but be careful of shared resources. Mock external services that you don't control but test against real versions of services you do control. Most importantly: integration tests find the bugs that unit tests miss - invest in them!</p>
-    </div>
-    
-    <p>Mastering integration testing ensures your components work together seamlessly in production. You can now test database interactions reliably, validate API integrations thoroughly, ensure message queue reliability, verify service-to-service communication, and maintain data consistency across systems. Whether you're building microservices, monoliths, or hybrid architectures, these integration testing skills are essential for delivering reliable software! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="testing_automation_ui_selenium.html">UI Testing with Selenium - Automate Browser Testing Like a Pro!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Test Isolation:</strong> Use containers or transactions to isolate tests from each other.</li>
+<li><strong>Data Management:</strong> Create and clean up test data reliably.</li>
+<li><strong>Service Dependencies:</strong> Use test containers for databases, queues, and caches.</li>
+<li><strong>API Testing:</strong> Test complete workflows, not just individual endpoints.</li>
+<li><strong>Error Scenarios:</strong> Test failure modes and error handling between components.</li>
+<li><strong>Performance:</strong> Verify integration performance meets requirements.</li>
+<li><strong>Contract Testing:</strong> Ensure services adhere to their contracts.</li>
+<li><strong>Environment Parity:</strong> Make test environment as close to production as possible.</li>
+</ul>
+<h3>Integration Testing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of integration testing as verifying the plumbing of your application - while unit tests check individual components work, integration tests ensure they work together. Use test containers (Docker) to create isolated, reproducible test environments - this eliminates "works on my machine" issues. Always test the boundaries where components meet: database queries, API calls, message passing, and cache interactions. Design tests to be independent - each test should set up its own data and clean up afterward. Use transactions for database tests when possible - roll back after each test for speed and isolation. Test both success and failure scenarios - what happens when the database is down, the API returns 500, or the message queue is full? Implement retry logic for flaky tests but investigate the root cause. Use factories or builders for test data creation - this makes tests more maintainable. Test at different levels: single integration (one database call), workflow (multiple components), and end-to-end (complete user journey). Monitor test execution time - integration tests are slower than unit tests but shouldn't take minutes. Use parallel execution when possible but be careful of shared resources. Mock external services that you don't control but test against real versions of services you do control. Most importantly: integration tests find the bugs that unit tests miss - invest in them!</p>
+</div>
+<p>Mastering integration testing ensures your components work together seamlessly in production. You can now test database interactions reliably, validate API integrations thoroughly, ensure message queue reliability, verify service-to-service communication, and maintain data consistency across systems. Whether you're building microservices, monoliths, or hybrid architectures, these integration testing skills are essential for delivering reliable software! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="testing_automation_unit.html">← Previous: Unit Test Automation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="testing_automation_ui_selenium.html">Next: UI Testing with Selenium →</a>
+</div>
+</footer>
 </body>
 </html>

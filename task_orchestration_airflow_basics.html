@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apache Airflow Basics - Python Task Orchestration</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Apache Airflow Basics - Python Task Orchestration</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🚀 Apache Airflow Basics: Orchestrate Complex Workflows at Scale</h1>
-    
-    <p>Apache Airflow is a powerful platform for programmatically authoring, scheduling, and monitoring workflows - it transforms complex task dependencies into manageable, visual pipelines that can scale from simple scripts to enterprise data operations. Like having an intelligent conductor for your data orchestra, Airflow ensures tasks run in the right order, at the right time, with automatic retry logic and comprehensive monitoring. Whether you're building ETL pipelines, orchestrating machine learning workflows, or automating business processes, Airflow provides the foundation for reliable, scalable task orchestration. Let's explore the fundamentals of workflow automation with Apache Airflow! 🎯</p>
-
-    <h2>The Apache Airflow Architecture</h2>
-    
-    <p>Think of Airflow as a sophisticated workflow management system - it uses Directed Acyclic Graphs (DAGs) to define task dependencies, executors to run tasks in parallel, schedulers to trigger workflows, and a rich UI for monitoring and troubleshooting. Built on Python, Airflow treats workflows as code, enabling version control, testing, and dynamic pipeline generation. Understanding DAGs, operators, tasks, and scheduling is essential for mastering workflow orchestration!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module8">Task Orchestration</a> &gt; 
+        <span>Apache Airflow Basics</span>
+</nav>
+<h1>🚀 Apache Airflow Basics: Orchestrate Complex Workflows at Scale</h1>
+<p>Apache Airflow is a powerful platform for programmatically authoring, scheduling, and monitoring workflows - it transforms complex task dependencies into manageable, visual pipelines that can scale from simple scripts to enterprise data operations. Like having an intelligent conductor for your data orchestra, Airflow ensures tasks run in the right order, at the right time, with automatic retry logic and comprehensive monitoring. Whether you're building ETL pipelines, orchestrating machine learning workflows, or automating business processes, Airflow provides the foundation for reliable, scalable task orchestration. Let's explore the fundamentals of workflow automation with Apache Airflow! 🎯</p>
+<h2>The Apache Airflow Architecture</h2>
+<p>Think of Airflow as a sophisticated workflow management system - it uses Directed Acyclic Graphs (DAGs) to define task dependencies, executors to run tasks in parallel, schedulers to trigger workflows, and a rich UI for monitoring and troubleshooting. Built on Python, Airflow treats workflows as code, enabling version control, testing, and dynamic pipeline generation. Understanding DAGs, operators, tasks, and scheduling is essential for mastering workflow orchestration!</p>
+<div class="mermaid">
     graph TB
-        A[Apache Airflow] --> B[Core Components]
-        A --> C[DAG Structure]
-        A --> D[Operators]
-        A --> E[Execution]
+        A[Apache Airflow] --&gt; B[Core Components]
+        A --&gt; C[DAG Structure]
+        A --&gt; D[Operators]
+        A --&gt; E[Execution]
         
-        B --> F[Scheduler]
-        B --> G[Executor]
-        B --> H[Metadata DB]
-        B --> I[Web Server]
+        B --&gt; F[Scheduler]
+        B --&gt; G[Executor]
+        B --&gt; H[Metadata DB]
+        B --&gt; I[Web Server]
         
-        C --> J[Tasks]
-        C --> K[Dependencies]
-        C --> L[Schedule]
-        C --> M[Parameters]
+        C --&gt; J[Tasks]
+        C --&gt; K[Dependencies]
+        C --&gt; L[Schedule]
+        C --&gt; M[Parameters]
         
-        D --> N[BashOperator]
-        D --> O[PythonOperator]
-        D --> P[Sensors]
-        D --> Q[Hooks]
+        D --&gt; N[BashOperator]
+        D --&gt; O[PythonOperator]
+        D --&gt; P[Sensors]
+        D --&gt; Q[Hooks]
         
-        E --> R[Sequential]
-        E --> S[Parallel]
-        E --> T[Branching]
-        E --> U[Dynamic]
+        E --&gt; R[Sequential]
+        E --&gt; S[Parallel]
+        E --&gt; T[Branching]
+        E --&gt; U[Dynamic]
         
-        V[Use Cases] --> W[ETL/ELT]
-        V --> X[ML Pipelines]
-        V --> Y[Data Processing]
-        V --> Z[DevOps]
+        V[Use Cases] --&gt; W[ETL/ELT]
+        V --&gt; X[ML Pipelines]
+        V --&gt; Y[Data Processing]
+        V --&gt; Z[DevOps]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Data Pipeline Platform 📊</h3>
-    
-    <p>You're building a comprehensive data pipeline platform that processes daily sales data from multiple sources, performs data quality checks and transformations, trains machine learning models on clean data, generates reports and dashboards, sends notifications on completion or failure, handles dependencies between complex tasks, retries failed operations automatically, and scales to handle varying workloads. Your system must support scheduling flexibility, provide clear visibility into pipeline status, handle errors gracefully, and maintain audit trails. Let's build a robust Airflow orchestration system!</p>
-
-    <pre><code># First, install Apache Airflow:
+<h3>Real-World Scenario: The Data Pipeline Platform 📊</h3>
+<p>You're building a comprehensive data pipeline platform that processes daily sales data from multiple sources, performs data quality checks and transformations, trains machine learning models on clean data, generates reports and dashboards, sends notifications on completion or failure, handles dependencies between complex tasks, retries failed operations automatically, and scales to handle varying workloads. Your system must support scheduling flexibility, provide clear visibility into pipeline status, handle errors gracefully, and maintain audit trails. Let's build a robust Airflow orchestration system!</p>
+<pre><code># First, install Apache Airflow:
 # pip install apache-airflow==2.7.0
 # pip install apache-airflow-providers-http
 # pip install apache-airflow-providers-postgres
@@ -121,7 +170,7 @@ default_args = {
 
 # ==================== Helper Functions ====================
 
-def create_logger(name: str) -> logging.Logger:
+def create_logger(name: str) -&gt; logging.Logger:
     """Create a logger for the DAG."""
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
@@ -210,7 +259,7 @@ with basic_dag:
     )
     
     # Define dependencies
-    hello_task >> process_task >> save_task
+    hello_task &gt;&gt; process_task &gt;&gt; save_task
 
 # ==================== Advanced DAG with Task Groups ====================
 
@@ -225,7 +274,7 @@ def advanced_data_pipeline():
     """Advanced DAG using TaskFlow API."""
     
     @task
-    def extract_data(source: str) -> Dict[str, Any]:
+    def extract_data(source: str) -&gt; Dict[str, Any]:
         """Extract data from source."""
         print(f"Extracting data from {source}")
         
@@ -239,7 +288,7 @@ def advanced_data_pipeline():
         return data
     
     @task
-    def validate_data(data: Dict[str, Any]) -> Dict[str, Any]:
+    def validate_data(data: Dict[str, Any]) -&gt; Dict[str, Any]:
         """Validate extracted data."""
         print(f"Validating {data['records']} records from {data['source']}")
         
@@ -250,13 +299,13 @@ def advanced_data_pipeline():
             'warnings': []
         }
         
-        if data['records'] < 5000:
+        if data['records'] &lt; 5000:
             data['validation']['warnings'].append('Low record count')
         
         return data
     
     @task
-    def transform_data(data: Dict[str, Any]) -> Dict[str, Any]:
+    def transform_data(data: Dict[str, Any]) -&gt; Dict[str, Any]:
         """Transform validated data."""
         print(f"Transforming data from {data['source']}")
         
@@ -269,7 +318,7 @@ def advanced_data_pipeline():
         return data
     
     @task
-    def load_to_warehouse(data: Dict[str, Any], table: str) -> str:
+    def load_to_warehouse(data: Dict[str, Any], table: str) -&gt; str:
         """Load data to data warehouse."""
         print(f"Loading {data['transformed']['records_processed']} records to {table}")
         
@@ -319,7 +368,7 @@ def create_dynamic_dag(
     dag_id: str,
     sources: List[str],
     schedule: str = '@daily'
-) -> DAG:
+) -&gt; DAG:
     """Dynamically create a DAG based on configuration."""
     
     dag = DAG(
@@ -347,7 +396,7 @@ def create_dynamic_dag(
             )
             
             # Define dependencies
-            start >> extract >> process >> end
+            start &gt;&gt; extract &gt;&gt; process &gt;&gt; end
     
     return dag
 
@@ -391,7 +440,7 @@ with sensor_dag:
         python_callable=lambda: print("All dependencies met, processing..."),
     )
     
-    [wait_for_file, wait_for_api] >> process
+    [wait_for_file, wait_for_api] &gt;&gt; process
 
 # ==================== Branching Example ====================
 
@@ -406,16 +455,16 @@ def branching_workflow():
     """DAG with conditional execution paths."""
     
     @task.branch
-    def check_data_quality() -> str:
+    def check_data_quality() -&gt; str:
         """Check data quality and decide path."""
         import random
         
         # Simulate quality check
         quality_score = random.random()
         
-        if quality_score > 0.8:
+        if quality_score &gt; 0.8:
             return 'high_quality_path'
-        elif quality_score > 0.5:
+        elif quality_score &gt; 0.5:
             return 'medium_quality_path'
         else:
             return 'low_quality_path'
@@ -459,7 +508,7 @@ def branching_workflow():
     merge = merge_results()
     
     # Set up branching
-    quality_check >> [high_path, medium_path, low_path] >> merge
+    quality_check &gt;&gt; [high_path, medium_path, low_path] &gt;&gt; merge
 
 branching_dag = branching_workflow()
 
@@ -516,7 +565,7 @@ class DataQualityOperator(BaseOperator):
         self.log.info("All quality checks passed")
         return True
     
-    def _run_check(self, sql: str) -> Any:
+    def _run_check(self, sql: str) -&gt; Any:
         """Run a single quality check."""
         # Simulate SQL execution
         import random
@@ -528,7 +577,7 @@ class AirflowConfig:
     """Centralized configuration for Airflow DAGs."""
     
     @staticmethod
-    def get_config(key: str, default: Any = None) -> Any:
+    def get_config(key: str, default: Any = None) -&gt; Any:
         """Get configuration value."""
         try:
             # Try to get from Airflow Variables
@@ -538,13 +587,13 @@ class AirflowConfig:
             return os.environ.get(key, default)
     
     @staticmethod
-    def get_connection_string(conn_id: str) -> str:
+    def get_connection_string(conn_id: str) -&gt; str:
         """Get connection string for database."""
         # In production, use Airflow Connections
         return f"postgresql://user:pass@localhost:5432/{conn_id}"
     
     @staticmethod
-    def get_email_config() -> Dict[str, Any]:
+    def get_email_config() -&gt; Dict[str, Any]:
         """Get email configuration."""
         return {
             'to': Variable.get('alert_emails', default_var=['admin@example.com']),
@@ -555,7 +604,7 @@ class AirflowConfig:
 
 # ==================== Monitoring and Alerting ====================
 
-def create_monitoring_dag() -> DAG:
+def create_monitoring_dag() -&gt; DAG:
     """Create a DAG for monitoring other DAGs."""
     
     dag = DAG(
@@ -621,7 +670,7 @@ def create_monitoring_dag() -> DAG:
             trigger_rule=TriggerRule.ONE_SUCCESS,
         )
         
-        check_status >> [send_alert, all_healthy]
+        check_status &gt;&gt; [send_alert, all_healthy]
     
     return dag
 
@@ -642,7 +691,7 @@ def best_practices_dag():
     """DAG demonstrating Airflow best practices."""
     
     @task(retries=3, retry_delay=timedelta(minutes=2))
-    def idempotent_task(date: str) -> Dict[str, Any]:
+    def idempotent_task(date: str) -&gt; Dict[str, Any]:
         """
         Idempotent task - can be safely retried.
         Always produces same result for same input.
@@ -669,7 +718,7 @@ def best_practices_dag():
         return result
     
     @task
-    def atomic_operation(data: Dict[str, Any]) -> bool:
+    def atomic_operation(data: Dict[str, Any]) -&gt; bool:
         """
         Atomic operation - either fully completes or fully fails.
         No partial state left behind.
@@ -700,7 +749,7 @@ def best_practices_dag():
         return True
     
     @task(pool='limited_resources', pool_slots=1)
-    def resource_limited_task(data: Dict[str, Any]) -> Dict[str, Any]:
+    def resource_limited_task(data: Dict[str, Any]) -&gt; Dict[str, Any]:
         """
         Task with resource limitations.
         Uses Airflow pools to limit concurrent execution.
@@ -743,13 +792,13 @@ def best_practices_dag():
     cleanup = cleanup_task()
     cleanup.trigger_rule = TriggerRule.ALL_DONE
     
-    [atomic_result, limited_result] >> cleanup
+    [atomic_result, limited_result] &gt;&gt; cleanup
 
 best_practices = best_practices_dag()
 
 # ==================== Helper Functions ====================
 
-def check_if_processed(key: str) -> Optional[Dict[str, Any]]:
+def check_if_processed(key: str) -&gt; Optional[Dict[str, Any]]:
     """Check if data has already been processed."""
     # In production, check database or cache
     # This is a simplified example
@@ -893,38 +942,29 @@ if __name__ == "__main__":
         print(f"   {cmd}")
     
     print("\n✅ Apache Airflow basics demonstration complete!")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Idempotent Tasks:</strong> Design tasks that can be safely retried without side effects.</li>
-        
-        <li><strong>Atomic Operations:</strong> Ensure tasks either fully complete or fully fail.</li>
-        
-        <li><strong>Small, Focused Tasks:</strong> Keep tasks simple and single-purpose.</li>
-        
-        <li><strong>Proper Dependencies:</strong> Define clear task dependencies and use appropriate trigger rules.</li>
-        
-        <li><strong>Error Handling:</strong> Configure retries and implement proper error handling.</li>
-        
-        <li><strong>Resource Management:</strong> Use pools to limit concurrent resource usage.</li>
-        
-        <li><strong>XCom Wisely:</strong> Don't store large data in XCom, use external storage.</li>
-        
-        <li><strong>Documentation:</strong> Document DAGs, tasks, and their purposes clearly.</li>
-    </ul>
-
-    <h3>Apache Airflow Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of Airflow as the conductor of your data orchestra - it doesn't play the instruments (run the actual processing) but ensures everyone plays at the right time. Always design tasks to be idempotent - they should produce the same result when run multiple times with the same input. This makes retries safe and debugging easier. Keep tasks atomic - use transactions, temporary files with atomic rename, or two-phase commits. Use static start_dates (not datetime.now()) to ensure consistent scheduling. Leverage XCom for small data passing between tasks, but use external storage (S3, database) for large datasets. Set appropriate retry policies - not all tasks should retry the same way. Use pools to limit concurrent access to resources like database connections. Implement proper monitoring with SLAs and alerts. Use task groups to organize related tasks visually. Test tasks individually using 'airflow tasks test' before running the full DAG. Version control your DAGs and use CI/CD for deployment. Remember that DAG files are parsed frequently - avoid heavy computation at the module level. Most importantly: treat your DAGs as production code with proper testing, documentation, and code review!</p>
-    </div>
-    
-    <p>Mastering Apache Airflow basics provides the foundation for building robust, scalable workflow orchestration. You can now create DAGs with complex dependencies, use various operators for different tasks, implement branching and dynamic workflows, handle errors with retries and alerts, and monitor pipeline execution effectively. Whether you're building ETL pipelines, orchestrating ML workflows, or automating business processes, Airflow provides the tools for reliable task orchestration at scale! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="task_orchestration_creating_dags.html">Creating DAGs - Design Complex Workflows with Code!</a></p>
-    </footer>
+</date></task_id></dag_id></dag_id></dag_id></dag_id></dag_id></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Idempotent Tasks:</strong> Design tasks that can be safely retried without side effects.</li>
+<li><strong>Atomic Operations:</strong> Ensure tasks either fully complete or fully fail.</li>
+<li><strong>Small, Focused Tasks:</strong> Keep tasks simple and single-purpose.</li>
+<li><strong>Proper Dependencies:</strong> Define clear task dependencies and use appropriate trigger rules.</li>
+<li><strong>Error Handling:</strong> Configure retries and implement proper error handling.</li>
+<li><strong>Resource Management:</strong> Use pools to limit concurrent resource usage.</li>
+<li><strong>XCom Wisely:</strong> Don't store large data in XCom, use external storage.</li>
+<li><strong>Documentation:</strong> Document DAGs, tasks, and their purposes clearly.</li>
+</ul>
+<h3>Apache Airflow Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of Airflow as the conductor of your data orchestra - it doesn't play the instruments (run the actual processing) but ensures everyone plays at the right time. Always design tasks to be idempotent - they should produce the same result when run multiple times with the same input. This makes retries safe and debugging easier. Keep tasks atomic - use transactions, temporary files with atomic rename, or two-phase commits. Use static start_dates (not datetime.now()) to ensure consistent scheduling. Leverage XCom for small data passing between tasks, but use external storage (S3, database) for large datasets. Set appropriate retry policies - not all tasks should retry the same way. Use pools to limit concurrent access to resources like database connections. Implement proper monitoring with SLAs and alerts. Use task groups to organize related tasks visually. Test tasks individually using 'airflow tasks test' before running the full DAG. Version control your DAGs and use CI/CD for deployment. Remember that DAG files are parsed frequently - avoid heavy computation at the module level. Most importantly: treat your DAGs as production code with proper testing, documentation, and code review!</p>
+</div>
+<p>Mastering Apache Airflow basics provides the foundation for building robust, scalable workflow orchestration. You can now create DAGs with complex dependencies, use various operators for different tasks, implement branching and dynamic workflows, handle errors with retries and alerts, and monitor pipeline execution effectively. Whether you're building ETL pipelines, orchestrating ML workflows, or automating business processes, Airflow provides the tools for reliable task orchestration at scale! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="cloud_automation_deploying.html">← Previous: Deployment Automation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="task_orchestration_creating_dags.html">Next: Creating DAGs →</a>
+</div>
+</footer>
 </body>
 </html>

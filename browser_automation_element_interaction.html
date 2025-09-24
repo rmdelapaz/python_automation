@@ -1,55 +1,107 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Element Interaction - Python Browser Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Element Interaction - Python Browser Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🎯 Element Interaction: Master the Art of Web Element Control</h1>
-    
-    <p>Element interaction is the heart of browser automation - it's how your code clicks buttons, fills forms, reads text, and navigates websites just like a human would. Think of it as learning to play a complex instrument where each element type requires a different technique. From simple clicks to complex drag-and-drop operations, mastering element interaction transforms you from a browser observer to a browser conductor! 🎭</p>
-
-    <h2>The Element Interaction Framework</h2>
-    
-    <p>Web elements are like actors on a stage - each has its role, properties, and ways to interact with them. Some need a gentle click, others require text input, and some demand complex gestures. Understanding how to find, wait for, and interact with these elements reliably is what separates amateur scripts from professional automation!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module3">Browser Automation</a> &gt; 
+        <span>Element Interaction</span>
+</nav>
+<h1>🎯 Element Interaction: Master the Art of Web Element Control</h1>
+<p>Element interaction is the heart of browser automation - it's how your code clicks buttons, fills forms, reads text, and navigates websites just like a human would. Think of it as learning to play a complex instrument where each element type requires a different technique. From simple clicks to complex drag-and-drop operations, mastering element interaction transforms you from a browser observer to a browser conductor! 🎭</p>
+<h2>The Element Interaction Framework</h2>
+<p>Web elements are like actors on a stage - each has its role, properties, and ways to interact with them. Some need a gentle click, others require text input, and some demand complex gestures. Understanding how to find, wait for, and interact with these elements reliably is what separates amateur scripts from professional automation!</p>
+<div class="mermaid">
     graph TB
-        A[Element Interaction] --> B[Element Location]
-        A --> C[Basic Actions]
-        A --> D[Advanced Actions]
-        A --> E[Element State]
+        A[Element Interaction] --&gt; B[Element Location]
+        A --&gt; C[Basic Actions]
+        A --&gt; D[Advanced Actions]
+        A --&gt; E[Element State]
         
-        B --> F[By ID/Name]
-        B --> G[By CSS Selector]
-        B --> H[By XPath]
-        B --> I[By Link Text]
+        B --&gt; F[By ID/Name]
+        B --&gt; G[By CSS Selector]
+        B --&gt; H[By XPath]
+        B --&gt; I[By Link Text]
         
-        C --> J[Click]
-        C --> K[Send Keys]
-        C --> L[Clear]
-        C --> M[Submit]
+        C --&gt; J[Click]
+        C --&gt; K[Send Keys]
+        C --&gt; L[Clear]
+        C --&gt; M[Submit]
         
-        D --> N[Drag & Drop]
-        D --> O[Hover]
-        D --> P[Double Click]
-        D --> Q[Context Menu]
+        D --&gt; N[Drag &amp; Drop]
+        D --&gt; O[Hover]
+        D --&gt; P[Double Click]
+        D --&gt; Q[Context Menu]
         
-        E --> R[Visibility]
-        E --> S[Enabled State]
-        E --> T[Selected State]
-        E --> U[Element Properties]
+        E --&gt; R[Visibility]
+        E --&gt; S[Enabled State]
+        E --&gt; T[Selected State]
+        E --&gt; U[Element Properties]
         
-        V[Action Chains] --> W[Mouse Actions]
-        V --> X[Keyboard Actions]
-        V --> Y[Touch Actions]
+        V[Action Chains] --&gt; W[Mouse Actions]
+        V --&gt; X[Keyboard Actions]
+        V --&gt; Y[Touch Actions]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -57,12 +109,9 @@
         style D fill:#ffd43b
         style V fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The Universal Form Filler 📝</h3>
-    
-    <p>You're building an intelligent form automation system that can handle any web form - from simple contact forms to complex multi-step wizards with dynamic fields, file uploads, date pickers, dropdowns, and custom widgets. Your system must handle element timing, JavaScript-rendered elements, shadow DOM, iframes, and recover from stale element exceptions. Let's build a bulletproof element interaction system!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Universal Form Filler 📝</h3>
+<p>You're building an intelligent form automation system that can handle any web form - from simple contact forms to complex multi-step wizards with dynamic fields, file uploads, date pickers, dropdowns, and custom widgets. Your system must handle element timing, JavaScript-rendered elements, shadow DOM, iframes, and recover from stale element exceptions. Let's build a bulletproof element interaction system!</p>
+<pre><code># First, install required packages:
 # pip install selenium webdriver-manager pillow opencv-python
 
 import time
@@ -113,7 +162,7 @@ class Locator:
     value: str
     description: Optional[str] = None
     
-    def to_selenium(self) -> Tuple[str, str]:
+    def to_selenium(self) -&gt; Tuple[str, str]:
         """Convert to Selenium locator tuple."""
         return (self.strategy.value, self.value)
 
@@ -130,7 +179,7 @@ class SmartElementFinder:
         self.logger = logging.getLogger(__name__)
     
     def find_element(self, locator: Union[Locator, Tuple[str, str]], 
-                    timeout: Optional[int] = None) -> Optional[WebElement]:
+                    timeout: Optional[int] = None) -&gt; Optional[WebElement]:
         """
         Find element with intelligent retry and fallback strategies.
         """
@@ -149,7 +198,7 @@ class SmartElementFinder:
             return self._try_alternative_strategies(locator)
     
     def find_elements(self, locator: Union[Locator, Tuple[str, str]], 
-                     timeout: Optional[int] = None) -> List[WebElement]:
+                     timeout: Optional[int] = None) -&gt; List[WebElement]:
         """Find multiple elements."""
         if isinstance(locator, Locator):
             locator = locator.to_selenium()
@@ -163,7 +212,7 @@ class SmartElementFinder:
             return []
     
     def find_clickable_element(self, locator: Union[Locator, Tuple[str, str]], 
-                               timeout: Optional[int] = None) -> Optional[WebElement]:
+                               timeout: Optional[int] = None) -&gt; Optional[WebElement]:
         """Find element that is clickable."""
         if isinstance(locator, Locator):
             locator = locator.to_selenium()
@@ -176,7 +225,7 @@ class SmartElementFinder:
             return None
     
     def find_visible_element(self, locator: Union[Locator, Tuple[str, str]], 
-                            timeout: Optional[int] = None) -> Optional[WebElement]:
+                            timeout: Optional[int] = None) -&gt; Optional[WebElement]:
         """Find element that is visible."""
         if isinstance(locator, Locator):
             locator = locator.to_selenium()
@@ -188,7 +237,7 @@ class SmartElementFinder:
         except TimeoutException:
             return None
     
-    def _try_alternative_strategies(self, locator: Tuple[str, str]) -> Optional[WebElement]:
+    def _try_alternative_strategies(self, locator: Tuple[str, str]) -&gt; Optional[WebElement]:
         """Try alternative finding strategies."""
         strategy, value = locator
         
@@ -216,7 +265,7 @@ class SmartElementFinder:
         
         return None
     
-    def _search_in_iframes(self, locator: Tuple[str, str]) -> Optional[WebElement]:
+    def _search_in_iframes(self, locator: Tuple[str, str]) -&gt; Optional[WebElement]:
         """Search for element in all iframes."""
         main_window = self.driver.current_window_handle
         
@@ -245,7 +294,7 @@ class SmartElementFinder:
         
         return None
     
-    def _search_shadow_dom(self, css_selector: str) -> Optional[WebElement]:
+    def _search_shadow_dom(self, css_selector: str) -&gt; Optional[WebElement]:
         """Search for element in shadow DOM."""
         script = """
         function findInShadowDom(selector) {
@@ -262,7 +311,7 @@ class SmartElementFinder:
                 }
                 
                 // Traverse regular children
-                node.querySelectorAll('*').forEach(child => {
+                node.querySelectorAll('*').forEach(child =&gt; {
                     if (child.shadowRoot) {
                         traverse(child);
                     }
@@ -295,7 +344,7 @@ class ElementInteractor:
         self.logger = logging.getLogger(__name__)
     
     def click(self, locator: Union[Locator, WebElement, Tuple[str, str]], 
-              retry: int = 3, js_click: bool = False) -> bool:
+              retry: int = 3, js_click: bool = False) -&gt; bool:
         """
         Click element with multiple strategies.
         """
@@ -340,7 +389,7 @@ class ElementInteractor:
         return False
     
     def send_keys(self, locator: Union[Locator, WebElement, Tuple[str, str]], 
-                  text: str, clear_first: bool = True, human_like: bool = False) -> bool:
+                  text: str, clear_first: bool = True, human_like: bool = False) -&gt; bool:
         """
         Send keys to element.
         """
@@ -374,7 +423,7 @@ class ElementInteractor:
     
     def select_dropdown(self, locator: Union[Locator, WebElement, Tuple[str, str]], 
                        value: Optional[str] = None, text: Optional[str] = None, 
-                       index: Optional[int] = None) -> bool:
+                       index: Optional[int] = None) -&gt; bool:
         """
         Select dropdown option.
         """
@@ -402,7 +451,7 @@ class ElementInteractor:
             return False
     
     def checkbox(self, locator: Union[Locator, WebElement, Tuple[str, str]], 
-                 check: bool = True) -> bool:
+                 check: bool = True) -&gt; bool:
         """
         Check or uncheck checkbox.
         """
@@ -423,7 +472,7 @@ class ElementInteractor:
             self.logger.error(f"Failed to handle checkbox: {e}")
             return False
     
-    def radio_button(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+    def radio_button(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Select radio button.
         """
@@ -443,7 +492,7 @@ class ElementInteractor:
             return False
     
     def upload_file(self, locator: Union[Locator, WebElement, Tuple[str, str]], 
-                    file_path: str) -> bool:
+                    file_path: str) -&gt; bool:
         """
         Upload file to file input.
         """
@@ -474,7 +523,7 @@ class ElementInteractor:
             return False
     
     def drag_and_drop(self, source: Union[Locator, WebElement, Tuple[str, str]], 
-                      target: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+                      target: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Drag and drop element.
         """
@@ -542,7 +591,7 @@ class ElementInteractor:
         
         self.driver.execute_script(script, source, target)
     
-    def hover(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+    def hover(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Hover over element.
         """
@@ -559,7 +608,7 @@ class ElementInteractor:
             self.logger.error(f"Failed to hover: {e}")
             return False
     
-    def double_click(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+    def double_click(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Double click element.
         """
@@ -576,7 +625,7 @@ class ElementInteractor:
             self.logger.error(f"Failed to double click: {e}")
             return False
     
-    def right_click(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+    def right_click(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Right click (context menu) on element.
         """
@@ -594,7 +643,7 @@ class ElementInteractor:
             return False
     
     def scroll_to_element(self, element: Union[Locator, WebElement, Tuple[str, str]], 
-                         align: str = "center") -> bool:
+                         align: str = "center") -&gt; bool:
         """
         Scroll element into view.
         
@@ -618,7 +667,7 @@ class ElementInteractor:
             self.logger.error(f"Failed to scroll to element: {e}")
             return False
     
-    def get_text(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> Optional[str]:
+    def get_text(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; Optional[str]:
         """
         Get element text.
         """
@@ -639,7 +688,7 @@ class ElementInteractor:
                 text = element.get_attribute("innerHTML")
                 # Clean HTML if needed
                 import re
-                text = re.sub(r'<[^>]+>', '', text)
+                text = re.sub(r'&lt;[^&gt;]+&gt;', '', text)
             
             return text.strip() if text else ""
             
@@ -648,7 +697,7 @@ class ElementInteractor:
             return None
     
     def get_attribute(self, locator: Union[Locator, WebElement, Tuple[str, str]], 
-                      attribute: str) -> Optional[str]:
+                      attribute: str) -&gt; Optional[str]:
         """
         Get element attribute value.
         """
@@ -662,7 +711,7 @@ class ElementInteractor:
             self.logger.error(f"Failed to get attribute: {e}")
             return None
     
-    def is_visible(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+    def is_visible(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Check if element is visible.
         """
@@ -675,7 +724,7 @@ class ElementInteractor:
         except:
             return False
     
-    def is_enabled(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+    def is_enabled(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Check if element is enabled.
         """
@@ -688,7 +737,7 @@ class ElementInteractor:
         except:
             return False
     
-    def is_selected(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> bool:
+    def is_selected(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; bool:
         """
         Check if element is selected.
         """
@@ -702,7 +751,7 @@ class ElementInteractor:
             return False
     
     def wait_for_element(self, locator: Union[Locator, Tuple[str, str]], 
-                        timeout: int = 10, condition: str = "presence") -> Optional[WebElement]:
+                        timeout: int = 10, condition: str = "presence") -&gt; Optional[WebElement]:
         """
         Wait for element with specific condition.
         
@@ -731,7 +780,7 @@ class ElementInteractor:
             self.logger.warning(f"Element not found with condition: {condition}")
             return None
     
-    def _get_element(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -> Optional[WebElement]:
+    def _get_element(self, locator: Union[Locator, WebElement, Tuple[str, str]]) -&gt; Optional[WebElement]:
         """Get element from various input types."""
         if isinstance(locator, WebElement):
             return locator
@@ -754,7 +803,7 @@ class FormHandler:
         self.logger = logging.getLogger(__name__)
     
     def fill_form(self, form_data: Dict[str, Any], 
-                  submit: bool = True) -> bool:
+                  submit: bool = True) -&gt; bool:
         """
         Fill form with data dictionary.
         
@@ -774,7 +823,7 @@ class FormHandler:
         
         return success
     
-    def _fill_field(self, field_name: str, value: Any) -> bool:
+    def _fill_field(self, field_name: str, value: Any) -&gt; bool:
         """Fill a single form field."""
         # Try multiple strategies to find the field
         strategies = [
@@ -793,7 +842,7 @@ class FormHandler:
         
         return False
     
-    def _fill_element(self, element: WebElement, value: Any) -> bool:
+    def _fill_element(self, element: WebElement, value: Any) -&gt; bool:
         """Fill element based on its type."""
         try:
             tag_name = element.tag_name.lower()
@@ -835,7 +884,7 @@ class FormHandler:
             self.logger.error(f"Failed to fill element: {e}")
             return False
     
-    def _submit_form(self) -> bool:
+    def _submit_form(self) -&gt; bool:
         """Submit the form."""
         # Try multiple strategies to find submit button
         submit_strategies = [
@@ -873,7 +922,7 @@ class TableHandler:
         self.finder = SmartElementFinder(driver)
         self.logger = logging.getLogger(__name__)
     
-    def get_table_data(self, table_locator: Union[Locator, Tuple[str, str]]) -> List[Dict[str, str]]:
+    def get_table_data(self, table_locator: Union[Locator, Tuple[str, str]]) -&gt; List[Dict[str, str]]:
         """
         Extract data from HTML table.
         
@@ -905,7 +954,7 @@ class TableHandler:
             if len(cells) == len(headers) and cells != header_elements:
                 row_data = {}
                 for i, cell in enumerate(cells):
-                    if i < len(headers):
+                    if i &lt; len(headers):
                         row_data[headers[i]] = cell.text.strip()
                 
                 if row_data:
@@ -914,7 +963,7 @@ class TableHandler:
         return data
     
     def click_row_by_text(self, table_locator: Union[Locator, Tuple[str, str]], 
-                         text: str, column: Optional[str] = None) -> bool:
+                         text: str, column: Optional[str] = None) -&gt; bool:
         """
         Click table row containing specific text.
         """
@@ -932,7 +981,7 @@ class TableHandler:
                     col_index = headers.index(column)
                     cells = row.find_elements(By.CSS_SELECTOR, "td")
                     
-                    if col_index < len(cells) and text in cells[col_index].text:
+                    if col_index &lt; len(cells) and text in cells[col_index].text:
                         cells[col_index].click()
                         return True
             else:
@@ -943,7 +992,7 @@ class TableHandler:
         
         return False
     
-    def _get_headers(self, table: WebElement) -> List[str]:
+    def _get_headers(self, table: WebElement) -&gt; List[str]:
         """Get table headers."""
         headers = []
         header_elements = table.find_elements(By.CSS_SELECTOR, "thead th, thead td")
@@ -973,7 +1022,7 @@ if __name__ == "__main__":
             ("ID", "element_id"),
             ("Name", "element_name"),
             ("Class", ".class-name"),
-            ("CSS Selector", "div.container > p:first-child"),
+            ("CSS Selector", "div.container &gt; p:first-child"),
             ("XPath", "//div[@class='content']//button[text()='Submit']"),
             ("Link Text", "Click here"),
             ("Tag Name", "button")
@@ -1077,7 +1126,7 @@ if __name__ == "__main__":
             print(f"   • {case}")
         
         # Example 8: Error handling
-        print("\n8️⃣ Common Errors & Solutions:")
+        print("\n8️⃣ Common Errors &amp; Solutions:")
         
         errors = [
             ("NoSuchElementException", "Element not found - Check locator"),
@@ -1130,37 +1179,28 @@ if __name__ == "__main__":
     
     print("\n✅ Element interaction demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Stable Locators:</strong> Prefer IDs and unique attributes over positions.</li>
-        
-        <li><strong>Implement Smart Waiting:</strong> Use explicit waits for specific conditions.</li>
-        
-        <li><strong>Handle Exceptions Gracefully:</strong> Expect and handle StaleElement and other errors.</li>
-        
-        <li><strong>Scroll Before Interaction:</strong> Ensure elements are in viewport.</li>
-        
-        <li><strong>Use JavaScript Fallbacks:</strong> When standard methods fail, try JS execution.</li>
-        
-        <li><strong>Verify Element State:</strong> Check if element is enabled/visible before interaction.</li>
-        
-        <li><strong>Log Everything:</strong> Track all interactions for debugging.</li>
-        
-        <li><strong>Test Incrementally:</strong> Verify each step works before chaining actions.</li>
-    </ul>
-
-    <h3>Element Interaction Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Element interaction is like learning to dance - timing, precision, and adaptability are key. Always verify element state before interaction - a present element isn't necessarily clickable. Use CSS selectors for speed, XPath for complex relationships. Handle StaleElementReferenceException by re-finding elements - the DOM changes constantly. When clicks fail due to overlays, try JavaScript clicks or scroll the element into view. For forms, map field types to appropriate interaction methods. Implement retry logic with exponential backoff for flaky elements. Use ActionChains for complex gestures like drag-and-drop. Always test your locators in the browser console first ($ for CSS, $x for XPath). Most importantly: what works today might break tomorrow as websites change, so build your interactions to be maintainable and debuggable!</p>
-    </div>
-    
-    <p>Mastering element interaction transforms you from someone who can find elements to someone who can orchestrate complex web interactions. You now have the tools to handle any form, navigate any interface, and interact with even the most challenging web elements. Whether you're automating tests, filling forms, or extracting data, these skills ensure reliable and maintainable browser automation! 🎪</p>
-    
-    <footer>
-        <p>Next up: <a href="browser_automation_waiting_strategies.html">Waiting Strategies - Master the Art of Timing!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Stable Locators:</strong> Prefer IDs and unique attributes over positions.</li>
+<li><strong>Implement Smart Waiting:</strong> Use explicit waits for specific conditions.</li>
+<li><strong>Handle Exceptions Gracefully:</strong> Expect and handle StaleElement and other errors.</li>
+<li><strong>Scroll Before Interaction:</strong> Ensure elements are in viewport.</li>
+<li><strong>Use JavaScript Fallbacks:</strong> When standard methods fail, try JS execution.</li>
+<li><strong>Verify Element State:</strong> Check if element is enabled/visible before interaction.</li>
+<li><strong>Log Everything:</strong> Track all interactions for debugging.</li>
+<li><strong>Test Incrementally:</strong> Verify each step works before chaining actions.</li>
+</ul>
+<h3>Element Interaction Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Element interaction is like learning to dance - timing, precision, and adaptability are key. Always verify element state before interaction - a present element isn't necessarily clickable. Use CSS selectors for speed, XPath for complex relationships. Handle StaleElementReferenceException by re-finding elements - the DOM changes constantly. When clicks fail due to overlays, try JavaScript clicks or scroll the element into view. For forms, map field types to appropriate interaction methods. Implement retry logic with exponential backoff for flaky elements. Use ActionChains for complex gestures like drag-and-drop. Always test your locators in the browser console first ($ for CSS, $x for XPath). Most importantly: what works today might break tomorrow as websites change, so build your interactions to be maintainable and debuggable!</p>
+</div>
+<p>Mastering element interaction transforms you from someone who can find elements to someone who can orchestrate complex web interactions. You now have the tools to handle any form, navigate any interface, and interact with even the most challenging web elements. Whether you're automating tests, filling forms, or extracting data, these skills ensure reliable and maintainable browser automation! 🎪</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="browser_automation_webdriver_setup.html">← Previous: WebDriver Setup</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="browser_automation_waiting_strategies.html">Next: Waiting Strategies →</a>
+</div>
+</footer>
 </body>
 </html>

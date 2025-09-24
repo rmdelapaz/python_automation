@@ -1,55 +1,107 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Monitoring - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>System Monitoring - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>📊 System Monitoring: Build Your Own Monitoring Dashboard</h1>
-    
-    <p>Imagine having X-ray vision for your computer systems - seeing every process, every byte of memory, every network packet, and every disk operation in real-time. System monitoring transforms you from a reactive firefighter to a proactive system architect. Let's build monitoring tools that would make enterprise solutions jealous! 🔍</p>
-
-    <h2>The Complete Monitoring Architecture</h2>
-    
-    <p>Think of system monitoring as your digital nervous system. Sensors (metrics collectors) continuously gather data, the brain (analysis engine) processes it, and the nervous system (alerting) responds to threats. Just like a Formula 1 pit crew monitors every aspect of a race car, we'll monitor every aspect of our systems!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module10">System Administration</a> &gt; 
+        <span>System Monitoring</span>
+</nav>
+<h1>📊 System Monitoring: Build Your Own Monitoring Dashboard</h1>
+<p>Imagine having X-ray vision for your computer systems - seeing every process, every byte of memory, every network packet, and every disk operation in real-time. System monitoring transforms you from a reactive firefighter to a proactive system architect. Let's build monitoring tools that would make enterprise solutions jealous! 🔍</p>
+<h2>The Complete Monitoring Architecture</h2>
+<p>Think of system monitoring as your digital nervous system. Sensors (metrics collectors) continuously gather data, the brain (analysis engine) processes it, and the nervous system (alerting) responds to threats. Just like a Formula 1 pit crew monitors every aspect of a race car, we'll monitor every aspect of our systems!</p>
+<div class="mermaid">
     graph TB
-        A[System Monitoring] --> B[Metrics Collection]
-        A --> C[Data Processing]
-        A --> D[Visualization]
-        A --> E[Alerting]
-        A --> F[Historical Analysis]
+        A[System Monitoring] --&gt; B[Metrics Collection]
+        A --&gt; C[Data Processing]
+        A --&gt; D[Visualization]
+        A --&gt; E[Alerting]
+        A --&gt; F[Historical Analysis]
         
-        B --> G[CPU Metrics]
-        B --> H[Memory Metrics]
-        B --> I[Disk Metrics]
-        B --> J[Network Metrics]
-        B --> K[Process Metrics]
-        B --> L[Custom Metrics]
+        B --&gt; G[CPU Metrics]
+        B --&gt; H[Memory Metrics]
+        B --&gt; I[Disk Metrics]
+        B --&gt; J[Network Metrics]
+        B --&gt; K[Process Metrics]
+        B --&gt; L[Custom Metrics]
         
-        C --> M[Aggregation]
-        C --> N[Anomaly Detection]
-        C --> O[Correlation]
+        C --&gt; M[Aggregation]
+        C --&gt; N[Anomaly Detection]
+        C --&gt; O[Correlation]
         
-        D --> P[Real-time Dashboards]
-        D --> Q[Graphs & Charts]
-        D --> R[Heatmaps]
+        D --&gt; P[Real-time Dashboards]
+        D --&gt; Q[Graphs &amp; Charts]
+        D --&gt; R[Heatmaps]
         
-        E --> S[Threshold Alerts]
-        E --> T[Predictive Alerts]
-        E --> U[Multi-channel Notifications]
+        E --&gt; S[Threshold Alerts]
+        E --&gt; T[Predictive Alerts]
+        E --&gt; U[Multi-channel Notifications]
         
-        F --> V[Trend Analysis]
-        F --> W[Capacity Planning]
-        F --> X[Performance Baselines]
+        F --&gt; V[Trend Analysis]
+        F --&gt; W[Capacity Planning]
+        F --&gt; X[Performance Baselines]
         
         style A fill:#ff6b6b
         style G fill:#51cf66
@@ -58,12 +110,9 @@
         style S fill:#51cf66
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The DevOps Command Center 🎮</h3>
-    
-    <p>You're responsible for a distributed application running on 50 servers. You need to monitor system health, detect anomalies before they become outages, predict capacity needs, and provide real-time dashboards to stakeholders. Let's build a monitoring system that rivals commercial solutions!</p>
-
-    <pre><code>import psutil
+<h3>Real-World Scenario: The DevOps Command Center 🎮</h3>
+<p>You're responsible for a distributed application running on 50 servers. You need to monitor system health, detect anomalies before they become outages, predict capacity needs, and provide real-time dashboards to stakeholders. Let's build a monitoring system that rivals commercial solutions!</p>
+<pre><code>import psutil
 import platform
 import socket
 import time
@@ -145,7 +194,7 @@ class SystemMonitor:
         self.current_metrics = {}
         self.metrics_history = defaultdict(lambda: deque(maxlen=1000))
         
-    def get_default_config(self) -> Dict:
+    def get_default_config(self) -&gt; Dict:
         """Get default monitoring configuration."""
         return {
             'collection_interval': 5,  # seconds
@@ -341,7 +390,7 @@ class SystemMonitor:
     def _detect_anomalies(self):
         """Detect anomalies in metrics."""
         for metric_name, history in self.metrics_history.items():
-            if len(history) < 20:  # Need enough data
+            if len(history) &lt; 20:  # Need enough data
                 continue
             
             values = [v for _, v in history]
@@ -374,12 +423,12 @@ class SystemMonitor:
         cursor = conn.cursor()
         
         cursor.execute(
-            "DELETE FROM metrics WHERE timestamp < ?",
+            "DELETE FROM metrics WHERE timestamp &lt; ?",
             (cutoff_date,)
         )
         
         cursor.execute(
-            "DELETE FROM alerts WHERE timestamp < ? AND resolved = TRUE",
+            "DELETE FROM alerts WHERE timestamp &lt; ? AND resolved = TRUE",
             (cutoff_date,)
         )
         
@@ -405,7 +454,7 @@ class SystemMonitor:
             except Exception as e:
                 self.logger.error(f"Error checking alert {alert.name}: {e}")
     
-    def _evaluate_alert_condition(self, alert: Alert) -> bool:
+    def _evaluate_alert_condition(self, alert: Alert) -&gt; bool:
         """Evaluate if alert condition is met."""
         # Get metric value
         metric = self.current_metrics.get(alert.condition)
@@ -413,10 +462,10 @@ class SystemMonitor:
             return False
         
         # Check threshold
-        if alert.condition.startswith('>'):
-            return metric.value > alert.threshold
-        elif alert.condition.startswith('<'):
-            return metric.value < alert.threshold
+        if alert.condition.startswith('&gt;'):
+            return metric.value &gt; alert.threshold
+        elif alert.condition.startswith('&lt;'):
+            return metric.value &lt; alert.threshold
         elif alert.condition.startswith('=='):
             return metric.value == alert.threshold
         
@@ -454,13 +503,13 @@ class SystemMonitor:
         # Send notifications
         self._send_alert_notifications(alert_data)
     
-    def _check_alert_cooldown(self, alert_name: str) -> bool:
+    def _check_alert_cooldown(self, alert_name: str) -&gt; bool:
         """Check if alert is in cooldown period."""
         # Find last alert with same name
         for alert in reversed(self.alert_history):
             if alert['name'] == alert_name:
                 time_diff = (datetime.now() - alert['timestamp']).seconds
-                if time_diff < 300:  # 5 minute cooldown
+                if time_diff &lt; 300:  # 5 minute cooldown
                     return True
         return False
     
@@ -484,7 +533,7 @@ class SystemMonitor:
         # Implement webhook sending
         pass
     
-    def get_current_metrics(self) -> Dict:
+    def get_current_metrics(self) -&gt; Dict:
         """Get current metric values."""
         return {
             name: {
@@ -496,7 +545,7 @@ class SystemMonitor:
         }
     
     def get_metric_history(self, metric_name: str, 
-                          hours: int = 1) -> List[Tuple]:
+                          hours: int = 1) -&gt; List[Tuple]:
         """Get metric history."""
         cutoff = datetime.now() - timedelta(hours=hours)
         
@@ -505,7 +554,7 @@ class SystemMonitor:
         
         cursor.execute(
             '''SELECT timestamp, value FROM metrics
-               WHERE name = ? AND timestamp > ?
+               WHERE name = ? AND timestamp &gt; ?
                ORDER BY timestamp''',
             (metric_name, cutoff)
         )
@@ -518,7 +567,7 @@ class SystemMonitor:
 class SystemMetricsCollector:
     """Collect system-wide metrics."""
     
-    def collect(self) -> List[Metric]:
+    def collect(self) -&gt; List[Metric]:
         """Collect system metrics."""
         metrics = []
         timestamp = datetime.now()
@@ -641,7 +690,7 @@ class SystemMetricsCollector:
 class ProcessMetricsCollector:
     """Collect process-related metrics."""
     
-    def collect(self) -> List[Metric]:
+    def collect(self) -&gt; List[Metric]:
         """Collect process metrics."""
         metrics = []
         timestamp = datetime.now()
@@ -676,7 +725,7 @@ class ProcessMetricsCollector:
         top_cpu = []
         for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):
             try:
-                if proc.info['cpu_percent'] > 0:
+                if proc.info['cpu_percent'] &gt; 0:
                     top_cpu.append((
                         proc.info['name'],
                         proc.info['cpu_percent']
@@ -705,7 +754,7 @@ class NetworkMetricsCollector:
         self.last_io = None
         self.last_time = None
     
-    def collect(self) -> List[Metric]:
+    def collect(self) -&gt; List[Metric]:
         """Collect network metrics."""
         metrics = []
         timestamp = datetime.now()
@@ -717,7 +766,7 @@ class NetworkMetricsCollector:
         if self.last_io and self.last_time:
             time_delta = (timestamp - self.last_time).total_seconds()
             
-            if time_delta > 0:
+            if time_delta &gt; 0:
                 bytes_sent_rate = (net_io.bytes_sent - self.last_io.bytes_sent) / time_delta
                 bytes_recv_rate = (net_io.bytes_recv - self.last_io.bytes_recv) / time_delta
                 packets_sent_rate = (net_io.packets_sent - self.last_io.packets_sent) / time_delta
@@ -802,7 +851,7 @@ class DiskMetricsCollector:
         self.last_io = None
         self.last_time = None
     
-    def collect(self) -> List[Metric]:
+    def collect(self) -&gt; List[Metric]:
         """Collect disk metrics."""
         metrics = []
         timestamp = datetime.now()
@@ -849,7 +898,7 @@ class DiskMetricsCollector:
             if self.last_io and self.last_time:
                 time_delta = (timestamp - self.last_time).total_seconds()
                 
-                if time_delta > 0:
+                if time_delta &gt; 0:
                     read_rate = (disk_io.read_bytes - self.last_io.read_bytes) / time_delta
                     write_rate = (disk_io.write_bytes - self.last_io.write_bytes) / time_delta
                     
@@ -909,7 +958,7 @@ class CustomMetricsCollector:
             'description': description
         }
     
-    def collect(self) -> List[Metric]:
+    def collect(self) -&gt; List[Metric]:
         """Collect custom metrics."""
         metrics = []
         timestamp = datetime.now()
@@ -938,9 +987,9 @@ class AnomalyDetector:
         self.models = {}
         self.threshold_multiplier = 3  # Standard deviations
     
-    def detect(self, values: List[float]) -> Optional[str]:
+    def detect(self, values: List[float]) -&gt; Optional[str]:
         """Detect anomalies in a series of values."""
-        if len(values) < 10:
+        if len(values) &lt; 10:
             return None
         
         # Calculate statistics
@@ -949,10 +998,10 @@ class AnomalyDetector:
         latest = values[-1]
         
         # Z-score method
-        if std > 0:
+        if std &gt; 0:
             z_score = abs((latest - mean) / std)
             
-            if z_score > self.threshold_multiplier:
+            if z_score &gt; self.threshold_multiplier:
                 return f"Value {latest:.2f} is {z_score:.1f} standard deviations from mean"
         
         # Interquartile range method
@@ -963,11 +1012,11 @@ class AnomalyDetector:
         lower_bound = q1 - 1.5 * iqr
         upper_bound = q3 + 1.5 * iqr
         
-        if latest < lower_bound or latest > upper_bound:
+        if latest &lt; lower_bound or latest &gt; upper_bound:
             return f"Value {latest:.2f} is outside IQR bounds [{lower_bound:.2f}, {upper_bound:.2f}]"
         
         # Trend detection
-        if len(values) >= 20:
+        if len(values) &gt;= 20:
             recent = values[-10:]
             older = values[-20:-10]
             
@@ -976,8 +1025,8 @@ class AnomalyDetector:
             
             change_percent = abs((recent_mean - older_mean) / older_mean * 100)
             
-            if change_percent > 50:
-                direction = "increased" if recent_mean > older_mean else "decreased"
+            if change_percent &gt; 50:
+                direction = "increased" if recent_mean &gt; older_mean else "decreased"
                 return f"Metric has {direction} by {change_percent:.1f}% recently"
         
         return None
@@ -985,36 +1034,36 @@ class AnomalyDetector:
 class PerformanceAnalyzer:
     """Analyze system performance and identify issues."""
     
-    def analyze(self, metrics: Dict) -> Dict:
+    def analyze(self, metrics: Dict) -&gt; Dict:
         """Analyze current metrics for performance issues."""
         issues = []
         recommendations = []
         
         # Check CPU usage
         cpu_metric = metrics.get('system.cpu.usage')
-        if cpu_metric and cpu_metric.value > 80:
+        if cpu_metric and cpu_metric.value &gt; 80:
             issues.append(f"High CPU usage: {cpu_metric.value:.1f}%")
             recommendations.append("Consider scaling horizontally or optimizing CPU-intensive processes")
         
         # Check memory usage
         mem_metric = metrics.get('system.memory.usage')
-        if mem_metric and mem_metric.value > 85:
+        if mem_metric and mem_metric.value &gt; 85:
             issues.append(f"High memory usage: {mem_metric.value:.1f}%")
             recommendations.append("Consider increasing RAM or optimizing memory usage")
         
         # Check swap usage
         swap_metric = metrics.get('system.swap.usage')
-        if swap_metric and swap_metric.value > 50:
+        if swap_metric and swap_metric.value &gt; 50:
             issues.append(f"High swap usage: {swap_metric.value:.1f}%")
             recommendations.append("System is swapping heavily, add more RAM")
         
         # Check disk usage
         for name, metric in metrics.items():
             if name.startswith('disk.usage.percent'):
-                if metric.value > 90:
+                if metric.value &gt; 90:
                     issues.append(f"Critical disk usage: {metric.value:.1f}%")
                     recommendations.append("Free up disk space immediately")
-                elif metric.value > 80:
+                elif metric.value &gt; 80:
                     issues.append(f"High disk usage: {metric.value:.1f}%")
                     recommendations.append("Consider cleaning up disk space")
         
@@ -1023,7 +1072,7 @@ class PerformanceAnalyzer:
         cpu_count = psutil.cpu_count()
         if load_metric and cpu_count:
             load_per_cpu = load_metric.value / cpu_count
-            if load_per_cpu > 2:
+            if load_per_cpu &gt; 2:
                 issues.append(f"System overloaded: load average {load_metric.value:.2f}")
                 recommendations.append("System is heavily loaded, investigate running processes")
         
@@ -1067,10 +1116,11 @@ class MonitoringDashboard:
             alerts = list(self.monitor.alert_history)
             return jsonify(alerts)
     
-    def get_dashboard_template(self) -> str:
+    def get_dashboard_template(self) -&gt; str:
         """Get HTML template for dashboard."""
         return '''
         <!DOCTYPE html>
+
         <html>
         <head>
             <title>System Monitoring Dashboard</title>
@@ -1102,8 +1152,8 @@ class MonitoringDashboard:
             <h1>System Monitoring Dashboard</h1>
             
             <div id="metrics"></div>
-            <div id="cpu-chart" class="chart"></div>
-            <div id="memory-chart" class="chart"></div>
+            <div class="chart" id="cpu-chart"></div>
+            <div class="chart" id="memory-chart"></div>
             <div id="alerts"></div>
             
             <script>
@@ -1286,36 +1336,28 @@ if __name__ == "__main__":
         print("\n\nStopping monitoring...")
         monitor.stop_monitoring()
         print("✅ Monitoring stopped")
-</code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Collect Relevant Metrics:</strong> Focus on metrics that matter for your specific use case.</li>
-        
-        <li><strong>Set Appropriate Thresholds:</strong> Avoid alert fatigue with well-tuned thresholds.</li>
-        
-        <li><strong>Use Time-Series Databases:</strong> For production, consider InfluxDB or Prometheus for better performance.</li>
-        
-        <li><strong>Implement Gradual Alerting:</strong> Warning before critical, with appropriate escalation.</li>
-        
-        <li><strong>Store Historical Data:</strong> Essential for trend analysis and capacity planning.</li>
-        
-        <li><strong>Monitor the Monitors:</strong> Ensure your monitoring system itself is reliable.</li>
-        
-        <li><strong>Correlate Metrics:</strong> Look for relationships between different metrics to identify root causes.</li>
-    </ul>
-
-    <h3>System Monitoring Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Good monitoring is like having a health tracker for your systems - it tells you not just when something's wrong, but helps you prevent problems before they occur. Start with the basics (CPU, memory, disk, network), then add application-specific metrics. Remember the observer effect - monitoring itself uses resources, so be efficient. Use sampling for high-frequency metrics, aggregate data appropriately, and always have a plan for what to do when alerts fire. The best monitoring system is the one that helps you sleep better at night!</p>
-    </div>
-    
-    <p>System monitoring mastery transforms you from a reactive administrator to a proactive guardian of system health. You can predict issues, optimize performance, and maintain reliability at scale. Whether you're monitoring a single server or a distributed system, these monitoring capabilities are essential for modern infrastructure! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="systemadmin_service_management.html">Service Management - Control System Services Like a Pro!</a></p>
-    </footer>
+</metric_name></code></pre>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Collect Relevant Metrics:</strong> Focus on metrics that matter for your specific use case.</li>
+<li><strong>Set Appropriate Thresholds:</strong> Avoid alert fatigue with well-tuned thresholds.</li>
+<li><strong>Use Time-Series Databases:</strong> For production, consider InfluxDB or Prometheus for better performance.</li>
+<li><strong>Implement Gradual Alerting:</strong> Warning before critical, with appropriate escalation.</li>
+<li><strong>Store Historical Data:</strong> Essential for trend analysis and capacity planning.</li>
+<li><strong>Monitor the Monitors:</strong> Ensure your monitoring system itself is reliable.</li>
+<li><strong>Correlate Metrics:</strong> Look for relationships between different metrics to identify root causes.</li>
+</ul>
+<h3>System Monitoring Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Good monitoring is like having a health tracker for your systems - it tells you not just when something's wrong, but helps you prevent problems before they occur. Start with the basics (CPU, memory, disk, network), then add application-specific metrics. Remember the observer effect - monitoring itself uses resources, so be efficient. Use sampling for high-frequency metrics, aggregate data appropriately, and always have a plan for what to do when alerts fire. The best monitoring system is the one that helps you sleep better at night!</p>
+</div>
+<p>System monitoring mastery transforms you from a reactive administrator to a proactive guardian of system health. You can predict issues, optimize performance, and maintain reliability at scale. Whether you're monitoring a single server or a distributed system, these monitoring capabilities are essential for modern infrastructure! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="systemadmin_log_analysis.html">← Previous: Log Analysis</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="systemadmin_environment_management.html">Next: Environment Management →</a>
+</div>
+</footer>
 </body>
 </html>

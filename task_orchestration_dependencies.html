@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Dependencies - Python Task Orchestration</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Task Dependencies - Python Task Orchestration</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔗 Task Dependencies: Master Complex Workflow Relationships</h1>
-    
-    <p>Task dependencies are the backbone of workflow orchestration - they define the execution order, parallelism opportunities, and conditional logic that transform individual tasks into sophisticated pipelines. Like designing a complex supply chain, mastering task dependencies allows you to create workflows that adapt to data, handle failures gracefully, and maximize resource utilization through intelligent parallelization. Whether you're building simple sequential pipelines or complex conditional workflows with hundreds of interdependent tasks, understanding dependency patterns is crucial for effective orchestration. Let's explore the comprehensive world of task dependency management! 🎯</p>
-
-    <h2>The Task Dependency Architecture</h2>
-    
-    <p>Think of task dependencies as the neural pathways of your workflow - they determine how data and control flow through your pipeline, when tasks can run in parallel, and how failures propagate. Using Airflow's rich dependency system, you can create linear chains, parallel branches, conditional paths, and complex graphs that adapt to runtime conditions. Understanding trigger rules, sensors, and advanced dependency patterns is essential for building resilient, efficient workflows!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module8">Task Orchestration</a> &gt; 
+        <span>Task Dependencies</span>
+</nav>
+<h1>🔗 Task Dependencies: Master Complex Workflow Relationships</h1>
+<p>Task dependencies are the backbone of workflow orchestration - they define the execution order, parallelism opportunities, and conditional logic that transform individual tasks into sophisticated pipelines. Like designing a complex supply chain, mastering task dependencies allows you to create workflows that adapt to data, handle failures gracefully, and maximize resource utilization through intelligent parallelization. Whether you're building simple sequential pipelines or complex conditional workflows with hundreds of interdependent tasks, understanding dependency patterns is crucial for effective orchestration. Let's explore the comprehensive world of task dependency management! 🎯</p>
+<h2>The Task Dependency Architecture</h2>
+<p>Think of task dependencies as the neural pathways of your workflow - they determine how data and control flow through your pipeline, when tasks can run in parallel, and how failures propagate. Using Airflow's rich dependency system, you can create linear chains, parallel branches, conditional paths, and complex graphs that adapt to runtime conditions. Understanding trigger rules, sensors, and advanced dependency patterns is essential for building resilient, efficient workflows!</p>
+<div class="mermaid">
     graph TB
-        A[Task Dependencies] --> B[Basic Patterns]
-        A --> C[Advanced Patterns]
-        A --> D[Trigger Rules]
-        A --> E[Dynamic Dependencies]
+        A[Task Dependencies] --&gt; B[Basic Patterns]
+        A --&gt; C[Advanced Patterns]
+        A --&gt; D[Trigger Rules]
+        A --&gt; E[Dynamic Dependencies]
         
-        B --> F[Sequential]
-        B --> G[Parallel]
-        B --> H[Branching]
-        B --> I[Joining]
+        B --&gt; F[Sequential]
+        B --&gt; G[Parallel]
+        B --&gt; H[Branching]
+        B --&gt; I[Joining]
         
-        C --> J[Conditional]
-        C --> K[Short-Circuit]
-        C --> L[Nested Groups]
-        C --> M[Cross-DAG]
+        C --&gt; J[Conditional]
+        C --&gt; K[Short-Circuit]
+        C --&gt; L[Nested Groups]
+        C --&gt; M[Cross-DAG]
         
-        D --> N[all_success]
-        D --> O[one_success]
-        D --> P[all_done]
-        D --> Q[none_failed]
+        D --&gt; N[all_success]
+        D --&gt; O[one_success]
+        D --&gt; P[all_done]
+        D --&gt; Q[none_failed]
         
-        E --> R[Data-Driven]
-        E --> S[Time-Based]
-        E --> T[External]
-        E --> U[Computed]
+        E --&gt; R[Data-Driven]
+        E --&gt; S[Time-Based]
+        E --&gt; T[External]
+        E --&gt; U[Computed]
         
-        V[Optimization] --> W[Parallelism]
-        V --> X[Resource Pools]
-        V --> Y[Priority]
-        V --> Z[Queues]
+        V[Optimization] --&gt; W[Parallelism]
+        V --&gt; X[Resource Pools]
+        V --&gt; Y[Priority]
+        V --&gt; Z[Queues]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Intelligent Pipeline System 🧠</h3>
-    
-    <p>You're building an intelligent pipeline system that processes data through multiple stages with complex dependencies, handles conditional execution based on data quality, manages parallel processing for performance, coordinates cross-system dependencies, implements intelligent retry and recovery strategies, optimizes resource usage through pools and priorities, adapts to varying data volumes dynamically, and maintains clear execution paths for debugging. Your system must handle thousands of tasks efficiently, provide clear visibility into execution flow, recover from partial failures, and scale horizontally. Let's build a comprehensive dependency management system!</p>
-
-    <pre><code># Advanced Task Dependency Patterns and Management
+<h3>Real-World Scenario: The Intelligent Pipeline System 🧠</h3>
+<p>You're building an intelligent pipeline system that processes data through multiple stages with complex dependencies, handles conditional execution based on data quality, manages parallel processing for performance, coordinates cross-system dependencies, implements intelligent retry and recovery strategies, optimizes resource usage through pools and priorities, adapts to varying data volumes dynamically, and maintains clear execution paths for debugging. Your system must handle thousands of tasks efficiently, provide clear visibility into execution flow, recover from partial failures, and scale horizontally. Let's build a comprehensive dependency management system!</p>
+<pre><code># Advanced Task Dependency Patterns and Management
 # pip install apache-airflow networkx matplotlib
 
 import os
@@ -111,7 +160,7 @@ class DependencyAnalyzer:
         self.graph = self._build_dependency_graph()
         self.logger = logging.getLogger(__name__)
     
-    def _build_dependency_graph(self) -> nx.DiGraph:
+    def _build_dependency_graph(self) -&gt; nx.DiGraph:
         """Build NetworkX graph from DAG dependencies."""
         graph = nx.DiGraph()
         
@@ -132,7 +181,7 @@ class DependencyAnalyzer:
         
         return graph
     
-    def get_execution_paths(self) -> List[List[str]]:
+    def get_execution_paths(self) -&gt; List[List[str]]:
         """Get all possible execution paths through the DAG."""
         paths = []
         
@@ -153,7 +202,7 @@ class DependencyAnalyzer:
         
         return paths
     
-    def get_critical_path(self) -> List[str]:
+    def get_critical_path(self) -&gt; List[str]:
         """Get the critical path (longest path) through the DAG."""
         try:
             return nx.dag_longest_path(self.graph)
@@ -161,28 +210,28 @@ class DependencyAnalyzer:
             self.logger.warning("Could not determine critical path")
             return []
     
-    def get_parallel_groups(self) -> List[Set[str]]:
+    def get_parallel_groups(self) -&gt; List[Set[str]]:
         """Identify groups of tasks that can run in parallel."""
         parallel_groups = []
         
         # Use topological generations to find parallel tasks
         for generation in nx.topological_generations(self.graph):
-            if len(generation) > 1:
+            if len(generation) &gt; 1:
                 parallel_groups.append(set(generation))
         
         return parallel_groups
     
-    def detect_bottlenecks(self) -> List[str]:
+    def detect_bottlenecks(self) -&gt; List[str]:
         """Identify potential bottleneck tasks."""
         bottlenecks = []
         
         for node in self.graph.nodes():
             # High fan-in (many dependencies)
-            if self.graph.in_degree(node) > 3:
+            if self.graph.in_degree(node) &gt; 3:
                 bottlenecks.append(node)
             
             # High fan-out (many dependents)
-            if self.graph.out_degree(node) > 3:
+            if self.graph.out_degree(node) &gt; 3:
                 bottlenecks.append(node)
         
         return list(set(bottlenecks))
@@ -208,7 +257,7 @@ class DependencyAnalyzer:
             edge_color='gray',
             arrows=True,
             arrowsize=20,
-            arrowstyle='->'
+            arrowstyle='-&gt;'
         )
         
         # Draw labels
@@ -228,7 +277,7 @@ class DependencyAnalyzer:
         
         plt.close()
     
-    def get_dependency_report(self) -> Dict[str, Any]:
+    def get_dependency_report(self) -&gt; Dict[str, Any]:
         """Generate comprehensive dependency analysis report."""
         return {
             'total_tasks': len(self.dag.tasks),
@@ -290,23 +339,23 @@ class DependencyPatterns:
             )
             
             # Set up dependencies
-            condition >> [success_start, failure_start]
+            condition &gt;&gt; [success_start, failure_start]
             
             if success_tasks:
-                success_start >> success_tasks[0]
+                success_start &gt;&gt; success_tasks[0]
                 chain(*success_tasks)
-                success_tasks[-1] >> success_end
+                success_tasks[-1] &gt;&gt; success_end
             else:
-                success_start >> success_end
+                success_start &gt;&gt; success_end
             
             if failure_tasks:
-                failure_start >> failure_tasks[0]
+                failure_start &gt;&gt; failure_tasks[0]
                 chain(*failure_tasks)
-                failure_tasks[-1] >> failure_end
+                failure_tasks[-1] &gt;&gt; failure_end
             else:
-                failure_start >> failure_end
+                failure_start &gt;&gt; failure_end
             
-            [success_end, failure_end] >> join
+            [success_end, failure_end] &gt;&gt; join
             
             return condition, join
     
@@ -328,17 +377,17 @@ class DependencyPatterns:
                 retry = PythonOperator(
                     task_id=f'retry_{i+1}_after_{delay}m',
                     python_callable=lambda: time.sleep(delay * 60),
-                    trigger_rule=TriggerRule.ONE_FAILED if i > 0 else TriggerRule.ALL_FAILED,
+                    trigger_rule=TriggerRule.ONE_FAILED if i &gt; 0 else TriggerRule.ALL_FAILED,
                     retries=0  # Don't retry the retry task
                 )
                 
                 retry_tasks.append(retry)
             
             # Chain retries
-            main_task >> retry_tasks[0]
+            main_task &gt;&gt; retry_tasks[0]
             
             for i in range(len(retry_tasks) - 1):
-                retry_tasks[i] >> retry_tasks[i + 1]
+                retry_tasks[i] &gt;&gt; retry_tasks[i + 1]
             
             # Final success/failure handlers
             final_success = DummyOperator(
@@ -346,7 +395,7 @@ class DependencyPatterns:
                 trigger_rule=TriggerRule.ALL_FAILED
             )
             
-            retry_tasks[-1] >> final_success
+            retry_tasks[-1] &gt;&gt; final_success
     
     @staticmethod
     def create_parallel_processor(
@@ -376,7 +425,7 @@ class DependencyPatterns:
                 )
                 
                 batch_tasks.append(batch_task)
-                start >> batch_task >> end
+                start &gt;&gt; batch_task &gt;&gt; end
             
             return start, batch_tasks, end
     
@@ -412,7 +461,7 @@ class DependencyPatterns:
                     trigger_rule=TriggerRule.ALL_SUCCESS
                 )
                 
-                check_results >> aggregate
+                check_results &gt;&gt; aggregate
             
             # Gate task - only proceeds if quality checks pass
             gate = ShortCircuitOperator(
@@ -422,7 +471,7 @@ class DependencyPatterns:
                 )
             )
             
-            data_task >> quality_group >> gate
+            data_task &gt;&gt; quality_group &gt;&gt; gate
             
             return gate
 
@@ -437,7 +486,7 @@ class DynamicDependencyBuilder:
         self.tasks = {}
         self.logger = logging.getLogger(__name__)
     
-    def add_task(self, task_id: str, operator: Any) -> Any:
+    def add_task(self, task_id: str, operator: Any) -&gt; Any:
         """Add task to the builder."""
         self.tasks[task_id] = operator
         return operator
@@ -473,9 +522,9 @@ class DynamicDependencyBuilder:
             downstream_id = dep['downstream']
             
             if upstream_id in self.tasks and downstream_id in self.tasks:
-                self.tasks[upstream_id] >> self.tasks[downstream_id]
+                self.tasks[upstream_id] &gt;&gt; self.tasks[downstream_id]
             else:
-                self.logger.warning(f"Invalid dependency: {upstream_id} >> {downstream_id}")
+                self.logger.warning(f"Invalid dependency: {upstream_id} &gt;&gt; {downstream_id}")
     
     def build_from_graph(self, graph_definition: Dict[str, List[str]]):
         """Build dependencies from graph definition."""
@@ -492,7 +541,7 @@ class DynamicDependencyBuilder:
         # Set dependencies
         for upstream_id, downstream_ids in graph_definition.items():
             for downstream_id in downstream_ids:
-                self.tasks[upstream_id] >> self.tasks[downstream_id]
+                self.tasks[upstream_id] &gt;&gt; self.tasks[downstream_id]
     
     def build_dynamic_chain(self, task_count: int, pattern: str = 'linear'):
         """Build dynamic chain of tasks."""
@@ -511,10 +560,10 @@ class DynamicDependencyBuilder:
         elif pattern == 'parallel':
             start = DummyOperator(task_id='parallel_start', dag=self.dag)
             end = DummyOperator(task_id='parallel_end', dag=self.dag)
-            start >> tasks >> end
+            start &gt;&gt; tasks &gt;&gt; end
         elif pattern == 'diamond':
-            if len(tasks) >= 4:
-                tasks[0] >> [tasks[1], tasks[2]] >> tasks[3]
+            if len(tasks) &gt;= 4:
+                tasks[0] &gt;&gt; [tasks[1], tasks[2]] &gt;&gt; tasks[3]
     
     def optimize_dependencies(self):
         """Optimize dependency structure for parallelism."""
@@ -528,7 +577,7 @@ class DynamicDependencyBuilder:
         
         # Check for unnecessary sequential dependencies
         for path in analyzer.get_execution_paths():
-            if len(path) > 5:
+            if len(path) &gt; 5:
                 optimizations.append({
                     'type': 'long_chain',
                     'path': path,
@@ -558,7 +607,7 @@ class CrossDAGDependencyManager:
         execution_delta: timedelta = timedelta(0),
         timeout: int = 3600,
         poke_interval: int = 60
-    ) -> ExternalTaskSensor:
+    ) -&gt; ExternalTaskSensor:
         """Create sensor to wait for external DAG/task."""
         
         sensor = ExternalTaskSensor(
@@ -579,7 +628,7 @@ class CrossDAGDependencyManager:
         dag: DAG,
         external_dag_id: str,
         external_task_id: str
-    ) -> ExternalTaskMarker:
+    ) -&gt; ExternalTaskMarker:
         """Create marker for external DAG dependency."""
         
         marker = ExternalTaskMarker(
@@ -615,8 +664,8 @@ class CrossDAGDependencyManager:
                 trigger_tasks.append(trigger)
                 
                 # Chain triggers
-                if i > 0:
-                    trigger_tasks[i-1] >> trigger_tasks[i]
+                if i &gt; 0:
+                    trigger_tasks[i-1] &gt;&gt; trigger_tasks[i]
         
         return trigger_tasks
 
@@ -637,14 +686,14 @@ def trigger_rule_examples():
     """Demonstrate various trigger rules."""
     
     @task
-    def random_fail() -> bool:
+    def random_fail() -&gt; bool:
         """Task that randomly fails."""
-        if random.random() > 0.5:
+        if random.random() &gt; 0.5:
             raise AirflowException("Random failure!")
         return True
     
     @task
-    def always_succeed() -> str:
+    def always_succeed() -&gt; str:
         """Task that always succeeds."""
         return "Success!"
     
@@ -689,13 +738,13 @@ def trigger_rule_examples():
         print("No failures and at least one success")
     
     # Set up dependencies
-    [task_1, task_2, task_3] >> all_success_task()
-    [task_1, task_2, task_3] >> all_failed_task()
-    [task_1, task_2, task_3] >> all_done_task()
-    [task_1, task_2, task_3] >> one_success_task()
-    [task_1, task_2, task_3] >> one_failed_task()
-    [task_1, task_2, task_3] >> none_failed_task()
-    [task_1, task_2, task_3] >> none_failed_min_one_success_task()
+    [task_1, task_2, task_3] &gt;&gt; all_success_task()
+    [task_1, task_2, task_3] &gt;&gt; all_failed_task()
+    [task_1, task_2, task_3] &gt;&gt; all_done_task()
+    [task_1, task_2, task_3] &gt;&gt; one_success_task()
+    [task_1, task_2, task_3] &gt;&gt; one_failed_task()
+    [task_1, task_2, task_3] &gt;&gt; none_failed_task()
+    [task_1, task_2, task_3] &gt;&gt; none_failed_min_one_success_task()
 
 trigger_dag = trigger_rule_examples()
 
@@ -744,13 +793,13 @@ def complex_dependencies_dag():
     
     # Quality check (branching)
     @task.branch
-    def quality_check(data: List[Dict]) -> str:
+    def quality_check(data: List[Dict]) -&gt; str:
         """Check data quality and decide path."""
         total_records = sum(d['records'] for d in data)
         
-        if total_records > 10000:
+        if total_records &gt; 10000:
             return 'high_volume_processing'
-        elif total_records > 5000:
+        elif total_records &gt; 5000:
             return 'normal_processing'
         else:
             return 'low_volume_processing'
@@ -826,12 +875,12 @@ def complex_dependencies_dag():
     clean = cleanup()
     
     # Set up dependencies
-    init >> [source_a, source_b, source_c]
-    extracted_data >> check
-    check >> [high_vol, normal, low_vol]
-    [high_vol, normal, low_vol] >> merge
-    merge >> report
-    [merge, report] >> clean
+    init &gt;&gt; [source_a, source_b, source_c]
+    extracted_data &gt;&gt; check
+    check &gt;&gt; [high_vol, normal, low_vol]
+    [high_vol, normal, low_vol] &gt;&gt; merge
+    merge &gt;&gt; report
+    [merge, report] &gt;&gt; clean
 
 complex_dag = complex_dependencies_dag()
 
@@ -844,7 +893,7 @@ class DependencyHelpers:
     def create_linear_chain(tasks: List[Any]):
         """Create linear dependency chain."""
         for i in range(len(tasks) - 1):
-            tasks[i] >> tasks[i + 1]
+            tasks[i] &gt;&gt; tasks[i + 1]
     
     @staticmethod
     def create_parallel_groups(groups: List[List[Any]]):
@@ -852,19 +901,19 @@ class DependencyHelpers:
         for i in range(len(groups) - 1):
             for task in groups[i]:
                 for next_task in groups[i + 1]:
-                    task >> next_task
+                    task &gt;&gt; next_task
     
     @staticmethod
     def create_fan_out_in(source: Any, processors: List[Any], sink: Any):
         """Create fan-out/fan-in pattern."""
-        source >> processors >> sink
+        source &gt;&gt; processors &gt;&gt; sink
     
     @staticmethod
     def create_conditional_skip(condition_task: Any, skip_tasks: List[Any]):
         """Create conditional skip pattern."""
         for task in skip_tasks:
             task.trigger_rule = TriggerRule.ALL_DONE
-            condition_task >> task
+            condition_task &gt;&gt; task
 
 # Example usage
 if __name__ == "__main__":
@@ -873,11 +922,11 @@ if __name__ == "__main__":
     # Example 1: Basic dependency patterns
     print("1️⃣ Basic Dependency Patterns:")
     patterns = [
-        ("Sequential", "task_a >> task_b >> task_c"),
+        ("Sequential", "task_a &gt;&gt; task_b &gt;&gt; task_c"),
         ("Parallel", "[task_a, task_b, task_c]"),
-        ("Fan-out", "task_a >> [task_b, task_c, task_d]"),
-        ("Fan-in", "[task_a, task_b, task_c] >> task_d"),
-        ("Diamond", "task_a >> [task_b, task_c] >> task_d")
+        ("Fan-out", "task_a &gt;&gt; [task_b, task_c, task_d]"),
+        ("Fan-in", "[task_a, task_b, task_c] &gt;&gt; task_d"),
+        ("Diamond", "task_a &gt;&gt; [task_b, task_c] &gt;&gt; task_d")
     ]
     
     for pattern, example in patterns:
@@ -933,9 +982,9 @@ if __name__ == "__main__":
         )
         
         # Set dependencies
-        start >> [extract_1, extract_2, extract_3] >> process
-        process >> [check_1, check_2] >> report
-        report >> [notify, cleanup]
+        start &gt;&gt; [extract_1, extract_2, extract_3] &gt;&gt; process
+        process &gt;&gt; [check_1, check_2] &gt;&gt; report
+        report &gt;&gt; [notify, cleanup]
     
     # Example 4: Analyze dependencies
     print("\n3️⃣ Dependency Analysis:")
@@ -1046,37 +1095,28 @@ if __name__ == "__main__":
     
     print("\n✅ Task dependencies demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Clear Dependencies:</strong> Define explicit, understandable task relationships.</li>
-        
-        <li><strong>Maximize Parallelism:</strong> Run independent tasks concurrently for performance.</li>
-        
-        <li><strong>Appropriate Trigger Rules:</strong> Use the right trigger rule for each scenario.</li>
-        
-        <li><strong>Avoid Deep Chains:</strong> Break long sequential dependencies into parallel groups.</li>
-        
-        <li><strong>Handle Failures:</strong> Design dependencies that gracefully handle task failures.</li>
-        
-        <li><strong>Dynamic Dependencies:</strong> Build flexible workflows that adapt to data.</li>
-        
-        <li><strong>Cross-DAG Coordination:</strong> Use sensors and triggers for multi-DAG workflows.</li>
-        
-        <li><strong>Performance Analysis:</strong> Monitor and optimize dependency bottlenecks.</li>
-    </ul>
-
-    <h3>Task Dependency Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of task dependencies as the nervous system of your workflow - they control how signals (data and control) flow through your pipeline. Always strive for maximum parallelism while maintaining logical correctness. Use the simplest dependency pattern that meets your needs - linear chains for sequential processing, fan-out/fan-in for parallel processing, and branching for conditional logic. Master trigger rules - they're powerful tools for handling complex scenarios like partial failures or optional paths. Use ALL_DONE for cleanup tasks that must run regardless of success/failure. Use NONE_FAILED_MIN_ONE_SUCCESS for convergence points in branching workflows. Implement data quality gates to prevent bad data from propagating through your pipeline. For complex workflows, use task groups to organize related tasks visually and logically. Analyze your dependency graph regularly - look for bottlenecks where many tasks depend on a single task, and optimize by parallelizing or splitting the bottleneck. Use ExternalTaskSensor for cross-DAG dependencies but be careful with execution timing. Build dependencies dynamically when dealing with variable workloads. Monitor critical paths - the longest dependency chain determines minimum execution time. Remember: well-designed dependencies make workflows resilient, efficient, and maintainable!</p>
-    </div>
-    
-    <p>Mastering task dependencies enables you to build sophisticated workflows that maximize performance while maintaining reliability. You can now create complex dependency patterns, implement conditional execution logic, coordinate cross-DAG workflows, analyze and optimize dependency graphs, and handle failures gracefully with trigger rules. Whether you're building data pipelines, ML workflows, or business process automation, these dependency management skills are essential for production-grade orchestration! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="task_orchestration_error_handling.html">Error Handling - Build Resilient Workflows That Never Fail!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Clear Dependencies:</strong> Define explicit, understandable task relationships.</li>
+<li><strong>Maximize Parallelism:</strong> Run independent tasks concurrently for performance.</li>
+<li><strong>Appropriate Trigger Rules:</strong> Use the right trigger rule for each scenario.</li>
+<li><strong>Avoid Deep Chains:</strong> Break long sequential dependencies into parallel groups.</li>
+<li><strong>Handle Failures:</strong> Design dependencies that gracefully handle task failures.</li>
+<li><strong>Dynamic Dependencies:</strong> Build flexible workflows that adapt to data.</li>
+<li><strong>Cross-DAG Coordination:</strong> Use sensors and triggers for multi-DAG workflows.</li>
+<li><strong>Performance Analysis:</strong> Monitor and optimize dependency bottlenecks.</li>
+</ul>
+<h3>Task Dependency Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of task dependencies as the nervous system of your workflow - they control how signals (data and control) flow through your pipeline. Always strive for maximum parallelism while maintaining logical correctness. Use the simplest dependency pattern that meets your needs - linear chains for sequential processing, fan-out/fan-in for parallel processing, and branching for conditional logic. Master trigger rules - they're powerful tools for handling complex scenarios like partial failures or optional paths. Use ALL_DONE for cleanup tasks that must run regardless of success/failure. Use NONE_FAILED_MIN_ONE_SUCCESS for convergence points in branching workflows. Implement data quality gates to prevent bad data from propagating through your pipeline. For complex workflows, use task groups to organize related tasks visually and logically. Analyze your dependency graph regularly - look for bottlenecks where many tasks depend on a single task, and optimize by parallelizing or splitting the bottleneck. Use ExternalTaskSensor for cross-DAG dependencies but be careful with execution timing. Build dependencies dynamically when dealing with variable workloads. Monitor critical paths - the longest dependency chain determines minimum execution time. Remember: well-designed dependencies make workflows resilient, efficient, and maintainable!</p>
+</div>
+<p>Mastering task dependencies enables you to build sophisticated workflows that maximize performance while maintaining reliability. You can now create complex dependency patterns, implement conditional execution logic, coordinate cross-DAG workflows, analyze and optimize dependency graphs, and handle failures gracefully with trigger rules. Whether you're building data pipelines, ML workflows, or business process automation, these dependency management skills are essential for production-grade orchestration! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="task_orchestration_creating_dags.html">← Previous: Creating DAGs</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="task_orchestration_error_handling.html">Next: Error Handling →</a>
+</div>
+</footer>
 </body>
 </html>

@@ -1,51 +1,103 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebDriver Setup - Python Browser Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WebDriver Setup - Python Browser Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🚗 WebDriver Setup: Your Gateway to Browser Automation</h1>
-    
-    <p>WebDriver is the bridge between your code and web browsers - it's like having a remote control for Chrome, Firefox, or any modern browser. Setting it up properly is the foundation of all browser automation. Like preparing a race car before hitting the track, proper WebDriver configuration determines whether your automation runs smoothly or crashes at the first turn. Let's master the art of WebDriver setup! 🏁</p>
-
-    <h2>The WebDriver Ecosystem</h2>
-    
-    <p>Think of WebDriver as a universal translator between your Python code and various browsers. Each browser speaks its own language, but WebDriver provides a common interface to control them all. It's not just about launching a browser - it's about configuring it for optimal performance, reliability, and compatibility with your automation needs!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module3">Browser Automation</a> &gt; 
+        <span>WebDriver Setup</span>
+</nav>
+<h1>🚗 WebDriver Setup: Your Gateway to Browser Automation</h1>
+<p>WebDriver is the bridge between your code and web browsers - it's like having a remote control for Chrome, Firefox, or any modern browser. Setting it up properly is the foundation of all browser automation. Like preparing a race car before hitting the track, proper WebDriver configuration determines whether your automation runs smoothly or crashes at the first turn. Let's master the art of WebDriver setup! 🏁</p>
+<h2>The WebDriver Ecosystem</h2>
+<p>Think of WebDriver as a universal translator between your Python code and various browsers. Each browser speaks its own language, but WebDriver provides a common interface to control them all. It's not just about launching a browser - it's about configuring it for optimal performance, reliability, and compatibility with your automation needs!</p>
+<div class="mermaid">
     graph TB
-        A[WebDriver Setup] --> B[Browser Selection]
-        A --> C[Driver Management]
-        A --> D[Configuration]
-        A --> E[Environment Setup]
+        A[WebDriver Setup] --&gt; B[Browser Selection]
+        A --&gt; C[Driver Management]
+        A --&gt; D[Configuration]
+        A --&gt; E[Environment Setup]
         
-        B --> F[Chrome/Chromium]
-        B --> G[Firefox]
-        B --> H[Safari]
-        B --> I[Edge]
+        B --&gt; F[Chrome/Chromium]
+        B --&gt; G[Firefox]
+        B --&gt; H[Safari]
+        B --&gt; I[Edge]
         
-        C --> J[Manual Installation]
-        C --> K[Driver Managers]
-        C --> L[Docker Containers]
-        C --> M[Cloud Services]
+        C --&gt; J[Manual Installation]
+        C --&gt; K[Driver Managers]
+        C --&gt; L[Docker Containers]
+        C --&gt; M[Cloud Services]
         
-        D --> N[Options & Capabilities]
-        D --> O[Profiles & Preferences]
-        D --> P[Extensions & Plugins]
-        D --> Q[Network & Proxy]
+        D --&gt; N[Options &amp; Capabilities]
+        D --&gt; O[Profiles &amp; Preferences]
+        D --&gt; P[Extensions &amp; Plugins]
+        D --&gt; Q[Network &amp; Proxy]
         
-        E --> R[Local Setup]
-        E --> S[CI/CD Integration]
-        E --> T[Grid Setup]
-        E --> U[Cloud Platforms]
+        E --&gt; R[Local Setup]
+        E --&gt; S[CI/CD Integration]
+        E --&gt; T[Grid Setup]
+        E --&gt; U[Cloud Platforms]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -53,12 +105,9 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The Multi-Browser Testing Platform 🌐</h3>
-    
-    <p>You're building an automated testing platform that needs to run tests across multiple browsers, handle different versions, work in headless mode for CI/CD, manage browser profiles, handle downloads and uploads, and scale across multiple machines. Your WebDriver setup must be bulletproof, flexible, and maintainable. Let's build a comprehensive WebDriver management system!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Multi-Browser Testing Platform 🌐</h3>
+<p>You're building an automated testing platform that needs to run tests across multiple browsers, handle different versions, work in headless mode for CI/CD, manage browser profiles, handle downloads and uploads, and scale across multiple machines. Your WebDriver setup must be bulletproof, flexible, and maintainable. Let's build a comprehensive WebDriver management system!</p>
+<pre><code># First, install required packages:
 # pip install selenium webdriver-manager python-dotenv pyvirtualdisplay
 
 import os
@@ -178,7 +227,7 @@ class WebDriverManager:
         self.logger = self._setup_logging()
         self._setup_directories()
         
-    def _setup_logging(self) -> logging.Logger:
+    def _setup_logging(self) -&gt; logging.Logger:
         """Setup logging configuration."""
         logger = logging.getLogger("WebDriverManager")
         logger.setLevel(getattr(logging, self.config.log_level))
@@ -210,7 +259,7 @@ class WebDriverManager:
         if self.config.profile_directory:
             Path(self.config.profile_directory).mkdir(parents=True, exist_ok=True)
     
-    def create_driver(self) -> webdriver.Remote:
+    def create_driver(self) -&gt; webdriver.Remote:
         """
         Create and configure WebDriver based on browser type.
         """
@@ -234,7 +283,7 @@ class WebDriverManager:
             self.logger.error(f"Failed to create driver: {e}")
             raise
     
-    def _create_chrome_driver(self) -> webdriver.Chrome:
+    def _create_chrome_driver(self) -&gt; webdriver.Chrome:
         """Create Chrome WebDriver with options."""
         options = self._get_chrome_options()
         
@@ -268,7 +317,7 @@ class WebDriverManager:
         self.logger.info("Chrome driver created successfully")
         return driver
     
-    def _get_chrome_options(self) -> ChromeOptions:
+    def _get_chrome_options(self) -&gt; ChromeOptions:
         """Configure Chrome options."""
         options = ChromeOptions()
         
@@ -360,7 +409,7 @@ class WebDriverManager:
         
         return options
     
-    def _get_chrome_capabilities(self) -> Dict:
+    def _get_chrome_capabilities(self) -&gt; Dict:
         """Get Chrome capabilities."""
         capabilities = DesiredCapabilities.CHROME.copy()
         
@@ -388,7 +437,7 @@ class WebDriverManager:
         
         return capabilities
     
-    def _create_firefox_driver(self) -> webdriver.Firefox:
+    def _create_firefox_driver(self) -&gt; webdriver.Firefox:
         """Create Firefox WebDriver with options."""
         options = self._get_firefox_options()
         
@@ -416,7 +465,7 @@ class WebDriverManager:
         self.logger.info("Firefox driver created successfully")
         return driver
     
-    def _get_firefox_options(self) -> FirefoxOptions:
+    def _get_firefox_options(self) -&gt; FirefoxOptions:
         """Configure Firefox options."""
         options = FirefoxOptions()
         
@@ -481,7 +530,7 @@ class WebDriverManager:
         
         return options
     
-    def _create_edge_driver(self) -> webdriver.Edge:
+    def _create_edge_driver(self) -&gt; webdriver.Edge:
         """Create Edge WebDriver with options."""
         options = self._get_edge_options()
         
@@ -509,7 +558,7 @@ class WebDriverManager:
         self.logger.info("Edge driver created successfully")
         return driver
     
-    def _get_edge_options(self) -> EdgeOptions:
+    def _get_edge_options(self) -&gt; EdgeOptions:
         """Configure Edge options (similar to Chrome)."""
         options = EdgeOptions()
         
@@ -538,7 +587,7 @@ class WebDriverManager:
         
         return options
     
-    def _create_safari_driver(self) -> webdriver.Safari:
+    def _create_safari_driver(self) -&gt; webdriver.Safari:
         """Create Safari WebDriver."""
         if platform.system() != "Darwin":
             raise WebDriverException("Safari is only available on macOS")
@@ -559,7 +608,7 @@ class WebDriverManager:
         self.logger.info("Safari driver created successfully")
         return driver
     
-    def _create_brave_driver(self) -> webdriver.Chrome:
+    def _create_brave_driver(self) -&gt; webdriver.Chrome:
         """Create Brave browser driver (uses ChromeDriver)."""
         options = self._get_chrome_options()
         
@@ -587,7 +636,7 @@ class WebDriverManager:
         self.logger.info("Brave driver created successfully")
         return driver
     
-    def _find_brave_binary(self) -> Optional[str]:
+    def _find_brave_binary(self) -&gt; Optional[str]:
         """Find Brave browser binary location."""
         system = platform.system()
         
@@ -673,7 +722,7 @@ class DriverPool:
             except Exception as e:
                 self.logger.error(f"Failed to create driver {i+1}: {e}")
     
-    def get_driver(self) -> Optional[webdriver.Remote]:
+    def get_driver(self) -&gt; Optional[webdriver.Remote]:
         """Get an available driver from the pool."""
         if self.available_drivers:
             manager, driver = self.available_drivers.pop(0)
@@ -722,7 +771,7 @@ class EnvironmentDetector:
     """
     
     @staticmethod
-    def get_system_info() -> Dict[str, Any]:
+    def get_system_info() -&gt; Dict[str, Any]:
         """Get system information."""
         return {
             "platform": platform.system(),
@@ -733,7 +782,7 @@ class EnvironmentDetector:
         }
     
     @staticmethod
-    def check_browser_installed(browser: BrowserType) -> bool:
+    def check_browser_installed(browser: BrowserType) -&gt; bool:
         """Check if browser is installed on the system."""
         system = platform.system()
         
@@ -749,7 +798,7 @@ class EnvironmentDetector:
             return False
     
     @staticmethod
-    def _check_chrome_installed(system: str) -> bool:
+    def _check_chrome_installed(system: str) -&gt; bool:
         """Check if Chrome is installed."""
         if system == "Windows":
             paths = [
@@ -764,7 +813,7 @@ class EnvironmentDetector:
         return any(os.path.exists(path) for path in paths)
     
     @staticmethod
-    def _check_firefox_installed(system: str) -> bool:
+    def _check_firefox_installed(system: str) -&gt; bool:
         """Check if Firefox is installed."""
         if system == "Windows":
             paths = [
@@ -779,7 +828,7 @@ class EnvironmentDetector:
         return any(os.path.exists(path) for path in paths)
     
     @staticmethod
-    def _check_edge_installed(system: str) -> bool:
+    def _check_edge_installed(system: str) -&gt; bool:
         """Check if Edge is installed."""
         if system == "Windows":
             paths = [
@@ -962,7 +1011,7 @@ if __name__ == "__main__":
         print(f"   • {tip}")
     
     # Example 9: Common issues and solutions
-    print("\n9️⃣ Common Issues & Solutions:")
+    print("\n9️⃣ Common Issues &amp; Solutions:")
     
     issues = [
         ("ChromeDriver version mismatch", "Use webdriver-manager for auto-updates"),
@@ -998,37 +1047,28 @@ if __name__ == "__main__":
     
     print("\n✅ WebDriver setup demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use WebDriver Manager:</strong> Automatically handles driver downloads and updates.</li>
-        
-        <li><strong>Configure Properly:</strong> Set timeouts, window size, and options before starting.</li>
-        
-        <li><strong>Handle Multiple Browsers:</strong> Abstract configuration for cross-browser compatibility.</li>
-        
-        <li><strong>Implement Proper Cleanup:</strong> Always quit drivers to prevent memory leaks.</li>
-        
-        <li><strong>Use Headless for CI/CD:</strong> Run without GUI in server environments.</li>
-        
-        <li><strong>Cache Profiles:</strong> Reuse browser profiles to maintain state.</li>
-        
-        <li><strong>Log Everything:</strong> Track driver creation, errors, and performance.</li>
-        
-        <li><strong>Test Your Setup:</strong> Verify configuration works across environments.</li>
-    </ul>
-
-    <h3>WebDriver Setup Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> WebDriver setup is like preparing a race car - the initial configuration determines your entire automation journey. Start with webdriver-manager to avoid version mismatch headaches. Create a configuration class that handles all browser-specific quirks in one place. Always set proper timeouts - implicit wait for element location, page load timeout for navigation, and script timeout for JavaScript execution. For production, use headless mode but test with GUI first. Implement a driver pool for parallel execution. Handle driver crashes gracefully with try-except-finally blocks. Cache browser profiles to skip login flows. Disable images and CSS when you don't need them for massive speed gains. Most importantly: always quit your drivers properly - zombie Chrome processes will eat your RAM for breakfast!</p>
-    </div>
-    
-    <p>Mastering WebDriver setup gives you a solid foundation for all browser automation tasks. You now understand driver management, configuration options, cross-browser compatibility, and optimization techniques. Whether you're building test suites, web scrapers, or automation tools, proper WebDriver setup ensures your automation runs smoothly and reliably! 🏎️</p>
-    
-    <footer>
-        <p>Next up: <a href="browser_automation_element_interaction.html">Element Interaction - Master the Art of Web Element Control!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use WebDriver Manager:</strong> Automatically handles driver downloads and updates.</li>
+<li><strong>Configure Properly:</strong> Set timeouts, window size, and options before starting.</li>
+<li><strong>Handle Multiple Browsers:</strong> Abstract configuration for cross-browser compatibility.</li>
+<li><strong>Implement Proper Cleanup:</strong> Always quit drivers to prevent memory leaks.</li>
+<li><strong>Use Headless for CI/CD:</strong> Run without GUI in server environments.</li>
+<li><strong>Cache Profiles:</strong> Reuse browser profiles to maintain state.</li>
+<li><strong>Log Everything:</strong> Track driver creation, errors, and performance.</li>
+<li><strong>Test Your Setup:</strong> Verify configuration works across environments.</li>
+</ul>
+<h3>WebDriver Setup Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> WebDriver setup is like preparing a race car - the initial configuration determines your entire automation journey. Start with webdriver-manager to avoid version mismatch headaches. Create a configuration class that handles all browser-specific quirks in one place. Always set proper timeouts - implicit wait for element location, page load timeout for navigation, and script timeout for JavaScript execution. For production, use headless mode but test with GUI first. Implement a driver pool for parallel execution. Handle driver crashes gracefully with try-except-finally blocks. Cache browser profiles to skip login flows. Disable images and CSS when you don't need them for massive speed gains. Most importantly: always quit your drivers properly - zombie Chrome processes will eat your RAM for breakfast!</p>
+</div>
+<p>Mastering WebDriver setup gives you a solid foundation for all browser automation tasks. You now understand driver management, configuration options, cross-browser compatibility, and optimization techniques. Whether you're building test suites, web scrapers, or automation tools, proper WebDriver setup ensures your automation runs smoothly and reliably! 🏎️</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="webscraping_ethics_robots.html">← Previous: Ethics and Robots.txt</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="browser_automation_element_interaction.html">Next: Element Interaction →</a>
+</div>
+</footer>
 </body>
 </html>

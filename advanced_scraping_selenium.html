@@ -1,54 +1,106 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Content with Selenium - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dynamic Content with Selenium - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🌐 Dynamic Content with Selenium: Scrape JavaScript-Heavy Sites</h1>
-    
-    <p>Modern websites are interactive playgrounds powered by JavaScript. Traditional scrapers see only the initial HTML, missing the dynamically loaded content. Selenium changes the game by controlling a real browser, executing JavaScript, clicking buttons, filling forms, and waiting for AJAX requests. It's like having a robot that uses websites exactly like a human would. Let's master the art of browser automation! 🤖</p>
-
-    <h2>The Selenium Architecture</h2>
-    
-    <p>Think of Selenium as your personal web browsing assistant. It doesn't just read web pages - it interacts with them. It can click buttons, scroll pages, wait for elements to load, handle pop-ups, and even take screenshots. If a human can do it in a browser, Selenium can automate it!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module13">Advanced Web Scraping</a> &gt; 
+        <span>Advanced Selenium</span>
+</nav>
+<h1>🌐 Dynamic Content with Selenium: Scrape JavaScript-Heavy Sites</h1>
+<p>Modern websites are interactive playgrounds powered by JavaScript. Traditional scrapers see only the initial HTML, missing the dynamically loaded content. Selenium changes the game by controlling a real browser, executing JavaScript, clicking buttons, filling forms, and waiting for AJAX requests. It's like having a robot that uses websites exactly like a human would. Let's master the art of browser automation! 🤖</p>
+<h2>The Selenium Architecture</h2>
+<p>Think of Selenium as your personal web browsing assistant. It doesn't just read web pages - it interacts with them. It can click buttons, scroll pages, wait for elements to load, handle pop-ups, and even take screenshots. If a human can do it in a browser, Selenium can automate it!</p>
+<div class="mermaid">
     graph TB
-        A[Selenium WebDriver] --> B[Browser Drivers]
-        A --> C[Browser Automation]
-        A --> D[Element Interaction]
-        A --> E[Wait Strategies]
+        A[Selenium WebDriver] --&gt; B[Browser Drivers]
+        A --&gt; C[Browser Automation]
+        A --&gt; D[Element Interaction]
+        A --&gt; E[Wait Strategies]
         
-        B --> F[ChromeDriver]
-        B --> G[GeckoDriver]
-        B --> H[EdgeDriver]
-        B --> I[SafariDriver]
+        B --&gt; F[ChromeDriver]
+        B --&gt; G[GeckoDriver]
+        B --&gt; H[EdgeDriver]
+        B --&gt; I[SafariDriver]
         
-        C --> J[Page Navigation]
-        C --> K[JavaScript Execution]
-        C --> L[Window Management]
-        C --> M[Cookie Handling]
+        C --&gt; J[Page Navigation]
+        C --&gt; K[JavaScript Execution]
+        C --&gt; L[Window Management]
+        C --&gt; M[Cookie Handling]
         
-        D --> N[Click/Type]
-        D --> O[Drag & Drop]
-        D --> P[Hover/Focus]
-        D --> Q[File Upload]
+        D --&gt; N[Click/Type]
+        D --&gt; O[Drag &amp; Drop]
+        D --&gt; P[Hover/Focus]
+        D --&gt; Q[File Upload]
         
-        E --> R[Implicit Waits]
-        E --> S[Explicit Waits]
-        E --> T[Fluent Waits]
-        E --> U[Custom Conditions]
+        E --&gt; R[Implicit Waits]
+        E --&gt; S[Explicit Waits]
+        E --&gt; T[Fluent Waits]
+        E --&gt; U[Custom Conditions]
         
-        F --> V[Headless Mode]
-        F --> W[DevTools Protocol]
+        F --&gt; V[Headless Mode]
+        F --&gt; W[DevTools Protocol]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -56,12 +108,9 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The Social Media Analytics Platform 📊</h3>
-    
-    <p>You're building an analytics platform that monitors social media sites, streaming platforms, and modern web apps. These sites load content dynamically, require login, use infinite scrolling, show content based on user interactions, and protect against bots. Selenium will be your key to unlocking all this dynamic content!</p>
-
-    <pre><code># First, install Selenium and drivers:
+<h3>Real-World Scenario: The Social Media Analytics Platform 📊</h3>
+<p>You're building an analytics platform that monitors social media sites, streaming platforms, and modern web apps. These sites load content dynamically, require login, use infinite scrolling, show content based on user interactions, and protect against bots. Selenium will be your key to unlocking all this dynamic content!</p>
+<pre><code># First, install Selenium and drivers:
 # pip install selenium webdriver-manager undetected-chromedriver selenium-wire
 
 from selenium import webdriver
@@ -140,7 +189,7 @@ class BrowserManager:
         self.logger = logging.getLogger(__name__)
     
     def create_driver(self, browser: str = "chrome", 
-                     undetected: bool = False) -> webdriver.Chrome:
+                     undetected: bool = False) -&gt; webdriver.Chrome:
         """
         Create and configure WebDriver instance.
         
@@ -160,7 +209,7 @@ class BrowserManager:
         else:
             raise ValueError(f"Unsupported browser: {browser}")
     
-    def _create_chrome_driver(self) -> webdriver.Chrome:
+    def _create_chrome_driver(self) -&gt; webdriver.Chrome:
         """Create standard Chrome driver."""
         options = self._get_chrome_options()
         
@@ -179,7 +228,7 @@ class BrowserManager:
         self.logger.info("Chrome driver created successfully")
         return driver
     
-    def _create_undetected_chrome(self) -> uc.Chrome:
+    def _create_undetected_chrome(self) -&gt; uc.Chrome:
         """Create undetected Chrome driver to bypass bot detection."""
         options = self._get_chrome_options()
         
@@ -194,7 +243,7 @@ class BrowserManager:
         driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
             'source': '''
                 Object.defineProperty(navigator, 'webdriver', {
-                    get: () => undefined
+                    get: () =&gt; undefined
                 })
             '''
         })
@@ -208,7 +257,7 @@ class BrowserManager:
         self.logger.info("Undetected Chrome driver created successfully")
         return driver
     
-    def _get_chrome_options(self) -> ChromeOptions:
+    def _get_chrome_options(self) -&gt; ChromeOptions:
         """Get Chrome options based on configuration."""
         options = ChromeOptions()
         
@@ -267,7 +316,7 @@ class BrowserManager:
         
         return options
     
-    def _create_firefox_driver(self) -> webdriver.Firefox:
+    def _create_firefox_driver(self) -&gt; webdriver.Firefox:
         """Create Firefox driver."""
         from selenium.webdriver.firefox.options import Options as FirefoxOptions
         from selenium.webdriver.firefox.service import Service as FirefoxService
@@ -293,7 +342,7 @@ class BrowserManager:
         self.logger.info("Firefox driver created successfully")
         return driver
     
-    def _create_edge_driver(self) -> webdriver.Edge:
+    def _create_edge_driver(self) -&gt; webdriver.Edge:
         """Create Edge driver."""
         from selenium.webdriver.edge.options import Options as EdgeOptions
         from selenium.webdriver.edge.service import Service as EdgeService
@@ -335,7 +384,7 @@ class ElementInteractor:
         self.actions = ActionChains(driver)
         self.logger = logging.getLogger(__name__)
     
-    def safe_click(self, locator: Tuple[By, str], retries: int = 3) -> bool:
+    def safe_click(self, locator: Tuple[By, str], retries: int = 3) -&gt; bool:
         """
         Safely click an element with retries and error handling.
         """
@@ -362,7 +411,7 @@ class ElementInteractor:
         return False
     
     def safe_send_keys(self, locator: Tuple[By, str], text: str, 
-                      clear_first: bool = True) -> bool:
+                      clear_first: bool = True) -&gt; bool:
         """
         Safely send keys to an element.
         """
@@ -381,7 +430,7 @@ class ElementInteractor:
             self.logger.error(f"Failed to send keys: {e}")
             return False
     
-    def wait_and_get_text(self, locator: Tuple[By, str]) -> Optional[str]:
+    def wait_and_get_text(self, locator: Tuple[By, str]) -&gt; Optional[str]:
         """
         Wait for element and get its text.
         """
@@ -393,7 +442,7 @@ class ElementInteractor:
             return None
     
     def wait_and_get_attribute(self, locator: Tuple[By, str], 
-                               attribute: str) -> Optional[str]:
+                               attribute: str) -&gt; Optional[str]:
         """
         Wait for element and get attribute value.
         """
@@ -404,14 +453,14 @@ class ElementInteractor:
             self.logger.warning(f"Element not found: {locator}")
             return None
     
-    def scroll_to_element(self, element: Any) -> None:
+    def scroll_to_element(self, element: Any) -&gt; None:
         """
         Scroll element into view.
         """
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
         time.sleep(0.5)  # Brief pause for scroll to complete
     
-    def hover_over_element(self, locator: Tuple[By, str]) -> bool:
+    def hover_over_element(self, locator: Tuple[By, str]) -&gt; bool:
         """
         Hover over an element.
         """
@@ -425,7 +474,7 @@ class ElementInteractor:
             return False
     
     def drag_and_drop(self, source_locator: Tuple[By, str], 
-                     target_locator: Tuple[By, str]) -> bool:
+                     target_locator: Tuple[By, str]) -&gt; bool:
         """
         Drag and drop between elements.
         """
@@ -443,7 +492,7 @@ class ElementInteractor:
             return False
     
     def select_dropdown(self, locator: Tuple[By, str], value: str, 
-                       by: str = "value") -> bool:
+                       by: str = "value") -&gt; bool:
         """
         Select dropdown option.
         
@@ -470,7 +519,7 @@ class ElementInteractor:
             self.logger.error(f"Failed to select dropdown: {e}")
             return False
     
-    def upload_file(self, locator: Tuple[By, str], file_path: str) -> bool:
+    def upload_file(self, locator: Tuple[By, str], file_path: str) -&gt; bool:
         """
         Upload file to file input.
         """
@@ -497,7 +546,7 @@ class SmartWaiter:
         self.wait = WebDriverWait(driver, timeout)
         self.logger = logging.getLogger(__name__)
     
-    def wait_for_ajax(self, timeout: int = 30) -> bool:
+    def wait_for_ajax(self, timeout: int = 30) -&gt; bool:
         """
         Wait for AJAX requests to complete.
         """
@@ -515,7 +564,7 @@ class SmartWaiter:
             self.logger.warning("AJAX wait timeout")
             return False
     
-    def wait_for_angular(self, timeout: int = 30) -> bool:
+    def wait_for_angular(self, timeout: int = 30) -&gt; bool:
         """
         Wait for Angular to finish rendering.
         """
@@ -536,14 +585,14 @@ class SmartWaiter:
             self.logger.warning("Angular wait timeout")
             return False
     
-    def wait_for_react(self, timeout: int = 30) -> bool:
+    def wait_for_react(self, timeout: int = 30) -&gt; bool:
         """
         Wait for React to finish rendering.
         """
         def react_ready(driver):
             try:
                 return driver.execute_script("""
-                    return document.readyState === 'complete' && 
+                    return document.readyState === 'complete' &amp;&amp; 
                            (!window.React || !window.React.isPending || !window.React.isPending());
                 """)
             except:
@@ -556,7 +605,7 @@ class SmartWaiter:
             self.logger.warning("React wait timeout")
             return False
     
-    def wait_for_page_load(self, timeout: int = 30) -> bool:
+    def wait_for_page_load(self, timeout: int = 30) -&gt; bool:
         """
         Wait for page to fully load.
         """
@@ -571,13 +620,13 @@ class SmartWaiter:
             return False
     
     def wait_for_element_count(self, locator: Tuple[By, str], 
-                               count: int, timeout: int = 30) -> bool:
+                               count: int, timeout: int = 30) -&gt; bool:
         """
         Wait for specific number of elements.
         """
         def element_count_matches(driver):
             elements = driver.find_elements(*locator)
-            return len(elements) >= count
+            return len(elements) &gt;= count
         
         try:
             WebDriverWait(self.driver, timeout).until(element_count_matches)
@@ -587,7 +636,7 @@ class SmartWaiter:
             return False
     
     def wait_for_text_in_element(self, locator: Tuple[By, str], 
-                                 text: str, timeout: int = 30) -> bool:
+                                 text: str, timeout: int = 30) -&gt; bool:
         """
         Wait for specific text in element.
         """
@@ -601,7 +650,7 @@ class SmartWaiter:
             return False
     
     def wait_for_element_to_disappear(self, locator: Tuple[By, str], 
-                                      timeout: int = 30) -> bool:
+                                      timeout: int = 30) -&gt; bool:
         """
         Wait for element to disappear.
         """
@@ -625,14 +674,14 @@ class JavaScriptExecutor:
         self.driver = driver
         self.logger = logging.getLogger(__name__)
     
-    def scroll_to_bottom(self, pause: float = 0.5) -> None:
+    def scroll_to_bottom(self, pause: float = 0.5) -&gt; None:
         """
         Scroll to bottom of page.
         """
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(pause)
     
-    def infinite_scroll(self, max_scrolls: int = 10, pause: float = 1) -> int:
+    def infinite_scroll(self, max_scrolls: int = 10, pause: float = 1) -&gt; int:
         """
         Handle infinite scroll pages.
         
@@ -642,7 +691,7 @@ class JavaScriptExecutor:
         last_height = self.driver.execute_script("return document.body.scrollHeight")
         scrolls = 0
         
-        while scrolls < max_scrolls:
+        while scrolls &lt; max_scrolls:
             # Scroll down
             self.scroll_to_bottom(pause)
             
@@ -660,7 +709,7 @@ class JavaScriptExecutor:
         
         return scrolls
     
-    def remove_element(self, locator: Tuple[By, str]) -> bool:
+    def remove_element(self, locator: Tuple[By, str]) -&gt; bool:
         """
         Remove element from DOM.
         """
@@ -671,20 +720,20 @@ class JavaScriptExecutor:
         except NoSuchElementException:
             return False
     
-    def get_local_storage(self) -> Dict:
+    def get_local_storage(self) -&gt; Dict:
         """
         Get all local storage items.
         """
         return self.driver.execute_script("""
             var items = {};
-            for (var i = 0; i < localStorage.length; i++) {
+            for (var i = 0; i &lt; localStorage.length; i++) {
                 var key = localStorage.key(i);
                 items[key] = localStorage.getItem(key);
             }
             return items;
         """)
     
-    def set_local_storage(self, key: str, value: str) -> None:
+    def set_local_storage(self, key: str, value: str) -&gt; None:
         """
         Set local storage item.
         """
@@ -693,25 +742,25 @@ class JavaScriptExecutor:
             key, value
         )
     
-    def get_session_storage(self) -> Dict:
+    def get_session_storage(self) -&gt; Dict:
         """
         Get all session storage items.
         """
         return self.driver.execute_script("""
             var items = {};
-            for (var i = 0; i < sessionStorage.length; i++) {
+            for (var i = 0; i &lt; sessionStorage.length; i++) {
                 var key = sessionStorage.key(i);
                 items[key] = sessionStorage.getItem(key);
             }
             return items;
         """)
     
-    def get_network_data(self) -> List[Dict]:
+    def get_network_data(self) -&gt; List[Dict]:
         """
         Get network request data (requires Chrome DevTools Protocol).
         """
         return self.driver.execute_script("""
-            return window.performance.getEntries().map(entry => ({
+            return window.performance.getEntries().map(entry =&gt; ({
                 name: entry.name,
                 type: entry.entryType,
                 duration: entry.duration,
@@ -719,7 +768,7 @@ class JavaScriptExecutor:
             }));
         """)
     
-    def trigger_event(self, locator: Tuple[By, str], event: str) -> bool:
+    def trigger_event(self, locator: Tuple[By, str], event: str) -&gt; bool:
         """
         Trigger JavaScript event on element.
         """
@@ -733,7 +782,7 @@ class JavaScriptExecutor:
         except NoSuchElementException:
             return False
     
-    def get_computed_style(self, locator: Tuple[By, str]) -> Dict:
+    def get_computed_style(self, locator: Tuple[By, str]) -&gt; Dict:
         """
         Get computed CSS styles of element.
         """
@@ -742,7 +791,7 @@ class JavaScriptExecutor:
             return self.driver.execute_script("""
                 var styles = window.getComputedStyle(arguments[0]);
                 var result = {};
-                for (var i = 0; i < styles.length; i++) {
+                for (var i = 0; i &lt; styles.length; i++) {
                     var prop = styles[i];
                     result[prop] = styles.getPropertyValue(prop);
                 }
@@ -779,7 +828,7 @@ class SocialMediaScraper:
     def login(self, url: str, username: str, password: str,
               username_locator: Tuple[By, str],
               password_locator: Tuple[By, str],
-              submit_locator: Tuple[By, str]) -> bool:
+              submit_locator: Tuple[By, str]) -&gt; bool:
         """
         Generic login method for social media platforms.
         """
@@ -811,14 +860,14 @@ class SocialMediaScraper:
     
     def scrape_infinite_scroll_content(self, 
                                       content_locator: Tuple[By, str],
-                                      max_items: int = 100) -> List[Dict]:
+                                      max_items: int = 100) -&gt; List[Dict]:
         """
         Scrape content from infinite scroll page.
         """
         scraped_items = []
         seen_ids = set()
         
-        while len(scraped_items) < max_items:
+        while len(scraped_items) &lt; max_items:
             # Get current items
             elements = self.driver.find_elements(*content_locator)
             
@@ -837,7 +886,7 @@ class SocialMediaScraper:
                     item_data = self.extract_element_data(element)
                     scraped_items.append(item_data)
                     
-                    if len(scraped_items) >= max_items:
+                    if len(scraped_items) &gt;= max_items:
                         break
             
             # Scroll for more content
@@ -858,7 +907,7 @@ class SocialMediaScraper:
         
         return scraped_items
     
-    def extract_element_data(self, element: Any) -> Dict:
+    def extract_element_data(self, element: Any) -&gt; Dict:
         """
         Extract data from a web element.
         """
@@ -884,7 +933,7 @@ class SocialMediaScraper:
         
         return data
     
-    def handle_popup(self, close_button_locator: Tuple[By, str]) -> bool:
+    def handle_popup(self, close_button_locator: Tuple[By, str]) -&gt; bool:
         """
         Handle popup windows.
         """
@@ -898,7 +947,7 @@ class SocialMediaScraper:
         except:
             return False
     
-    def take_screenshot(self, filename: str = None) -> str:
+    def take_screenshot(self, filename: str = None) -&gt; str:
         """
         Take screenshot of current page.
         """
@@ -909,7 +958,7 @@ class SocialMediaScraper:
         self.logger.info(f"Screenshot saved: {filename}")
         return filename
     
-    def extract_images(self, image_locator: Tuple[By, str] = (By.TAG_NAME, "img")) -> List[str]:
+    def extract_images(self, image_locator: Tuple[By, str] = (By.TAG_NAME, "img")) -&gt; List[str]:
         """
         Extract all image URLs from page.
         """
@@ -932,7 +981,7 @@ class SocialMediaScraper:
             pickle.dump(cookies, f)
         self.logger.info(f"Cookies saved to {filename}")
     
-    def load_cookies(self, filename: str = "cookies.pkl") -> bool:
+    def load_cookies(self, filename: str = "cookies.pkl") -&gt; bool:
         """
         Load cookies from file.
         """
@@ -967,7 +1016,7 @@ class NetworkInterceptor:
         self.driver = None
         self.logger = logging.getLogger(__name__)
     
-    def create_interceptor_driver(self, options: Dict = None) -> wire_webdriver.Chrome:
+    def create_interceptor_driver(self, options: Dict = None) -&gt; wire_webdriver.Chrome:
         """
         Create driver with network interception capabilities.
         """
@@ -986,7 +1035,7 @@ class NetworkInterceptor:
         
         return self.driver
     
-    def intercept_requests(self, pattern: str = None) -> List[Dict]:
+    def intercept_requests(self, pattern: str = None) -&gt; List[Dict]:
         """
         Get intercepted requests.
         """
@@ -1026,7 +1075,7 @@ class NetworkInterceptor:
         
         self.driver.request_interceptor = interceptor
     
-    def get_api_responses(self, api_pattern: str) -> List[Dict]:
+    def get_api_responses(self, api_pattern: str) -&gt; List[Dict]:
         """
         Extract API responses from network traffic.
         """
@@ -1063,11 +1112,11 @@ class BasePage:
         self.driver.get(url)
         self.waiter.wait_for_page_load()
     
-    def get_title(self) -> str:
+    def get_title(self) -&gt; str:
         """Get page title."""
         return self.driver.title
     
-    def get_url(self) -> str:
+    def get_url(self) -&gt; str:
         """Get current URL."""
         return self.driver.current_url
 
@@ -1082,7 +1131,7 @@ class LoginPage(BasePage):
     LOGIN_BUTTON = (By.ID, "login-button")
     ERROR_MESSAGE = (By.CLASS_NAME, "error-message")
     
-    def login(self, username: str, password: str) -> bool:
+    def login(self, username: str, password: str) -&gt; bool:
         """
         Perform login.
         """
@@ -1141,7 +1190,7 @@ if __name__ == "__main__":
         ("Send Keys", "safe_send_keys((By.NAME, 'email'), 'user@example.com')"),
         ("Hover", "hover_over_element((By.CLASS_NAME, 'menu'))"),
         ("Select Dropdown", "select_dropdown((By.ID, 'country'), 'USA', by='text')"),
-        ("Drag & Drop", "drag_and_drop(source, target)"),
+        ("Drag &amp; Drop", "drag_and_drop(source, target)"),
         ("Upload File", "upload_file((By.NAME, 'file'), '/path/to/file.pdf')")
     ]
     
@@ -1255,37 +1304,28 @@ if __name__ == "__main__":
     
     print("\n✅ Selenium dynamic content demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Explicit Waits:</strong> Never use time.sleep() when you can wait for conditions.</li>
-        
-        <li><strong>Handle Stale Elements:</strong> Elements can become stale; always re-find if needed.</li>
-        
-        <li><strong>Simulate Human Behavior:</strong> Add random delays and natural mouse movements.</li>
-        
-        <li><strong>Use Page Object Model:</strong> Keep your code maintainable and reusable.</li>
-        
-        <li><strong>Handle JavaScript:</strong> Wait for AJAX, Angular, React to complete loading.</li>
-        
-        <li><strong>Implement Retry Logic:</strong> Web elements can be flaky; always have fallbacks.</li>
-        
-        <li><strong>Save Evidence:</strong> Take screenshots and save HTML on failures.</li>
-        
-        <li><strong>Run Headless in Production:</strong> Save resources and run faster.</li>
-    </ul>
-
-    <h3>Selenium Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Selenium is powerful but can be fragile. The key to robust automation is defensive programming - always assume elements might not be there, clicks might fail, and pages might load slowly. Use explicit waits with expected conditions rather than implicit waits or sleep(). When dealing with modern SPAs, wait for framework-specific ready states (Angular, React, Vue). For anti-detection, use undetected-chromedriver and randomize everything - timing, mouse movements, scroll patterns. Remember that Selenium controls a real browser, which means it's resource-intensive - use it when you need JavaScript execution, otherwise use requests/BeautifulSoup. Implement the Page Object Model pattern for maintainable code. Most importantly: what works today might break tomorrow as websites change, so build your automation to be resilient and easy to update!</p>
-    </div>
-    
-    <p>Mastering Selenium opens up a whole new world of web automation possibilities. You can now scrape any website, no matter how much JavaScript it uses, interact with complex web applications, automate testing, and even build bots that behave like humans. Whether you're scraping SPAs, automating form submissions, or building testing frameworks, Selenium gives you complete control over the browser! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="advanced_scraping_apis_ajax.html">APIs and AJAX - Intercept and Use Web APIs!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Explicit Waits:</strong> Never use time.sleep() when you can wait for conditions.</li>
+<li><strong>Handle Stale Elements:</strong> Elements can become stale; always re-find if needed.</li>
+<li><strong>Simulate Human Behavior:</strong> Add random delays and natural mouse movements.</li>
+<li><strong>Use Page Object Model:</strong> Keep your code maintainable and reusable.</li>
+<li><strong>Handle JavaScript:</strong> Wait for AJAX, Angular, React to complete loading.</li>
+<li><strong>Implement Retry Logic:</strong> Web elements can be flaky; always have fallbacks.</li>
+<li><strong>Save Evidence:</strong> Take screenshots and save HTML on failures.</li>
+<li><strong>Run Headless in Production:</strong> Save resources and run faster.</li>
+</ul>
+<h3>Selenium Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Selenium is powerful but can be fragile. The key to robust automation is defensive programming - always assume elements might not be there, clicks might fail, and pages might load slowly. Use explicit waits with expected conditions rather than implicit waits or sleep(). When dealing with modern SPAs, wait for framework-specific ready states (Angular, React, Vue). For anti-detection, use undetected-chromedriver and randomize everything - timing, mouse movements, scroll patterns. Remember that Selenium controls a real browser, which means it's resource-intensive - use it when you need JavaScript execution, otherwise use requests/BeautifulSoup. Implement the Page Object Model pattern for maintainable code. Most importantly: what works today might break tomorrow as websites change, so build your automation to be resilient and easy to update!</p>
+</div>
+<p>Mastering Selenium opens up a whole new world of web automation possibilities. You can now scrape any website, no matter how much JavaScript it uses, interact with complex web applications, automate testing, and even build bots that behave like humans. Whether you're scraping SPAs, automating form submissions, or building testing frameworks, Selenium gives you complete control over the browser! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="chatbot_nlp.html">← Previous: Natural Language Processing</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="advanced_scraping_scrapy.html">Next: Scrapy Framework →</a>
+</div>
+</footer>
 </body>
 </html>

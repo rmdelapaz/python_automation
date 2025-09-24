@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Testing - Python Testing Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API Testing - Python Testing Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🚀 API Testing: Validate Your Backend Services Thoroughly</h1>
-    
-    <p>API testing is the backbone of modern application quality assurance - it validates that your backend services work correctly, handle edge cases gracefully, and maintain contracts between systems. Like testing the engine of a car without needing the entire vehicle, API testing provides fast, reliable validation of business logic and data processing. Whether you're testing REST APIs, GraphQL endpoints, or microservices, mastering API testing is essential for delivering robust backend services. Let's explore the comprehensive world of API test automation! 🔧</p>
-
-    <h2>The API Testing Architecture</h2>
-    
-    <p>Think of API testing as quality control for your application's nervous system - it verifies that data flows correctly between components, responses meet specifications, and services handle various scenarios appropriately. Using tools like requests, pytest, and specialized frameworks, you can create comprehensive test suites that validate functionality, performance, security, and reliability. Understanding request/response cycles, authentication, data validation, and contract testing is crucial for effective API testing!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module9">Testing Automation</a> &gt; 
+        <span>API Testing</span>
+</nav>
+<h1>🚀 API Testing: Validate Your Backend Services Thoroughly</h1>
+<p>API testing is the backbone of modern application quality assurance - it validates that your backend services work correctly, handle edge cases gracefully, and maintain contracts between systems. Like testing the engine of a car without needing the entire vehicle, API testing provides fast, reliable validation of business logic and data processing. Whether you're testing REST APIs, GraphQL endpoints, or microservices, mastering API testing is essential for delivering robust backend services. Let's explore the comprehensive world of API test automation! 🔧</p>
+<h2>The API Testing Architecture</h2>
+<p>Think of API testing as quality control for your application's nervous system - it verifies that data flows correctly between components, responses meet specifications, and services handle various scenarios appropriately. Using tools like requests, pytest, and specialized frameworks, you can create comprehensive test suites that validate functionality, performance, security, and reliability. Understanding request/response cycles, authentication, data validation, and contract testing is crucial for effective API testing!</p>
+<div class="mermaid">
     graph TB
-        A[API Testing] --> B[Test Types]
-        A --> C[Test Levels]
-        A --> D[Validation]
-        A --> E[Tools]
+        A[API Testing] --&gt; B[Test Types]
+        A --&gt; C[Test Levels]
+        A --&gt; D[Validation]
+        A --&gt; E[Tools]
         
-        B --> F[Functional]
-        B --> G[Performance]
-        B --> H[Security]
-        B --> I[Contract]
+        B --&gt; F[Functional]
+        B --&gt; G[Performance]
+        B --&gt; H[Security]
+        B --&gt; I[Contract]
         
-        C --> J[Unit]
-        C --> K[Integration]
-        C --> L[E2E]
-        C --> M[Load]
+        C --&gt; J[Unit]
+        C --&gt; K[Integration]
+        C --&gt; L[E2E]
+        C --&gt; M[Load]
         
-        D --> N[Status Codes]
-        D --> O[Response Body]
-        D --> P[Headers]
-        D --> Q[Schema]
+        D --&gt; N[Status Codes]
+        D --&gt; O[Response Body]
+        D --&gt; P[Headers]
+        D --&gt; Q[Schema]
         
-        E --> R[REST]
-        E --> S[GraphQL]
-        E --> T[gRPC]
-        E --> U[WebSocket]
+        E --&gt; R[REST]
+        E --&gt; S[GraphQL]
+        E --&gt; T[gRPC]
+        E --&gt; U[WebSocket]
         
-        V[Strategies] --> W[Data-Driven]
-        V --> X[Mock Services]
-        V --> Y[Chaining]
-        V --> Z[Automation]
+        V[Strategies] --&gt; W[Data-Driven]
+        V --&gt; X[Mock Services]
+        V --&gt; Y[Chaining]
+        V --&gt; Z[Automation]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Microservices API Testing Platform 🌍</h3>
-    
-    <p>You're building a comprehensive API testing platform for a microservices ecosystem that validates REST and GraphQL endpoints, tests authentication and authorization flows, ensures data consistency across services, validates API contracts between teams, performs load and stress testing, monitors API performance metrics, tests error handling and edge cases, and validates webhook deliveries. Your platform must support multiple authentication methods, handle various data formats, provide detailed test reports, and integrate with CI/CD pipelines. Let's build a professional API testing framework!</p>
-
-    <pre><code># Comprehensive API Testing Framework
+<h3>Real-World Scenario: The Microservices API Testing Platform 🌍</h3>
+<p>You're building a comprehensive API testing platform for a microservices ecosystem that validates REST and GraphQL endpoints, tests authentication and authorization flows, ensures data consistency across services, validates API contracts between teams, performs load and stress testing, monitors API performance metrics, tests error handling and edge cases, and validates webhook deliveries. Your platform must support multiple authentication methods, handle various data formats, provide detailed test reports, and integrate with CI/CD pipelines. Let's build a professional API testing framework!</p>
+<pre><code># Comprehensive API Testing Framework
 # pip install requests pytest pytest-html pytest-benchmark
 # pip install jsonschema pydantic faker factory-boy
 # pip install locust aiohttp httpx grpcio graphql-core
@@ -153,7 +202,7 @@ class APIClient:
         self.logger = logging.getLogger(__name__)
         self.request_history = []
         
-    def _create_session(self) -> requests.Session:
+    def _create_session(self) -&gt; requests.Session:
         """Create configured session with retry logic."""
         session = requests.Session()
         
@@ -201,7 +250,7 @@ class APIClient:
         method: str,
         endpoint: str,
         **kwargs
-    ) -> requests.Response:
+    ) -&gt; requests.Response:
         """Make HTTP request with logging and validation."""
         # Build full URL
         url = urljoin(self.config.base_url, endpoint)
@@ -241,27 +290,27 @@ class APIClient:
         
         return response
     
-    def get(self, endpoint: str, **kwargs) -> requests.Response:
+    def get(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """GET request."""
         return self.request("GET", endpoint, **kwargs)
     
-    def post(self, endpoint: str, **kwargs) -> requests.Response:
+    def post(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """POST request."""
         return self.request("POST", endpoint, **kwargs)
     
-    def put(self, endpoint: str, **kwargs) -> requests.Response:
+    def put(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """PUT request."""
         return self.request("PUT", endpoint, **kwargs)
     
-    def patch(self, endpoint: str, **kwargs) -> requests.Response:
+    def patch(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """PATCH request."""
         return self.request("PATCH", endpoint, **kwargs)
     
-    def delete(self, endpoint: str, **kwargs) -> requests.Response:
+    def delete(self, endpoint: str, **kwargs) -&gt; requests.Response:
         """DELETE request."""
         return self.request("DELETE", endpoint, **kwargs)
     
-    def get_metrics(self) -> Dict[str, Any]:
+    def get_metrics(self) -&gt; Dict[str, Any]:
         """Get request metrics."""
         if not self.request_history:
             return {}
@@ -274,7 +323,7 @@ class APIClient:
             "avg_duration": sum(durations) / len(durations),
             "min_duration": min(durations),
             "max_duration": max(durations),
-            "success_rate": len([s for s in status_codes if 200 <= s < 300]) / len(status_codes) * 100
+            "success_rate": len([s for s in status_codes if 200 &lt;= s &lt; 300]) / len(status_codes) * 100
         }
 
 # ==================== Async API Client ====================
@@ -296,23 +345,23 @@ class AsyncAPIClient:
         method: str,
         endpoint: str,
         **kwargs
-    ) -> httpx.Response:
+    ) -&gt; httpx.Response:
         """Make async HTTP request."""
         response = await self.client.request(method, endpoint, **kwargs)
         return response
     
-    async def get(self, endpoint: str, **kwargs) -> httpx.Response:
+    async def get(self, endpoint: str, **kwargs) -&gt; httpx.Response:
         """Async GET request."""
         return await self.request("GET", endpoint, **kwargs)
     
-    async def post(self, endpoint: str, **kwargs) -> httpx.Response:
+    async def post(self, endpoint: str, **kwargs) -&gt; httpx.Response:
         """Async POST request."""
         return await self.request("POST", endpoint, **kwargs)
     
     async def batch_requests(
         self,
         requests: List[Dict[str, Any]]
-    ) -> List[httpx.Response]:
+    ) -&gt; List[httpx.Response]:
         """Execute multiple requests concurrently."""
         tasks = []
         for req in requests:
@@ -361,7 +410,7 @@ class ResponseValidator:
         max_time: float
     ):
         """Validate response time."""
-        assert response.elapsed.total_seconds() < max_time, \
+        assert response.elapsed.total_seconds() &lt; max_time, \
             f"Response took {response.elapsed.total_seconds()}s, max allowed: {max_time}s"
     
     @staticmethod
@@ -423,7 +472,7 @@ class TestDataFactory:
     def __init__(self):
         self.faker = Faker()
     
-    def create_user(self, **overrides) -> Dict[str, Any]:
+    def create_user(self, **overrides) -&gt; Dict[str, Any]:
         """Create user test data."""
         user_data = {
             "username": self.faker.user_name(),
@@ -436,7 +485,7 @@ class TestDataFactory:
         user_data.update(overrides)
         return user_data
     
-    def create_product(self, **overrides) -> Dict[str, Any]:
+    def create_product(self, **overrides) -&gt; Dict[str, Any]:
         """Create product test data."""
         product_data = {
             "name": self.faker.company() + " " + self.faker.word(),
@@ -454,7 +503,7 @@ class TestDataFactory:
         factory_method: Callable,
         count: int,
         **overrides
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """Create multiple test data items."""
         return [factory_method(**overrides) for _ in range(count)]
 
@@ -581,7 +630,7 @@ class TestUserAPI(APITestBase):
         
         data = response.json()
         assert "users" in data
-        assert len(data["users"]) <= 10
+        assert len(data["users"]) &lt;= 10
         assert data["page"] == 1
         assert "total" in data
         
@@ -640,14 +689,14 @@ class ContractTest:
                 if value:
                     assert response.headers[header] == value
     
-    def find_contract(self, endpoint: str, method: str) -> Optional[Dict]:
+    def find_contract(self, endpoint: str, method: str) -&gt; Optional[Dict]:
         """Find contract for endpoint and method."""
         for path, methods in self.contract.get("paths", {}).items():
             if self.match_path(endpoint, path):
                 return methods.get(method.lower())
         return None
     
-    def match_path(self, endpoint: str, pattern: str) -> bool:
+    def match_path(self, endpoint: str, pattern: str) -&gt; bool:
         """Match endpoint against pattern with parameters."""
         # Simple pattern matching (can be enhanced)
         pattern_parts = pattern.split("/")
@@ -680,7 +729,7 @@ class GraphQLClient:
         query: str,
         variables: Optional[Dict] = None,
         operation_name: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -&gt; Dict[str, Any]:
         """Execute GraphQL query."""
         payload = {
             "query": query,
@@ -698,7 +747,7 @@ class GraphQLClient:
         response.raise_for_status()
         return response.json()
     
-    def introspect(self) -> Dict[str, Any]:
+    def introspect(self) -&gt; Dict[str, Any]:
         """Get GraphQL schema through introspection."""
         introspection_query = """
             query IntrospectionQuery {
@@ -746,7 +795,7 @@ class TestGraphQLAPI:
         
         assert "data" in result
         assert "users" in result["data"]
-        assert len(result["data"]["users"]) <= 10
+        assert len(result["data"]["users"]) &lt;= 10
     
     def test_mutation_create_user(self, graphql_client):
         """Test creating user with mutation."""
@@ -956,7 +1005,7 @@ class TestReporter:
             total=total,
             passed=passed,
             failed=failed,
-            success_rate=(passed/total*100) if total > 0 else 0,
+            success_rate=(passed/total*100) if total &gt; 0 else 0,
             rows=rows
         )
         
@@ -1121,37 +1170,28 @@ if __name__ == "__main__":
     
     print("\n✅ API testing examples complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Comprehensive Validation:</strong> Validate status codes, response bodies, headers, and schemas.</li>
-        
-        <li><strong>Test Data Management:</strong> Use factories to generate consistent test data.</li>
-        
-        <li><strong>Authentication Testing:</strong> Test all auth methods and permission boundaries.</li>
-        
-        <li><strong>Error Scenarios:</strong> Test error handling and edge cases thoroughly.</li>
-        
-        <li><strong>Performance Monitoring:</strong> Track response times and throughput.</li>
-        
-        <li><strong>Contract Testing:</strong> Ensure APIs meet their specifications.</li>
-        
-        <li><strong>Security Testing:</strong> Validate against common vulnerabilities.</li>
-        
-        <li><strong>Cleanup:</strong> Always clean up test data to maintain test isolation.</li>
-    </ul>
-
-    <h3>API Testing Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of API testing as validating the contract between your backend and its consumers - it should verify not just that endpoints work, but that they behave correctly under all conditions. Start with functional testing of happy paths, then add edge cases, error scenarios, and boundary conditions. Use schema validation (JSON Schema or Pydantic) to ensure response structures are correct - this catches breaking changes early. Implement proper test data management with factories that generate realistic data, and always clean up after tests to maintain isolation. Test authentication and authorization thoroughly - verify that protected endpoints are actually protected and permissions are enforced. Use parameterized tests for similar scenarios with different data. Implement retry logic for flaky network issues but investigate root causes. Test pagination, filtering, and sorting with various data sets. Monitor performance metrics - a functionally correct but slow API is still broken. Use contract testing to ensure API changes don't break consumers. Test rate limiting to ensure it works and document limits. Validate error responses are helpful and consistent. Use different environments (dev, staging) but be careful with production. Chain requests to test workflows, not just individual endpoints. Most importantly: API tests should be fast and reliable - they're your first line of defense against backend issues!</p>
-    </div>
-    
-    <p>Mastering API testing enables you to ensure your backend services are robust, performant, and reliable. You can now create comprehensive test suites that validate functionality, test edge cases, ensure security, monitor performance, and maintain contracts between services. Whether you're testing REST APIs, GraphQL endpoints, or microservices, these API testing skills are essential for delivering quality backend services! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="testing_automation_ci.html">Continuous Integration Setup - Automate Your Testing Pipeline!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Comprehensive Validation:</strong> Validate status codes, response bodies, headers, and schemas.</li>
+<li><strong>Test Data Management:</strong> Use factories to generate consistent test data.</li>
+<li><strong>Authentication Testing:</strong> Test all auth methods and permission boundaries.</li>
+<li><strong>Error Scenarios:</strong> Test error handling and edge cases thoroughly.</li>
+<li><strong>Performance Monitoring:</strong> Track response times and throughput.</li>
+<li><strong>Contract Testing:</strong> Ensure APIs meet their specifications.</li>
+<li><strong>Security Testing:</strong> Validate against common vulnerabilities.</li>
+<li><strong>Cleanup:</strong> Always clean up test data to maintain test isolation.</li>
+</ul>
+<h3>API Testing Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of API testing as validating the contract between your backend and its consumers - it should verify not just that endpoints work, but that they behave correctly under all conditions. Start with functional testing of happy paths, then add edge cases, error scenarios, and boundary conditions. Use schema validation (JSON Schema or Pydantic) to ensure response structures are correct - this catches breaking changes early. Implement proper test data management with factories that generate realistic data, and always clean up after tests to maintain isolation. Test authentication and authorization thoroughly - verify that protected endpoints are actually protected and permissions are enforced. Use parameterized tests for similar scenarios with different data. Implement retry logic for flaky network issues but investigate root causes. Test pagination, filtering, and sorting with various data sets. Monitor performance metrics - a functionally correct but slow API is still broken. Use contract testing to ensure API changes don't break consumers. Test rate limiting to ensure it works and document limits. Validate error responses are helpful and consistent. Use different environments (dev, staging) but be careful with production. Chain requests to test workflows, not just individual endpoints. Most importantly: API tests should be fast and reliable - they're your first line of defense against backend issues!</p>
+</div>
+<p>Mastering API testing enables you to ensure your backend services are robust, performant, and reliable. You can now create comprehensive test suites that validate functionality, test edge cases, ensure security, monitor performance, and maintain contracts between services. Whether you're testing REST APIs, GraphQL endpoints, or microservices, these API testing skills are essential for delivering quality backend services! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="testing_automation_ui_selenium.html">← Previous: UI Testing with Selenium</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="testing_automation_ci.html">Next: Continuous Integration →</a>
+</div>
+</footer>
 </body>
 </html>

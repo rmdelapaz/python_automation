@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Storage Management - Python Cloud Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cloud Storage Management - Python Cloud Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>💾 Cloud Storage Management: Master Data in the Cloud</h1>
-    
-    <p>Cloud storage is the backbone of modern applications - it provides infinitely scalable, globally accessible, and highly durable storage for everything from static websites to massive data lakes. Like managing a vast digital warehouse that spans the globe, mastering cloud storage involves understanding object storage, file systems, databases, caching strategies, and data lifecycle management. Whether using AWS S3, Google Cloud Storage, or Azure Blob Storage, these skills enable you to store, organize, and retrieve data efficiently at any scale. Let's explore the comprehensive world of cloud storage management! 🌍</p>
-
-    <h2>The Cloud Storage Architecture</h2>
-    
-    <p>Think of cloud storage as a hierarchy of solutions optimized for different use cases - from hot storage for frequently accessed data to cold archives for long-term retention, each tier offers different performance, durability, and cost characteristics. Using services like S3 for objects, EFS for file systems, DynamoDB for NoSQL, and RDS for relational data, you can build storage architectures that scale infinitely while optimizing for both performance and cost. Understanding these storage patterns is essential for modern cloud applications!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module7">Cloud Automation</a> &gt; 
+        <span>Cloud Storage</span>
+</nav>
+<h1>💾 Cloud Storage Management: Master Data in the Cloud</h1>
+<p>Cloud storage is the backbone of modern applications - it provides infinitely scalable, globally accessible, and highly durable storage for everything from static websites to massive data lakes. Like managing a vast digital warehouse that spans the globe, mastering cloud storage involves understanding object storage, file systems, databases, caching strategies, and data lifecycle management. Whether using AWS S3, Google Cloud Storage, or Azure Blob Storage, these skills enable you to store, organize, and retrieve data efficiently at any scale. Let's explore the comprehensive world of cloud storage management! 🌍</p>
+<h2>The Cloud Storage Architecture</h2>
+<p>Think of cloud storage as a hierarchy of solutions optimized for different use cases - from hot storage for frequently accessed data to cold archives for long-term retention, each tier offers different performance, durability, and cost characteristics. Using services like S3 for objects, EFS for file systems, DynamoDB for NoSQL, and RDS for relational data, you can build storage architectures that scale infinitely while optimizing for both performance and cost. Understanding these storage patterns is essential for modern cloud applications!</p>
+<div class="mermaid">
     graph TB
-        A[Cloud Storage Management] --> B[Storage Types]
-        A --> C[Data Operations]
-        A --> D[Security & Access]
-        A --> E[Optimization]
+        A[Cloud Storage Management] --&gt; B[Storage Types]
+        A --&gt; C[Data Operations]
+        A --&gt; D[Security &amp; Access]
+        A --&gt; E[Optimization]
         
-        B --> F[Object Storage]
-        B --> G[Block Storage]
-        B --> H[File Storage]
-        B --> I[Database Storage]
+        B --&gt; F[Object Storage]
+        B --&gt; G[Block Storage]
+        B --&gt; H[File Storage]
+        B --&gt; I[Database Storage]
         
-        C --> J[Upload/Download]
-        C --> K[Sync & Backup]
-        C --> L[Migration]
-        C --> M[Replication]
+        C --&gt; J[Upload/Download]
+        C --&gt; K[Sync &amp; Backup]
+        C --&gt; L[Migration]
+        C --&gt; M[Replication]
         
-        D --> N[Encryption]
-        D --> O[Access Control]
-        D --> P[Signed URLs]
-        D --> Q[CORS]
+        D --&gt; N[Encryption]
+        D --&gt; O[Access Control]
+        D --&gt; P[Signed URLs]
+        D --&gt; Q[CORS]
         
-        E --> R[Lifecycle Policies]
-        E --> S[CDN Integration]
-        E --> T[Cost Management]
-        E --> U[Performance Tuning]
+        E --&gt; R[Lifecycle Policies]
+        E --&gt; S[CDN Integration]
+        E --&gt; T[Cost Management]
+        E --&gt; U[Performance Tuning]
         
-        V[Use Cases] --> W[Static Websites]
-        V --> X[Data Lakes]
-        V --> Y[Backup & Archive]
-        V --> Z[Media Streaming]
+        V[Use Cases] --&gt; W[Static Websites]
+        V --&gt; X[Data Lakes]
+        V --&gt; Y[Backup &amp; Archive]
+        V --&gt; Z[Media Streaming]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Enterprise Cloud Storage Platform 🏢</h3>
-    
-    <p>You're building an enterprise storage platform that manages petabytes of data across multiple cloud providers, handles file uploads from millions of users, implements intelligent tiering for cost optimization, provides secure sharing with expiring links, syncs data across regions for disaster recovery, processes media files with automatic transcoding, maintains compliance with data retention policies, and integrates with CDNs for global content delivery. Your system must ensure 99.999999999% durability, optimize for both performance and cost, and provide comprehensive monitoring and analytics. Let's build a production-ready cloud storage framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Enterprise Cloud Storage Platform 🏢</h3>
+<p>You're building an enterprise storage platform that manages petabytes of data across multiple cloud providers, handles file uploads from millions of users, implements intelligent tiering for cost optimization, provides secure sharing with expiring links, syncs data across regions for disaster recovery, processes media files with automatic transcoding, maintains compliance with data retention policies, and integrates with CDNs for global content delivery. Your system must ensure 99.999999999% durability, optimize for both performance and cost, and provide comprehensive monitoring and analytics. Let's build a production-ready cloud storage framework!</p>
+<pre><code># First, install required packages:
 # pip install boto3 google-cloud-storage azure-storage-blob
 # pip install minio watchdog pandas matplotlib tqdm
 # pip install aiofiles asyncio aioboto3 concurrent-futures
@@ -161,7 +210,7 @@ class CloudStorageManager:
         file_path: str,
         key: str,
         metadata: Optional[Dict[str, str]] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Upload file asynchronously."""
         raise NotImplementedError
     
@@ -169,7 +218,7 @@ class CloudStorageManager:
         self,
         key: str,
         file_path: str
-    ) -> bool:
+    ) -&gt; bool:
         """Download file asynchronously."""
         raise NotImplementedError
     
@@ -177,11 +226,11 @@ class CloudStorageManager:
         self,
         prefix: Optional[str] = None,
         max_keys: int = 1000
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """List objects in storage."""
         raise NotImplementedError
     
-    def delete_object(self, key: str) -> bool:
+    def delete_object(self, key: str) -&gt; bool:
         """Delete object from storage."""
         raise NotImplementedError
     
@@ -189,7 +238,7 @@ class CloudStorageManager:
         self,
         key: str,
         expiration: int = 3600
-    ) -> str:
+    ) -&gt; str:
         """Generate presigned URL for object access."""
         raise NotImplementedError
 
@@ -210,7 +259,7 @@ class S3StorageManager(CloudStorageManager):
         enable_versioning: bool = True,
         enable_encryption: bool = True,
         lifecycle_rules: Optional[List[Dict]] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Create S3 bucket with best practices."""
         try:
             bucket_name = bucket_name or self.bucket_name
@@ -281,7 +330,7 @@ class S3StorageManager(CloudStorageManager):
         metadata: Optional[Dict[str, str]] = None,
         storage_class: StorageClass = StorageClass.STANDARD,
         progress_callback: Optional[callable] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Upload file to S3 with progress tracking."""
         try:
             file_path = Path(file_path)
@@ -309,7 +358,7 @@ class S3StorageManager(CloudStorageManager):
                 extra_args['ContentType'] = content_type
             
             # Upload with progress
-            if file_size > self.config.multipart_threshold:
+            if file_size &gt; self.config.multipart_threshold:
                 # Multipart upload for large files
                 self._multipart_upload(file_path, key, extra_args, progress_callback)
             else:
@@ -374,7 +423,7 @@ class S3StorageManager(CloudStorageManager):
         file_path: str,
         key: str,
         metadata: Optional[Dict[str, str]] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Upload file asynchronously."""
         async with aioboto3.Session().client('s3', region_name=self.config.aws_region) as s3:
             try:
@@ -404,7 +453,7 @@ class S3StorageManager(CloudStorageManager):
         key: str,
         file_path: str,
         progress_callback: Optional[callable] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Download file from S3 with progress tracking."""
         try:
             # Get object size
@@ -437,7 +486,7 @@ class S3StorageManager(CloudStorageManager):
         s3_prefix: str,
         delete: bool = False,
         exclude: Optional[List[str]] = None
-    ) -> Dict[str, int]:
+    ) -&gt; Dict[str, int]:
         """Sync local directory with S3."""
         local_dir = Path(local_dir)
         stats = {'uploaded': 0, 'skipped': 0, 'deleted': 0}
@@ -495,7 +544,7 @@ class S3StorageManager(CloudStorageManager):
         self.logger.info(f"Sync complete: {stats}")
         return stats
     
-    def _calculate_md5(self, file_path: Path) -> str:
+    def _calculate_md5(self, file_path: Path) -&gt; str:
         """Calculate MD5 hash of file."""
         hash_md5 = hashlib.md5()
         with open(file_path, 'rb') as f:
@@ -507,7 +556,7 @@ class S3StorageManager(CloudStorageManager):
         self,
         prefix: Optional[str] = None,
         max_keys: int = 1000
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """List objects in S3 bucket."""
         try:
             params = {
@@ -536,7 +585,7 @@ class S3StorageManager(CloudStorageManager):
             self.logger.error(f"Failed to list objects: {e}")
             return []
     
-    def delete_object(self, key: str) -> bool:
+    def delete_object(self, key: str) -&gt; bool:
         """Delete object from S3."""
         try:
             self.s3_client.delete_object(Bucket=self.bucket_name, Key=key)
@@ -552,7 +601,7 @@ class S3StorageManager(CloudStorageManager):
         key: str,
         expiration: int = 3600,
         http_method: str = 'GET'
-    ) -> str:
+    ) -&gt; str:
         """Generate presigned URL for object access."""
         try:
             url = self.s3_client.generate_presigned_url(
@@ -636,7 +685,7 @@ class GCSStorageManager(CloudStorageManager):
         bucket_name: Optional[str] = None,
         location: str = "us",
         storage_class: str = "STANDARD"
-    ) -> bool:
+    ) -&gt; bool:
         """Create GCS bucket."""
         try:
             bucket_name = bucket_name or self.bucket_name
@@ -679,7 +728,7 @@ class GCSStorageManager(CloudStorageManager):
         file_path: str,
         blob_name: Optional[str] = None,
         metadata: Optional[Dict[str, str]] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Upload file to GCS."""
         try:
             file_path = Path(file_path)
@@ -699,7 +748,7 @@ class GCSStorageManager(CloudStorageManager):
             
             # Upload with resumable upload for large files
             file_size = file_path.stat().st_size
-            if file_size > self.config.multipart_threshold:
+            if file_size &gt; self.config.multipart_threshold:
                 blob.chunk_size = self.config.multipart_chunksize
             
             blob.upload_from_filename(str(file_path))
@@ -711,7 +760,7 @@ class GCSStorageManager(CloudStorageManager):
             self.logger.error(f"GCS upload failed: {e}")
             return False
     
-    def download_file(self, blob_name: str, file_path: str) -> bool:
+    def download_file(self, blob_name: str, file_path: str) -&gt; bool:
         """Download file from GCS."""
         try:
             bucket = self.client.bucket(self.bucket_name)
@@ -730,7 +779,7 @@ class GCSStorageManager(CloudStorageManager):
         self,
         prefix: Optional[str] = None,
         max_keys: int = 1000
-    ) -> List[Dict[str, Any]]:
+    ) -&gt; List[Dict[str, Any]]:
         """List objects in GCS bucket."""
         try:
             bucket = self.client.bucket(self.bucket_name)
@@ -768,7 +817,7 @@ class AzureStorageManager(CloudStorageManager):
         self,
         container_name: Optional[str] = None,
         public_access: str = 'off'
-    ) -> bool:
+    ) -&gt; bool:
         """Create Azure container."""
         try:
             container_name = container_name or self.container_name
@@ -790,7 +839,7 @@ class AzureStorageManager(CloudStorageManager):
         file_path: str,
         blob_name: Optional[str] = None,
         metadata: Optional[Dict[str, str]] = None
-    ) -> bool:
+    ) -&gt; bool:
         """Upload file to Azure Blob Storage."""
         try:
             file_path = Path(file_path)
@@ -840,7 +889,7 @@ class MultiCloudStorageManager:
         file_path: str,
         key: str,
         metadata: Optional[Dict[str, str]] = None
-    ) -> Dict[str, bool]:
+    ) -&gt; Dict[str, bool]:
         """Upload file to all configured providers."""
         results = {}
         
@@ -866,7 +915,7 @@ class MultiCloudStorageManager:
         source_provider: str,
         source_key: str,
         target_providers: List[str]
-    ) -> Dict[str, bool]:
+    ) -&gt; Dict[str, bool]:
         """Replicate object across cloud providers."""
         results = {}
         
@@ -898,7 +947,7 @@ class StorageAnalytics:
         self.storage = storage_manager
         self.logger = logging.getLogger(__name__)
     
-    def analyze_usage(self) -> Dict[str, Any]:
+    def analyze_usage(self) -&gt; Dict[str, Any]:
         """Analyze storage usage patterns."""
         objects = self.storage.list_objects()
         
@@ -929,12 +978,12 @@ class StorageAnalytics:
         return {
             'total_size': total_size,
             'total_count': total_count,
-            'average_size': total_size / total_count if total_count > 0 else 0,
+            'average_size': total_size / total_count if total_count &gt; 0 else 0,
             'by_storage_class': by_class,
             'by_file_type': by_type
         }
     
-    def estimate_costs(self) -> Dict[str, float]:
+    def estimate_costs(self) -&gt; Dict[str, float]:
         """Estimate storage costs."""
         # Simplified cost estimation (actual costs vary by region and usage)
         pricing = {
@@ -956,7 +1005,7 @@ class StorageAnalytics:
         
         return costs
     
-    def generate_report(self) -> str:
+    def generate_report(self) -&gt; str:
         """Generate storage analytics report."""
         usage = self.analyze_usage()
         costs = self.estimate_costs()
@@ -983,10 +1032,10 @@ Storage Class Distribution:
         
         return report
     
-    def _format_bytes(self, bytes_value: int) -> str:
+    def _format_bytes(self, bytes_value: int) -&gt; str:
         """Format bytes to human readable string."""
         for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
-            if bytes_value < 1024.0:
+            if bytes_value &lt; 1024.0:
                 return f"{bytes_value:.2f} {unit}"
             bytes_value /= 1024.0
         return f"{bytes_value:.2f} PB"
@@ -1171,7 +1220,7 @@ if __name__ == "__main__":
     print("\n🔟 Performance Optimization:")
     
     tips = [
-        "Use multipart uploads for files > 100MB",
+        "Use multipart uploads for files &gt; 100MB",
         "Enable transfer acceleration for global uploads",
         "Use byte-range fetches for partial downloads",
         "Implement request coalescing",
@@ -1186,37 +1235,28 @@ if __name__ == "__main__":
     
     print("\n✅ Cloud storage management demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Choose Appropriate Storage Classes:</strong> Match storage tier to access patterns.</li>
-        
-        <li><strong>Implement Lifecycle Policies:</strong> Automate data archival and deletion.</li>
-        
-        <li><strong>Enable Versioning:</strong> Protect against accidental deletion.</li>
-        
-        <li><strong>Use Encryption:</strong> Always encrypt sensitive data at rest and in transit.</li>
-        
-        <li><strong>Monitor Costs:</strong> Track storage usage and optimize regularly.</li>
-        
-        <li><strong>Implement Multi-Cloud:</strong> Avoid vendor lock-in with replication.</li>
-        
-        <li><strong>Use CDN:</strong> Improve global performance with content delivery networks.</li>
-        
-        <li><strong>Regular Backups:</strong> Maintain backups in different regions.</li>
-    </ul>
-
-    <h3>Cloud Storage Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of cloud storage as a hierarchy of solutions - each tier offers different trade-offs between cost, performance, and durability. Start by understanding your data access patterns: hot data needs fast storage (STANDARD), warm data can use cheaper tiers (INFREQUENT_ACCESS), and cold data should be archived (GLACIER). Always enable encryption at rest and use IAM for fine-grained access control. Implement lifecycle policies from day one to automatically move data to appropriate tiers and delete expired data. Use versioning for critical data to protect against accidental deletion or corruption. For large files, use multipart uploads to improve reliability and performance. Implement proper tagging for cost allocation and organization. Use presigned URLs for secure temporary access instead of making objects public. Monitor your storage costs regularly - they can grow quickly. Consider multi-cloud replication for critical data to avoid vendor lock-in. Use CDN integration for frequently accessed public content. Most importantly: treat cloud storage as code - version control your bucket configurations, lifecycle policies, and access controls!</p>
-    </div>
-    
-    <p>Mastering cloud storage management enables you to build scalable, reliable, and cost-effective data solutions in the cloud. You can now handle everything from simple file uploads to petabyte-scale data lakes, implement intelligent tiering for cost optimization, ensure data durability with replication, and provide global access through CDN integration. Whether you're building backup systems, content delivery platforms, or big data solutions, these cloud storage skills are essential for modern applications! 🚀</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the Cloud Automation section. You're now equipped to harness the full power of cloud computing! ☁️🎉</p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Choose Appropriate Storage Classes:</strong> Match storage tier to access patterns.</li>
+<li><strong>Implement Lifecycle Policies:</strong> Automate data archival and deletion.</li>
+<li><strong>Enable Versioning:</strong> Protect against accidental deletion.</li>
+<li><strong>Use Encryption:</strong> Always encrypt sensitive data at rest and in transit.</li>
+<li><strong>Monitor Costs:</strong> Track storage usage and optimize regularly.</li>
+<li><strong>Implement Multi-Cloud:</strong> Avoid vendor lock-in with replication.</li>
+<li><strong>Use CDN:</strong> Improve global performance with content delivery networks.</li>
+<li><strong>Regular Backups:</strong> Maintain backups in different regions.</li>
+</ul>
+<h3>Cloud Storage Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of cloud storage as a hierarchy of solutions - each tier offers different trade-offs between cost, performance, and durability. Start by understanding your data access patterns: hot data needs fast storage (STANDARD), warm data can use cheaper tiers (INFREQUENT_ACCESS), and cold data should be archived (GLACIER). Always enable encryption at rest and use IAM for fine-grained access control. Implement lifecycle policies from day one to automatically move data to appropriate tiers and delete expired data. Use versioning for critical data to protect against accidental deletion or corruption. For large files, use multipart uploads to improve reliability and performance. Implement proper tagging for cost allocation and organization. Use presigned URLs for secure temporary access instead of making objects public. Monitor your storage costs regularly - they can grow quickly. Consider multi-cloud replication for critical data to avoid vendor lock-in. Use CDN integration for frequently accessed public content. Most importantly: treat cloud storage as code - version control your bucket configurations, lifecycle policies, and access controls!</p>
+</div>
+<p>Mastering cloud storage management enables you to build scalable, reliable, and cost-effective data solutions in the cloud. You can now handle everything from simple file uploads to petabyte-scale data lakes, implement intelligent tiering for cost optimization, ensure data durability with replication, and provide global access through CDN integration. Whether you're building backup systems, content delivery platforms, or big data solutions, these cloud storage skills are essential for modern applications! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="cloud_automation_google_cloud.html">← Previous: Google Cloud Platform</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="cloud_automation_serverless.html">Next: Serverless Functions →</a>
+</div>
+</footer>
 </body>
 </html>

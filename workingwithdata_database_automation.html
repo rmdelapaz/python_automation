@@ -1,50 +1,102 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database Automation - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Database Automation - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🗄️ Database Automation: Master Data Persistence with Python</h1>
-    
-    <p>Databases are the memory banks of the digital world. They store everything from user profiles to financial transactions, from IoT sensor data to social media posts. But managing databases manually is like trying to organize a library while blindfolded. Python gives you X-ray vision and robotic precision for database operations! 💾</p>
-
-    <h2>The Database Automation Ecosystem</h2>
-    
-    <p>Think of databases as massive, organized warehouses. SQL is your forklift, Python is your warehouse management system, and automation is your army of tireless workers who never make mistakes. Whether you're dealing with PostgreSQL's reliability, MySQL's speed, MongoDB's flexibility, or Redis's lightning-fast caching, Python speaks all their languages fluently!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module4">Data Processing</a> &gt; 
+        <span>Database Automation</span>
+</nav>
+<h1>🗄️ Database Automation: Master Data Persistence with Python</h1>
+<p>Databases are the memory banks of the digital world. They store everything from user profiles to financial transactions, from IoT sensor data to social media posts. But managing databases manually is like trying to organize a library while blindfolded. Python gives you X-ray vision and robotic precision for database operations! 💾</p>
+<h2>The Database Automation Ecosystem</h2>
+<p>Think of databases as massive, organized warehouses. SQL is your forklift, Python is your warehouse management system, and automation is your army of tireless workers who never make mistakes. Whether you're dealing with PostgreSQL's reliability, MySQL's speed, MongoDB's flexibility, or Redis's lightning-fast caching, Python speaks all their languages fluently!</p>
+<div class="mermaid">
     graph TB
-        A[Database Operations] --> B[Connection Management]
-        A --> C[Query Automation]
-        A --> D[Data Migration]
-        A --> E[Backup & Recovery]
-        A --> F[Performance Optimization]
+        A[Database Operations] --&gt; B[Connection Management]
+        A --&gt; C[Query Automation]
+        A --&gt; D[Data Migration]
+        A --&gt; E[Backup &amp; Recovery]
+        A --&gt; F[Performance Optimization]
         
-        B --> G[Connection Pooling]
-        B --> H[Failover Handling]
+        B --&gt; G[Connection Pooling]
+        B --&gt; H[Failover Handling]
         
-        C --> I[Query Building]
-        C --> J[Batch Operations]
-        C --> K[Stored Procedures]
+        C --&gt; I[Query Building]
+        C --&gt; J[Batch Operations]
+        C --&gt; K[Stored Procedures]
         
-        D --> L[Schema Migration]
-        D --> M[Data Transfer]
-        D --> N[ETL Pipelines]
+        D --&gt; L[Schema Migration]
+        D --&gt; M[Data Transfer]
+        D --&gt; N[ETL Pipelines]
         
-        E --> O[Automated Backups]
-        E --> P[Point-in-Time Recovery]
+        E --&gt; O[Automated Backups]
+        E --&gt; P[Point-in-Time Recovery]
         
-        F --> Q[Index Management]
-        F --> R[Query Optimization]
-        F --> S[Cache Management]
+        F --&gt; Q[Index Management]
+        F --&gt; R[Query Optimization]
+        F --&gt; S[Cache Management]
         
         style A fill:#ff6b6b
         style G fill:#51cf66
@@ -53,12 +105,9 @@
         style O fill:#51cf66
         style Q fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Multi-Database Orchestra 🎭</h3>
-    
-    <p>You're the data architect for an e-commerce platform. You have PostgreSQL for transactions, MongoDB for product catalogs, Redis for session management, Elasticsearch for search, and MySQL for legacy systems. Each database needs maintenance, backups, migrations, and monitoring. Let's build an automation system that conducts this orchestra flawlessly!</p>
-
-    <pre><code>import psycopg2
+<h3>Real-World Scenario: The Multi-Database Orchestra 🎭</h3>
+<p>You're the data architect for an e-commerce platform. You have PostgreSQL for transactions, MongoDB for product catalogs, Redis for session management, Elasticsearch for search, and MySQL for legacy systems. Each database needs maintenance, backups, migrations, and monitoring. Let's build an automation system that conducts this orchestra flawlessly!</p>
+<pre><code>import psycopg2
 import pymongo
 import mysql.connector
 import redis
@@ -148,7 +197,7 @@ class UniversalDatabaseManager:
                 options=config.get('options', {})
             )
     
-    def get_connection_string(self, config: DatabaseConfig) -> str:
+    def get_connection_string(self, config: DatabaseConfig) -&gt; str:
         """Generate connection string for different databases."""
         if config.db_type == DatabaseType.POSTGRESQL:
             return f"postgresql://{config.username}:{config.password}@{config.host}:{config.port}/{config.database}"
@@ -234,7 +283,7 @@ class UniversalDatabaseManager:
         
         return self.engines[db_name]
     
-    def execute_query(self, db_name: str, query: str, params: Dict = None) -> List[Dict]:
+    def execute_query(self, db_name: str, query: str, params: Dict = None) -&gt; List[Dict]:
         """Execute query on any database."""
         config = self.configs[db_name]
         results = []
@@ -272,7 +321,7 @@ class UniversalDatabaseManager:
         self.logger.info(f"Executed query on {db_name}: {len(results)} results")
         return results
     
-    def bulk_insert(self, db_name: str, table: str, data: List[Dict]) -> int:
+    def bulk_insert(self, db_name: str, table: str, data: List[Dict]) -&gt; int:
         """Bulk insert data into database."""
         if not data:
             return 0
@@ -304,7 +353,7 @@ class UniversalDatabaseManager:
     
     def migrate_data(self, source_db: str, target_db: str, 
                     table_mapping: Dict[str, str], 
-                    transform_func: callable = None) -> Dict:
+                    transform_func: callable = None) -&gt; Dict:
         """
         Migrate data between databases with optional transformation.
         """
@@ -344,7 +393,7 @@ class UniversalDatabaseManager:
         
         return stats
     
-    def backup_database(self, db_name: str, backup_path: str) -> bool:
+    def backup_database(self, db_name: str, backup_path: str) -&gt; bool:
         """
         Create database backup.
         """
@@ -420,7 +469,7 @@ class UniversalDatabaseManager:
             self.logger.error(f"Backup failed for {db_name}: {e}")
             return False
     
-    def restore_database(self, db_name: str, backup_file: str) -> bool:
+    def restore_database(self, db_name: str, backup_file: str) -&gt; bool:
         """
         Restore database from backup.
         """
@@ -484,7 +533,7 @@ class DatabaseOptimizer:
         self.db_manager = db_manager
         self.logger = logging.getLogger(__name__)
     
-    def analyze_query_performance(self, db_name: str, query: str) -> Dict:
+    def analyze_query_performance(self, db_name: str, query: str) -&gt; Dict:
         """
         Analyze query performance.
         """
@@ -511,7 +560,7 @@ class DatabaseOptimizer:
         
         return analysis
     
-    def _extract_postgres_time(self, explain_results: List) -> float:
+    def _extract_postgres_time(self, explain_results: List) -&gt; float:
         """Extract execution time from PostgreSQL EXPLAIN output."""
         for result in explain_results:
             if 'Execution Time' in str(result):
@@ -522,7 +571,7 @@ class DatabaseOptimizer:
                     return float(match.group(1))
         return 0.0
     
-    def optimize_indexes(self, db_name: str, table: str) -> List[str]:
+    def optimize_indexes(self, db_name: str, table: str) -&gt; List[str]:
         """
         Suggest and create optimal indexes.
         """
@@ -554,7 +603,7 @@ class DatabaseOptimizer:
             
             # Suggest indexes based on cardinality
             for stat in stats:
-                if stat.get('n_distinct', 0) > 100:  # High cardinality
+                if stat.get('n_distinct', 0) &gt; 100:  # High cardinality
                     column = stat['column_name']
                     index_name = f"idx_{table}_{column}"
                     
@@ -599,7 +648,7 @@ class DatabaseOptimizer:
             self.db_manager.execute_query(db_name, "VACUUM")
             self.logger.info(f"SQLite VACUUM completed for {db_name}")
     
-    def analyze_table_sizes(self, db_name: str) -> List[Dict]:
+    def analyze_table_sizes(self, db_name: str) -&gt; List[Dict]:
         """
         Analyze table sizes and row counts.
         """
@@ -720,7 +769,7 @@ class DatabaseMonitor:
         self.metrics = {}
         self.logger = logging.getLogger(__name__)
     
-    def check_connection_health(self, db_name: str) -> bool:
+    def check_connection_health(self, db_name: str) -&gt; bool:
         """Check if database connection is healthy."""
         try:
             config = self.db_manager.configs[db_name]
@@ -754,7 +803,7 @@ class DatabaseMonitor:
             })
             return False
     
-    def monitor_performance_metrics(self, db_name: str) -> Dict:
+    def monitor_performance_metrics(self, db_name: str) -&gt; Dict:
         """Monitor database performance metrics."""
         config = self.db_manager.configs[db_name]
         metrics = {}
@@ -810,7 +859,7 @@ class DatabaseMonitor:
         self.metrics[db_name] = metrics
         return metrics
     
-    def check_slow_queries(self, db_name: str, threshold_ms: int = 1000) -> List[Dict]:
+    def check_slow_queries(self, db_name: str, threshold_ms: int = 1000) -&gt; List[Dict]:
         """Check for slow queries."""
         config = self.db_manager.configs[db_name]
         slow_queries = []
@@ -823,7 +872,7 @@ class DatabaseMonitor:
                     mean_exec_time,
                     max_exec_time
                 FROM pg_stat_statements
-                WHERE mean_exec_time > {threshold_ms}
+                WHERE mean_exec_time &gt; {threshold_ms}
                 ORDER BY mean_exec_time DESC
                 LIMIT 10
             """
@@ -847,7 +896,7 @@ class DatabaseMonitor:
                         execution_count,
                         total_latency
                     FROM performance_schema.events_statements_summary_by_digest
-                    WHERE avg_timer_wait > %s * 1000000
+                    WHERE avg_timer_wait &gt; %s * 1000000
                     ORDER BY avg_timer_wait DESC
                     LIMIT 10
                 """
@@ -939,11 +988,11 @@ class DatabaseScheduler:
         cutoff_date = datetime.now() - timedelta(days=days_to_keep)
         
         for backup_file in backup_dir.glob("*.backup"):
-            if backup_file.stat().st_mtime < cutoff_date.timestamp():
+            if backup_file.stat().st_mtime &lt; cutoff_date.timestamp():
                 backup_file.unlink()
                 self.logger.info(f"Deleted old backup: {backup_file}")
     
-    def get_tables(self, db_name: str) -> List[str]:
+    def get_tables(self, db_name: str) -&gt; List[str]:
         """Get list of tables in database."""
         config = self.db_manager.configs[db_name]
         
@@ -974,10 +1023,10 @@ class DatabaseScheduler:
                 value = metrics[metric]
                 
                 if metric == 'cache_hit_ratio':
-                    if value < threshold:
+                    if value &lt; threshold:
                         self.send_alert(f"Low cache hit ratio in {db_name}: {value:.2%}")
                 else:
-                    if value > threshold:
+                    if value &gt; threshold:
                         self.send_alert(f"High {metric} in {db_name}: {value}")
     
     def send_alert(self, message: str):
@@ -1081,35 +1130,27 @@ if __name__ == "__main__":
     
     print("\n✅ Database automation complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Connection Pooling:</strong> Always use connection pools to avoid the overhead of creating new connections.</li>
-        
-        <li><strong>Implement Retry Logic:</strong> Database connections can fail - always have retry mechanisms.</li>
-        
-        <li><strong>Monitor Performance:</strong> Track query execution times, connection counts, and resource usage.</li>
-        
-        <li><strong>Automate Backups:</strong> Regular, automated backups are your insurance against data loss.</li>
-        
-        <li><strong>Use Transactions:</strong> Group related operations in transactions to ensure data consistency.</li>
-        
-        <li><strong>Index Strategically:</strong> Good indexes can make queries 100x faster, bad ones slow everything down.</li>
-        
-        <li><strong>Handle Migrations Carefully:</strong> Always test migrations on a copy of production data first.</li>
-    </ul>
-
-    <h3>Database Automation Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of database automation as building a self-healing, self-optimizing data infrastructure. Start with the basics - automated backups and monitoring. Then add optimization, migration, and scaling capabilities. Remember: the goal isn't to replace DBAs, but to free them from repetitive tasks so they can focus on architecture and optimization. Always test automation scripts thoroughly - a bug in database automation can be catastrophic!</p>
-    </div>
-    
-    <p>Database automation mastery transforms you from a data janitor to a data architect. You can manage multiple databases, ensure data integrity, optimize performance, and sleep soundly knowing your backups are running automatically. Whether you're managing a startup's single database or an enterprise's database fleet, these automation skills are invaluable! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="systemadmin_process_management.html">Process Management - Control System Resources with Python!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Connection Pooling:</strong> Always use connection pools to avoid the overhead of creating new connections.</li>
+<li><strong>Implement Retry Logic:</strong> Database connections can fail - always have retry mechanisms.</li>
+<li><strong>Monitor Performance:</strong> Track query execution times, connection counts, and resource usage.</li>
+<li><strong>Automate Backups:</strong> Regular, automated backups are your insurance against data loss.</li>
+<li><strong>Use Transactions:</strong> Group related operations in transactions to ensure data consistency.</li>
+<li><strong>Index Strategically:</strong> Good indexes can make queries 100x faster, bad ones slow everything down.</li>
+<li><strong>Handle Migrations Carefully:</strong> Always test migrations on a copy of production data first.</li>
+</ul>
+<h3>Database Automation Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of database automation as building a self-healing, self-optimizing data infrastructure. Start with the basics - automated backups and monitoring. Then add optimization, migration, and scaling capabilities. Remember: the goal isn't to replace DBAs, but to free them from repetitive tasks so they can focus on architecture and optimization. Always test automation scripts thoroughly - a bug in database automation can be catastrophic!</p>
+</div>
+<p>Database automation mastery transforms you from a data janitor to a data architect. You can manage multiple databases, ensure data integrity, optimize performance, and sleep soundly knowing your backups are running automatically. Whether you're managing a startup's single database or an enterprise's database fleet, these automation skills are invaluable! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="workingwithdata_pdf_manipulation.html">← Previous: PDF Manipulation</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="email_automation_sending_emails.html">Next: Sending Emails →</a>
+</div>
+</footer>
 </body>
 </html>

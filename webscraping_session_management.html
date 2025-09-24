@@ -1,51 +1,103 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session Management - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Session Management - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔐 Session Management: Maintain State Like a Pro</h1>
-    
-    <p>Sessions are the memory of web interactions - they remember who you are, what you've done, and where you've been. Like a skilled diplomat who maintains relationships across multiple meetings, session management lets you maintain complex, stateful interactions with websites over time. Let's master the art of digital persistence! 🎭</p>
-
-    <h2>The Session Management Architecture</h2>
-    
-    <p>Think of session management as conducting multiple conversations simultaneously. Each website is a different person you're talking to, and you need to remember the context of each conversation. Sessions keep track of your authentication, preferences, shopping carts, and navigation history. Master them, and you can automate the most complex web workflows!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module2">Web Scraping</a> &gt; 
+        <span>Session Management</span>
+</nav>
+<h1>🔐 Session Management: Maintain State Like a Pro</h1>
+<p>Sessions are the memory of web interactions - they remember who you are, what you've done, and where you've been. Like a skilled diplomat who maintains relationships across multiple meetings, session management lets you maintain complex, stateful interactions with websites over time. Let's master the art of digital persistence! 🎭</p>
+<h2>The Session Management Architecture</h2>
+<p>Think of session management as conducting multiple conversations simultaneously. Each website is a different person you're talking to, and you need to remember the context of each conversation. Sessions keep track of your authentication, preferences, shopping carts, and navigation history. Master them, and you can automate the most complex web workflows!</p>
+<div class="mermaid">
     graph TB
-        A[Session Management] --> B[Authentication]
-        A --> C[State Persistence]
-        A --> D[Multi-Site Management]
-        A --> E[Error Recovery]
+        A[Session Management] --&gt; B[Authentication]
+        A --&gt; C[State Persistence]
+        A --&gt; D[Multi-Site Management]
+        A --&gt; E[Error Recovery]
         
-        B --> F[Login Flows]
-        B --> G[OAuth/SSO]
-        B --> H[Token Management]
-        B --> I[MFA Handling]
+        B --&gt; F[Login Flows]
+        B --&gt; G[OAuth/SSO]
+        B --&gt; H[Token Management]
+        B --&gt; I[MFA Handling]
         
-        C --> J[Cookie Storage]
-        C --> K[Local Storage]
-        C --> L[Session Storage]
-        C --> M[Cache Management]
+        C --&gt; J[Cookie Storage]
+        C --&gt; K[Local Storage]
+        C --&gt; L[Session Storage]
+        C --&gt; M[Cache Management]
         
-        D --> N[Session Pool]
-        D --> O[Context Switching]
-        D --> P[Concurrent Sessions]
-        D --> Q[Session Isolation]
+        D --&gt; N[Session Pool]
+        D --&gt; O[Context Switching]
+        D --&gt; P[Concurrent Sessions]
+        D --&gt; Q[Session Isolation]
         
-        E --> R[Retry Logic]
-        E --> S[Session Recovery]
-        E --> T[Failover]
-        E --> U[Health Checks]
+        E --&gt; R[Retry Logic]
+        E --&gt; S[Session Recovery]
+        E --&gt; T[Failover]
+        E --&gt; U[Health Checks]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -53,12 +105,9 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The Multi-Platform Orchestrator 🌐</h3>
-    
-    <p>You're building an automation platform that manages accounts across dozens of services - social media, e-commerce, banking, and enterprise systems. Each has different session requirements, timeout policies, security measures, and state management needs. You need to handle OAuth flows, maintain multiple concurrent sessions, recover from failures, and ensure security. Let's build a robust session management system!</p>
-
-    <pre><code>import requests
+<h3>Real-World Scenario: The Multi-Platform Orchestrator 🌐</h3>
+<p>You're building an automation platform that manages accounts across dozens of services - social media, e-commerce, banking, and enterprise systems. Each has different session requirements, timeout policies, security measures, and state management needs. You need to handle OAuth flows, maintain multiple concurrent sessions, recover from failures, and ensure security. Let's build a robust session management system!</p>
+<pre><code>import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from typing import Dict, List, Optional, Any, Callable, Union, Tuple
@@ -152,7 +201,7 @@ class AdvancedSession(requests.Session):
         # Logging
         self.logger = logging.getLogger(f"Session_{self.config.name}")
     
-    def _generate_session_id(self) -> str:
+    def _generate_session_id(self) -&gt; str:
         """Generate unique session ID."""
         data = f"{self.config.name}_{datetime.now().isoformat()}"
         return hashlib.sha256(data.encode()).hexdigest()[:16]
@@ -235,11 +284,11 @@ class AdvancedSession(requests.Session):
             self.session_info.state = SessionState.EXPIRED
             self.logger.warning("Session expired (redirected to login)")
     
-    def is_active(self) -> bool:
+    def is_active(self) -&gt; bool:
         """Check if session is active."""
         return self.session_info.state == SessionState.ACTIVE
     
-    def get_info(self) -> SessionInfo:
+    def get_info(self) -&gt; SessionInfo:
         """Get session information."""
         return self.session_info
 
@@ -305,7 +354,7 @@ class SessionManager:
                 )
             ''')
     
-    def create_session(self, config: SessionConfig) -> AdvancedSession:
+    def create_session(self, config: SessionConfig) -&gt; AdvancedSession:
         """Create a new managed session."""
         session = AdvancedSession(config)
         
@@ -318,11 +367,11 @@ class SessionManager:
         self.logger.info(f"Created session: {config.name}")
         return session
     
-    def get_session(self, name: str) -> Optional[AdvancedSession]:
+    def get_session(self, name: str) -&gt; Optional[AdvancedSession]:
         """Get session by name."""
         return self.sessions.get(name)
     
-    def authenticate_session(self, name: str, credentials: Dict[str, Any]) -> bool:
+    def authenticate_session(self, name: str, credentials: Dict[str, Any]) -&gt; bool:
         """Authenticate a session."""
         session = self.get_session(name)
         if not session:
@@ -351,7 +400,7 @@ class SessionManager:
         
         return success
     
-    def save_session(self, name: str) -> bool:
+    def save_session(self, name: str) -&gt; bool:
         """Save session to persistent storage."""
         session = self.get_session(name)
         if not session:
@@ -403,7 +452,7 @@ class SessionManager:
             self.logger.error(f"Failed to save session: {e}")
             return False
     
-    def load_session(self, name: str) -> Optional[AdvancedSession]:
+    def load_session(self, name: str) -&gt; Optional[AdvancedSession]:
         """Load session from persistent storage."""
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -457,7 +506,7 @@ class SessionManager:
             self.logger.error(f"Failed to load session: {e}")
             return None
     
-    def refresh_session(self, name: str) -> bool:
+    def refresh_session(self, name: str) -&gt; bool:
         """Refresh an expired session."""
         session = self.get_session(name)
         if not session:
@@ -490,13 +539,13 @@ class SessionManager:
             session.session_info.state = SessionState.INVALID
             return False
     
-    def _relogin_session(self, session: AdvancedSession) -> bool:
+    def _relogin_session(self, session: AdvancedSession) -&gt; bool:
         """Attempt to re-login for a session."""
         # This would be implemented based on specific login requirements
         # For now, return False to indicate manual intervention needed
         return False
     
-    def clone_session(self, name: str, new_name: str) -> Optional[AdvancedSession]:
+    def clone_session(self, name: str, new_name: str) -&gt; Optional[AdvancedSession]:
         """Clone an existing session."""
         original = self.get_session(name)
         if not original:
@@ -557,7 +606,7 @@ class SessionManager:
                 datetime.now()
             ))
     
-    def get_session_history(self, name: str) -> List[Dict]:
+    def get_session_history(self, name: str) -&gt; List[Dict]:
         """Get session event history."""
         session = self.get_session(name)
         if not session:
@@ -581,7 +630,7 @@ class SessionManager:
             
             return events
     
-    def monitor_sessions(self) -> Dict[str, Dict]:
+    def monitor_sessions(self) -&gt; Dict[str, Dict]:
         """Get monitoring data for all sessions."""
         monitoring_data = {}
         
@@ -608,11 +657,11 @@ class SessionManager:
                     idle_time = (datetime.now() - session.session_info.last_used).total_seconds()
                     
                     # Auto-save after 5 minutes of idle
-                    if idle_time > 300:
+                    if idle_time &gt; 300:
                         self.save_session(name)
                     
                     # Mark as expired after 30 minutes of idle
-                    if idle_time > 1800 and session.session_info.state == SessionState.ACTIVE:
+                    if idle_time &gt; 1800 and session.session_info.state == SessionState.ACTIVE:
                         session.session_info.state = SessionState.EXPIRED
                         self.logger.info(f"Session {name} expired due to inactivity")
                 
@@ -626,7 +675,7 @@ class AuthenticationManager:
     Handle various authentication methods.
     """
     
-    def basic_auth(self, session: AdvancedSession, credentials: Dict) -> bool:
+    def basic_auth(self, session: AdvancedSession, credentials: Dict) -&gt; bool:
         """Setup basic authentication."""
         username = credentials.get('username')
         password = credentials.get('password')
@@ -637,7 +686,7 @@ class AuthenticationManager:
         session.auth = (username, password)
         return True
     
-    def bearer_auth(self, session: AdvancedSession, credentials: Dict) -> bool:
+    def bearer_auth(self, session: AdvancedSession, credentials: Dict) -&gt; bool:
         """Setup bearer token authentication."""
         token = credentials.get('token')
         
@@ -647,7 +696,7 @@ class AuthenticationManager:
         session.headers['Authorization'] = f'Bearer {token}'
         return True
     
-    def jwt_auth(self, session: AdvancedSession, credentials: Dict) -> bool:
+    def jwt_auth(self, session: AdvancedSession, credentials: Dict) -&gt; bool:
         """Setup JWT authentication."""
         token = credentials.get('token')
         
@@ -674,7 +723,7 @@ class AuthenticationManager:
         
         return True
     
-    def oauth2_auth(self, session: AdvancedSession, credentials: Dict) -> bool:
+    def oauth2_auth(self, session: AdvancedSession, credentials: Dict) -&gt; bool:
         """Setup OAuth2 authentication."""
         client_id = credentials.get('client_id')
         client_secret = credentials.get('client_secret')
@@ -705,7 +754,7 @@ class AuthenticationManager:
         
         return False
     
-    def refresh_oauth2_token(self, session: AdvancedSession, refresh_token: str) -> bool:
+    def refresh_oauth2_token(self, session: AdvancedSession, refresh_token: str) -&gt; bool:
         """Refresh OAuth2 access token."""
         token_info = session.session_info.data.get('oauth_token', {})
         token_url = token_info.get('token_url')
@@ -731,7 +780,7 @@ class AuthenticationManager:
         
         return False
     
-    def cookie_auth(self, session: AdvancedSession, credentials: Dict) -> bool:
+    def cookie_auth(self, session: AdvancedSession, credentials: Dict) -&gt; bool:
         """Setup cookie-based authentication."""
         login_url = credentials.get('login_url')
         username = credentials.get('username')
@@ -803,7 +852,7 @@ class SessionPool:
                 
                 self.available.put(session)
     
-    def execute_parallel(self, func: Callable, items: List[Any]) -> List[Any]:
+    def execute_parallel(self, func: Callable, items: List[Any]) -&gt; List[Any]:
         """Execute function in parallel using session pool."""
         results = []
         threads = []
@@ -978,35 +1027,27 @@ if __name__ == "__main__":
     
     print("\n✅ Session management demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Session Objects:</strong> Always use session objects instead of individual requests for efficiency.</li>
-        
-        <li><strong>Implement Retry Logic:</strong> Network requests fail - always have retry strategies.</li>
-        
-        <li><strong>Persist Sessions:</strong> Save and restore sessions to avoid re-authentication.</li>
-        
-        <li><strong>Monitor Session Health:</strong> Track metrics and detect expired sessions proactively.</li>
-        
-        <li><strong>Handle Authentication Properly:</strong> Support multiple auth methods and token refresh.</li>
-        
-        <li><strong>Use Connection Pooling:</strong> Reuse connections for better performance.</li>
-        
-        <li><strong>Implement Timeouts:</strong> Always set timeouts to prevent hanging requests.</li>
-    </ul>
-
-    <h3>Session Management Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of sessions as relationships - they need to be maintained, renewed, and sometimes ended gracefully. Always use session objects for multiple requests to the same site (connection pooling saves time and resources). Implement automatic session refresh for OAuth2 and JWT tokens. Use session pools for concurrent operations to avoid rate limiting. Store sessions securely - encrypt sensitive data and use secure storage. Monitor session health with metrics like request count, error rate, and idle time. Remember that sessions expire - implement detection and recovery mechanisms. Most importantly: respect rate limits and implement exponential backoff for retries. Good session management is invisible when it works and invaluable when things go wrong!</p>
-    </div>
-    
-    <p>Session management mastery transforms you from a simple scraper to an enterprise-grade automation engineer. You can now maintain complex stateful interactions, handle authentication elegantly, recover from failures gracefully, and scale your operations efficiently. Whether you're building web scrapers, API clients, or automation platforms, these session management skills are your foundation for reliable web automation! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="webscraping_ethics_robots.html">Scraping Ethics and robots.txt - Scrape Responsibly!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Session Objects:</strong> Always use session objects instead of individual requests for efficiency.</li>
+<li><strong>Implement Retry Logic:</strong> Network requests fail - always have retry strategies.</li>
+<li><strong>Persist Sessions:</strong> Save and restore sessions to avoid re-authentication.</li>
+<li><strong>Monitor Session Health:</strong> Track metrics and detect expired sessions proactively.</li>
+<li><strong>Handle Authentication Properly:</strong> Support multiple auth methods and token refresh.</li>
+<li><strong>Use Connection Pooling:</strong> Reuse connections for better performance.</li>
+<li><strong>Implement Timeouts:</strong> Always set timeouts to prevent hanging requests.</li>
+</ul>
+<h3>Session Management Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of sessions as relationships - they need to be maintained, renewed, and sometimes ended gracefully. Always use session objects for multiple requests to the same site (connection pooling saves time and resources). Implement automatic session refresh for OAuth2 and JWT tokens. Use session pools for concurrent operations to avoid rate limiting. Store sessions securely - encrypt sensitive data and use secure storage. Monitor session health with metrics like request count, error rate, and idle time. Remember that sessions expire - implement detection and recovery mechanisms. Most importantly: respect rate limits and implement exponential backoff for retries. Good session management is invisible when it works and invaluable when things go wrong!</p>
+</div>
+<p>Session management mastery transforms you from a simple scraper to an enterprise-grade automation engineer. You can now maintain complex stateful interactions, handle authentication elegantly, recover from failures gracefully, and scale your operations efficiently. Whether you're building web scrapers, API clients, or automation platforms, these session management skills are your foundation for reliable web automation! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="webscraping_forms_cookies.html">← Previous: Forms and Cookies</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="webscraping_ethics_robots.html">Next: Ethics and Robots.txt →</a>
+</div>
+</footer>
 </body>
 </html>

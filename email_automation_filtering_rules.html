@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Filtering and Rules - Python Email Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Email Filtering and Rules - Python Email Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🔧 Email Filtering and Rules: Automate Inbox Management</h1>
-    
-    <p>Email filtering and rules are the traffic controllers of your digital communication - they automatically sort, categorize, respond to, and process emails based on intelligent criteria. Like having a personal assistant that never sleeps, mastering email rules allows you to build systems that manage thousands of emails, trigger workflows, maintain inbox zero, and ensure important messages never get lost. Let's explore the complete toolkit for automated email management! 🎯</p>
-
-    <h2>The Email Filtering Architecture</h2>
-    
-    <p>Think of email filtering as building a smart postal sorting facility - each incoming message is analyzed, categorized, and routed to the right destination based on rules you define. From simple sender-based filters to complex content analysis with machine learning, understanding filtering patterns, rule engines, and action triggers is essential for building intelligent email automation systems!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module5">Email Automation</a> &gt; 
+        <span>Email Filtering Rules</span>
+</nav>
+<h1>🔧 Email Filtering and Rules: Automate Inbox Management</h1>
+<p>Email filtering and rules are the traffic controllers of your digital communication - they automatically sort, categorize, respond to, and process emails based on intelligent criteria. Like having a personal assistant that never sleeps, mastering email rules allows you to build systems that manage thousands of emails, trigger workflows, maintain inbox zero, and ensure important messages never get lost. Let's explore the complete toolkit for automated email management! 🎯</p>
+<h2>The Email Filtering Architecture</h2>
+<p>Think of email filtering as building a smart postal sorting facility - each incoming message is analyzed, categorized, and routed to the right destination based on rules you define. From simple sender-based filters to complex content analysis with machine learning, understanding filtering patterns, rule engines, and action triggers is essential for building intelligent email automation systems!</p>
+<div class="mermaid">
     graph TB
-        A[Email Filtering System] --> B[Filter Criteria]
-        A --> C[Rule Engine]
-        A --> D[Actions]
-        A --> E[Management]
+        A[Email Filtering System] --&gt; B[Filter Criteria]
+        A --&gt; C[Rule Engine]
+        A --&gt; D[Actions]
+        A --&gt; E[Management]
         
-        B --> F[Sender/Recipient]
-        B --> G[Subject/Keywords]
-        B --> H[Content Analysis]
-        B --> I[Attachments]
+        B --&gt; F[Sender/Recipient]
+        B --&gt; G[Subject/Keywords]
+        B --&gt; H[Content Analysis]
+        B --&gt; I[Attachments]
         
-        C --> J[Priority Rules]
-        C --> K[Conditional Logic]
-        C --> L[Rule Chains]
-        C --> M[ML Classification]
+        C --&gt; J[Priority Rules]
+        C --&gt; K[Conditional Logic]
+        C --&gt; L[Rule Chains]
+        C --&gt; M[ML Classification]
         
-        D --> N[Move/Label]
-        D --> O[Auto-Reply]
-        D --> P[Forward]
-        D --> Q[Trigger Workflow]
+        D --&gt; N[Move/Label]
+        D --&gt; O[Auto-Reply]
+        D --&gt; P[Forward]
+        D --&gt; Q[Trigger Workflow]
         
-        E --> R[Rule Testing]
-        E --> S[Performance]
-        E --> T[Monitoring]
-        E --> U[Analytics]
+        E --&gt; R[Rule Testing]
+        E --&gt; S[Performance]
+        E --&gt; T[Monitoring]
+        E --&gt; U[Analytics]
         
-        V[Advanced] --> W[Spam Detection]
-        V --> X[Sentiment Analysis]
-        V --> Y[Smart Categories]
-        V --> Z[Auto-Learning]
+        V[Advanced] --&gt; W[Spam Detection]
+        V --&gt; X[Sentiment Analysis]
+        V --&gt; Y[Smart Categories]
+        V --&gt; Z[Auto-Learning]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -59,12 +111,9 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The Intelligent Email Management Platform 🤖</h3>
-    
-    <p>You're building an intelligent email management platform that processes customer support tickets, sorts newsletters and promotions, prioritizes urgent messages, extracts and processes orders, triggers automated workflows, maintains team inboxes, filters spam and phishing, and learns from user behavior. Your system must handle complex rule chains, scale to millions of emails, provide real-time processing, and adapt to changing patterns. Let's build a comprehensive email filtering framework!</p>
-
-    <pre><code># First, install required packages:
+<h3>Real-World Scenario: The Intelligent Email Management Platform 🤖</h3>
+<p>You're building an intelligent email management platform that processes customer support tickets, sorts newsletters and promotions, prioritizes urgent messages, extracts and processes orders, triggers automated workflows, maintains team inboxes, filters spam and phishing, and learns from user behavior. Your system must handle complex rule chains, scale to millions of emails, provide real-time processing, and adapt to changing patterns. Let's build a comprehensive email filtering framework!</p>
+<pre><code># First, install required packages:
 # pip install scikit-learn nltk spacy textblob python-Levenshtein fuzzywuzzy
 
 import re
@@ -198,7 +247,7 @@ class EmailRuleEngine:
         
         self.logger.info(f"Removed rule: {rule_name}")
     
-    def process_email(self, email: 'EmailData') -> List[Dict[str, Any]]:
+    def process_email(self, email: 'EmailData') -&gt; List[Dict[str, Any]]:
         """
         Process email through all rules.
         
@@ -243,26 +292,26 @@ class EmailRuleEngine:
         
         return actions_to_execute
     
-    def _is_rule_valid(self, rule: EmailFilter) -> bool:
+    def _is_rule_valid(self, rule: EmailFilter) -&gt; bool:
         """Check if rule is currently valid."""
         now = datetime.now()
         
         # Check date validity
-        if rule.valid_from and now < rule.valid_from:
+        if rule.valid_from and now &lt; rule.valid_from:
             return False
         
-        if rule.valid_until and now > rule.valid_until:
+        if rule.valid_until and now &gt; rule.valid_until:
             return False
         
         # Check execution limit
         if rule.max_executions_per_day:
             if rule.last_executed and rule.last_executed.date() == now.date():
-                if rule.execution_count >= rule.max_executions_per_day:
+                if rule.execution_count &gt;= rule.max_executions_per_day:
                     return False
         
         return True
     
-    def _evaluate_rule(self, rule: EmailFilter, email: 'EmailData') -> bool:
+    def _evaluate_rule(self, rule: EmailFilter, email: 'EmailData') -&gt; bool:
         """Evaluate if rule matches email."""
         condition_results = []
         
@@ -283,7 +332,7 @@ class EmailRuleEngine:
             return False
     
     def _evaluate_condition(self, condition: FilterCondition, 
-                          email: 'EmailData', rule_name: str) -> bool:
+                          email: 'EmailData', rule_name: str) -&gt; bool:
         """Evaluate single condition."""
         # Get field value from email
         field_value = self._get_email_field(email, condition.field)
@@ -323,13 +372,13 @@ class EmailRuleEngine:
         
         elif condition.operator == "greater_than":
             try:
-                return float(field_str) > float(value_str)
+                return float(field_str) &gt; float(value_str)
             except:
                 return False
         
         elif condition.operator == "less_than":
             try:
-                return float(field_str) < float(value_str)
+                return float(field_str) &lt; float(value_str)
             except:
                 return False
         
@@ -341,11 +390,11 @@ class EmailRuleEngine:
             return len(field_str.strip()) == 0
         
         elif condition.operator == "is_not_empty":
-            return len(field_str.strip()) > 0
+            return len(field_str.strip()) &gt; 0
         
         return False
     
-    def _get_email_field(self, email: 'EmailData', field: str) -> Any:
+    def _get_email_field(self, email: 'EmailData', field: str) -&gt; Any:
         """Get field value from email."""
         field_lower = field.lower()
         
@@ -365,7 +414,7 @@ class EmailRuleEngine:
         elif field_lower == "size":
             return email.size if hasattr(email, 'size') else 0
         elif field_lower == "has_attachments":
-            return len(email.attachments) > 0 if hasattr(email, 'attachments') else False
+            return len(email.attachments) &gt; 0 if hasattr(email, 'attachments') else False
         elif field_lower == "attachment_count":
             return len(email.attachments) if hasattr(email, 'attachments') else 0
         elif field_lower == "is_read":
@@ -557,7 +606,7 @@ class SpamFilter:
         
         self.model.fit(X, y)
     
-    def is_spam(self, email: 'EmailData') -> Tuple[bool, float]:
+    def is_spam(self, email: 'EmailData') -&gt; Tuple[bool, float]:
         """
         Check if email is spam.
         
@@ -579,15 +628,15 @@ class SpamFilter:
             # Combine rule-based and ML scores
             combined_score = (spam_score + probability) / 2
             
-            is_spam = combined_score > 0.5
+            is_spam = combined_score &gt; 0.5
             
             return is_spam, combined_score
             
         except Exception as e:
             self.logger.error(f"Spam detection failed: {e}")
-            return spam_score > 0.5, spam_score
+            return spam_score &gt; 0.5, spam_score
     
-    def _calculate_spam_score(self, content: str, email: 'EmailData') -> float:
+    def _calculate_spam_score(self, content: str, email: 'EmailData') -&gt; float:
         """Calculate spam score based on rules."""
         score = 0.0
         content_lower = content.lower()
@@ -613,12 +662,12 @@ class SpamFilter:
                 score += 0.2
         
         # Check for all caps subject
-        if email.subject.isupper() and len(email.subject) > 10:
+        if email.subject.isupper() and len(email.subject) &gt; 10:
             score += 0.2
         
         # Too many links
         link_count = len(re.findall(r'https?://', content))
-        if link_count > 5:
+        if link_count &gt; 5:
             score += 0.1
         
         return min(score, 1.0)
@@ -684,7 +733,7 @@ class EmailCategorizer:
             }
         }
     
-    def categorize(self, email: 'EmailData') -> List[str]:
+    def categorize(self, email: 'EmailData') -&gt; List[str]:
         """
         Categorize email into one or more categories.
         
@@ -711,7 +760,7 @@ class EmailCategorizer:
                 if re.search(pattern, content, re.IGNORECASE):
                     score += 2
             
-            if score > 0:
+            if score &gt; 0:
                 scores[category] = score
         
         # Return categories sorted by score
@@ -719,7 +768,7 @@ class EmailCategorizer:
         
         # Return categories with significant scores
         threshold = max(scores.values()) * 0.5 if scores else 0
-        matched_categories = [cat for cat, score in sorted_categories if score >= threshold]
+        matched_categories = [cat for cat, score in sorted_categories if score &gt;= threshold]
         
         # Use sentiment analysis for additional categorization
         sentiment = self._analyze_sentiment(content)
@@ -729,7 +778,7 @@ class EmailCategorizer:
         
         return matched_categories if matched_categories else ["uncategorized"]
     
-    def _analyze_sentiment(self, content: str) -> str:
+    def _analyze_sentiment(self, content: str) -&gt; str:
         """Analyze email sentiment."""
         try:
             blob = TextBlob(content)
@@ -741,9 +790,9 @@ class EmailCategorizer:
                 return "urgent"
             
             # Sentiment based on polarity
-            if polarity > 0.3:
+            if polarity &gt; 0.3:
                 return "positive"
-            elif polarity < -0.3:
+            elif polarity &lt; -0.3:
                 return "negative"
             else:
                 return "neutral"
@@ -780,7 +829,7 @@ class AutoResponder:
         
         self.logger.info(f"Added auto-response template: {name}")
     
-    def should_respond(self, email: 'EmailData') -> bool:
+    def should_respond(self, email: 'EmailData') -&gt; bool:
         """Check if email should receive auto-response."""
         # Don't respond to automated emails
         if self._is_automated_email(email):
@@ -797,7 +846,7 @@ class AutoResponder:
         return True
     
     def generate_response(self, email: 'EmailData', 
-                         template_name: str) -> Optional[str]:
+                         template_name: str) -&gt; Optional[str]:
         """Generate auto-response for email."""
         if template_name not in self.templates:
             self.logger.warning(f"Template not found: {template_name}")
@@ -827,7 +876,7 @@ class AutoResponder:
         
         return response
     
-    def _is_automated_email(self, email: 'EmailData') -> bool:
+    def _is_automated_email(self, email: 'EmailData') -&gt; bool:
         """Check if email is automated."""
         automated_indicators = [
             "noreply", "no-reply", "donotreply", "mailer-daemon",
@@ -838,7 +887,7 @@ class AutoResponder:
         
         return any(indicator in from_addr_lower for indicator in automated_indicators)
     
-    def _is_mailing_list(self, email: 'EmailData') -> bool:
+    def _is_mailing_list(self, email: 'EmailData') -&gt; bool:
         """Check if email is from mailing list."""
         if hasattr(email, 'headers'):
             # Check for list headers
@@ -851,7 +900,7 @@ class AutoResponder:
         return False
     
     def _already_responded(self, email_address: str, 
-                          hours: int = 24) -> bool:
+                          hours: int = 24) -&gt; bool:
         """Check if already responded to sender recently."""
         if email_address not in self.response_log:
             return False
@@ -862,7 +911,7 @@ class AutoResponder:
             last_response = responses[-1]["date"]
             time_diff = datetime.now() - last_response
             
-            return time_diff.total_seconds() < (hours * 3600)
+            return time_diff.total_seconds() &lt; (hours * 3600)
         
         return False
 
@@ -881,12 +930,12 @@ class RuleBuilder:
             actions=[]
         )
     
-    def description(self, desc: str) -> 'RuleBuilder':
+    def description(self, desc: str) -&gt; 'RuleBuilder':
         """Set rule description."""
         self.filter.description = desc
         return self
     
-    def when_from(self, email: str) -> 'RuleBuilder':
+    def when_from(self, email: str) -&gt; 'RuleBuilder':
         """Add from condition."""
         self.filter.conditions.append(FilterCondition(
             field="from",
@@ -895,7 +944,7 @@ class RuleBuilder:
         ))
         return self
     
-    def when_subject_contains(self, text: str) -> 'RuleBuilder':
+    def when_subject_contains(self, text: str) -&gt; 'RuleBuilder':
         """Add subject contains condition."""
         self.filter.conditions.append(FilterCondition(
             field="subject",
@@ -904,7 +953,7 @@ class RuleBuilder:
         ))
         return self
     
-    def when_body_contains(self, text: str) -> 'RuleBuilder':
+    def when_body_contains(self, text: str) -&gt; 'RuleBuilder':
         """Add body contains condition."""
         self.filter.conditions.append(FilterCondition(
             field="body",
@@ -913,7 +962,7 @@ class RuleBuilder:
         ))
         return self
     
-    def when_has_attachments(self) -> 'RuleBuilder':
+    def when_has_attachments(self) -&gt; 'RuleBuilder':
         """Add has attachments condition."""
         self.filter.conditions.append(FilterCondition(
             field="has_attachments",
@@ -922,7 +971,7 @@ class RuleBuilder:
         ))
         return self
     
-    def move_to(self, folder: str) -> 'RuleBuilder':
+    def move_to(self, folder: str) -&gt; 'RuleBuilder':
         """Add move to folder action."""
         self.filter.actions.append({
             "type": ActionType.MOVE_TO_FOLDER.value,
@@ -930,7 +979,7 @@ class RuleBuilder:
         })
         return self
     
-    def mark_as_read(self) -> 'RuleBuilder':
+    def mark_as_read(self) -&gt; 'RuleBuilder':
         """Add mark as read action."""
         self.filter.actions.append({
             "type": ActionType.MARK_AS_READ.value,
@@ -938,7 +987,7 @@ class RuleBuilder:
         })
         return self
     
-    def forward_to(self, *recipients: str) -> 'RuleBuilder':
+    def forward_to(self, *recipients: str) -&gt; 'RuleBuilder':
         """Add forward action."""
         self.filter.actions.append({
             "type": ActionType.FORWARD.value,
@@ -946,7 +995,7 @@ class RuleBuilder:
         })
         return self
     
-    def auto_reply(self, template: str) -> 'RuleBuilder':
+    def auto_reply(self, template: str) -&gt; 'RuleBuilder':
         """Add auto-reply action."""
         self.filter.actions.append({
             "type": ActionType.AUTO_REPLY.value,
@@ -954,17 +1003,17 @@ class RuleBuilder:
         })
         return self
     
-    def with_priority(self, priority: FilterPriority) -> 'RuleBuilder':
+    def with_priority(self, priority: FilterPriority) -&gt; 'RuleBuilder':
         """Set rule priority."""
         self.filter.priority = priority
         return self
     
-    def stop_processing_after(self) -> 'RuleBuilder':
+    def stop_processing_after(self) -&gt; 'RuleBuilder':
         """Stop processing after this rule."""
         self.filter.stop_processing = True
         return self
     
-    def build(self) -> EmailFilter:
+    def build(self) -&gt; EmailFilter:
         """Build and return the filter."""
         return self.filter
 
@@ -1112,11 +1161,11 @@ if __name__ == "__main__":
     print("\n8️⃣ Rule Execution Order:")
     
     priorities = [
-        ("CRITICAL", "Security & spam filters"),
-        ("HIGH", "VIP & urgent messages"),
+        ("CRITICAL", "Security &amp; spam filters"),
+        ("HIGH", "VIP &amp; urgent messages"),
         ("MEDIUM", "Normal business rules"),
-        ("LOW", "Newsletters & promotions"),
-        ("BACKGROUND", "Cleanup & archiving")
+        ("LOW", "Newsletters &amp; promotions"),
+        ("BACKGROUND", "Cleanup &amp; archiving")
     ]
     
     for priority, use_case in priorities:
@@ -1159,37 +1208,28 @@ if __name__ == "__main__":
     
     print("\n✅ Email filtering demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Design Rules Carefully:</strong> Start specific, then generalize as needed.</li>
-        
-        <li><strong>Order Matters:</strong> Process critical rules first with priorities.</li>
-        
-        <li><strong>Test Before Deploying:</strong> Always test rules with sample emails.</li>
-        
-        <li><strong>Use Stop Processing:</strong> Prevent unnecessary rule evaluations.</li>
-        
-        <li><strong>Monitor Performance:</strong> Track rule execution and effectiveness.</li>
-        
-        <li><strong>Combine Techniques:</strong> Use ML with rule-based filtering.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Rules should fail safely.</li>
-        
-        <li><strong>Document Complex Logic:</strong> Make rules maintainable.</li>
-    </ul>
-
-    <h3>Email Filtering Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Think of email filtering as building a smart traffic control system - each rule is a traffic light that directs emails to the right destination. Start with security filters (spam, phishing) at the highest priority to protect your inbox. Build specific rules for known patterns (invoices, newsletters) before general catch-alls. Use the AND/OR logic carefully - AND is more restrictive, OR is more inclusive. Test rules with sample emails before enabling them in production. Monitor rule performance and adjust priorities based on actual usage. Combine rule-based filtering with machine learning for intelligent categorization. Use stop_processing flags to prevent rule conflicts. Implement auto-responses carefully to avoid email loops. Track which rules match most frequently and optimize their conditions. Document complex rule chains so others can understand them. Most importantly: regularly review and update your rules as email patterns change - a good filtering system evolves with your needs!</p>
-    </div>
-    
-    <p>Mastering email filtering and rules enables you to build intelligent email management systems that handle any volume of messages. You can now create smart inboxes that automatically sort, respond to, and process emails based on sophisticated criteria. Whether you're managing customer support, processing orders, or maintaining team communications, these filtering skills keep your email organized and efficient! 🎯</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the Email Automation section. You're now equipped to build powerful email automation systems! 🎉</p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Design Rules Carefully:</strong> Start specific, then generalize as needed.</li>
+<li><strong>Order Matters:</strong> Process critical rules first with priorities.</li>
+<li><strong>Test Before Deploying:</strong> Always test rules with sample emails.</li>
+<li><strong>Use Stop Processing:</strong> Prevent unnecessary rule evaluations.</li>
+<li><strong>Monitor Performance:</strong> Track rule execution and effectiveness.</li>
+<li><strong>Combine Techniques:</strong> Use ML with rule-based filtering.</li>
+<li><strong>Handle Errors Gracefully:</strong> Rules should fail safely.</li>
+<li><strong>Document Complex Logic:</strong> Make rules maintainable.</li>
+</ul>
+<h3>Email Filtering Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Think of email filtering as building a smart traffic control system - each rule is a traffic light that directs emails to the right destination. Start with security filters (spam, phishing) at the highest priority to protect your inbox. Build specific rules for known patterns (invoices, newsletters) before general catch-alls. Use the AND/OR logic carefully - AND is more restrictive, OR is more inclusive. Test rules with sample emails before enabling them in production. Monitor rule performance and adjust priorities based on actual usage. Combine rule-based filtering with machine learning for intelligent categorization. Use stop_processing flags to prevent rule conflicts. Implement auto-responses carefully to avoid email loops. Track which rules match most frequently and optimize their conditions. Document complex rule chains so others can understand them. Most importantly: regularly review and update your rules as email patterns change - a good filtering system evolves with your needs!</p>
+</div>
+<p>Mastering email filtering and rules enables you to build intelligent email management systems that handle any volume of messages. You can now create smart inboxes that automatically sort, respond to, and process emails based on sophisticated criteria. Whether you're managing customer support, processing orders, or maintaining team communications, these filtering skills keep your email organized and efficient! 🎯</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="email_automation_html_emails.html">← Previous: HTML Emails</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="api_automation_restful_consumption.html">Next: RESTful API Consumption →</a>
+</div>
+</footer>
 </body>
 </html>

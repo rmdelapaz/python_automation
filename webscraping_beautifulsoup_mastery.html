@@ -1,54 +1,106 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BeautifulSoup Mastery - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BeautifulSoup Mastery - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🍲 BeautifulSoup Mastery: Parse HTML Like a Pro</h1>
-    
-    <p>BeautifulSoup is the Swiss Army knife of HTML parsing - elegant, powerful, and forgiving. It turns messy HTML soup into a beautiful, navigable tree structure. Like a skilled chef who can create a masterpiece from any ingredients, BeautifulSoup helps you extract exactly what you need from the chaos of real-world HTML. Let's become HTML parsing maestros! 🎨</p>
-
-    <h2>The BeautifulSoup Architecture</h2>
-    
-    <p>Think of BeautifulSoup as a sophisticated GPS for HTML documents. It doesn't just find elements; it understands relationships, navigates complex structures, and even handles broken HTML gracefully. It's your trusty companion for turning web pages into structured data!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module2">Web Scraping</a> &gt; 
+        <span>BeautifulSoup Mastery</span>
+</nav>
+<h1>🍲 BeautifulSoup Mastery: Parse HTML Like a Pro</h1>
+<p>BeautifulSoup is the Swiss Army knife of HTML parsing - elegant, powerful, and forgiving. It turns messy HTML soup into a beautiful, navigable tree structure. Like a skilled chef who can create a masterpiece from any ingredients, BeautifulSoup helps you extract exactly what you need from the chaos of real-world HTML. Let's become HTML parsing maestros! 🎨</p>
+<h2>The BeautifulSoup Architecture</h2>
+<p>Think of BeautifulSoup as a sophisticated GPS for HTML documents. It doesn't just find elements; it understands relationships, navigates complex structures, and even handles broken HTML gracefully. It's your trusty companion for turning web pages into structured data!</p>
+<div class="mermaid">
     graph TB
-        A[HTML Document] --> B[BeautifulSoup Parser]
-        B --> C[Parse Tree]
+        A[HTML Document] --&gt; B[BeautifulSoup Parser]
+        B --&gt; C[Parse Tree]
         
-        C --> D[Navigation]
-        C --> E[Searching]
-        C --> F[Modification]
-        C --> G[Extraction]
+        C --&gt; D[Navigation]
+        C --&gt; E[Searching]
+        C --&gt; F[Modification]
+        C --&gt; G[Extraction]
         
-        D --> H[Parent/Child]
-        D --> I[Siblings]
-        D --> J[Descendants]
-        D --> K[Ancestors]
+        D --&gt; H[Parent/Child]
+        D --&gt; I[Siblings]
+        D --&gt; J[Descendants]
+        D --&gt; K[Ancestors]
         
-        E --> L[find/find_all]
-        E --> M[CSS Selectors]
-        E --> N[Regular Expressions]
-        E --> O[Custom Filters]
+        E --&gt; L[find/find_all]
+        E --&gt; M[CSS Selectors]
+        E --&gt; N[Regular Expressions]
+        E --&gt; O[Custom Filters]
         
-        F --> P[Add Elements]
-        F --> Q[Remove Elements]
-        F --> R[Modify Attributes]
-        F --> S[Change Text]
+        F --&gt; P[Add Elements]
+        F --&gt; Q[Remove Elements]
+        F --&gt; R[Modify Attributes]
+        F --&gt; S[Change Text]
         
-        G --> T[Text Extraction]
-        G --> U[Attribute Values]
-        G --> V[Structured Data]
-        G --> W[Pretty Output]
+        G --&gt; T[Text Extraction]
+        G --&gt; U[Attribute Values]
+        G --&gt; V[Structured Data]
+        G --&gt; W[Pretty Output]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -57,12 +109,9 @@
         style F fill:#ff6b6b
         style G fill:#51cf66
     </div>
-
-    <h3>Real-World Scenario: The News Aggregator 📰</h3>
-    
-    <p>You're building a news aggregation system that collects articles from dozens of news websites. Each site has different HTML structures, encoding issues, broken tags, and dynamic content. You need to extract headlines, articles, authors, dates, images, and metadata while handling all the quirks of real-world HTML. Let's master BeautifulSoup to handle it all!</p>
-
-    <pre><code>from bs4 import BeautifulSoup, NavigableString, Tag, Comment
+<h3>Real-World Scenario: The News Aggregator 📰</h3>
+<p>You're building a news aggregation system that collects articles from dozens of news websites. Each site has different HTML structures, encoding issues, broken tags, and dynamic content. You need to extract headlines, articles, authors, dates, images, and metadata while handling all the quirks of real-world HTML. Let's master BeautifulSoup to handle it all!</p>
+<pre><code>from bs4 import BeautifulSoup, NavigableString, Tag, Comment
 from bs4.element import ResultSet
 import requests
 import re
@@ -76,6 +125,7 @@ from dataclasses import dataclass
 from functools import wraps
 import time
 import hashlib
+from collections import defaultdict
 
 @dataclass
 class Article:
@@ -116,10 +166,10 @@ class BeautifulSoupMaster:
         )
         self.logger = logging.getLogger(__name__)
     
-    # ==================== Parsing & Creation ====================
+    # ==================== Parsing &amp; Creation ====================
     
     def parse_html(self, html_content: str, 
-                   encoding: Optional[str] = None) -> BeautifulSoup:
+                   encoding: Optional[str] = None) -&gt; BeautifulSoup:
         """
         Parse HTML content into BeautifulSoup object.
         """
@@ -136,7 +186,7 @@ class BeautifulSoupMaster:
         
         return soup
     
-    def parse_from_url(self, url: str, **kwargs) -> Optional[BeautifulSoup]:
+    def parse_from_url(self, url: str, **kwargs) -&gt; Optional[BeautifulSoup]:
         """
         Fetch and parse HTML from URL.
         """
@@ -165,16 +215,16 @@ class BeautifulSoupMaster:
             self.logger.error(f"Failed to parse from URL {url}: {e}")
             return None
     
-    def create_soup(self, tag_name: str = 'html') -> BeautifulSoup:
+    def create_soup(self, tag_name: str = 'html') -&gt; BeautifulSoup:
         """
         Create a new BeautifulSoup object from scratch.
         """
-        soup = BeautifulSoup(f'<{tag_name}></{tag_name}>', self.parser)
+        soup = BeautifulSoup(f'&lt;{tag_name}&gt;&lt;/{tag_name}&gt;', self.parser)
         return soup
     
     # ==================== Navigation Methods ====================
     
-    def navigate_tree(self, element: Tag) -> Dict[str, Any]:
+    def navigate_tree(self, element: Tag) -&gt; Dict[str, Any]:
         """
         Navigate and map the element tree structure.
         """
@@ -207,7 +257,7 @@ class BeautifulSoupMaster:
         
         return tree_map
     
-    def find_parent_with_class(self, element: Tag, class_name: str) -> Optional[Tag]:
+    def find_parent_with_class(self, element: Tag, class_name: str) -&gt; Optional[Tag]:
         """
         Find the first parent with specified class.
         """
@@ -219,7 +269,7 @@ class BeautifulSoupMaster:
             parent = parent.parent
         return None
     
-    def get_breadcrumbs(self, element: Tag) -> List[str]:
+    def get_breadcrumbs(self, element: Tag) -&gt; List[str]:
         """
         Get breadcrumb path from root to element.
         """
@@ -243,7 +293,7 @@ class BeautifulSoupMaster:
     # ==================== Advanced Search Methods ====================
     
     def find_with_text(self, soup: BeautifulSoup, text_pattern: Union[str, re.Pattern],
-                      tag: Optional[str] = None) -> List[Tag]:
+                      tag: Optional[str] = None) -&gt; List[Tag]:
         """
         Find elements containing specific text.
         """
@@ -263,7 +313,7 @@ class BeautifulSoupMaster:
         return elements
     
     def find_between(self, soup: BeautifulSoup, start_element: Tag, 
-                    end_element: Tag) -> List[Tag]:
+                    end_element: Tag) -&gt; List[Tag]:
         """
         Find all elements between two elements.
         """
@@ -278,7 +328,7 @@ class BeautifulSoupMaster:
         return elements
     
     def find_by_partial_attribute(self, soup: BeautifulSoup, attr_name: str,
-                                 partial_value: str) -> List[Tag]:
+                                 partial_value: str) -&gt; List[Tag]:
         """
         Find elements with attribute containing partial value.
         """
@@ -293,7 +343,7 @@ class BeautifulSoupMaster:
         return soup.find_all(has_partial_attr)
     
     def find_with_multiple_conditions(self, soup: BeautifulSoup,
-                                     conditions: List[Callable]) -> List[Tag]:
+                                     conditions: List[Callable]) -&gt; List[Tag]:
         """
         Find elements matching multiple custom conditions.
         """
@@ -305,7 +355,7 @@ class BeautifulSoupMaster:
     # ==================== Text Extraction Methods ====================
     
     def extract_text_preserve_structure(self, element: Tag, 
-                                       separator: str = '\n') -> str:
+                                       separator: str = '\n') -&gt; str:
         """
         Extract text while preserving structure with separators.
         """
@@ -322,7 +372,7 @@ class BeautifulSoupMaster:
         
         return ' '.join(texts).replace(f' {separator} ', separator)
     
-    def extract_text_with_links(self, element: Tag) -> List[Dict[str, str]]:
+    def extract_text_with_links(self, element: Tag) -&gt; List[Dict[str, str]]:
         """
         Extract text with embedded links preserved.
         """
@@ -342,7 +392,7 @@ class BeautifulSoupMaster:
         
         return segments
     
-    def clean_text(self, text: str) -> str:
+    def clean_text(self, text: str) -&gt; str:
         """
         Clean extracted text from HTML artifacts.
         """
@@ -356,13 +406,13 @@ class BeautifulSoupMaster:
         text = re.sub(r'[\u200b\u200c\u200d\ufeff]', '', text)
         
         # Remove control characters
-        text = ''.join(char for char in text if ord(char) >= 32 or char == '\n')
+        text = ''.join(char for char in text if ord(char) &gt;= 32 or char == '\n')
         
         return text.strip()
     
     # ==================== Data Extraction Patterns ====================
     
-    def extract_article(self, soup: BeautifulSoup) -> Optional[Article]:
+    def extract_article(self, soup: BeautifulSoup) -&gt; Optional[Article]:
         """
         Extract article content using common patterns.
         """
@@ -484,19 +534,19 @@ class BeautifulSoupMaster:
             return article
         return None
     
-    def extract_metadata(self, soup: BeautifulSoup) -> Dict[str, str]:
+    def extract_metadata(self, soup: BeautifulSoup) -&gt; Dict[str, str]:
         """
         Extract metadata from HTML head.
         """
         metadata = {}
         
         # Open Graph metadata
-        for meta in soup.find_all('meta', property=re.compile('^og:')):
+        for meta in soup.find_all('meta', property=re.compile(r'^og:')):
             key = meta.get('property', '').replace('og:', 'og_')
             metadata[key] = meta.get('content', '')
         
         # Twitter Card metadata
-        for meta in soup.find_all('meta', attrs={'name': re.compile('^twitter:')}):
+        for meta in soup.find_all('meta', attrs={'name': re.compile(r'^twitter:')}):
             key = meta.get('name', '').replace('twitter:', 'twitter_')
             metadata[key] = meta.get('content', '')
         
@@ -517,7 +567,7 @@ class BeautifulSoupMaster:
         
         return metadata
     
-    def _parse_date(self, date_str: str) -> Optional[datetime]:
+    def _parse_date(self, date_str: str) -&gt; Optional[datetime]:
         """
         Parse date string with multiple format attempts.
         """
@@ -551,7 +601,7 @@ class BeautifulSoupMaster:
     # ==================== Table Extraction ====================
     
     def extract_table(self, table_element: Tag, 
-                     include_headers: bool = True) -> List[List[str]]:
+                     include_headers: bool = True) -&gt; List[List[str]]:
         """
         Extract data from HTML table.
         """
@@ -586,12 +636,12 @@ class BeautifulSoupMaster:
                 cell_text = cell.get_text(strip=True)
                 row.extend([cell_text] * colspan)
             
-            if row and not all(h in row for h in headers):  # Skip if it's a header row
+            if row and not all(h in row for h in headers if headers):  # Skip if it's a header row
                 rows.append(row)
         
         return rows
     
-    def extract_all_tables(self, soup: BeautifulSoup) -> Dict[str, List[List[str]]]:
+    def extract_all_tables(self, soup: BeautifulSoup) -&gt; Dict[str, List[List[str]]]:
         """
         Extract all tables from page with identifiers.
         """
@@ -624,7 +674,7 @@ class BeautifulSoupMaster:
     
     # ==================== Form Handling ====================
     
-    def extract_form_data(self, form_element: Tag) -> Dict[str, Any]:
+    def extract_form_data(self, form_element: Tag) -&gt; Dict[str, Any]:
         """
         Extract form structure and default values.
         """
@@ -704,7 +754,7 @@ class BeautifulSoupMaster:
         """
         Wrap element in a new tag.
         """
-        wrapper = BeautifulSoup(f'<{wrapper_tag}></{wrapper_tag}>', self.parser).find(wrapper_tag)
+        wrapper = BeautifulSoup(f'&lt;{wrapper_tag}&gt;&lt;/{wrapper_tag}&gt;', self.parser).find(wrapper_tag)
         
         if wrapper_attrs:
             for key, value in wrapper_attrs.items():
@@ -716,7 +766,7 @@ class BeautifulSoupMaster:
     def clean_html(self, soup: BeautifulSoup, 
                    remove_tags: List[str] = None,
                    remove_attrs: List[str] = None,
-                   keep_tags: List[str] = None) -> BeautifulSoup:
+                   keep_tags: List[str] = None) -&gt; BeautifulSoup:
         """
         Clean HTML by removing unwanted tags and attributes.
         """
@@ -746,7 +796,7 @@ class BeautifulSoupMaster:
     
     # ==================== Utility Methods ====================
     
-    def get_page_stats(self, soup: BeautifulSoup) -> Dict[str, Any]:
+    def get_page_stats(self, soup: BeautifulSoup) -&gt; Dict[str, Any]:
         """
         Get statistics about the parsed page.
         """
@@ -784,22 +834,22 @@ class BeautifulSoupMaster:
         
         return stats
     
-    def prettify_html(self, soup: BeautifulSoup, indent: int = 2) -> str:
+    def prettify_html(self, soup: BeautifulSoup, indent: int = 2) -&gt; str:
         """
         Pretty print HTML with custom indentation.
         """
         return soup.prettify(formatter='html', indent=indent)
     
-    def minify_html(self, soup: BeautifulSoup) -> str:
+    def minify_html(self, soup: BeautifulSoup) -&gt; str:
         """
         Minify HTML by removing unnecessary whitespace.
         """
-        html = str(soup)
+        html_str = str(soup)
         # Remove whitespace between tags
-        html = re.sub(r'>\s+<', '><', html)
+        html_str = re.sub(r'&gt;\s+&lt;', '&gt;&lt;', html_str)
         # Remove leading/trailing whitespace
-        html = html.strip()
-        return html
+        html_str = html_str.strip()
+        return html_str
     
     def cache_result(self, key: str, value: Any):
         """
@@ -810,13 +860,13 @@ class BeautifulSoupMaster:
             'timestamp': time.time()
         }
     
-    def get_cached_result(self, key: str, max_age: int = 3600) -> Optional[Any]:
+    def get_cached_result(self, key: str, max_age: int = 3600) -&gt; Optional[Any]:
         """
         Get cached result if not expired.
         """
         if key in self.cache:
             cached = self.cache[key]
-            if time.time() - cached['timestamp'] < max_age:
+            if time.time() - cached['timestamp'] &lt; max_age:
                 return cached['value']
         return None
 
@@ -826,7 +876,7 @@ class BeautifulSoupRecipes:
     """
     
     @staticmethod
-    def extract_emails(soup: BeautifulSoup) -> List[str]:
+    def extract_emails(soup: BeautifulSoup) -&gt; List[str]:
         """
         Extract all email addresses from page.
         """
@@ -846,7 +896,7 @@ class BeautifulSoupRecipes:
         return list(emails)
     
     @staticmethod
-    def extract_phone_numbers(soup: BeautifulSoup) -> List[str]:
+    def extract_phone_numbers(soup: BeautifulSoup) -&gt; List[str]:
         """
         Extract phone numbers from page.
         """
@@ -874,7 +924,7 @@ class BeautifulSoupRecipes:
         return list(phones)
     
     @staticmethod
-    def extract_social_media_links(soup: BeautifulSoup) -> Dict[str, List[str]]:
+    def extract_social_media_links(soup: BeautifulSoup) -&gt; Dict[str, List[str]]:
         """
         Extract social media profile links.
         """
@@ -900,135 +950,136 @@ class BeautifulSoupRecipes:
 
 # Example usage
 if __name__ == "__main__":
-    # Sample HTML for testing
-    sample_html = """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <title>Tech News - Latest Technology Updates</title>
-        <meta name="description" content="Latest technology news and updates">
-        <meta property="og:title" content="Breaking: New AI Breakthrough">
-        <meta property="og:image" content="https://example.com/ai-image.jpg">
-    </head>
-    <body>
-        <header>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/tech">Tech</a>
-                <a href="/science">Science</a>
-            </nav>
-        </header>
+    # Sample HTML for testing - properly escaped
+    sample_html = """&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;title&gt;Tech News - Latest Technology Updates&lt;/title&gt;
+    &lt;meta name="description" content="Latest technology news and updates"&gt;
+    &lt;meta property="og:title" content="Breaking: New AI Breakthrough"&gt;
+    &lt;meta property="og:image" content="https://example.com/ai-image.jpg"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;nav&gt;
+            &lt;a href="/"&gt;Home&lt;/a&gt;
+            &lt;a href="/tech"&gt;Tech&lt;/a&gt;
+            &lt;a href="/science"&gt;Science&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+    
+    &lt;article&gt;
+        &lt;h1 class="article-title"&gt;Revolutionary AI System Achieves Human-Level Performance&lt;/h1&gt;
         
-        <article>
-            <h1 class="article-title">Revolutionary AI System Achieves Human-Level Performance</h1>
+        &lt;div class="article-meta"&gt;
+            &lt;span class="author" rel="author"&gt;Dr. Jane Smith&lt;/span&gt;
+            &lt;time datetime="2024-01-15T10:30:00Z"&gt;January 15, 2024&lt;/time&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="article-content"&gt;
+            &lt;p&gt;Scientists at TechCorp have announced a &lt;strong&gt;breakthrough&lt;/strong&gt; in artificial intelligence 
+            that brings us closer to achieving artificial general intelligence (AGI).&lt;/p&gt;
             
-            <div class="article-meta">
-                <span class="author" rel="author">Dr. Jane Smith</span>
-                <time datetime="2024-01-15T10:30:00Z">January 15, 2024</time>
-            </div>
+            &lt;p&gt;The new system, called &lt;a href="/projects/alphaai"&gt;AlphaAI&lt;/a&gt;, demonstrated 
+            unprecedented capabilities in multiple domains including:&lt;/p&gt;
             
-            <div class="article-content">
-                <p>Scientists at TechCorp have announced a <strong>breakthrough</strong> in artificial intelligence 
-                that brings us closer to achieving artificial general intelligence (AGI).</p>
-                
-                <p>The new system, called <a href="/projects/alphaai">AlphaAI</a>, demonstrated 
-                unprecedented capabilities in multiple domains including:</p>
-                
-                <ul>
-                    <li>Natural language understanding</li>
-                    <li>Complex reasoning</li>
-                    <li>Creative problem solving</li>
-                </ul>
-                
-                <figure>
-                    <img src="/images/ai-breakthrough.jpg" alt="AI System Architecture">
-                    <figcaption>The revolutionary AlphaAI architecture</figcaption>
-                </figure>
-                
-                <blockquote>
-                    "This represents a paradigm shift in how we approach machine intelligence,"
-                    said lead researcher Dr. Smith.
-                </blockquote>
-                
-                <h2>Technical Details</h2>
-                <p>The system uses a novel architecture that combines...</p>
-                
-                <table id="performance-metrics">
-                    <caption>Performance Comparison</caption>
-                    <thead>
-                        <tr>
-                            <th>Metric</th>
-                            <th>AlphaAI</th>
-                            <th>Previous Best</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Accuracy</td>
-                            <td>98.5%</td>
-                            <td>92.3%</td>
-                        </tr>
-                        <tr>
-                            <td>Speed (ms)</td>
-                            <td>45</td>
-                            <td>120</td>
-                        </tr>
-                        <tr>
-                            <td>Memory (GB)</td>
-                            <td>16</td>
-                            <td>64</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            &lt;ul&gt;
+                &lt;li&gt;Natural language understanding&lt;/li&gt;
+                &lt;li&gt;Complex reasoning&lt;/li&gt;
+                &lt;li&gt;Creative problem solving&lt;/li&gt;
+            &lt;/ul&gt;
             
-            <footer class="article-footer">
-                <div class="tags">
-                    <a href="/tag/ai" rel="tag">AI</a>
-                    <a href="/tag/machine-learning" rel="tag">Machine Learning</a>
-                    <a href="/tag/breakthrough" rel="tag">Breakthrough</a>
-                </div>
-                
-                <div class="contact">
-                    Contact: <a href="mailto:press@techcorp.com">press@techcorp.com</a>
-                    Phone: +1 (555) 123-4567
-                </div>
-            </footer>
-        </article>
+            &lt;figure&gt;
+                &lt;img src="/images/ai-breakthrough.jpg" alt="AI System Architecture"&gt;
+                &lt;figcaption&gt;The revolutionary AlphaAI architecture&lt;/figcaption&gt;
+            &lt;/figure&gt;
+            
+            &lt;blockquote&gt;
+                "This represents a paradigm shift in how we approach machine intelligence,"
+                said lead researcher Dr. Smith.
+            &lt;/blockquote&gt;
+            
+            &lt;h2&gt;Technical Details&lt;/h2&gt;
+            &lt;p&gt;The system uses a novel architecture that combines...&lt;/p&gt;
+            
+            &lt;table id="performance-metrics"&gt;
+                &lt;caption&gt;Performance Comparison&lt;/caption&gt;
+                &lt;thead&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;Metric&lt;/th&gt;
+                        &lt;th&gt;AlphaAI&lt;/th&gt;
+                        &lt;th&gt;Previous Best&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;Accuracy&lt;/td&gt;
+                        &lt;td&gt;98.5%&lt;/td&gt;
+                        &lt;td&gt;92.3%&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;Speed (ms)&lt;/td&gt;
+                        &lt;td&gt;45&lt;/td&gt;
+                        &lt;td&gt;120&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;Memory (GB)&lt;/td&gt;
+                        &lt;td&gt;16&lt;/td&gt;
+                        &lt;td&gt;64&lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/tbody&gt;
+            &lt;/table&gt;
+        &lt;/div&gt;
         
-        <aside>
-            <h3>Related Articles</h3>
-            <ul>
-                <li><a href="/article/ai-ethics">The Ethics of Advanced AI</a></li>
-                <li><a href="/article/future-work">AI and the Future of Work</a></li>
-            </ul>
-        </aside>
-        
-        <form id="newsletter-form" action="/subscribe" method="post">
-            <h3>Subscribe to Newsletter</h3>
-            <input type="email" name="email" placeholder="Your email" required>
-            <input type="checkbox" name="weekly" value="yes" checked> Weekly updates
-            <select name="interests">
-                <option value="ai" selected>AI & ML</option>
-                <option value="robotics">Robotics</option>
-                <option value="quantum">Quantum Computing</option>
-            </select>
-            <textarea name="comments" placeholder="Comments (optional)"></textarea>
-            <button type="submit">Subscribe</button>
-        </form>
-        
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "NewsArticle",
-            "headline": "Revolutionary AI System Achieves Human-Level Performance",
-            "author": "Dr. Jane Smith",
-            "datePublished": "2024-01-15"
-        }
-        </script>
-    </body>
-    </html>
-    """
+        &lt;footer class="article-footer"&gt;
+            &lt;div class="tags"&gt;
+                &lt;a href="/tag/ai" rel="tag"&gt;AI&lt;/a&gt;
+                &lt;a href="/tag/machine-learning" rel="tag"&gt;Machine Learning&lt;/a&gt;
+                &lt;a href="/tag/breakthrough" rel="tag"&gt;Breakthrough&lt;/a&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="contact"&gt;
+                Contact: &lt;a href="mailto:press@techcorp.com"&gt;press@techcorp.com&lt;/a&gt;
+                Phone: +1 (555) 123-4567
+            &lt;/div&gt;
+        &lt;/footer&gt;
+    &lt;/article&gt;
+    
+    &lt;aside&gt;
+        &lt;h3&gt;Related Articles&lt;/h3&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href="/article/ai-ethics"&gt;The Ethics of Advanced AI&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="/article/future-work"&gt;AI and the Future of Work&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/aside&gt;
+    
+    &lt;form id="newsletter-form" action="/subscribe" method="post"&gt;
+        &lt;h3&gt;Subscribe to Newsletter&lt;/h3&gt;
+        &lt;input type="email" name="email" placeholder="Your email" required&gt;
+        &lt;input type="checkbox" name="weekly" value="yes" checked&gt; Weekly updates
+        &lt;select name="interests"&gt;
+            &lt;option value="ai" selected&gt;AI &amp; ML&lt;/option&gt;
+            &lt;option value="robotics"&gt;Robotics&lt;/option&gt;
+            &lt;option value="quantum"&gt;Quantum Computing&lt;/option&gt;
+        &lt;/select&gt;
+        &lt;textarea name="comments" placeholder="Comments (optional)"&gt;&lt;/textarea&gt;
+        &lt;button type="submit"&gt;Subscribe&lt;/button&gt;
+    &lt;/form&gt;
+    
+    &lt;script type="application/ld+json"&gt;
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": "Revolutionary AI System Achieves Human-Level Performance",
+        "author": "Dr. Jane Smith",
+        "datePublished": "2024-01-15"
+    }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;"""
+    
+    # Decode HTML entities for processing
+    sample_html = html.unescape(sample_html)
     
     # Initialize BeautifulSoup master
     bs_master = BeautifulSoupMaster()
@@ -1051,7 +1102,7 @@ if __name__ == "__main__":
         print(f"     Children: {tree['children'][:3]}...")
         
         breadcrumbs = bs_master.get_breadcrumbs(article.h1)
-        print(f"   Breadcrumbs to h1: {' > '.join(breadcrumbs)}")
+        print(f"   Breadcrumbs to h1: {' &gt; '.join(breadcrumbs)}")
     
     # Example 2: Text extraction
     print("\n2️⃣ Text Extraction:")
@@ -1068,7 +1119,7 @@ if __name__ == "__main__":
         print(f"   Text with links:")
         for segment in text_with_links[:3]:
             if segment['type'] == 'link':
-                print(f"     [LINK: {segment['text']} -> {segment['href']}]")
+                print(f"     [LINK: {segment['text']} -&gt; {segment['href']}]")
             else:
                 print(f"     {segment['content'][:50]}...")
     
@@ -1081,7 +1132,7 @@ if __name__ == "__main__":
         print(f"   Author: {article_data.author}")
         print(f"   Date: {article_data.published_date}")
         print(f"   Content preview: {article_data.content[:100]}...")
-        print(f"   Tags: {', '.join(article_data.tags)}")
+        print(f"   Tags: {', '.join(article_data.tags) if article_data.tags else 'None'}")
     
     # Example 4: Table extraction
     print("\n4️⃣ Table Extraction:")
@@ -1182,35 +1233,27 @@ if __name__ == "__main__":
     
     print("\n✅ BeautifulSoup mastery demonstration complete!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Choose the Right Parser:</strong> html.parser for compatibility, lxml for speed, html5lib for broken HTML.</li>
-        
-        <li><strong>Handle Encoding Properly:</strong> Always detect and handle character encoding correctly.</li>
-        
-        <li><strong>Use Appropriate Search Methods:</strong> find() for single elements, find_all() for multiple, CSS selectors for complex queries.</li>
-        
-        <li><strong>Navigate Efficiently:</strong> Use parent, children, siblings relationships instead of repeated searches.</li>
-        
-        <li><strong>Clean Data Properly:</strong> Always strip whitespace, decode HTML entities, handle None values.</li>
-        
-        <li><strong>Cache Parsed Results:</strong> Don't re-parse the same HTML multiple times.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Always check if elements exist before accessing attributes.</li>
-    </ul>
-
-    <h3>BeautifulSoup Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> BeautifulSoup is forgiving but not magic - it's a tool that works best when you understand HTML structure. Always inspect the actual HTML you're parsing, not just what you see in the browser. Use Chrome DevTools to copy the actual HTML, not the selector. Remember that BeautifulSoup creates a parse tree in memory, so for huge documents, consider using iterative parsing or lxml's iterparse. When extracting data, always have fallbacks - if plan A fails (the nice semantic HTML), have plan B (the messy but consistent pattern). And most importantly: websites change, so make your parsers resilient with try-except blocks and multiple extraction strategies!</p>
-    </div>
-    
-    <p>BeautifulSoup mastery transforms you from an HTML wrangler to a data extraction artist. You can now parse any HTML, no matter how messy, extract any data, no matter how nested, and handle any website's quirks. Whether you're building scrapers, analyzers, or automation tools, BeautifulSoup is your trusty companion! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="webscraping_forms_cookies.html">Handling Forms and Cookies - Master Web Interactions!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Choose the Right Parser:</strong> html.parser for compatibility, lxml for speed, html5lib for broken HTML.</li>
+<li><strong>Handle Encoding Properly:</strong> Always detect and handle character encoding correctly.</li>
+<li><strong>Use Appropriate Search Methods:</strong> find() for single elements, find_all() for multiple, CSS selectors for complex queries.</li>
+<li><strong>Navigate Efficiently:</strong> Use parent, children, siblings relationships instead of repeated searches.</li>
+<li><strong>Clean Data Properly:</strong> Always strip whitespace, decode HTML entities, handle None values.</li>
+<li><strong>Cache Parsed Results:</strong> Don't re-parse the same HTML multiple times.</li>
+<li><strong>Handle Errors Gracefully:</strong> Always check if elements exist before accessing attributes.</li>
+</ul>
+<h3>BeautifulSoup Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> BeautifulSoup is forgiving but not magic - it's a tool that works best when you understand HTML structure. Always inspect the actual HTML you're parsing, not just what you see in the browser. Use Chrome DevTools to copy the actual HTML, not the selector. Remember that BeautifulSoup creates a parse tree in memory, so for huge documents, consider using iterative parsing or lxml's iterparse. When extracting data, always have fallbacks - if plan A fails (the nice semantic HTML), have plan B (the messy but consistent pattern). And most importantly: websites change, so make your parsers resilient with try-except blocks and multiple extraction strategies!</p>
+</div>
+<p>BeautifulSoup mastery transforms you from an HTML wrangler to a data extraction artist. You can now parse any HTML, no matter how messy, extract any data, no matter how nested, and handle any website's quirks. Whether you're building scrapers, analyzers, or automation tools, BeautifulSoup is your trusty companion! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="webscraping_html_css_selectors.html">← Previous: HTML &amp; CSS Selectors</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="webscraping_forms_cookies.html">Next: Forms and Cookies →</a>
+</div>
+</footer>
 </body>
 </html>

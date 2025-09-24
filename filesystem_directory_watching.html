@@ -1,45 +1,94 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Directory Watching - Python Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Directory Watching - Python Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>👁️ Directory Watching: Real-Time File System Monitoring</h1>
-    
-    <p>Imagine having a security guard that never sleeps, constantly watching your files and folders, instantly reacting to any changes. That's what directory watching gives you – the power to respond to file system events in real-time! It's like having super-hearing for your hard drive. 🎯</p>
-
-    <h2>Understanding File System Events</h2>
-    
-    <p>Every time you save a document, delete a file, or rename a folder, your operating system fires events. Directory watching lets us listen to these events and take action immediately. Think of it as setting up tripwires throughout your file system!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module1">File and System Automation</a> &gt; 
+        <span>Directory Watching</span>
+</nav>
+<h1>👁️ Directory Watching: Real-Time File System Monitoring</h1>
+<p>Imagine having a security guard that never sleeps, constantly watching your files and folders, instantly reacting to any changes. That's what directory watching gives you – the power to respond to file system events in real-time! It's like having super-hearing for your hard drive. 🎯</p>
+<h2>Understanding File System Events</h2>
+<p>Every time you save a document, delete a file, or rename a folder, your operating system fires events. Directory watching lets us listen to these events and take action immediately. Think of it as setting up tripwires throughout your file system!</p>
+<div class="mermaid">
     graph LR
-        A[File System Event] --> B{Event Type}
-        B --> C[Created]
-        B --> D[Modified]
-        B --> E[Deleted]
-        B --> F[Moved/Renamed]
-        C --> G[Trigger Action]
-        D --> G
-        E --> G
-        F --> G
-        G --> H[Process Event]
-        H --> I[Execute Response]
+        A[File System Event] --&gt; B{Event Type}
+        B --&gt; C[Created]
+        B --&gt; D[Modified]
+        B --&gt; E[Deleted]
+        B --&gt; F[Moved/Renamed]
+        C --&gt; G[Trigger Action]
+        D --&gt; G
+        E --&gt; G
+        F --&gt; G
+        G --&gt; H[Process Event]
+        H --&gt; I[Execute Response]
     </div>
-
-    <h3>Real-World Scenario: The Auto-Compiler 🔧</h3>
-    
-    <p>You're working on a web project. Every time you save a TypeScript file, you want it compiled to JavaScript. Every time you modify a SASS file, you want CSS generated. Every time you update a Markdown file, you want HTML created. Let's automate all of this!</p>
-
-    <pre><code>import time
+<h3>Real-World Scenario: The Auto-Compiler 🔧</h3>
+<p>You're working on a web project. Every time you save a TypeScript file, you want it compiled to JavaScript. Every time you modify a SASS file, you want CSS generated. Every time you update a Markdown file, you want HTML created. Let's automate all of this!</p>
+<pre><code>import time
 from pathlib import Path
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -352,25 +401,21 @@ if __name__ == "__main__":
     
     print("\n👋 File watcher stopped")
 </code></pre>
-
-    <h2>Advanced Pattern: The Smart Backup System 💾</h2>
-    
-    <p>Let's build a backup system that watches important directories and automatically creates versioned backups when files change. It's like having a time machine for your files!</p>
-
-    <div class="mermaid">
+<h2>Advanced Pattern: The Smart Backup System 💾</h2>
+<p>Let's build a backup system that watches important directories and automatically creates versioned backups when files change. It's like having a time machine for your files!</p>
+<div class="mermaid">
     stateDiagram-v2
-        [*] --> Watching
-        Watching --> FileChanged: Detect Change
-        FileChanged --> CheckImportance: Is Important?
-        CheckImportance --> CreateBackup: Yes
-        CheckImportance --> Watching: No
-        CreateBackup --> CompressBackup: Compress
-        CompressBackup --> StoreVersion: Store with Version
-        StoreVersion --> CleanOldBackups: Check Storage
-        CleanOldBackups --> Watching: Continue
+        [*] --&gt; Watching
+        Watching --&gt; FileChanged: Detect Change
+        FileChanged --&gt; CheckImportance: Is Important?
+        CheckImportance --&gt; CreateBackup: Yes
+        CheckImportance --&gt; Watching: No
+        CreateBackup --&gt; CompressBackup: Compress
+        CompressBackup --&gt; StoreVersion: Store with Version
+        StoreVersion --&gt; CleanOldBackups: Check Storage
+        CleanOldBackups --&gt; Watching: Continue
     </div>
-
-    <pre><code>import os
+<pre><code>import os
 import shutil
 import gzip
 import json
@@ -460,7 +505,7 @@ class IntelligentBackupSystem(FileSystemEventHandler):
         # Check file size (don't backup huge files automatically)
         try:
             size_mb = file_path.stat().st_size / (1024 * 1024)
-            if size_mb > 100:  # Files larger than 100MB need manual backup
+            if size_mb &gt; 100:  # Files larger than 100MB need manual backup
                 print(f"  ⚠️ File too large for auto-backup: {file_path.name} ({size_mb:.1f}MB)")
                 return False
         except:
@@ -512,7 +557,7 @@ class IntelligentBackupSystem(FileSystemEventHandler):
                 for path_str in list(pending_backups.keys()):
                     file_path, event_type, backup_time = pending_backups[path_str]
                     
-                    if current_time >= backup_time:
+                    if current_time &gt;= backup_time:
                         self.create_backup(file_path, event_type)
                         del pending_backups[path_str]
                 
@@ -646,7 +691,7 @@ class IntelligentBackupSystem(FileSystemEventHandler):
         backups = self.history[file_key]
         
         # Keep only the configured number of versions
-        if len(backups) > self.config['max_versions']:
+        if len(backups) &gt; self.config['max_versions']:
             # Sort by timestamp (newest first)
             backups.sort(key=lambda x: x['timestamp'], reverse=True)
             
@@ -674,7 +719,7 @@ class IntelligentBackupSystem(FileSystemEventHandler):
             
             total_gb = total_size / (1024**3)
             
-            if total_gb > self.config['max_backup_size_gb']:
+            if total_gb &gt; self.config['max_backup_size_gb']:
                 print(f"  ⚠️ Backup size limit reached: {total_gb:.2f}GB")
                 self.cleanup_oldest_backups()
             
@@ -684,7 +729,7 @@ class IntelligentBackupSystem(FileSystemEventHandler):
             for file_key in list(self.history.keys()):
                 self.history[file_key] = [
                     backup for backup in self.history[file_key]
-                    if datetime.strptime(backup['timestamp'], '%Y%m%d_%H%M%S') > cutoff_date
+                    if datetime.strptime(backup['timestamp'], '%Y%m%d_%H%M%S') &gt; cutoff_date
                 ]
                 
                 if not self.history[file_key]:
@@ -798,12 +843,9 @@ if __name__ == "__main__":
     observer.join()
     print("\n✅ Backup system stopped gracefully")
 </code></pre>
-
-    <h2>Platform-Specific Watching Techniques 🖥️</h2>
-    
-    <p>Different operating systems provide different mechanisms for file system monitoring. Understanding these can help you build more efficient watchers!</p>
-
-    <pre><code>import platform
+<h2>Platform-Specific Watching Techniques 🖥️</h2>
+<p>Different operating systems provide different mechanisms for file system monitoring. Understanding these can help you build more efficient watchers!</p>
+<pre><code>import platform
 import os
 from pathlib import Path
 
@@ -873,11 +915,11 @@ class PlatformOptimizedWatcher:
                 
                 def watch(self, callback):
                     def file_event_callback(event):
-                        if event.mask & 0x100:  # Created
+                        if event.mask &amp; 0x100:  # Created
                             callback('created', Path(event.name))
-                        elif event.mask & 0x200:  # Removed
+                        elif event.mask &amp; 0x200:  # Removed
                             callback('deleted', Path(event.name))
-                        elif event.mask & 0x1000:  # Modified
+                        elif event.mask &amp; 0x1000:  # Modified
                             callback('modified', Path(event.name))
                     
                     stream = Stream(file_event_callback, str(self.path), file_events=True)
@@ -1011,35 +1053,27 @@ def handle_file_event(event_type, file_path):
 watcher = PlatformOptimizedWatcher("/home/user/watch_this")
 watcher.start_watching(handle_file_event)
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Use Debouncing:</strong> Many editors save files multiple times. Wait a short period before processing to avoid duplicate work.</li>
-        
-        <li><strong>Filter Intelligently:</strong> Not every file change needs attention. Filter out temp files, backups, and system files.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Files can be locked, deleted, or moved while you're processing them. Always use try-except blocks.</li>
-        
-        <li><strong>Use Queues for Heavy Processing:</strong> Don't block the watcher thread. Queue events and process them asynchronously.</li>
-        
-        <li><strong>Consider Platform Differences:</strong> File system events behave differently on Windows, Linux, and macOS. Test on your target platforms.</li>
-        
-        <li><strong>Monitor Performance:</strong> Watching large directory trees can be resource-intensive. Profile your watchers and optimize as needed.</li>
-        
-        <li><strong>Implement Proper Cleanup:</strong> Always stop observers properly and clean up resources when your program exits.</li>
-    </ul>
-
-    <h3>Real-World Applications 🌟</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Combine directory watching with other automation tools for powerful workflows. Watch for new CSV files and automatically import them to a database, monitor log files for errors and send alerts, or sync files across multiple machines in real-time!</p>
-    </div>
-    
-    <p>Directory watching transforms your Python scripts from passive tools into active guardians of your file system. Whether you're building development tools, backup systems, or data pipelines, the ability to react to file system changes in real-time opens up endless automation possibilities! 🚀</p>
-    
-    <footer>
-        <p>Next up: <a href="filesystem_batch_renaming.html">Batch Renaming - Master the Art of File Naming at Scale!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Use Debouncing:</strong> Many editors save files multiple times. Wait a short period before processing to avoid duplicate work.</li>
+<li><strong>Filter Intelligently:</strong> Not every file change needs attention. Filter out temp files, backups, and system files.</li>
+<li><strong>Handle Errors Gracefully:</strong> Files can be locked, deleted, or moved while you're processing them. Always use try-except blocks.</li>
+<li><strong>Use Queues for Heavy Processing:</strong> Don't block the watcher thread. Queue events and process them asynchronously.</li>
+<li><strong>Consider Platform Differences:</strong> File system events behave differently on Windows, Linux, and macOS. Test on your target platforms.</li>
+<li><strong>Monitor Performance:</strong> Watching large directory trees can be resource-intensive. Profile your watchers and optimize as needed.</li>
+<li><strong>Implement Proper Cleanup:</strong> Always stop observers properly and clean up resources when your program exits.</li>
+</ul>
+<h3>Real-World Applications 🌟</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Combine directory watching with other automation tools for powerful workflows. Watch for new CSV files and automatically import them to a database, monitor log files for errors and send alerts, or sync files across multiple machines in real-time!</p>
+</div>
+<p>Directory watching transforms your Python scripts from passive tools into active guardians of your file system. Whether you're building development tools, backup systems, or data pipelines, the ability to react to file system changes in real-time opens up endless automation possibilities! 🚀</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="filesystem_batch_renaming.html">← Previous: Batch Renaming</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="filesystem_file_organization_scripts.html">Next: File Organization Scripts →</a>
+</div>
+</footer>
 </body>
 </html>

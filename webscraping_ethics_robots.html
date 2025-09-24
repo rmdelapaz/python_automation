@@ -1,56 +1,108 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scraping Ethics and robots.txt - Python Web Automation</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <script type="module">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scraping Ethics and robots.txt - Python Web Automation</title>
+<link href="styles/main.css" rel="stylesheet"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
         mermaid.initialize({ startOnLoad: true });
     </script>
-</head>
-<body>
-    <h1>🤖 Scraping Ethics and robots.txt: Scrape Responsibly</h1>
-    
-    <p>Web scraping isn't just about technical skills - it's about being a responsible digital citizen. Like archaeologists who carefully excavate sites without damaging them, ethical scrapers extract data while respecting websites and their owners. robots.txt is your guidebook, rate limiting is your speed limit, and ethics are your compass. Let's learn to scrape with integrity! ⚖️</p>
-
-    <h2>The Ethics and Compliance Framework</h2>
-    
-    <p>Think of ethical scraping as visiting someone's home - you knock before entering, respect their rules, don't take more than offered, and leave everything as you found it. robots.txt is the "house rules" posted at the door, telling you which rooms you can enter and how fast you can move through them. Master these principles, and you'll be welcome everywhere!</p>
-
-    <div class="mermaid">
+<style>
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .navigation-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .navigation-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navigation-links a:hover {
+            background: #f0f0f0;
+        }
+        
+        .nav-prev, .nav-next {
+            flex: 1;
+        }
+        
+        .nav-next {
+            text-align: right;
+        }
+        
+        .nav-home {
+            text-align: center;
+        }
+        </style></head>
+<body><nav class="breadcrumb">
+<a href="index.html">Home</a> &gt; 
+        <a href="index.html#module2">Web Scraping</a> &gt; 
+        <span>Ethics and Robots.txt</span>
+</nav>
+<h1>🤖 Scraping Ethics and robots.txt: Scrape Responsibly</h1>
+<p>Web scraping isn't just about technical skills - it's about being a responsible digital citizen. Like archaeologists who carefully excavate sites without damaging them, ethical scrapers extract data while respecting websites and their owners. robots.txt is your guidebook, rate limiting is your speed limit, and ethics are your compass. Let's learn to scrape with integrity! ⚖️</p>
+<h2>The Ethics and Compliance Framework</h2>
+<p>Think of ethical scraping as visiting someone's home - you knock before entering, respect their rules, don't take more than offered, and leave everything as you found it. robots.txt is the "house rules" posted at the door, telling you which rooms you can enter and how fast you can move through them. Master these principles, and you'll be welcome everywhere!</p>
+<div class="mermaid">
     graph TB
-        A[Ethical Web Scraping] --> B[Legal Compliance]
-        A --> C[Technical Respect]
-        A --> D[Business Ethics]
-        A --> E[Data Privacy]
+        A[Ethical Web Scraping] --&gt; B[Legal Compliance]
+        A --&gt; C[Technical Respect]
+        A --&gt; D[Business Ethics]
+        A --&gt; E[Data Privacy]
         
-        B --> F[Terms of Service]
-        B --> G[Copyright Law]
-        B --> H[GDPR/CCPA]
-        B --> I[Local Regulations]
+        B --&gt; F[Terms of Service]
+        B --&gt; G[Copyright Law]
+        B --&gt; H[GDPR/CCPA]
+        B --&gt; I[Local Regulations]
         
-        C --> J[robots.txt]
-        C --> K[Rate Limiting]
-        C --> L[User-Agent]
-        C --> M[Crawl-Delay]
+        C --&gt; J[robots.txt]
+        C --&gt; K[Rate Limiting]
+        C --&gt; L[User-Agent]
+        C --&gt; M[Crawl-Delay]
         
-        D --> N[Fair Use]
-        D --> O[Attribution]
-        D --> P[Competition]
-        D --> Q[Monetization]
+        D --&gt; N[Fair Use]
+        D --&gt; O[Attribution]
+        D --&gt; P[Competition]
+        D --&gt; Q[Monetization]
         
-        E --> R[PII Handling]
-        E --> S[Data Storage]
-        E --> T[Consent]
-        E --> U[Anonymization]
+        E --&gt; R[PII Handling]
+        E --&gt; S[Data Storage]
+        E --&gt; T[Consent]
+        E --&gt; U[Anonymization]
         
-        J --> V[Parser]
-        K --> W[Throttling]
-        L --> X[Identification]
-        M --> Y[Politeness]
+        J --&gt; V[Parser]
+        K --&gt; W[Throttling]
+        L --&gt; X[Identification]
+        M --&gt; Y[Politeness]
         
         style A fill:#ff6b6b
         style B fill:#51cf66
@@ -58,12 +110,9 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
-
-    <h3>Real-World Scenario: The Ethical Data Platform 🌟</h3>
-    
-    <p>You're building a data aggregation platform that collects information from hundreds of websites. You need to respect each site's scraping policies, handle rate limits gracefully, protect user privacy, comply with regulations, and maintain good relationships with website owners. Let's build a comprehensive ethical scraping framework!</p>
-
-    <pre><code>import requests
+<h3>Real-World Scenario: The Ethical Data Platform 🌟</h3>
+<p>You're building a data aggregation platform that collects information from hundreds of websites. You need to respect each site's scraping policies, handle rate limits gracefully, protect user privacy, comply with regulations, and maintain good relationships with website owners. Let's build a comprehensive ethical scraping framework!</p>
+<pre><code>import requests
 from urllib.robotparser import RobotFileParser
 from urllib.parse import urlparse, urljoin
 import time
@@ -144,7 +193,7 @@ class RobotsChecker:
         )
         self.logger = logging.getLogger(__name__)
     
-    def fetch_robots_txt(self, url: str) -> Optional[str]:
+    def fetch_robots_txt(self, url: str) -&gt; Optional[str]:
         """Fetch robots.txt for a domain."""
         parsed_url = urlparse(url)
         robots_url = f"{parsed_url.scheme}://{parsed_url.netloc}/robots.txt"
@@ -167,7 +216,7 @@ class RobotsChecker:
             self.logger.error(f"Error fetching robots.txt: {e}")
             return None
     
-    def parse_robots_txt(self, url: str, robots_content: str = None) -> RobotRules:
+    def parse_robots_txt(self, url: str, robots_content: str = None) -&gt; RobotRules:
         """Parse robots.txt content."""
         parsed_url = urlparse(url)
         domain = parsed_url.netloc
@@ -175,7 +224,7 @@ class RobotsChecker:
         # Check cache first
         if domain in self.robots_cache:
             cached = self.robots_cache[domain]
-            if (datetime.now() - cached.last_checked).seconds < 86400:  # 24 hours
+            if (datetime.now() - cached.last_checked).seconds &lt; 86400:  # 24 hours
                 return cached
         
         # Fetch if not provided
@@ -261,7 +310,7 @@ class RobotsChecker:
         
         return rules
     
-    def can_fetch(self, url: str) -> Tuple[bool, str]:
+    def can_fetch(self, url: str) -&gt; Tuple[bool, str]:
         """
         Check if URL can be fetched according to robots.txt.
         Returns (allowed, reason).
@@ -275,7 +324,7 @@ class RobotsChecker:
             if disallowed and path.startswith(disallowed):
                 # Check if there's an allow rule that overrides
                 for allowed in rules.allowed_paths:
-                    if allowed and path.startswith(allowed) and len(allowed) > len(disallowed):
+                    if allowed and path.startswith(allowed) and len(allowed) &gt; len(disallowed):
                         return True, f"Allowed by rule: {allowed}"
                 
                 return False, f"Disallowed by robots.txt: {disallowed}"
@@ -283,12 +332,12 @@ class RobotsChecker:
         # If no specific rules, default to allowed
         return True, "No restrictions in robots.txt"
     
-    def get_crawl_delay(self, url: str) -> Optional[float]:
+    def get_crawl_delay(self, url: str) -&gt; Optional[float]:
         """Get crawl delay for a domain."""
         rules = self.parse_robots_txt(url)
         return rules.crawl_delay
     
-    def get_sitemap(self, url: str) -> Optional[str]:
+    def get_sitemap(self, url: str) -&gt; Optional[str]:
         """Get sitemap URL from robots.txt."""
         rules = self.parse_robots_txt(url)
         return rules.sitemap
@@ -324,7 +373,7 @@ class EthicalScraper:
         )
         self.logger = logging.getLogger(__name__)
     
-    def _create_session(self) -> requests.Session:
+    def _create_session(self) -&gt; requests.Session:
         """Create configured session."""
         session = requests.Session()
         
@@ -343,7 +392,7 @@ class EthicalScraper:
         
         return session
     
-    def scrape(self, url: str, **kwargs) -> Optional[requests.Response]:
+    def scrape(self, url: str, **kwargs) -&gt; Optional[requests.Response]:
         """
         Ethically scrape a URL with all compliance checks.
         """
@@ -408,7 +457,7 @@ class EthicalScraper:
         # Check last request time
         if domain in self.domain_last_request:
             elapsed = time.time() - self.domain_last_request[domain]
-            if elapsed < delay:
+            if elapsed &lt; delay:
                 sleep_time = delay - elapsed
                 self.logger.info(f"Rate limiting: sleeping {sleep_time:.2f}s for {domain}")
                 time.sleep(sleep_time)
@@ -431,11 +480,11 @@ class EthicalScraper:
         # Check for X-RateLimit headers
         if 'X-RateLimit-Remaining' in response.headers:
             remaining = int(response.headers['X-RateLimit-Remaining'])
-            if remaining <= 0:
+            if remaining &lt;= 0:
                 reset_time = response.headers.get('X-RateLimit-Reset')
                 if reset_time:
                     sleep_until = int(reset_time) - time.time()
-                    if sleep_until > 0:
+                    if sleep_until &gt; 0:
                         self.logger.warning(f"Rate limit exceeded, sleeping {sleep_until}s")
                         time.sleep(sleep_until)
     
@@ -460,7 +509,7 @@ class EthicalScraper:
             self.logger.warning(f"Potential PII detected: {detected_pii}")
             self.metrics.record_pii_detection(response.url, detected_pii)
     
-    def _retry_request(self, url: str, **kwargs) -> Optional[requests.Response]:
+    def _retry_request(self, url: str, **kwargs) -&gt; Optional[requests.Response]:
         """Retry failed request with exponential backoff."""
         for attempt in range(self.policy.max_retries):
             sleep_time = 2 ** attempt
@@ -476,7 +525,7 @@ class EthicalScraper:
         
         return None
     
-    def scrape_sitemap(self, url: str) -> List[str]:
+    def scrape_sitemap(self, url: str) -&gt; List[str]:
         """Scrape URLs from sitemap (ethical way to discover URLs)."""
         sitemap_url = self.robots_checker.get_sitemap(url)
         
@@ -512,7 +561,7 @@ class RateLimiter:
         self.domain_buckets = defaultdict(lambda: TokenBucket())
         self.global_bucket = TokenBucket(rate=10, capacity=100)
     
-    def check_rate_limit(self, domain: str) -> bool:
+    def check_rate_limit(self, domain: str) -&gt; bool:
         """Check if request is allowed."""
         # Check domain-specific limit
         if not self.domain_buckets[domain].consume():
@@ -541,7 +590,7 @@ class TokenBucket:
         self.last_update = time.time()
         self.lock = threading.Lock()
     
-    def consume(self, tokens: int = 1) -> bool:
+    def consume(self, tokens: int = 1) -&gt; bool:
         """Try to consume tokens."""
         with self.lock:
             # Refill bucket
@@ -551,7 +600,7 @@ class TokenBucket:
             self.last_update = now
             
             # Check if enough tokens
-            if self.tokens >= tokens:
+            if self.tokens &gt;= tokens:
                 self.tokens -= tokens
                 return True
             
@@ -578,11 +627,11 @@ class ResponseCache:
         with open(self.cache_dir / "index.json", 'w') as f:
             json.dump(self.index, f)
     
-    def get_cache_key(self, url: str) -> str:
+    def get_cache_key(self, url: str) -&gt; str:
         """Generate cache key for URL."""
         return hashlib.md5(url.encode()).hexdigest()
     
-    def get(self, url: str) -> Optional[requests.Response]:
+    def get(self, url: str) -&gt; Optional[requests.Response]:
         """Get cached response."""
         cache_key = self.get_cache_key(url)
         
@@ -590,7 +639,7 @@ class ResponseCache:
             cache_info = self.index[cache_key]
             
             # Check expiration
-            if time.time() - cache_info['timestamp'] > cache_info['ttl']:
+            if time.time() - cache_info['timestamp'] &gt; cache_info['ttl']:
                 return None
             
             # Load cached response
@@ -723,7 +772,7 @@ class ScrapingMetrics:
         ''', (datetime.now(), url, json.dumps(pii_types)))
         self.db.commit()
     
-    def get_summary(self) -> Dict:
+    def get_summary(self) -&gt; Dict:
         """Get metrics summary."""
         return {
             'total_requests': self.total_requests,
@@ -731,8 +780,8 @@ class ScrapingMetrics:
             'blocked_requests': self.blocked_requests,
             'errors': self.errors,
             'cache_hits': self.cache_hits,
-            'cache_hit_rate': self.cache_hits / self.total_requests if self.total_requests > 0 else 0,
-            'success_rate': self.successful_requests / self.total_requests if self.total_requests > 0 else 0,
+            'cache_hit_rate': self.cache_hits / self.total_requests if self.total_requests &gt; 0 else 0,
+            'success_rate': self.successful_requests / self.total_requests if self.total_requests &gt; 0 else 0,
             'pii_detections': self.pii_detections,
             'top_domains': sorted(
                 self.domain_stats.items(),
@@ -747,7 +796,7 @@ class EthicalGuidelines:
     """
     
     @staticmethod
-    def get_guidelines() -> Dict[str, List[str]]:
+    def get_guidelines() -&gt; Dict[str, List[str]]:
         """Get comprehensive ethical guidelines."""
         return {
             'Legal Considerations': [
@@ -802,7 +851,7 @@ class EthicalGuidelines:
         }
     
     @staticmethod
-    def check_compliance(url: str, policy: EthicalPolicy) -> Dict[str, Any]:
+    def check_compliance(url: str, policy: EthicalPolicy) -&gt; Dict[str, Any]:
         """Check compliance for a URL."""
         compliance_report = {
             'url': url,
@@ -828,7 +877,7 @@ class EthicalGuidelines:
         crawl_delay = checker.get_crawl_delay(url)
         if crawl_delay:
             compliance_report['checks']['crawl_delay'] = crawl_delay
-            if policy.rate_limit < crawl_delay:
+            if policy.rate_limit &lt; crawl_delay:
                 compliance_report['recommendations'].append(
                     f"Increase rate limit to at least {crawl_delay} seconds"
                 )
@@ -989,37 +1038,28 @@ if __name__ == "__main__":
     print("\n✅ Ethical web scraping demonstration complete!")
     print("\n⚖️ Remember: With great scraping power comes great responsibility!")
 </code></pre>
-
-    <h2>Key Takeaways and Best Practices 🎯</h2>
-    
-    <ul>
-        <li><strong>Always Check robots.txt:</strong> It's the first and most important step.</li>
-        
-        <li><strong>Respect Rate Limits:</strong> Use at least 1-2 seconds between requests.</li>
-        
-        <li><strong>Identify Yourself:</strong> Use a descriptive User-Agent with contact information.</li>
-        
-        <li><strong>Cache Responses:</strong> Reduce server load by caching when possible.</li>
-        
-        <li><strong>Handle Errors Gracefully:</strong> Implement exponential backoff and retry logic.</li>
-        
-        <li><strong>Protect Privacy:</strong> Be careful with personal data and comply with regulations.</li>
-        
-        <li><strong>Use APIs When Available:</strong> Always prefer official APIs over scraping.</li>
-        
-        <li><strong>Monitor Your Impact:</strong> Track metrics and adjust if causing issues.</li>
-    </ul>
-
-    <h3>Ethical Scraping Best Practices 📋</h3>
-    
-    <div class="comment-block">
-        <p><strong>Pro Tip:</strong> Ethical scraping isn't just about following rules - it's about being a good citizen of the web. Think of websites as digital properties: you wouldn't break into someone's house just because the door is unlocked. Always start by checking robots.txt, implement reasonable rate limiting (even if not specified), and identify yourself honestly. Cache aggressively to minimize requests, handle errors gracefully, and be prepared to stop if asked. Remember that behind every website is a business or individual who pays for bandwidth and servers. If you're building a commercial scraper, consider reaching out to website owners - many are happy to work with you if you're transparent. Most importantly: just because you CAN scrape something doesn't mean you SHOULD. Always ask yourself: "Would I be okay if someone scraped my website this way?" The golden rule applies to web scraping too!</p>
-    </div>
-    
-    <p>Mastering ethical web scraping transforms you from a data taker to a responsible data gatherer. You now understand the legal, technical, and ethical considerations that separate professional scrapers from script kiddies. Whether you're conducting research, building products, or gathering competitive intelligence, these ethical principles ensure your scraping is sustainable, legal, and respectful. Remember: the goal isn't just to get data, but to get it in a way that maintains the health and openness of the web! 🌐</p>
-    
-    <footer>
-        <p>Congratulations! You've completed the Web Scraping Fundamentals section. Next up: <a href="advanced_scraping_scrapy.html">Advanced Scraping with Scrapy Framework!</a></p>
-    </footer>
+<h2>Key Takeaways and Best Practices 🎯</h2>
+<ul>
+<li><strong>Always Check robots.txt:</strong> It's the first and most important step.</li>
+<li><strong>Respect Rate Limits:</strong> Use at least 1-2 seconds between requests.</li>
+<li><strong>Identify Yourself:</strong> Use a descriptive User-Agent with contact information.</li>
+<li><strong>Cache Responses:</strong> Reduce server load by caching when possible.</li>
+<li><strong>Handle Errors Gracefully:</strong> Implement exponential backoff and retry logic.</li>
+<li><strong>Protect Privacy:</strong> Be careful with personal data and comply with regulations.</li>
+<li><strong>Use APIs When Available:</strong> Always prefer official APIs over scraping.</li>
+<li><strong>Monitor Your Impact:</strong> Track metrics and adjust if causing issues.</li>
+</ul>
+<h3>Ethical Scraping Best Practices 📋</h3>
+<div class="comment-block">
+<p><strong>Pro Tip:</strong> Ethical scraping isn't just about following rules - it's about being a good citizen of the web. Think of websites as digital properties: you wouldn't break into someone's house just because the door is unlocked. Always start by checking robots.txt, implement reasonable rate limiting (even if not specified), and identify yourself honestly. Cache aggressively to minimize requests, handle errors gracefully, and be prepared to stop if asked. Remember that behind every website is a business or individual who pays for bandwidth and servers. If you're building a commercial scraper, consider reaching out to website owners - many are happy to work with you if you're transparent. Most importantly: just because you CAN scrape something doesn't mean you SHOULD. Always ask yourself: "Would I be okay if someone scraped my website this way?" The golden rule applies to web scraping too!</p>
+</div>
+<p>Mastering ethical web scraping transforms you from a data taker to a responsible data gatherer. You now understand the legal, technical, and ethical considerations that separate professional scrapers from script kiddies. Whether you're conducting research, building products, or gathering competitive intelligence, these ethical principles ensure your scraping is sustainable, legal, and respectful. Remember: the goal isn't just to get data, but to get it in a way that maintains the health and openness of the web! 🌐</p>
+<footer>
+<div class="navigation-links">
+<a class="nav-prev" href="webscraping_session_management.html">← Previous: Session Management</a>
+<a class="nav-home" href="index.html">🏠 Course Home</a>
+<a class="nav-next" href="browser_automation_webdriver_setup.html">Next: WebDriver Setup →</a>
+</div>
+</footer>
 </body>
 </html>
