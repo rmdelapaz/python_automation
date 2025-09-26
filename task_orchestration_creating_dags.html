@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Creating DAGs - Python Task Orchestration</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module8">Task Orchestration</a> &gt; 
         <span>Creating DAGs</span>
 </nav>
-<h1>🔧 Creating DAGs: Design Complex Workflows with Code</h1>
+    
+    <main id="main-content">
+    <h1>🔧 Creating DAGs: Design Complex Workflows with Code</h1>
 <p>Creating effective DAGs (Directed Acyclic Graphs) in Apache Airflow is both an art and a science - it requires understanding workflow patterns, dependency management, and best practices for maintainable pipeline design. Like architecting a complex system, well-designed DAGs are modular, reusable, testable, and scalable. Whether you're building simple linear pipelines or complex branching workflows with hundreds of tasks, mastering DAG creation patterns is essential for production-grade orchestration. Let's explore the comprehensive world of DAG design and implementation! 🏗️</p>
 <h2>The DAG Design Architecture</h2>
 <p>Think of DAG creation as building with intelligent LEGO blocks - each task is a self-contained unit that connects to others through dependencies, forming complex workflows that can branch, merge, and adapt dynamically. Using Python's flexibility, Airflow allows you to create DAGs programmatically, generate them from configuration, implement complex patterns, and build reusable components. Understanding DAG lifecycle, task patterns, and design principles is crucial for scalable orchestration!</p>
@@ -1065,5 +1077,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="task_orchestration_dependencies.html">Next: Task Dependencies →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

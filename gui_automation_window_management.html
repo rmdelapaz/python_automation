@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Window Management - Python GUI Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module11">GUI Automation</a> &gt; 
         <span>Window Management</span>
 </nav>
-<h1>🪟 Window Management: Control Desktop Applications Like a Pro</h1>
+    
+    <main id="main-content">
+    <h1>🪟 Window Management: Control Desktop Applications Like a Pro</h1>
 <p>Window management automation gives you complete control over desktop applications - you can find, focus, resize, position, and manipulate windows programmatically, creating sophisticated multi-application workflows and desktop layouts. Like being a conductor orchestrating an entire desktop environment, mastering window management allows you to automate complex application interactions, create custom window arrangements, monitor application states, and build powerful productivity tools. Whether you're automating multi-monitor setups, creating testing environments, or building desktop utilities, window management is essential for professional GUI automation. Let's explore the comprehensive world of window control! 🖥️</p>
 <h2>The Window Management Architecture</h2>
 <p>Think of window management as controlling a complex theater stage - each window is an actor that needs to be positioned, shown, hidden, and directed at the right time. Using libraries like pygetwindow, win32gui on Windows, and platform-specific APIs, you can enumerate windows, control their properties, monitor their states, and orchestrate complex multi-window interactions. Understanding window hierarchies, process management, and desktop composition is crucial for reliable window automation!</p>
@@ -1310,5 +1322,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="gui_automation_cross_platform.html">Next: Cross-Platform GUI →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

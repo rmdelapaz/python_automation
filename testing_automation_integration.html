@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Integration Testing - Python Testing Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module9">Testing Automation</a> &gt; 
         <span>Integration Testing</span>
 </nav>
-<h1>🔗 Integration Testing: Ensure Components Work Together Flawlessly</h1>
+    
+    <main id="main-content">
+    <h1>🔗 Integration Testing: Ensure Components Work Together Flawlessly</h1>
 <p>Integration testing bridges the gap between unit tests and system tests - it verifies that independently developed components work correctly when combined, catching issues that arise from component interactions, data flow, and interface mismatches. Like testing the gears of a complex machine working together, integration testing ensures your application's parts mesh seamlessly. Whether you're testing database interactions, API integrations, or microservice communications, mastering integration testing is crucial for building reliable systems. Let's explore the comprehensive world of integration test automation! 🏗️</p>
 <h2>The Integration Testing Architecture</h2>
 <p>Think of integration testing as quality assurance for assembled systems - while unit tests verify individual parts work, integration tests ensure they work together harmoniously. Using test containers, mock servers, and orchestration tools, you can create realistic test environments that validate component interactions without the complexity of full system testing. Understanding test boundaries, data management, and environment setup is essential for effective integration testing!</p>
@@ -996,5 +1008,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="testing_automation_ui_selenium.html">Next: UI Testing with Selenium →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

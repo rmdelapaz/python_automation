@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>PyAutoGUI Basics - Python GUI Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module11">GUI Automation</a> &gt; 
         <span>PyAutoGUI Basics</span>
 </nav>
-<h1>🖱️ PyAutoGUI Basics: Automate Your Desktop Like Magic</h1>
+    
+    <main id="main-content">
+    <h1>🖱️ PyAutoGUI Basics: Automate Your Desktop Like Magic</h1>
 <p>PyAutoGUI transforms your Python scripts into powerful desktop automation tools - it can control your mouse, type on your keyboard, take screenshots, and interact with any application on your screen. Like having a virtual assistant that can operate your computer, PyAutoGUI enables you to automate repetitive tasks, test GUI applications, create demo videos, and even play games programmatically. Whether you're automating data entry, testing software, or creating bots, PyAutoGUI makes GUI automation accessible and powerful. Let's explore the fundamentals of desktop automation! 🎯</p>
 <h2>The PyAutoGUI Architecture</h2>
 <p>Think of PyAutoGUI as your computer's autopilot - it provides a simple, cross-platform Python API to control mouse movements, keyboard inputs, and screen interactions. By combining screen coordinates, image recognition, and input simulation, PyAutoGUI can automate virtually any desktop task that a human can perform. Understanding mouse control, keyboard automation, screen capture, and failsafe mechanisms is essential for safe and effective GUI automation!</p>
@@ -1128,5 +1140,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="gui_automation_mouse_keyboard.html">Next: Mouse and Keyboard Control →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

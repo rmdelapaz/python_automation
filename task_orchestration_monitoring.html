@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Monitoring and Alerts - Python Task Orchestration</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module8">Task Orchestration</a> &gt; 
         <span>Monitoring and Alerts</span>
 </nav>
-<h1>📊 Monitoring and Alerts: Keep Your Workflows Running Smoothly</h1>
+    
+    <main id="main-content">
+    <h1>📊 Monitoring and Alerts: Keep Your Workflows Running Smoothly</h1>
 <p>Effective monitoring and alerting transform reactive firefighting into proactive system management - it's the difference between discovering failures from angry users and preventing issues before they impact production. Like having a mission control center for your workflows, comprehensive monitoring provides real-time visibility, predictive insights, and intelligent alerting that keeps your automation running smoothly. Whether you're tracking SLAs, detecting anomalies, or optimizing performance, mastering monitoring and alerts is crucial for production operations. Let's explore the comprehensive world of workflow observability! 📡</p>
 <h2>The Monitoring and Alerting Architecture</h2>
 <p>Think of monitoring as your workflow's nervous system - it collects signals from every component, processes them for insights, and triggers appropriate responses when something needs attention. Using metrics, logs, traces, and custom instrumentation, you can build observability that provides complete visibility into workflow health, performance, and behavior. Understanding metrics collection, alert design, and dashboard creation is essential for operational excellence!</p>
@@ -1250,5 +1262,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="testing_automation_unit.html">Next: Unit Test Automation →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

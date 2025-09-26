@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Directory Watching - Python Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module1">File and System Automation</a> &gt; 
         <span>Directory Watching</span>
 </nav>
-<h1>👁️ Directory Watching: Real-Time File System Monitoring</h1>
+    
+    <main id="main-content">
+    <h1>👁️ Directory Watching: Real-Time File System Monitoring</h1>
 <p>Imagine having a security guard that never sleeps, constantly watching your files and folders, instantly reacting to any changes. That's what directory watching gives you – the power to respond to file system events in real-time! It's like having super-hearing for your hard drive. 🎯</p>
 <h2>Understanding File System Events</h2>
 <p>Every time you save a document, delete a file, or rename a folder, your operating system fires events. Directory watching lets us listen to these events and take action immediately. Think of it as setting up tripwires throughout your file system!</p>
@@ -1075,5 +1087,6 @@ watcher.start_watching(handle_file_event)
 <a class="nav-next" href="filesystem_file_organization_scripts.html">Next: File Organization Scripts →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

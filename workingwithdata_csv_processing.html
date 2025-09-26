@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>CSV Processing - Python Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module4">Data Processing</a> &gt; 
         <span>CSV Processing</span>
 </nav>
-<h1>📊 CSV Processing: Master Tabular Data with Python</h1>
+    
+    <main id="main-content">
+    <h1>📊 CSV Processing: Master Tabular Data with Python</h1>
 <p>CSV files are the unsung heroes of data exchange. They're simple, universal, and everywhere - from Excel exports to database dumps, API responses to IoT sensor logs. But beneath their simple comma-separated surface lies a world of complexity. Let's turn Python into your CSV command center! 🎯</p>
 <h2>The Hidden Complexity of CSV Files</h2>
 <p>CSV files seem simple - just commas and data, right? Wrong! They can have different delimiters, encodings, quote characters, escape sequences, and more. It's like each CSV file speaks a slightly different dialect of the same language. Python helps you become a polyglot!</p>
@@ -1110,5 +1122,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="workingwithdata_excel_automation.html">Next: Excel Automation →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

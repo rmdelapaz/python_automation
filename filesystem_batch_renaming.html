@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Batch Renaming - Python Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module1">File and System Automation</a> &gt; 
         <span>Batch Renaming</span>
 </nav>
-<h1>🏷️ Batch Renaming: Master the Art of File Naming at Scale</h1>
+    
+    <main id="main-content">
+    <h1>🏷️ Batch Renaming: Master the Art of File Naming at Scale</h1>
 <p>Ever downloaded 500 photos from your camera named DSC_0001 through DSC_0500? Or inherited a project with files named "final_v2_REALLY_FINAL_USE_THIS_ONE.doc"? Batch renaming is your superpower for bringing order to naming chaos. It's like being a librarian with superhuman speed! 📚</p>
 <h2>The Psychology of Good File Names</h2>
 <p>A good filename tells a story. It should answer three questions: What is it? When was it created? What version is it? Think of filenames as the DNA of your digital organization – they carry essential information that helps you (and your scripts) identify files instantly.</p>
@@ -1317,5 +1329,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="filesystem_directory_watching.html">Next: Directory Watching →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

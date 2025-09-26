@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Serverless Functions - Python Cloud Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module7">Cloud Automation</a> &gt; 
         <span>Serverless Functions</span>
 </nav>
-<h1>⚡ Serverless Functions: Build Event-Driven Applications</h1>
+    
+    <main id="main-content">
+    <h1>⚡ Serverless Functions: Build Event-Driven Applications</h1>
 <p>Serverless computing revolutionizes how we build and deploy applications - you write functions that execute in response to events, while the cloud provider handles all infrastructure, scaling, and maintenance. Like having an infinite army of workers that appear instantly when needed and disappear when done, serverless enables you to build highly scalable, cost-effective applications that respond to HTTP requests, process files, handle database changes, or react to any cloud event. Let's explore the comprehensive world of serverless functions! 🔥</p>
 <h2>The Serverless Architecture</h2>
 <p>Think of serverless functions as specialized workers in a massive factory - each function performs a specific task, triggered by events like API calls, file uploads, database changes, or scheduled times. Using platforms like AWS Lambda, Google Cloud Functions, and Azure Functions, you can build entire applications without managing servers, automatically scaling from zero to millions of requests. Understanding event sources, execution models, and integration patterns is essential for effective serverless development!</p>
@@ -1072,5 +1084,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="cloud_automation_deploying.html">Next: Deployment Automation →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

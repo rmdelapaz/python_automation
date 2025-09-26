@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Reporting Automation - Python RPA and Enterprise Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module14">RPA and Enterprise Automation</a> &gt; 
         <span>Reporting Automation</span>
 </nav>
-<h1>📈 Reporting Automation: Create Dynamic Reports Automatically</h1>
+    
+    <main id="main-content">
+    <h1>📈 Reporting Automation: Create Dynamic Reports Automatically</h1>
 <p>Reporting automation transforms the tedious, error-prone process of manual report creation into a streamlined, accurate, and timely delivery of business intelligence - it's the difference between spending days compiling data and having insights delivered to your inbox every morning. Like having a team of analysts working 24/7, automated reporting systems gather data from multiple sources, perform complex calculations, generate visualizations, and distribute polished reports to stakeholders automatically. Whether you're creating financial reports, operational dashboards, compliance documentation, or executive briefings, mastering reporting automation is essential for data-driven decision making. Let's explore the comprehensive world of automated reporting! 📊</p>
 <h2>The Reporting Automation Architecture</h2>
 <p>Think of reporting automation as creating an intelligent information factory - raw data flows in from various sources, gets processed, analyzed, and transformed into meaningful insights, then packaged into beautiful reports and delivered to the right people at the right time. Using data pipelines, visualization libraries, template engines, and distribution systems, modern reporting automation handles everything from simple metrics to complex analytical reports. Understanding data integration, report design, and delivery mechanisms is crucial for successful implementation!</p>
@@ -775,7 +787,8 @@ class HTMLReportGenerator(ReportGenerator):
                     {{ data_table | safe }}
                 </div>
             </div>
-        </body>
+            </main>
+</body>
         </html>
         """
         return Template(template_str)

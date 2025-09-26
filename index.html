@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python Automation Mastery - Complete Course Index</title>
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="/styles/enhanced.css">
     <link rel="icon" href="/favicon.png" type="image/png">
     <style>
         .course-header {
@@ -180,8 +181,19 @@
             margin-left: 0.5rem;
         }
     </style>
+    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
 </head>
 <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div>
+    
+    <main id="main-content">
     <div class="course-header">
         <h1>🚀 Python Automation Mastery</h1>
         <p>Your Complete Journey from Manual Tasks to Automated Excellence</p>
@@ -229,33 +241,33 @@
         <p class="module-description">Master the fundamentals of automating file operations, system tasks, and process scheduling. Build a strong foundation for all automation tasks.</p>
         <ul class="lessons">
             <li class="lesson">
-                <a href="file_system_automation_file_operations.html">
+                <a href="filesystem_advanced_file_operations.html">
                     <span class="lesson-number">1.1</span>
-                    File Operations - Master File Manipulation
+                    Advanced File Operations - Master File Manipulation
                 </a>
             </li>
             <li class="lesson">
-                <a href="file_system_automation_directory_management.html">
+                <a href="filesystem_directory_watching.html">
                     <span class="lesson-number">1.2</span>
-                    Directory Management - Organize Your Digital World
+                    Directory Watching - Monitor File Changes
                 </a>
             </li>
             <li class="lesson">
-                <a href="file_system_automation_scheduling.html">
+                <a href="filesystem_file_organization_scripts.html">
                     <span class="lesson-number">1.3</span>
-                    Task Scheduling - Automate Tasks on Autopilot
+                    File Organization Scripts - Smart File Management
                 </a>
             </li>
             <li class="lesson">
-                <a href="file_system_automation_logging.html">
+                <a href="filesystem_batch_renaming.html">
                     <span class="lesson-number">1.4</span>
-                    Logging and Monitoring - Track Everything Automatically
+                    Batch Renaming - Rename Files in Bulk
                 </a>
             </li>
             <li class="lesson">
-                <a href="file_system_automation_system_monitoring.html">
+                <a href="filesystem_backup_automation.html">
                     <span class="lesson-number">1.5</span>
-                    System Monitoring - Keep Your Systems Healthy
+                    Backup Automation - Never Lose Data Again
                 </a>
             </li>
         </ul>
@@ -270,33 +282,33 @@
         <p class="module-description">Conquer the web with powerful scraping, browser automation, and API integration techniques. Transform websites into data sources.</p>
         <ul class="lessons">
             <li class="lesson">
-                <a href="web_automation_scraping_basics.html">
+                <a href="webscraping_beautifulsoup_mastery.html">
                     <span class="lesson-number">2.1</span>
-                    Web Scraping Basics - Extract Data from Any Website
+                    BeautifulSoup Mastery - Web Scraping Fundamentals
                 </a>
             </li>
             <li class="lesson">
-                <a href="web_automation_browser_automation.html">
+                <a href="browser_automation_webdriver_setup.html">
                     <span class="lesson-number">2.2</span>
-                    Browser Automation - Control Browsers Like a Puppeteer
+                    WebDriver Setup - Browser Automation Basics
                 </a>
             </li>
             <li class="lesson">
-                <a href="web_automation_api_integration.html">
+                <a href="browser_automation_element_interaction.html">
                     <span class="lesson-number">2.3</span>
-                    API Integration - Connect to Any Service
+                    Element Interaction - Control Web Elements
                 </a>
             </li>
             <li class="lesson">
-                <a href="web_automation_form_handling.html">
+                <a href="webscraping_forms_cookies.html">
                     <span class="lesson-number">2.4</span>
-                    Form Handling - Automate Data Entry
+                    Forms and Cookies - Handle Web Sessions
                 </a>
             </li>
             <li class="lesson">
-                <a href="web_automation_web_testing.html">
+                <a href="advanced_scraping_selenium.html">
                     <span class="lesson-number">2.5</span>
-                    Web Testing - Ensure Quality Automatically
+                    Advanced Selenium - Dynamic Content Scraping
                 </a>
             </li>
         </ul>
@@ -311,33 +323,33 @@
         <p class="module-description">Transform raw data into insights with automated extraction, transformation, and loading pipelines. Master the art of data automation.</p>
         <ul class="lessons">
             <li class="lesson">
-                <a href="data_processing_data_extraction.html">
+                <a href="workingwithdata_csv_processing.html">
                     <span class="lesson-number">3.1</span>
-                    Data Extraction - Mine Data from Any Source
+                    CSV Processing - Master Tabular Data
                 </a>
             </li>
             <li class="lesson">
-                <a href="data_processing_data_transformation.html">
+                <a href="workingwithdata_json_xml_parsing.html">
                     <span class="lesson-number">3.2</span>
-                    Data Transformation - Shape Data to Your Needs
+                    JSON and XML Parsing - Structure Data Processing
                 </a>
             </li>
             <li class="lesson">
-                <a href="data_processing_database_operations.html">
+                <a href="workingwithdata_excel_automation.html">
                     <span class="lesson-number">3.3</span>
-                    Database Operations - Master Database Automation
+                    Excel Automation - Spreadsheet Magic
                 </a>
             </li>
             <li class="lesson">
-                <a href="data_processing_report_generation.html">
+                <a href="workingwithdata_pdf_manipulation.html">
                     <span class="lesson-number">3.4</span>
-                    Report Generation - Create Reports Automatically
+                    PDF Manipulation - Document Processing
                 </a>
             </li>
             <li class="lesson">
-                <a href="data_processing_data_pipelines.html">
+                <a href="workingwithdata_database_automation.html">
                     <span class="lesson-number">3.5</span>
-                    Data Pipelines - Build Robust ETL Workflows
+                    Database Automation - SQL and NoSQL Operations
                 </a>
             </li>
         </ul>
@@ -352,33 +364,33 @@
         <p class="module-description">Automate all forms of digital communication from emails to social media. Stay connected without the manual effort.</p>
         <ul class="lessons">
             <li class="lesson">
-                <a href="communication_automation_email.html">
+                <a href="email_automation_sending_emails.html">
                     <span class="lesson-number">4.1</span>
-                    Email Automation - Master Your Inbox
+                    Sending Emails - Automate Email Communications
                 </a>
             </li>
             <li class="lesson">
-                <a href="communication_automation_messaging.html">
+                <a href="email_automation_reading_emails.html">
                     <span class="lesson-number">4.2</span>
-                    Chat and Messaging - Automate Conversations
+                    Reading Emails - Process Incoming Mail
                 </a>
             </li>
             <li class="lesson">
-                <a href="communication_automation_sms_voice.html">
+                <a href="email_automation_attachments.html">
                     <span class="lesson-number">4.3</span>
-                    SMS and Voice - Reach Anyone, Anywhere
+                    Email Attachments - Handle Files Automatically
                 </a>
             </li>
             <li class="lesson">
-                <a href="communication_automation_social_media.html">
+                <a href="chatbot_telegram_bots.html">
                     <span class="lesson-number">4.4</span>
-                    Social Media - Automate Your Social Presence
+                    Telegram Bots - Build Chat Automation
                 </a>
             </li>
             <li class="lesson">
-                <a href="communication_automation_calendar_scheduling.html">
+                <a href="chatbot_discord_bots.html">
                     <span class="lesson-number">4.5</span>
-                    Calendar and Scheduling - Never Miss a Meeting
+                    Discord Bots - Community Automation
                 </a>
             </li>
         </ul>
@@ -393,33 +405,33 @@
         <p class="module-description">Harness the power of cloud platforms with infrastructure as code and serverless automation. Scale your automation to the cloud.</p>
         <ul class="lessons">
             <li class="lesson">
-                <a href="cloud_automation_aws.html">
+                <a href="cloud_automation_aws_boto3.html">
                     <span class="lesson-number">5.1</span>
-                    AWS Automation - Master Amazon Web Services
+                    AWS with Boto3 - Amazon Cloud Automation
                 </a>
             </li>
             <li class="lesson">
-                <a href="cloud_automation_azure.html">
+                <a href="cloud_automation_google_cloud.html">
                     <span class="lesson-number">5.2</span>
-                    Azure Automation - Conquer Microsoft Cloud
+                    Google Cloud Platform - GCP Automation
                 </a>
             </li>
             <li class="lesson">
-                <a href="cloud_automation_gcp.html">
+                <a href="cloud_automation_storage.html">
                     <span class="lesson-number">5.3</span>
-                    GCP Automation - Google Cloud Mastery
-                </a>
-            </li>
-            <li class="lesson">
-                <a href="cloud_automation_terraform.html">
-                    <span class="lesson-number">5.4</span>
-                    Infrastructure as Code - Terraform Excellence
+                    Cloud Storage - Manage Files in the Cloud
                 </a>
             </li>
             <li class="lesson">
                 <a href="cloud_automation_serverless.html">
+                    <span class="lesson-number">5.4</span>
+                    Serverless Functions - Event-Driven Computing
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="cloud_automation_deploying.html">
                     <span class="lesson-number">5.5</span>
-                    Serverless and Functions - Event-Driven Automation
+                    Deployment Automation - CI/CD Pipelines
                 </a>
             </li>
         </ul>
@@ -446,7 +458,7 @@
                 </a>
             </li>
             <li class="lesson">
-                <a href="task_orchestration_task_dependencies.html">
+                <a href="task_orchestration_dependencies.html">
                     <span class="lesson-number">6.3</span>
                     Task Dependencies - Master Complex Relationships
                 </a>
@@ -562,5 +574,6 @@
             Remember: The best automation is the one that gives you time to focus on what truly matters! 🚀
         </p>
     </div>
+    </main>
 </body>
 </html>

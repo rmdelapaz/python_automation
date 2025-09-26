@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Headless Browsing - Python Browser Automation</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module3">Browser Automation</a> &gt; 
         <span>Headless Browsing</span>
 </nav>
-<h1>👻 Headless Browsing: Automation Without the GUI</h1>
+    
+    <main id="main-content">
+    <h1>👻 Headless Browsing: Automation Without the GUI</h1>
 <p>Headless browsing is like having an invisible browser that runs in the background - all the power of a full browser without the overhead of rendering graphics. It's the stealth mode of web automation, perfect for servers, CI/CD pipelines, and high-performance scraping. Like a submarine navigating underwater, headless browsers do their work unseen but with full capability. Let's master the art of GUI-less browser automation! 🚀</p>
 <h2>The Headless Browser Ecosystem</h2>
 <p>Headless browsers are the workhorses of modern automation - they consume less memory, run faster, and can scale to hundreds of instances. But with great power comes unique challenges: debugging without seeing, handling downloads without a UI, and dealing with sites that detect headless mode. Master these challenges to unlock unprecedented automation scale!</p>
@@ -1165,5 +1177,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="workingwithdata_csv_processing.html">Next: CSV Processing →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

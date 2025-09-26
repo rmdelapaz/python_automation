@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Task Dependencies - Python Task Orchestration</title>
 <link href="styles/main.css" rel="stylesheet"/>
+    <link href="/styles/enhanced.css" rel="stylesheet"/>
 <link href="/favicon.png" rel="icon" type="image/png"/>
 <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
@@ -62,13 +63,24 @@
         .nav-home {
             text-align: center;
         }
-        </style></head>
-<body><nav class="breadcrumb">
+        </style>    <script src="/js/course-enhancements.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
+        <div class="progress-bar"></div>
+    </div><nav class="breadcrumb">
 <a href="index.html">Home</a> &gt; 
         <a href="index.html#module8">Task Orchestration</a> &gt; 
         <span>Task Dependencies</span>
 </nav>
-<h1>🔗 Task Dependencies: Master Complex Workflow Relationships</h1>
+    
+    <main id="main-content">
+    <h1>🔗 Task Dependencies: Master Complex Workflow Relationships</h1>
 <p>Task dependencies are the backbone of workflow orchestration - they define the execution order, parallelism opportunities, and conditional logic that transform individual tasks into sophisticated pipelines. Like designing a complex supply chain, mastering task dependencies allows you to create workflows that adapt to data, handle failures gracefully, and maximize resource utilization through intelligent parallelization. Whether you're building simple sequential pipelines or complex conditional workflows with hundreds of interdependent tasks, understanding dependency patterns is crucial for effective orchestration. Let's explore the comprehensive world of task dependency management! 🎯</p>
 <h2>The Task Dependency Architecture</h2>
 <p>Think of task dependencies as the neural pathways of your workflow - they determine how data and control flow through your pipeline, when tasks can run in parallel, and how failures propagate. Using Airflow's rich dependency system, you can create linear chains, parallel branches, conditional paths, and complex graphs that adapt to runtime conditions. Understanding trigger rules, sensors, and advanced dependency patterns is essential for building resilient, efficient workflows!</p>
@@ -1118,5 +1130,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="task_orchestration_error_handling.html">Next: Error Handling →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>
