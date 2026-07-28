@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-labelledby="css-title css-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="css-title">How CSS selector types map to nodes in a DOM tree</title>
+  <desc id="css-desc">A small DOM tree on the left has five numbered nodes: a div with id shop, a ul with class list, two li elements with class item (one also class sale), each holding an anchor with an href, and a p with class note. On the right, five selectors show which nodes each matches: a class selector matches every element carrying that class, an id selector matches the single unique element, a child combinator matches only direct children, a descendant combinator matches nested elements at any depth, and a compound selector matches only elements that carry all the listed classes.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:11px}
+    .monos{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.bluestroke{stroke:#3b82f6}
+    .green{fill:#10b981}.greenstroke{stroke:#10b981}
+    .amber{fill:#f59e0b}.amberstroke{stroke:#f59e0b}
+    .red{fill:#ef4444}.redstroke{stroke:#ef4444}
+    .node{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.3}
+    .anchor{fill:#eff6ff;stroke:#3b82f6;stroke-width:1}
+    .edge{stroke:#94a3b8;stroke-width:1.4;fill:none}
+    .row{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1}
+    .badge{fill:#ffffff;stroke:#64748b;stroke-width:1.3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.bluestroke{stroke:#569cd6}.green{fill:#34d399}.greenstroke{stroke:#34d399}
+      .amber{fill:#fbbf24}.amberstroke{stroke:#fbbf24}.red{fill:#f87171}.redstroke{stroke:#f87171}
+      .node{fill:#26262a;stroke:#6b7280}.anchor{fill:#1e293b;stroke:#569cd6}
+      .edge{stroke:#6b7280}.row{fill:#26262a;stroke:#3f3f46}.badge{fill:#26262a;stroke:#9ca3af}
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="720" height="460"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="458.5" rx="10"/>
+  <text class="label ink h" x="24" y="32">One selector, one job &#8212; each kind targets different nodes in the same tree</text>
+
+  <!-- LEFT: DOM TREE -->
+  <text class="label muted ph" x="30" y="60">DOM tree (5 numbered nodes)</text>
+
+  <!-- edges -->
+  <path class="edge" d="M200,110 L128,150"/>
+  <path class="edge" d="M232,110 L300,150"/>
+  <path class="edge" d="M110,182 L96,226"/>
+  <path class="edge" d="M142,182 L252,226"/>
+
+  <!-- node 1: div#shop -->
+  <rect class="node" x="142" y="80" width="150" height="30" rx="5"/>
+  <text class="label mono ink" x="176" y="99">div id="shop"</text>
+  <circle class="badge" cx="152" cy="80" r="9"/><text class="label monos ink" x="152" y="83.5" text-anchor="middle">1</text>
+
+  <!-- node 2: ul.list -->
+  <rect class="node" x="72" y="152" width="110" height="30" rx="5"/>
+  <text class="label mono ink" x="98" y="171">ul class="list"</text>
+  <circle class="badge" cx="82" cy="152" r="9"/><text class="label monos ink" x="82" y="155.5" text-anchor="middle">2</text>
+
+  <!-- node 5: p.note -->
+  <rect class="node" x="248" y="152" width="120" height="30" rx="5"/>
+  <text class="label mono ink" x="268" y="171">p class="note"</text>
+  <circle class="badge" cx="258" cy="152" r="9"/><text class="label monos ink" x="258" y="155.5" text-anchor="middle">5</text>
+
+  <!-- node 3: li.item -->
+  <rect class="node" x="30" y="228" width="150" height="54" rx="5"/>
+  <text class="label mono ink" x="52" y="246">li class="item"</text>
+  <rect class="anchor" x="42" y="252" width="126" height="24" rx="4"/>
+  <text class="label monos blue" x="52" y="268">a href="/shoes"</text>
+  <circle class="badge" cx="40" cy="228" r="9"/><text class="label monos ink" x="40" y="231.5" text-anchor="middle">3</text>
+
+  <!-- node 4: li.item.sale -->
+  <rect class="node" x="200" y="228" width="170" height="54" rx="5"/>
+  <text class="label mono ink" x="222" y="246">li class="item sale"</text>
+  <rect class="anchor" x="212" y="252" width="146" height="24" rx="4"/>
+  <text class="label monos blue" x="222" y="268">a href="/boots"</text>
+  <circle class="badge" cx="210" cy="228" r="9"/><text class="label monos ink" x="210" y="231.5" text-anchor="middle">4</text>
+
+  <text class="label muted s" x="30" y="308">Badges 3 and 4 each also hold an anchor node.</text>
+
+  <!-- divider -->
+  <line class="frame" x1="392" y1="52" x2="392" y2="330" stroke="#cbd5e1"/>
+
+  <!-- RIGHT: SELECTORS -->
+  <text class="label muted ph" x="406" y="60">Selector &#8594; which nodes it matches</text>
+
+  <!-- helper: each row is a rounded rect + code pill + match badges -->
+  <!-- row 1: .item (class) -->
+  <rect class="row" x="406" y="72" width="290" height="46" rx="6"/>
+  <text class="label mono blue" x="418" y="92" font-weight="700">.item</text>
+  <text class="label s muted" x="418" y="108">class &#8212; every element with that class</text>
+  <circle class="bluestroke" cx="646" cy="95" r="11" fill="none" stroke-width="2"/><text class="label monos blue" x="646" y="98.5" text-anchor="middle" font-weight="700">3</text>
+  <circle class="bluestroke" cx="676" cy="95" r="11" fill="none" stroke-width="2"/><text class="label monos blue" x="676" y="98.5" text-anchor="middle" font-weight="700">4</text>
+
+  <!-- row 2: #shop (id) -->
+  <rect class="row" x="406" y="124" width="290" height="46" rx="6"/>
+  <text class="label mono amber" x="418" y="144" font-weight="700">#shop</text>
+  <text class="label s muted" x="418" y="160">id &#8212; the one unique element</text>
+  <circle class="amberstroke" cx="676" cy="147" r="11" fill="none" stroke-width="2"/><text class="label monos amber" x="676" y="150.5" text-anchor="middle" font-weight="700">1</text>
+
+  <!-- row 3: ul > li (child) -->
+  <rect class="row" x="406" y="176" width="290" height="46" rx="6"/>
+  <text class="label mono green" x="418" y="196" font-weight="700">ul &#62; li</text>
+  <text class="label s muted" x="418" y="212">child &#8212; direct children only</text>
+  <circle class="greenstroke" cx="646" cy="199" r="11" fill="none" stroke-width="2"/><text class="label monos green" x="646" y="202.5" text-anchor="middle" font-weight="700">3</text>
+  <circle class="greenstroke" cx="676" cy="199" r="11" fill="none" stroke-width="2"/><text class="label monos green" x="676" y="202.5" text-anchor="middle" font-weight="700">4</text>
+
+  <!-- row 4: #shop a (descendant) -->
+  <rect class="row" x="406" y="228" width="290" height="46" rx="6"/>
+  <text class="label mono blue" x="418" y="248" font-weight="700">#shop a</text>
+  <text class="label s muted" x="418" y="264">descendant &#8212; nested at any depth</text>
+  <circle class="bluestroke" cx="640" cy="251" r="11" fill="none" stroke-width="2"/><text class="label monos blue" x="640" y="254.5" text-anchor="middle" font-weight="700">3a</text>
+  <circle class="bluestroke" cx="676" cy="251" r="11" fill="none" stroke-width="2"/><text class="label monos blue" x="676" y="254.5" text-anchor="middle" font-weight="700">4a</text>
+
+  <!-- row 5: li.item.sale (compound) -->
+  <rect class="row" x="406" y="280" width="290" height="46" rx="6"/>
+  <text class="label mono red" x="418" y="300" font-weight="700">li.item.sale</text>
+  <text class="label s muted" x="418" y="316">compound &#8212; must carry BOTH classes</text>
+  <circle class="redstroke" cx="676" cy="303" r="11" fill="none" stroke-width="2"/><text class="label monos red" x="676" y="306.5" text-anchor="middle" font-weight="700">4</text>
+
+  <line class="frame" x1="24" y1="350" x2="696" y2="350" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="372">Read a selector right-to-left: the last part is the target, everything before it narrows the context. A class</text>
+  <text class="label muted s" x="24" y="390">can hit many nodes; an id should hit one. Combinators ( &#62; vs space ) decide direct-child versus any-depth.</text>
+  <text class="label muted s" x="24" y="408">When two rules fight, the more specific selector (more ids and classes) wins &#8212; that is CSS specificity.</text>
+</svg>
