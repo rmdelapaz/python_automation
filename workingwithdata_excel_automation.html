@@ -107,6 +107,10 @@
         style I fill:#51cf66
         style J fill:#339af0
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/openpyxl-object-model.svg" loading="lazy" alt="The openpyxl object hierarchy: a Workbook contains Worksheets addressed by title, and each Worksheet is a grid of Cells addressed like A1 or by row and column. A cell carries a value, an optional formula, and a style such as number format, font and fill. The formula caveat: openpyxl writes the formula equals SUM B2 through B4 as a literal string and does not compute it; the number is calculated only when Excel opens the file. To read a computed result, load the workbook with data_only True, which returns the last value Excel cached, or None if the file was never opened in Excel."/>
+<figcaption>openpyxl gives you a spreadsheet as <strong>objects</strong>: a Workbook holds Worksheets, each a grid of Cells, and every cell has a value, a style, and maybe a formula. The catch that surprises everyone: openpyxl is not Excel — it stores <code>"=SUM(B2:B4)"</code> as a string and never runs the calc engine, so a freshly written formula has no result until Excel opens the file. Need the number in Python? Compute it in Python, or reopen with <code>data_only=True</code> to read Excel's cached value.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Financial Report Automation System 💰</h3>
 <p>Imagine you're managing financial data for multiple departments. Every month, you need to collect data from various sources, calculate KPIs, create charts, apply corporate formatting, and distribute customized reports to 50 different managers. Let's automate the entire process!</p>
 <pre><code>import openpyxl

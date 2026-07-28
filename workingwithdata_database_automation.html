@@ -117,6 +117,10 @@
         style O fill:#51cf66
         style Q fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/sql-parameterized-queries.svg" loading="lazy" alt="Two ways to run a query with user input. On the unsafe left, an f-string pastes the user's input directly into the SQL; when the input is x quote semicolon DROP TABLE users, the database sees two statements and executes the destructive one because the input was treated as SQL code. On the safe right, the SQL contains a question-mark placeholder and the value is passed separately to cursor.execute as a parameter tuple, so the driver binds it as data and the same input is matched harmlessly as a literal string. A footer reminds you to always use placeholders and to commit to persist changes."/>
+<figcaption>The most important habit in database automation: never build SQL by pasting values into the text. An f-string lets a crafted input like <code>x'; DROP TABLE users; --</code> break out of the string and run as its own command — that's <strong>SQL injection</strong>. Passing values through <code>?</code> (or <code>%s</code>) placeholders makes the driver bind them as <strong>data, never code</strong>, which closes the hole and fixes ordinary quotes-in-names bugs too. And remember: writes aren't saved until you <code>commit()</code>.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Database Orchestra 🎭</h3>
 <p>You're the data architect for an e-commerce platform. You have PostgreSQL for transactions, MongoDB for product catalogs, Redis for session management, Elasticsearch for search, and MySQL for legacy systems. Each database needs maintenance, backups, migrations, and monitoring. Let's build an automation system that conducts this orchestra flawlessly!</p>
 <pre><code>import psycopg2

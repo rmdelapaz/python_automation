@@ -113,6 +113,10 @@
         style J fill:#51cf66
         style K fill:#339af0
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/csv-quoting-pitfall.svg" loading="lazy" alt="A raw CSV row: 7, then a quoted name field Smith comma Bob, then Manager, quoted because it contains a comma. Splitting the line on commas produces four fields — 7, a broken quote-Smith, a stray Bob-quote, and Manager — tearing the name in two and shifting every column. The csv module's reader understands the quoting and returns three correct fields: 7, Smith comma Bob, and Manager."/>
+<figcaption>CSV looks like "just split on commas" until a field contains one. Real data does — names, addresses, notes — so the value is <strong>quoted</strong>, and <code>line.split(",")</code> tears it apart and silently shifts every later column onto the wrong header. The <code>csv</code> module (or pandas) tracks quotes, escapes, and embedded newlines for you, which is why hand-rolled CSV parsing is a classic source of quiet data corruption.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Data Pipeline Orchestrator 🏭</h3>
 <p>You're the data engineer for a retail company. Every day, you receive CSV files from 50 stores (sales data), 20 suppliers (inventory), 5 marketing platforms (campaigns), and 3 payment processors (transactions). Each has different formats, encodings, and quirks. Let's build a system that handles them all!</p>
 <pre><code>import csv

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="sql-title sql-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="sql-title">Parameterized queries bind values safely; string-formatting user input invites SQL injection</title>
+  <desc id="sql-desc">A comparison of two ways to run a query with user input. On the unsafe left, an f-string builds the SQL by pasting the user's input directly into the text. When the input is x quote semicolon DROP TABLE users, the database sees two statements and executes the destructive one, because the input was treated as SQL code. On the safe right, the SQL text contains a question-mark placeholder and the value is passed separately to cursor.execute as a parameter tuple. The database driver binds the value as data, never as code, so the same malicious input is stored or matched harmlessly as a literal string. A footer reminds you to always use placeholders and to commit to persist changes.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .unsafe{fill:#fef2f2;stroke:#ef4444;stroke-width:1.5}
+    .safe{fill:#ecfdf5;stroke:#10b981;stroke-width:1.5}
+    .code{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1}
+    .inputchip{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.2}
+    .db{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .unsafe{fill:#3a1a1a;stroke:#f87171}.safe{fill:#064e3b;stroke:#34d399}.code{fill:#26262a;stroke:#3f3f46}
+      .inputchip{fill:#3a2e0a;stroke:#fbbf24}.db{fill:#1e293b;stroke:#569cd6}
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Let the driver bind values &#8212; never paste user input into SQL text</text>
+
+  <!-- shared input -->
+  <text class="label muted ph" x="24" y="56">Same hostile input either way:</text>
+  <rect class="inputchip" x="270" y="42" width="330" height="22" rx="4"/>
+  <text class="label mono amber" x="282" y="57">name = "x'; DROP TABLE users; --"</text>
+
+  <!-- UNSAFE -->
+  <rect class="unsafe" x="24" y="76" width="330" height="212" rx="9"/>
+  <text class="label red ph" x="38" y="98">&#10007; f-string &#8212; input becomes code</text>
+  <rect class="code" x="38" y="108" width="302" height="46" rx="6"/>
+  <text class="label mono ink" x="48" y="126">sql = f"SELECT * FROM users</text>
+  <text class="label mono ink" x="48" y="142">      WHERE name = '{name}'"</text>
+  <text class="label muted s" x="38" y="172">the database receives two statements:</text>
+  <rect class="code" x="38" y="180" width="302" height="60" rx="6"/>
+  <text class="label mono muted" x="48" y="198">SELECT * FROM users WHERE name='x';</text>
+  <text class="label mono red" x="48" y="216" font-weight="700">DROP TABLE users;</text>
+  <text class="label mono muted" x="48" y="232">--'</text>
+  <text class="label red s" x="38" y="262" font-weight="700">&#10007; injection: the table is dropped</text>
+  <text class="label muted s" x="38" y="280">quotes in the input broke out of the string.</text>
+
+  <!-- SAFE -->
+  <rect class="safe" x="366" y="76" width="330" height="212" rx="9"/>
+  <text class="label green ph" x="380" y="98">&#10003; placeholder &#8212; input stays data</text>
+  <rect class="code" x="380" y="108" width="302" height="60" rx="6"/>
+  <text class="label mono ink" x="390" y="126">cur.execute(</text>
+  <text class="label mono ink" x="390" y="142">  "SELECT * FROM users WHERE name = ?",</text>
+  <text class="label mono ink" x="390" y="158">  (name,))</text>
+  <text class="label muted s" x="380" y="186">driver binds the value, separately from SQL:</text>
+  <rect class="db" x="380" y="194" width="302" height="46" rx="6"/>
+  <text class="label mono blue" x="390" y="212">WHERE name = ?   &#8592; "x'; DROP&#8230;"</text>
+  <text class="label mono green" x="390" y="230" font-weight="700">matched as one literal string</text>
+  <text class="label green s" x="380" y="262" font-weight="700">&#10003; no second statement can run</text>
+  <text class="label muted s" x="380" y="280">use ? (sqlite) or %s (psycopg/mysql).</text>
+
+  <line class="frame" x1="24" y1="308" x2="696" y2="308" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="330">The rule has no exceptions: every value from a user, file, or network goes in through a placeholder, never an</text>
+  <text class="label muted s" x="24" y="348">f-string or + concatenation. The driver escapes and type-checks it, which also fixes quotes-in-names bugs.</text>
+  <text class="label muted s" x="24" y="374">And remember writes aren't saved until you conn.commit() &#8212; or wrap the work in <tspan class="ink" font-weight="700">with conn:</tspan> for auto commit/rollback.</text>
+</svg>

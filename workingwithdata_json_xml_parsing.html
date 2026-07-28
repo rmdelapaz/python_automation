@@ -121,6 +121,10 @@
         style J fill:#51cf66
         style O fill:#339af0
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/json-vs-xml-mapping.svg" loading="lazy" alt="The same record two ways. As JSON, an object with name Bob, age 30, and a roles array of dev and lead deserializes with json.loads straight into native Python types: a dict, an int, strings and a list, accessed like data square-bracket roles. As XML, a person element with name and age attributes and two role child elements parses with ElementTree into a node tree, accessed through tag, attrib, text and findall; roles come from root.findall of role, each read as element dot text."/>
+<figcaption>JSON and XML can carry the same data, but they hand you <strong>different mental models</strong>. <code>json.loads</code> deserializes straight into the dicts and lists you already know, so you index it like any Python object. XML stays a <strong>tree of element nodes</strong> — each with a tag, attributes, and text — that you walk with <code>find</code>/<code>findall</code>. Knowing which model a format gives you is half of parsing it correctly.</figcaption>
+</figure>
 <h3>Real-World Scenario: The API Integration Hub 🔌</h3>
 <p>You're building an integration platform that connects 20 different services. Each API returns different JSON structures, legacy systems send XML, configuration comes in YAML, and you need to transform everything into a unified format for your data warehouse. Let's build a universal parser!</p>
 <pre><code>import json

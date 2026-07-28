@@ -112,6 +112,10 @@
         style J fill:#51cf66
         style N fill:#339af0
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/pdf-reader-writer-pages.svg" loading="lazy" alt="Two source PDFs opened as readers: report.pdf with three pages and cover.pdf with one page. Merging and splitting are the same operation — you pick page objects and add them to a PdfWriter. The writer collects cover page 1, then report pages 1 and 3, optionally rotating a page, and writer.write produces output.pdf. A caveat notes that extracted text is approximate because PDFs store positioned glyphs rather than clean paragraphs, and scans need OCR."/>
+<figcaption>Almost every PDF edit is the same move: a document is a sequence of <strong>page objects</strong>, and merging, splitting, reordering, or rotating just means pulling the pages you want from one or more <code>PdfReader</code>s into a <code>PdfWriter</code>, then calling <code>write()</code> once. Going the other way — pulling clean text back out — is the hard direction, because PDFs store glyphs at x/y positions, not paragraphs, so treat <code>extract_text()</code> as a best-effort guess (and reach for OCR on scans).</figcaption>
+</figure>
 <h3>Real-World Scenario: The Document Processing Pipeline 📋</h3>
 <p>Imagine you're managing documents for a law firm. Every day, you receive hundreds of PDFs - contracts that need combining, confidential documents requiring watermarks, client files needing password protection, and reports that must be split by chapter. Let's automate this entire workflow!</p>
 <pre><code>import PyPDF2
