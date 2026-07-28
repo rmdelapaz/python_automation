@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="tr-title tr-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="tr-title">Dependency operators build the DAG shape; trigger rules decide when a task runs</title>
+  <desc id="tr-desc">Two ideas about wiring tasks. First, the shift-shift operator builds the graph shape: extract shift-shift a list of transform_a and transform_b fans out to parallel tasks, and that list shift-shift load fans back in, giving a diamond of extract, then transform_a and transform_b in parallel, then load. Second, a trigger rule decides when a downstream task runs given the states of its upstream tasks. all_success, the default, requires every parent to succeed. all_done runs once all parents finish whether they succeeded or failed, which suits a cleanup or notify task. one_success runs as soon as any parent succeeds. none_failed runs if no parent failed, allowing skipped parents. The example highlights a notify task with all_done so it still runs if an upstream task fails.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .node{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .nodefail{fill:#fef2f2;stroke:#ef4444;stroke-width:1.3}
+    .notify{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.6}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .rule{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.1}
+    .rulehot{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .node{fill:#1e293b;stroke:#569cd6}.nodefail{fill:#3a1a1a;stroke:#f87171}.notify{fill:#3a2e0a;stroke:#fbbf24}
+      .edge{stroke:#9ca3af}.rule{fill:#26262a;stroke:#3f3f46}.rulehot{fill:#3a2e0a;stroke:#fbbf24}
+    }
+  </style>
+  <defs>
+    <marker id="tr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">"&#62;&#62;" wires the graph; a trigger rule decides when each task actually fires</text>
+
+  <!-- GRAPH -->
+  <text class="label muted ph" x="24" y="56">Shape it with &#62;&#62; (fan-out, fan-in)</text>
+  <rect class="node" x="24" y="92" width="90" height="34" rx="6"/><text class="label mono ink" x="69" y="113" text-anchor="middle">extract</text>
+  <path class="edge" d="M114,102 L150,80" marker-end="url(#tr-a)"/>
+  <path class="edge" d="M114,116 L150,150" marker-end="url(#tr-a)"/>
+  <rect class="node" x="150" y="60" width="110" height="34" rx="6"/><text class="label mono ink" x="205" y="81" text-anchor="middle">transform_a</text>
+  <rect class="nodefail" x="150" y="136" width="110" height="34" rx="6"/><text class="label mono red" x="205" y="157" text-anchor="middle">transform_b &#10007;</text>
+  <path class="edge" d="M260,77 L296,100" marker-end="url(#tr-a)"/>
+  <path class="edge" d="M260,153 L296,124" marker-end="url(#tr-a)"/>
+  <rect class="node" x="296" y="94" width="70" height="34" rx="6"/><text class="label mono ink" x="331" y="115" text-anchor="middle">load</text>
+  <!-- notify all_done -->
+  <path class="edge" d="M331,128 C331,175 250,180 210,192" marker-end="url(#tr-a)"/>
+  <path class="edge" d="M205,170 L205,186" marker-end="url(#tr-a)"/>
+  <rect class="notify" x="120" y="188" width="170" height="34" rx="6"/><text class="label mono amber" x="205" y="209" text-anchor="middle" font-weight="700">notify (all_done)</text>
+  <text class="label mono muted" x="24" y="250">extract &#62;&#62; [transform_a, transform_b] &#62;&#62; load</text>
+  <text class="label muted s" x="24" y="268">list on the right = fan-out; list on the left = fan-in.</text>
+
+  <!-- TRIGGER RULES -->
+  <text class="label muted ph" x="388" y="56">trigger_rule: run when upstream is&#8230;</text>
+  <rect class="rule" x="388" y="66" width="308" height="34" rx="5"/>
+  <text class="label mono ink" x="400" y="82" font-weight="700">all_success  (default)</text>
+  <text class="label muted s" x="400" y="95">every parent succeeded</text>
+  <rect class="rulehot" x="388" y="104" width="308" height="40" rx="5"/>
+  <text class="label mono ink" x="400" y="120" font-weight="700">all_done</text>
+  <text class="label muted s" x="400" y="134">all parents finished (ok OR failed) &#8212; cleanup / notify</text>
+  <rect class="rule" x="388" y="148" width="308" height="34" rx="5"/>
+  <text class="label mono ink" x="400" y="164" font-weight="700">one_success</text>
+  <text class="label muted s" x="400" y="177">at least one parent succeeded (fires early)</text>
+  <rect class="rule" x="388" y="186" width="308" height="34" rx="5"/>
+  <text class="label mono ink" x="400" y="202" font-weight="700">none_failed</text>
+  <text class="label muted s" x="400" y="215">no parent failed (skipped parents are OK)</text>
+  <rect class="notify" x="388" y="224" width="308" height="40" rx="5"/>
+  <text class="label amber s" x="400" y="240" font-weight="700">Why it matters:</text>
+  <text class="label muted s" x="400" y="256">load skips when transform_b fails, but notify (all_done) still runs.</text>
+
+  <line class="frame" x1="24" y1="288" x2="696" y2="288" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="310">By default a task waits for <tspan class="ink" font-weight="700">all</tspan> parents to succeed, so one failure upstream silently skips everything downstream. That's</text>
+  <text class="label muted s" x="24" y="328">usually right &#8212; but a cleanup, alert, or "mark run finished" task must use <tspan class="ink" font-weight="700">all_done</tspan> so it runs even after a failure.</text>
+  <text class="label muted s" x="24" y="354">Build shape with &#62;&#62; / chain() / cross_downstream(); control firing with trigger_rule. Keep the graph acyclic.</text>
+  <text class="label muted s" x="24" y="380">Branching (BranchPythonOperator) marks the not-taken path skipped &#8212; downstream then often needs none_failed.</text>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="al-title al-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="al-title">A stateful API test chains requests: set up, create, exercise, verify, then tear down</title>
+  <desc id="al-desc">The lifecycle of a stateful API test. First, setup: authenticate and seed any base data. Second, create: POST to slash orders and capture the id returned in the response. Third, exercise: use that captured id to GET or PUT slash orders slash id. Fourth, verify: assert the status code and body are correct. Fifth, teardown: DELETE slash orders slash id to clean up, and this step always runs even if an assertion failed. A side panel notes that tests should isolate themselves from flaky third parties, such as a payment or email provider, by mocking or stubbing those services so the test stays deterministic, and that each test should own its data so tests do not depend on order.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .step{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .create{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .teardown{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.3}
+    .idchip{fill:#fef3c7;stroke:#f59e0b;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .step{fill:#1e293b;stroke:#569cd6}.create{fill:#064e3b;stroke:#34d399}.teardown{fill:#3a2e0a;stroke:#fbbf24}
+      .idchip{fill:#4a3a0a;stroke:#fbbf24}.edge{stroke:#9ca3af}.panel{fill:#26262a;stroke:#3f3f46}
+    }
+  </style>
+  <defs>
+    <marker id="al-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Real API tests aren't one call &#8212; they chain requests and clean up after</text>
+
+  <!-- LIFECYCLE (2 rows) -->
+  <rect class="step" x="24" y="56" width="150" height="52" rx="7"/>
+  <text class="label blue s" x="36" y="74" font-weight="700">1 &#183; Setup</text>
+  <text class="label mono muted" x="36" y="90" font-size="9">authenticate;</text>
+  <text class="label mono muted" x="36" y="102" font-size="9">seed base data</text>
+  <path class="edge" d="M174,82 L206,82" marker-end="url(#al-a)"/>
+
+  <rect class="create" x="206" y="56" width="200" height="52" rx="7"/>
+  <text class="label green s" x="218" y="74" font-weight="700">2 &#183; Create</text>
+  <text class="label mono ink" x="218" y="90" font-size="9">r = POST /orders</text>
+  <text class="label mono ink" x="218" y="102" font-size="9">order_id = r.json()["id"]</text>
+  <rect class="idchip" x="418" y="70" width="80" height="24" rx="12"/><text class="label mono amber" x="458" y="86" text-anchor="middle" font-weight="700">order_id</text>
+  <path class="edge" d="M458,94 C458,120 300,116 260,130" marker-end="url(#al-a)"/>
+
+  <rect class="step" x="24" y="130" width="230" height="52" rx="7"/>
+  <text class="label blue s" x="36" y="148" font-weight="700">3 &#183; Exercise  (use the captured id)</text>
+  <text class="label mono ink" x="36" y="164" font-size="9">GET /orders/{order_id}</text>
+  <text class="label mono ink" x="36" y="176" font-size="9">PUT /orders/{order_id}  {status:"paid"}</text>
+  <path class="edge" d="M254,156 L286,156" marker-end="url(#al-a)"/>
+
+  <rect class="step" x="286" y="130" width="180" height="52" rx="7"/>
+  <text class="label blue s" x="298" y="148" font-weight="700">4 &#183; Verify</text>
+  <text class="label mono ink" x="298" y="164" font-size="9">assert status == 200</text>
+  <text class="label mono ink" x="298" y="176" font-size="9">assert body["status"]=="paid"</text>
+  <path class="edge" d="M466,156 L498,156" marker-end="url(#al-a)"/>
+
+  <rect class="teardown" x="498" y="130" width="198" height="52" rx="7"/>
+  <text class="label amber s" x="510" y="148" font-weight="700">5 &#183; Teardown  (always)</text>
+  <text class="label mono ink" x="510" y="164" font-size="9">DELETE /orders/{order_id}</text>
+  <text class="label muted" x="510" y="176" font-size="9">runs even if an assert failed</text>
+
+  <!-- PANEL: mock externals -->
+  <rect class="panel" x="24" y="200" width="672" height="70" rx="8"/>
+  <text class="label ink ph" x="38" y="222">Keep it deterministic: mock the third parties</text>
+  <text class="label muted s" x="38" y="242">Your API calls a payment gateway and an email provider. Real calls are slow, rate-limited, and fail randomly &#8212;</text>
+  <text class="label muted s" x="38" y="258">stub/mock them (responses, VCR, WireMock) so the test exercises YOUR code, and each test owns its own data.</text>
+
+  <line class="frame" x1="24" y1="290" x2="696" y2="290" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="312">The key move is <tspan class="ink" font-weight="700">threading the id</tspan>: the response of one request becomes the input to the next, so a test mirrors a real</text>
+  <text class="label muted s" x="24" y="330">workflow (create &#8594; use &#8594; check). Put teardown in a fixture's cleanup so it runs on failure and tests never leak data.</text>
+  <text class="label muted s" x="24" y="356">In pytest: a fixture yields the created resource and deletes it afterward &#8212; setup and guaranteed teardown in one place.</text>
+  <text class="label muted s" x="24" y="382">Beyond this: contract tests pin the request/response shape both sides agree on, catching breaking changes in CI.</text>
+</svg>

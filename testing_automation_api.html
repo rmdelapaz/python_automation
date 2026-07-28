@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/api-test-lifecycle.svg" loading="lazy" alt="The lifecycle of a stateful API test. Setup: authenticate and seed base data. Create: POST to slash orders and capture the id from the response. Exercise: use that captured id to GET or PUT slash orders slash id. Verify: assert the status code and body are correct. Teardown: DELETE slash orders slash id to clean up, which always runs even if an assertion failed. A side panel notes that tests should isolate themselves from flaky third parties, such as a payment or email provider, by mocking or stubbing those services so the test stays deterministic, and that each test should own its data."/>
+<figcaption>A real API test is rarely a single request — it's a small <strong>workflow</strong>: set up, <strong>create</strong> a resource and capture its id, <strong>exercise</strong> the API with that id, <strong>verify</strong> the response, then <strong>tear down</strong> what you made. The key move is <strong>threading the id</strong>: one response becomes the next request's input, mirroring how the API is really used. Put teardown in a fixture's cleanup so it runs even on failure and tests never leak data, and <strong>mock the third parties</strong> (payment, email) so a flaky external service can't fail your test.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Microservices API Testing Platform 🌍</h3>
 <p>You're building a comprehensive API testing platform for a microservices ecosystem that validates REST and GraphQL endpoints, tests authentication and authorization flows, ensures data consistency across services, validates API contracts between teams, performs load and stress testing, monitors API performance metrics, tests error handling and edge cases, and validates webhook deliveries. Your platform must support multiple authentication methods, handle various data formats, provide detailed test reports, and integrate with CI/CD pipelines. Let's build a professional API testing framework!</p>
 <pre><code># Comprehensive API Testing Framework

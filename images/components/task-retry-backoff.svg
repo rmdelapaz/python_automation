@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="rt-title rt-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="rt-title">Retry transient task failures with exponential backoff, then fail and alert</title>
+  <desc id="rt-desc">A task retry timeline. Attempt 1 fails on a transient error, so Airflow waits the retry delay and tries again; attempt 2 waits twice as long with exponential backoff; the growing gaps continue until either a later attempt succeeds, or the retries are exhausted, the task is marked failed, and the on_failure_callback fires an alert. A side panel distinguishes error kinds: retry transient failures such as a network blip, a 503 or a timeout, but fail fast on permanent errors such as bad input, a 400 or a missing file, because retrying them only wastes attempts. A note stresses that because a retried task re-runs from the start, tasks must be idempotent so repeating them is safe.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .fail{fill:#fef2f2;stroke:#ef4444;stroke-width:1.3}
+    .ok{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .wait{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.2}
+    .axis{stroke:#94a3b8;stroke-width:1.4}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.6;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .fail{fill:#3a1a1a;stroke:#f87171}.ok{fill:#064e3b;stroke:#34d399}.wait{fill:#3a2e0a;stroke:#fbbf24}
+      .axis{stroke:#6b7280}.panel{fill:#26262a;stroke:#3f3f46}.edge{stroke:#9ca3af}
+    }
+  </style>
+  <defs>
+    <marker id="rt-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Retry the blips, not the bugs &#8212; back off, then fail loudly and alert</text>
+
+  <!-- TIMELINE -->
+  <text class="label muted ph" x="24" y="58">One task, retries with exponential backoff</text>
+  <line class="axis" x1="30" y1="150" x2="676" y2="150" marker-end="url(#rt-a)"/>
+  <text class="label s muted" x="628" y="168">time</text>
+
+  <!-- attempt 1 -->
+  <rect class="fail" x="40" y="120" width="64" height="30" rx="5"/><text class="label mono red" x="72" y="140" text-anchor="middle">try 1 &#10007;</text>
+  <rect class="wait" x="112" y="126" width="52" height="18" rx="4"/><text class="label mono amber" x="138" y="139" text-anchor="middle" font-size="9">wait 1m</text>
+  <!-- attempt 2 -->
+  <rect class="fail" x="172" y="120" width="64" height="30" rx="5"/><text class="label mono red" x="204" y="140" text-anchor="middle">try 2 &#10007;</text>
+  <rect class="wait" x="244" y="126" width="76" height="18" rx="4"/><text class="label mono amber" x="282" y="139" text-anchor="middle" font-size="9">wait 2m</text>
+  <!-- attempt 3 success -->
+  <rect class="ok" x="328" y="120" width="70" height="30" rx="5"/><text class="label mono green" x="363" y="140" text-anchor="middle">try 3 &#10003;</text>
+  <text class="label green s" x="328" y="112" font-weight="700">recovered</text>
+
+  <text class="label muted s" x="40" y="192">delay doubles each time (retry_delay &#215; 2^n), so a brief outage clears without a human.</text>
+
+  <!-- exhausted branch -->
+  <text class="label muted s" x="420" y="112">&#8230; but if retries run out:</text>
+  <rect class="fail" x="420" y="120" width="120" height="30" rx="5"/><text class="label mono red" x="480" y="140" text-anchor="middle" font-weight="700">retries exhausted</text>
+  <path class="edge" d="M540,135 L568,135" marker-end="url(#rt-a)"/>
+  <rect class="fail" x="568" y="118" width="112" height="34" rx="5"/><text class="label red s" x="624" y="133" text-anchor="middle" font-weight="700">task FAILED</text><text class="label mono muted" x="624" y="147" text-anchor="middle" font-size="9">on_failure_callback</text>
+  <text class="label amber s" x="420" y="176">&#8594; fire an alert (Slack / email / PagerDuty)</text>
+
+  <!-- PANEL: transient vs permanent -->
+  <rect class="panel" x="24" y="212" width="336" height="112" rx="8"/>
+  <text class="label ink ph" x="38" y="232">Retry these &#8212; not those</text>
+  <text class="label green s" x="38" y="256" font-weight="700">&#10003; Transient (retry)</text>
+  <text class="label muted s" x="180" y="256">network blip &#183; 503 &#183; timeout &#183; lock</text>
+  <text class="label red s" x="38" y="284" font-weight="700">&#10007; Permanent (fail fast)</text>
+  <text class="label muted s" x="180" y="284">bad input &#183; 400 &#183; 404 &#183; auth &#183; bug</text>
+  <text class="label muted s" x="38" y="312">Retrying a permanent error just wastes every attempt.</text>
+
+  <!-- PANEL: idempotency -->
+  <rect class="panel" x="372" y="212" width="324" height="112" rx="8"/>
+  <text class="label ink ph" x="386" y="232">Retries re-run from scratch</text>
+  <text class="label muted s" x="386" y="256">A retried task runs the whole callable again &#8212; so it</text>
+  <text class="label muted s" x="386" y="272">must be <tspan class="ink" font-weight="700">idempotent</tspan>: safe to repeat with the same result.</text>
+  <text class="label mono muted" x="386" y="296" font-size="9">INSERT &#8594; upsert; write temp+rename; use run-scoped keys</text>
+  <text class="label muted s" x="386" y="314">retries=3, retry_delay=1m, retry_exponential_backoff=True</text>
+
+  <line class="frame" x1="24" y1="342" x2="696" y2="342" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="364">Most pipeline failures are transient, so a few backed-off retries fix them automatically &#8212; the exponential gap</text>
+  <text class="label muted s" x="24" y="382">avoids hammering a struggling service. Reserve a hard failure (and an alert) for errors a retry can't fix.</text>
+</svg>

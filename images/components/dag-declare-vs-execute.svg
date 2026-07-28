@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="dg-title dg-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="dg-title">A DAG file declares a graph at parse time; the real work runs later at execution time</title>
+  <desc id="dg-desc">A DAG file in Python is read in two very different moments. At parse time, which the Scheduler does constantly every few seconds, the top-level code runs only to build the graph object: a DAG context, operators like extract, transform and load, and the dependency line extract shift-shift transform shift-shift load. Because this happens on every parse, top-level code must be light with no heavy work or API calls. At execution time, on the scheduled run, the operators' callables actually run, each in its own worker process, possibly on different machines and at different times, so tasks cannot share Python variables in memory and must pass data through XCom or external storage. The rule: declare structure at top level, do work inside the callables.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .monos{font-family:'Consolas','SF Mono',monospace;font-size:9px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .code{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1}
+    .parse{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.4}
+    .exec{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .node{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.2}
+    .warn{fill:#fef2f2;stroke:#ef4444;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.6;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .code{fill:#26262a;stroke:#3f3f46}.parse{fill:#1e293b;stroke:#569cd6}.exec{fill:#064e3b;stroke:#34d399}
+      .node{fill:#26262a;stroke:#6b7280}.warn{fill:#3a1a1a;stroke:#f87171}.edge{stroke:#9ca3af}
+    }
+  </style>
+  <defs>
+    <marker id="dg-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">The DAG file builds a graph when parsed &#8212; the work runs much later</text>
+
+  <!-- DAG FILE -->
+  <text class="label muted ph" x="24" y="56">dag.py</text>
+  <rect class="code" x="24" y="64" width="300" height="150" rx="7"/>
+  <text class="label mono ink" x="34" y="82">with DAG(schedule="@daily",</text>
+  <text class="label mono ink" x="34" y="96">         start_date=&#8230;,</text>
+  <text class="label mono ink" x="34" y="110">         catchup=False) as dag:</text>
+  <text class="label mono ink" x="34" y="128">  extract = PythonOperator(</text>
+  <text class="label mono muted" x="34" y="142">      python_callable=do_extract)</text>
+  <text class="label mono ink" x="34" y="156">  transform = PythonOperator(&#8230;)</text>
+  <text class="label mono ink" x="34" y="170">  load = PythonOperator(&#8230;)</text>
+  <text class="label mono amber" x="34" y="190">  extract &#62;&#62; transform &#62;&#62; load</text>
+  <text class="label monos muted" x="34" y="206">top-level = declaration only</text>
+
+  <path class="edge" d="M324,110 L360,110" marker-end="url(#dg-a)"/>
+  <path class="edge" d="M324,150 L360,300" marker-end="url(#dg-a)"/>
+
+  <!-- PARSE -->
+  <rect class="parse" x="360" y="64" width="336" height="120" rx="8"/>
+  <text class="label blue ph" x="374" y="84">Parse time &#8212; every few seconds</text>
+  <text class="label muted s" x="374" y="102">the Scheduler imports the file just to learn the shape:</text>
+  <rect class="node" x="374" y="112" width="80" height="26" rx="4"/><text class="label mono ink" x="414" y="129" text-anchor="middle">extract</text>
+  <path class="edge" d="M454,125 L470,125" marker-end="url(#dg-a)"/>
+  <rect class="node" x="470" y="112" width="90" height="26" rx="4"/><text class="label mono ink" x="515" y="129" text-anchor="middle">transform</text>
+  <path class="edge" d="M560,125 L576,125" marker-end="url(#dg-a)"/>
+  <rect class="node" x="576" y="112" width="70" height="26" rx="4"/><text class="label mono ink" x="611" y="129" text-anchor="middle">load</text>
+  <text class="label red s" x="374" y="158" font-weight="700">&#10007; No heavy work / API calls / big loops here</text>
+  <text class="label muted s" x="374" y="174">&#8212; it re-runs on every parse and slows the scheduler.</text>
+
+  <!-- EXECUTE -->
+  <rect class="exec" x="360" y="196" width="336" height="120" rx="8"/>
+  <text class="label green ph" x="374" y="216">Execution time &#8212; on the scheduled run</text>
+  <text class="label muted s" x="374" y="234">now each operator's callable actually runs:</text>
+  <text class="label mono ink" x="374" y="254">do_extract()  &#8594;  do_transform()  &#8594;  do_load()</text>
+  <rect class="warn" x="374" y="264" width="308" height="44" rx="5"/>
+  <text class="label ink s" x="384" y="282" font-weight="700">Each task runs in its own worker process</text>
+  <text class="label muted s" x="384" y="298">&#8212; no shared Python vars; pass data via XCom or storage</text>
+
+  <line class="frame" x1="24" y1="336" x2="696" y2="336" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="358">The one rule that prevents most beginner DAG bugs: <tspan class="ink" font-weight="700">declare structure at the top level, do work inside the</tspan></text>
+  <text class="label muted s" x="24" y="376"><tspan class="ink" font-weight="700">callables.</tspan> Reading a file or calling an API at module scope runs on every parse; inside a task it runs once, on schedule.</text>
+  <text class="label muted s" x="24" y="398">catchup=False stops Airflow from back-filling every interval since start_date the first time the DAG turns on.</text>
+</svg>

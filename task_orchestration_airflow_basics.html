@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/airflow-architecture-lifecycle.svg" loading="lazy" alt="The Airflow lifecycle. A DAG file in Python is parsed by the Scheduler, which on each schedule interval creates a DAG Run whose tasks become task instances. The Executor and its workers run each task instance through states queued, running, then success, failed or up for retry. A central Metadata database records the state of every run and task; the Scheduler and Executor read and write it, and the Web Server reads it to show the UI. The takeaway: a DAG is a directed acyclic graph on a schedule, and Airflow turns the file into runs, runs into task instances, and tracks all of it in the metadata database."/>
+<figcaption>A DAG is a <strong>directed acyclic graph of tasks on a schedule</strong> — nothing runs "now," it runs per interval. The moving parts click into place once you see the flow: the <strong>Scheduler</strong> parses your file and creates a <strong>DAG Run</strong> each interval; each task becomes a <strong>task instance</strong> the <strong>Executor</strong> runs; the <strong>Metadata DB</strong> is the single source of truth for every state; and the <strong>Web UI</strong> just reads that DB. "Acyclic" is what lets the scheduler always order the work.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Data Pipeline Platform 📊</h3>
 <p>You're building a comprehensive data pipeline platform that processes daily sales data from multiple sources, performs data quality checks and transformations, trains machine learning models on clean data, generates reports and dashboards, sends notifications on completion or failure, handles dependencies between complex tasks, retries failed operations automatically, and scales to handle varying workloads. Your system must support scheduling flexibility, provide clear visibility into pipeline status, handle errors gracefully, and maintain audit trails. Let's build a robust Airflow orchestration system!</p>
 <pre><code># First, install Apache Airflow:

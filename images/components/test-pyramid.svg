@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="tp-title tp-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="tp-title">The test pyramid: many fast unit tests, some integration tests, few end-to-end tests</title>
+  <desc id="tp-desc">The test pyramid has three layers. The wide base is unit tests: many of them, fast, isolated with mocked dependencies, running in milliseconds, and checking single functions. The middle is integration tests: fewer of them, wiring real dependencies together such as a database, a queue or a service, often via containers, running in seconds, and catching wiring, serialization and SQL bugs that mocks hide. The narrow top is end-to-end or UI tests: very few, exercising the whole system through the browser, slow and brittle, running in minutes. As you go up the tests get slower and more brittle but give more confidence in real wiring. A caution warns not to invert the pyramid into an ice-cream cone of mostly slow end-to-end tests.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .unit{fill:#ecfdf5;stroke:#10b981;stroke-width:1.6}
+    .integ{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.6}
+    .e2e{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.6}
+    .axis{stroke:#94a3b8;stroke-width:1.4}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .unit{fill:#064e3b;stroke:#34d399}.integ{fill:#1e293b;stroke:#569cd6}.e2e{fill:#3a2e0a;stroke:#fbbf24}
+      .axis{stroke:#6b7280}.panel{fill:#26262a;stroke:#3f3f46}
+    }
+  </style>
+  <defs>
+    <marker id="tp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Test where it's cheap: a wide base of unit tests, a thin top of end-to-end</text>
+
+  <!-- PYRAMID -->
+  <!-- top e2e -->
+  <polygon class="e2e" points="230,64 300,64 320,116 210,116"/>
+  <text class="label amber t" x="265" y="88" text-anchor="middle" font-weight="700">E2E / UI</text>
+  <text class="label muted" x="265" y="104" text-anchor="middle" font-size="9">few</text>
+  <!-- middle integration -->
+  <polygon class="integ" points="210,120 320,120 348,192 182,192"/>
+  <text class="label blue t" x="265" y="148" text-anchor="middle" font-weight="700">Integration</text>
+  <text class="label muted" x="265" y="164" text-anchor="middle" font-size="9">some</text>
+  <text class="label muted" x="265" y="180" text-anchor="middle" font-size="9">real deps wired</text>
+  <!-- base unit -->
+  <polygon class="unit" points="182,196 348,196 384,290 146,290"/>
+  <text class="label green t" x="265" y="230" text-anchor="middle" font-weight="700">Unit</text>
+  <text class="label muted" x="265" y="248" text-anchor="middle" font-size="9">many &#183; mocked deps</text>
+  <text class="label muted" x="265" y="264" text-anchor="middle" font-size="9">fast &#183; isolated</text>
+
+  <!-- axis of tradeoffs -->
+  <line class="axis" x1="410" y1="290" x2="410" y2="70" marker-end="url(#tp-a)"/>
+  <text class="label s muted" x="418" y="80">slower, more brittle,</text>
+  <text class="label s muted" x="418" y="94">fewer tests &#8593;</text>
+  <line class="axis" x1="410" y1="290" x2="410" y2="80"/>
+  <text class="label s muted" x="418" y="284">faster, more, cheaper &#8595;</text>
+
+  <!-- right descriptions -->
+  <rect class="e2e" x="470" y="64" width="226" height="52" rx="6"/>
+  <text class="label ink s" x="482" y="82" font-weight="700">E2E / UI &#8212; minutes</text>
+  <text class="label muted s" x="482" y="98">whole system via the browser;</text>
+  <text class="label muted s" x="482" y="110" font-size="10">slow &amp; flaky &#8212; keep to key journeys</text>
+  <rect class="integ" x="470" y="122" width="226" height="60" rx="6"/>
+  <text class="label ink s" x="482" y="140" font-weight="700">Integration &#8212; seconds</text>
+  <text class="label muted s" x="482" y="156">real DB / queue / service (containers)</text>
+  <text class="label muted s" x="482" y="170" font-size="10">catches wiring, SQL, serialization bugs</text>
+  <text class="label muted s" x="482" y="180" font-size="10">that mocks hide</text>
+  <rect class="unit" x="470" y="188" width="226" height="52" rx="6"/>
+  <text class="label ink s" x="482" y="206" font-weight="700">Unit &#8212; milliseconds</text>
+  <text class="label muted s" x="482" y="222">one function, dependencies doubled</text>
+  <text class="label muted s" x="482" y="234" font-size="10">the bulk of your suite</text>
+
+  <line class="frame" x1="24" y1="308" x2="696" y2="308" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="330">Push tests down to the cheapest layer that can catch the bug. Unit tests are fast and plentiful; integration tests</text>
+  <text class="label muted s" x="24" y="348">verify the seams unit mocks can't; a few end-to-end tests confirm the critical user journeys really work together.</text>
+  <text class="label red s" x="24" y="374" font-weight="700">Avoid the "ice-cream cone":</text>
+  <text class="label muted s" x="196" y="374">mostly slow, flaky E2E tests on top of too few unit tests &#8212; slow CI, false alarms.</text>
+</svg>
