@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/email-rule-engine.svg" loading="lazy" alt="An incoming email from billing at acme.com, subject Invoice 841, with a PDF, is tested against ordered rules by priority. Rule 1 (from contains newsletter) does not match. Rule 2 matches because both conditions — from contains acme.com AND subject contains Invoice — are true, so its actions run in order: label Finance, move to Invoices, mark as read, then stop. Rule 3 (the else catch-all) is skipped. A note explains conditions combine with AND or OR, a rule can trigger several actions, and whether a match stops evaluation is a choice."/>
+<figcaption>An email filter is a small <strong>rule engine</strong>: each rule is <em>conditions &#8594; actions</em>. Conditions combine with <strong>AND</strong> (all must hold) or <strong>OR</strong> (any), and one match can fire several actions in order — label, move, mark read. Rules run by priority, and you decide whether a match <strong>stops</strong> evaluation or lets later rules also run. Keep the rules as data (a list of dicts), put specific rules first and a catch-all last — the same "first match wins" discipline as Module 1's file router — so nothing is silently mislabeled.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Intelligent Email Management Platform 🤖</h3>
 <p>You're building an intelligent email management platform that processes customer support tickets, sorts newsletters and promotions, prioritizes urgent messages, extracts and processes orders, triggers automated workflows, maintains team inboxes, filters spam and phishing, and learns from user behavior. Your system must handle complex rule chains, scale to millions of emails, provide real-time processing, and adapt to changing patterns. Let's build a comprehensive email filtering framework!</p>
 <pre><code># First, install required packages:

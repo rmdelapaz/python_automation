@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="imap-title imap-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="imap-title">Reading mail over IMAP: select a folder, search for message IDs, then fetch each one</title>
+  <desc id="imap-desc">The IMAP reading flow as a pipeline. First connect with IMAP4_SSL and log in, then select a folder such as INBOX. A search with criteria like UNSEEN or FROM returns a list of lightweight message IDs, for example 7, 12 and 15, not the messages themselves. You then fetch each ID with RFC822 to get the raw bytes, and parse those bytes with email.message_from_bytes into a message object exposing From, Subject and body parts. A side panel contrasts IMAP, where mail stays on the server with folders and flags and syncs across devices, with POP3, which downloads messages to one device and typically deletes them from the server.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}
+    .step{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .idchip{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.2}
+    .msg{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}
+      .step{fill:#1e293b;stroke:#569cd6}.idchip{fill:#3a2e0a;stroke:#fbbf24}.msg{fill:#064e3b;stroke:#34d399}
+      .edge{stroke:#9ca3af}.panel{fill:#26262a;stroke:#3f3f46}
+    }
+  </style>
+  <defs>
+    <marker id="im-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">IMAP is two steps: search returns IDs, then you fetch the messages by ID</text>
+
+  <!-- ROW 1 -->
+  <rect class="step" x="24" y="52" width="150" height="42" rx="7"/>
+  <text class="label mono ink" x="36" y="70">IMAP4_SSL(host)</text>
+  <text class="label mono muted" x="36" y="86">.login(user, pw)</text>
+  <path class="edge" d="M174,73 L204,73" marker-end="url(#im-a)"/>
+
+  <rect class="step" x="204" y="52" width="150" height="42" rx="7"/>
+  <text class="label mono ink" x="216" y="70">.select("INBOX")</text>
+  <text class="label mono muted" x="216" y="86">choose a folder</text>
+  <path class="edge" d="M354,73 L384,73" marker-end="url(#im-a)"/>
+
+  <rect class="step" x="384" y="52" width="170" height="42" rx="7"/>
+  <text class="label mono ink" x="396" y="70">.search(None, "UNSEEN")</text>
+  <text class="label mono muted" x="396" y="86">criteria &#8594; matching IDs</text>
+  <path class="edge" d="M554,73 L584,73" marker-end="url(#im-a)"/>
+
+  <!-- IDs -->
+  <text class="label amber s" x="590" y="58" font-weight="700">IDs only</text>
+  <rect class="idchip" x="588" y="62" width="30" height="24" rx="4"/><text class="label mono ink" x="603" y="79" text-anchor="middle">7</text>
+  <rect class="idchip" x="622" y="62" width="34" height="24" rx="4"/><text class="label mono ink" x="639" y="79" text-anchor="middle">12</text>
+  <rect class="idchip" x="660" y="62" width="34" height="24" rx="4"/><text class="label mono ink" x="677" y="79" text-anchor="middle">15</text>
+
+  <!-- down connector -->
+  <path class="edge" d="M639,90 C639,116 360,110 360,130" marker-end="url(#im-a)"/>
+  <text class="label muted s" x="452" y="116">for each id &#8594; fetch its body</text>
+
+  <!-- ROW 2 -->
+  <rect class="step" x="150" y="132" width="180" height="42" rx="7"/>
+  <text class="label mono ink" x="162" y="150">.fetch(id, "(RFC822)")</text>
+  <text class="label mono muted" x="162" y="166">raw message bytes</text>
+  <path class="edge" d="M330,153 L360,153" marker-end="url(#im-a)"/>
+
+  <rect class="step" x="360" y="132" width="210" height="42" rx="7"/>
+  <text class="label mono ink" x="372" y="150">email.message_from_bytes(raw)</text>
+  <text class="label mono muted" x="372" y="166">parse into a Message object</text>
+  <path class="edge" d="M465,174 L465,190" marker-end="url(#im-a)"/>
+
+  <rect class="msg" x="330" y="190" width="270" height="70" rx="8"/>
+  <text class="label green ph" x="344" y="210">parsed message</text>
+  <text class="label mono ink" x="344" y="228">msg["From"] &#183; msg["Subject"]</text>
+  <text class="label mono ink" x="344" y="244">msg.walk() &#8594; text / html / attachments</text>
+  <text class="label mono muted" x="344" y="256" font-size="9">then set a flag: store(id, "+FLAGS", "\\Seen")</text>
+
+  <!-- PANEL -->
+  <rect class="panel" x="24" y="190" width="286" height="118" rx="9"/>
+  <text class="label ink ph" x="38" y="210">IMAP vs POP3</text>
+  <text class="label blue s" x="38" y="232" font-weight="700">IMAP</text>
+  <text class="label muted s" x="80" y="232">mail stays on the server; folders</text>
+  <text class="label muted s" x="80" y="248">&amp; flags sync across all your devices.</text>
+  <text class="label green s" x="38" y="274" font-weight="700">POP3</text>
+  <text class="label muted s" x="80" y="274">downloads to one device and</text>
+  <text class="label muted s" x="80" y="290">usually deletes from the server.</text>
+
+  <line class="frame" x1="24" y1="326" x2="696" y2="326" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="348">Search is cheap because it returns only IDs; fetching bodies is the expensive part, so narrow with criteria first</text>
+  <text class="label muted s" x="24" y="366">(UNSEEN, FROM, SINCE) and fetch just the matches. Prefer IMAP for automation &#8212; POP3's delete-on-read loses mail.</text>
+  <text class="label muted s" x="24" y="392">Tip: fetch "(BODY.PEEK[])" instead of "(RFC822)" to read without marking messages as seen.</text>
+</svg>

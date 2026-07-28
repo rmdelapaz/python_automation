@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/smtp-send-sequence.svg" loading="lazy" alt="A sequence between a Python client using smtplib and an SMTP server: connect on port 587, STARTTLS to upgrade to encrypted TLS, log in with a username and app password, then hand over MAIL FROM, RCPT TO and DATA; the server replies 250 message accepted and the client quits. Everything after STARTTLS is encrypted. A side panel compares ports 587 STARTTLS (recommended), 465 SSL/TLS (encrypted from connect), and 25 plain (legacy, usually blocked), and notes that Gmail and Outlook require an app password with two-factor authentication."/>
+<figcaption>Sending mail is a short, ordered conversation: connect, <strong>encrypt with TLS</strong>, authenticate, hand over the sender, recipients, and message, then quit. Two things trip people up. First, always upgrade to TLS <em>before</em> login (STARTTLS on port 587, or <code>SMTP_SSL</code> on 465) so your password never crosses the wire in the clear. Second, Gmail and Outlook won't accept your normal password from a script — you generate an <strong>app password</strong> (which requires 2FA) and use that instead.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Enterprise Communication System 📨</h3>
 <p>You're building an enterprise email automation system that handles everything from transactional emails (password resets, order confirmations) to marketing campaigns (newsletters, promotions) and internal communications (reports, alerts). Your system must handle multiple email providers, support templates, manage bounces, respect rate limits, track delivery, and scale to millions of emails. Let's build a comprehensive SMTP email framework!</p>
 <pre><code># First, install required packages:

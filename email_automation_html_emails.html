@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/mime-multipart-alternative.svg" loading="lazy" alt="An HTML email as a MIME multipart/alternative tree holding two versions of the same message: a text/plain fallback and a text/html version, ordered least to most preferred so HTML comes last. Each client renders the richest version it supports — a plain-text client or watch shows the text, while Gmail, Outlook and Apple Mail render the HTML. A side panel lists rules for the HTML part: inline your CSS because clients strip head and style tags, lay out with tables not flexbox or grid, give images alt text, and always include the plain-text alternative for deliverability."/>
+<figcaption>An HTML email doesn't replace the plain-text one — it ships <strong>both</strong> inside <code>multipart/alternative</code>, ordered least-to-most preferred, and each client renders the richest form it can (add the HTML <em>last</em> so capable clients choose it). The other half of the lesson is that email HTML is a 1998 subset of the web: clients strip <code>&lt;head&gt;</code> and <code>&lt;style&gt;</code>, so you <strong>inline every style</strong> and lay out with <code>&lt;table&gt;</code> — not retro taste, just what actually renders across Gmail, Outlook, and Apple Mail.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Email Campaign Platform 📧</h3>
 <p>You're building an email campaign platform that creates responsive newsletters, promotional emails, transactional notifications, and automated drip campaigns. Your system must generate beautiful HTML emails that work across all clients, support dark mode, include tracking pixels, personalize content, optimize for mobile, pass spam filters, and scale to millions of recipients. Let's build a comprehensive HTML email framework!</p>
 <pre><code># First, install required packages:

@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/mime-multipart-mixed.svg" loading="lazy" alt="A message with an attachment as a MIME tree: a multipart/mixed root holding two sibling parts — a text/plain body reading See attached invoice, and an application/pdf part carrying invoice.pdf, base64-encoded, with Content-Disposition attachment and a filename. Sending builds the tree with set_content for the body then add_attachment with the file bytes, maintype, subtype and filename. Receiving walks the parts and, for any whose content disposition is attachment, saves get_payload decode. A note warns base64 inflates size about a third."/>
+<figcaption>An attachment isn't "bolted onto" an email — the email <em>becomes</em> a <strong>MIME tree</strong>. A <code>multipart/mixed</code> root holds the text body and each file as sibling parts, every part with its own content type and encoding. That's why you send with <code>add_attachment</code> (adding a branch) and receive by <code>walk()</code>ing the parts and saving the ones marked <code>Content-Disposition: attachment</code>. One practical caveat: base64 inflates bytes by ~33%, so big files hit provider size limits — send a link instead.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Document Distribution System 📨</h3>
 <p>You're building a document distribution system that sends reports to clients, invoices to customers, contracts for signatures, batch documents to departments, and archives to backup systems. Your system must handle various file types, compress large files, validate attachments for security, respect email size limits, track delivery, and process incoming attachments automatically. Let's build a comprehensive attachment handling framework!</p>
 <pre><code># First, install required packages:

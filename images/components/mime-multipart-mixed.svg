@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" role="img" aria-labelledby="mm-title mm-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="mm-title">An email with an attachment is a MIME multipart/mixed tree of parts</title>
+  <desc id="mm-desc">A message with an attachment is a MIME tree with a multipart/mixed root holding two parts: a text/plain body that reads See attached invoice, and an application/pdf part carrying invoice.pdf, base64-encoded, with Content-Disposition attachment and a filename. On the sending side you build this tree by adding the body and then add_attachment with the file bytes, maintype, subtype and filename. On the receiving side you walk the parts and, for any part whose content disposition is attachment, read its bytes with get_payload decode and save them. A note warns that base64 encoding inflates size by about a third, so large files hit provider size limits.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}
+    .root{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}
+    .textpart{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.3}
+    .filepart{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .edge{stroke:#94a3b8;stroke-width:1.4;fill:none}
+    .send{fill:#ecfdf5;stroke:#10b981;stroke-width:1.2}
+    .recv{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}
+      .root{fill:#1e293b;stroke:#569cd6}.textpart{fill:#26262a;stroke:#6b7280}.filepart{fill:#3a2e0a;stroke:#fbbf24}
+      .edge{stroke:#6b7280}.send{fill:#064e3b;stroke:#34d399}.recv{fill:#1e293b;stroke:#569cd6}
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="720" height="400"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="398.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">An attachment isn't "added to" an email &#8212; it's another branch of a MIME tree</text>
+
+  <!-- MIME TREE -->
+  <text class="label muted ph" x="24" y="58">The message structure</text>
+  <rect class="root" x="150" y="66" width="240" height="38" rx="7"/>
+  <text class="label blue t" x="164" y="84" font-weight="700">multipart/mixed</text>
+  <text class="label mono muted" x="164" y="98">the whole message (root)</text>
+
+  <path class="edge" d="M210,104 L150,138"/>
+  <path class="edge" d="M300,104 L360,138"/>
+
+  <rect class="textpart" x="24" y="138" width="252" height="60" rx="7"/>
+  <text class="label ink t" x="38" y="158" font-weight="700">text/plain</text>
+  <text class="label mono muted" x="38" y="176">"See attached invoice."</text>
+  <text class="label mono muted" x="38" y="190" font-size="9">the visible body</text>
+
+  <rect class="filepart" x="360" y="138" width="300" height="60" rx="7"/>
+  <text class="label ink t" x="374" y="158" font-weight="700">application/pdf</text>
+  <text class="label mono muted" x="374" y="176">invoice.pdf &#183; base64-encoded</text>
+  <text class="label mono amber" x="374" y="190" font-size="9">Content-Disposition: attachment; filename=&#8230;</text>
+
+  <!-- SEND / RECV -->
+  <rect class="send" x="24" y="220" width="330" height="86" rx="8"/>
+  <text class="label green ph" x="38" y="240">Send &#8212; build the tree</text>
+  <text class="label mono ink" x="38" y="260">msg.set_content("See attached invoice.")</text>
+  <text class="label mono ink" x="38" y="278">msg.add_attachment(data,</text>
+  <text class="label mono ink" x="52" y="294">maintype="application", subtype="pdf",</text>
+  <text class="label mono muted" x="52" y="304" font-size="9">filename="invoice.pdf")</text>
+
+  <rect class="recv" x="366" y="220" width="330" height="86" rx="8"/>
+  <text class="label blue ph" x="380" y="240">Receive &#8212; walk the parts</text>
+  <text class="label mono ink" x="380" y="260">for part in msg.walk():</text>
+  <text class="label mono ink" x="394" y="278">if part.get_content_disposition()</text>
+  <text class="label mono ink" x="408" y="294">== "attachment":</text>
+  <text class="label mono muted" x="394" y="304" font-size="9">save part.get_payload(decode=True)</text>
+
+  <line class="frame" x1="24" y1="326" x2="696" y2="326" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="348">Think in parts, not "files bolted on." The body and each attachment are sibling MIME parts under one root, each</text>
+  <text class="label muted s" x="24" y="366">with its own content type and encoding. That's why you build with add_attachment and read back by walking parts.</text>
+  <text class="label muted s" x="24" y="390">Base64 inflates bytes ~33%, so a 20 MB file becomes ~27 MB on the wire &#8212; mind provider size limits, or send a link.</text>
+</svg>

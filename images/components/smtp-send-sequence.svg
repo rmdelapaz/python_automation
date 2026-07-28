@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="smtp-title smtp-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="smtp-title">The SMTP send sequence and how to secure it with the right port and an app password</title>
+  <desc id="smtp-desc">A sequence between a Python client using smtplib and an SMTP server. The client connects to the server on port 587, issues STARTTLS to upgrade the connection to encrypted TLS, then logs in with a username and an app password. Everything after STARTTLS is encrypted. The client hands over the envelope and message with MAIL FROM, RCPT TO and DATA, the server replies 250 message accepted, and the client quits. A side panel compares ports: 587 uses STARTTLS and is recommended, 465 is SSL/TLS encrypted from connect, and 25 is legacy plain and usually blocked. It notes that Gmail and Outlook require an app password with two-factor authentication, not your login password.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10.5px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .lane{fill:#f1f5f9;stroke:#94a3b8;stroke-width:1.4}
+    .life{stroke:#cbd5e1;stroke-width:1.4;stroke-dasharray:4 4}
+    .req{stroke:#64748b;stroke-width:1.8;fill:none}
+    .enc{fill:#ecfdf5;stroke:#10b981;stroke-width:1.1}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .okrow{fill:#ecfdf5;stroke:#10b981;stroke-width:1.1}
+    .badrow{fill:#fef2f2;stroke:#ef4444;stroke-width:1.1}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .lane{fill:#26262a;stroke:#6b7280}.life{stroke:#3f3f46}.req{stroke:#9ca3af}
+      .enc{fill:#0c2f22;stroke:#34d399}.panel{fill:#26262a;stroke:#3f3f46}
+      .okrow{fill:#064e3b;stroke:#34d399}.badrow{fill:#3a1a1a;stroke:#f87171}
+    }
+  </style>
+  <defs>
+    <marker id="sm-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="420"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="418.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Sending mail is a short, encrypted conversation with an SMTP server</text>
+
+  <!-- lanes -->
+  <rect class="lane" x="50" y="44" width="140" height="30" rx="6"/><text class="label ink ph" x="72" y="64">Client (smtplib)</text>
+  <rect class="lane" x="370" y="44" width="140" height="30" rx="6"/><text class="label ink ph" x="398" y="64">SMTP server</text>
+  <line class="life" x1="120" y1="76" x2="120" y2="330"/>
+  <line class="life" x1="440" y1="76" x2="440" y2="330"/>
+
+  <!-- encrypted band -->
+  <rect class="enc" x="60" y="150" width="440" height="164" rx="8"/>
+  <text class="label green s" x="70" y="166" font-weight="700">&#128274; TLS &#8212; everything below is encrypted</text>
+
+  <!-- steps -->
+  <text class="label mono muted" x="126" y="98">1 &#8212; connect  smtp.gmail.com:587</text>
+  <path class="req" d="M120,104 L440,104" marker-end="url(#sm-a)"/>
+
+  <text class="label mono muted" x="126" y="132">2 &#8212; STARTTLS  (upgrade to encrypted)</text>
+  <path class="req" d="M120,138 L440,138" marker-end="url(#sm-a)"/>
+
+  <text class="label mono ink" x="126" y="192">3 &#8212; login(user, APP PASSWORD)</text>
+  <path class="req" d="M120,198 L440,198" marker-end="url(#sm-a)"/>
+
+  <text class="label mono ink" x="126" y="228">4 &#8212; MAIL FROM &#183; RCPT TO &#183; DATA (message)</text>
+  <path class="req" d="M120,234 L440,234" marker-end="url(#sm-a)"/>
+
+  <text class="label mono green" x="180" y="266">5 &#8212; 250 message accepted</text>
+  <path class="req" d="M440,272 L120,272" marker-end="url(#sm-a)"/>
+
+  <text class="label mono muted" x="126" y="300">6 &#8212; QUIT</text>
+  <path class="req" d="M120,306 L440,306" marker-end="url(#sm-a)"/>
+
+  <!-- PANEL -->
+  <rect class="panel" x="522" y="80" width="174" height="250" rx="9"/>
+  <text class="label ink ph" x="536" y="102">Port &amp; security</text>
+  <rect class="okrow" x="534" y="112" width="150" height="40" rx="5"/>
+  <text class="label mono ink" x="544" y="128" font-weight="700">587 STARTTLS</text>
+  <text class="label s green" x="544" y="144">start plain, upgrade &#10003;</text>
+  <rect class="okrow" x="534" y="158" width="150" height="40" rx="5"/>
+  <text class="label mono ink" x="544" y="174" font-weight="700">465 SSL/TLS</text>
+  <text class="label s green" x="544" y="190">encrypted at connect &#10003;</text>
+  <rect class="badrow" x="534" y="204" width="150" height="40" rx="5"/>
+  <text class="label mono ink" x="544" y="220" font-weight="700">25 plain</text>
+  <text class="label s red" x="544" y="236">legacy, often blocked &#10007;</text>
+  <text class="label muted s" x="536" y="266">Use an App Password</text>
+  <text class="label muted s" x="536" y="282">(needs 2FA), never your</text>
+  <text class="label muted s" x="536" y="298">login password, in code.</text>
+
+  <line class="frame" x1="24" y1="348" x2="696" y2="348" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="370">smtplib gives you the verbs; you supply the host, port, TLS, and credentials. Always upgrade to TLS before</text>
+  <text class="label muted s" x="24" y="388">login (use SMTP + starttls() on 587, or SMTP_SSL on 465) so your password never crosses the wire in the clear.</text>
+</svg>

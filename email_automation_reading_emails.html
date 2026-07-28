@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/imap-search-fetch.svg" loading="lazy" alt="The IMAP reading flow: connect with IMAP4_SSL and log in, select a folder such as INBOX, then search with criteria like UNSEEN, which returns a list of lightweight message IDs (7, 12, 15) rather than the messages. For each ID you fetch RFC822 to get raw bytes and parse them with email.message_from_bytes into a Message object exposing From, Subject and body parts. A side panel contrasts IMAP, where mail stays on the server with folders and flags synced across devices, with POP3, which downloads to one device and usually deletes from the server."/>
+<figcaption>IMAP reading is a <strong>two-step dance</strong>: <code>search</code> is cheap and returns only message <em>IDs</em>, then you <code>fetch</code> the bodies you actually want by ID and parse them. That split is the whole efficiency story — narrow with server-side criteria (<code>UNSEEN</code>, <code>FROM</code>, <code>SINCE</code>) so you download only the matches. Prefer IMAP over POP3 for automation: IMAP keeps mail on the server and syncs flags across devices, while POP3's download-and-delete can quietly destroy messages.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Intelligent Email Processor 🤖</h3>
 <p>You're building an intelligent email processing system that monitors multiple inboxes, automatically categorizes messages, extracts attachments and data, responds to customer inquiries, processes orders from emails, generates reports from email data, and triggers workflows based on email content. Your system must handle thousands of emails daily, support multiple email providers, process attachments, and maintain inbox organization. Let's build a comprehensive IMAP email processing framework!</p>
 <pre><code># First, install required packages:
