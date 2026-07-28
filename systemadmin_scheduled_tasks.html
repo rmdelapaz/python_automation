@@ -119,6 +119,10 @@
         style H fill:#339af0
         style K fill:#ffd43b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/cron-expression-anatomy.svg" loading="lazy" alt="A cron expression has five space-separated fields. In the example 30 2 star star 1: minute (0 to 59) is 30, hour (0 to 23) is 2, day of month (1 to 31) is star meaning every, month (1 to 12) is star, and day of week (0 to 6, Sunday 0) is 1 meaning Monday — so it runs at 02:30 every Monday. Operators are star for every, comma for a list, hyphen for a range, and slash N for a step. Common patterns include star slash 15 for every 15 minutes, 0 star for hourly, 0 9 star star 1 through 5 for 9am weekdays, and 0 0 1 star star for midnight on the first. A note contrasts OS cron, which survives restart, with in-process Python schedulers that stop with the program."/>
+<figcaption>Almost every scheduler speaks <strong>cron</strong>, so learning its five fields — <em>minute, hour, day-of-month, month, day-of-week</em> — lets you read any schedule at a glance. A <code>*</code> means "every value" for that field; the operators <code>, - /</code> build lists, ranges, and steps. One choice matters up front: <strong>OS cron</strong> (crontab) is system-level and keeps firing across reboots, right for "run this script every night," while Python's <code>schedule</code>/APScheduler run <em>in-process</em> and stop when your program does.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Automation Orchestra 🎭</h3>
 <p>You're managing a complex infrastructure where dozens of tasks need perfect timing: database backups at night, report generation before business hours, log rotation every hour, security scans on weekends, and monitoring checks every minute. Let's build a comprehensive scheduling system that conducts this orchestra flawlessly!</p>
 <pre><code>import os

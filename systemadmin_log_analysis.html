@@ -116,6 +116,10 @@
         style D fill:#339af0
         style E fill:#ffd43b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/log-parse-aggregate.svg" loading="lazy" alt="The log analysis pipeline. A raw access-log line — an IP, a timestamp, a request method and path, a status code and a byte count — is matched by a regular expression with named groups that extracts fields into a structured record with keys ip, time, method, path, status and bytes. Once each line is a record, you aggregate: a Counter of status codes gives 200 seen 8412 times, 404 seen 271, and 500 seen 143, and you can find top paths or errors per minute. A footer notes that emitting structured JSON logs at the source removes the parsing step, since each line loads directly with json.loads."/>
+<figcaption>Log analysis is a funnel: many lines of <strong>text</strong> become one structured <strong>record</strong> per line, which collapse into a few <strong>numbers</strong> that answer a question ("how many 500s in the last hour?"). The work is the middle step — a regex with named groups pulls fields out of each line — after which <code>collections.Counter</code> and grouping do the rest. Stream line-by-line so a multi-GB log never has to fit in memory. Better still: emit <strong>structured (JSON) logs</strong> at the source, and each line is just <code>json.loads(line)</code> — no fragile regex to maintain.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Incident Response Center 🚨</h3>
 <p>You're managing a production environment with web servers, application servers, databases, and microservices. Logs are scattered across dozens of servers in different formats. When something goes wrong, you need to quickly correlate events across all systems, identify root causes, and detect security threats. Let's build a log analysis system that turns chaos into clarity!</p>
 <pre><code>import re

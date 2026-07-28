@@ -122,6 +122,10 @@
         style S fill:#51cf66
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/metric-sampling-gauge-vs-counter.svg" loading="lazy" alt="System monitoring samples metrics on a loop at a fixed interval. There are two kinds of metric. A gauge is an instantaneous value that goes up and down, such as memory percent or disk percent — read it directly. A counter is an ever-increasing total, such as bytes sent or CPU time; a single reading is meaningless, so a rate is the difference between two samples divided by elapsed time, delta over dt. A timeline shows sampling at t0 with c0 500MB, waiting dt of 1 second, sampling at t1 with c1 512MB, and computing rate equals c1 minus c0 over dt equals 12 MB per second. A note explains psutil.cpu_percent with interval one blocks to measure a delta, while a bare call returns a meaningless first value."/>
+<figcaption>Monitoring is a <strong>sampling loop</strong>: read metrics on an interval and store them. The distinction that trips people up is <strong>gauge vs counter</strong>. A gauge (memory %, disk %, temperature) is a snapshot you can read whenever you like. A counter (bytes sent, CPU seconds) only ever rises, so a single reading is meaningless — a <strong>rate</strong> exists only relative to time, computed as the <em>delta between two samples</em> divided by the elapsed interval. That's why <code>psutil.cpu_percent(interval=1)</code> blocks a second to measure a delta for you; a bare call has no previous sample and returns 0.0.</figcaption>
+</figure>
 <h3>Real-World Scenario: The DevOps Command Center 🎮</h3>
 <p>You're responsible for a distributed application running on 50 servers. You need to monitor system health, detect anomalies before they become outages, predict capacity needs, and provide real-time dashboards to stakeholders. Let's build a monitoring system that rivals commercial solutions!</p>
 <pre><code>import psutil

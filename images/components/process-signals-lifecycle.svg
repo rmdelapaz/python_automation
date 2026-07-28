@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="ps-title ps-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="ps-title">Controlling a process: spawn it, signal it to stop, then reap it</title>
+  <desc id="ps-desc">The lifecycle of controlling a child process. A parent spawns a child with subprocess.Popen, giving it a PID, and the child runs. To stop it, the parent first sends SIGTERM, a polite catchable request that lets the child clean up and exit gracefully. If the child ignores SIGTERM, the parent escalates to SIGKILL, an uncatchable force kill with no cleanup. After the child exits, the parent must call wait or poll to reap it and read its exit code; if it does not, the finished child lingers as a zombie, defunct but still holding a PID slot. A side panel lists process states: running, sleeping, stopped, and zombie. A footer stresses always terminating gracefully first and reaping children.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .parent{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.4}
+    .child{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.3}
+    .term{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .kill{fill:#fef2f2;stroke:#ef4444;stroke-width:1.4}
+    .reap{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .parent{fill:#1e293b;stroke:#569cd6}.child{fill:#26262a;stroke:#6b7280}.term{fill:#3a2e0a;stroke:#fbbf24}
+      .kill{fill:#3a1a1a;stroke:#f87171}.reap{fill:#064e3b;stroke:#34d399}.edge{stroke:#9ca3af}.panel{fill:#26262a;stroke:#3f3f46}
+    }
+  </style>
+  <defs>
+    <marker id="ps-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Ask a process to stop (SIGTERM), force it if it won't (SIGKILL), then reap it</text>
+
+  <!-- spawn -->
+  <rect class="parent" x="24" y="56" width="150" height="50" rx="7"/>
+  <text class="label blue s" x="36" y="74" font-weight="700">Parent</text>
+  <text class="label mono muted" x="36" y="90" font-size="9">subprocess.Popen(...)</text>
+  <text class="label mono muted" x="36" y="101" font-size="9">spawns a child</text>
+  <path class="edge" d="M174,81 L206,81" marker-end="url(#ps-a)"/><text class="label s muted" x="176" y="75">spawn</text>
+  <rect class="child" x="206" y="56" width="150" height="50" rx="7"/>
+  <text class="label ink s" x="218" y="74" font-weight="700">Child  (PID 4821)</text>
+  <text class="label mono muted" x="218" y="92" font-size="9">RUNNING</text>
+
+  <!-- SIGTERM -->
+  <path class="edge" d="M281,106 L281,130" marker-end="url(#ps-a)"/>
+  <rect class="term" x="140" y="132" width="282" height="46" rx="7"/>
+  <text class="label amber s" x="152" y="150" font-weight="700">1. SIGTERM &#8212; "please stop"  (catchable)</text>
+  <text class="label muted s" x="152" y="168">child runs its cleanup handler and exits gracefully</text>
+  <path class="edge" d="M422,155 L468,155" marker-end="url(#ps-a)"/>
+  <rect class="reap" x="468" y="132" width="228" height="46" rx="7"/>
+  <text class="label green s" x="480" y="150" font-weight="700">exits cleanly &#8594; reap it</text>
+  <text class="label mono muted" x="480" y="168" font-size="9">parent wait() / poll() reads exit code</text>
+
+  <!-- SIGKILL escalation -->
+  <path class="edge" d="M200,178 L200,202" marker-end="url(#ps-a)"/><text class="label s red" x="208" y="196">ignored / hung?</text>
+  <rect class="kill" x="140" y="204" width="282" height="46" rx="7"/>
+  <text class="label red s" x="152" y="222" font-weight="700">2. SIGKILL &#8212; force kill  (uncatchable)</text>
+  <text class="label muted s" x="152" y="240">terminated instantly, NO cleanup &#8212; last resort</text>
+
+  <!-- zombie -->
+  <rect class="panel" x="468" y="204" width="228" height="46" rx="7"/>
+  <text class="label ink s" x="480" y="222" font-weight="700">Never reaped &#8594; Zombie</text>
+  <text class="label muted s" x="480" y="240" font-size="10">defunct, but still holds a PID slot</text>
+
+  <!-- states panel -->
+  <text class="label muted ph" x="24" y="278">Process states</text>
+  <rect class="panel" x="24" y="286" width="672" height="34" rx="6"/>
+  <text class="label mono ink" x="38" y="306"><tspan class="green" font-weight="700">Running</tspan> / <tspan class="blue" font-weight="700">Sleeping</tspan> (waiting on I/O) / <tspan class="amber" font-weight="700">Stopped</tspan> (paused) / <tspan class="red" font-weight="700">Zombie</tspan> (finished, awaiting reap)</text>
+
+  <line class="frame" x1="24" y1="336" x2="696" y2="336" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="358">Signals are how you control a running process: <tspan class="ink" font-weight="700">SIGTERM</tspan> asks nicely and can be caught to save state; <tspan class="ink" font-weight="700">SIGKILL</tspan></text>
+  <text class="label muted s" x="24" y="376">can't be caught or ignored, so it's the hammer. Always try SIGTERM first, wait a moment, then escalate.</text>
+  <text class="label muted s" x="24" y="398">And always reap children (wait/poll, or Popen context manager) &#8212; unreaped zombies pile up and exhaust PIDs.</text>
+</svg>

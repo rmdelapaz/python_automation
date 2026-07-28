@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="ms-title ms-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="ms-title">Monitoring polls metrics on an interval; rates need the delta between two samples</title>
+  <desc id="ms-desc">System monitoring samples metrics on a loop at a fixed interval. There are two kinds of metric. A gauge is an instantaneous value that goes up and down, such as memory percent or disk percent; you read it directly at any moment. A counter is an ever-increasing total, such as bytes sent or CPU time; a single reading is meaningless, so a rate is computed as the difference between two samples divided by the elapsed time, delta over dt. A timeline shows sampling at time zero, waiting the interval dt, sampling again at time one, and computing rate equals counter one minus counter zero over dt. A note explains that psutil.cpu_percent with interval one blocks to measure a delta for you, while calling it once with no interval returns a meaningless first value.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .gauge{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .counter{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .loop{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .sample{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.4}
+    .axis{stroke:#94a3b8;stroke-width:1.4}
+    .note{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .gauge{fill:#064e3b;stroke:#34d399}.counter{fill:#3a2e0a;stroke:#fbbf24}.loop{fill:#1e293b;stroke:#569cd6}
+      .sample{fill:#1e293b;stroke:#569cd6}.axis{stroke:#6b7280}.note{fill:#26262a;stroke:#3f3f46}
+    }
+  </style>
+  <defs>
+    <marker id="ms-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Monitoring is a sampling loop &#8212; and a rate needs two samples, not one</text>
+
+  <!-- loop -->
+  <rect class="loop" x="24" y="52" width="180" height="60" rx="8"/>
+  <text class="label blue s" x="36" y="72" font-weight="700">Poll on an interval</text>
+  <text class="label mono muted" x="36" y="90" font-size="9">while True:</text>
+  <text class="label mono muted" x="36" y="102" font-size="9">  read(psutil); sleep(dt)</text>
+  <path class="edge" d="M204,82 L236,82" marker-end="url(#ms-a)"/>
+
+  <!-- gauge -->
+  <rect class="gauge" x="236" y="52" width="216" height="60" rx="8"/>
+  <text class="label green s" x="248" y="72" font-weight="700">Gauge &#8212; read directly</text>
+  <text class="label muted s" x="248" y="90">instantaneous, goes up &amp; down</text>
+  <text class="label mono ink" x="248" y="105" font-size="9">mem% = 63  &#183;  disk% = 71</text>
+
+  <!-- counter -->
+  <rect class="counter" x="464" y="52" width="232" height="60" rx="8"/>
+  <text class="label amber s" x="476" y="72" font-weight="700">Counter &#8212; needs a delta</text>
+  <text class="label muted s" x="476" y="90">ever-rising total; one value = useless</text>
+  <text class="label mono ink" x="476" y="105" font-size="9">bytes_sent, cpu_times (seconds)</text>
+
+  <!-- timeline for counter rate -->
+  <text class="label muted ph" x="24" y="146">Turning a counter into a rate</text>
+  <line class="axis" x1="60" y1="200" x2="660" y2="200" marker-end="url(#ms-a)"/>
+  <text class="label s muted" x="612" y="218">time</text>
+
+  <rect class="sample" x="90" y="168" width="140" height="30" rx="5"/><text class="label mono ink" x="160" y="188" text-anchor="middle" font-size="9">sample t0: c0=500MB</text>
+  <line class="axis" x1="160" y1="200" x2="160" y2="208"/><text class="label s muted" x="160" y="222" text-anchor="middle">t0</text>
+
+  <path class="edge" d="M232,183 L360,183" marker-end="url(#ms-a)"/><text class="label s amber" x="250" y="177" font-weight="700">wait dt = 1s</text>
+
+  <rect class="sample" x="370" y="168" width="140" height="30" rx="5"/><text class="label mono ink" x="440" y="188" text-anchor="middle" font-size="9">sample t1: c1=512MB</text>
+  <line class="axis" x1="440" y1="200" x2="440" y2="208"/><text class="label s muted" x="440" y="222" text-anchor="middle">t1</text>
+
+  <rect class="counter" x="530" y="162" width="150" height="44" rx="6"/>
+  <text class="label mono ink" x="542" y="180" font-size="9">rate = (c1 - c0)/dt</text>
+  <text class="label mono amber" x="542" y="196" font-weight="700" font-size="10">= 12 MB/s</text>
+
+  <line class="frame" x1="24" y1="240" x2="696" y2="240" stroke="#cbd5e1"/>
+
+  <!-- note -->
+  <rect class="note" x="24" y="252" width="672" height="48" rx="8"/>
+  <text class="label ink s" x="38" y="272" font-weight="700">Why cpu_percent seems weird</text>
+  <text class="label muted s" x="38" y="290">psutil.cpu_percent(<tspan class="ink" font-weight="700">interval=1</tspan>) blocks 1s to measure a delta for you; called with no interval it returns 0.0 first.</text>
+
+  <text class="label muted s" x="24" y="322">Call it with an interval, or call it twice, to get a real CPU number &#8212; a single bare reading has no delta to work from.</text>
+  <text class="label muted s" x="24" y="348">The model is simple: <tspan class="ink" font-weight="700">gauges</tspan> (memory, disk, temperature) you read whenever you like; <tspan class="ink" font-weight="700">rates</tspan> (CPU %, network and</text>
+  <text class="label muted s" x="24" y="366">disk throughput) only exist relative to time, so you must sample twice and divide by the elapsed interval.</text>
+  <text class="label muted s" x="24" y="392">Keep a rolling window of samples for trends and smoothing; alert on sustained levels, not a single noisy reading.</text>
+</svg>

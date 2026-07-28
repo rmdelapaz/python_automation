@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="cr-title cr-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="cr-title">Reading a cron expression: five time fields and their operators</title>
+  <desc id="cr-desc">A cron expression has five space-separated fields. In the example 30 2 star star 1, the fields are: minute, range 0 to 59, set to 30; hour, range 0 to 23, set to 2; day of month, range 1 to 31, set to star meaning every; month, range 1 to 12, set to star; and day of week, range 0 to 6 with Sunday as 0, set to 1 meaning Monday. So it runs at 02:30 every Monday. The operators are star for every, comma for a list, hyphen for a range, and slash N for a step. Common patterns include star slash 15 for every 15 minutes, 0 star for hourly, 0 9 star star 1 through 5 for 9am on weekdays, and 0 0 1 star star for midnight on the first of the month. A note contrasts OS cron, which is system level and survives restart, with in-process Python schedulers that stop when the program stops.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:11px}
+    .monobig{font-family:'Consolas','SF Mono',monospace;font-size:22px;font-weight:700}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .field{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .tok{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .pat{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.1}
+    .conn{stroke:#94a3b8;stroke-width:1.2;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .field{fill:#1e293b;stroke:#569cd6}.tok{fill:#3a2e0a;stroke:#fbbf24}.pat{fill:#26262a;stroke:#3f3f46}.conn{stroke:#6b7280}
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Five fields, one schedule: how to read a cron expression</text>
+
+  <!-- example tokens -->
+  <rect class="tok" x="64" y="46" width="48" height="34" rx="5"/><text class="label monobig amber" x="88" y="71" text-anchor="middle">30</text>
+  <rect class="tok" x="200" y="46" width="48" height="34" rx="5"/><text class="label monobig amber" x="224" y="71" text-anchor="middle">2</text>
+  <rect class="tok" x="336" y="46" width="48" height="34" rx="5"/><text class="label monobig amber" x="360" y="71" text-anchor="middle">*</text>
+  <rect class="tok" x="472" y="46" width="48" height="34" rx="5"/><text class="label monobig amber" x="496" y="71" text-anchor="middle">*</text>
+  <rect class="tok" x="608" y="46" width="48" height="34" rx="5"/><text class="label monobig amber" x="632" y="71" text-anchor="middle">1</text>
+
+  <!-- connectors -->
+  <path class="conn" d="M88,80 L88,96"/>
+  <path class="conn" d="M224,80 L224,96"/>
+  <path class="conn" d="M360,80 L360,96"/>
+  <path class="conn" d="M496,80 L496,96"/>
+  <path class="conn" d="M632,80 L632,96"/>
+
+  <!-- field cards -->
+  <rect class="field" x="24" y="96" width="128" height="56" rx="6"/><text class="label t ink" x="88" y="116" text-anchor="middle" font-weight="700">minute</text><text class="label s muted" x="88" y="132" text-anchor="middle">0&#8211;59</text><text class="label mono amber" x="88" y="147" text-anchor="middle">= 30</text>
+  <rect class="field" x="160" y="96" width="128" height="56" rx="6"/><text class="label t ink" x="224" y="116" text-anchor="middle" font-weight="700">hour</text><text class="label s muted" x="224" y="132" text-anchor="middle">0&#8211;23</text><text class="label mono amber" x="224" y="147" text-anchor="middle">= 2</text>
+  <rect class="field" x="296" y="96" width="128" height="56" rx="6"/><text class="label t ink" x="360" y="116" text-anchor="middle" font-weight="700">day of month</text><text class="label s muted" x="360" y="132" text-anchor="middle">1&#8211;31</text><text class="label mono muted" x="360" y="147" text-anchor="middle">= every</text>
+  <rect class="field" x="432" y="96" width="128" height="56" rx="6"/><text class="label t ink" x="496" y="116" text-anchor="middle" font-weight="700">month</text><text class="label s muted" x="496" y="132" text-anchor="middle">1&#8211;12</text><text class="label mono muted" x="496" y="147" text-anchor="middle">= every</text>
+  <rect class="field" x="568" y="96" width="128" height="56" rx="6"/><text class="label t ink" x="632" y="116" text-anchor="middle" font-weight="700">day of week</text><text class="label s muted" x="632" y="132" text-anchor="middle">0&#8211;6 (Sun=0)</text><text class="label mono amber" x="632" y="147" text-anchor="middle">= 1 (Mon)</text>
+
+  <text class="label green ph" x="24" y="176">&#8594; runs at 02:30, every Monday</text>
+  <text class="label muted s" x="360" y="176">Operators:  <tspan class="ink" font-weight="700">*</tspan> every &#183; <tspan class="ink" font-weight="700">,</tspan> list &#183; <tspan class="ink" font-weight="700">-</tspan> range &#183; <tspan class="ink" font-weight="700">/N</tspan> step</text>
+
+  <!-- common patterns -->
+  <text class="label muted ph" x="24" y="204">Common patterns</text>
+  <rect class="pat" x="24" y="212" width="336" height="26" rx="4"/><text class="label mono ink" x="34" y="229">*/15 * * * *</text><text class="label muted s" x="180" y="229">every 15 minutes</text>
+  <rect class="pat" x="24" y="242" width="336" height="26" rx="4"/><text class="label mono ink" x="34" y="259">0 * * * *</text><text class="label muted s" x="180" y="259">hourly, on the hour</text>
+  <rect class="pat" x="366" y="212" width="330" height="26" rx="4"/><text class="label mono ink" x="376" y="229">0 9 * * 1-5</text><text class="label muted s" x="520" y="229">9:00am on weekdays</text>
+  <rect class="pat" x="366" y="242" width="330" height="26" rx="4"/><text class="label mono ink" x="376" y="259">0 0 1 * *</text><text class="label muted s" x="520" y="259">midnight, 1st of month</text>
+
+  <line class="frame" x1="24" y1="286" x2="696" y2="286" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="308">Read a cron line left-to-right as minute, hour, day-of-month, month, day-of-week. A <tspan class="ink" font-weight="700">*</tspan> means "every value" for</text>
+  <text class="label muted s" x="24" y="326">that field; combine fields to pin an exact time. (Careful: setting both day-of-month AND day-of-week is an OR, not AND.)</text>
+  <text class="label muted s" x="24" y="352"><tspan class="ink" font-weight="700">OS cron</tspan> (crontab -e) is system-level and keeps firing across reboots &#8212; right for "run this script every night." Python's</text>
+  <text class="label muted s" x="24" y="370"><tspan class="ink" font-weight="700">schedule</tspan> / <tspan class="ink" font-weight="700">APScheduler</tspan> run inside your program (in-process), so they stop when it stops &#8212; use them for app-lifetime jobs.</text>
+  <text class="label muted s" x="24" y="396">Test an expression at crontab.guru before trusting it; a wrong field silently runs at the wrong time, not never.</text>
+</svg>

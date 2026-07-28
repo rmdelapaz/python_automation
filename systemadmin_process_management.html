@@ -120,6 +120,10 @@
         style Q fill:#51cf66
         style T fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/process-signals-lifecycle.svg" loading="lazy" alt="Controlling a child process. A parent spawns a child with subprocess.Popen, giving it a PID; the child runs. To stop it, the parent first sends SIGTERM, a polite catchable request that lets the child clean up and exit gracefully, then reaps it with wait or poll to read the exit code. If the child ignores SIGTERM, the parent escalates to SIGKILL, an uncatchable force kill with no cleanup. A child that finishes but is never reaped lingers as a zombie, defunct but still holding a PID slot. A side panel lists process states: running, sleeping (waiting on I/O), stopped, and zombie."/>
+<figcaption>Managing a process comes down to two verbs: <strong>signal</strong> it and <strong>reap</strong> it. To stop a process you send a signal — <code>SIGTERM</code> asks politely and can be caught so the process saves state and exits cleanly; <code>SIGKILL</code> can't be caught or ignored, so it's the last-resort hammer (no cleanup). Always try SIGTERM first, wait, then escalate. And once a child exits, the parent must <code>wait()</code>/<code>poll()</code> to <strong>reap</strong> it — unreaped children become <strong>zombies</strong> that pile up and exhaust the PID table.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Server Resource Manager 🖥️</h3>
 <p>You're managing a server farm running web applications, background jobs, databases, and monitoring tools. Some processes consume too much memory, others spawn zombie children, and occasionally something goes haywire and needs immediate termination. Let's build a comprehensive process management system that keeps everything running smoothly!</p>
 <pre><code>import psutil

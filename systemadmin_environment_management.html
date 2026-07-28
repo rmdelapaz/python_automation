@@ -123,6 +123,10 @@
         style S fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/config-layering-secrets.svg" loading="lazy" alt="Two ideas for managing environments. Configuration is layered by precedence, later sources overriding earlier: code defaults are lowest, then a config file such as config.yaml, then environment variables, then command-line flags at runtime, which are highest — the effective value for any setting is whichever the highest layer that sets it provides. Secrets must never live in code or git: load them from environment variables or a secret manager, keep a dotenv file in gitignore, and commit a dotenv example with keys but no values. A footer notes a virtual environment isolates each project's dependencies so package versions don't clash."/>
+<figcaption>Configuration describes <strong>how</strong> an app runs and belongs to the environment, not the code — so you <strong>layer</strong> it by precedence (defaults &lt; config file &lt; env vars &lt; CLI flags, later wins) and one build runs unchanged in dev, staging, and prod. Secrets are the sharp edge: an API key in source is <strong>leaked forever in git history</strong>, so load them from environment variables or a secret manager, keep <code>.env</code> in <code>.gitignore</code>, and commit only a <code>.env.example</code> with keys and no values. (And isolate each project's packages in a <code>venv</code> so versions can't clash.)</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Environment Application Platform 🚀</h3>
 <p>You're managing a complex application that runs in development, staging, and production environments. Each environment has different database connections, API endpoints, feature flags, and secrets. Developers need isolated Python environments, operations needs containerized deployments, and security demands encrypted secrets. Let's build a comprehensive environment management system!</p>
 <pre><code>import os
