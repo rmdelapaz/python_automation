@@ -118,6 +118,10 @@
         style D fill:#ffd43b
         style S fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/page-object-model.svg" loading="lazy" alt="A comparison of two test designs. Without the Page Object Model, three test functions each embed the same raw locator find_element By id username; renaming the id breaks all three tests. With the Page Object Model, a single LoginPage class holds the locators and exposes a login method, and the three tests just call login_page.login; renaming the id changes only that one line in the page class while the tests stay untouched."/>
+<figcaption>The Page Object Model answers a maintenance question: when the UI changes, how many files break? If locators are copied into every test, one renamed <code>id</code> fails them all. A Page Object wraps each page's <strong>locators and actions behind a class</strong>, so tests read like user stories (<code>login</code>, <code>add_to_cart</code>) and a markup change touches one file instead of rippling through the whole suite — the difference between a suite that scales and one that rots.</figcaption>
+</figure>
 <h3>Real-World Scenario: The E-Commerce Test Suite 🛍️</h3>
 <p>You're building a comprehensive test automation framework for a complex e-commerce platform with hundreds of pages, dynamic content, multiple user flows, and frequent UI updates. Your framework must handle login flows, product searches, cart management, checkout processes, and admin operations - all while being maintainable by a team of testers with varying technical skills. Let's build an enterprise-grade Page Object Model!</p>
 <pre><code># First, install required packages:

@@ -117,6 +117,10 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/webdriver-stack.svg" loading="lazy" alt="A four-layer stack: your Python script calls Selenium WebDriver (the language binding), which translates each call into a W3C WebDriver command sent as HTTP and JSON to a local driver executable such as chromedriver or geckodriver, which in turn drives the real browser through its native automation interface. A side panel shows the version-match rule: Chrome 126 with chromedriver 126 starts a session, but Chrome 126 with chromedriver 124 raises SessionNotCreated; Selenium 4.6+ ships Selenium Manager, which downloads the matching driver automatically."/>
+<figcaption>Selenium never touches the browser directly: every call becomes an HTTP request to a separate <strong>driver</strong> process (chromedriver, geckodriver) that pilots the real browser over the W3C WebDriver protocol. That indirection is why a driver built for one browser version can't drive another — and why setup used to be fiddly. Since Selenium 4.6, <code>Selenium Manager</code> resolves and downloads the right driver for you, so you can usually just create the browser and go.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Browser Testing Platform 🌐</h3>
 <p>You're building an automated testing platform that needs to run tests across multiple browsers, handle different versions, work in headless mode for CI/CD, manage browser profiles, handle downloads and uploads, and scale across multiple machines. Your WebDriver setup must be bulletproof, flexible, and maintainable. Let's build a comprehensive WebDriver management system!</p>
 <pre><code># First, install required packages:

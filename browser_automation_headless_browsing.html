@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/headless-vs-headed.svg" loading="lazy" alt="A side-by-side comparison. A headed browser shows a window with tabs and a rendered page; it needs a display, is slower and uses more memory, but is easy to watch and debug. A headless browser runs the identical engine that parses the DOM, executes JavaScript and computes layout but draws no window; its outputs are screenshots, PDFs and scraped data. It needs no display, is faster and lighter and runs on servers and CI, at the cost of no visual debugging and easier bot detection. Both share the same engine core, toggled with the headless option."/>
+<figcaption>Headless doesn't mean a different, lesser browser — it's the <strong>same engine</strong> parsing the DOM, running JavaScript, and computing layout, just with no window drawn to a screen. That's why it's faster, lighter, and able to run on a displayless server or CI box, and why the DOM and results are identical to headed mode. The trade-off is you can't watch it, so debug by saving screenshots; also note some sites flag headless traffic as a bot.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Cloud-Based Testing Farm 🌩️</h3>
 <p>You're building a cloud-based testing infrastructure that runs thousands of browser tests in parallel on serverless functions and containers. The system must handle screenshots, videos, network interception, console logging, and performance metrics - all without any GUI. It needs to evade headless detection, manage resources efficiently, and provide detailed debugging capabilities when tests fail. Let's build a comprehensive headless browsing system!</p>
 <pre><code># First, install required packages:

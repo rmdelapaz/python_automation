@@ -121,6 +121,10 @@
         style D fill:#ffd43b
         style V fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/element-interaction-states.svg" loading="lazy" alt="A decision ladder for interacting with an element. After find_element locates it, three gates are checked in order: Is it in the DOM? If not, NoSuchElementException. Is it displayed (visible, non-zero size)? If not, the element is not interactable. Is it enabled (not disabled)? If not, ElementNotInteractableException. Only when all three are true do click and send_keys succeed. A side panel lists is_displayed, is_enabled and is_selected, and advises pairing them with an explicit wait for element_to_be_clickable."/>
+<figcaption>Locating an element is only half the job. Before Selenium will click or type, the element must also be <strong>present</strong>, <strong>displayed</strong>, and <strong>enabled</strong> — miss any one and you get a specific exception, not a click. Most "flaky" interaction bugs are really an unchecked state: the node exists but is still hidden behind an overlay or disabled until a form validates. Check state (or, better, wait for <code>element_to_be_clickable</code>) before you act.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Universal Form Filler 📝</h3>
 <p>You're building an intelligent form automation system that can handle any web form - from simple contact forms to complex multi-step wizards with dynamic fields, file uploads, date pickers, dropdowns, and custom widgets. Your system must handle element timing, JavaScript-rendered elements, shadow DOM, iframes, and recover from stale element exceptions. Let's build a bulletproof element interaction system!</p>
 <pre><code># First, install required packages:

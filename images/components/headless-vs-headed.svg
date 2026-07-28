@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="hl-title hl-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="hl-title">Headless browsing runs the same browser engine without a visible window</title>
+  <desc id="hl-desc">A side-by-side comparison. On the left, a headed browser shows a window with tabs and a rendered page on screen; it needs a display, is slower and uses more memory, but is easy to watch and debug. On the right, a headless browser runs the identical engine that parses the DOM, executes JavaScript and computes layout, but draws no window; its outputs are screenshots, PDFs and scraped data. It needs no display, is faster and lighter, and runs on servers and CI, at the cost of no visual debugging and easier bot detection. Both share the same engine core, toggled with the headless option; only the visible window differs.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .panelH{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.4}
+    .panelL{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .engine{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .win{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.2}
+    .chip{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.1}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .panelH{fill:#1e293b;stroke:#569cd6}.panelL{fill:#064e3b;stroke:#34d399}.engine{fill:#3a2e0a;stroke:#fbbf24}
+      .win{fill:#26262a;stroke:#6b7280}.chip{fill:#26262a;stroke:#6b7280}
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Headless is the same browser &#8212; the visible window is all that's missing</text>
+
+  <!-- HEADED -->
+  <rect class="panelH" x="24" y="46" width="322" height="256" rx="9"/>
+  <text class="label blue ph" x="40" y="68">Headed &#8212; window on screen</text>
+  <!-- window mockup -->
+  <rect class="win" x="46" y="80" width="278" height="120" rx="6"/>
+  <rect class="chip" x="46" y="80" width="278" height="22" rx="6"/>
+  <circle class="red" cx="60" cy="91" r="4"/><circle class="amber" cx="74" cy="91" r="4"/><circle class="green" cx="88" cy="91" r="4"/>
+  <text class="label mono muted" x="110" y="95">https://example.com</text>
+  <rect class="engine" x="64" y="116" width="242" height="70" rx="5"/>
+  <text class="label t ink" x="80" y="138" font-weight="700">engine renders the page</text>
+  <text class="label mono muted" x="80" y="156">DOM &#183; JavaScript &#183; layout &#183; paint</text>
+  <text class="label s muted" x="80" y="176">&#8230; and you watch it happen live</text>
+  <text class="label t ink" x="46" y="224" font-weight="700">Good: easy to watch &amp; debug</text>
+  <text class="label s muted" x="46" y="244">Needs a display / GPU</text>
+  <text class="label s muted" x="46" y="262">Slower, more memory</text>
+  <text class="label s muted" x="46" y="280">Not suited to servers or CI</text>
+
+  <!-- HEADLESS -->
+  <rect class="panelL" x="374" y="46" width="322" height="256" rx="9"/>
+  <text class="label green ph" x="390" y="68">Headless &#8212; no window</text>
+  <!-- same engine, no window frame -->
+  <rect class="engine" x="396" y="82" width="278" height="70" rx="6"/>
+  <text class="label t ink" x="412" y="104" font-weight="700">same engine core</text>
+  <text class="label mono muted" x="412" y="122">DOM &#183; JavaScript &#183; layout</text>
+  <text class="label s muted" x="412" y="140">runs in memory, nothing drawn to a screen</text>
+  <!-- outputs -->
+  <text class="label muted s" x="396" y="172">outputs instead of a window:</text>
+  <rect class="chip" x="396" y="180" width="86" height="24" rx="12"/><text class="label s ink" x="410" y="196">screenshot</text>
+  <rect class="chip" x="490" y="180" width="60" height="24" rx="12"/><text class="label s ink" x="504" y="196">PDF</text>
+  <rect class="chip" x="558" y="180" width="110" height="24" rx="12"/><text class="label s ink" x="572" y="196">scraped data</text>
+  <text class="label t ink" x="396" y="224" font-weight="700">Good: fast, light, CI-ready</text>
+  <text class="label s muted" x="396" y="244">No display needed</text>
+  <text class="label s muted" x="396" y="262">Harder to debug &#8594; save screenshots</text>
+  <text class="label s muted" x="396" y="280">More detectable as a bot</text>
+
+  <line class="frame" x1="24" y1="322" x2="696" y2="322" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="344">Toggle with one option &#8212; options.add_argument("--headless=new") &#8212; and the same automation runs unchanged.</text>
+  <text class="label muted s" x="24" y="362">Choose headless for speed and for servers/CI without a display; run headed while you are developing and</text>
+  <text class="label muted s" x="24" y="380">debugging so you can see what the script sees. The DOM, JavaScript, and results are identical either way.</text>
+</svg>
