@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="ud-title ud-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="ud-title">A bot receives one stream of mixed Update objects and a dispatcher routes each to a handler</title>
+  <desc id="ud-desc">A Telegram bot does not receive plain messages; it receives a single stream of Update objects of many types: a slash command, a plain text message, a button tap that arrives as a callback_query, and media. A dispatcher tries the registered handlers in order and sends each update to the first one that matches: a CommandHandler catches /start, a text MessageHandler catches ordinary text, a CallbackQueryHandler catches the button tap, and a catch-all fallback handles anything left over, so order matters. Updates arrive one of two ways: long polling, where getUpdates with an offset repeatedly pulls new updates and the offset acknowledges the ones already processed, or a webhook, where Telegram POSTs each update to your HTTPS URL.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .cmd{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.3}
+    .txt{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .cb{fill:#ecfdf5;stroke:#10b981;stroke-width:1.3}
+    .media{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.3}
+    .disp{fill:#f1f5f9;stroke:#64748b;stroke-width:1.6}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .cmd{fill:#3a2e0a;stroke:#fbbf24}.txt{fill:#1e293b;stroke:#569cd6}.cb{fill:#064e3b;stroke:#34d399}
+      .media{fill:#26262a;stroke:#6b7280}.disp{fill:#26262a;stroke:#9ca3af}.panel{fill:#26262a;stroke:#3f3f46}.edge{stroke:#9ca3af}
+    }
+  </style>
+  <defs>
+    <marker id="ud-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">A bot gets a stream of typed Update objects &#8212; a dispatcher routes each one</text>
+
+  <!-- update stream -->
+  <text class="label muted ph" x="24" y="58">Updates (one stream, mixed types)</text>
+  <rect class="cmd" x="24" y="68" width="168" height="28" rx="5"/>
+  <text class="label mono ink" x="34" y="86" font-size="9.5">/start &#8212; command</text>
+  <rect class="txt" x="24" y="100" width="168" height="28" rx="5"/>
+  <text class="label mono ink" x="34" y="118" font-size="9.5">"what's the price?" &#8212; text</text>
+  <rect class="cb" x="24" y="132" width="168" height="28" rx="5"/>
+  <text class="label mono ink" x="34" y="150" font-size="9.5">[Buy] tap &#8212; callback_query</text>
+  <rect class="media" x="24" y="164" width="168" height="28" rx="5"/>
+  <text class="label mono ink" x="34" y="182" font-size="9.5">photo.jpg &#8212; media</text>
+
+  <!-- dispatcher -->
+  <path class="edge" d="M192,130 L214,130" marker-end="url(#ud-a)"/>
+  <rect class="disp" x="216" y="96" width="108" height="68" rx="7"/>
+  <text class="label ink s" x="270" y="122" text-anchor="middle" font-weight="700">Dispatcher</text>
+  <text class="label muted s" x="270" y="138" text-anchor="middle" font-size="9.5">try handlers</text>
+  <text class="label muted s" x="270" y="151" text-anchor="middle" font-size="9.5">in order</text>
+
+  <!-- handlers -->
+  <text class="label muted ph" x="346" y="58">Handlers &#8212; first match wins</text>
+  <rect class="cmd" x="346" y="68" width="350" height="28" rx="5"/>
+  <text class="label mono ink" x="356" y="86" font-size="9.5">CommandHandler('start')</text>
+  <text class="label amber s" x="600" y="86" font-size="9.5">&#8592; /start</text>
+  <rect class="txt" x="346" y="100" width="350" height="28" rx="5"/>
+  <text class="label mono ink" x="356" y="118" font-size="9.5">MessageHandler(filters.TEXT)</text>
+  <text class="label blue s" x="600" y="118" font-size="9.5">&#8592; text</text>
+  <rect class="cb" x="346" y="132" width="350" height="28" rx="5"/>
+  <text class="label mono ink" x="356" y="150" font-size="9.5">CallbackQueryHandler(...)</text>
+  <text class="label green s" x="600" y="150" font-size="9.5">&#8592; button tap</text>
+  <rect class="media" x="346" y="164" width="350" height="28" rx="5"/>
+  <text class="label mono ink" x="356" y="182" font-size="9.5">fallback / unknown</text>
+  <text class="label muted s" x="600" y="182" font-size="9.5">&#8592; the rest</text>
+
+  <path class="edge" d="M324,120 L342,82" marker-end="url(#ud-a)"/>
+  <path class="edge" d="M324,128 L342,114" marker-end="url(#ud-a)"/>
+  <path class="edge" d="M324,136 L342,146" marker-end="url(#ud-a)"/>
+  <path class="edge" d="M324,144 L342,178" marker-end="url(#ud-a)"/>
+
+  <!-- delivery band -->
+  <text class="label muted ph" x="24" y="222">How updates reach your bot</text>
+  <rect class="panel" x="24" y="232" width="336" height="48" rx="6"/>
+  <text class="label blue s" x="36" y="250" font-weight="700">Long polling</text>
+  <text class="label mono muted" x="36" y="266" font-size="9">getUpdates(offset) loops &amp; pulls;</text>
+  <text class="label muted s" x="36" y="276" font-size="9.5">offset acks what you've processed</text>
+  <rect class="panel" x="368" y="232" width="328" height="48" rx="6"/>
+  <text class="label green s" x="380" y="250" font-weight="700">Webhook</text>
+  <text class="label muted s" x="380" y="266" font-size="9.5">Telegram POSTs each update to your</text>
+  <text class="label muted s" x="380" y="276" font-size="9.5">public HTTPS URL &#8212; no polling loop</text>
+
+  <line class="frame" x1="24" y1="298" x2="696" y2="298" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="320">The mental shift from an API: a bot doesn't call you and a user doesn't "return" a value &#8212; you register handlers up front</text>
+  <text class="label muted s" x="24" y="338">and react to whatever arrives. A tapped button is <tspan class="ink" font-weight="700">not a message</tspan>; it's a callback_query you must answer, or the</text>
+  <text class="label muted s" x="24" y="356">user sees a spinner. Because the dispatcher stops at the first match, <tspan class="ink" font-weight="700">order your handlers specific &#8594; general</tspan> and always</text>
+  <text class="label muted s" x="24" y="374">end with a fallback, so an unexpected update type is handled gracefully instead of silently dropped.</text>
+</svg>

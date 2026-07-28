@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="wf-title wf-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="wf-title">Find a window, activate it, then send input — because keystrokes only reach the focused window</title>
+  <desc id="wf-desc">Windows overlap in a z-order stack, but only one has focus at a time. The workflow is: enumerate open windows, find one by title, get its handle, then activate it to raise it to the front and give it focus, after which you can move, resize, minimize, or maximize it. The critical gotcha is that input always flows to whichever window currently has focus, so you must activate the target immediately before typing or clicking. If a notification, popup, or another script steals focus mid-run, your keystrokes land in the wrong window, which can be destructive. Defenses: activate right before sending input, then re-check the foreground window to confirm it is still yours before proceeding.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .win{fill:#f1f5f9;stroke:#94a3b8;stroke-width:1.3}
+    .winbar{fill:#e2e8f0}
+    .active{fill:#eff6ff;stroke:#3b82f6;stroke-width:2}
+    .activebar{fill:#3b82f6}
+    .step{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .warn{fill:#fef2f2;stroke:#ef4444;stroke-width:1.4}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .keyflow{stroke:#3b82f6;stroke-width:2;fill:none}
+    .steal{stroke:#ef4444;stroke-width:2;fill:none;stroke-dasharray:4 3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .win{fill:#26262a;stroke:#6b7280}.winbar{fill:#3f3f46}
+      .active{fill:#1e293b;stroke:#569cd6}.activebar{fill:#569cd6}
+      .step{fill:#26262a;stroke:#3f3f46}.warn{fill:#3a1a1a;stroke:#f87171}.panel{fill:#26262a;stroke:#3f3f46}
+      .edge{stroke:#9ca3af}.keyflow{stroke:#569cd6}.steal{stroke:#f87171}
+    }
+  </style>
+  <defs>
+    <marker id="wf-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="wf-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
+    <marker id="wf-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ef4444"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Only the focused window hears your input &#8212; so activate before you type</text>
+
+  <!-- z-order stack of windows -->
+  <text class="label muted ph" x="24" y="58">Windows stack in z-order; one has focus</text>
+  <rect class="win" x="40" y="86" width="150" height="96" rx="4"/>
+  <rect class="winbar" x="40" y="86" width="150" height="16" rx="4"/>
+  <text class="label muted s" x="48" y="98" font-size="9.5">Browser (background)</text>
+  <rect class="win" x="66" y="106" width="150" height="96" rx="4"/>
+  <rect class="winbar" x="66" y="106" width="150" height="16" rx="4"/>
+  <text class="label muted s" x="74" y="118" font-size="9.5">Chat (background)</text>
+  <rect class="active" x="92" y="126" width="158" height="100" rx="4"/>
+  <rect class="activebar" x="92" y="126" width="158" height="17" rx="4"/>
+  <text class="label s" x="100" y="139" font-size="9.5" fill="#ffffff" font-weight="700">Invoices &#8212; ACTIVE</text>
+  <text class="label mono ink" x="100" y="164" font-size="9">get_window("Invoices")</text>
+  <text class="label mono ink" x="100" y="180" font-size="9">.activate()</text>
+  <text class="label muted s" x="100" y="200" font-size="9.5">now on top + focused</text>
+
+  <!-- keystroke flow to active window -->
+  <path class="keyflow" d="M300,300 C260,280 250,240 176,176" marker-end="url(#wf-b)"/>
+  <text class="label blue s" x="256" y="264" font-weight="700">keys flow here</text>
+
+  <!-- focus stealer -->
+  <rect class="warn" x="40" y="236" width="210" height="40" rx="6"/>
+  <text class="label red s" x="50" y="253" font-weight="700">Popup steals focus mid-run</text>
+  <text class="label muted s" x="50" y="269" font-size="9.5">now your keys land in the wrong place</text>
+  <path class="steal" d="M150,236 C150,220 160,205 168,196" marker-end="url(#wf-r)"/>
+
+  <!-- steps on the right -->
+  <text class="label muted ph" x="320" y="58">The handle lifecycle</text>
+  <rect class="step" x="320" y="70" width="376" height="30" rx="6"/>
+  <text class="label ink s" x="332" y="89"><tspan class="blue" font-weight="700">1. Enumerate</tspan> all open windows</text>
+  <rect class="step" x="320" y="106" width="376" height="30" rx="6"/>
+  <text class="label ink s" x="332" y="125"><tspan class="blue" font-weight="700">2. Find by title</tspan> &#8594; get a window handle</text>
+  <rect class="step" x="320" y="142" width="376" height="30" rx="6"/>
+  <text class="label ink s" x="332" y="161"><tspan class="blue" font-weight="700">3. Activate</tspan> &#8594; raise to front + take focus</text>
+  <rect class="step" x="320" y="178" width="376" height="30" rx="6"/>
+  <text class="label ink s" x="332" y="197"><tspan class="green" font-weight="700">4. Now</tspan> move / resize / minimize / maximize</text>
+
+  <!-- states row -->
+  <rect class="panel" x="320" y="220" width="376" height="30" rx="6"/>
+  <text class="label mono ink" x="332" y="239" font-size="9.5"><tspan class="green" font-weight="700">normal</tspan> &#183; <tspan class="amber" font-weight="700">minimized</tspan> (hidden) &#183; <tspan class="blue" font-weight="700">maximized</tspan> (full)</text>
+
+  <line class="frame" x1="24" y1="292" x2="696" y2="292" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="314">The gotcha that bites everyone: input has no address &#8212; it goes to whatever window is <tspan class="ink" font-weight="700">focused right now</tspan>, not the</text>
+  <text class="label muted s" x="24" y="332">one you activated three lines ago. A notification, a background script, or a user click can steal focus between your</text>
+  <text class="label muted s" x="24" y="350">activate() and your typewrite(), sending keystrokes into the wrong app &#8212; sometimes destructively.</text>
+  <text class="label muted s" x="24" y="372">Defenses: <tspan class="ink" font-weight="700">activate immediately before sending input</tspan>, keep the gap tiny, then read the foreground window back and</text>
+  <text class="label muted s" x="24" y="390">confirm it's still yours before you commit the keystrokes &#8212; never assume focus survived.</text>
+</svg>

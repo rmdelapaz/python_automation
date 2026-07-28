@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/capture-locate-ocr-pipeline.svg" loading="lazy" alt="Reading the screen as a four-stage pipeline: first take a screenshot, the haystack. Then locateOnScreen searches that image for a small needle template and returns a bounding box, or None if it can't find one within the confidence threshold. Crop to the box and clean it by converting to grayscale and thresholding to black and white, then run OCR such as Tesseract to turn the pixels into a text string. Brittleness notes: template matching fails when scaling, DPI, theme, or antialiasing shift the pixels, which is why confidence is set below 1.0; and OCR misreads low-contrast or fancy fonts, confusing 0 with O and 1 with lowercase L."/>
+<figcaption>The GUI shows <strong>pixels, not data</strong>, so reading it is two approximate steps: <strong>find</strong> the thing with <code>locateOnScreen</code> (a template match — set <code>confidence</code> below 1.0 so a resize, theme, or DPI change doesn't break the match), then <strong>read</strong> it with OCR. Both stages guess, so feed clean high-contrast input and sanity-check the result before you trust it. Reach for capture-and-read only when no API or accessibility label exposes the data.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Visual Data Extraction Platform 🔍</h3>
 <p>You're building a comprehensive visual data extraction system that captures screens from multiple applications, extracts text from images and PDFs, monitors visual changes in real-time, reads data from legacy terminal applications, processes invoices and receipts, extracts tables from screenshots, performs visual regression testing, and creates searchable archives from visual data. Your system must handle different fonts and languages, work with varying image qualities, process both static and dynamic content, and provide accurate text extraction with confidence scoring. Let's build a robust screen capture and OCR framework!</p>
 <pre><code># First, install required packages:

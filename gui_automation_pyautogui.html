@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/screen-coordinates-safety.svg" loading="lazy" alt="The whole display treated as one pixel grid: the origin (0,0) is the top-left corner, x increases to the right and y increases downward, so moveTo(840, 360) targets that exact pixel. size() returns the full width and height and position() returns the cursor's current x and y. Two safety valves: PAUSE inserts a delay after every call so each step is watchable, and FAILSAFE aborts the whole run with a FailSafeException the instant the mouse is slammed into a screen corner."/>
+<figcaption>PyAutoGUI drives the <strong>real</strong> cursor across one screen-wide pixel grid, and the desktop has <strong>no undo</strong> — a wrong coordinate can click the wrong thing before you react. Coordinates are absolute to the display, so a different resolution or a moved window breaks every hard-coded point. Keep <code>PAUSE</code> on so the run stays watchable, and keep <code>FAILSAFE</code> on as a corner-slam kill switch.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Desktop Automation Suite 🤖</h3>
 <p>You're building a comprehensive desktop automation system that fills out forms across multiple applications, captures and processes screen data, automates software testing workflows, creates interactive tutorials and demos, monitors system status and alerts, performs batch file operations, automates game playing strategies, and integrates with enterprise applications. Your system must handle different screen resolutions, work across platforms, recover from errors gracefully, and provide detailed logging. Let's build a robust PyAutoGUI automation framework!</p>
 <pre><code># First, install required packages:

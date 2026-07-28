@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/bot-update-dispatch.svg" loading="lazy" alt="A Telegram bot receives a single stream of Update objects of many types — a slash command, a plain text message, a button tap that arrives as a callback_query, and media. A dispatcher tries the registered handlers in order and routes each update to the first that matches: a CommandHandler catches /start, a text MessageHandler catches ordinary text, a CallbackQueryHandler catches the button tap, and a fallback handles the rest, so order matters. Updates arrive either by long polling, where getUpdates with an offset repeatedly pulls new updates and the offset acknowledges processed ones, or by a webhook, where Telegram POSTs each update to your HTTPS URL."/>
+<figcaption>A bot doesn't receive &#8220;messages&#8221; — it receives a stream of typed <strong>Update</strong> objects (command, text, a button's <code>callback_query</code>, media), and a dispatcher routes each to the <strong>first matching handler</strong>. So the mental shift from an API is that you register handlers up front and react to whatever arrives. Order handlers specific &#8594; general and always add a fallback, and remember a tapped button is not a message — it's a <code>callback_query</code> you must answer or the user just sees a spinner.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Purpose Service Bot 🌐</h3>
 <p>You're building a comprehensive Telegram bot for a digital services company that handles customer support inquiries, processes orders and payments, manages subscription services, sends notifications and alerts, moderates community groups, provides interactive tutorials, tracks deliveries, and integrates with CRM systems. Your bot must handle thousands of concurrent users, support multiple languages, process media files, and maintain conversation context. Let's build a production-ready Telegram bot framework!</p>
 <pre><code># First, install required packages:

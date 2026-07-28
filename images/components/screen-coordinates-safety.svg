@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="sc-title sc-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="sc-title">The screen is a pixel grid, and blind automation needs a kill switch</title>
+  <desc id="sc-desc">PyAutoGUI treats the whole display as one coordinate grid whose origin (0,0) is the top-left corner; x increases to the right and y increases downward, so moveTo(840, 360) means 840 pixels right and 360 pixels down. size() returns the full width and height in pixels, and position() returns the cursor's current x and y. Because the script drives the real cursor with no undo, PyAutoGUI ships two safety valves: PAUSE inserts a delay after every call so you can watch and abort, and FAILSAFE aborts the whole script by raising FailSafeException the instant you slam the mouse into a screen corner. A footer warns that a wrong coordinate clicks the wrong thing, so slow the script down and keep an escape hatch.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .screen{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.4}
+    .axis{stroke:#3b82f6;stroke-width:1.6;fill:none}
+    .guide{stroke:#94a3b8;stroke-width:1;stroke-dasharray:3 3;fill:none}
+    .pause{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .fail{fill:#fef2f2;stroke:#ef4444;stroke-width:1.4}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .screen{fill:#26262a;stroke:#6b7280}.axis{stroke:#569cd6}.guide{stroke:#6b7280}
+      .pause{fill:#3a2e0a;stroke:#fbbf24}.fail{fill:#3a1a1a;stroke:#f87171}.panel{fill:#26262a;stroke:#3f3f46}
+    }
+  </style>
+  <defs>
+    <marker id="sc-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
+    <marker id="sc-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">The whole display is one pixel grid &#8212; and the script moves the real cursor</text>
+
+  <!-- screen grid -->
+  <rect class="screen" x="24" y="62" width="368" height="196" rx="6"/>
+  <!-- origin + axes -->
+  <circle cx="52" cy="88" r="4" class="blue" fill="#3b82f6"/>
+  <text class="label blue s" x="60" y="84" font-weight="700">(0,0) origin</text>
+  <path class="axis" d="M52,88 L360,88" marker-end="url(#sc-a)"/>
+  <text class="label blue s" x="322" y="104">x &#8594;</text>
+  <path class="axis" d="M52,88 L52,238" marker-end="url(#sc-a)"/>
+  <text class="label blue s" x="58" y="232">y &#8595;</text>
+  <!-- target point -->
+  <path class="guide" d="M232,88 L232,168"/>
+  <path class="guide" d="M52,168 L232,168"/>
+  <circle cx="232" cy="168" r="5" class="red" fill="#ef4444"/>
+  <circle cx="232" cy="168" r="10" fill="none" stroke="#ef4444" stroke-width="1.4"/>
+  <text class="label mono ink" x="244" y="164" font-weight="700">moveTo(840, 360)</text>
+  <text class="label mono muted" x="244" y="178">click at that exact pixel</text>
+  <!-- size label bottom-right -->
+  <text class="label mono muted" x="196" y="248">size() &#8594; (1920, 1080)</text>
+
+  <!-- failsafe corner burst -->
+  <path d="M24,62 l14,0 l-14,14 z" class="red" fill="#ef4444"/>
+  <text class="label red s" x="110" y="56" font-weight="700">any corner = abort</text>
+  <path class="guide" d="M100,52 L40,64" stroke="#ef4444"/>
+
+  <!-- safety panels -->
+  <rect class="pause" x="410" y="62" width="286" height="86" rx="7"/>
+  <text class="label amber ph" x="424" y="82">PAUSE &#8212; slow it down</text>
+  <text class="label mono muted" x="424" y="100" font-size="9.5">pyautogui.PAUSE = 1.0</text>
+  <text class="label muted s" x="424" y="118">waits after every call, so you can</text>
+  <text class="label muted s" x="424" y="134">watch each step and catch a mistake early</text>
+
+  <rect class="fail" x="410" y="158" width="286" height="100" rx="7"/>
+  <text class="label red ph" x="424" y="178">FAILSAFE &#8212; the kill switch</text>
+  <text class="label mono muted" x="424" y="196" font-size="9.5">pyautogui.FAILSAFE = True</text>
+  <text class="label muted s" x="424" y="214">slam the mouse into a screen corner and</text>
+  <text class="label muted s" x="424" y="230">it raises FailSafeException, killing the run</text>
+  <text class="label muted s" x="424" y="246">&#8212; your physical escape hatch when it goes wrong</text>
+
+  <line class="frame" x1="24" y1="282" x2="696" y2="282" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="304">Unlike a browser or API, the desktop has <tspan class="ink" font-weight="700">no undo</tspan>: a wrong coordinate clicks the wrong thing on the</text>
+  <text class="label muted s" x="24" y="322">real screen &#8212; it may delete a file or submit a form before you can react.</text>
+  <text class="label muted s" x="24" y="344">So always: <tspan class="amber" font-weight="700">PAUSE</tspan> between actions to keep it watchable, keep <tspan class="red" font-weight="700">FAILSAFE</tspan> on as an escape hatch, and</text>
+  <text class="label muted s" x="24" y="362">never assume the window is where you left it &#8212; anchor to what's on screen, not to hard-coded pixels.</text>
+  <text class="label muted s" x="24" y="384">Coordinates are absolute to the display, so a different resolution or a moved window breaks every hard-coded point.</text>
+</svg>

@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/discord-gateway-intents.svg" loading="lazy" alt="A Discord bot connects to the Discord gateway over a single long-lived WebSocket that stays open, so events are pushed in real time rather than polled with REST calls. You only receive the event types you subscribe to through Intents: GUILD_MESSAGES and the privileged MESSAGE_CONTENT are ON here, while GUILD_MEMBERS and PRESENCES are OFF. The classic gotcha: MESSAGE CONTENT is a privileged intent, so if it isn't enabled in both the developer portal and in code, the on_message handler still fires but message.content is empty, which looks like the bot ignoring every command. The fix is to enable it in both places and, following least privilege, request only the intents the bot needs."/>
+<figcaption>Discord pushes events over one <strong>persistent gateway WebSocket</strong> (so your bot must stay running), but you only hear the event types your <strong>Intents</strong> declare. The infamous trap: <code>MESSAGE_CONTENT</code> is a <em>privileged</em> intent — leave it off and <code>on_message</code> still fires while <code>message.content</code> arrives <strong>empty</strong>, so every command silently fails to match. Enable it in both the Developer Portal and your code, and request only the intents you actually use.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Ultimate Community Bot 🏆</h3>
 <p>You're building a comprehensive Discord bot for a gaming community that handles member verification, moderates content, manages roles and permissions, runs mini-games and tournaments, plays music in voice channels, tracks statistics, sends announcements, and integrates with external APIs. Your bot must handle thousands of concurrent users, respond instantly to commands, maintain persistent data, and provide a smooth user experience. Let's build a production-ready Discord bot framework!</p>
 <pre><code># First, install required packages:

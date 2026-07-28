@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/cross-platform-abstraction.svg" loading="lazy" alt="One OS-agnostic automation routed through a thin platform layer that dispatches on sys.platform to three lanes. On Windows the copy hotkey is Ctrl+C, scaling is usually 100 percent, no permission is needed, and the backend is the Win32 API. On macOS the hotkey is Cmd+C, a Retina display doubles coordinates, and the app must be granted Accessibility permission before any input works, using the Quartz backend. On Linux the hotkey is Ctrl+C, DPI varies by desktop, and X11 allows synthetic input while Wayland largely blocks it, using an Xlib or AT-SPI backend."/>
+<figcaption>&quot;Cross-platform&quot; is <strong>earned, not assumed</strong>: the same script fails elsewhere because the Cmd/Ctrl key flips, a Retina display doubles every coordinate, and macOS <strong>silently ignores</strong> all input until the app is granted Accessibility — no error, it just does nothing. Keep every OS difference in one thin <strong>platform layer</strong> that branches on <code>sys.platform</code>, and test on <strong>every</strong> target OS — you can't infer macOS behavior from a Windows run.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Universal Automation Framework 🚀</h3>
 <p>You're building a universal GUI automation framework that works identically across Windows, macOS, and Linux, handles different screen resolutions and DPI settings, adapts to various keyboard layouts and input methods, respects platform-specific security requirements, provides consistent API despite platform differences, supports both desktop and web applications, handles accessibility features properly, and maintains performance across different hardware. Your framework must detect capabilities dynamically, provide fallbacks for missing features, handle platform-specific edge cases, and deliver consistent results everywhere. Let's build a robust cross-platform automation framework!</p>
 <pre><code># First, install required packages:

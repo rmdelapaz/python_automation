@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="co-title co-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="co-title">From screenshot to text: template-match to find it, OCR to read it</title>
+  <desc id="co-desc">Reading the screen is a pipeline. First take a screenshot, the haystack. Then locateOnScreen searches that image for a small needle template and returns a bounding box, or None if it can't find one within the confidence threshold. Crop to that box, preprocess by converting to grayscale and thresholding to clean high-contrast pixels, then run OCR such as Tesseract to turn the pixels into a text string. The pipeline is brittle: template matching fails when scaling, DPI, theme, or antialiasing shift the pixels, which is why confidence is set below 1.0 rather than demanding an exact match; and OCR misreads low-contrast or fancy fonts, confusing zero with O and one with lowercase L, so it needs clean input and a sanity check on the result.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .cap{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.4}
+    .loc{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .pre{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.3}
+    .ocr{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.8;fill:none}
+    .needle{fill:none;stroke:#ef4444;stroke-width:1.6}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .cap{fill:#1e293b;stroke:#569cd6}.loc{fill:#3a2e0a;stroke:#fbbf24}.pre{fill:#26262a;stroke:#6b7280}
+      .ocr{fill:#064e3b;stroke:#34d399}.panel{fill:#26262a;stroke:#3f3f46}.edge{stroke:#9ca3af}.needle{stroke:#f87171}
+    }
+  </style>
+  <defs>
+    <marker id="co-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">The GUI shows pixels, not data &#8212; find the thing, then read the thing</text>
+
+  <!-- stage 1 capture -->
+  <rect class="cap" x="24" y="58" width="150" height="94" rx="7"/>
+  <text class="label blue s" x="34" y="76" font-weight="700">1. Screenshot</text>
+  <rect x="34" y="84" width="130" height="46" rx="3" fill="none" stroke="#94a3b8" stroke-width="1"/>
+  <rect class="needle" x="96" y="98" width="42" height="20" rx="2"/>
+  <text class="label mono muted" x="34" y="146" font-size="9">the haystack image</text>
+
+  <path class="edge" d="M174,105 L206,105" marker-end="url(#co-a)"/>
+
+  <!-- stage 2 locate -->
+  <rect class="loc" x="208" y="58" width="164" height="94" rx="7"/>
+  <text class="label amber s" x="218" y="76" font-weight="700">2. locateOnScreen</text>
+  <text class="label mono muted" x="218" y="93" font-size="9">needle.png,</text>
+  <text class="label mono muted" x="218" y="105" font-size="9">confidence=0.9</text>
+  <text class="label muted s" x="218" y="123" font-size="10">template match &#8594; box</text>
+  <text class="label red s" x="218" y="140" font-size="10">no match &#8594; returns None</text>
+
+  <path class="edge" d="M372,105 L404,105" marker-end="url(#co-a)"/>
+
+  <!-- stage 3 preprocess -->
+  <rect class="pre" x="406" y="58" width="140" height="94" rx="7"/>
+  <text class="label ink s" x="416" y="76" font-weight="700">3. Crop + clean</text>
+  <text class="label muted s" x="416" y="94" font-size="10">crop to the box</text>
+  <text class="label muted s" x="416" y="110" font-size="10">grayscale +</text>
+  <text class="label muted s" x="416" y="124" font-size="10">threshold to B&amp;W</text>
+  <text class="label muted s" x="416" y="144" font-size="9.5">high contrast helps OCR</text>
+
+  <path class="edge" d="M546,105 L578,105" marker-end="url(#co-a)"/>
+
+  <!-- stage 4 ocr -->
+  <rect class="ocr" x="580" y="58" width="116" height="94" rx="7"/>
+  <text class="label green s" x="590" y="76" font-weight="700">4. OCR</text>
+  <text class="label muted s" x="590" y="93" font-size="10">Tesseract /</text>
+  <text class="label muted s" x="590" y="107" font-size="10">EasyOCR</text>
+  <text class="label mono ink" x="590" y="128" font-size="10" font-weight="700">"Total: 42.50"</text>
+  <text class="label muted s" x="590" y="145" font-size="9.5">pixels &#8594; string</text>
+
+  <line class="frame" x1="24" y1="176" x2="696" y2="176" stroke="#cbd5e1"/>
+  <text class="label red ph" x="24" y="200">Why this pipeline is brittle</text>
+
+  <rect class="panel" x="24" y="212" width="332" height="92" rx="7"/>
+  <text class="label amber s" x="36" y="232" font-weight="700">Matching breaks on pixel changes</text>
+  <text class="label muted s" x="36" y="250">A resized window, a different DPI, a dark-mode</text>
+  <text class="label muted s" x="36" y="266">theme, or antialiasing all shift the pixels, so an</text>
+  <text class="label muted s" x="36" y="282">exact match fails. Lower <tspan class="mono ink">confidence</tspan> below 1.0 to</text>
+  <text class="label muted s" x="36" y="298">allow near-matches &#8212; but not so low it hits wrong spots.</text>
+
+  <rect class="panel" x="364" y="212" width="332" height="92" rx="7"/>
+  <text class="label amber s" x="376" y="232" font-weight="700">OCR guesses, so verify</text>
+  <text class="label muted s" x="376" y="250">Low contrast or fancy fonts make OCR misread:</text>
+  <text class="label muted s" x="376" y="266">0 vs O, 1 vs l, rn vs m. Feed it clean, high-contrast</text>
+  <text class="label muted s" x="376" y="282">input and <tspan class="ink" font-weight="700">sanity-check</tspan> the text (expected length,</text>
+  <text class="label muted s" x="376" y="298">a regex, a numeric range) before trusting it.</text>
+
+  <text class="label muted s" x="24" y="330">This is the escape hatch for apps with no API or accessible DOM &#8212; legacy desktop tools, remote screens, games.</text>
+  <text class="label muted s" x="24" y="352">Prefer a real API or an accessibility label when one exists; reach for capture-and-read only when nothing else exposes</text>
+  <text class="label muted s" x="24" y="374">the data. Treat every result as untrusted until a cheap check confirms it &#8212; the screen can lie in ways an API never would.</text>
+</svg>

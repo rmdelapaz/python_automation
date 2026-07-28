@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/input-events-no-api.svg" loading="lazy" alt="A real keyboard and mouse and a PyAutoGUI script both feed the very same operating-system input-event queue, which delivers events to whichever window has focus, so the app cannot tell a synthesized event from a human one. High-level calls decompose into low-level events: click() becomes mouseDown then mouseUp; typewrite('hi') becomes key down/up for h then i; hotkey('ctrl','c') presses ctrl and c down then releases them in reverse. These calls return nothing about success, so it is fire-and-forget. A note contrasts absolute moveTo(x,y) with relative move(dx,dy)."/>
+<figcaption>A GUI has <strong>no API</strong> — you drive it by injecting the same low-level events a human's keyboard and mouse produce, so the app can't tell you apart. But every call is really a burst of events (<code>click()</code> = mouseDown+mouseUp, <code>hotkey()</code> releases in reverse order) and it returns <strong>no value</strong>: there's no handshake, so verify each step by observing the screen, not by trusting the call. Prefer relative <code>move(dx, dy)</code> when a window might have shifted.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Advanced Input Automation System 🎯</h3>
 <p>You're building an advanced input automation system that performs complex gaming combos with frame-perfect timing, simulates realistic human typing with errors and corrections, creates stress tests with thousands of inputs per second, automates CAD software with precise mouse movements, handles multi-monitor setups with seamless transitions, records and replays user input patterns, creates accessibility tools for disabled users, and bypasses basic automation detection. Your system must support all input devices, work across different applications, maintain precise timing, and provide both low-level and high-level control. Let's build a professional input control framework!</p>
 <pre><code># First, install required packages:
