@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style W fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/api-test-assert.svg" loading="lazy" alt="The shape of an API test. Arrange builds the request (method, URL, headers, body). Act sends it and captures the response. Assert checks the response on four levels: the status code is what you expect (200 or 201); the JSON matches the schema with required fields present and typed; headers are correct such as Content-Type application json; and the response time is under a budget such as 300 milliseconds. A side panel reminds you to test error cases too — 400 on bad input, 401 when unauthenticated, 404 for a missing resource, 429 when rate-limited — because the contract includes how the API fails."/>
+<figcaption>An API test follows <strong>Arrange &#8594; Act &#8594; Assert</strong>, and the craft is in the assert step: because the response is structured data, you check it on four levels — <strong>status code, JSON shape, headers, and latency</strong> — not just "did it respond." A 200 with the wrong body still breaks the contract. And the happy path is only half the job: assert the <em>failure</em> modes too (400, 401, 404, 429), because how an API rejects bad input is part of its contract. Pair <code>pytest</code> + <code>requests</code> with <code>jsonschema</code> to validate shape.</figcaption>
+</figure>
 <h3>Real-World Scenario: The API Quality Platform 🏆</h3>
 <p>You're building a comprehensive API testing platform that validates multiple microservices - RESTful APIs, GraphQL endpoints, WebSocket connections, and gRPC services. Your platform must run thousands of tests, validate contracts, measure performance, check security, generate detailed reports, integrate with CI/CD pipelines, and provide real-time monitoring. Let's build a production-ready API testing framework!</p>
 <pre><code># First, install required packages:

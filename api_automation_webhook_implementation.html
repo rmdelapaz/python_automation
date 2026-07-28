@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/webhook-vs-polling.svg" loading="lazy" alt="Two models. With polling, your client repeatedly sends GET requests asking if anything is new; most replies say nothing yet, wasting calls and adding lag before it finally gets the event. With a webhook, when an event happens the provider sends a single HTTP POST to your endpoint carrying the payload and a signature header; your server verifies the signature by computing an HMAC of the raw body with the shared secret and comparing it to the header, responds 200 quickly, and processes the work asynchronously. A side panel: verify the HMAC signature, return 2xx fast, do real work in a background job, and make handling idempotent because providers retry."/>
+<figcaption>A webhook <strong>inverts polling</strong>: instead of your code asking "anything new?" over and over (wasteful and always a little stale), the provider <strong>pushes</strong> an HTTP POST to an endpoint you host the moment an event happens. Two rules make it safe and reliable. Because anyone could POST to that public URL, you must <strong>verify the HMAC signature</strong> against a shared secret to prove it's genuine. And you should <strong>return 2xx immediately</strong> and do the real work asynchronously — slow handlers cause timeouts and duplicate retries, so make processing idempotent.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Event Processing Hub 🎯</h3>
 <p>You're building a webhook processing system that handles events from multiple sources - payment notifications from Stripe, repository events from GitHub, messaging from Slack, and order updates from e-commerce platforms. Your system must validate signatures, handle retries, process events asynchronously, maintain delivery guarantees, scale to thousands of events per second, and provide detailed monitoring. Let's build a production-ready webhook framework!</p>
 <pre><code># First, install required packages:

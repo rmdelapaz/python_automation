@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="test-title test-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="test-title">An API test follows arrange, act, assert and checks the whole response, not just the body</title>
+  <desc id="test-desc">The shape of an API test. Arrange builds the request: method, URL, headers and body. Act sends it and captures the response. Assert then checks the response on four levels: the status code is what you expect such as 200 or 201; the JSON matches the schema with required fields present and correctly typed; headers are correct such as Content-Type application json; and the response time is under a budget such as 300 milliseconds. A side panel reminds you to test error cases too, not only the happy path: 400 on bad input, 401 when unauthenticated, and 404 for a missing resource, because the contract includes how the API fails.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .arrange{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .act{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.3}
+    .assert{fill:#ecfdf5;stroke:#10b981;stroke-width:1.5}
+    .check{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.1}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .panel{fill:#fef2f2;stroke:#ef4444;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .arrange{fill:#1e293b;stroke:#569cd6}.act{fill:#3a2e0a;stroke:#fbbf24}.assert{fill:#064e3b;stroke:#34d399}
+      .check{fill:#26262a;stroke:#6b7280}.edge{stroke:#9ca3af}.panel{fill:#3a1a1a;stroke:#f87171}
+    }
+  </style>
+  <defs>
+    <marker id="te-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">An API test asserts on the whole response &#8212; status, shape, headers, and speed</text>
+
+  <!-- Arrange -->
+  <rect class="arrange" x="24" y="48" width="200" height="86" rx="8"/>
+  <text class="label blue ph" x="38" y="68">1. Arrange</text>
+  <text class="label mono ink" x="38" y="88">url = ".../users/42"</text>
+  <text class="label mono ink" x="38" y="104">headers = {auth&#8230;}</text>
+  <text class="label mono muted" x="38" y="120">build the request</text>
+  <path class="edge" d="M224,91 L256,91" marker-end="url(#te-a)"/>
+
+  <!-- Act -->
+  <rect class="act" x="256" y="48" width="200" height="86" rx="8"/>
+  <text class="label amber ph" x="270" y="68">2. Act</text>
+  <text class="label mono ink" x="270" y="90">r = requests.get(</text>
+  <text class="label mono ink" x="282" y="106">url, headers=headers)</text>
+  <text class="label mono muted" x="270" y="122">send &#8594; capture response</text>
+  <path class="edge" d="M456,91 L488,91" marker-end="url(#te-a)"/>
+
+  <!-- Assert -->
+  <rect class="assert" x="488" y="48" width="208" height="86" rx="8"/>
+  <text class="label green ph" x="502" y="68">3. Assert</text>
+  <text class="label mono ink" x="502" y="90">check the response</text>
+  <text class="label mono muted" x="502" y="108">on four levels &#8595;</text>
+  <text class="label mono muted" x="502" y="124">(not just "it returned")</text>
+
+  <!-- four assert levels -->
+  <rect class="check" x="24" y="150" width="330" height="42" rx="6"/>
+  <text class="label ink t" x="38" y="168" font-weight="700">&#10003; Status code</text>
+  <text class="label mono muted" x="38" y="184">r.status_code == 200  (or 201 on create)</text>
+  <rect class="check" x="366" y="150" width="330" height="42" rx="6"/>
+  <text class="label ink t" x="380" y="168" font-weight="700">&#10003; JSON shape / schema</text>
+  <text class="label mono muted" x="380" y="184">required fields present &amp; correctly typed</text>
+  <rect class="check" x="24" y="198" width="330" height="42" rx="6"/>
+  <text class="label ink t" x="38" y="216" font-weight="700">&#10003; Headers</text>
+  <text class="label mono muted" x="38" y="232">Content-Type: application/json</text>
+  <rect class="check" x="366" y="198" width="330" height="42" rx="6"/>
+  <text class="label ink t" x="380" y="216" font-weight="700">&#10003; Response time</text>
+  <text class="label mono muted" x="380" y="232">r.elapsed &#60; 300 ms  (latency budget)</text>
+
+  <!-- error cases panel -->
+  <rect class="panel" x="24" y="252" width="672" height="58" rx="8"/>
+  <text class="label red ph" x="38" y="272">Also test how it fails &#8212; the happy path is only half the contract</text>
+  <text class="label mono ink" x="38" y="294">400 on bad input   &#183;   401 when unauthenticated   &#183;   404 for a missing resource   &#183;   429 when rate-limited</text>
+
+  <line class="frame" x1="24" y1="330" x2="696" y2="330" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="352">Unlike UI tests, API tests check structured data, so assert precisely: the status, the JSON's shape, key headers,</text>
+  <text class="label muted s" x="24" y="370">and latency. A 200 with the wrong body still fails the contract &#8212; "it responded" is not "it responded correctly".</text>
+  <text class="label muted s" x="24" y="392">Tools: pytest + requests for logic, jsonschema to validate shape, and schemathesis to fuzz against an OpenAPI spec.</text>
+</svg>

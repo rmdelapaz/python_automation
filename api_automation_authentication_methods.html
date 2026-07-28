@@ -120,6 +120,10 @@
         style E fill:#ff6b6b
         style S fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/api-auth-header.svg" loading="lazy" alt="Four API authentication schemes and the header each adds. An API key sends a custom header like X-API-Key (or a discouraged query parameter). Basic auth sends Authorization Basic followed by the base64 of username colon password — encoding, not encryption. A bearer token sends Authorization Bearer followed by a token or JWT. OAuth 2.0 is a two-step flow: POST to a token endpoint with client credentials to get an access token, then send it as Authorization Bearer on each call. A footer stresses always using HTTPS, never putting secrets in the URL, and refreshing tokens before they expire."/>
+<figcaption>The auth schemes look different but share one move: <strong>attach a credential to the request, usually the <code>Authorization</code> header</strong>. An API key is a header string; Basic auth is base64 of user:pass (encoding, <em>not</em> encryption); a Bearer token says "whoever holds this is authorized"; and OAuth 2.0 just adds a first step to <em>obtain</em> that token. The rules never change: always HTTPS, keep secrets out of the URL, load them from env vars, and refresh tokens before they expire.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Service Auth Manager 🌟</h3>
 <p>You're building an authentication management system that handles multiple APIs - social media with OAuth2, payment gateways with HMAC signing, enterprise systems with SAML, cloud services with JWT, and internal APIs with mTLS. Your system must securely store credentials, automatically refresh tokens, handle multi-factor authentication, rotate keys, and provide detailed audit logging. Let's build a comprehensive authentication framework!</p>
 <pre><code># First, install required packages:

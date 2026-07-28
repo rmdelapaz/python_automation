@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="rest-title rest-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="rest-title">REST maps HTTP verbs to CRUD on resource URLs, and status codes are the response contract</title>
+  <desc id="rest-desc">The anatomy of a REST call. A request line reads GET then the base URL api.example.com, then the path slash users slash 42, then a query string; headers carry Authorization and Accept, and POST or PUT requests add a JSON body. A table maps verbs to actions on a resource: GET slash users lists many, GET slash users slash 42 reads one, POST slash users creates and is not idempotent, PUT and PATCH slash users slash 42 replace or partially update, and DELETE slash users slash 42 removes. A second panel groups response status codes: 2xx success such as 200, 201 and 204; 3xx redirect; 4xx meaning your request is wrong such as 400, 401, 403, 404 and 429, which you should not blindly retry; and 5xx server errors such as 500, 502 and 503, which are safe to retry with backoff.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10.5px}
+    .monos{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .urlbox{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.2}
+    .verb{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.1}
+    .ok{fill:#ecfdf5;stroke:#10b981;stroke-width:1.2}
+    .warn{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.2}
+    .err{fill:#fef2f2;stroke:#ef4444;stroke-width:1.2}
+    .neu{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.1}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .urlbox{fill:#26262a;stroke:#6b7280}.verb{fill:#1e293b;stroke:#569cd6}
+      .ok{fill:#064e3b;stroke:#34d399}.warn{fill:#3a2e0a;stroke:#fbbf24}.err{fill:#3a1a1a;stroke:#f87171}.neu{fill:#26262a;stroke:#6b7280}
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">REST in one picture: a verb acts on a resource URL; the status code is the answer</text>
+
+  <!-- URL anatomy -->
+  <rect class="urlbox" x="24" y="44" width="672" height="52" rx="7"/>
+  <text class="label mono ink" x="38" y="66"><tspan class="blue" font-weight="700">GET</tspan>  https://api.example.com<tspan class="amber">/users/42</tspan><tspan class="green">?fields=name</tspan></text>
+  <text class="label monos muted" x="38" y="84">method &#183; <tspan class="ink">base URL</tspan> &#183; <tspan class="amber">path = collection/id</tspan> &#183; <tspan class="green">query</tspan> &#8226; headers carry Authorization + Accept; POST/PUT add a JSON body</text>
+
+  <!-- VERB TABLE -->
+  <text class="label muted ph" x="24" y="120">Verb &#8594; action on a resource</text>
+  <g>
+    <rect class="verb" x="24" y="128" width="332" height="26" rx="4"/><text class="label mono ink" x="34" y="145"><tspan class="blue" font-weight="700">GET</tspan> /users        &#8594; list many (read)</text>
+    <rect class="verb" x="24" y="158" width="332" height="26" rx="4"/><text class="label mono ink" x="34" y="175"><tspan class="blue" font-weight="700">GET</tspan> /users/42     &#8594; read one</text>
+    <rect class="verb" x="24" y="188" width="332" height="26" rx="4"/><text class="label mono ink" x="34" y="205"><tspan class="green" font-weight="700">POST</tspan> /users       &#8594; create  (not idempotent)</text>
+    <rect class="verb" x="24" y="218" width="332" height="26" rx="4"/><text class="label mono ink" x="34" y="235"><tspan class="amber" font-weight="700">PUT/PATCH</tspan> /users/42 &#8594; replace / update</text>
+    <rect class="verb" x="24" y="248" width="332" height="26" rx="4"/><text class="label mono ink" x="34" y="265"><tspan class="red" font-weight="700">DELETE</tspan> /users/42   &#8594; remove</text>
+  </g>
+  <text class="label muted s" x="24" y="292">GET, PUT, DELETE are idempotent (repeatable); POST is not.</text>
+
+  <!-- STATUS FAMILIES -->
+  <text class="label muted ph" x="380" y="120">Response status = the contract</text>
+  <rect class="ok" x="380" y="128" width="316" height="34" rx="5"/>
+  <text class="label mono ink" x="392" y="143" font-weight="700">2xx success</text>
+  <text class="label monos muted" x="392" y="157">200 OK &#183; 201 Created &#183; 204 No Content</text>
+  <rect class="neu" x="380" y="166" width="316" height="30" rx="5"/>
+  <text class="label mono ink" x="392" y="181" font-weight="700">3xx redirect</text>
+  <text class="label monos muted" x="486" y="185">301 Moved &#183; 304 Not Modified</text>
+  <rect class="warn" x="380" y="200" width="316" height="44" rx="5"/>
+  <text class="label mono ink" x="392" y="216" font-weight="700">4xx &#8212; your request is wrong</text>
+  <text class="label monos muted" x="392" y="232">400 bad &#183; 401 auth &#183; 403 forbidden &#183; 404 &#183; 429 rate</text>
+  <text class="label amber s" x="392" y="242" font-size="9">don't blindly retry &#8212; fix the request</text>
+  <rect class="err" x="380" y="248" width="316" height="44" rx="5"/>
+  <text class="label mono ink" x="392" y="264" font-weight="700">5xx &#8212; server error</text>
+  <text class="label monos muted" x="392" y="280">500 &#183; 502 &#183; 503 service unavailable</text>
+  <text class="label red s" x="392" y="290" font-size="9">safe to retry with exponential backoff</text>
+
+  <line class="frame" x1="24" y1="316" x2="696" y2="316" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="338">Once you see REST as "verb + resource URL &#8594; status + JSON", the whole API is predictable: the same five verbs,</text>
+  <text class="label muted s" x="24" y="356">the same status families, everywhere. Always branch on response.status_code before trusting the body.</text>
+  <text class="label muted s" x="24" y="382">requests makes it one line &#8212; r = requests.get(url, headers=..., params=...); r.raise_for_status(); data = r.json().</text>
+</svg>

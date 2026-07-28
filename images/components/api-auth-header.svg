@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="auth-title auth-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="auth-title">API authentication is mostly the right credential in a request header</title>
+  <desc id="auth-desc">Four common API authentication schemes and the header each adds to a request. An API key sends a custom header like X-API-Key with the key, or sometimes a query parameter, which is discouraged. Basic auth sends Authorization Basic followed by the base64 of username colon password, which is encoding, not encryption. A bearer token sends Authorization Bearer followed by a token or JWT. OAuth 2.0 is a two-step flow: first POST to a token endpoint with client credentials to receive an access token, then send that token as Authorization Bearer on each call. A footer stresses always using HTTPS, never putting secrets in the URL, and refreshing tokens before they expire.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10.5px}
+    .monos{font-family:'Consolas','SF Mono',monospace;font-size:9.5px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .scheme{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.2}
+    .hdr{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .oauth{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .step{fill:#ecfdf5;stroke:#10b981;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.6;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .scheme{fill:#26262a;stroke:#6b7280}.hdr{fill:#1e293b;stroke:#569cd6}
+      .oauth{fill:#3a2e0a;stroke:#fbbf24}.step{fill:#064e3b;stroke:#34d399}.edge{stroke:#9ca3af}
+    }
+  </style>
+  <defs>
+    <marker id="au-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Different schemes, one idea: attach the right credential to the request header</text>
+
+  <!-- API KEY -->
+  <rect class="scheme" x="24" y="46" width="150" height="52" rx="7"/>
+  <text class="label ink t" x="36" y="66" font-weight="700">API key</text>
+  <text class="label muted s" x="36" y="84">a secret string</text>
+  <path class="edge" d="M174,72 L206,72" marker-end="url(#au-a)"/>
+  <rect class="hdr" x="206" y="50" width="490" height="44" rx="6"/>
+  <text class="label mono ink" x="218" y="70">X-API-Key: 9f2a&#8230;   (custom header)</text>
+  <text class="label monos amber" x="218" y="86">or ?api_key=&#8230; in the URL &#8212; discouraged, it leaks into logs</text>
+
+  <!-- BASIC -->
+  <rect class="scheme" x="24" y="104" width="150" height="52" rx="7"/>
+  <text class="label ink t" x="36" y="124" font-weight="700">Basic auth</text>
+  <text class="label muted s" x="36" y="142">user + password</text>
+  <path class="edge" d="M174,130 L206,130" marker-end="url(#au-a)"/>
+  <rect class="hdr" x="206" y="108" width="490" height="44" rx="6"/>
+  <text class="label mono ink" x="218" y="128">Authorization: Basic base64("user:pass")</text>
+  <text class="label monos red" x="218" y="144">base64 is ENCODING, not encryption &#8212; only safe over HTTPS</text>
+
+  <!-- BEARER -->
+  <rect class="scheme" x="24" y="162" width="150" height="52" rx="7"/>
+  <text class="label ink t" x="36" y="182" font-weight="700">Bearer token</text>
+  <text class="label muted s" x="36" y="200">token / JWT</text>
+  <path class="edge" d="M174,188 L206,188" marker-end="url(#au-a)"/>
+  <rect class="hdr" x="206" y="166" width="490" height="44" rx="6"/>
+  <text class="label mono ink" x="218" y="186">Authorization: Bearer eyJhbGciOi&#8230;</text>
+  <text class="label monos muted" x="218" y="202">"whoever holds this token is authorized" &#8212; so keep it secret; it expires</text>
+
+  <!-- OAUTH2 -->
+  <rect class="oauth" x="24" y="222" width="672" height="86" rx="8"/>
+  <text class="label amber ph" x="38" y="242">OAuth 2.0 &#8212; get a token first, then use it as a Bearer</text>
+  <rect class="step" x="38" y="252" width="300" height="44" rx="6"/>
+  <text class="label mono ink" x="50" y="270">1. POST /oauth/token</text>
+  <text class="label monos muted" x="50" y="286">client_id + client_secret &#8594; access_token</text>
+  <path class="edge" d="M340,274 L372,274" marker-end="url(#au-a)"/>
+  <rect class="step" x="374" y="252" width="308" height="44" rx="6"/>
+  <text class="label mono ink" x="386" y="270">2. GET /data</text>
+  <text class="label monos muted" x="386" y="286">Authorization: Bearer &#60;access_token&#62;  &#183; refresh when it expires</text>
+
+  <line class="frame" x1="24" y1="330" x2="696" y2="330" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="352">Almost every scheme boils down to one move: put a credential in a header (usually Authorization). Rules that never</text>
+  <text class="label muted s" x="24" y="370">change: always HTTPS, never place secrets in the URL/query, load keys from env vars, and refresh tokens before</text>
+  <text class="label muted s" x="24" y="388">they expire. In requests, pass headers={"Authorization": f"Bearer {token}"} &#8212; or use an auth= helper.</text>
+</svg>

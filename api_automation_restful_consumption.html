@@ -122,6 +122,10 @@
         style D fill:#ffd43b
         style W fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/rest-verbs-status.svg" loading="lazy" alt="The anatomy of a REST call. A request line reads GET, the base URL api.example.com, the path slash users slash 42, then a query string; headers carry Authorization and Accept, and POST or PUT add a JSON body. A table maps verbs to actions: GET slash users lists many, GET slash users slash 42 reads one, POST slash users creates (not idempotent), PUT and PATCH slash users slash 42 replace or update, DELETE slash users slash 42 removes. A panel groups status codes: 2xx success (200, 201, 204), 3xx redirect, 4xx meaning your request is wrong (400, 401, 403, 404, 429) which you should not blindly retry, and 5xx server errors (500, 502, 503) which are safe to retry with backoff."/>
+<figcaption>Every REST API is the same shape once you see it: a <strong>verb acts on a resource URL</strong>, and the <strong>status code</strong> tells you what happened. The five verbs map to CRUD (GET reads, POST creates, PUT/PATCH update, DELETE removes), and the status <em>family</em> is the contract — 2xx worked, 4xx means fix your request (don't just retry), 5xx means retry later with backoff. Learn this once and every new API is predictable; always branch on <code>status_code</code> before trusting the body.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Universal API Client 🚀</h3>
 <p>You're building a comprehensive API client that can integrate with multiple services - social media APIs for content posting, payment gateways for transactions, weather services for data, and internal microservices for business logic. Your client must handle authentication, rate limiting, retries, pagination, file uploads, webhooks, and provide detailed logging and monitoring. Let's build a production-ready API consumption framework!</p>
 <pre><code># First, install required packages:
