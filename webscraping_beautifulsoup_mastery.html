@@ -121,6 +121,10 @@
         style F fill:#ff6b6b
         style G fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/beautifulsoup-navigate-vs-search.svg" loading="lazy" alt="A raw HTML string of a body with a ul, two li items and an h2 passes through BeautifulSoup with the html.parser and becomes a parse tree: a soup root, a body, a ul with two li children, and an h2. Two panels below contrast reaching nodes by navigation — parent, children, contents and next_sibling, which hop one step relative to a node you already hold — versus search — find_all, select and find by id, which query the whole tree at once and return every match at any depth."/>
+<figcaption>BeautifulSoup does one job up front: it turns a flat HTML string into a tree of nodes. After that, every method is just a way of moving through that tree — <em>navigate</em> when you already hold a node and want a neighbour (<code>.parent</code>, <code>.next_sibling</code>), or <em>search</em> when you want all elements of a kind wherever they live (<code>find_all</code>, <code>select</code>). Knowing which mode fits the question is what keeps scraping code short and resilient to messy markup.</figcaption>
+</figure>
 <h3>Real-World Scenario: The News Aggregator 📰</h3>
 <p>You're building a news aggregation system that collects articles from dozens of news websites. Each site has different HTML structures, encoding issues, broken tags, and dynamic content. You need to extract headlines, articles, authors, dates, images, and metadata while handling all the quirks of real-world HTML. Let's master BeautifulSoup to handle it all!</p>
 <pre><code>from bs4 import BeautifulSoup, NavigableString, Tag, Comment

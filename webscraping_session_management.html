@@ -117,6 +117,10 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/session-cookie-jar.svg" loading="lazy" alt="A comparison over three calls. With bare requests.get and requests.post, each call is an independent connection: the login response sets a cookie but it is discarded, so the following data and profile calls arrive with no cookie and are answered 401 Unauthorized. With a single requests.Session object holding one cookie jar, the login stores the authenticated session cookie in the jar and the later data and profile calls automatically re-attach it, so both return 200 OK."/>
+<figcaption>HTTP is stateless: on its own, each <code>requests.get()</code> is a stranger to the last. A <code>requests.Session()</code> fixes that by keeping one <strong>cookie jar</strong> that is automatically attached to every call it makes, so a single login carries through to all later requests — three calls become one authenticated session. That shared jar (plus reused connections and headers) is why any workflow with a login should be built on a Session, not bare requests.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Platform Orchestrator 🌐</h3>
 <p>You're building an automation platform that manages accounts across dozens of services - social media, e-commerce, banking, and enterprise systems. Each has different session requirements, timeout policies, security measures, and state management needs. You need to handle OAuth flows, maintain multiple concurrent sessions, recover from failures, and ensure security. Let's build a robust session management system!</p>
 <pre><code>import requests

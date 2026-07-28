@@ -120,6 +120,10 @@
         style C fill:#339af0
         style D fill:#ffd43b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/forms-csrf-cookies.svg" loading="lazy" alt="A sequence diagram of a form login between a client and a server. The client sends GET login; the server returns the login form containing a hidden CSRF token and sets a session cookie. The client POSTs username and password with the same CSRF token echoed back and the session cookie attached. The server validates both, replies with a 302 redirect and sets an authenticated session cookie. The client then requests a protected page carrying the authenticated cookie and is granted access."/>
+<figcaption>A form login is a handshake, not a single request. The server hands you a <strong>hidden CSRF token</strong> inside the form and a <strong>cookie</strong> in the headers; your POST has to send both back — the token proves the request came from the page you were served, and the cookie carries who-you-are across otherwise stateless HTTP. Miss either one and the login fails silently, which is why real scrapers scrape the token out of the form before posting.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Site Authenticator 🔑</h3>
 <p>You're building an automation system that needs to login to multiple websites, submit forms, handle two-factor authentication, maintain sessions across requests, and deal with complex anti-bot measures. Each site has different form structures, CSRF protection, captchas, and cookie policies. Let's build a robust system that handles it all!</p>
 <pre><code>import requests

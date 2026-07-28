@@ -122,6 +122,10 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/robots-politeness-flow.svg" loading="lazy" alt="A decision flow for a polite crawler. From a target URL, the crawler fetches and parses robots.txt once and caches it, reading Allow, Disallow and Crawl-delay for its own User-Agent. It then asks whether the path is allowed: if no, it skips the URL and never requests it; if yes, it waits the Crawl-delay, fetches the page, then pauses before the next URL and repeats. A side panel lists politeness rules — send a real User-Agent with a contact, never fetch a Disallow path, honor Crawl-delay, rate-limit even where allowed, cache robots.txt and re-check later, back off on 429 or 503, and prefer an official API."/>
+<figcaption>Ethical scraping is a decision flow, not an afterthought: check <code>robots.txt</code> for your User-Agent <em>before</em> requesting, skip anything disallowed, and when allowed, throttle to the site's <code>Crawl-delay</code> and pace yourself. robots.txt is a request rather than a lock — but honoring it, identifying yourself, and going slow are exactly what keep your scraper welcome and your IP unbanned, and the site's Terms of Service (and sometimes the law) can forbid data that robots.txt appears to permit.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Ethical Data Platform 🌟</h3>
 <p>You're building a data aggregation platform that collects information from hundreds of websites. You need to respect each site's scraping policies, handle rate limits gracefully, protect user privacy, comply with regulations, and maintain good relationships with website owners. Let's build a comprehensive ethical scraping framework!</p>
 <pre><code>import requests

@@ -124,6 +124,10 @@
         style G fill:#ff6b6b
         style H fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/css-selectors-match.svg" loading="lazy" alt="A small DOM tree with five numbered nodes — a div with id shop, a ul with class list, two li elements with class item (one also class sale) each holding an anchor with an href, and a p with class note. Beside it, five selectors show which nodes each matches: the class selector .item matches both li elements, the id selector #shop matches the single div, the child combinator ul > li matches the two direct li children, the descendant combinator #shop a matches both nested anchors, and the compound selector li.item.sale matches only the li that carries both classes."/>
+<figcaption>Every selector is really a question about the tree: which nodes satisfy this pattern? A class can match many elements while an id should match exactly one, and the combinator you choose — <code>&gt;</code> for direct child versus a space for any depth — changes the answer entirely. When two rules target the same node, the more specific selector wins; that is CSS specificity, and it is why picky selectors survive messy real-world HTML.</figcaption>
+</figure>
 <h3>Real-World Scenario: The E-Commerce Data Extractor 🛒</h3>
 <p>You're building a price monitoring system that tracks products across multiple e-commerce sites. Each site has different HTML structures, dynamic content, nested elements, and tricky layouts. You need to extract product names, prices, ratings, reviews, and availability from chaotic HTML. Let's master every selector technique to handle any website!</p>
 <pre><code>from bs4 import BeautifulSoup

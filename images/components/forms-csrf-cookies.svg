@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" role="img" aria-labelledby="fc-title fc-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="fc-title">A form login handshake carrying a hidden CSRF token and cookies</title>
+  <desc id="fc-desc">A sequence diagram between a client and a server. First the client sends GET login. The server replies with the login form, which includes a hidden CSRF token, and sets a session cookie. The client then POSTs the form with username, password and the same CSRF token echoed back, along with the session cookie. The server validates both, replies with a redirect and sets an authenticated session cookie. Finally the client requests a protected page carrying the authenticated cookie and is granted access. The hidden token proves the request came from the served form, and the cookie carries identity across otherwise stateless HTTP.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10.5px}
+    .blue{fill:#3b82f6}.bluestroke{stroke:#3b82f6}
+    .green{fill:#10b981}.greenstroke{stroke:#10b981}
+    .amber{fill:#f59e0b}.amberstroke{stroke:#f59e0b}
+    .lane{fill:#f1f5f9;stroke:#94a3b8;stroke-width:1.4}
+    .life{stroke:#cbd5e1;stroke-width:1.4;stroke-dasharray:4 4}
+    .req{stroke:#64748b;stroke-width:1.8;fill:none}
+    .csrf{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.2}
+    .cook{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.2}
+    .authchip{fill:#ecfdf5;stroke:#10b981;stroke-width:1.2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.bluestroke{stroke:#569cd6}.green{fill:#34d399}.greenstroke{stroke:#34d399}.amber{fill:#fbbf24}.amberstroke{stroke:#fbbf24}
+      .lane{fill:#26262a;stroke:#6b7280}.life{stroke:#3f3f46}.req{stroke:#9ca3af}
+      .csrf{fill:#3a2e0a;stroke:#fbbf24}.cook{fill:#1e293b;stroke:#569cd6}.authchip{fill:#064e3b;stroke:#34d399}
+    }
+  </style>
+  <defs>
+    <marker id="fc-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="440"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="438.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Logging in over stateless HTTP: a hidden token proves origin, a cookie carries identity</text>
+
+  <!-- lanes -->
+  <rect class="lane" x="70" y="46" width="150" height="30" rx="6"/><text class="label ink ph" x="90" y="66">Client (requests)</text>
+  <rect class="lane" x="500" y="46" width="150" height="30" rx="6"/><text class="label ink ph" x="548" y="66">Server</text>
+  <line class="life" x1="145" y1="78" x2="145" y2="380"/>
+  <line class="life" x1="575" y1="78" x2="575" y2="380"/>
+
+  <!-- 1 GET /login -->
+  <text class="label mono muted" x="150" y="98">1 &#8212; GET /login</text>
+  <path class="req" d="M145,104 L575,104" marker-end="url(#fc-a)"/>
+
+  <!-- 2 form + set-cookie -->
+  <text class="label mono muted" x="290" y="128" text-anchor="middle">2 &#8212; 200 OK &#183; login form</text>
+  <path class="req" d="M575,134 L145,134" marker-end="url(#fc-a)"/>
+  <rect class="csrf" x="196" y="142" width="176" height="22" rx="4"/><text class="label mono amber" x="206" y="157">hidden csrf_token = Ab9</text>
+  <rect class="cook" x="384" y="142" width="192" height="22" rx="4"/><text class="label mono blue" x="394" y="157">Set-Cookie: sid=7f&#8230;</text>
+
+  <!-- 3 POST /login -->
+  <text class="label mono muted" x="150" y="200">3 &#8212; POST /login &#183; username + password</text>
+  <path class="req" d="M145,206 L575,206" marker-end="url(#fc-a)"/>
+  <rect class="csrf" x="196" y="214" width="188" height="22" rx="4"/><text class="label mono amber" x="206" y="229">csrf_token = Ab9  (echoed back)</text>
+  <rect class="cook" x="396" y="214" width="180" height="22" rx="4"/><text class="label mono blue" x="406" y="229">Cookie: sid=7f&#8230; (sent)</text>
+
+  <!-- 4 redirect + auth cookie -->
+  <text class="label mono muted" x="360" y="272" text-anchor="middle">4 &#8212; token + credentials valid &#8594; 302 redirect</text>
+  <path class="req" d="M575,278 L145,278" marker-end="url(#fc-a)"/>
+  <rect class="authchip" x="330" y="286" width="246" height="22" rx="4"/><text class="label mono green" x="340" y="301">Set-Cookie: sid=AUTH (now logged in)</text>
+
+  <!-- 5 protected page -->
+  <text class="label mono muted" x="150" y="336">5 &#8212; GET /account</text>
+  <path class="req" d="M145,342 L575,342" marker-end="url(#fc-a)"/>
+  <rect class="authchip" x="250" y="350" width="200" height="22" rx="4"/><text class="label mono green" x="260" y="365">Cookie: sid=AUTH &#8594; 200 granted</text>
+
+  <line class="frame" x1="24" y1="392" x2="696" y2="392" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="412">The hidden CSRF token must be scraped from the served form and echoed back &#8212; it proves the POST came from</text>
+  <text class="label muted s" x="24" y="428">that page. The cookie carries who-you-are between requests. Drop either one and the login silently fails.</text>
+</svg>
