@@ -120,6 +120,10 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/js-rendered-vs-api.svg" loading="lazy" alt="Fetching a modern page two ways. With requests or urllib you get the initial HTML, often just a shell — an empty app div plus a script tag — so the product data isn't there and BeautifulSoup finds nothing. With a real headless browser, the page's JavaScript runs, fetches data via an XHR to an API like /api/products, and builds the full DOM, so after an explicit wait the data is present and scrapable. The shortcut: that XHR usually returns clean JSON, so you can open DevTools Network, find the /api/products request, and call it directly with requests, skipping the browser for a much faster scrape. Render only when you can't find the underlying API."/>
+<figcaption>Advanced scraping starts with one question: <strong>is this content in the HTML, or built by JavaScript?</strong> Plain <code>requests</code> only sees the initial source — for a JS app that's an empty shell, which is why &#8220;the HTML looks empty.&#8221; A headless browser renders it, but the faster, sturdier path is usually to <strong>call the hidden JSON API</strong> the page's own JavaScript hits (find it in DevTools &#8594; Network). Drive a real browser only when the data truly exists only after rendering.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Social Media Analytics Platform 📊</h3>
 <p>You're building an analytics platform that monitors social media sites, streaming platforms, and modern web apps. These sites load content dynamically, require login, use infinite scrolling, show content based on user interactions, and protect against bots. Selenium will be your key to unlocking all this dynamic content!</p>
 <pre><code># First, install Selenium and drivers:

@@ -120,6 +120,10 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/proxy-pool-health.svg" loading="lazy" alt="Proxy rotation is a pool plus a feedback loop. The pool holds many proxies, each with a health state: good, slow, or blacklisted. A rotation strategy picks the next healthy proxy for each request, sent through it to the target site. The outcome updates that proxy's health: a 200 counts as success and keeps it in play, while a timeout or a 403 block marks it bad and quarantines it, and the request retries through a different proxy. Proxy types differ: datacenter proxies are cheap and fast but easily flagged, while residential proxies are costlier but look like real users and support sticky sessions. Rotation distributes legitimate load and enables geo-testing, but you must still respect each site's rate limit and terms; rotating IPs to evade a ban you earned or to exceed politeness is abuse."/>
+<figcaption>Rotation is a <strong>pool plus a health-feedback loop</strong>: pick the next healthy proxy, send the request, and let the outcome update its state — a <code>200</code> keeps it, a <code>403</code> or timeout <strong>quarantines</strong> it and the request retries elsewhere. Types trade off cost vs trust: <strong>datacenter</strong> (cheap, easily flagged) vs <strong>residential</strong> (costlier, looks human, sticky sessions). It's for distributing load and geo-testing — <strong>not</strong> a license to evade: still honor each site's rate limits and terms.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Global Price Monitor 🌍</h3>
 <p>You're building a price monitoring system that tracks products across multiple e-commerce sites in different countries. You need to handle IP bans, rate limits, geo-blocking, and anti-bot measures. Your system must make thousands of requests per minute while appearing as legitimate users from various locations. Proxy rotation is your key to achieving this scale!</p>
 <pre><code># First, install required packages:

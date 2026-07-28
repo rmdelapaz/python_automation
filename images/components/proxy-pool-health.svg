@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="pp-title pp-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="pp-title">A proxy pool with a health-feedback loop: pick a healthy proxy, watch the result, quarantine the bad</title>
+  <desc id="pp-desc">Proxy rotation is a pool plus a feedback loop. The pool holds many proxies, each with a health state: good, slow, or blacklisted. A rotation strategy picks the next healthy proxy for each request, which is sent through it to the target site. The outcome updates that proxy's health: a 200 counts as success and keeps it in play, while a timeout or a 403 block marks it bad and quarantines it, and the request retries through a different proxy. Proxy types differ: datacenter proxies are cheap and fast but easily flagged, while residential proxies are costlier but look like real users and support sticky sessions for staying logged in. The footer stresses that rotation distributes legitimate load and enables geo-testing, but you must still respect each site's rate limit and terms; rotating IPs to evade a ban you earned or to exceed politeness is abuse.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .pool{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.4}
+    .good{fill:#ecfdf5;stroke:#10b981;stroke-width:1.2}
+    .slow{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.2}
+    .bad{fill:#fef2f2;stroke:#ef4444;stroke-width:1.2}
+    .pick{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}
+    .site{fill:#f1f5f9;stroke:#64748b;stroke-width:1.4}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .fb{stroke:#10b981;stroke-width:1.6;fill:none;stroke-dasharray:5 3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .pool{fill:#26262a;stroke:#6b7280}.good{fill:#064e3b;stroke:#34d399}.slow{fill:#3a2e0a;stroke:#fbbf24}
+      .bad{fill:#3a1a1a;stroke:#f87171}.pick{fill:#1e293b;stroke:#569cd6}.site{fill:#26262a;stroke:#9ca3af}
+      .panel{fill:#26262a;stroke:#3f3f46}.edge{stroke:#9ca3af}.fb{stroke:#34d399}
+    }
+  </style>
+  <defs>
+    <marker id="pp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="pp-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#10b981"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Rotation is a pool plus a feedback loop &#8212; pick healthy, watch the result</text>
+
+  <!-- pool -->
+  <text class="label muted ph" x="24" y="54">Proxy pool (each has a health state)</text>
+  <rect class="pool" x="24" y="62" width="212" height="150" rx="8"/>
+  <rect class="good" x="36" y="74" width="188" height="26" rx="4"/>
+  <text class="label mono ink" x="46" y="91" font-size="9.5">45.12.x  &#8226; good</text>
+  <text class="label green s" x="196" y="91" font-size="10" font-weight="700">&#10003;</text>
+  <rect class="slow" x="36" y="104" width="188" height="26" rx="4"/>
+  <text class="label mono ink" x="46" y="121" font-size="9.5">88.30.x  &#8226; slow</text>
+  <text class="label amber s" x="196" y="121" font-size="10" font-weight="700">&#8987;</text>
+  <rect class="bad" x="36" y="134" width="188" height="26" rx="4"/>
+  <text class="label mono ink" x="46" y="151" font-size="9.5">12.77.x  &#8226; blocked (403)</text>
+  <text class="label red s" x="196" y="151" font-size="10" font-weight="700">&#10007;</text>
+  <rect class="good" x="36" y="164" width="188" height="26" rx="4"/>
+  <text class="label mono ink" x="46" y="181" font-size="9.5">77.09.x  &#8226; good</text>
+  <text class="label green s" x="196" y="181" font-size="10" font-weight="700">&#10003;</text>
+  <text class="label muted s" x="36" y="205" font-size="9">blocked one is quarantined, retried later</text>
+
+  <!-- picker -->
+  <path class="edge" d="M236,120 L268,120" marker-end="url(#pp-a)"/>
+  <rect class="pick" x="270" y="98" width="140" height="46" rx="8"/>
+  <text class="label blue s" x="340" y="117" text-anchor="middle" font-weight="700">Rotation strategy</text>
+  <text class="label muted s" x="340" y="132" text-anchor="middle" font-size="9.5">pick next healthy proxy</text>
+
+  <!-- request to site -->
+  <path class="edge" d="M410,120 L470,120" marker-end="url(#pp-a)"/>
+  <text class="label muted s" x="440" y="113" text-anchor="middle" font-size="9">request</text>
+  <rect class="site" x="472" y="98" width="140" height="46" rx="8"/>
+  <text class="label ink s" x="542" y="117" text-anchor="middle" font-weight="700">Target site</text>
+  <text class="label muted s" x="542" y="132" text-anchor="middle" font-size="9.5">responds 200 / 403 / timeout</text>
+
+  <!-- feedback loop back to pool -->
+  <path class="fb" d="M542,144 C542,186 300,196 130,196 L130,190" marker-end="url(#pp-g)"/>
+  <text class="label green s" x="340" y="190" text-anchor="middle" font-size="9.5" font-weight="700">outcome updates health: 200 &#8594; keep &#183; 403 / timeout &#8594; quarantine</text>
+
+  <!-- types panel -->
+  <text class="label muted ph" x="24" y="234">Proxy types &#8212; a cost / trust trade-off</text>
+  <rect class="panel" x="24" y="242" width="330" height="52" rx="7"/>
+  <text class="label ink s" x="36" y="260" font-weight="700">Datacenter</text>
+  <text class="label muted s" x="36" y="277" font-size="10">cheap, fast &#8212; but easily flagged as</text>
+  <text class="label muted s" x="36" y="289" font-size="10">non-human by anti-bot systems</text>
+  <rect class="panel" x="366" y="242" width="330" height="52" rx="7"/>
+  <text class="label ink s" x="378" y="260" font-weight="700">Residential</text>
+  <text class="label muted s" x="378" y="277" font-size="10">costlier, looks like a real user;</text>
+  <text class="label muted s" x="378" y="289" font-size="10">sticky sessions keep you logged in</text>
+
+  <line class="frame" x1="24" y1="312" x2="696" y2="312" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="330">Rotation buys two legitimate things: it <tspan class="ink" font-weight="700">distributes load</tspan> so no single IP is overused, and it lets you <tspan class="ink" font-weight="700">geo-test</tspan></text>
+  <text class="label muted s" x="24" y="348">(see prices or content as users in other regions do). The health loop keeps the pool clean by retiring dead proxies.</text>
+  <text class="label muted s" x="24" y="366">But rotation is not a license to evade: still honor each site's <tspan class="ink" font-weight="700">rate limits and terms</tspan>. Spreading requests across</text>
+  <text class="label muted s" x="24" y="384">many IPs to bypass a ban you earned &#8212; or to hammer past politeness &#8212; is abuse, not cleverness.</text>
+</svg>

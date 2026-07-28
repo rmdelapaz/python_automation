@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="se-title se-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="se-title">Scrapy's engine runs an asynchronous loop: requests in, items and more requests out</title>
+  <desc id="se-desc">Scrapy is built around an async engine that shuttles messages between components without blocking. A spider's start_requests seeds Request objects. The Scheduler queues them and a dedup filter drops URLs already seen. The Downloader fetches many requests concurrently, with middlewares that attach a user-agent, proxy, cookies, and retry logic. Each Response goes to the spider's parse method, which yields two kinds of output: Items, which flow into the Item Pipeline to be validated, cleaned, and stored, and new Requests to follow links, which loop back to the Scheduler. The engine underneath keeps dozens of requests in flight at once, which is why Scrapy is far faster than a naive sequential loop of requests.get calls, and it dedups and offers hook points for free.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .spider{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.4}
+    .sched{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .down{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.4}
+    .pipe{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .engine{fill:#eef2ff;stroke:#6366f1;stroke-width:1.5}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    .loop{stroke:#3b82f6;stroke-width:1.7;fill:none;stroke-dasharray:5 3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .spider{fill:#1e293b;stroke:#569cd6}.sched{fill:#3a2e0a;stroke:#fbbf24}.down{fill:#26262a;stroke:#6b7280}
+      .pipe{fill:#064e3b;stroke:#34d399}.engine{fill:#1e1b4b;stroke:#818cf8}.panel{fill:#26262a;stroke:#3f3f46}
+      .edge{stroke:#9ca3af}.loop{stroke:#569cd6}
+    }
+  </style>
+  <defs>
+    <marker id="se-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="se-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Scrapy is an async loop &#8212; requests go in, Items and more requests come out</text>
+
+  <!-- four components across -->
+  <rect class="spider" x="24" y="58" width="150" height="66" rx="8"/>
+  <text class="label blue s" x="99" y="80" text-anchor="middle" font-weight="700">Spider</text>
+  <text class="label muted s" x="99" y="97" text-anchor="middle" font-size="9.5">start_requests</text>
+  <text class="label muted s" x="99" y="110" text-anchor="middle" font-size="9.5">+ parse(response)</text>
+
+  <rect class="sched" x="204" y="58" width="150" height="66" rx="8"/>
+  <text class="label amber s" x="279" y="80" text-anchor="middle" font-weight="700">Scheduler</text>
+  <text class="label muted s" x="279" y="97" text-anchor="middle" font-size="9.5">request queue</text>
+  <text class="label muted s" x="279" y="110" text-anchor="middle" font-size="9.5">+ dedup filter</text>
+
+  <rect class="down" x="384" y="58" width="150" height="66" rx="8"/>
+  <text class="label ink s" x="459" y="80" text-anchor="middle" font-weight="700">Downloader</text>
+  <text class="label muted s" x="459" y="97" text-anchor="middle" font-size="9.5">N concurrent +</text>
+  <text class="label muted s" x="459" y="110" text-anchor="middle" font-size="9.5">middlewares</text>
+
+  <rect class="pipe" x="564" y="58" width="132" height="66" rx="8"/>
+  <text class="label green s" x="630" y="80" text-anchor="middle" font-weight="700">Item Pipeline</text>
+  <text class="label muted s" x="630" y="97" text-anchor="middle" font-size="9.5">validate &#183; clean</text>
+  <text class="label muted s" x="630" y="110" text-anchor="middle" font-size="9.5">&#183; store</text>
+
+  <!-- arrows across -->
+  <path class="edge" d="M174,84 L202,84" marker-end="url(#se-a)"/>
+  <text class="label muted s" x="188" y="78" text-anchor="middle" font-size="8.5">Request</text>
+  <path class="edge" d="M354,84 L382,84" marker-end="url(#se-a)"/>
+  <text class="label muted s" x="368" y="78" text-anchor="middle" font-size="8.5">fetch</text>
+
+  <!-- downloader back to spider (response) -->
+  <path class="edge" d="M459,124 L459,150 L99,150 L99,126" marker-end="url(#se-a)"/>
+  <text class="label muted s" x="270" y="145" text-anchor="middle" font-size="9">Response &#8594; parse()</text>
+
+  <!-- parse yields items -->
+  <path class="edge" d="M150,110 C400,178 560,150 620,126" marker-end="url(#se-a)"/>
+  <text class="label green s" x="430" y="176" font-size="9" font-weight="700">yields Items</text>
+
+  <!-- parse yields more requests: loop back to scheduler -->
+  <path class="loop" d="M120,124 C150,196 250,196 279,126" marker-end="url(#se-b)"/>
+  <text class="label blue s" x="200" y="200" text-anchor="middle" font-size="9" font-weight="700">yields more Requests (follow links) &#8594; back to Scheduler</text>
+
+  <!-- engine band -->
+  <rect class="engine" x="24" y="216" width="672" height="40" rx="7"/>
+  <text class="label ink s" x="36" y="234" font-weight="700">The Engine underneath</text>
+  <text class="label muted s" x="188" y="234" font-size="10.5">shuttles every message between these parts <tspan class="ink" font-weight="700">asynchronously</tspan> &#8212; dozens of requests in flight at once.</text>
+  <text class="label muted s" x="36" y="250" font-size="10.5">Middlewares (user-agent, proxy, cookies, retry) plug into the Downloader; the pipeline plugs into Items.</text>
+
+  <line class="frame" x1="24" y1="274" x2="696" y2="274" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="296">The mental model that makes Scrapy click: <tspan class="ink" font-weight="700">parse() has two outputs</tspan> &#8212; <tspan class="green" font-weight="700">Items</tspan> (your data, off to the pipeline) and</text>
+  <text class="label muted s" x="24" y="314">new <tspan class="blue" font-weight="700">Requests</tspan> (links to follow, back into the queue). That feedback loop is how one spider crawls a whole site.</text>
+  <text class="label muted s" x="24" y="332">Versus a hand-rolled <tspan class="mono ink">for url in urls: requests.get()</tspan> loop, Scrapy is asynchronous and concurrent, so it isn't</text>
+  <text class="label muted s" x="24" y="350">stalled waiting on one response at a time &#8212; and you get automatic <tspan class="ink" font-weight="700">dedup</tspan>, retries, throttling, and export for free.</text>
+  <text class="label muted s" x="24" y="372">Set a polite <tspan class="mono ink">DOWNLOAD_DELAY</tspan> and concurrency limit &#8212; concurrency is power, not permission to hammer a server.</text>
+</svg>

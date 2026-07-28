@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="ct-title ct-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="ct-title">A CAPTCHA is a consent boundary: a decision tree for the responsible path</title>
+  <desc id="ct-desc">A CAPTCHA is a site saying it thinks you might be a bot and that this action may need a human or explicit permission; it is a consent boundary, not a bug to route around. The responsible decision tree: first ask whether an official API or data export exists; if yes, use it and stop scraping the interface. If no, ask whether you are authorized, meaning the terms of service allow it or you have permission or it is public non-personal data; if not authorized, stop and respect the boundary. If you are authorized, reduce your bot signals legitimately by respecting rate limits, using a real browser, and slowing down, which often makes the CAPTCHA stop appearing; and only for your own site, an accessibility need, or consented QA is a licensed solving service acceptable. Never fake behavioral signals, defeat bot detection, or bypass a CAPTCHA to reach data you are not permitted to access.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .start{fill:#f1f5f9;stroke:#64748b;stroke-width:1.4}
+    .dia{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}
+    .good{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .stop{fill:#fef2f2;stroke:#ef4444;stroke-width:1.4}
+    .care{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .never{fill:#fef2f2;stroke:#ef4444;stroke-width:1.6}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .start{fill:#26262a;stroke:#9ca3af}.dia{fill:#1e293b;stroke:#569cd6}.good{fill:#064e3b;stroke:#34d399}
+      .stop{fill:#3a1a1a;stroke:#f87171}.care{fill:#3a2e0a;stroke:#fbbf24}.never{fill:#3a1a1a;stroke:#f87171}
+      .edge{stroke:#9ca3af}
+    }
+  </style>
+  <defs>
+    <marker id="ct-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">A CAPTCHA is a consent boundary &#8212; not a bug to route around</text>
+
+  <!-- start -->
+  <rect class="start" x="24" y="52" width="150" height="40" rx="7"/>
+  <text class="label ink s" x="99" y="70" text-anchor="middle" font-weight="700">You hit a CAPTCHA</text>
+  <text class="label muted s" x="99" y="84" text-anchor="middle" font-size="9">&#8220;prove you're human&#8221;</text>
+
+  <!-- diamond 1: API? -->
+  <path class="edge" d="M174,72 L214,72" marker-end="url(#ct-a)"/>
+  <polygon class="dia" points="278,44 344,72 278,100 212,72"/>
+  <text class="label blue s" x="278" y="69" text-anchor="middle" font-weight="700">Official API</text>
+  <text class="label blue s" x="278" y="82" text-anchor="middle" font-weight="700">or export?</text>
+
+  <!-- yes -> use API -->
+  <path class="edge" d="M344,72 L392,72" marker-end="url(#ct-a)"/>
+  <text class="label green s" x="356" y="66" font-size="9" font-weight="700">yes</text>
+  <rect class="good" x="394" y="52" width="302" height="40" rx="7"/>
+  <text class="label green s" x="406" y="69" font-weight="700">Use the API / data export</text>
+  <text class="label muted s" x="406" y="84" font-size="9.5">structured, sanctioned, stable &#8212; stop scraping the UI</text>
+
+  <!-- no -> diamond 2 -->
+  <path class="edge" d="M278,100 L278,124" marker-end="url(#ct-a)"/>
+  <text class="label muted s" x="286" y="116" font-size="9">no</text>
+  <polygon class="dia" points="278,124 356,154 278,184 200,154"/>
+  <text class="label blue s" x="278" y="150" text-anchor="middle" font-weight="700">Authorized?</text>
+  <text class="label blue s" x="278" y="163" text-anchor="middle" font-size="9.5">ToS / permission</text>
+
+  <!-- no -> stop -->
+  <path class="edge" d="M200,154 L176,154" marker-end="url(#ct-a)"/>
+  <text class="label red s" x="184" y="148" font-size="9" font-weight="700">no</text>
+  <rect class="stop" x="24" y="134" width="150" height="40" rx="7"/>
+  <text class="label red s" x="99" y="151" text-anchor="middle" font-weight="700">Stop</text>
+  <text class="label muted s" x="99" y="165" text-anchor="middle" font-size="9">respect the boundary</text>
+
+  <!-- yes -> careful path -->
+  <path class="edge" d="M356,154 L392,154" marker-end="url(#ct-a)"/>
+  <text class="label green s" x="366" y="148" font-size="9" font-weight="700">yes</text>
+  <rect class="care" x="394" y="120" width="302" height="68" rx="7"/>
+  <text class="label amber s" x="406" y="138" font-weight="700">Reduce bot signals &#8212; legitimately</text>
+  <text class="label muted s" x="406" y="155" font-size="10">respect rate limits, use a real browser, slow down;</text>
+  <text class="label muted s" x="406" y="169" font-size="10">the CAPTCHA often stops appearing on its own.</text>
+  <text class="label muted s" x="406" y="184" font-size="9.5">Own site / accessibility / consented QA: licensed service OK</text>
+
+  <!-- never band -->
+  <rect class="never" x="24" y="204" width="672" height="52" rx="8"/>
+  <text class="label red ph" x="36" y="224">Never &#8212; this is the line</text>
+  <text class="label muted s" x="36" y="242" font-size="10.5">Don't fake behavioral signals, defeat bot-detection, or bypass a CAPTCHA to reach data you're <tspan class="red" font-weight="700">not permitted</tspan> to access.</text>
+
+  <line class="frame" x1="24" y1="276" x2="696" y2="276" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="298">A CAPTCHA exists to gate automated access, so treat it as a <tspan class="ink" font-weight="700">question about whether you should be doing this</tspan>,</text>
+  <text class="label muted s" x="24" y="316">not a technical puzzle to defeat. The best &#8220;solver&#8221; is almost always a sanctioned path: an official API, a bulk data</text>
+  <text class="label muted s" x="24" y="334">export, or a direct request to the site owner for access. Those are stable and won't get you blocked or in legal trouble.</text>
+  <text class="label muted s" x="24" y="352">Licensed solving services do exist for genuine needs &#8212; accessibility, or testing your own site &#8212; but they are a narrow,</text>
+  <text class="label muted s" x="24" y="370">permission-gated exception, not the default. When in doubt, assume you need permission, and ask.</text>
+</svg>

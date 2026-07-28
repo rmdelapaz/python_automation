@@ -125,6 +125,10 @@
         style F fill:#ffd43b
         style Y fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/pipeline-quality-idempotent.svg" loading="lazy" alt="Scraped data is messy, so a pipeline is a series of gates turning raw records into curated ones. Raw records arrive, some valid and some malformed. A validate gate checks each against a schema: valid rows continue while bad rows are routed to a quarantine or dead-letter store to be fixed later, never dropped silently. Next a dedup step collapses records sharing a natural key so the same item isn't counted twice. Then transform normalizes formats. Finally the load is an upsert keyed by the natural key, an insert-or-update, so loading is idempotent: re-scraping the same page changes nothing or updates in place instead of creating duplicates. Two panels reinforce keeping raw, clean, and curated as separate layers, and making loads idempotent and incremental so a re-run is always safe."/>
+<figcaption>What separates a <strong>pipeline</strong> from a script is discipline at the seams: <strong>validate</strong> before anything downstream trusts the data and <strong>quarantine</strong> bad rows (don't let one <code>"N/A"</code> crash a later stage or vanish silently), <strong>dedup</strong> on a stable natural key, and make the final load an <strong>idempotent upsert</strong> so a crashed or repeated run is safe — re-scraping updates in place instead of double-counting. Keep <strong>raw &#8594; clean &#8594; curated</strong> as separate layers so you can re-process without re-scraping.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Market Intelligence Platform 📈</h3>
 <p>You're building a market intelligence platform that processes millions of product listings, reviews, and price changes daily from hundreds of sources. The system must handle different data formats, validate quality, enrich with ML predictions, detect anomalies, and serve real-time analytics to thousands of users. Your pipeline must be bulletproof, scalable, and maintainable!</p>
 <pre><code># First, install required packages:

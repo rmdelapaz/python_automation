@@ -120,6 +120,10 @@
         style D fill:#ffd43b
         style E fill:#ff6b6b
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/scrapy-async-engine.svg" loading="lazy" alt="Scrapy is built around an async engine that shuttles messages between components without blocking. A spider's start_requests seeds Request objects; the Scheduler queues them and a dedup filter drops URLs already seen; the Downloader fetches many requests concurrently with middlewares that attach a user-agent, proxy, cookies, and retry logic. Each Response goes to the spider's parse method, which yields two kinds of output: Items, which flow into the Item Pipeline to be validated, cleaned, and stored, and new Requests to follow links, which loop back to the Scheduler. The engine keeps dozens of requests in flight at once, which is why Scrapy is far faster than a naive sequential loop of requests.get calls, and it dedups and offers hook points for free."/>
+<figcaption>The idea that makes Scrapy click: <code>parse()</code> has <strong>two outputs</strong> — <strong>Items</strong> (your data, off to the pipeline) and new <strong>Requests</strong> (links to follow, back into the queue). That feedback loop is how one spider crawls a whole site. Versus a hand-rolled <code>for url in urls: requests.get()</code> loop, the engine runs requests <strong>asynchronously and concurrently</strong> — never stalled on one response — and hands you dedup, retries, throttling, and export for free. Concurrency is power, not permission: set a polite <code>DOWNLOAD_DELAY</code>.</figcaption>
+</figure>
 <h3>Real-World Scenario: The E-Commerce Intelligence Platform 🛒</h3>
 <p>You're building a competitive intelligence platform that monitors thousands of e-commerce sites, tracking prices, inventory, reviews, and product launches. You need to handle JavaScript-rendered pages, rotating proxies, CAPTCHA challenges, rate limiting, and real-time data processing. Scrapy will be your industrial-strength solution for this massive undertaking!</p>
 <pre><code># First, install Scrapy: pip install scrapy scrapy-splash scrapy-redis scrapy-rotating-proxies
