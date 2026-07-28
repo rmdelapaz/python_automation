@@ -132,7 +132,7 @@ import base64
 import hashlib
 import hmac
 import secrets
-from typing import Dict, Optional, Any, Tuple, Callable
+from typing import Dict, List, Optional, Any, Tuple, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
@@ -697,6 +697,7 @@ class AuthenticationManager:
     def __init__(self, credential_store: Optional[SecureCredentialStore] = None):
         self.credential_store = credential_store or SecureCredentialStore()
         self.auth_handlers = {}
+        self.auth_types = {}  # Remember each API's auth type for rotation
         self.logger = logging.getLogger(__name__)
         
         # Audit log
@@ -713,6 +714,7 @@ class AuthenticationManager:
         # Create auth handler
         handler = self._create_auth_handler(auth_type, api_name, credentials)
         self.auth_handlers[api_name] = handler
+        self.auth_types[api_name] = auth_type
         
         # Log registration
         self._audit_log("register", api_name, auth_type)
@@ -771,9 +773,10 @@ class AuthenticationManager:
         
         # Recreate auth handler
         if api_name in self.auth_handlers:
-            # Get auth type (simplified - should store this)
-            auth_type = AuthType.API_KEY  # Default
-            
+            # Reuse the auth type recorded at registration so rotation
+            # preserves Bearer/JWT/HMAC/etc instead of resetting to API_KEY
+            auth_type = self.auth_types.get(api_name, AuthType.API_KEY)
+
             handler = self._create_auth_handler(
                 auth_type, api_name, new_credentials
             )

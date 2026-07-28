@@ -243,10 +243,10 @@ class SystemMonitor:
                 type TEXT,
                 tags TEXT,
                 unit TEXT,
-                description TEXT,
-                INDEX idx_name_timestamp (name, timestamp)
+                description TEXT
             )
         ''')
+        cursor.execute('CREATE INDEX IF NOT EXISTS idx_name_timestamp ON metrics (name, timestamp)')
         
         # Create alerts table
         cursor.execute('''
@@ -257,11 +257,11 @@ class SystemMonitor:
                 message TEXT,
                 timestamp DATETIME NOT NULL,
                 resolved BOOLEAN DEFAULT FALSE,
-                resolved_at DATETIME,
-                INDEX idx_timestamp (timestamp)
+                resolved_at DATETIME
             )
         ''')
-        
+        cursor.execute('CREATE INDEX IF NOT EXISTS idx_timestamp ON alerts (timestamp)')
+
         conn.commit()
         conn.close()
     
@@ -468,20 +468,17 @@ class SystemMonitor:
     
     def _evaluate_alert_condition(self, alert: Alert) -&gt; bool:
         """Evaluate if alert condition is met."""
-        # Get metric value
+        # Here `condition` is the metric NAME to watch (e.g.
+        # "system.cpu.usage"), so look up its current value...
         metric = self.current_metrics.get(alert.condition)
         if not metric:
             return False
-        
-        # Check threshold
-        if alert.condition.startswith('&gt;'):
-            return metric.value &gt; alert.threshold
-        elif alert.condition.startswith('&lt;'):
-            return metric.value &lt; alert.threshold
-        elif alert.condition.startswith('=='):
-            return metric.value == alert.threshold
-        
-        return False
+
+        # ...and fire when it exceeds the configured threshold. All the
+        # alerts defined below are "value above threshold" checks; if you
+        # need &lt; or == comparisons, add a separate `operator` field to
+        # Alert and branch on it here rather than parsing the metric name.
+        return metric.value &gt; alert.threshold
     
     def _trigger_alert(self, name: str, severity: str, message: str):
         """Trigger an alert."""
@@ -1116,7 +1113,7 @@ class MonitoringDashboard:
             """API endpoint for current metrics."""
             return jsonify(self.monitor.get_current_metrics())
         
-        @self.app.route('/api/metrics/<metric_name>/history')
+        @self.app.route('/api/metrics/&lt;metric_name&gt;/history')
         def get_metric_history(metric_name):
             """API endpoint for metric history."""
             history = self.monitor.get_metric_history(metric_name)
@@ -1252,7 +1249,6 @@ class MonitoringDashboard:
                 setInterval(updateCharts, 30000);
                 setInterval(updateAlerts, 10000);
             </script>
-            </main>
 </body>
         </html>
         '''
@@ -1349,7 +1345,7 @@ if __name__ == "__main__":
         print("\n\nStopping monitoring...")
         monitor.stop_monitoring()
         print("✅ Monitoring stopped")
-</metric_name></code></pre>
+</code></pre>
 <h2>Key Takeaways and Best Practices 🎯</h2>
 <ul>
 <li><strong>Collect Relevant Metrics:</strong> Focus on metrics that matter for your specific use case.</li>
@@ -1372,5 +1368,6 @@ if __name__ == "__main__":
 <a class="nav-next" href="systemadmin_environment_management.html">Next: Environment Management →</a>
 </div>
 </footer>
+    </main>
 </body>
 </html>

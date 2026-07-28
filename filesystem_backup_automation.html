@@ -109,6 +109,10 @@
         style A fill:#ff6b6b
         style K fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/backup-3-2-1-incremental.svg" loading="lazy" alt="Left: the 3-2-1 rule keeps three copies of your data on two media types with one off-site. Right: a timeline where one full backup on Sunday captures everything and each later day stores only what changed, so restoring a day replays the full backup plus every incremental up to it."/>
+<figcaption>Two ideas make backups trustworthy: the <strong>3-2-1 rule</strong> (three copies, two media types, one off-site) so no single disaster wipes you out, and <strong>incremental</strong> backups that store only what changed since the last run — cheap to write, but a restore replays the full chain.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Complete Disaster Recovery System 🛡️</h3>
 <p>You're a freelance designer with years of client work, a developer with countless projects, or a photographer with irreplaceable photos. Let's build a backup system that protects everything automatically, efficiently, and intelligently!</p>
 <pre><code>import os
@@ -733,9 +737,16 @@ class ComprehensiveBackupSystem:
     
     def verify_backup(self, backup_id: str) -&gt; bool:
         """
-        Verify backup integrity by checking hashes.
+        Detect SOURCE drift by re-hashing the original files.
+
+        Note: file_records stores the *source* path, so this re-hashes each
+        source file and compares it to the hash recorded at backup time. It
+        confirms the sources have not changed since the backup -- it does NOT
+        read the compressed/encrypted backup artifact, so it cannot prove the
+        backup copy itself is intact. To verify the backup artifact, hash the
+        stored copy (after decompress/decrypt) and compare that instead.
         """
-        self.logger.info(f"Verifying backup {backup_id}")
+        self.logger.info(f"Verifying source files for backup {backup_id}")
         
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -1032,6 +1043,7 @@ if __name__ == "__main__":
         J --&gt; K
     </div>
 <pre><code>import subprocess
+import time
 import pymongo  # For MongoDB
 import psycopg2  # For PostgreSQL
 import mysql.connector  # For MySQL
@@ -1055,7 +1067,9 @@ class SpecializedBackupStrategies:
         backup_dir.mkdir(parents=True, exist_ok=True)
         
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        backup_file = backup_dir / f"{backup_name}_{timestamp}.sql.gz"
+        # --format=custom produces a compressed binary archive (not gzipped SQL);
+        # restore it with pg_restore, not gunzip. Use a .dump extension.
+        backup_file = backup_dir / f"{backup_name}_{timestamp}.dump"
         
         # Build pg_dump command
         cmd = [

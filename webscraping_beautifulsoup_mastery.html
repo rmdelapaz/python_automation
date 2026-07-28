@@ -618,10 +618,10 @@ class BeautifulSoupMaster:
         Extract data from HTML table.
         """
         rows = []
-        
+        headers = []
+
         # Extract headers
         if include_headers:
-            headers = []
             header_row = table_element.find('thead')
             if header_row:
                 for th in header_row.find_all('th'):
@@ -850,7 +850,7 @@ class BeautifulSoupMaster:
         """
         Pretty print HTML with custom indentation.
         """
-        return soup.prettify(formatter='html', indent=indent)
+        return soup.prettify(formatter='html')
     
     def minify_html(self, soup: BeautifulSoup) -&gt; str:
         """
@@ -900,7 +900,7 @@ class BeautifulSoupRecipes:
             emails.add(email)
         
         # Look in text
-        email_pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+        email_pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b')
         for text in soup.stripped_strings:
             for email in email_pattern.findall(text):
                 emails.add(email)

@@ -666,10 +666,10 @@ class SecurityTest:
     def test_xss(self, endpoint: str, param: str) -&gt; bool:
         """Test for XSS vulnerability."""
         xss_payloads = [
-            "<script>alert('XSS')</script>",
-            "<img onerror="alert('XSS')" src="x"/>",
+            "&lt;script&gt;alert('XSS')&lt;/script&gt;",
+            "&lt;img src='x' onerror='alert(1)'&gt;",
             "javascript:alert('XSS')",
-            "<body onload="alert('XSS')">"
+            "&lt;body onload='alert(1)'&gt;"
         ]
         
         for payload in xss_payloads:
@@ -1047,8 +1047,7 @@ if __name__ == "__main__":
         print(f"     Solution: {solution}")
     
     print("\n✅ API testing automation demonstration complete!")
-    </main>
-</body></code></pre>
+</code></pre>
 <h2>Key Takeaways and Best Practices 🎯</h2>
 <ul>
 <li><strong>Test All Layers:</strong> Unit, integration, contract, performance, and security.</li>

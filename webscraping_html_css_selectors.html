@@ -300,7 +300,7 @@ class SelectorMaster:
                           descendant: str) -&gt; List[BeautifulSoup]:
         """
         Select descendant elements (any level deep).
-        Example: 'div p' selects all <p> inside <div>
+        Example: 'div p' selects all &lt;p&gt; inside &lt;div&gt;
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         selector = f'{ancestor} {descendant}'
@@ -313,7 +313,7 @@ class SelectorMaster:
                               child: str) -&gt; List[BeautifulSoup]:
         """
         Select direct child elements (immediate children only).
-        Example: 'div &gt; p' selects <p> that are direct children of <div>
+        Example: 'div &gt; p' selects &lt;p&gt; that are direct children of &lt;div&gt;
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         selector = f'{parent} &gt; {child}'
@@ -326,7 +326,7 @@ class SelectorMaster:
                                second: str) -&gt; List[BeautifulSoup]:
         """
         Select adjacent sibling element.
-        Example: 'h1 + p' selects <p> immediately after <h1>
+        Example: 'h1 + p' selects &lt;p&gt; immediately after &lt;h1&gt;
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         selector = f'{first} + {second}'
@@ -339,7 +339,7 @@ class SelectorMaster:
                                sibling: str) -&gt; List[BeautifulSoup]:
         """
         Select all sibling elements.
-        Example: 'h1 ~ p' selects all <p> that are siblings of <h1>
+        Example: 'h1 ~ p' selects all &lt;p&gt; that are siblings of &lt;h1&gt;
         """
         soup = BeautifulSoup(html_content, 'html.parser')
         selector = f'{first} ~ {sibling}'
@@ -820,78 +820,78 @@ class SelectorCheatSheet:
 if __name__ == "__main__":
     # Sample HTML for testing
     sample_html = """
-    <!DOCTYPE html>
+    &lt;!DOCTYPE html&gt;
 
-    <html>
-    <head><title>Sample E-commerce Page</title></head>
-    <body>
-        <header id="main-header">
-            <nav class="navigation primary">
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/products">Products</a></li>
-                    <li><a href="/about">About</a></li>
-                </ul>
-            </nav>
-        </header>
+    &lt;html&gt;
+    &lt;head&gt;&lt;title&gt;Sample E-commerce Page&lt;/title&gt;&lt;/head&gt;
+    &lt;body&gt;
+        &lt;header id="main-header"&gt;
+            &lt;nav class="navigation primary"&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="/products"&gt;Products&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href="/about"&gt;About&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/nav&gt;
+        &lt;/header&gt;
         
-        <div class="container">
-            <div class="product-list">
-                <article class="product featured" data-product-id="1">
-                    <img alt="Product 1" src="product1.jpg"/>
-                    <h3 class="product-title">Premium Laptop</h3>
-                    <div class="price-container">
-                        <span class="price">$1,299.99</span>
-                        <span class="original-price">$1,499.99</span>
-                    </div>
-                    <div class="rating" data-rating="4.5">★★★★☆</div>
-                    <button class="add-to-cart" data-product="1">Add to Cart</button>
-                </article>
+        &lt;div class="container"&gt;
+            &lt;div class="product-list"&gt;
+                &lt;article class="product featured" data-product-id="1"&gt;
+                    &lt;img alt="Product 1" src="product1.jpg"/&gt;
+                    &lt;h3 class="product-title"&gt;Premium Laptop&lt;/h3&gt;
+                    &lt;div class="price-container"&gt;
+                        &lt;span class="price"&gt;$1,299.99&lt;/span&gt;
+                        &lt;span class="original-price"&gt;$1,499.99&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;div class="rating" data-rating="4.5"&gt;★★★★☆&lt;/div&gt;
+                    &lt;button class="add-to-cart" data-product="1"&gt;Add to Cart&lt;/button&gt;
+                &lt;/article&gt;
                 
-                <article class="product" data-product-id="2">
-                    <img alt="Product 2" src="product2.jpg"/>
-                    <h3 class="product-title">Wireless Mouse</h3>
-                    <div class="price-container">
-                        <span class="price">$29.99</span>
-                    </div>
-                    <div class="rating" data-rating="4.0">★★★★☆</div>
-                    <button class="add-to-cart" data-product="2">Add to Cart</button>
-                </article>
+                &lt;article class="product" data-product-id="2"&gt;
+                    &lt;img alt="Product 2" src="product2.jpg"/&gt;
+                    &lt;h3 class="product-title"&gt;Wireless Mouse&lt;/h3&gt;
+                    &lt;div class="price-container"&gt;
+                        &lt;span class="price"&gt;$29.99&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;div class="rating" data-rating="4.0"&gt;★★★★☆&lt;/div&gt;
+                    &lt;button class="add-to-cart" data-product="2"&gt;Add to Cart&lt;/button&gt;
+                &lt;/article&gt;
                 
-                <article class="product sale" data-product-id="3">
-                    <img alt="Product 3" src="product3.jpg"/>
-                    <h3 class="product-title">USB-C Hub</h3>
-                    <div class="price-container">
-                        <span class="price sale-price">$39.99</span>
-                        <span class="original-price">$59.99</span>
-                    </div>
-                    <div class="rating" data-rating="4.8">★★★★★</div>
-                    <button class="add-to-cart" data-product="3">Add to Cart</button>
-                </article>
-            </div>
+                &lt;article class="product sale" data-product-id="3"&gt;
+                    &lt;img alt="Product 3" src="product3.jpg"/&gt;
+                    &lt;h3 class="product-title"&gt;USB-C Hub&lt;/h3&gt;
+                    &lt;div class="price-container"&gt;
+                        &lt;span class="price sale-price"&gt;$39.99&lt;/span&gt;
+                        &lt;span class="original-price"&gt;$59.99&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;div class="rating" data-rating="4.8"&gt;★★★★★&lt;/div&gt;
+                    &lt;button class="add-to-cart" data-product="3"&gt;Add to Cart&lt;/button&gt;
+                &lt;/article&gt;
+            &lt;/div&gt;
             
-            <aside class="sidebar">
-                <div class="filter-section">
-                    <h4>Categories</h4>
-                    <ul class="category-list">
-                        <li data-category="electronics">Electronics</li>
-                        <li data-category="computers">Computers</li>
-                        <li data-category="accessories">Accessories</li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
+            &lt;aside class="sidebar"&gt;
+                &lt;div class="filter-section"&gt;
+                    &lt;h4&gt;Categories&lt;/h4&gt;
+                    &lt;ul class="category-list"&gt;
+                        &lt;li data-category="electronics"&gt;Electronics&lt;/li&gt;
+                        &lt;li data-category="computers"&gt;Computers&lt;/li&gt;
+                        &lt;li data-category="accessories"&gt;Accessories&lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+            &lt;/aside&gt;
+        &lt;/div&gt;
         
-        <footer>
-<div class="navigation-links">
-<a class="nav-prev" href="filesystem_backup_automation.html">← Previous: Backup Automation</a>
-<a class="nav-home" href="index.html">🏠 Course Home</a>
-<a class="nav-next" href="webscraping_beautifulsoup_mastery.html">Next: BeautifulSoup Mastery →</a>
-</div>
-</footer>
-        </main>
-</body>
-    </html>
+        &lt;footer&gt;
+&lt;div class="navigation-links"&gt;
+&lt;a class="nav-prev" href="filesystem_backup_automation.html"&gt;← Previous: Backup Automation&lt;/a&gt;
+&lt;a class="nav-home" href="index.html"&gt;🏠 Course Home&lt;/a&gt;
+&lt;a class="nav-next" href="webscraping_beautifulsoup_mastery.html"&gt;Next: BeautifulSoup Mastery →&lt;/a&gt;
+&lt;/div&gt;
+&lt;/footer&gt;
+        &lt;/main&gt;
+&lt;/body&gt;
+    &lt;/html&gt;
     """
     
     # Initialize selector master
@@ -1032,7 +1032,7 @@ if __name__ == "__main__":
         print(f"     {i}. {tip}")
     
     print("\n✅ HTML/CSS selector demonstration complete!")
-</h1></p></h1></p></div></p></div></p></code></pre>
+&lt;/h1&gt;&lt;/p&gt;&lt;/h1&gt;&lt;/p&gt;&lt;/div&gt;&lt;/p&gt;&lt;/div&gt;&lt;/p&gt;</code></pre>
 <h2>Key Takeaways and Best Practices 🎯</h2>
 <ul>
 <li><strong>Start Simple:</strong> Use the simplest selector that uniquely identifies your target.</li>

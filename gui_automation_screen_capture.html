@@ -594,14 +594,16 @@ class TesseractOCR:
             result = []
             for box in boxes.splitlines():
                 parts = box.split()
-                if len(parts) &gt;= 6:
+                # image_to_boxes columns: char left bottom right top page
+                # (coords are bottom-origin, and there is NO confidence
+                # value here -- use image_to_data() if you need confidence)
+                if len(parts) &gt;= 5:
                     result.append({
                         'char': parts[0],
                         'x': int(parts[1]),
                         'y': int(parts[2]),
                         'width': int(parts[3]) - int(parts[1]),
                         'height': int(parts[4]) - int(parts[2]),
-                        'confidence': float(parts[5]) if len(parts) &gt; 5 else 0
                     })
                     
             return result

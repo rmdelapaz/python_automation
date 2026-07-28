@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="b321-title b321-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="b321-title">The 3-2-1 backup rule and full versus incremental backups</title>
+  <desc id="b321-desc">The left panel shows the 3-2-1 rule: keep three copies of your data, on two different media types, with one copy off-site. The right panel shows a backup timeline: one full backup on Sunday captures everything, and each following day an incremental backup stores only what changed. Restoring a given day means applying the full backup plus every incremental up to that day.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .blue{fill:#3b82f6}.bluestroke{stroke:#3b82f6}
+    .green{fill:#10b981}.greenstroke{stroke:#10b981}
+    .amber{fill:#f59e0b}.amberstroke{stroke:#f59e0b}
+    .orig{fill:#eff6ff;stroke:#3b82f6;stroke-width:2}
+    .copy{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.5}
+    .pill{fill:#ecfdf5;stroke:#10b981;stroke-width:1.5}
+    .fullbar{fill:#f59e0b}.incrbar{fill:#3b82f6}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.bluestroke{stroke:#569cd6}.green{fill:#34d399}.greenstroke{stroke:#34d399}
+      .amber{fill:#fbbf24}.amberstroke{stroke:#fbbf24}
+      .orig{fill:#1e293b;stroke:#569cd6}.copy{fill:#26262a;stroke:#6b7280}.pill{fill:#064e3b;stroke:#34d399}
+      .fullbar{fill:#fbbf24}.incrbar{fill:#569cd6}
+    }
+  </style>
+  <defs>
+    <marker id="b-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="b-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="green"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="420"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="418.5" rx="10"/>
+  <text class="label ink h" x="24" y="32">Follow 3-2-1, and back up only what changed</text>
+
+  <!-- divider -->
+  <line class="frame" x1="360" y1="48" x2="360" y2="356" stroke="#cbd5e1" stroke-dasharray="4 4"/>
+
+  <!-- PANEL A: 3-2-1 -->
+  <text class="label ink ph" x="24" y="64">The 3-2-1 rule</text>
+  <rect class="orig" x="112" y="76" width="150" height="34" rx="6"/>
+  <text class="label t ink" x="187" y="98" text-anchor="middle" font-weight="700">Your files</text>
+
+  <line x1="150" y1="110" x2="78" y2="150" class="frame" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#b-a)"/>
+  <line x1="187" y1="110" x2="187" y2="150" class="frame" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#b-a)"/>
+  <line x1="224" y1="110" x2="296" y2="150" class="frame" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#b-a)"/>
+
+  <rect class="copy" x="28" y="152" width="100" height="52" rx="6"/>
+  <text class="label t ink" x="78" y="174" text-anchor="middle">📀 Ext HDD</text>
+  <text class="label s muted" x="78" y="192" text-anchor="middle">local disk</text>
+  <rect class="copy" x="137" y="152" width="100" height="52" rx="6"/>
+  <text class="label t ink" x="187" y="174" text-anchor="middle">🖧 NAS</text>
+  <text class="label s muted" x="187" y="192" text-anchor="middle">local network</text>
+  <rect class="copy" x="246" y="152" width="100" height="52" rx="6"/>
+  <text class="label t ink" x="296" y="174" text-anchor="middle">☁ Cloud</text>
+  <text class="label s muted" x="296" y="192" text-anchor="middle">off-site</text>
+
+  <rect class="pill" x="28" y="224" width="98" height="28" rx="14"/><text class="label s ink" x="77" y="242" text-anchor="middle" font-weight="700">3 copies</text>
+  <rect class="pill" x="134" y="224" width="112" height="28" rx="14"/><text class="label s ink" x="190" y="242" text-anchor="middle" font-weight="700">2 media types</text>
+  <rect class="pill" x="254" y="224" width="92" height="28" rx="14"/><text class="label s ink" x="300" y="242" text-anchor="middle" font-weight="700">1 off-site</text>
+  <text class="label muted s" x="24" y="284">One failure (drive, theft, fire, ransomware) can never</text>
+  <text class="label muted s" x="24" y="300">take out more than one copy at a time.</text>
+
+  <!-- PANEL B: full vs incremental -->
+  <text class="label ink ph" x="380" y="64">Full vs incremental</text>
+  <line x1="392" y1="200" x2="688" y2="200" class="frame" stroke="#94a3b8" stroke-width="1.5"/>
+
+  <!-- bars: Sun full, Mon-Sat incr -->
+  <!-- Sun -->
+  <rect class="fullbar" x="400" y="108" width="26" height="92" rx="3"/>
+  <!-- Mon Tue Wed highlighted (restore chain) -->
+  <rect class="incrbar" x="444" y="168" width="26" height="32" rx="3"/>
+  <rect class="incrbar" x="488" y="172" width="26" height="28" rx="3"/>
+  <rect class="incrbar" x="532" y="164" width="26" height="36" rx="3"/>
+  <!-- Thu-Sat -->
+  <rect class="incrbar" x="576" y="176" width="26" height="24" rx="3" opacity="0.55"/>
+  <rect class="incrbar" x="620" y="170" width="26" height="30" rx="3" opacity="0.55"/>
+  <rect class="incrbar" x="664" y="178" width="26" height="22" rx="3" opacity="0.55"/>
+
+  <text class="label amber s" x="413" y="102" text-anchor="middle" font-weight="700">FULL</text>
+  <text class="label blue s" x="567" y="150" text-anchor="middle" font-weight="700">incrementals (changed only)</text>
+
+  <!-- day labels -->
+  <text class="label muted s" x="413" y="216" text-anchor="middle">Sun</text>
+  <text class="label muted s" x="457" y="216" text-anchor="middle">Mon</text>
+  <text class="label muted s" x="501" y="216" text-anchor="middle">Tue</text>
+  <text class="label muted s" x="545" y="216" text-anchor="middle">Wed</text>
+  <text class="label muted s" x="589" y="216" text-anchor="middle">Thu</text>
+  <text class="label muted s" x="633" y="216" text-anchor="middle">Fri</text>
+  <text class="label muted s" x="677" y="216" text-anchor="middle">Sat</text>
+
+  <!-- restore chain brace -->
+  <path d="M400,232 L400,240 L558,240 L558,232" fill="none" class="greenstroke" stroke-width="1.5"/>
+  <line x1="479" y1="240" x2="479" y2="252" class="greenstroke" stroke-width="1.5"/>
+  <rect class="pill" x="392" y="252" width="296" height="46" rx="6"/>
+  <text class="label green s" x="404" y="270" font-weight="700">Restore Wed = Full (Sun) + Mon + Tue + Wed</text>
+  <text class="label muted s" x="404" y="288">tiny daily backups, but a restore replays the whole chain</text>
+
+  <line class="frame" x1="24" y1="372" x2="696" y2="372" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="392">Incrementals are fast and cheap to store; the trade-off is restore time. Take a fresh full backup</text>
+  <text class="label muted s" x="24" y="408">periodically so the replay chain never grows too long &#8212; and test a restore, or you don't have a backup.</text>
+</svg>

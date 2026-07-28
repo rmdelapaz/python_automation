@@ -172,7 +172,7 @@ class PDFMasterAutomation:
                     # Merge with bookmark
                     merger.append(
                         fileobj=file,
-                        bookmark=bookmark,
+                        outline_item=bookmark,
                         pages=(0, page_count)
                     )
                     
@@ -596,7 +596,7 @@ class PDFMasterAutomation:
                 writer.encrypt(
                     user_password=user_password,
                     owner_password=owner_password or user_password,
-                    use_128bit=False if algorithm == 'AES-256' else True,
+                    algorithm=algorithm,  # e.g. "AES-256", "AES-128", "RC4-128"
                     permissions_flag=-1  # All permissions
                 )
                 
@@ -713,10 +713,6 @@ class PDFMasterAutomation:
             config = settings.get(compression_level, settings['medium'])
             
             with pikepdf.open(input_file) as pdf:
-                # Remove duplicate objects
-                pdf.remove_links()
-                pdf.flatten_annotations()
-                
                 # Compress streams
                 for page in pdf.pages:
                     for name, obj in page.images.items():
@@ -797,13 +793,18 @@ class PDFFormProcessor:
                 for page in reader.pages:
                     writer.add_page(page)
                 
-                # Update form field values
-                writer.update_page_form_field_values(
-                    writer.pages[0],
-                    form_data
-                )
-                
-                # Flatten form if requested (make fields non-editable)
+                # Update form field values on every page (a single page only
+                # fills fields on that page; multi-page forms need all pages)
+                for page in writer.pages:
+                    writer.update_page_form_field_values(
+                        page,
+                        form_data
+                    )
+
+                # NOTE: compress_content_streams() only compresses the streams;
+                # it does NOT flatten the form or make fields non-editable.
+                # True flattening requires removing /AcroForm and rendering the
+                # field appearances into the page content.
                 if flatten:
                     for page in writer.pages:
                         page.compress_content_streams()

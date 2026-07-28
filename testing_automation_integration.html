@@ -231,7 +231,7 @@ class DatabaseTestBase:
             __tablename__ = 'orders'
             id = Column(Integer, primary_key=True)
             user_id = Column(Integer, ForeignKey('users.id'))
-            amount = Column(Decimal(10, 2))
+            amount = Column(Numeric(10, 2))
             status = Column(String(20))
             created_at = Column(DateTime, default=datetime.utcnow)
         
@@ -672,7 +672,8 @@ class TestDataManager:
                 """),
                 defaults
             )
-            user = dict(result.fetchone())
+            user = dict(result.fetchone()._mapping)
+            conn.commit()
             self.created_records.append(('users', user['id']))
             return user
     
@@ -749,7 +750,7 @@ def database():
     Base = declarative_base()
     
     # Define models
-    from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Decimal
+    from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Numeric
     
     class User(Base):
         __tablename__ = 'users'
@@ -857,8 +858,7 @@ class IntegrationTestRunner:
             'stderr': result.stderr
         }
 
-# Fix missing import
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Decimal
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Numeric
 
 # Example usage
 if __name__ == "__main__":

@@ -96,6 +96,10 @@
         style A fill:#ff6b6b
         style G fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/rename-collision-safe.svg" loading="lazy" alt="Left: a dry-run preview lists each old name mapped to a new name, with two files mapping to the same target flagged as a collision. Right: swapping two names is routed through a temporary name in three steps so nothing is overwritten."/>
+<figcaption>Bulk renaming is destructive — the moment two files claim the same new name, one silently overwrites the other. Compute the full old→new plan first, reject collisions, route swaps through a temp name, and preview it all with <code>dry_run=True</code> before a single file moves.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Wedding Photographer's Nightmare 📸</h3>
 <p>Imagine you're a wedding photographer. You've just shot three weddings in one weekend, each with multiple photographers, different cameras, and various memory cards. You have 5,000 photos with names like IMG_1234.jpg, DSC_5678.NEF, and _MG_9012.CR2. Let's build a system that brings order to this chaos!</p>
 <pre><code>import os
@@ -623,8 +627,11 @@ if __name__ == "__main__":
 <h2>Pattern-Based Renaming with Regular Expressions 🎭</h2>
 <p>Regular expressions are like surgical tools for filename manipulation. They let you extract, replace, and rearrange parts of filenames with precision. Think of them as the Swiss Army knife of text processing!</p>
 <pre><code>import re
+import os
 from pathlib import Path
-from typing import List, Pattern, Optional
+from datetime import datetime
+from collections import defaultdict
+from typing import Dict, List, Pattern, Optional
 
 class RegexRenamer:
     """

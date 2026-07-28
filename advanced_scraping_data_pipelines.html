@@ -149,7 +149,7 @@ import pandas as pd
 import numpy as np
 from pydantic import BaseModel, validator, Field
 from sqlalchemy import create_engine, Column, String, Float, Integer, DateTime, Boolean, Text
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 import redis
 import pymongo
@@ -180,7 +180,7 @@ class ProductData(BaseModel):
     id: str
     name: str
     price: float = Field(gt=0, le=1000000)
-    currency: str = Field(regex="^[A-Z]{3}$")
+    currency: str = Field(pattern="^[A-Z]{3}$")
     description: Optional[str] = None
     category: Optional[str] = None
     brand: Optional[str] = None

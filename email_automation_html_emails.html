@@ -204,31 +204,31 @@ class HTMLEmailBuilder:
     def add_header(self, logo_url: str = None, company_name: str = None) -&gt; 'HTMLEmailBuilder':
         """Add email header."""
         header_html = f"""
-        <tr>
-            <td align="center" style="padding: 40px 0 30px 0;">
-                <table border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td align="center">
+        &lt;tr&gt;
+            &lt;td align="center" style="padding: 40px 0 30px 0;"&gt;
+                &lt;table border="0" cellpadding="0" cellspacing="0"&gt;
+                    &lt;tr&gt;
+                        &lt;td align="center"&gt;
         """
         
         if logo_url:
             header_html += f"""
-                            <img alt="{company_name or 'Logo'}" border="0" src="{logo_url}" style="display: block; max-width: 200px; height: auto;"/>
+                            &lt;img alt="{company_name or 'Logo'}" border="0" src="{logo_url}" style="display: block; max-width: 200px; height: auto;"/&gt;
             """
         elif company_name:
             header_html += f"""
-                            <h1 style="margin: 0; font-size: 32px; font-weight: bold; 
-                                      color: {self.primary_color};">
+                            &lt;h1 style="margin: 0; font-size: 32px; font-weight: bold; 
+                                      color: {self.primary_color};"&gt;
                                 {company_name}
-                            </h1>
+                            &lt;/h1&gt;
             """
         
         header_html += """
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(header_html)
@@ -238,24 +238,24 @@ class HTMLEmailBuilder:
                  link_url: str = None) -&gt; 'HTMLEmailBuilder':
         """Add hero image."""
         hero_html = f"""
-        <tr>
-            <td align="center" style="padding: 0;">
+        &lt;tr&gt;
+            &lt;td align="center" style="padding: 0;"&gt;
         """
         
         if link_url:
-            hero_html += f'<a href="{link_url}" target="_blank">'
+            hero_html += f'&lt;a href="{link_url}" target="_blank"&gt;'
         
         hero_html += f"""
-                <img alt="{alt_text}" border="0" src="{image_url}" style="display: block; width: 100%; max-width: {self.container_width}px; 
-                           height: auto;" width="{self.container_width}"/>
+                &lt;img alt="{alt_text}" border="0" src="{image_url}" style="display: block; width: 100%; max-width: {self.container_width}px; 
+                           height: auto;" width="{self.container_width}"/&gt;
         """
         
         if link_url:
-            hero_html += '</a>'
+            hero_html += '&lt;/a&gt;'
         
         hero_html += """
-            </td>
-        </tr>
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(hero_html)
@@ -267,16 +267,16 @@ class HTMLEmailBuilder:
         weight = "bold" if bold else "normal"
         
         text_html = f"""
-        <tr>
-            <td style="padding: 20px 30px;">
-                <p style="margin: 0; font-family: {self.font_family}; 
+        &lt;tr&gt;
+            &lt;td style="padding: 20px 30px;"&gt;
+                &lt;p style="margin: 0; font-family: {self.font_family}; 
                          font-size: {size}px; line-height: 1.6; 
                          color: {self.text_color}; text-align: {align};
-                         font-weight: {weight};">
+                         font-weight: {weight};"&gt;
                     {text}
-                </p>
-            </td>
-        </tr>
+                &lt;/p&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(text_html)
@@ -288,15 +288,15 @@ class HTMLEmailBuilder:
         size = size_map.get(level, 20)
         
         heading_html = f"""
-        <tr>
-            <td style="padding: 20px 30px 10px 30px;">
-                <h{level} style="margin: 0; font-family: {self.font_family}; 
+        &lt;tr&gt;
+            &lt;td style="padding: 20px 30px 10px 30px;"&gt;
+                &lt;h{level} style="margin: 0; font-family: {self.font_family}; 
                                 font-size: {size}px; font-weight: bold; 
-                                color: {self.text_color};">
+                                color: {self.text_color};"&gt;
                     {text}
-                </h{level}>
-            </td>
-        </tr>
+                &lt;/h{level}&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(heading_html)
@@ -311,23 +311,23 @@ class HTMLEmailBuilder:
         width_style = "width: 100%;" if full_width else ""
         
         button_html = f"""
-        <tr>
-            <td align="center" style="padding: 30px;">
-                <table border="0" cellpadding="0" cellspacing="0" {width_style}="">
-                    <tr>
-                        <td align="center" bgcolor="{bg_color}" style="border-radius: 4px;">
-                            <a href="{url}" style="display: inline-block; padding: 14px 30px; 
+        &lt;tr&gt;
+            &lt;td align="center" style="padding: 30px;"&gt;
+                &lt;table border="0" cellpadding="0" cellspacing="0" {width_style}&gt;
+                    &lt;tr&gt;
+                        &lt;td align="center" bgcolor="{bg_color}" style="border-radius: 4px;"&gt;
+                            &lt;a href="{url}" style="display: inline-block; padding: 14px 30px; 
                                       font-family: {self.font_family}; 
                                       font-size: 16px; font-weight: bold; 
                                       color: {text_color}; text-decoration: none; 
-                                      border-radius: 4px;" target="_blank">
+                                      border-radius: 4px;" target="_blank"&gt;
                                 {text}
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                            &lt;/a&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(button_html)
@@ -337,18 +337,18 @@ class HTMLEmailBuilder:
                     margin: int = 20) -&gt; 'HTMLEmailBuilder':
         """Add horizontal divider."""
         divider_html = f"""
-        <tr>
-            <td style="padding: {margin}px 30px;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td style="border-bottom: 1px solid {color}; font-size: 0; 
-                                  line-height: 0;">
+        &lt;tr&gt;
+            &lt;td style="padding: {margin}px 30px;"&gt;
+                &lt;table border="0" cellpadding="0" cellspacing="0" width="100%"&gt;
+                    &lt;tr&gt;
+                        &lt;td style="border-bottom: 1px solid {color}; font-size: 0; 
+                                  line-height: 0;"&gt;
                              
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(divider_html)
@@ -360,75 +360,75 @@ class HTMLEmailBuilder:
         column_width = int(self.container_width / num_columns) - 20
         
         columns_html = """
-        <tr>
-            <td style="padding: 20px 10px;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
+        &lt;tr&gt;
+            &lt;td style="padding: 20px 10px;"&gt;
+                &lt;table border="0" cellpadding="0" cellspacing="0" width="100%"&gt;
+                    &lt;tr&gt;
         """
         
         for col in columns:
             columns_html += f"""
-                        <td style="padding: 0 10px;" valign="top">
-                            <table border="0" cellpadding="0" cellspacing="0" width="{column_width}">
+                        &lt;td style="padding: 0 10px;" valign="top"&gt;
+                            &lt;table border="0" cellpadding="0" cellspacing="0" width="{column_width}"&gt;
             """
             
             if col.get('image'):
                 columns_html += f"""
-                                <tr>
-                                    <td align="center">
-                                        <img alt="" src="{col['image']}" style="display: block; max-width: 100%; 
-                                                   height: auto;" width="{column_width}"/>
-                                    </td>
-                                </tr>
+                                &lt;tr&gt;
+                                    &lt;td align="center"&gt;
+                                        &lt;img alt="" src="{col['image']}" style="display: block; max-width: 100%; 
+                                                   height: auto;" width="{column_width}"/&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
                 """
             
             if col.get('title'):
                 columns_html += f"""
-                                <tr>
-                                    <td style="padding: 10px 0 5px 0;">
-                                        <h3 style="margin: 0; font-size: 18px; 
-                                                  color: {self.text_color};">
+                                &lt;tr&gt;
+                                    &lt;td style="padding: 10px 0 5px 0;"&gt;
+                                        &lt;h3 style="margin: 0; font-size: 18px; 
+                                                  color: {self.text_color};"&gt;
                                             {col['title']}
-                                        </h3>
-                                    </td>
-                                </tr>
+                                        &lt;/h3&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
                 """
             
             if col.get('text'):
                 columns_html += f"""
-                                <tr>
-                                    <td style="padding: 5px 0;">
-                                        <p style="margin: 0; font-size: 14px; 
+                                &lt;tr&gt;
+                                    &lt;td style="padding: 5px 0;"&gt;
+                                        &lt;p style="margin: 0; font-size: 14px; 
                                                  line-height: 1.5; 
-                                                 color: {self.text_color};">
+                                                 color: {self.text_color};"&gt;
                                             {col['text']}
-                                        </p>
-                                    </td>
-                                </tr>
+                                        &lt;/p&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
                 """
             
             if col.get('link_text') and col.get('link_url'):
                 columns_html += f"""
-                                <tr>
-                                    <td style="padding: 10px 0;">
-                                        <a href="{col['link_url']}" style="color: {self.link_color}; 
-                                                 text-decoration: underline;">
+                                &lt;tr&gt;
+                                    &lt;td style="padding: 10px 0;"&gt;
+                                        &lt;a href="{col['link_url']}" style="color: {self.link_color}; 
+                                                 text-decoration: underline;"&gt;
                                             {col['link_text']}
-                                        </a>
-                                    </td>
-                                </tr>
+                                        &lt;/a&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
                 """
             
             columns_html += """
-                            </table>
-                        </td>
+                            &lt;/table&gt;
+                        &lt;/td&gt;
             """
         
         columns_html += """
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(columns_html)
@@ -437,10 +437,10 @@ class HTMLEmailBuilder:
     def add_social_links(self, links: Dict[str, str]) -&gt; 'HTMLEmailBuilder':
         """Add social media links."""
         social_html = """
-        <tr>
-            <td align="center" style="padding: 30px;">
-                <table border="0" cellpadding="0" cellspacing="0">
-                    <tr>
+        &lt;tr&gt;
+            &lt;td align="center" style="padding: 30px;"&gt;
+                &lt;table border="0" cellpadding="0" cellspacing="0"&gt;
+                    &lt;tr&gt;
         """
         
         icon_urls = {
@@ -455,18 +455,18 @@ class HTMLEmailBuilder:
             icon = icon_urls.get(platform.lower())
             if icon:
                 social_html += f"""
-                        <td style="padding: 0 10px;">
-                            <a href="{url}" target="_blank">
-                                <img alt="{platform}" border="0" height="32" src="{icon}" style="display: block;" width="32"/>
-                            </a>
-                        </td>
+                        &lt;td style="padding: 0 10px;"&gt;
+                            &lt;a href="{url}" target="_blank"&gt;
+                                &lt;img alt="{platform}" border="0" height="32" src="{icon}" style="display: block;" width="32"/&gt;
+                            &lt;/a&gt;
+                        &lt;/td&gt;
                 """
         
         social_html += """
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(social_html)
@@ -478,47 +478,47 @@ class HTMLEmailBuilder:
                    privacy_url: str = None) -&gt; 'HTMLEmailBuilder':
         """Add email footer."""
         footer_html = f"""
-        <tr>
-            <td style="padding: 30px; background-color: #f8f8f8;">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td align="center" style="font-family: {self.font_family}; 
-                                                 font-size: 12px; color: #666666;">
+        &lt;tr&gt;
+            &lt;td style="padding: 30px; background-color: #f8f8f8;"&gt;
+                &lt;table border="0" cellpadding="0" cellspacing="0" width="100%"&gt;
+                    &lt;tr&gt;
+                        &lt;td align="center" style="font-family: {self.font_family}; 
+                                                 font-size: 12px; color: #666666;"&gt;
         """
         
         if company_name:
             footer_html += f"""
-                            <p style="margin: 0 0 10px 0;">
+                            &lt;p style="margin: 0 0 10px 0;"&gt;
                                 © {datetime.now().year} {company_name}. All rights reserved.
-                            </p>
+                            &lt;/p&gt;
             """
         
         if address:
             footer_html += f"""
-                            <p style="margin: 0 0 10px 0;">
+                            &lt;p style="margin: 0 0 10px 0;"&gt;
                                 {address}
-                            </p>
+                            &lt;/p&gt;
             """
         
         footer_links = []
         if unsubscribe_url:
-            footer_links.append(f'<a href="{unsubscribe_url}" style="color: #666666;">Unsubscribe</a>')
+            footer_links.append(f'&lt;a href="{unsubscribe_url}" style="color: #666666;"&gt;Unsubscribe&lt;/a&gt;')
         if privacy_url:
-            footer_links.append(f'<a href="{privacy_url}" style="color: #666666;">Privacy Policy</a>')
+            footer_links.append(f'&lt;a href="{privacy_url}" style="color: #666666;"&gt;Privacy Policy&lt;/a&gt;')
         
         if footer_links:
             footer_html += f"""
-                            <p style="margin: 0;">
+                            &lt;p style="margin: 0;"&gt;
                                 {' | '.join(footer_links)}
-                            </p>
+                            &lt;/p&gt;
             """
         
         footer_html += """
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         """
         
         self.body_content.append(footer_html)
@@ -527,26 +527,26 @@ class HTMLEmailBuilder:
     def build(self) -&gt; str:
         """Build complete HTML email."""
         # Base template
-        html = f"""<!DOCTYPE html>
+        html = f"""&lt;!DOCTYPE html&gt;
 
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-    <title>{self.title}</title>
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"/&gt;
+    &lt;meta content="width=device-width, initial-scale=1.0" name="viewport"/&gt;
+    &lt;meta content="IE=edge" http-equiv="X-UA-Compatible"/&gt;
+    &lt;title&gt;{self.title}&lt;/title&gt;
     
-    <!--[if mso]>
-    <noscript>
-        <xml>
-            <o:OfficeDocumentSettings>
-                <o:PixelsPerInch>96</o:PixelsPerInch>
-            </o:OfficeDocumentSettings>
-        </xml>
-    </noscript>
-    <![endif]-->
+    &lt;!--[if mso]&gt;
+    &lt;noscript&gt;
+        &lt;xml&gt;
+            &lt;o:OfficeDocumentSettings&gt;
+                &lt;o:PixelsPerInch&gt;96&lt;/o:PixelsPerInch&gt;
+            &lt;/o:OfficeDocumentSettings&gt;
+        &lt;/xml&gt;
+    &lt;/noscript&gt;
+    &lt;![endif]--&gt;
     
-    <style type="text/css">
+    &lt;style type="text/css"&gt;
         /* Client-specific Styles */
         #outlook a {{ padding: 0; }}
         body {{ margin: 0; padding: 0; -webkit-text-size-adjust: 100%; 
@@ -574,36 +574,35 @@ class HTMLEmailBuilder:
         
         /* Custom Styles */
         {' '.join(self.styles)}
-    </style>
-</head>
-<body style="margin: 0; padding: 0; background-color: {self.background_color};">
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body style="margin: 0; padding: 0; background-color: {self.background_color};"&gt;
 """
         
         # Add preheader
         if self.preheader:
             html += f"""
-    <div style="display: none; font-size: 1px; color: {self.background_color}; 
+    &lt;div style="display: none; font-size: 1px; color: {self.background_color}; 
                line-height: 1px; max-height: 0px; max-width: 0px; 
-               opacity: 0; overflow: hidden;">
+               opacity: 0; overflow: hidden;"&gt;
         {self.preheader}
-    </div>
+    &lt;/div&gt;
 """
         
         # Main table
         html += f"""
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-        <tr>
-            <td align="center" style="padding: 40px 0;">
-                <table border="0" cellpadding="0" cellspacing="0" class="container" style="background-color: #ffffff; border-radius: 8px; 
-                             box-shadow: 0 2px 4px rgba(0,0,0,0.1);" width="{self.container_width}">
+    &lt;table border="0" cellpadding="0" cellspacing="0" width="100%"&gt;
+        &lt;tr&gt;
+            &lt;td align="center" style="padding: 40px 0;"&gt;
+                &lt;table border="0" cellpadding="0" cellspacing="0" class="container" style="background-color: #ffffff; border-radius: 8px; 
+                             box-shadow: 0 2px 4px rgba(0,0,0,0.1);" width="{self.container_width}"&gt;
                     {''.join(self.body_content)}
-                </table>
-            </td>
-        </tr>
-    </table>
-    </main>
-</body>
-</html>"""
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;"""
         
         return html
 
@@ -725,173 +724,173 @@ class ResponsiveEmailTemplates:
     def newsletter_template() -&gt; str:
         """Newsletter template."""
         return """
-<!DOCTYPE html>
+&lt;!DOCTYPE html&gt;
 
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>{{ title }}</title>
-    <style>
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"/&gt;
+    &lt;meta content="width=device-width, initial-scale=1.0" name="viewport"/&gt;
+    &lt;title&gt;{{ title }}&lt;/title&gt;
+    &lt;style&gt;
         @media only screen and (max-width: 600px) {
             .container { width: 100% !important; }
             .content { padding: 10px !important; }
             .column { width: 100% !important; display: block !important; }
         }
-    </style>
-</head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
-    <table align="center" class="container" style="background: white;" width="600">
-        <!-- Header -->
-        <tr>
-            <td align="center" style="padding: 40px 0;">
-                <img alt="{{ company_name }}" src="{{ logo_url }}" style="max-width: 200px;"/>
-            </td>
-        </tr>
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body style="margin: 0; padding: 0; background-color: #f4f4f4;"&gt;
+    &lt;table align="center" class="container" style="background: white;" width="600"&gt;
+        &lt;!-- Header --&gt;
+        &lt;tr&gt;
+            &lt;td align="center" style="padding: 40px 0;"&gt;
+                &lt;img alt="{{ company_name }}" src="{{ logo_url }}" style="max-width: 200px;"/&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         
-        <!-- Hero -->
+        &lt;!-- Hero --&gt;
         {% if hero_image %}
-        <tr>
-            <td>
-                <img alt="" src="{{ hero_image }}" style="width: 100%; max-width: 600px;" width="600"/>
-            </td>
-        </tr>
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;img alt="" src="{{ hero_image }}" style="width: 100%; max-width: 600px;" width="600"/&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         {% endif %}
         
-        <!-- Content -->
-        <tr>
-            <td class="content" style="padding: 30px;">
-                <h1 style="color: #333; margin: 0 0 20px 0;">{{ headline }}</h1>
+        &lt;!-- Content --&gt;
+        &lt;tr&gt;
+            &lt;td class="content" style="padding: 30px;"&gt;
+                &lt;h1 style="color: #333; margin: 0 0 20px 0;"&gt;{{ headline }}&lt;/h1&gt;
                 {{ content | safe }}
-            </td>
-        </tr>
+            &lt;/td&gt;
+        &lt;/tr&gt;
         
-        <!-- Articles -->
+        &lt;!-- Articles --&gt;
         {% for article in articles %}
-        <tr>
-            <td style="padding: 20px 30px;">
-                <table width="100%">
-                    <tr>
+        &lt;tr&gt;
+            &lt;td style="padding: 20px 30px;"&gt;
+                &lt;table width="100%"&gt;
+                    &lt;tr&gt;
                         {% if article.image %}
-                        <td valign="top" width="150">
-                            <img alt="" src="{{ article.image }}" style="max-width: 100%;" width="150"/>
-                        </td>
+                        &lt;td valign="top" width="150"&gt;
+                            &lt;img alt="" src="{{ article.image }}" style="max-width: 100%;" width="150"/&gt;
+                        &lt;/td&gt;
                         {% endif %}
-                        <td style="padding-left: 20px;" valign="top">
-                            <h2 style="margin: 0 0 10px 0; font-size: 20px;">{{ article.title }}</h2>
-                            <p style="margin: 0 0 10px 0; color: #666;">{{ article.summary }}</p>
-                            <a href="{{ article.link }}" style="color: #007bff;">Read more →</a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
+                        &lt;td style="padding-left: 20px;" valign="top"&gt;
+                            &lt;h2 style="margin: 0 0 10px 0; font-size: 20px;"&gt;{{ article.title }}&lt;/h2&gt;
+                            &lt;p style="margin: 0 0 10px 0; color: #666;"&gt;{{ article.summary }}&lt;/p&gt;
+                            &lt;a href="{{ article.link }}" style="color: #007bff;"&gt;Read more →&lt;/a&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
         {% endfor %}
         
-        <!-- Footer -->
-        <tr>
-            <td style="padding: 30px; background: #f8f8f8; text-align: center;">
-                <p style="margin: 0; color: #666; font-size: 14px;">
-                    © {{ year }} {{ company_name }}<br/>
-                    <a href="{{ unsubscribe_url }}" style="color: #666;">Unsubscribe</a> |
-                    <a href="{{ privacy_url }}" style="color: #666;">Privacy</a>
-                </p>
-            </td>
-        </tr>
-    </table>
-</body>
-</html>
+        &lt;!-- Footer --&gt;
+        &lt;tr&gt;
+            &lt;td style="padding: 30px; background: #f8f8f8; text-align: center;"&gt;
+                &lt;p style="margin: 0; color: #666; font-size: 14px;"&gt;
+                    © {{ year }} {{ company_name }}&lt;br/&gt;
+                    &lt;a href="{{ unsubscribe_url }}" style="color: #666;"&gt;Unsubscribe&lt;/a&gt; |
+                    &lt;a href="{{ privacy_url }}" style="color: #666;"&gt;Privacy&lt;/a&gt;
+                &lt;/p&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
         """
     
     @staticmethod
     def transactional_template() -&gt; str:
         """Transactional email template."""
         return """
-<!DOCTYPE html>
+&lt;!DOCTYPE html&gt;
 
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>{{ subject }}</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background: #f4f4f4;">
-    <table cellpadding="0" cellspacing="0" width="100%">
-        <tr>
-            <td align="center" style="padding: 40px 0;">
-                <table style="background: white; border-radius: 8px;" width="600">
-                    <!-- Header -->
-                    <tr>
-                        <td style="padding: 30px; border-bottom: 2px solid #eee;">
-                            <h1 style="margin: 0; color: #333;">{{ company_name }}</h1>
-                        </td>
-                    </tr>
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"/&gt;
+    &lt;title&gt;{{ subject }}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background: #f4f4f4;"&gt;
+    &lt;table cellpadding="0" cellspacing="0" width="100%"&gt;
+        &lt;tr&gt;
+            &lt;td align="center" style="padding: 40px 0;"&gt;
+                &lt;table style="background: white; border-radius: 8px;" width="600"&gt;
+                    &lt;!-- Header --&gt;
+                    &lt;tr&gt;
+                        &lt;td style="padding: 30px; border-bottom: 2px solid #eee;"&gt;
+                            &lt;h1 style="margin: 0; color: #333;"&gt;{{ company_name }}&lt;/h1&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
                     
-                    <!-- Content -->
-                    <tr>
-                        <td style="padding: 30px;">
-                            <h2 style="margin: 0 0 20px 0;">{{ title }}</h2>
+                    &lt;!-- Content --&gt;
+                    &lt;tr&gt;
+                        &lt;td style="padding: 30px;"&gt;
+                            &lt;h2 style="margin: 0 0 20px 0;"&gt;{{ title }}&lt;/h2&gt;
                             
                             {% if order %}
-                            <!-- Order Details -->
-                            <table style="border: 1px solid #ddd; margin: 20px 0;" width="100%">
-                                <tr style="background: #f8f8f8;">
-                                    <td style="padding: 10px;"><strong>Order #{{ order.id }}</strong></td>
-                                    <td style="padding: 10px; text-align: right;">{{ order.date }}</td>
-                                </tr>
+                            &lt;!-- Order Details --&gt;
+                            &lt;table style="border: 1px solid #ddd; margin: 20px 0;" width="100%"&gt;
+                                &lt;tr style="background: #f8f8f8;"&gt;
+                                    &lt;td style="padding: 10px;"&gt;&lt;strong&gt;Order #{{ order.id }}&lt;/strong&gt;&lt;/td&gt;
+                                    &lt;td style="padding: 10px; text-align: right;"&gt;{{ order.date }}&lt;/td&gt;
+                                &lt;/tr&gt;
                                 {% for item in order.items %}
-                                <tr>
-                                    <td style="padding: 10px; border-top: 1px solid #eee;">
-                                        {{ item.name }}<br/>
-                                        <small style="color: #666;">Qty: {{ item.quantity }}</small>
-                                    </td>
-                                    <td style="padding: 10px; border-top: 1px solid #eee; text-align: right;">
+                                &lt;tr&gt;
+                                    &lt;td style="padding: 10px; border-top: 1px solid #eee;"&gt;
+                                        {{ item.name }}&lt;br/&gt;
+                                        &lt;small style="color: #666;"&gt;Qty: {{ item.quantity }}&lt;/small&gt;
+                                    &lt;/td&gt;
+                                    &lt;td style="padding: 10px; border-top: 1px solid #eee; text-align: right;"&gt;
                                         {{ item.price | format_currency }}
-                                    </td>
-                                </tr>
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
                                 {% endfor %}
-                                <tr style="background: #f8f8f8;">
-                                    <td style="padding: 10px; border-top: 2px solid #ddd;">
-                                        <strong>Total</strong>
-                                    </td>
-                                    <td style="padding: 10px; border-top: 2px solid #ddd; text-align: right;">
-                                        <strong>{{ order.total | format_currency }}</strong>
-                                    </td>
-                                </tr>
-                            </table>
+                                &lt;tr style="background: #f8f8f8;"&gt;
+                                    &lt;td style="padding: 10px; border-top: 2px solid #ddd;"&gt;
+                                        &lt;strong&gt;Total&lt;/strong&gt;
+                                    &lt;/td&gt;
+                                    &lt;td style="padding: 10px; border-top: 2px solid #ddd; text-align: right;"&gt;
+                                        &lt;strong&gt;{{ order.total | format_currency }}&lt;/strong&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
+                            &lt;/table&gt;
                             {% endif %}
                             
                             {{ message | safe }}
                             
                             {% if action_url %}
-                            <table style="margin: 30px 0;" width="100%">
-                                <tr>
-                                    <td align="center">
-                                        <a href="{{ action_url }}" style="display: inline-block; padding: 12px 30px; 
+                            &lt;table style="margin: 30px 0;" width="100%"&gt;
+                                &lt;tr&gt;
+                                    &lt;td align="center"&gt;
+                                        &lt;a href="{{ action_url }}" style="display: inline-block; padding: 12px 30px; 
                                                   background: #007bff; color: white; 
-                                                  text-decoration: none; border-radius: 4px;">
+                                                  text-decoration: none; border-radius: 4px;"&gt;
                                             {{ action_text }}
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
+                                        &lt;/a&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
+                            &lt;/table&gt;
                             {% endif %}
-                        </td>
-                    </tr>
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
                     
-                    <!-- Footer -->
-                    <tr>
-                        <td style="padding: 20px; background: #f8f8f8; text-align: center; 
-                                  font-size: 12px; color: #666;">
-                            This is an automated message. Please do not reply.<br/>
+                    &lt;!-- Footer --&gt;
+                    &lt;tr&gt;
+                        &lt;td style="padding: 20px; background: #f8f8f8; text-align: center; 
+                                  font-size: 12px; color: #666;"&gt;
+                            This is an automated message. Please do not reply.&lt;br/&gt;
                             © {{ year }} {{ company_name }}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</body>
-</html>
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
         """
 
 # ==================== Email Testing ====================

@@ -133,6 +133,7 @@ import json
 import logging
 import traceback
 import time
+from pathlib import Path
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Callable, Union, Type
 from dataclasses import dataclass, field
@@ -146,7 +147,7 @@ from email.mime.multipart import MIMEMultipart
 from airflow import DAG, AirflowException
 from airflow.decorators import dag, task
 from airflow.operators.python import PythonOperator
-from airflow.operators.dummy import DummyOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.operators.email import EmailOperator
 from airflow.utils.dates import days_ago
 from airflow.utils.trigger_rule import TriggerRule
@@ -744,8 +745,8 @@ def resilient_pipeline():
         
         return {'compensated': False}
     
-    @task(retries=0)  # Don't retry cleanup
-    def cleanup(trigger_rule=TriggerRule.ALL_DONE):
+    @task(retries=0, trigger_rule=TriggerRule.ALL_DONE)  # Don't retry cleanup
+    def cleanup():
         """Cleanup resources regardless of pipeline status."""
         logging.info("Cleaning up resources")
         
@@ -801,6 +802,15 @@ class ErrorMonitor:
         # Get recent task failures
         cutoff_date = datetime.now() - timedelta(days=days)
         
+        # PSEUDO-CODE: the line below is only a SQLAlchemy comparison clause, not query results.
+        # A real implementation must run a query against the Airflow metadata DB, e.g.:
+        #     from airflow.utils.session import create_session
+        #     with create_session() as session:
+        #         failures = (session.query(TaskFail)
+        #                     .filter(TaskFail.dag_id == dag_id,
+        #                             TaskFail.start_date &gt;= cutoff_date)
+        #                     .all())
+        # As written, `len(failures)` below would error on the clause object.
         failures = TaskFail.dag_id == dag_id
         # Note: This is simplified - use proper Airflow DB queries in production
         
@@ -1033,10 +1043,7 @@ if __name__ == "__main__":
     print("\n   Testing circuit breaker...")
     # ErrorHandlingTester.test_circuit_breaker()  # Commented to avoid long output
     
-    print("\n✅ Error handling demonstration complete!")
-
-# Path import fix
-from pathlib import Path</code></pre>
+    print("\n✅ Error handling demonstration complete!")</code></pre>
 <h2>Key Takeaways and Best Practices 🎯</h2>
 <ul>
 <li><strong>Error Classification:</strong> Categorize errors to determine appropriate handling strategies.</li>

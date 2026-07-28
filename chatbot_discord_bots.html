@@ -425,7 +425,7 @@ class CoreCommands(commands.Cog):
             inline=True
         )
         embed.add_field(
-            name="Python",
+            name="discord.py",
             value=f"{discord.__version__}",
             inline=True
         )
@@ -620,8 +620,12 @@ class Moderation(commands.Cog):
             return
         
         try:
-            timeout_until = datetime.now() + timedelta(seconds=seconds)
-            await member.timeout(timeout_until, reason=f"{ctx.author}: {reason}")
+            # Pass a timedelta directly -- discord.py accepts a duration
+            # and computes the UTC-aware expiry itself. (Building it from
+            # datetime.now() would be timezone-naive/local and make the
+            # mute length wrong by the local UTC offset.)
+            await member.timeout(timedelta(seconds=seconds),
+                                 reason=f"{ctx.author}: {reason}")
             
             embed = discord.Embed(
                 title="Member Muted",

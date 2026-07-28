@@ -128,7 +128,7 @@
 <pre><code># First, install required packages:
 # pip install boto3 google-cloud-storage azure-storage-blob
 # pip install minio watchdog pandas matplotlib tqdm
-# pip install aiofiles asyncio aioboto3 concurrent-futures
+# pip install aiofiles asyncio aioboto3
 
 import os
 import json
@@ -828,7 +828,7 @@ class AzureStorageManager(CloudStorageManager):
     def create_container(
         self,
         container_name: Optional[str] = None,
-        public_access: str = 'off'
+        public_access: Optional[str] = None
     ) -&gt; bool:
         """Create Azure container."""
         try:

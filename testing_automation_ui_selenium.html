@@ -166,6 +166,10 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+# Selenium 4 passes the driver executable via a Service object, not a path arg.
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.edge.service import Service as EdgeService
 
 # For visual testing
 from PIL import Image, ImageChops
@@ -261,7 +265,7 @@ class WebDriverFactory:
         
         # Use WebDriver Manager to automatically download driver
         driver = webdriver.Chrome(
-            ChromeDriverManager().install(),
+            service=ChromeService(ChromeDriverManager().install()),
             options=options
         )
         
@@ -285,7 +289,7 @@ class WebDriverFactory:
             options.accept_insecure_certs = True
         
         driver = webdriver.Firefox(
-            executable_path=GeckoDriverManager().install(),
+            service=FirefoxService(GeckoDriverManager().install()),
             options=options
         )
         
@@ -303,7 +307,7 @@ class WebDriverFactory:
             options.add_argument("--headless")
         
         driver = webdriver.Edge(
-            EdgeChromiumDriverManager().install(),
+            service=EdgeService(EdgeChromiumDriverManager().install()),
             options=options
         )
         
@@ -326,15 +330,16 @@ class WebDriverFactory:
     @staticmethod
     def _create_remote_driver(config: SeleniumConfig) -&gt; webdriver.Remote:
         """Create Remote WebDriver for Selenium Grid."""
-        capabilities = {
-            "browserName": config.browser,
-            "platformName": "ANY",
-            "acceptInsecureCerts": config.accept_insecure_certs
-        }
-        
+        # Selenium 4 dropped the desired_capabilities kwarg; capabilities are
+        # now folded into an options object via set_capability().
+        options = ChromeOptions()
+        options.set_capability("browserName", config.browser)
+        options.set_capability("platformName", "ANY")
+        options.set_capability("acceptInsecureCerts", config.accept_insecure_certs)
+
         driver = webdriver.Remote(
             command_executor=config.grid_url,
-            desired_capabilities=capabilities
+            options=options
         )
         
         driver.implicitly_wait(config.implicit_wait)
@@ -977,7 +982,6 @@ class ParallelTestRunner:
                     print(f"Failures in {browser}:")
                     print(result.stdout.decode())
 
-# Missing import
 import io
 
 # Example usage

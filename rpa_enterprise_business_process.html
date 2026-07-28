@@ -150,7 +150,7 @@ from celery.result import AsyncResult
 
 # Database and ORM
 from sqlalchemy import create_engine, Column, String, Integer, DateTime, JSON, Boolean, ForeignKey, Text
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
 
 # Data validation
@@ -316,7 +316,13 @@ class BusinessRule:
     priority: int = 5
     
     def evaluate(self, context: Dict[str, Any]) -&gt; bool:
-        """Evaluate rule condition."""
+        """Evaluate rule condition.
+
+        WARNING: eval() on a stored/data-derived expression string is an RCE
+        risk. The {"__builtins__": {}} sandbox is well known to be escapable,
+        so never feed it untrusted input. A production rules engine should use
+        a safe evaluator (e.g. simpleeval, or an AST allow-list) instead.
+        """
         try:
             return eval(self.condition, {"__builtins__": {}}, context)
         except Exception as e:
@@ -351,7 +357,13 @@ class RulesEngine:
         return actions
     
     def check_condition(self, condition: str, context: Dict[str, Any]) -&gt; bool:
-        """Check a single condition."""
+        """Check a single condition.
+
+        WARNING: same RCE caveat as BusinessRule.evaluate -- eval() of a stored
+        expression is unsafe on any untrusted/data-derived input, and the
+        {"__builtins__": {}} sandbox is escapable. Use a safe evaluator
+        (e.g. simpleeval / an AST allow-list) in production.
+        """
         try:
             return eval(condition, {"__builtins__": {}}, context)
         except Exception as e:

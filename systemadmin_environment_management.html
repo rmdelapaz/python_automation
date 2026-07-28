@@ -147,7 +147,7 @@ import venv
 import pkg_resources
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import docker
 import requests
 from dotenv import load_dotenv, dotenv_values
@@ -698,11 +698,16 @@ class PythonEnvironmentManager:
                 self.logger.warning(f"Virtual environment already exists: {name}")
                 return False
             
-            # Create virtual environment
+            # Create virtual environment.
+            # NOTE: venv.create() always uses the CURRENTLY running
+            # interpreter -- it cannot build an environment for a
+            # different Python version. The `python_version` argument is
+            # therefore advisory here. To actually target another version
+            # you must shell out to that interpreter, e.g.:
+            #   subprocess.run([f"python{python_version}", "-m", "venv",
+            #                   str(venv_path)], check=True)
             if python_version:
-                # Use specific Python version
-                python_exe = f"python{python_version}"
-                venv.create(venv_path, with_pip=True, 
+                venv.create(venv_path, with_pip=True,
                            system_site_packages=False,
                            symlinks=True)
             else:

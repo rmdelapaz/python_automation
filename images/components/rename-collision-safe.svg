@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="rcs-title rcs-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="rcs-title">Safe batch renaming: dry-run preview, collisions, and cyclic swaps</title>
+  <desc id="rcs-desc">On the left, a dry-run preview lists each old name mapped to its new name; two different files map to the same new name, which is flagged as a collision that would overwrite data. On the right, swapping two names a and b cannot be done directly without clobbering, so it is routed through a temporary name in three steps. The lesson: compute and check the whole rename plan before touching the disk.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:13px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10.5px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.greenstroke{stroke:#10b981}
+    .red{fill:#ef4444}.redstroke{stroke:#ef4444}.amber{fill:#f59e0b}.amberstroke{stroke:#f59e0b}
+    .row{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1}
+    .badrow{fill:#fef2f2;stroke:#ef4444;stroke-width:1.5}
+    .chip{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}
+    .tmpchip{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.greenstroke{stroke:#34d399}
+      .red{fill:#f87171}.redstroke{stroke:#f87171}.amber{fill:#fbbf24}.amberstroke{stroke:#fbbf24}
+      .row{fill:#26262a;stroke:#3f3f46}.badrow{fill:#4c1d1d;stroke:#f87171}
+      .chip{fill:#1e293b;stroke:#569cd6}.tmpchip{fill:#3a2e0a;stroke:#fbbf24}
+    }
+  </style>
+  <defs>
+    <marker id="rcs-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="rcs-am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="amber"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="32">Rename is destructive &#8212; plan the whole map before touching disk</text>
+
+  <!-- LEFT: dry-run preview -->
+  <text class="label ink ph" x="24" y="62">Dry run: preview old &#8594; new</text>
+  <text class="label mono muted" x="24" y="80">renamer = SmartBatchRenamer(dir, dry_run=True)</text>
+
+  <!-- header -->
+  <text class="label muted s" x="34" y="104" font-weight="700">old name</text>
+  <text class="label muted s" x="200" y="104" font-weight="700">new name</text>
+
+  <!-- row 1 ok -->
+  <rect class="row" x="28" y="112" width="330" height="30" rx="4"/>
+  <text class="label mono ink" x="36" y="131">IMG_1234.jpg</text>
+  <text class="label mono muted" x="150" y="131">&#8594;</text>
+  <text class="label mono ink" x="170" y="131">2024-06_wed_001.jpg</text>
+  <text class="label green s" x="342" y="131" text-anchor="end" font-weight="700">&#10003;</text>
+  <!-- row 2 ok -->
+  <rect class="row" x="28" y="146" width="330" height="30" rx="4"/>
+  <text class="label mono ink" x="36" y="165">DSC_5678.jpg</text>
+  <text class="label mono muted" x="150" y="165">&#8594;</text>
+  <text class="label mono ink" x="170" y="165">2024-06_wed_002.jpg</text>
+  <text class="label green s" x="342" y="165" text-anchor="end" font-weight="700">&#10003;</text>
+  <!-- row 3 collision -->
+  <rect class="badrow" x="28" y="180" width="330" height="30" rx="4"/>
+  <text class="label mono ink" x="36" y="199">_MG_9012.jpg</text>
+  <text class="label mono muted" x="150" y="199">&#8594;</text>
+  <text class="label mono red" x="170" y="199">2024-06_wed_002.jpg</text>
+  <text class="label red s" x="342" y="199" text-anchor="end" font-weight="700">&#10007;</text>
+  <!-- collision flag -->
+  <rect class="badrow" x="28" y="220" width="330" height="40" rx="5"/>
+  <text class="label red s" x="44" y="236" font-weight="700">COLLISION</text>
+  <text class="label muted s" x="44" y="252">two files want _002.jpg &#8212; one would overwrite the other</text>
+
+  <text class="label muted s" x="28" y="284">Caught on paper. Nothing on disk changed yet.</text>
+
+  <!-- divider -->
+  <line class="frame" x1="378" y1="52" x2="378" y2="330" stroke="#cbd5e1" stroke-dasharray="4 4"/>
+
+  <!-- RIGHT: cyclic swap -->
+  <text class="label ink ph" x="398" y="62">Swaps need a temp hop</text>
+  <text class="label muted s" x="398" y="80">Rename a&#8594;b directly and you clobber b. Route through a temp:</text>
+
+  <!-- a and b chips -->
+  <rect class="chip" x="410" y="98" width="70" height="30" rx="5"/><text class="label mono ink" x="445" y="117" text-anchor="middle">a.jpg</text>
+  <rect class="chip" x="600" y="98" width="70" height="30" rx="5"/><text class="label mono ink" x="635" y="117" text-anchor="middle">b.jpg</text>
+  <path d="M480,105 C540,88 545,88 600,105" fill="none" class="amberstroke" stroke-width="2" marker-end="url(#rcs-am)"/>
+  <path d="M600,121 C545,138 540,138 480,121" fill="none" class="amberstroke" stroke-width="2" marker-end="url(#rcs-am)"/>
+  <text class="label muted s" x="540" y="86" text-anchor="middle">want to swap</text>
+
+  <!-- 3 steps -->
+  <rect class="tmpchip" x="398" y="160" width="26" height="24" rx="4"/><text class="label mono amber" x="411" y="177" text-anchor="middle" font-weight="700">1</text>
+  <text class="label mono ink" x="432" y="177">a.jpg &#8594; a.jpg.tmp</text>
+  <rect class="tmpchip" x="398" y="194" width="26" height="24" rx="4"/><text class="label mono amber" x="411" y="211" text-anchor="middle" font-weight="700">2</text>
+  <text class="label mono ink" x="432" y="211">b.jpg &#8594; a.jpg</text>
+  <rect class="tmpchip" x="398" y="228" width="26" height="24" rx="4"/><text class="label mono amber" x="411" y="245" text-anchor="middle" font-weight="700">3</text>
+  <text class="label mono ink" x="432" y="245">a.jpg.tmp &#8594; b.jpg</text>
+
+  <rect class="row" x="398" y="268" width="274" height="30" rx="5"/>
+  <text class="label green s" x="410" y="287" font-weight="700">&#10003; both names swapped, nothing lost</text>
+
+  <line class="frame" x1="24" y1="352" x2="696" y2="352" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="372">Always build the full old&#8594;new plan first: reject duplicate targets, order the moves so no step overwrites a</text>
+  <text class="label muted s" x="24" y="388">file it still needs, and keep a log so every rename can be undone. dry_run=True is your safety net.</text>
+</svg>

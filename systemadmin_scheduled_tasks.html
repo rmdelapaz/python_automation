@@ -131,6 +131,7 @@ import json
 import sqlite3
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Callable, Any, Tuple
+from collections import defaultdict
 from dataclasses import dataclass, field, asdict
 from enum import Enum
 from pathlib import Path
@@ -144,6 +145,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.date import DateTrigger
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
+from apscheduler.events import EVENT_JOB_EXECUTED, EVENT_JOB_ERROR, EVENT_JOB_MISSED
 import tempfile
 import shutil
 import smtplib
@@ -286,12 +288,13 @@ class TaskScheduler:
                 output TEXT,
                 error TEXT,
                 exit_code INTEGER,
-                FOREIGN KEY (task_id) REFERENCES tasks (id),
-                INDEX idx_task_id (task_id),
-                INDEX idx_start_time (start_time)
+                FOREIGN KEY (task_id) REFERENCES tasks (id)
             )
         ''')
-        
+        # SQLite indexes are created with separate statements, not inline in CREATE TABLE
+        cursor.execute('CREATE INDEX IF NOT EXISTS idx_task_id ON executions (task_id)')
+        cursor.execute('CREATE INDEX IF NOT EXISTS idx_start_time ON executions (start_time)')
+
         conn.commit()
         conn.close()
     
@@ -321,9 +324,9 @@ class TaskScheduler:
         self.scheduler.add_listener(
             self._job_listener,
             mask=(
-                self.scheduler.EVENT_JOB_EXECUTED |
-                self.scheduler.EVENT_JOB_ERROR |
-                self.scheduler.EVENT_JOB_MISSED
+                EVENT_JOB_EXECUTED |
+                EVENT_JOB_ERROR |
+                EVENT_JOB_MISSED
             )
         )
     

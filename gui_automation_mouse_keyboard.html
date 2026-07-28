@@ -805,10 +805,30 @@ class InputRecorder:
             pyautogui.scroll(data['dy'], x=data['x'], y=data['y'])
             
         elif event.event_type == InputEventType.KEY_PRESS:
-            pyautogui.keyDown(data['key'])
-            
+            pyautogui.keyDown(self._normalize_key(data['key']))
+
         elif event.event_type == InputEventType.KEY_RELEASE:
-            pyautogui.keyUp(data['key'])
+            pyautogui.keyUp(self._normalize_key(data['key']))
+
+    @staticmethod
+    def _normalize_key(key: str) -&gt; str:
+        """Convert a recorded pynput key name to a pyautogui key name.
+
+        Special keys are stored as pynput reprs like "Key.enter" or
+        "Key.shift"; pyautogui expects the bare name ("enter", "shift"),
+        so strip the "Key." prefix. A few names differ between the two
+        libraries and are remapped explicitly.
+        """
+        if key.startswith('Key.'):
+            key = key[len('Key.'):]
+        # pynput name -&gt; pyautogui name for the cases that don't match
+        remap = {
+            'cmd': 'command', 'cmd_r': 'command',
+            'alt_l': 'altleft', 'alt_r': 'altright', 'alt_gr': 'altright',
+            'ctrl_l': 'ctrlleft', 'ctrl_r': 'ctrlright',
+            'shift_l': 'shiftleft', 'shift_r': 'shiftright',
+        }
+        return remap.get(key, key)
 
 # ==================== Macro System ====================
 

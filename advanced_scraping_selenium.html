@@ -134,7 +134,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import (
     TimeoutException, 
     NoSuchElementException,
@@ -289,30 +288,34 @@ class BrowserManager:
         if self.config.proxy:
             options.add_argument(f'--proxy-server={self.config.proxy}')
         
+        # Build one merged prefs dict and set it once. Chrome only keeps the
+        # LAST add_experimental_option("prefs", ...) call, so calling it per
+        # option would silently discard every earlier pref.
+        prefs = {}
+
         # Download directory
         if self.config.download_dir:
-            prefs = {
+            prefs.update({
                 "download.default_directory": self.config.download_dir,
                 "download.prompt_for_download": False,
                 "download.directory_upgrade": True
-            }
-            options.add_experimental_option("prefs", prefs)
-        
+            })
+
         # Performance options
         if self.config.disable_images:
-            prefs = {"profile.managed_default_content_settings.images": 2}
-            options.add_experimental_option("prefs", prefs)
-        
+            prefs["profile.managed_default_content_settings.images"] = 2
+
         if self.config.disable_javascript:
-            prefs = {"profile.managed_default_content_settings.javascript": 2}
-            options.add_experimental_option("prefs", prefs)
-        
+            prefs["profile.managed_default_content_settings.javascript"] = 2
+
         # Privacy options
         if self.config.incognito:
             options.add_argument('--incognito')
-        
+
         if self.config.disable_notifications:
-            prefs = {"profile.default_content_setting_values.notifications": 2}
+            prefs["profile.default_content_setting_values.notifications"] = 2
+
+        if prefs:
             options.add_experimental_option("prefs", prefs)
         
         # Binary location
@@ -323,7 +326,6 @@ class BrowserManager:
         options.add_argument('--disable-gpu')
         options.add_argument('--disable-extensions')
         options.add_argument('--disable-infobars')
-        options.add_argument('--disable-automation')
         options.add_argument('--disable-blink-features=AutomationControlled')
         
         return options
@@ -604,8 +606,9 @@ class SmartWaiter:
         def react_ready(driver):
             try:
                 return driver.execute_script("""
-                    return document.readyState === 'complete' &amp;&amp; 
-                           (!window.React || !window.React.isPending || !window.React.isPending());
+                    // React does not expose a reliable "is rendering" signal,
+                    // so fall back to document readiness plus DOM stability.
+                    return document.readyState === 'complete';
                 """)
             except:
                 return True
@@ -769,7 +772,7 @@ class JavaScriptExecutor:
     
     def get_network_data(self) -&gt; List[Dict]:
         """
-        Get network request data (requires Chrome DevTools Protocol).
+        Get network request data using the standard Performance API.
         """
         return self.driver.execute_script("""
             return window.performance.getEntries().map(entry =&gt; ({

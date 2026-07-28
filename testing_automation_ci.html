@@ -795,7 +795,139 @@ pipeline {
                                 )
                             ]) {
                                 sh '''
-                                    ssh -i ${SSH_KEY} deploy@${SERVER} &lt;<eof "="" """="" """create="" "$ci_project_dir="" "3.9"="" "build="" "deploy="" "deploy"="" "postgresql:="" "redis:="" #="Security" ${docker_image}:${build_number}="" ${docker_registry}="" ${env.build_number}="" ${env.build_number}"="" ${env.job_name}="" ${env.job_name}",="" '="" '''="" 'canary',="" 'danger',="" 'deployment_type',="" 'good',="" 'python="" 'rolling'],="" 'select="" 'team@example.com'="" (params.deployment_type="Canary" )="" -="" --cov="src" --cov-report="term" --env="" --headless="" --json="" --name="" --upgrade="" --version="" -d="" -f="" -o="" -p="" -r="" -t="" -u="" .="" .cache="" 1="" 10="" 100="" 60s="" 8000:8000="" ["build"]="" ['blue-green',="" \="" activate="" always="" artifacts:="" bandit="" bandit-report.json="" before_script:="" bin="" blue_green_deploy.py'="" body:="" build="" cache:="" canary_deploy.py'="" certs"="" check="" choice(="" choices:="" ci="" cleanws()="" cobertura="" color:="" configuration="def" configuration."""="" console="" coverage.xml="" coverage:="" coverage_format:="" coverage_report:="" create_gitlab_ci_config():="" database_url:="" deploy="" deployment="" description:="" dist="" docker="" docker_driver:="" docker_tls_certdir:="" else="" emailext(="" eof="" expire_in:="" failed.="" failed:="" failure="" gitlab="" gitlab_ci="" if="" image:="" input="" install="" integration="" integration-tests:="" jenkinsfile_path="" jenkinsfile_path.write_text(jenkinsfile)="" json="" junit:="" locust="" locustfile.py="" message="" message:="" myapp="" name:="" needs:="" ok="" output.",="" overlay2="" parameters="" path:="" paths:="" performance="" performance-report.json="" performance-tests:="" performance:="" pip="" pip"="" pip_cache_dir:="" post="" postgres:14="" postgres_db:="" postgres_password:="" postgres_user:="" production')="" production?"="" pull="" pytest="" pytest-cov="" pytest-html="" python="" python:${python_version}="" python_version:="" redis:6379"="" redis:7="" redis_url:="" reports:="" requirements-dev.txt="" requirements.txt="" return="" rm="" rolling_deploy.py'="" run="" safety="" script="" script:="" scripts="" security="" services:="" setup.py="" sh="" slacksend(="" smoke_tests.py="" source="" src="" stage="security-scan:" stage('deploy="" stage('smoke="" stage:="" stages:="" staging="" steps="" stop="" strategy'="" subject:="" success="" successful:="" test="" test-results.xml="" testdb="" testdb"="" testpass="" tests="" tests')="" testuser="" testuser:testpass@postgres:5432="" to="" to:="" total.*\s+(\d+%)$="" true="" unit="" variables:="" venv="" virtualenv="" week="" when:="" {="" ||="" }=""> safety-report.json
+                                    ssh -i ${SSH_KEY} deploy@${SERVER} "cd /app/myapp &amp;&amp; docker pull ${DOCKER_REGISTRY}/myapp:${BUILD_NUMBER} &amp;&amp; docker stop myapp || true &amp;&amp; docker rm myapp || true &amp;&amp; docker run -d --name myapp -p 8000:8000 ${DOCKER_REGISTRY}/myapp:${BUILD_NUMBER}"
+                                '''
+                            }
+                        }
+                    }
+                }
+
+                stage('Smoke Tests') {
+                    steps {
+                        sh 'python smoke_tests.py --env staging'
+                    }
+                }
+
+                stage('Deploy to Production') {
+                    input {
+                        message "Deploy to production?"
+                        ok "Deploy"
+                        parameters {
+                            choice(
+                                name: 'DEPLOYMENT_TYPE',
+                                choices: ['blue-green', 'canary', 'rolling'],
+                                description: 'Select deployment strategy'
+                            )
+                        }
+                    }
+                    steps {
+                        script {
+                            if (params.DEPLOYMENT_TYPE == 'blue-green') {
+                                sh 'python scripts/blue_green_deploy.py'
+                            } else if (params.DEPLOYMENT_TYPE == 'canary') {
+                                sh 'python scripts/canary_deploy.py'
+                            } else {
+                                sh 'python scripts/rolling_deploy.py'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            slackSend(
+                color: 'good',
+                message: "Build ${env.BUILD_NUMBER} for ${env.JOB_NAME} succeeded."
+            )
+        }
+        failure {
+            emailext(
+                subject: "Build ${env.BUILD_NUMBER} for ${env.JOB_NAME} failed",
+                body: "Check the console output.",
+                to: 'team@example.com'
+            )
+        }
+    }
+}
+"""
+
+    jenkinsfile_path = Path("Jenkinsfile")
+    jenkinsfile_path.write_text(jenkinsfile)
+
+    return jenkinsfile_path
+
+
+# ==================== GitLab CI Configuration ====================
+
+def create_gitlab_ci_config():
+    """Create GitLab CI/CD configuration."""
+
+    gitlab_ci = """
+stages:
+  - build
+  - test
+  - security
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  PYTHON_VERSION: "3.9"
+
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+before_script:
+  - python -m venv venv
+  - source venv/bin/activate
+  - pip install --upgrade pip
+
+# ==================== Test Stage ====================
+
+unit-tests:
+  stage: test
+  image: python:${PYTHON_VERSION}
+  script:
+    - pip install -r requirements-dev.txt
+    - pytest tests/unit --cov=src --cov-report=term --junitxml=test-results.xml
+  artifacts:
+    reports:
+      junit: test-results.xml
+
+integration-tests:
+  stage: test
+  image: python:${PYTHON_VERSION}
+  services:
+    - postgres:14
+    - redis:7
+  variables:
+    POSTGRES_DB: testdb
+    POSTGRES_USER: testuser
+    POSTGRES_PASSWORD: testpass
+    DATABASE_URL: "postgresql://testuser:testpass@postgres:5432/testdb"
+    REDIS_URL: "redis://redis:6379"
+  script:
+    - pip install -r requirements-dev.txt
+    - pytest tests/integration --junitxml=test-results.xml
+
+# ==================== Security Stage ====================
+
+security-scan:
+  stage: security
+  image: python:${PYTHON_VERSION}
+  script:
+    - pip install bandit safety
+    - bandit -r src -f json -o bandit-report.json
+    - safety check --json &gt; safety-report.json
   artifacts:
     reports:
       sast: bandit-report.json

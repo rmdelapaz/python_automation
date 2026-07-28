@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="fed-title fed-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="fed-title">Debouncing a burst of file system events into one action</title>
+  <desc id="fed-desc">A single file save makes the operating system fire a rapid burst of events (several modified events plus a temp-file created event). A naive handler reacts to each one and compiles five times. A debounced handler resets a short timer on every event and runs the action only once, after the events go quiet.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10.5px}
+    .blue{fill:#3b82f6}.bluestroke{stroke:#3b82f6}
+    .green{fill:#10b981}.greenstroke{stroke:#10b981}
+    .red{fill:#ef4444}.redstroke{stroke:#ef4444}
+    .amber{fill:#f59e0b}.amberstroke{stroke:#f59e0b}
+    .pill{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}
+    .win{fill:#ecfdf5;stroke:#10b981;stroke-width:1.5}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.bluestroke{stroke:#569cd6}.green{fill:#34d399}.greenstroke{stroke:#34d399}
+      .red{fill:#f87171}.redstroke{stroke:#f87171}.amber{fill:#fbbf24}.amberstroke{stroke:#fbbf24}
+      .pill{fill:#1e293b;stroke:#569cd6}.win{fill:#064e3b;stroke:#34d399}
+    }
+  </style>
+  <defs>
+    <marker id="fed-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="blue"/></marker>
+    <marker id="fed-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="red"/></marker>
+    <marker id="fed-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="green"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="420"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="418.5" rx="10"/>
+  <text class="label ink h" x="24" y="32">One save fires a burst &#8212; debounce it into one action</text>
+
+  <!-- pipeline strip -->
+  <g>
+    <rect class="pill" x="24" y="46" width="120" height="30" rx="15"/><text class="label t ink" x="84" y="66" text-anchor="middle">Observer</text>
+    <line x1="146" y1="61" x2="176" y2="61" class="bluestroke" stroke-width="2" marker-end="url(#fed-a)"/>
+    <rect class="pill" x="178" y="46" width="150" height="30" rx="15"/><text class="label t ink" x="253" y="66" text-anchor="middle">EventHandler</text>
+    <line x1="330" y1="61" x2="360" y2="61" class="bluestroke" stroke-width="2" marker-end="url(#fed-a)"/>
+    <rect class="pill" x="362" y="46" width="130" height="30" rx="15"/><text class="label t ink" x="427" y="66" text-anchor="middle">debounce timer</text>
+    <line x1="494" y1="61" x2="524" y2="61" class="bluestroke" stroke-width="2" marker-end="url(#fed-a)"/>
+    <rect class="pill" x="526" y="46" width="170" height="30" rx="15"/><text class="label t ink" x="611" y="66" text-anchor="middle">your action (compile)</text>
+  </g>
+
+  <!-- save trigger -->
+  <text class="label ink t" x="24" y="110" font-weight="700">You press Ctrl+S &#8212; once</text>
+
+  <!-- timeline -->
+  <line x1="90" y1="150" x2="620" y2="150" class="frame" stroke="#94a3b8" stroke-width="1.5"/>
+  <text class="label muted s" x="620" y="146" text-anchor="end">time &#8594;</text>
+  <!-- burst ticks -->
+  <g>
+    <line x1="120" y1="134" x2="120" y2="150" class="amberstroke" stroke-width="2.5"/>
+    <line x1="140" y1="134" x2="140" y2="150" class="amberstroke" stroke-width="2.5"/>
+    <line x1="158" y1="134" x2="158" y2="150" class="amberstroke" stroke-width="2.5"/>
+    <line x1="176" y1="134" x2="176" y2="150" class="amberstroke" stroke-width="2.5"/>
+    <line x1="196" y1="134" x2="196" y2="150" class="amberstroke" stroke-width="2.5"/>
+  </g>
+  <text class="label amber s" x="158" y="126" text-anchor="middle" font-weight="700">burst: modified &#215;4, created &#215;1</text>
+
+  <!-- debounce window -->
+  <rect class="win" x="196" y="158" width="118" height="24" rx="6" opacity="0.5"/>
+  <text class="label green s" x="255" y="174" text-anchor="middle">quiet &#8805; 300ms</text>
+  <line x1="314" y1="150" x2="314" y2="150" />
+
+  <!-- NAIVE row -->
+  <text class="label red ph" x="24" y="222">Naive: react to every event</text>
+  <g class="redstroke">
+    <line x1="120" y1="236" x2="120" y2="262" stroke-width="2" marker-end="url(#fed-r)"/>
+    <line x1="140" y1="236" x2="140" y2="262" stroke-width="2" marker-end="url(#fed-r)"/>
+    <line x1="158" y1="236" x2="158" y2="262" stroke-width="2" marker-end="url(#fed-r)"/>
+    <line x1="176" y1="236" x2="176" y2="262" stroke-width="2" marker-end="url(#fed-r)"/>
+    <line x1="196" y1="236" x2="196" y2="262" stroke-width="2" marker-end="url(#fed-r)"/>
+  </g>
+  <text class="label red t" x="240" y="258" font-weight="700">compile &#215;5</text>
+  <text class="label muted s" x="240" y="273">wasted work, half-written reads, race conditions</text>
+
+  <!-- DEBOUNCED row -->
+  <text class="label green ph" x="24" y="312">Debounced: run once after it settles</text>
+  <line x1="314" y1="326" x2="314" y2="352" class="greenstroke" stroke-width="2.5" marker-end="url(#fed-g)"/>
+  <text class="label green t" x="336" y="344" font-weight="700">compile &#215;1</text>
+  <text class="label muted s" x="336" y="359">fires 300ms after the last event &#8212; on the finished file</text>
+
+  <line class="frame" x1="24" y1="378" x2="696" y2="378" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="398">Editors save by writing, truncating, and swapping temp files, so one Ctrl+S looks like many events.</text>
+  <text class="label muted s" x="24" y="413">A timer that resets on each event collapses the storm into a single, reliable trigger.</text>
+</svg>

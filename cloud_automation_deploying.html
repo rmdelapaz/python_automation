@@ -849,15 +849,26 @@ class KubernetesDeploymentManager:
                 )
     
     def rollback_deployment(self, namespace: str = "default", revision: int = 0):
-        """Rollback deployment to previous version."""
+        """
+        Placeholder: does NOT perform a true rollback.
+
+        A real rollback restores a prior pod-template revision, equivalent to
+        `kubectl rollout undo deployment/&lt;name&gt; [--to-revision=N]`. The Python
+        client has no single "undo" call; you must look up the target revision's
+        ReplicaSet (via the `deployment.kubernetes.io/revision` annotation) and
+        patch the Deployment's `spec.template` back to that ReplicaSet's template.
+        This method only adjusts the revision-history limit and re-patches the
+        *current* spec, so it will not change the running version.
+        """
         try:
             # Get deployment
             deployment = self.apps_v1.read_namespaced_deployment(
                 name=self.config.app_name,
                 namespace=namespace
             )
-            
-            # Rollback to previous version
+
+            # NOTE: this only tunes how many old revisions Kubernetes retains;
+            # it does not roll the workload back to a previous revision.
             deployment.spec.revision_history_limit = self.config.max_rollback_revisions
             
             # Update deployment

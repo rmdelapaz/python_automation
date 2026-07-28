@@ -500,17 +500,11 @@ class ComputeEngineManager:
         zone: Optional[str] = None
     ):
         """Wait for an operation to complete."""
-        while not operation.done:
-            time.sleep(2)
-            if zone:
-                operation = self.instances_client.get(
-                    project=self.config.project_id,
-                    zone=zone,
-                    operation=operation.name
-                )
-            else:
-                # Global operation
-                pass
+        # The compute_v1 clients return an ExtendedOperation; calling
+        # .result() blocks until the operation finishes and raises on error.
+        # This works for both zonal and global operations, so we don't need
+        # to re-poll via InstancesClient.get() (which has no operation= kwarg).
+        operation.result()
 
 # ==================== Cloud Storage Manager ====================
 

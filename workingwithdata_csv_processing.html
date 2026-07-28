@@ -121,6 +121,7 @@ import numpy as np
 from pathlib import Path
 from typing import List, Dict, Optional, Any, Tuple, Union
 import json
+import os
 import chardet
 from datetime import datetime, timedelta
 import re
@@ -688,7 +689,9 @@ class CSVMasterProcessor:
                     column_name = transform['column']
                     formula = transform['formula']
                     
-                    # Safe evaluation of formula
+                    # WARNING: eval() is NOT safe on untrusted input. Emptying
+                    # __builtins__ does not sandbox it (known escapes exist).
+                    # Only use with trusted formulas, or switch to df.eval()/numexpr.
                     try:
                         df[column_name] = eval(formula, {"__builtins__": {}}, df.to_dict('series'))
                         self.logger.info(f"Added column '{column_name}' with formula: {formula}")
@@ -938,7 +941,8 @@ class CSVStreamProcessor:
         Asynchronously process CSV file.
         """
         async with aiofiles.open(file_path, mode='r') as file:
-            reader = csv.DictReader(await file.read().split('\n'))
+            content = await file.read()
+            reader = csv.DictReader(content.splitlines())
             
             tasks = []
             for row in reader:

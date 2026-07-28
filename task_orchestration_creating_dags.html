@@ -144,7 +144,7 @@ from airflow import DAG
 from airflow.decorators import dag, task, task_group
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
-from airflow.operators.dummy import DummyOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.operators.subdag import SubDagOperator
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 from airflow.sensors.external_task import ExternalTaskSensor
@@ -153,6 +153,7 @@ from airflow.utils.dates import days_ago
 from airflow.utils.trigger_rule import TriggerRule
 from airflow.models import Variable
 from airflow.exceptions import AirflowException
+from airflow.utils.dag_cycle_tester import check_cycle
 
 # ==================== DAG Factory Pattern ====================
 
@@ -233,7 +234,7 @@ class DAGFactory:
                     python_callable=transform_func,
                 )
             else:
-                transform = DummyOperator(task_id='transform')
+                transform = EmptyOperator(task_id='transform')
             
             # Load task
             load = PythonOperator(
@@ -375,7 +376,7 @@ class ConfigDrivenDAG:
                 http_conn_id=source_config['connection_id']
             )
         else:
-            return DummyOperator(task_id=f'extract_{source_type}')
+            return EmptyOperator(task_id=f'extract_{source_type}')
     
     def _create_transform_task(self, transform_config: Dict[str, Any]):
         """Create transformation task."""
@@ -536,7 +537,7 @@ class DependencyPatterns:
         from airflow.operators.python import BranchPythonOperator
         
         with dag:
-            merge = DummyOperator(
+            merge = EmptyOperator(
                 task_id='merge',
                 trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
             )
@@ -639,7 +640,7 @@ def create_subdag(
     )
     
     with subdag:
-        start = DummyOperator(task_id='subdag_start')
+        start = EmptyOperator(task_id='subdag_start')
         
         # Add subdag tasks
         for i in range(3):
@@ -649,7 +650,7 @@ def create_subdag(
             )
             start &gt;&gt; task
         
-        end = DummyOperator(task_id='subdag_end')
+        end = EmptyOperator(task_id='subdag_end')
         
         # Connect all tasks to end
         for task in subdag.tasks:
@@ -778,8 +779,12 @@ class DAGValidator:
         issues = []
         warnings = []
         
-        # Check for cycles
-        if dag.has_task_cycle():
+        # Check for cycles. DAG has no has_task_cycle() method; the cycle
+        # check lives in airflow.utils.dag_cycle_tester.check_cycle(), which
+        # raises AirflowDagCycleException when a cycle is present.
+        try:
+            check_cycle(dag)
+        except AirflowException:
             issues.append("DAG contains a cycle")
         
         # Check for duplicate task IDs
@@ -979,9 +984,9 @@ if __name__ == "__main__":
     )
     
     with test_dag:
-        t1 = DummyOperator(task_id='task1')
-        t2 = DummyOperator(task_id='task2')
-        t3 = DummyOperator(task_id='task3')
+        t1 = EmptyOperator(task_id='task1')
+        t2 = EmptyOperator(task_id='task2')
+        t3 = EmptyOperator(task_id='task3')
         t1 &gt;&gt; t2 &gt;&gt; t3
     
     validator = DAGValidator()

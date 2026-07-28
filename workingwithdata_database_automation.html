@@ -133,6 +133,7 @@ import asyncpg
 import aiomysql
 import motor.motor_asyncio
 from typing import Dict, List, Any, Optional, Union, Tuple
+import os
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -351,10 +352,10 @@ class UniversalDatabaseManager:
             df = pd.DataFrame(data)
             engine = self.get_sqlalchemy_engine(db_name)
             
-            rows_inserted = df.to_sql(
-                table, 
-                engine, 
-                if_exists='append', 
+            df.to_sql(
+                table,
+                engine,
+                if_exists='append',
                 index=False,
                 method='multi',
                 chunksize=1000
@@ -426,7 +427,7 @@ class UniversalDatabaseManager:
                     f'--file={backup_file}'
                 ]
                 
-                env = {'PGPASSWORD': config.password}
+                env = {**os.environ, 'PGPASSWORD': config.password}
                 result = subprocess.run(cmd, env=env, capture_output=True, text=True)
                 
                 if result.returncode != 0:
@@ -501,7 +502,7 @@ class UniversalDatabaseManager:
                     backup_file
                 ]
                 
-                env = {'PGPASSWORD': config.password}
+                env = {**os.environ, 'PGPASSWORD': config.password}
                 result = subprocess.run(cmd, env=env, capture_output=True, text=True)
                 
                 if result.returncode != 0:

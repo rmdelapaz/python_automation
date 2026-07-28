@@ -425,12 +425,16 @@ class ProxyPool:
                 else:
                     proxy.response_time = response_time
             
-            # Update success rate
-            proxy.success_rate = (
-                (proxy.success_rate * (proxy.total_requests - 1) + 1) 
-                / proxy.total_requests
-            )
-            
+            # Update success rate (guard against total_requests == 0 on the
+            # health-check path, which never increments it -&gt; ZeroDivisionError)
+            if proxy.total_requests &gt; 0:
+                proxy.success_rate = (
+                    (proxy.success_rate * (proxy.total_requests - 1) + 1)
+                    / proxy.total_requests
+                )
+            else:
+                proxy.success_rate = 1.0
+
             proxy.failures = 0  # Reset failure count
             
             self._save_proxy_to_db(proxy)
@@ -441,12 +445,16 @@ class ProxyPool:
         with self.lock:
             proxy.failures += 1
             
-            # Update success rate
-            proxy.success_rate = (
-                (proxy.success_rate * (proxy.total_requests - 1)) 
-                / proxy.total_requests
-            )
-            
+            # Update success rate (guard against total_requests == 0 on the
+            # health-check path, which never increments it -&gt; ZeroDivisionError)
+            if proxy.total_requests &gt; 0:
+                proxy.success_rate = (
+                    (proxy.success_rate * (proxy.total_requests - 1))
+                    / proxy.total_requests
+                )
+            else:
+                proxy.success_rate = 0.0
+
             self._record_proxy_stat(proxy, False, error=error)
             
             # Check if proxy should be removed
@@ -582,9 +590,8 @@ class ProxyPool:
             }
             
             if self.active_proxies:
-                avg_response_time = sum(
-                    p.response_time for p in self.active_proxies if p.response_time
-                ) / len([p for p in self.active_proxies if p.response_time])
+                timed = [p.response_time for p in self.active_proxies if p.response_time]
+                avg_response_time = sum(timed) / len(timed) if timed else 0.0
                 
                 avg_success_rate = sum(
                     p.success_rate for p in self.active_proxies

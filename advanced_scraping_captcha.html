@@ -847,9 +847,12 @@ class CaptchaManager:
                     return self.ocr_solver.solve_text_captcha(image)
         
         elif self.strategy == SolverStrategy.BEHAVIORAL:
-            # Use human-like behavior to avoid detection
+            # There is no legitimate "behavioral bypass": interacting naturally can reduce how
+            # often bot defenses challenge you, but it cannot solve a challenge that has appeared.
+            # If one does appear, solve it through an accessibility or licensed service, or stop
+            # and respect the site's decision.
             self._simulate_human_solving()
-            return "behavioral_bypass"
+            return None
         
         return None
     
@@ -866,10 +869,19 @@ class CaptchaManager:
             for selector in selectors:
                 try:
                     element = self.driver.find_element(By.XPATH, selector)
-                    
-                    # Get image as base64
+
+                    # Get image as base64. An &lt;img&gt; has no toDataURL (that is a
+                    # &lt;canvas&gt; method), so draw it onto a temporary canvas first,
+                    # then strip the "data:image/png;base64," prefix via split(',').
                     img_base64 = self.driver.execute_script(
-                        "return arguments[0].toDataURL('image/png').substring(21);",
+                        """
+                        const img = arguments[0];
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.naturalWidth || img.width;
+                        canvas.height = img.naturalHeight || img.height;
+                        canvas.getContext('2d').drawImage(img, 0, 0);
+                        return canvas.toDataURL('image/png').split(',')[1];
+                        """,
                         element
                     )
                     
@@ -891,7 +903,9 @@ class CaptchaManager:
         """Submit CAPTCHA solution."""
         try:
             if challenge.type == CaptchaType.RECAPTCHA_V2:
-                # Inject reCAPTCHA solution
+                # Apply a token obtained from a LICENSED solving / accessibility service (e.g. 2captcha).
+                # Only do this with the site's permission and within its Terms of Service; using it to
+                # defeat protections you are not authorized to bypass is abuse, not automation.
                 self.driver.execute_script(
                     f"document.getElementById('g-recaptcha-response').innerHTML = '{challenge.solution}';"
                 )
@@ -985,8 +999,8 @@ if __name__ == "__main__":
         ("Service-based", "Use 2captcha, Anti-Captcha, etc."),
         ("OCR", "Optical character recognition for text"),
         ("Audio", "Speech recognition for audio CAPTCHAs"),
-        ("Behavioral", "Mimic human behavior to avoid triggers"),
-        ("Avoidance", "Prevent CAPTCHA from appearing"),
+        ("Behavioral", "Interact naturally to trigger fewer checks (not a solver)"),
+        ("Avoidance", "Use the site normally so a CAPTCHA is less likely to appear"),
         ("Manual", "Human intervention when needed")
     ]
     
@@ -1041,9 +1055,10 @@ if __name__ == "__main__":
         ("reCAPTCHA v2 (Service)", "85-95%"),
         ("hCaptcha (Service)", "80-90%"),
         ("Image Selection", "70-85%"),
-        ("Slider/Puzzle", "75-90%"),
-        ("Behavioral Avoidance", "95-99%")
+        ("Slider/Puzzle", "75-90%")
     ]
+    # Note: "behaving naturally" reduces how often you are challenged, but it is not a
+    # solve rate and should never be presented as one.
     
     for method, rate in success_rates:
         print(f"   {method}: {rate}")
@@ -1081,7 +1096,7 @@ if __name__ == "__main__":
         "Rotate residential proxies",
         "Add realistic delays between requests",
         "Complete user flows naturally",
-        "Use headless browser detection bypass",
+        "Prefer an official API or data feed when the site offers one",
         "Maintain cookies and local storage"
     ]
     

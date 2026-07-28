@@ -16,17 +16,17 @@
             margin-bottom: 3rem;
             text-align: center;
         }
-        
+
         .course-header h1 {
             margin: 0 0 1rem 0;
             font-size: 2.5rem;
         }
-        
+
         .course-header p {
             font-size: 1.2rem;
             opacity: 0.95;
         }
-        
+
         .module {
             background: #f8f9fa;
             border-radius: 10px;
@@ -34,14 +34,14 @@
             margin-bottom: 2rem;
             border-left: 4px solid #667eea;
         }
-        
+
         .module h2 {
             color: #333;
             margin-top: 0;
             display: flex;
             align-items: center;
         }
-        
+
         .module-number {
             background: #667eea;
             color: white;
@@ -53,14 +53,15 @@
             justify-content: center;
             margin-right: 1rem;
             font-weight: bold;
+            flex-shrink: 0;
         }
-        
+
         .lessons {
             list-style: none;
             padding: 0;
             margin: 1rem 0;
         }
-        
+
         .lesson {
             background: white;
             padding: 1rem;
@@ -69,24 +70,24 @@
             transition: all 0.3s ease;
             border: 1px solid #e0e0e0;
         }
-        
+
         .lesson:hover {
             transform: translateX(5px);
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border-color: #667eea;
         }
-        
+
         .lesson a {
             text-decoration: none;
             color: #333;
             display: block;
             font-weight: 500;
         }
-        
+
         .lesson a:hover {
             color: #667eea;
         }
-        
+
         .lesson-number {
             display: inline-block;
             background: #e0e0e0;
@@ -97,13 +98,21 @@
             font-size: 0.85rem;
             font-weight: normal;
         }
-        
+
+        .lesson-desc {
+            display: block;
+            color: #777;
+            font-weight: normal;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
         .module-description {
             color: #666;
             margin: 1rem 0;
             font-style: italic;
         }
-        
+
         .stats {
             background: white;
             padding: 2rem;
@@ -114,22 +123,22 @@
             gap: 2rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        
+
         .stat {
             text-align: center;
         }
-        
+
         .stat-number {
             font-size: 2rem;
             font-weight: bold;
             color: #667eea;
         }
-        
+
         .stat-label {
             color: #666;
             margin-top: 0.5rem;
         }
-        
+
         .quick-nav {
             background: #fff;
             padding: 1.5rem;
@@ -137,18 +146,18 @@
             margin-bottom: 2rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        
+
         .quick-nav h3 {
             margin-top: 0;
             color: #333;
         }
-        
+
         .nav-links {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
         }
-        
+
         .nav-link {
             background: #f0f0f0;
             padding: 0.5rem 1rem;
@@ -157,12 +166,12 @@
             color: #666;
             transition: all 0.3s ease;
         }
-        
+
         .nav-link:hover {
             background: #667eea;
             color: white;
         }
-        
+
         .footer {
             text-align: center;
             padding: 3rem 1rem;
@@ -170,7 +179,7 @@
             border-radius: 10px;
             margin-top: 3rem;
         }
-        
+
         .completion-badge {
             display: inline-block;
             background: #28a745;
@@ -187,25 +196,25 @@
 <body>
     <!-- Skip to main content for accessibility -->
     <a href="#main-content" class="skip-to-main">Skip to main content</a>
-    
+
     <!-- Progress indicator -->
     <div class="progress-indicator" role="progressbar" aria-label="Page scroll progress">
         <div class="progress-bar"></div>
     </div>
-    
+
     <main id="main-content">
     <div class="course-header">
         <h1>🚀 Python Automation Mastery</h1>
         <p>Your Complete Journey from Manual Tasks to Automated Excellence</p>
     </div>
-    
+
     <div class="stats">
         <div class="stat">
-            <div class="stat-number">8</div>
+            <div class="stat-number">14</div>
             <div class="stat-label">Modules</div>
         </div>
         <div class="stat">
-            <div class="stat-number">40</div>
+            <div class="stat-number">70</div>
             <div class="stat-label">Lessons</div>
         </div>
         <div class="stat">
@@ -217,349 +226,671 @@
             <div class="stat-label">Possibilities</div>
         </div>
     </div>
-    
+
     <div class="quick-nav">
         <h3>Quick Navigation</h3>
         <div class="nav-links">
-            <a href="#module1" class="nav-link">File & System</a>
-            <a href="#module2" class="nav-link">Web Automation</a>
-            <a href="#module3" class="nav-link">Data Processing</a>
-            <a href="#module4" class="nav-link">Communication</a>
-            <a href="#module5" class="nav-link">Cloud</a>
-            <a href="#module6" class="nav-link">Task Orchestration</a>
-            <a href="#module7" class="nav-link">Testing</a>
-            <a href="#module8" class="nav-link">RPA & Enterprise</a>
+            <a href="#module1" class="nav-link">File &amp; System</a>
+            <a href="#module2" class="nav-link">Web Scraping</a>
+            <a href="#module3" class="nav-link">Browser Automation</a>
+            <a href="#module4" class="nav-link">Data Processing</a>
+            <a href="#module5" class="nav-link">Email</a>
+            <a href="#module6" class="nav-link">API Automation</a>
+            <a href="#module7" class="nav-link">Cloud</a>
+            <a href="#module8" class="nav-link">Task Orchestration</a>
+            <a href="#module9" class="nav-link">Testing</a>
+            <a href="#module10" class="nav-link">System Admin</a>
+            <a href="#module11" class="nav-link">GUI Automation</a>
+            <a href="#module12" class="nav-link">Chatbots</a>
+            <a href="#module13" class="nav-link">Advanced Scraping</a>
+            <a href="#module14" class="nav-link">RPA &amp; Enterprise</a>
         </div>
     </div>
-    
+
     <!-- Module 1: File and System Automation -->
     <div class="module" id="module1">
         <h2>
             <span class="module-number">1</span>
             File and System Automation
         </h2>
-        <p class="module-description">Master the fundamentals of automating file operations, system tasks, and process scheduling. Build a strong foundation for all automation tasks.</p>
+        <p class="module-description">Automate file operations, monitoring, organization, and backups — the foundation everything else builds on.</p>
         <ul class="lessons">
             <li class="lesson">
                 <a href="filesystem_advanced_file_operations.html">
                     <span class="lesson-number">1.1</span>
-                    Advanced File Operations - Master File Manipulation
-                </a>
-            </li>
-            <li class="lesson">
-                <a href="filesystem_directory_watching.html">
-                    <span class="lesson-number">1.2</span>
-                    Directory Watching - Monitor File Changes
-                </a>
-            </li>
-            <li class="lesson">
-                <a href="filesystem_file_organization_scripts.html">
-                    <span class="lesson-number">1.3</span>
-                    File Organization Scripts - Smart File Management
+                    Advanced File Operations
+                    <span class="lesson-desc">Master file manipulation with pathlib and shutil</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="filesystem_batch_renaming.html">
+                    <span class="lesson-number">1.2</span>
+                    Batch Renaming
+                    <span class="lesson-desc">Rename files in bulk, safely and predictably</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="filesystem_directory_watching.html">
+                    <span class="lesson-number">1.3</span>
+                    Directory Watching
+                    <span class="lesson-desc">Real-time file system monitoring with watchdog</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="filesystem_file_organization_scripts.html">
                     <span class="lesson-number">1.4</span>
-                    Batch Renaming - Rename Files in Bulk
+                    File Organization Scripts
+                    <span class="lesson-desc">Build systems that organize themselves</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="filesystem_backup_automation.html">
                     <span class="lesson-number">1.5</span>
-                    Backup Automation - Never Lose Data Again
+                    Backup Automation
+                    <span class="lesson-desc">Never lose important files again</span>
                 </a>
             </li>
         </ul>
     </div>
-    
-    <!-- Module 2: Web Automation -->
+
+    <!-- Module 2: Web Scraping -->
     <div class="module" id="module2">
         <h2>
             <span class="module-number">2</span>
-            Web Automation
+            Web Scraping
         </h2>
-        <p class="module-description">Conquer the web with powerful scraping, browser automation, and API integration techniques. Transform websites into data sources.</p>
+        <p class="module-description">Extract data from the web with CSS selectors, BeautifulSoup, sessions, and responsible scraping practices.</p>
         <ul class="lessons">
             <li class="lesson">
-                <a href="webscraping_beautifulsoup_mastery.html">
+                <a href="webscraping_html_css_selectors.html">
                     <span class="lesson-number">2.1</span>
-                    BeautifulSoup Mastery - Web Scraping Fundamentals
+                    HTML/CSS Selectors
+                    <span class="lesson-desc">Target web elements precisely</span>
                 </a>
             </li>
             <li class="lesson">
-                <a href="browser_automation_webdriver_setup.html">
+                <a href="webscraping_beautifulsoup_mastery.html">
                     <span class="lesson-number">2.2</span>
-                    WebDriver Setup - Browser Automation Basics
-                </a>
-            </li>
-            <li class="lesson">
-                <a href="browser_automation_element_interaction.html">
-                    <span class="lesson-number">2.3</span>
-                    Element Interaction - Control Web Elements
+                    BeautifulSoup Mastery
+                    <span class="lesson-desc">Parse HTML like a pro</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="webscraping_forms_cookies.html">
-                    <span class="lesson-number">2.4</span>
-                    Forms and Cookies - Handle Web Sessions
+                    <span class="lesson-number">2.3</span>
+                    Handling Forms and Cookies
+                    <span class="lesson-desc">Master interactive web sessions</span>
                 </a>
             </li>
             <li class="lesson">
-                <a href="advanced_scraping_selenium.html">
+                <a href="webscraping_session_management.html">
+                    <span class="lesson-number">2.4</span>
+                    Session Management
+                    <span class="lesson-desc">Maintain state across requests</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="webscraping_ethics_robots.html">
                     <span class="lesson-number">2.5</span>
-                    Advanced Selenium - Dynamic Content Scraping
+                    Scraping Ethics and robots.txt
+                    <span class="lesson-desc">Scrape responsibly and legally</span>
                 </a>
             </li>
         </ul>
     </div>
-    
-    <!-- Module 3: Data Processing Automation -->
+
+    <!-- Module 3: Browser Automation -->
     <div class="module" id="module3">
         <h2>
             <span class="module-number">3</span>
-            Data Processing Automation
+            Browser Automation
         </h2>
-        <p class="module-description">Transform raw data into insights with automated extraction, transformation, and loading pipelines. Master the art of data automation.</p>
+        <p class="module-description">Drive real browsers with Selenium WebDriver — setup, interaction, waiting strategies, and maintainable page objects.</p>
         <ul class="lessons">
             <li class="lesson">
-                <a href="workingwithdata_csv_processing.html">
+                <a href="browser_automation_webdriver_setup.html">
                     <span class="lesson-number">3.1</span>
-                    CSV Processing - Master Tabular Data
+                    WebDriver Setup
+                    <span class="lesson-desc">Your gateway to browser automation</span>
                 </a>
             </li>
             <li class="lesson">
-                <a href="workingwithdata_json_xml_parsing.html">
+                <a href="browser_automation_element_interaction.html">
                     <span class="lesson-number">3.2</span>
-                    JSON and XML Parsing - Structure Data Processing
+                    Element Interaction
+                    <span class="lesson-desc">Click, type, and control web elements</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="browser_automation_waiting_strategies.html">
+                    <span class="lesson-number">3.3</span>
+                    Waiting Strategies
+                    <span class="lesson-desc">Master timing and synchronization</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="browser_automation_page_object_model.html">
+                    <span class="lesson-number">3.4</span>
+                    Page Object Model
+                    <span class="lesson-desc">Build maintainable test automation</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="browser_automation_headless_browsing.html">
+                    <span class="lesson-number">3.5</span>
+                    Headless Browsing
+                    <span class="lesson-desc">Automation without the GUI</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Module 4: Data Processing -->
+    <div class="module" id="module4">
+        <h2>
+            <span class="module-number">4</span>
+            Data Processing Automation
+        </h2>
+        <p class="module-description">Turn raw files into structured data — CSV, Excel, JSON/XML, PDF, and databases.</p>
+        <ul class="lessons">
+            <li class="lesson">
+                <a href="workingwithdata_csv_processing.html">
+                    <span class="lesson-number">4.1</span>
+                    CSV Processing
+                    <span class="lesson-desc">Master tabular data</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="workingwithdata_excel_automation.html">
-                    <span class="lesson-number">3.3</span>
-                    Excel Automation - Spreadsheet Magic
+                    <span class="lesson-number">4.2</span>
+                    Excel Automation
+                    <span class="lesson-desc">Spreadsheet magic with openpyxl</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="workingwithdata_json_xml_parsing.html">
+                    <span class="lesson-number">4.3</span>
+                    JSON and XML Parsing
+                    <span class="lesson-desc">Navigate complex data structures</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="workingwithdata_pdf_manipulation.html">
-                    <span class="lesson-number">3.4</span>
-                    PDF Manipulation - Document Processing
+                    <span class="lesson-number">4.4</span>
+                    PDF Manipulation
+                    <span class="lesson-desc">Document processing with PyPDF2</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="workingwithdata_database_automation.html">
-                    <span class="lesson-number">3.5</span>
-                    Database Automation - SQL and NoSQL Operations
+                    <span class="lesson-number">4.5</span>
+                    Database Automation
+                    <span class="lesson-desc">SQL and NoSQL persistence</span>
                 </a>
             </li>
         </ul>
     </div>
-    
-    <!-- Module 4: Communication Automation -->
-    <div class="module" id="module4">
+
+    <!-- Module 5: Email Automation -->
+    <div class="module" id="module5">
         <h2>
-            <span class="module-number">4</span>
-            Communication Automation
+            <span class="module-number">5</span>
+            Email Automation
         </h2>
-        <p class="module-description">Automate all forms of digital communication from emails to social media. Stay connected without the manual effort.</p>
+        <p class="module-description">Automate email end to end — send, read, attach, template, and filter.</p>
         <ul class="lessons">
             <li class="lesson">
                 <a href="email_automation_sending_emails.html">
-                    <span class="lesson-number">4.1</span>
-                    Sending Emails - Automate Email Communications
+                    <span class="lesson-number">5.1</span>
+                    Sending Emails with SMTP
+                    <span class="lesson-desc">Automate outbound communication</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="email_automation_reading_emails.html">
-                    <span class="lesson-number">4.2</span>
-                    Reading Emails - Process Incoming Mail
+                    <span class="lesson-number">5.2</span>
+                    Reading Emails with IMAP
+                    <span class="lesson-desc">Process incoming messages</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="email_automation_attachments.html">
-                    <span class="lesson-number">4.3</span>
-                    Email Attachments - Handle Files Automatically
+                    <span class="lesson-number">5.3</span>
+                    Email Attachments
+                    <span class="lesson-desc">Send files and documents</span>
                 </a>
             </li>
             <li class="lesson">
-                <a href="chatbot_telegram_bots.html">
-                    <span class="lesson-number">4.4</span>
-                    Telegram Bots - Build Chat Automation
+                <a href="email_automation_html_emails.html">
+                    <span class="lesson-number">5.4</span>
+                    HTML Emails
+                    <span class="lesson-desc">Create beautiful email templates</span>
                 </a>
             </li>
             <li class="lesson">
-                <a href="chatbot_discord_bots.html">
-                    <span class="lesson-number">4.5</span>
-                    Discord Bots - Community Automation
+                <a href="email_automation_filtering_rules.html">
+                    <span class="lesson-number">5.5</span>
+                    Email Filtering and Rules
+                    <span class="lesson-desc">Automate inbox management</span>
                 </a>
             </li>
         </ul>
     </div>
-    
-    <!-- Module 5: Cloud Automation -->
-    <div class="module" id="module5">
+
+    <!-- Module 6: API Automation -->
+    <div class="module" id="module6">
         <h2>
-            <span class="module-number">5</span>
+            <span class="module-number">6</span>
+            API Automation
+        </h2>
+        <p class="module-description">Consume and test REST APIs — authentication, rate limits, webhooks, and validation.</p>
+        <ul class="lessons">
+            <li class="lesson">
+                <a href="api_automation_restful_consumption.html">
+                    <span class="lesson-number">6.1</span>
+                    RESTful API Consumption
+                    <span class="lesson-desc">Master the art of API integration</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="api_automation_authentication_methods.html">
+                    <span class="lesson-number">6.2</span>
+                    Authentication Methods
+                    <span class="lesson-desc">Secure your API connections</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="api_automation_rate_limiting.html">
+                    <span class="lesson-number">6.3</span>
+                    Rate Limiting
+                    <span class="lesson-desc">Respect API boundaries</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="api_automation_webhook_implementation.html">
+                    <span class="lesson-number">6.4</span>
+                    Webhook Implementation
+                    <span class="lesson-desc">Real-time event processing</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="api_automation_api_testing.html">
+                    <span class="lesson-number">6.5</span>
+                    API Testing Automation
+                    <span class="lesson-desc">Ensure API quality</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Module 7: Cloud Automation -->
+    <div class="module" id="module7">
+        <h2>
+            <span class="module-number">7</span>
             Cloud Automation
         </h2>
-        <p class="module-description">Harness the power of cloud platforms with infrastructure as code and serverless automation. Scale your automation to the cloud.</p>
+        <p class="module-description">Automate the cloud — AWS, Google Cloud, storage, serverless functions, and deployment.</p>
         <ul class="lessons">
             <li class="lesson">
                 <a href="cloud_automation_aws_boto3.html">
-                    <span class="lesson-number">5.1</span>
-                    AWS with Boto3 - Amazon Cloud Automation
+                    <span class="lesson-number">7.1</span>
+                    AWS SDK (boto3)
+                    <span class="lesson-desc">Master Amazon cloud automation</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="cloud_automation_google_cloud.html">
-                    <span class="lesson-number">5.2</span>
-                    Google Cloud Platform - GCP Automation
+                    <span class="lesson-number">7.2</span>
+                    Google Cloud Platform
+                    <span class="lesson-desc">Automate GCP with Python</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="cloud_automation_storage.html">
-                    <span class="lesson-number">5.3</span>
-                    Cloud Storage - Manage Files in the Cloud
+                    <span class="lesson-number">7.3</span>
+                    Cloud Storage Management
+                    <span class="lesson-desc">Manage files in the cloud</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="cloud_automation_serverless.html">
-                    <span class="lesson-number">5.4</span>
-                    Serverless Functions - Event-Driven Computing
+                    <span class="lesson-number">7.4</span>
+                    Serverless Functions
+                    <span class="lesson-desc">Build event-driven applications</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="cloud_automation_deploying.html">
-                    <span class="lesson-number">5.5</span>
-                    Deployment Automation - CI/CD Pipelines
+                    <span class="lesson-number">7.5</span>
+                    Deploying to Cloud
+                    <span class="lesson-desc">Ship applications to production</span>
                 </a>
             </li>
         </ul>
     </div>
-    
-    <!-- Module 6: Task Orchestration -->
-    <div class="module" id="module6">
+
+    <!-- Module 8: Task Orchestration -->
+    <div class="module" id="module8">
         <h2>
-            <span class="module-number">6</span>
+            <span class="module-number">8</span>
             Task Orchestration
         </h2>
-        <p class="module-description">Orchestrate complex workflows with Apache Airflow. Build enterprise-grade automation pipelines with advanced scheduling and monitoring.</p>
+        <p class="module-description">Orchestrate complex workflows with Apache Airflow — DAGs, dependencies, resilience, and monitoring.</p>
         <ul class="lessons">
             <li class="lesson">
                 <a href="task_orchestration_airflow_basics.html">
-                    <span class="lesson-number">6.1</span>
-                    Apache Airflow Basics - Foundation of Orchestration
+                    <span class="lesson-number">8.1</span>
+                    Apache Airflow Basics
+                    <span class="lesson-desc">Foundation of orchestration</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="task_orchestration_creating_dags.html">
-                    <span class="lesson-number">6.2</span>
-                    Creating DAGs - Design Complex Workflows
+                    <span class="lesson-number">8.2</span>
+                    Creating DAGs
+                    <span class="lesson-desc">Design complex workflows with code</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="task_orchestration_dependencies.html">
-                    <span class="lesson-number">6.3</span>
-                    Task Dependencies - Master Complex Relationships
+                    <span class="lesson-number">8.3</span>
+                    Task Dependencies
+                    <span class="lesson-desc">Master complex relationships</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="task_orchestration_error_handling.html">
-                    <span class="lesson-number">6.4</span>
-                    Error Handling - Build Resilient Workflows
+                    <span class="lesson-number">8.4</span>
+                    Error Handling
+                    <span class="lesson-desc">Build resilient workflows</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="task_orchestration_monitoring.html">
-                    <span class="lesson-number">6.5</span>
-                    Monitoring and Alerts - Keep Workflows Running
+                    <span class="lesson-number">8.5</span>
+                    Monitoring and Alerts
+                    <span class="lesson-desc">Keep workflows running smoothly</span>
                 </a>
             </li>
         </ul>
     </div>
-    
-    <!-- Module 7: Testing Automation -->
-    <div class="module" id="module7">
+
+    <!-- Module 9: Testing Automation -->
+    <div class="module" id="module9">
         <h2>
-            <span class="module-number">7</span>
+            <span class="module-number">9</span>
             Testing Automation
         </h2>
-        <p class="module-description">Ensure quality with comprehensive test automation. From unit tests to UI testing, build bulletproof automation solutions.</p>
+        <p class="module-description">Build the full testing pyramid — unit, integration, UI, API, and continuous integration.</p>
         <ul class="lessons">
             <li class="lesson">
                 <a href="testing_automation_unit.html">
-                    <span class="lesson-number">7.1</span>
-                    Unit Test Automation - Build Bulletproof Code
+                    <span class="lesson-number">9.1</span>
+                    Unit Test Automation
+                    <span class="lesson-desc">Build bulletproof code</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="testing_automation_integration.html">
-                    <span class="lesson-number">7.2</span>
-                    Integration Testing - Ensure Components Work Together
+                    <span class="lesson-number">9.2</span>
+                    Integration Testing
+                    <span class="lesson-desc">Ensure components work together</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="testing_automation_ui_selenium.html">
-                    <span class="lesson-number">7.3</span>
-                    UI Testing with Selenium - Automate Browser Testing
+                    <span class="lesson-number">9.3</span>
+                    UI Testing with Selenium
+                    <span class="lesson-desc">Automate browser testing</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="testing_automation_api.html">
-                    <span class="lesson-number">7.4</span>
-                    API Testing - Validate Backend Services
+                    <span class="lesson-number">9.4</span>
+                    API Testing
+                    <span class="lesson-desc">Validate backend services</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="testing_automation_ci.html">
-                    <span class="lesson-number">7.5</span>
-                    Continuous Integration Setup - Automate Testing Pipeline
+                    <span class="lesson-number">9.5</span>
+                    Continuous Integration Setup
+                    <span class="lesson-desc">Automate your testing pipeline</span>
                 </a>
             </li>
         </ul>
     </div>
-    
-    <!-- Module 8: RPA and Enterprise Automation -->
-    <div class="module" id="module8">
+
+    <!-- Module 10: System Administration -->
+    <div class="module" id="module10">
         <h2>
-            <span class="module-number">8</span>
+            <span class="module-number">10</span>
+            System Administration
+        </h2>
+        <p class="module-description">Keep systems healthy — scheduling, process control, log analysis, monitoring, and environments.</p>
+        <ul class="lessons">
+            <li class="lesson">
+                <a href="systemadmin_scheduled_tasks.html">
+                    <span class="lesson-number">10.1</span>
+                    Scheduled Tasks
+                    <span class="lesson-desc">Automate with cron and Task Scheduler</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="systemadmin_process_management.html">
+                    <span class="lesson-number">10.2</span>
+                    Process Management
+                    <span class="lesson-desc">Control system resources with psutil</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="systemadmin_log_analysis.html">
+                    <span class="lesson-number">10.3</span>
+                    Log File Analysis
+                    <span class="lesson-desc">Extract insights from system logs</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="systemadmin_system_monitoring.html">
+                    <span class="lesson-number">10.4</span>
+                    System Monitoring
+                    <span class="lesson-desc">Build your own monitoring dashboard</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="systemadmin_environment_management.html">
+                    <span class="lesson-number">10.5</span>
+                    Environment Management
+                    <span class="lesson-desc">Master system configurations</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Module 11: GUI Automation -->
+    <div class="module" id="module11">
+        <h2>
+            <span class="module-number">11</span>
+            GUI Automation
+        </h2>
+        <p class="module-description">Control the desktop — mouse/keyboard input, screen capture and OCR, windows, and cross-platform concerns.</p>
+        <ul class="lessons">
+            <li class="lesson">
+                <a href="gui_automation_pyautogui.html">
+                    <span class="lesson-number">11.1</span>
+                    PyAutoGUI Basics
+                    <span class="lesson-desc">Automate your desktop like magic</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="gui_automation_mouse_keyboard.html">
+                    <span class="lesson-number">11.2</span>
+                    Mouse and Keyboard Control
+                    <span class="lesson-desc">Precise input automation</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="gui_automation_screen_capture.html">
+                    <span class="lesson-number">11.3</span>
+                    Screen Capture and OCR
+                    <span class="lesson-desc">Extract text from any application</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="gui_automation_window_management.html">
+                    <span class="lesson-number">11.4</span>
+                    Window Management
+                    <span class="lesson-desc">Control desktop applications</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="gui_automation_cross_platform.html">
+                    <span class="lesson-number">11.5</span>
+                    Cross-Platform Considerations
+                    <span class="lesson-desc">Write once, automate everywhere</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Module 12: Chatbot Development -->
+    <div class="module" id="module12">
+        <h2>
+            <span class="module-number">12</span>
+            Chatbot Development
+        </h2>
+        <p class="module-description">Build chatbots for Telegram, Discord, and Slack — with command routing and natural language understanding.</p>
+        <ul class="lessons">
+            <li class="lesson">
+                <a href="chatbot_telegram_bots.html">
+                    <span class="lesson-number">12.1</span>
+                    Telegram Bots
+                    <span class="lesson-desc">Create versatile messaging bots</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="chatbot_discord_bots.html">
+                    <span class="lesson-number">12.2</span>
+                    Discord Bots
+                    <span class="lesson-desc">Build interactive chat automation</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="chatbot_slack_integration.html">
+                    <span class="lesson-number">12.3</span>
+                    Slack Integration
+                    <span class="lesson-desc">Build workplace automation bots</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="chatbot_command_handling.html">
+                    <span class="lesson-number">12.4</span>
+                    Command Handling
+                    <span class="lesson-desc">Structure bot interactions</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="chatbot_nlp.html">
+                    <span class="lesson-number">12.5</span>
+                    Natural Language Processing
+                    <span class="lesson-desc">Make bots understand human language</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Module 13: Advanced Web Scraping -->
+    <div class="module" id="module13">
+        <h2>
+            <span class="module-number">13</span>
+            Advanced Web Scraping
+        </h2>
+        <p class="module-description">Scale up scraping — dynamic JavaScript sites, the Scrapy framework, CAPTCHAs, proxy rotation, and data pipelines.</p>
+        <ul class="lessons">
+            <li class="lesson">
+                <a href="advanced_scraping_selenium.html">
+                    <span class="lesson-number">13.1</span>
+                    Dynamic Content with Selenium
+                    <span class="lesson-desc">Scrape JavaScript-heavy sites</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="advanced_scraping_scrapy.html">
+                    <span class="lesson-number">13.2</span>
+                    Scrapy Framework
+                    <span class="lesson-desc">Industrial-strength web scraping</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="advanced_scraping_captcha.html">
+                    <span class="lesson-number">13.3</span>
+                    CAPTCHA Considerations
+                    <span class="lesson-desc">Handle bot detection responsibly</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="advanced_scraping_proxy_rotation.html">
+                    <span class="lesson-number">13.4</span>
+                    Proxy Rotation
+                    <span class="lesson-desc">Scale scraping with anonymity</span>
+                </a>
+            </li>
+            <li class="lesson">
+                <a href="advanced_scraping_data_pipelines.html">
+                    <span class="lesson-number">13.5</span>
+                    Data Pipelines
+                    <span class="lesson-desc">Process and store data at scale</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Module 14: RPA and Enterprise Automation -->
+    <div class="module" id="module14">
+        <h2>
+            <span class="module-number">14</span>
             RPA and Enterprise Automation
         </h2>
-        <p class="module-description">Master enterprise-grade automation with RPA concepts, document processing, and business process automation. Transform entire organizations.</p>
+        <p class="module-description">Enterprise-grade RPA — core concepts, UiPath bridges, business processes, document intelligence, and reporting.</p>
         <ul class="lessons">
             <li class="lesson">
                 <a href="rpa_enterprise_concepts.html">
-                    <span class="lesson-number">8.1</span>
-                    RPA Concepts - Understanding Robotic Process Automation
+                    <span class="lesson-number">14.1</span>
+                    RPA Concepts
+                    <span class="lesson-desc">Understand robotic process automation</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="rpa_enterprise_uipath_integration.html">
-                    <span class="lesson-number">8.2</span>
-                    UiPath/Python Integration - Bridge Enterprise Platforms
+                    <span class="lesson-number">14.2</span>
+                    UiPath/Python Integration
+                    <span class="lesson-desc">Bridge enterprise RPA platforms</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="rpa_enterprise_business_process.html">
-                    <span class="lesson-number">8.3</span>
-                    Business Process Automation - Transform Workflows
+                    <span class="lesson-number">14.3</span>
+                    Business Process Automation
+                    <span class="lesson-desc">Transform enterprise workflows</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="rpa_enterprise_document_processing.html">
-                    <span class="lesson-number">8.4</span>
-                    Document Processing - Extract Intelligence from Documents
+                    <span class="lesson-number">14.4</span>
+                    Document Processing
+                    <span class="lesson-desc">Extract intelligence from documents</span>
                 </a>
             </li>
             <li class="lesson">
                 <a href="rpa_enterprise_reporting.html">
-                    <span class="lesson-number">8.5</span>
-                    Reporting Automation - Create Dynamic Reports
+                    <span class="lesson-number">14.5</span>
+                    Reporting Automation
+                    <span class="lesson-desc">Create dynamic reports automatically</span>
                 </a>
             </li>
         </ul>
     </div>
-    
+
     <div class="footer">
         <h2>🎓 Congratulations on Your Journey!</h2>
         <p>You've explored the complete landscape of Python automation. Each lesson builds upon the previous ones, creating a comprehensive skill set that empowers you to automate virtually any task.</p>

@@ -325,7 +325,7 @@ def create_flask_webhook_server(security: WebhookSecurity):
     # Event queue
     event_queue = Queue()
     
-    @app.route('/webhook/<source/>', methods=['POST'])
+    @app.route('/webhook/&lt;source&gt;', methods=['POST'])
     def webhook_endpoint(source):
         """Generic webhook endpoint."""
         try:
@@ -938,7 +938,7 @@ if __name__ == "__main__":
     print("\n3️⃣ Flask Webhook Server:")
     
     print("   Endpoints:")
-    print("     POST /webhook/<source/> - Generic endpoint")
+    print("     POST /webhook/&lt;source&gt; - Generic endpoint")
     print("     POST /webhook/github - GitHub events")
     print("     POST /webhook/stripe - Stripe events")
     print("     GET /health - Health check")

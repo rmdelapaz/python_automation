@@ -140,6 +140,7 @@ import requests
 from datetime import datetime
 
 # Selenium imports
+import selenium
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.proxy import Proxy, ProxyType
@@ -310,14 +311,15 @@ class WebDriverManager:
             service = ChromeService()
             self.logger.info("Using system ChromeDriver")
         
-        # Add capabilities
+        # Add capabilities (Selenium 4 sets these on options, not a separate kwarg)
         capabilities = self._get_chrome_capabilities()
-        
+        for cap_name, cap_value in capabilities.items():
+            options.set_capability(cap_name, cap_value)
+
         # Create driver
         driver = webdriver.Chrome(
             service=service,
-            options=options,
-            desired_capabilities=capabilities
+            options=options
         )
         
         self._configure_timeouts(driver)
@@ -353,22 +355,22 @@ class WebDriverManager:
         if self.config.disable_dev_shm:
             options.add_argument("--disable-dev-shm-usage")
         
-        # Performance options
-        if self.config.disable_images:
-            prefs = {"profile.managed_default_content_settings.images": 2}
-            options.add_experimental_option("prefs", prefs)
-        
-        if self.config.disable_javascript:
-            prefs = {"profile.managed_default_content_settings.javascript": 2}
-            options.add_experimental_option("prefs", prefs)
-        
-        # User preferences
+        # Build ONE merged preferences dict. Each add_experimental_option("prefs", ...)
+        # call replaces the entire "prefs" value, so every pref must live in a single
+        # dict that is added exactly once (otherwise earlier prefs are silently lost).
         prefs = {
             "credentials_enable_service": False,
             "profile.password_manager_enabled": False,
             "profile.default_content_setting_values.notifications": 2 if self.config.disable_notifications else 1,
         }
-        
+
+        # Performance options
+        if self.config.disable_images:
+            prefs["profile.managed_default_content_settings.images"] = 2
+
+        if self.config.disable_javascript:
+            prefs["profile.managed_default_content_settings.javascript"] = 2
+
         # Download settings
         if self.config.download_directory:
             prefs.update({
@@ -378,7 +380,7 @@ class WebDriverManager:
                 "safebrowsing.enabled": False,
                 "safebrowsing.disable_download_protection": True
             })
-        
+
         options.add_experimental_option("prefs", prefs)
         
         # Disable automation flags
@@ -790,7 +792,7 @@ class EnvironmentDetector:
             "platform_version": platform.version(),
             "architecture": platform.machine(),
             "python_version": sys.version,
-            "selenium_version": webdriver.__version__
+            "selenium_version": selenium.__version__
         }
     
     @staticmethod

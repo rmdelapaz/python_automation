@@ -166,9 +166,9 @@ class IMAPProvider(Enum):
 class IMAPConfig:
     """IMAP server configuration."""
     host: str
-    port: int = 993
     username: str
     password: str
+    port: int = 993
     use_ssl: bool = True
     
     # Provider settings

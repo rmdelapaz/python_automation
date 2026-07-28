@@ -1235,7 +1235,7 @@ if __name__ == "__main__":
         
         def serialize(obj, path="root"):
             if id(obj) in seen:
-                return f"<circularreference: {path}="">"
+                return f"&lt;CircularReference: {path}&gt;"
             
             seen.add(id(obj))
             
@@ -1318,7 +1318,7 @@ class DataValidator:
                         errors.append(f"Invalid phone format: {key}")
         
         return errors
-</circularreference:></code></pre>
+</code></pre>
 <h2>Key Takeaways and Best Practices 🎯</h2>
 <ul>
 <li><strong>Always Validate:</strong> Never trust external data. Validate against schemas before processing.</li>

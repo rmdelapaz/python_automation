@@ -152,14 +152,14 @@ from airflow import DAG
 from airflow.decorators import dag, task
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
-from airflow.operators.dummy import DummyOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.operators.email import EmailOperator
 from airflow.sensors.filesystem import FileSensor
 from airflow.sensors.external_task import ExternalTaskSensor
 from airflow.providers.http.operators.http import SimpleHttpOperator
 from airflow.providers.http.sensors.http import HttpSensor
 from airflow.models import Variable
-from airflow.utils.dates import days_ago
+from airflow.utils.dates import days_ago  # Deprecated in Airflow 2.x; prefer a static start_date, e.g. pendulum.datetime(2023, 1, 1) or datetime(2023, 1, 1)
 from airflow.utils.task_group import TaskGroup
 from airflow.utils.trigger_rule import TriggerRule
 from airflow.exceptions import AirflowException, AirflowSkipException
@@ -176,8 +176,9 @@ default_args = {
     'email_on_retry': False,
     'retries': 2,
     'retry_delay': timedelta(minutes=5),
-    'max_active_runs': 1,
-    'catchup': False,  # Don't backfill missing runs
+    # NOTE: max_active_runs and catchup are DAG-level parameters, not task
+    # defaults. Placing them in default_args forwards them to every operator
+    # constructor as invalid kwargs, so they belong on each DAG(...) call below.
 }
 
 # ==================== Helper Functions ====================
@@ -212,6 +213,8 @@ basic_dag = DAG(
     description='A basic Airflow workflow example',
     schedule_interval='@daily',  # Run daily
     tags=['example', 'basic'],
+    max_active_runs=1,
+    catchup=False,
 )
 
 # Define tasks
@@ -261,13 +264,11 @@ with basic_dag:
     process_task = PythonOperator(
         task_id='process_task',
         python_callable=process_data,
-        provide_context=True,
     )
     
     save_task = PythonOperator(
         task_id='save_task',
         python_callable=save_results,
-        provide_context=True,
     )
     
     # Define dependencies
@@ -281,6 +282,8 @@ with basic_dag:
     description='Advanced data pipeline with task groups',
     schedule_interval='0 2 * * *',  # Run at 2 AM daily
     tags=['advanced', 'data_pipeline'],
+    max_active_runs=1,
+    catchup=False,
 )
 def advanced_data_pipeline():
     """Advanced DAG using TaskFlow API."""
@@ -389,11 +392,13 @@ def create_dynamic_dag(
         description=f'Dynamic DAG for {", ".join(sources)}',
         schedule_interval=schedule,
         tags=['dynamic'],
+        max_active_runs=1,
+        catchup=False,
     )
     
     with dag:
-        start = DummyOperator(task_id='start')
-        end = DummyOperator(task_id='end')
+        start = EmptyOperator(task_id='start')
+        end = EmptyOperator(task_id='end')
         
         for source in sources:
             # Create tasks for each source
@@ -424,6 +429,8 @@ sensor_dag = DAG(
     description='DAG with sensors',
     schedule_interval=None,  # Triggered manually or by other DAGs
     tags=['sensors'],
+    max_active_runs=1,
+    catchup=False,
 )
 
 with sensor_dag:
@@ -462,6 +469,8 @@ with sensor_dag:
     description='DAG with conditional branching',
     schedule_interval='@daily',
     tags=['branching'],
+    max_active_runs=1,
+    catchup=False,
 )
 def branching_workflow():
     """DAG with conditional execution paths."""
@@ -625,6 +634,8 @@ def create_monitoring_dag() -&gt; DAG:
         description='Monitor Airflow DAGs and send alerts',
         schedule_interval='*/30 * * * *',  # Every 30 minutes
         tags=['monitoring', 'meta'],
+        max_active_runs=1,
+        catchup=False,
     )
     
     with dag:
@@ -634,13 +645,17 @@ def create_monitoring_dag() -&gt; DAG:
             from airflow.models import DagRun, DagModel
             from airflow.utils.state import State
             
-            # Get all active DAGs
+            # NOTE: the two calls below are ILLUSTRATIVE PSEUDO-CODE, not real
+            # Airflow APIs. `context['dag'].get_active_dags()` does not exist,
+            # and `DagRun.find()` has no `execution_date__gte` kwarg. In real
+            # code you would query DagModel/DagRun via the ORM session (e.g.
+            # session.query(DagRun).filter(DagRun.execution_date &gt;= cutoff)).
             active_dags = context['dag'].get_active_dags()
-            
+
             issues = []
-            
+
             for dag_id in active_dags:
-                # Check for failed runs
+                # Check for failed runs (pseudo-code, see note above)
                 failed_runs = DagRun.find(
                     dag_id=dag_id,
                     state=State.FAILED,
@@ -655,10 +670,13 @@ def create_monitoring_dag() -&gt; DAG:
                 return 'send_alert'
             return 'all_healthy'
         
+        # NOTE: check_dag_status returns a task-id ('send_alert' / 'all_healthy')
+        # to select the next branch, but a plain PythonOperator's return value
+        # does NOT route execution. To actually branch on that return value use
+        # BranchPythonOperator (from airflow.operators.python) instead.
         check_status = PythonOperator(
             task_id='check_dag_status',
             python_callable=check_dag_status,
-            provide_context=True,
         )
         
         send_alert = EmailOperator(
@@ -677,7 +695,7 @@ def create_monitoring_dag() -&gt; DAG:
             trigger_rule=TriggerRule.ONE_SUCCESS,
         )
         
-        all_healthy = DummyOperator(
+        all_healthy = EmptyOperator(
             task_id='all_healthy',
             trigger_rule=TriggerRule.ONE_SUCCESS,
         )

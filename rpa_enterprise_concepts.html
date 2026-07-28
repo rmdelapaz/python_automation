@@ -634,7 +634,9 @@ class RPAOrchestrator:
     
     def submit_task(self, task: Task):
         """Submit task for execution."""
-        self.task_queue.put((task.priority, task))
+        # PriorityQueue serves the LOWEST number first, but Task.priority is
+        # "higher = more important", so negate it to dequeue critical tasks first.
+        self.task_queue.put((-task.priority, task))
         logging.info(f"Task {task.id} submitted")
     
     def start(self):
@@ -676,8 +678,8 @@ class RPAOrchestrator:
                         # Log result
                         self._log_result(result)
                     else:
-                        # Re-queue task
-                        self.task_queue.put((task.priority, task))
+                        # Re-queue task (negate priority to match submit_task)
+                        self.task_queue.put((-task.priority, task))
                         time.sleep(1)
                 else:
                     time.sleep(1)

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" role="img" aria-labelledby="afw-title afw-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="afw-title">Atomic file writes with a temp file and os.replace</title>
+  <desc id="afw-desc">Two panels. On the left, a naive open in write mode truncates the file first, so any reader that arrives mid-write sees a corrupt half-written file. On the right, the safe pattern writes the full contents to a temporary file, flushes it, then calls os.replace to swap it into place in one atomic step, so a reader always sees either the complete old file or the complete new file, never a partial one.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:13px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:11px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.greenstroke{stroke:#10b981}
+    .red{fill:#ef4444}.redstroke{stroke:#ef4444}.amber{fill:#f59e0b}
+    .goodbox{fill:#ecfdf5;stroke:#10b981;stroke-width:2}
+    .badbox{fill:#fef2f2;stroke:#ef4444;stroke-width:2}
+    .filebox{fill:#eff6ff;stroke:#3b82f6;stroke-width:2}
+    .tmpfill{fill:#fffbeb;stroke:#f59e0b;stroke-width:2}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.greenstroke{stroke:#34d399}
+      .red{fill:#f87171}.redstroke{stroke:#f87171}.amber{fill:#fbbf24}
+      .goodbox{fill:#064e3b;stroke:#34d399}.badbox{fill:#4c1d1d;stroke:#f87171}
+      .filebox{fill:#1e293b;stroke:#569cd6}.tmpfill{fill:#3a2e0a;stroke:#fbbf24}
+    }
+  </style>
+  <defs>
+    <marker id="afw-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="afw-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="green"/></marker>
+    <marker id="afw-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="red"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="400"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="398.5" rx="10"/>
+  <text class="label ink h" x="24" y="32">Never let a reader catch a half-written file</text>
+
+  <!-- LEFT: naive -->
+  <rect class="badbox" x="24" y="48" width="324" height="272" rx="8" opacity="0.35"/>
+  <text class="label red ph" x="40" y="72">Naive: open(path, 'w')</text>
+  <text class="label mono muted" x="40" y="92">f = open('data.json', 'w')  # truncates!</text>
+
+  <!-- file being written, half garbage -->
+  <rect class="filebox" x="60" y="108" width="120" height="150" rx="6"/>
+  <rect class="green" x="60" y="108" width="120" height="60" rx="6" opacity="0.25"/>
+  <line class="frame" x1="72" y1="124" x2="168" y2="124" stroke="#94a3b8"/>
+  <line class="frame" x1="72" y1="138" x2="150" y2="138" stroke="#94a3b8"/>
+  <line class="frame" x1="72" y1="152" x2="160" y2="152" stroke="#94a3b8"/>
+  <text class="label mono muted" x="70" y="196">&#8212; &#8212; &#8212;</text>
+  <text class="label mono muted" x="70" y="212">(not yet</text>
+  <text class="label mono muted" x="70" y="226">written)</text>
+  <text class="label muted s" x="120" y="274" text-anchor="middle">data.json, mid-write</text>
+
+  <!-- reader -->
+  <text class="label ink t" x="212" y="150" font-weight="700">Reader</text>
+  <line x1="266" y1="168" x2="196" y2="180" class="redstroke" stroke-width="2.5" marker-end="url(#afw-r)"/>
+  <rect class="badbox" x="230" y="176" width="106" height="52" rx="6"/>
+  <text class="label red t" x="283" y="198" text-anchor="middle" font-weight="700">Corrupt!</text>
+  <text class="label muted s" x="283" y="214" text-anchor="middle">half a file</text>
+
+  <!-- RIGHT: atomic -->
+  <rect class="goodbox" x="372" y="48" width="324" height="272" rx="8" opacity="0.35"/>
+  <text class="label green ph" x="388" y="72">Atomic: temp file + os.replace</text>
+
+  <!-- step 1 write temp -->
+  <text class="label mono muted" x="388" y="92">1. write everything to data.json.tmp</text>
+  <rect class="tmpfill" x="392" y="104" width="104" height="92" rx="6"/>
+  <line class="frame" x1="404" y1="122" x2="484" y2="122" stroke="#94a3b8"/>
+  <line class="frame" x1="404" y1="136" x2="484" y2="136" stroke="#94a3b8"/>
+  <line class="frame" x1="404" y1="150" x2="470" y2="150" stroke="#94a3b8"/>
+  <line class="frame" x1="404" y1="164" x2="484" y2="164" stroke="#94a3b8"/>
+  <text class="label amber s" x="444" y="188" text-anchor="middle" font-weight="700">.tmp (full)</text>
+
+  <!-- step 2 replace -->
+  <text class="label mono muted" x="388" y="224">2. os.replace('.tmp', 'data.json')</text>
+  <line x1="500" y1="150" x2="560" y2="150" class="greenstroke" stroke-width="2.5" marker-end="url(#afw-g)"/>
+  <text class="label green s" x="530" y="142" text-anchor="middle" font-weight="700">swap</text>
+  <rect class="filebox" x="564" y="104" width="104" height="92" rx="6"/>
+  <line class="frame" x1="576" y1="122" x2="656" y2="122" stroke="#94a3b8"/>
+  <line class="frame" x1="576" y1="136" x2="656" y2="136" stroke="#94a3b8"/>
+  <line class="frame" x1="576" y1="150" x2="656" y2="150" stroke="#94a3b8"/>
+  <line class="frame" x1="576" y1="164" x2="656" y2="164" stroke="#94a3b8"/>
+  <text class="label blue s" x="616" y="188" text-anchor="middle" font-weight="700">data.json</text>
+
+  <!-- reader sees complete -->
+  <rect class="goodbox" x="392" y="236" width="276" height="46" rx="6"/>
+  <text class="label green t" x="530" y="255" text-anchor="middle" font-weight="700">Reader always sees a complete file</text>
+  <text class="label muted s" x="530" y="271" text-anchor="middle">the old one, then instantly the new one &#8212; never in between</text>
+
+  <line class="frame" x1="24" y1="342" x2="696" y2="342" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="362">os.replace() is atomic on the same filesystem: the rename either fully happens or not at all. That single</text>
+  <text class="label muted s" x="24" y="378">guarantee is what makes config saves, caches, and downloads crash-safe &#8212; no torn files, ever.</text>
+</svg>

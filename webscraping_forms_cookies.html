@@ -891,14 +891,17 @@ class SessionManager:
             self.logger.error(f"Error checking login status: {e}")
             return False
     
-    def handle_two_factor_auth(self, code: str, submit_url: str = None) -&gt; bool:
+    def handle_two_factor_auth(self, code: str, submit_url: str = None, page_url: str = None) -&gt; bool:
         """
         Handle two-factor authentication.
         """
         try:
-            # If no submit URL provided, look for 2FA form on current page
+            # If no submit URL provided, look for the 2FA form on the given page.
+            # (requests.Session has no "current URL", so the page must be passed in.)
             if not submit_url:
-                response = self.session.get(self.session.url)  # Get current URL
+                if not page_url:
+                    raise ValueError("Provide submit_url, or page_url to locate the 2FA form")
+                response = self.session.get(page_url)
                 forms = self.form_handler.discover_forms(response.url)
                 
                 # Find 2FA form (usually has code/token field)
@@ -1041,19 +1044,19 @@ if __name__ == "__main__":
     
     # HTML with complex form
     complex_form_html = """
-    <form action="/submit" method="post">
-        <input name="csrf_token" type="hidden" value="abc123xyz"/>
-        <input name="username" required="" type="text"/>
-        <input name="password" required="" type="password"/>
-        <select name="country">
-            <option value="us">United States</option>
-            <option value="uk">United Kingdom</option>
-            <option value="ca">Canada</option>
-        </select>
-        <input checked="" name="remember" type="checkbox" value="1"/>
-        <textarea name="comments">Enter comments here</textarea>
-        <button name="action" type="submit" value="login">Login</button>
-    </form>
+    &lt;form action="/submit" method="post"&gt;
+        &lt;input type="hidden" name="csrf_token" value="abc123xyz"&gt;
+        &lt;input type="text" name="username" required&gt;
+        &lt;input type="password" name="password" required&gt;
+        &lt;select name="country"&gt;
+            &lt;option value="us"&gt;United States&lt;/option&gt;
+            &lt;option value="uk"&gt;United Kingdom&lt;/option&gt;
+            &lt;option value="ca"&gt;Canada&lt;/option&gt;
+        &lt;/select&gt;
+        &lt;input type="checkbox" name="remember" value="1" checked&gt;
+        &lt;textarea name="comments"&gt;Enter comments here&lt;/textarea&gt;
+        &lt;button type="submit" name="action" value="login"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
     """
     
     soup = BeautifulSoup(complex_form_html, 'html.parser')

@@ -814,7 +814,7 @@ class HelpCommand(Command):
                         help_text += "\n"
                     help_text += "\n"
             
-            help_text += f"\nUse `{self.registry.config.prefix}help <command/>` for more info"
+            help_text += f"\nUse `{self.registry.config.prefix}help &lt;command&gt;` for more info"
             
             if ctx.reply:
                 await ctx.reply(help_text)
@@ -899,8 +899,24 @@ async def ping(ctx: CommandContext):
 async def calc(ctx: CommandContext, expression: str):
     """Calculator command."""
     try:
-        # Safe evaluation (in production, use proper parser)
-        result = eval(expression, {"__builtins__": {}}, {})
+        # Evaluate a simple arithmetic expression SAFELY with an AST allow-list.
+        # Never use eval() on untrusted chat input: even eval(expr, {"__builtins__": {}})
+        # is escapable and is a remote-code-execution risk.
+        import ast, operator
+        _OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul,
+                ast.Div: operator.truediv, ast.Pow: operator.pow,
+                ast.Mod: operator.mod, ast.USub: operator.neg}
+
+        def _safe_eval(node):
+            if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+                return node.value
+            if isinstance(node, ast.BinOp) and type(node.op) in _OPS:
+                return _OPS[type(node.op)](_safe_eval(node.left), _safe_eval(node.right))
+            if isinstance(node, ast.UnaryOp) and type(node.op) in _OPS:
+                return _OPS[type(node.op)](_safe_eval(node.operand))
+            raise ValueError("Unsupported expression")
+
+        result = _safe_eval(ast.parse(expression, mode='eval').body)
         response = f"Result: {result}"
     except Exception as e:
         response = f"Error: {str(e)}"

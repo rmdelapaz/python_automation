@@ -143,7 +143,7 @@ from airflow import DAG
 from airflow.decorators import dag, task, task_group
 from airflow.operators.python import PythonOperator, BranchPythonOperator, ShortCircuitOperator
 from airflow.operators.bash import BashOperator
-from airflow.operators.dummy import DummyOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.operators.subdag import SubDagOperator
 from airflow.sensors.base import BaseSensorOperator
 from airflow.sensors.external_task import ExternalTaskSensor, ExternalTaskMarker
@@ -325,27 +325,27 @@ class DependencyPatterns:
             )
             
             # Success path
-            success_start = DummyOperator(
+            success_start = EmptyOperator(
                 task_id='success_path_start'
             )
             
-            success_end = DummyOperator(
+            success_end = EmptyOperator(
                 task_id='success_path_end',
                 trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
             )
             
             # Failure path
-            failure_start = DummyOperator(
+            failure_start = EmptyOperator(
                 task_id='failure_path_start'
             )
             
-            failure_end = DummyOperator(
+            failure_end = EmptyOperator(
                 task_id='failure_path_end',
                 trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
             )
             
             # Join paths
-            join = DummyOperator(
+            join = EmptyOperator(
                 task_id='join_paths',
                 trigger_rule=TriggerRule.NONE_FAILED_MIN_ONE_SUCCESS
             )
@@ -388,7 +388,10 @@ class DependencyPatterns:
                 
                 retry = PythonOperator(
                     task_id=f'retry_{i+1}_after_{delay}m',
-                    python_callable=lambda: time.sleep(delay * 60),
+                    # Bind `delay` as a default arg so each retry task captures
+                    # its own value; a bare `lambda: ... delay` would close over
+                    # the loop variable and every task would sleep the final delay.
+                    python_callable=lambda d=delay: time.sleep(d * 60),
                     trigger_rule=TriggerRule.ONE_FAILED if i &gt; 0 else TriggerRule.ALL_FAILED,
                     retries=0  # Don't retry the retry task
                 )
@@ -402,7 +405,7 @@ class DependencyPatterns:
                 retry_tasks[i] &gt;&gt; retry_tasks[i + 1]
             
             # Final success/failure handlers
-            final_success = DummyOperator(
+            final_success = EmptyOperator(
                 task_id='all_retries_exhausted',
                 trigger_rule=TriggerRule.ALL_FAILED
             )
@@ -419,8 +422,8 @@ class DependencyPatterns:
         """Create parallel processing pattern with batching."""
         
         with dag:
-            start = DummyOperator(task_id='parallel_start')
-            end = DummyOperator(
+            start = EmptyOperator(task_id='parallel_start')
+            end = EmptyOperator(
                 task_id='parallel_end',
                 trigger_rule=TriggerRule.ALL_DONE
             )
@@ -524,7 +527,7 @@ class DynamicDependencyBuilder:
                     dag=self.dag
                 )
             else:
-                task = DummyOperator(task_id=task_id, dag=self.dag)
+                task = EmptyOperator(task_id=task_id, dag=self.dag)
             
             self.tasks[task_id] = task
         
@@ -548,7 +551,7 @@ class DynamicDependencyBuilder:
         
         for task_id in all_tasks:
             if task_id not in self.tasks:
-                self.tasks[task_id] = DummyOperator(task_id=task_id, dag=self.dag)
+                self.tasks[task_id] = EmptyOperator(task_id=task_id, dag=self.dag)
         
         # Set dependencies
         for upstream_id, downstream_ids in graph_definition.items():
@@ -560,7 +563,7 @@ class DynamicDependencyBuilder:
         
         tasks = []
         for i in range(task_count):
-            task = DummyOperator(
+            task = EmptyOperator(
                 task_id=f'dynamic_task_{i}',
                 dag=self.dag
             )
@@ -570,8 +573,8 @@ class DynamicDependencyBuilder:
         if pattern == 'linear':
             chain(*tasks)
         elif pattern == 'parallel':
-            start = DummyOperator(task_id='parallel_start', dag=self.dag)
-            end = DummyOperator(task_id='parallel_end', dag=self.dag)
+            start = EmptyOperator(task_id='parallel_start', dag=self.dag)
+            end = EmptyOperator(task_id='parallel_end', dag=self.dag)
             start &gt;&gt; tasks &gt;&gt; end
         elif pattern == 'diamond':
             if len(tasks) &gt;= 4:
@@ -971,24 +974,24 @@ if __name__ == "__main__":
     
     # Build complex dependencies
     with test_dag:
-        start = DummyOperator(task_id='start')
+        start = EmptyOperator(task_id='start')
         
         # Parallel extraction
-        extract_1 = DummyOperator(task_id='extract_1')
-        extract_2 = DummyOperator(task_id='extract_2')
-        extract_3 = DummyOperator(task_id='extract_3')
+        extract_1 = EmptyOperator(task_id='extract_1')
+        extract_2 = EmptyOperator(task_id='extract_2')
+        extract_3 = EmptyOperator(task_id='extract_3')
         
         # Processing
-        process = DummyOperator(task_id='process')
+        process = EmptyOperator(task_id='process')
         
         # Quality checks (parallel)
-        check_1 = DummyOperator(task_id='quality_check_1')
-        check_2 = DummyOperator(task_id='quality_check_2')
+        check_1 = EmptyOperator(task_id='quality_check_1')
+        check_2 = EmptyOperator(task_id='quality_check_2')
         
         # Final tasks
-        report = DummyOperator(task_id='generate_report')
-        notify = DummyOperator(task_id='send_notification')
-        cleanup = DummyOperator(
+        report = EmptyOperator(task_id='generate_report')
+        notify = EmptyOperator(task_id='send_notification')
+        cleanup = EmptyOperator(
             task_id='cleanup',
             trigger_rule=TriggerRule.ALL_DONE
         )

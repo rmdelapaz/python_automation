@@ -96,6 +96,10 @@
         C --&gt; I[Metadata Manipulation]
         C --&gt; J[Bulk Processing]
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/atomic-file-write.svg" loading="lazy" alt="Left: a naive open in write mode truncates the file, so a reader catches a corrupt half-written file. Right: the safe pattern writes everything to a temp file then calls os.replace to swap it in atomically, so readers always see a complete file."/>
+<figcaption>Writing a file in place means a reader — or a crash mid-write — can catch it half-finished. The pattern behind every <em>safe</em> save: write the new contents to a temporary file, then <code>os.replace()</code> it over the original in one atomic step. A reader sees the old file or the new file, never a torn one.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Digital Photo Organizer 📸</h3>
 <p>Imagine you've just returned from a year-long trip with 10,000 photos scattered across different devices. Your camera names them DSC_0001.jpg, your phone uses IMG_20240315.jpg, and your friend's camera has completely different naming. Let's build a smart organizer!</p>
 <pre><code>import os
@@ -405,8 +409,12 @@ from contextlib import contextmanager
 @contextmanager
 def file_lock(filepath, timeout=10):
     """
-    Cross-platform file locking context manager.
+    POSIX/Unix-only file locking context manager.
     Like a traffic light for file access!
+
+    Note: this relies on the ``fcntl`` module, which exists only on
+    Unix-like systems. On Windows ``import fcntl`` fails; use ``msvcrt.locking``
+    (or the ``portalocker`` package) there instead.
     """
     lock_file = f"{filepath}.lock"
     fp = open(lock_file, 'w')
@@ -492,7 +500,7 @@ class FileMetadataManager:
         stat_info = os.stat(self.path)
         
         timestamps = {
-            'created': datetime.fromtimestamp(stat_info.st_ctime),
+            'changed': datetime.fromtimestamp(stat_info.st_ctime),  # st_ctime is metadata-change time on Unix, not creation time
             'modified': datetime.fromtimestamp(stat_info.st_mtime),
             'accessed': datetime.fromtimestamp(stat_info.st_atime),
             'size_bytes': stat_info.st_size,

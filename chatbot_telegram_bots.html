@@ -144,9 +144,10 @@ import io
 from telegram import (
     Update, Bot, InlineKeyboardButton, InlineKeyboardMarkup,
     ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove,
-    ParseMode, ChatAction, InputMediaPhoto, LabeledPrice,
+    InputMediaPhoto, LabeledPrice,
     InlineQueryResultArticle, InputTextMessageContent
 )
+from telegram.constants import ParseMode, ChatAction
 from telegram.ext import (
     Application, CommandHandler, MessageHandler, CallbackQueryHandler,
     ConversationHandler, ContextTypes, filters, InlineQueryHandler,

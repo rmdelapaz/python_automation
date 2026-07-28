@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" role="img" aria-labelledby="frr-title frr-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="frr-title">Organizing files with ordered rules, first match wins</title>
+  <desc id="frr-desc">A mixed inbox of files is matched against an ordered list of rules from top to bottom. The first rule whose pattern matches decides the destination folder, so files flow into Documents, Images, Code, Data, or a fallback Review folder. Because evaluation stops at the first match, the order of the rules matters.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10.5px}
+    .blue{fill:#3b82f6}.bluestroke{stroke:#3b82f6}
+    .green{fill:#10b981}.amber{fill:#f59e0b}.amberstroke{stroke:#f59e0b}
+    .filechip{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.2}
+    .rule{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.2}
+    .rulehot{fill:#fffbeb;stroke:#f59e0b;stroke-width:2}
+    .folder{fill:#ecfdf5;stroke:#10b981;stroke-width:1.5}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.bluestroke{stroke:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.amberstroke{stroke:#fbbf24}
+      .filechip{fill:#26262a;stroke:#6b7280}.rule{fill:#1e293b;stroke:#569cd6}
+      .rulehot{fill:#3a2e0a;stroke:#fbbf24}.folder{fill:#064e3b;stroke:#34d399}
+    }
+  </style>
+  <defs>
+    <marker id="frr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="frr-h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="amber"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="400"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="398.5" rx="10"/>
+  <text class="label ink h" x="24" y="32">Sort by rules &#8212; the first match wins, so order matters</text>
+
+  <!-- INBOX -->
+  <text class="label muted ph" x="30" y="62">Inbox (mixed)</text>
+  <rect class="frame" x="24" y="72" width="150" height="252" rx="8" fill="none"/>
+  <g>
+    <rect class="rulehot" x="36" y="86" width="126" height="26" rx="4"/><text class="label mono ink" x="46" y="104">invoice.pdf</text>
+    <rect class="filechip" x="36" y="118" width="126" height="26" rx="4"/><text class="label mono ink" x="46" y="136">vacation.jpg</text>
+    <rect class="filechip" x="36" y="150" width="126" height="26" rx="4"/><text class="label mono ink" x="46" y="168">deploy.py</text>
+    <rect class="filechip" x="36" y="182" width="126" height="26" rx="4"/><text class="label mono ink" x="46" y="200">sales.csv</text>
+    <rect class="filechip" x="36" y="214" width="126" height="26" rx="4"/><text class="label mono ink" x="46" y="232">notes.txt</text>
+  </g>
+  <text class="label amber s" x="99" y="262" text-anchor="middle">tracing invoice.pdf &#8595;</text>
+  <path d="M174,99 C196,99 200,150 218,150" fill="none" class="amberstroke" stroke-width="2" marker-end="url(#frr-h)"/>
+
+  <!-- RULES -->
+  <text class="label muted ph" x="228" y="62">Rules (top &#8594; bottom)</text>
+  <g>
+    <rect class="rulehot" x="222" y="72" width="256" height="30" rx="5"/>
+    <text class="label mono ink" x="234" y="91">1. *.pdf *.docx &#8594; Documents/{year}</text>
+    <text class="label amber s" x="466" y="91" text-anchor="end" font-weight="700">&#9733;</text>
+    <rect class="rule" x="222" y="108" width="256" height="30" rx="5"/>
+    <text class="label mono ink" x="234" y="127">2. *.jpg *.png &#8594; Media/Images</text>
+    <rect class="rule" x="222" y="144" width="256" height="30" rx="5"/>
+    <text class="label mono ink" x="234" y="163">3. *.py *.js &#8594; Code</text>
+    <rect class="rule" x="222" y="180" width="256" height="30" rx="5"/>
+    <text class="label mono ink" x="234" y="199">4. *.csv *.json &#8594; Data</text>
+    <rect class="rule" x="222" y="216" width="256" height="30" rx="5"/>
+    <text class="label mono muted" x="234" y="235">5. else &#8594; Misc / Review</text>
+  </g>
+  <text class="label muted s" x="222" y="266">Rule 1 matches first &#8212; evaluation stops there.</text>
+
+  <!-- arrow rules -> folders -->
+  <path d="M478,87 C500,87 500,120 520,120" fill="none" class="amberstroke" stroke-width="2" marker-end="url(#frr-h)"/>
+
+  <!-- FOLDERS -->
+  <text class="label muted ph" x="540" y="62">Sorted</text>
+  <g>
+    <rect class="folder" x="524" y="104" width="172" height="32" rx="5"/><text class="label t ink" x="536" y="124">📄 Documents/2024</text>
+    <rect class="frame" x="524" y="142" width="172" height="28" rx="5" fill="none"/><text class="label s muted" x="536" y="160">🖼 Media/Images</text>
+    <rect class="frame" x="524" y="176" width="172" height="28" rx="5" fill="none"/><text class="label s muted" x="536" y="194">💻 Code</text>
+    <rect class="frame" x="524" y="210" width="172" height="28" rx="5" fill="none"/><text class="label s muted" x="536" y="228">🗃 Data</text>
+    <rect class="frame" x="524" y="244" width="172" height="28" rx="5" fill="none"/><text class="label s muted" x="536" y="262">📦 Misc / Review</text>
+  </g>
+
+  <line class="frame" x1="24" y1="352" x2="696" y2="352" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="372">Put the most specific rules first and a catch-all last, so nothing is silently dropped. Preview with a dry</text>
+  <text class="label muted s" x="24" y="388">run and keep a move log &#8212; then re-running is safe and every sort can be undone.</text>
+</svg>

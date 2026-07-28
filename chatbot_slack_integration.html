@@ -144,7 +144,9 @@ from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-from slack_bolt.context import BoltContext, Say, Ack
+from slack_bolt.context import BoltContext
+from slack_bolt.context.say import Say
+from slack_bolt.context.ack import Ack
 from slack_sdk.web import SlackResponse
 
 # For async operations
@@ -777,13 +779,6 @@ Type `/help` to see available commands or just mention me if you need assistance
     
     def _schedule_reminder(self, user: str, message: str, delay: int, client: WebClient):
         """Schedule a reminder."""
-        def send_reminder():
-            asyncio.sleep(delay)
-            client.chat_postMessage(
-                channel=user,
-                text=f"⏰ *Reminder:* {message}"
-            )
-        
         # In production, use a proper task queue like Celery
         import threading
         timer = threading.Timer(delay, lambda: client.chat_postMessage(

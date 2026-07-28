@@ -98,6 +98,10 @@
         G --&gt; H[Process Event]
         H --&gt; I[Execute Response]
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/fs-event-debounce.svg" loading="lazy" alt="A single file save fires a burst of file system events. A naive handler reacts to each and compiles five times; a debounced handler resets a short timer on every event and runs the action only once, after the events go quiet."/>
+<figcaption>A single Ctrl+S makes the OS fire a <em>burst</em> of events, so a naive watcher compiles five times — sometimes on a half-written file. Debouncing (a short timer that resets on every event) collapses the storm into one clean action on the finished file.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Auto-Compiler 🔧</h3>
 <p>You're working on a web project. Every time you save a TypeScript file, you want it compiled to JavaScript. Every time you modify a SASS file, you want CSS generated. Every time you update a Markdown file, you want HTML created. Let's automate all of this!</p>
 <pre><code>import time
@@ -859,6 +863,7 @@ if __name__ == "__main__":
 <p>Different operating systems provide different mechanisms for file system monitoring. Understanding these can help you build more efficient watchers!</p>
 <pre><code>import platform
 import os
+import time
 from pathlib import Path
 
 class PlatformOptimizedWatcher:

@@ -503,7 +503,7 @@ class AttachmentHandler:
                     
                     # Extract additional metadata if configured
                     if self.config.extract_metadata:
-                        file_info["metadata"] = self.extract_file_metadata(file_path)
+                        file_info["metadata"] = FileMetadataExtractor().extract_metadata(file_path)
                     
                     extracted.append(file_info)
                     
@@ -865,7 +865,14 @@ class AttachmentSecurityScanner:
         
         # Suspicious patterns
         self.suspicious_patterns = [
-            b'<script', #="" -="" ]="" b'cmd.exe',="" b'eval(',="" b'exec(',="" b'powershell',="" code="" command="" def="" execution="" file_path:="" javascript="" powershell="" scan_file(self,="" str)=""> Dict[str, Any]:
+            b'&lt;script',       # JavaScript code
+            b'eval(',            # Code execution
+            b'exec(',
+            b'cmd.exe',          # Command execution
+            b'powershell',       # PowerShell
+        ]
+
+    def scan_file(self, file_path: str) -&gt; Dict[str, Any]:
         """Comprehensive security scan."""
         results = {
             "file": file_path,

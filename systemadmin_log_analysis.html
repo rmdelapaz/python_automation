@@ -374,7 +374,7 @@ class LogAnalyzer:
         self.setup_parsers()
         
         # Analysis caches
-        self.error_patterns = defaultdict(int)
+        self.error_patterns = Counter()
         self.ip_statistics = defaultdict(lambda: {'count': 0, 'errors': 0})
         self.timeline = defaultdict(list)
         
@@ -410,12 +410,12 @@ class LogAnalyzer:
                 message TEXT,
                 fields TEXT,
                 raw_line TEXT,
-                file_hash TEXT,
-                INDEX idx_timestamp (timestamp),
-                INDEX idx_level (level),
-                INDEX idx_source (source)
+                file_hash TEXT
             )
         ''')
+        cursor.execute('CREATE INDEX IF NOT EXISTS idx_timestamp ON logs (timestamp)')
+        cursor.execute('CREATE INDEX IF NOT EXISTS idx_level ON logs (level)')
+        cursor.execute('CREATE INDEX IF NOT EXISTS idx_source ON logs (source)')
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS processed_files (
@@ -944,7 +944,28 @@ class SecurityLogAnalyzer:
                 re.IGNORECASE
             ),
             'xss_attempt': re.compile(
-                r'(<script|javascript:|onerror=|onload=|<iframe)', 'brute_force':="" 'command_injection':="" 'path_traversal':="" 'scanner':="" )="" ),="" -="" def="" detect_threats(self,="" hours:="" int="24)" r'(;\s*(cat|ls|wget|curl|bash|sh)\b|\||&&)'="" r'(\.\.="" r'(failed|invalid|unauthorized|denied)',="" r'(nikto|nmap|sqlmap|burp|zap|acunetix)',="" re.compile(="" re.ignorecase="" |\.\.\\|%2e%2e|0x2e0x2e)'="" }=""> List[Dict]:
+                r'(&lt;script|javascript:|onerror=|onload=|&lt;iframe)',
+                re.IGNORECASE
+            ),
+            'brute_force': re.compile(
+                r'(failed|invalid|unauthorized|denied)',
+                re.IGNORECASE
+            ),
+            'command_injection': re.compile(
+                r'(;\s*(cat|ls|wget|curl|bash|sh)\b|\||&amp;&amp;)',
+                re.IGNORECASE
+            ),
+            'path_traversal': re.compile(
+                r'(\.\./|\.\.\\|%2e%2e|0x2e0x2e)',
+                re.IGNORECASE
+            ),
+            'scanner': re.compile(
+                r'(nikto|nmap|sqlmap|burp|zap|acunetix)',
+                re.IGNORECASE
+            )
+        }
+
+    def detect_threats(self, hours: int = 24) -&gt; List[Dict]:
         """Detect security threats in logs."""
         threats = []
         

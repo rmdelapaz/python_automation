@@ -284,7 +284,7 @@ class EmailMessage:
         """Validate email addresses."""
         email_pattern = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
         
-        all_emails = self.to or []
+        all_emails = list(self.to or [])  # copy so extend() never mutates self.to
         if self.cc:
             all_emails.extend(self.cc)
         if self.bcc:
@@ -918,7 +918,6 @@ if __name__ == "__main__":
             <p>Thanks for signing up.</p>
             <img src="cid:logo" width="200"/>
             <p>Best regards,<br/>The Team</p>
-            </main>
 </body>
     </html>
     """

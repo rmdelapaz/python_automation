@@ -131,8 +131,8 @@ from scrapy.utils.project import get_project_settings
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.item import Item, Field
-from scrapy.itemloader import ItemLoader
-from scrapy.itemloader.processors import TakeFirst, MapCompose, Join, Compose
+from scrapy.loader import ItemLoader
+from itemloaders.processors import TakeFirst, MapCompose, Join, Compose, Identity
 from scrapy.exceptions import DropItem, CloseSpider
 from scrapy.downloadermiddlewares.retry import RetryMiddleware
 from scrapy.utils.response import open_in_browser
@@ -765,10 +765,13 @@ def get_scrapy_settings():
         'HTTPCACHE_EXPIRATION_SECS': 3600,
         'HTTPCACHE_DIR': 'httpcache',
         
-        # Export
-        'FEED_FORMAT': 'json',
-        'FEED_URI': 'output/%(name)s_%(time)s.json',
-        'FEED_EXPORT_ENCODING': 'utf-8',
+        # Export (modern FEEDS dict; FEED_FORMAT/FEED_URI are deprecated)
+        'FEEDS': {
+            'output/%(name)s_%(time)s.json': {
+                'format': 'json',
+                'encoding': 'utf-8',
+            },
+        },
         
         # Database
         'DATABASE': {

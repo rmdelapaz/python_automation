@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style W fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/token-bucket.svg" loading="lazy" alt="A faucet drips tokens into a bucket at a fixed refill rate up to a capacity that equals the burst limit. Each API request spends one token: two requests get 200 OK while tokens remain, but once the bucket is empty the next request gets a 429 and must wait for a refill."/>
+<figcaption>The <strong>token bucket</strong> is the mental model behind almost every rate limit. Tokens refill at a steady rate <em>R</em>, so your long-run average can never exceed <em>R</em> — yet a full bucket lets a short burst through instantly. Implement this client-side and you mirror the exact policy the API enforces on you, so you throttle yourself before it has to.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-API Rate Manager 🎯</h3>
 <p>You're building a rate limiting system that manages multiple APIs with different limits - some allow 100 requests/minute, others 1000/hour, some have burst allowances, others strict limits. Your system must track usage across multiple API keys, implement various throttling algorithms, handle 429 responses gracefully, provide detailed metrics, and optimize throughput while never exceeding limits. Let's build a comprehensive rate limiting framework!</p>
 <pre><code># First, install required packages:

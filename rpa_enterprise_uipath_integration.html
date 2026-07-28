@@ -447,7 +447,7 @@ class DataProcessor:
         df = df.drop_duplicates()
         
         # Handle missing values
-        df = df.fillna(method='ffill')
+        df = df.ffill()
         
         # Standardize columns
         df.columns = [col.lower().replace(' ', '_') for col in df.columns]
@@ -585,7 +585,7 @@ def async_process():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-@flask_app.route('/result/<request_id>', methods=['GET'])
+@flask_app.route('/result/&lt;request_id&gt;', methods=['GET'])
 def get_result(request_id: str):
     """Get processing result."""
     result = service._get_cached_result(request_id)
@@ -1050,7 +1050,7 @@ if __name__ == "__main__":
         print(f"   {practice}")
     
     print("\n✅ UiPath/Python integration examples complete!")
-</request_id></code></pre>
+</code></pre>
 <h2>Key Takeaways and Best Practices 🎯</h2>
 <ul>
 <li><strong>Clear Interfaces:</strong> Define clear APIs and data contracts between UiPath and Python.</li>

@@ -351,8 +351,9 @@ class ExcelAutomationMaster:
                 if kpi_format == 'currency':
                     value_cell.number_format = '$#,##0.00'
                 
-                # Add mini sparkline formula (if supported)
-                ws.cell(kpi_row + 2, col, f"=SPARKLINE(B{6}:B{ws.max_row-3})")
+                # Add a summary formula (SPARKLINE is Google Sheets only and
+                # shows #NAME? in Excel; use a normal formula instead)
+                ws.cell(kpi_row + 2, col, f"=AVERAGE(B{6}:B{ws.max_row-3})")
                 
                 col += 2
     
@@ -444,7 +445,9 @@ class ExcelAutomationMaster:
         for column in ws.columns:
             max_length = 0
             column = [cell for cell in column if cell.value]
-            
+            if not column:
+                continue  # Skip fully-empty columns (avoids IndexError below)
+
             for cell in column:
                 try:
                     if len(str(cell.value)) &gt; max_length:
@@ -464,7 +467,6 @@ class ExcelAutomationMaster:
             type="list",
             formula1='"Pending,Approved,Rejected"',
             allow_blank=True,
-            showDropDown=True,
             showErrorMessage=True,
             errorTitle='Invalid Entry',
             error='Please select from the dropdown list.'
@@ -759,6 +761,9 @@ class AdvancedExcelOperations:
                     for row in range(start_row, end_row + 1):
                         for col in range(start_col_idx, end_col_idx + 1):
                             # Adjust formula for current row/column
+                            # NOTE: illustrative only and fragile - replace('2', ...)
+                            # naively swaps EVERY '2' in the string (e.g. inside 2024,
+                            # 0.25, or column refs). Use a real formula rewriter in production.
                             adjusted_formula = formula.replace('2', str(row))
                             ws.cell(row, col).value = adjusted_formula
                 else:

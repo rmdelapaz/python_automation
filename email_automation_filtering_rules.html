@@ -456,6 +456,7 @@ class ActionExecutor:
         self.action_handlers = {
             ActionType.MOVE_TO_FOLDER: self._move_to_folder,
             ActionType.APPLY_LABEL: self._apply_label,
+            ActionType.MARK_AS_IMPORTANT: self._mark_as_important,
             ActionType.MARK_AS_READ: self._mark_as_read,
             ActionType.DELETE: self._delete_email,
             ActionType.FORWARD: self._forward_email,
@@ -496,7 +497,13 @@ class ActionExecutor:
         label = params.get("label", "")
         # Implementation depends on email provider
         self.logger.info(f"Applied label '{label}' to email")
-    
+
+    def _mark_as_important(self, email: 'EmailData', params: Dict):
+        """Mark email as important/flagged."""
+        # Most providers flag via an IMAP keyword/flag (e.g. \\Flagged);
+        # implementation depends on the email provider.
+        self.logger.info("Marked email as important")
+
     def _mark_as_read(self, email: 'EmailData', params: Dict):
         """Mark email as read."""
         if self.imap_client:

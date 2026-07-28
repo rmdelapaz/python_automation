@@ -110,6 +110,10 @@
         style A fill:#ff6b6b
         style N fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/file-routing-rules.svg" loading="lazy" alt="A mixed inbox of files is matched against an ordered list of rules from top to bottom. The first rule whose pattern matches decides the destination folder, so files flow into Documents, Images, Code, Data, or a fallback Review folder."/>
+<figcaption>An auto-organizer is really just an ordered list of rules: the first pattern that matches a file decides where it goes. That "first match wins" behavior is why rule order matters — put specific rules first and a catch-all last, so nothing is silently dropped.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Digital Life Organizer 🏠</h3>
 <p>You've been using the same computer for five years. Your Downloads folder has 10,000 files, Desktop looks like a digital landfill, and you have "New Folder", "New Folder (2)" through "New Folder (47)". Let's build a system that not only cleans this up but keeps it organized forever!</p>
 <pre><code>import os
@@ -1065,6 +1069,10 @@ if __name__ == "__main__":
     </div>
 <pre><code>import asyncio
 import aiofiles
+import re
+import shutil
+from datetime import datetime
+from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from typing import AsyncGenerator
 import magic  # python-magic for file type detection
@@ -1289,7 +1297,12 @@ class RuleBasedOrganizer:
                 'GB': 1024 * 1024 * 1024
             }
             
-            # Safely evaluate condition
+            # WARNING: eval() on untrusted input is NOT safe. Passing
+            # {"__builtins__": {}} hides builtins but does NOT sandbox the
+            # expression -- there are well-known escapes back to os/system, so
+            # never feed user- or file-supplied rules through this. For real
+            # safety use ast.literal_eval() or a small purpose-built parser.
+            # Only use this with rule strings you fully control and trust.
             try:
                 return eval(condition, {"__builtins__": {}}, context)
             except:

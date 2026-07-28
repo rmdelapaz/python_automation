@@ -232,7 +232,7 @@ class ProcessManager:
                     create_time=proc.create_time(),
                     username=proc.username(),
                     cmdline=proc.cmdline(),
-                    connections=proc.connections(kind='all'),
+                    connections=proc.net_connections(kind='all'),
                     open_files=proc.open_files(),
                     threads=proc.num_threads(),
                     children=[p.pid for p in proc.children()]
@@ -535,13 +535,20 @@ class ProcessManager:
         return processes[:top_n]
     
     def cleanup_zombies(self) -&gt; int:
-        """Clean up zombie processes."""
+        """Reap zombie processes that are children of THIS process.
+
+        Note: os.waitpid() can only reap the current process's own
+        children. A process cannot reap zombies belonging to other
+        parents, so this does not clean up zombies system-wide -- for
+        those, the zombie's actual parent must reap it (or be killed).
+        """
         zombies_cleaned = 0
-        
+
         for proc in psutil.process_iter():
             try:
                 if proc.status() == psutil.STATUS_ZOMBIE:
-                    # Try to reap the zombie
+                    # Try to reap the zombie (only works if it's our child;
+                    # os.waitpid raises ChildProcessError otherwise)
                     os.waitpid(proc.pid, os.WNOHANG)
                     zombies_cleaned += 1
                     self.logger.info(f"Cleaned up zombie process: {proc.pid}")

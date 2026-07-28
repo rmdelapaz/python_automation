@@ -163,7 +163,8 @@ class ServerlessConfig:
     provider: str = "aws"  # aws, gcp, azure
     runtime: str = "python3.9"
     region: str = "us-east-1"
-    
+    project_id: str = ""  # GCP project id (required for the gcp provider)
+
     # Function settings
     timeout: int = 30  # seconds
     memory: int = 256  # MB
@@ -445,7 +446,9 @@ class GCPCloudFunction:
             name=f"{parent}/functions/{function_name}",
             source_archive_url=source_archive_url,
             entry_point=entry_point,
-            runtime=self.config.runtime,
+            # Cloud Functions v1 expects the no-dot runtime id (e.g. "python39",
+            # not "python3.9"), so strip the dot from the configured value.
+            runtime=self.config.runtime.replace(".", ""),
             available_memory_mb=self.config.memory,
             timeout=f"{self.config.timeout}s",
             environment_variables=environment or self.config.environment_variables
