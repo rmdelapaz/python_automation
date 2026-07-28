@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/gcp-project-service-account.svg" loading="lazy" alt="Two ideas about Google Cloud. The resource hierarchy: an Organization contains Folders, which contain Projects, and every resource such as Compute Engine, Cloud Storage or BigQuery lives inside a Project — the unit of billing, enabled APIs and IAM — so every call is scoped to a project id. Authentication: code runs as a service account, a non-human machine identity, discovered through Application Default Credentials. Locally you point GOOGLE_APPLICATION_CREDENTIALS at a key JSON file; on GCP the attached service account is used automatically with no key file, which is preferred. Client libraries call google.auth.default to find these credentials."/>
+<figcaption>Two things orient you on GCP. First, <strong>everything lives inside a Project</strong> — that's where you enable the API, attach billing, and grant IAM — so a "permission denied" is usually a disabled API or a missing role on that project, not bad code. Second, your code runs as a <strong>service account</strong> (a machine identity), not as you, and the client libraries find it through <strong>Application Default Credentials</strong>. Prefer an attached service account over a downloadable key file, so there's no secret to leak.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Multi-Service GCP Platform 🚀</h3>
 <p>You're building a comprehensive GCP automation platform that provisions Compute Engine instances for applications, manages Cloud Storage for data lakes, processes analytics with BigQuery, deploys serverless functions for event processing, orchestrates containers with Kubernetes Engine, implements Pub/Sub for messaging, monitors with Cloud Operations, and manages IAM security. Your system must handle petabyte-scale data, support global deployments, optimize costs, and maintain enterprise security. Let's build a production-ready GCP automation framework!</p>
 <pre><code># First, install required packages:

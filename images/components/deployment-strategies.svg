@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="dp-title dp-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="dp-title">Three zero-downtime deployment strategies: rolling, blue-green and canary</title>
+  <desc id="dp-desc">Three ways to release a new version without downtime. Rolling replaces instances in batches, so version 1 and version 2 run side by side briefly; it needs no extra infrastructure but rollback is slow. Blue-green keeps two full environments, blue running the old version and green the new; a router switches all traffic at once and rollback is instant by flipping back, but it costs double the environment. Canary routes a small percentage of traffic, such as 5 percent, to the new version while watching metrics, then ramps to 50 and 100 percent on success; it is the safest but the most complex. A footer notes all three aim for zero downtime and differ in blast radius, rollback speed and cost.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.3}
+    .v1{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .v2{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .router{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.3}
+    .edge{stroke:#64748b;stroke-width:1.6;fill:none}
+    .dash{stroke:#94a3b8;stroke-width:1.4;fill:none;stroke-dasharray:4 3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .panel{fill:#26262a;stroke:#3f3f46}.v1{fill:#1e293b;stroke:#569cd6}.v2{fill:#064e3b;stroke:#34d399}
+      .router{fill:#3a2e0a;stroke:#fbbf24}.edge{stroke:#9ca3af}.dash{stroke:#6b7280}
+    }
+  </style>
+  <defs>
+    <marker id="dp-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Shipping without downtime: three ways to swap old for new</text>
+
+  <!-- ROLLING -->
+  <rect class="panel" x="24" y="46" width="212" height="256" rx="9"/>
+  <text class="label ink ph" x="38" y="68">Rolling</text>
+  <text class="label muted s" x="38" y="84">replace in batches</text>
+  <rect class="v2" x="38" y="96" width="42" height="34" rx="4"/><text class="label mono green" x="59" y="117" text-anchor="middle">v2</text>
+  <rect class="v2" x="86" y="96" width="42" height="34" rx="4"/><text class="label mono green" x="107" y="117" text-anchor="middle">v2</text>
+  <rect class="v1" x="134" y="96" width="42" height="34" rx="4"/><text class="label mono blue" x="155" y="117" text-anchor="middle">v1</text>
+  <rect class="v1" x="182" y="96" width="42" height="34" rx="4"/><text class="label mono blue" x="203" y="117" text-anchor="middle">v1</text>
+  <path class="edge" d="M60,140 L200,140" marker-end="url(#dp-a)"/>
+  <text class="label muted s" x="38" y="158">batch by batch, v1&#8594;v2</text>
+  <text class="label amber s" x="38" y="186" font-weight="700">v1 &amp; v2 serve at once (briefly)</text>
+  <text class="label green s" x="38" y="232">+ no extra infrastructure</text>
+  <text class="label red s" x="38" y="252">&#8722; rollback is slow (re-roll)</text>
+  <text class="label muted s" x="38" y="284" font-size="10">must keep versions compatible</text>
+
+  <!-- BLUE-GREEN -->
+  <rect class="panel" x="254" y="46" width="212" height="256" rx="9"/>
+  <text class="label ink ph" x="268" y="68">Blue-Green</text>
+  <text class="label muted s" x="268" y="84">switch all at once</text>
+  <rect class="router" x="316" y="94" width="88" height="24" rx="5"/><text class="label mono ink" x="360" y="110" text-anchor="middle">Router</text>
+  <path class="dash" d="M336,118 L306,144"/>
+  <path class="edge" d="M384,118 L414,144" marker-end="url(#dp-a)"/>
+  <rect class="v1" x="262" y="146" width="94" height="46" rx="6"/><text class="label mono blue" x="309" y="166" text-anchor="middle" font-weight="700">Blue v1</text><text class="label s muted" x="309" y="182" text-anchor="middle">standby</text>
+  <rect class="v2" x="368" y="146" width="94" height="46" rx="6"/><text class="label mono green" x="415" y="166" text-anchor="middle" font-weight="700">Green v2</text><text class="label s green" x="415" y="182" text-anchor="middle">LIVE</text>
+  <text class="label amber s" x="268" y="212" font-weight="700">flip back to Blue = instant rollback</text>
+  <text class="label green s" x="268" y="240">+ instant, safe rollback</text>
+  <text class="label red s" x="268" y="260">&#8722; runs two full environments (2&#215; cost)</text>
+
+  <!-- CANARY -->
+  <rect class="panel" x="484" y="46" width="212" height="256" rx="9"/>
+  <text class="label ink ph" x="498" y="68">Canary</text>
+  <text class="label muted s" x="498" y="84">ramp on success</text>
+  <rect class="router" x="546" y="94" width="88" height="24" rx="5"/><text class="label mono ink" x="590" y="110" text-anchor="middle">traffic</text>
+  <path class="edge" d="M560,118 L524,144" marker-end="url(#dp-a)"/>
+  <path class="edge" d="M620,118 L656,144" marker-end="url(#dp-a)"/>
+  <rect class="v1" x="490" y="146" width="82" height="34" rx="5"/><text class="label mono blue" x="531" y="167" text-anchor="middle">v1  95%</text>
+  <rect class="v2" x="606" y="146" width="82" height="34" rx="5"/><text class="label mono green" x="647" y="167" text-anchor="middle">v2  5%</text>
+  <rect class="v2" x="498" y="196" width="184" height="24" rx="5"/><text class="label mono green" x="590" y="212" text-anchor="middle">5% &#8594; 50% &#8594; 100%  (watch metrics)</text>
+  <text class="label green s" x="498" y="244">+ smallest blast radius; auto-halt on errors</text>
+  <text class="label red s" x="498" y="264">&#8722; most moving parts to set up</text>
+
+  <line class="frame" x1="24" y1="324" x2="696" y2="324" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="346">All three keep the service up during a release; they differ in blast radius, rollback speed, and cost. Rolling is the</text>
+  <text class="label muted s" x="24" y="364">cheap default; blue-green buys instant rollback with double infra; canary limits risk by exposing a few users first.</text>
+  <text class="label muted s" x="24" y="390">Whichever you pick, gate it on health checks and keep the previous version ready to restore.</text>
+</svg>

@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/serverless-execution-model.svg" loading="lazy" alt="How a serverless function runs. An event from HTTP or API gateway, a storage change, a queue message or a schedule triggers the platform, which checks whether a warm instance is available. If not, it does a cold start — provision a runtime and load your code — making the first call slower; if a warm instance exists it is reused and the call is fast. Either way the handler function, taking an event and context, runs and returns a response. After idle, instances are frozen and destroyed, scaling to zero. Bursts run many instances in parallel. A footer explains you pay per invocation and duration, not for idle, with cold starts as the main trade-off."/>
+<figcaption>"Serverless" doesn't mean no servers — it means you never manage them. There's <strong>no always-on process</strong>: an event spins up your function, it runs, returns, and the instance is frozen and eventually destroyed, so it <strong>scales to zero</strong> and you pay per <em>invocation and duration</em>, not for idle time. The platform also scales <em>out</em>, running many copies in parallel for bursts. The trade-off is the <strong>cold start</strong> — the first call after idle pays to provision — so keep functions small and dependencies light.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Serverless Application Platform 🌐</h3>
 <p>You're building a serverless platform that handles API endpoints for web applications, processes uploaded images and videos, responds to database changes with notifications, runs scheduled data aggregations, integrates with third-party webhooks, manages authentication and authorization, processes payment transactions, and orchestrates complex workflows. Your system must handle millions of events, optimize for cost and performance, manage cold starts, and provide comprehensive monitoring. Let's build a production-ready serverless framework!</p>
 <pre><code># First, install required packages:

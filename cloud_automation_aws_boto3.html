@@ -123,6 +123,10 @@
         style E fill:#ff6b6b
         style V fill:#51cf66
     </div>
+<figure class="svg-wrapper">
+<img class="responsive-svg" src="images/components/boto3-credential-chain.svg" loading="lazy" alt="boto3 searches for credentials in a fixed order and uses the first source found: explicit keys in code (avoid), then environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, then the shared credentials file at ~/.aws/credentials by profile, then an IAM role delivered through instance or container metadata on EC2, ECS or Lambda — the best option because there are no long-lived keys. A side panel contrasts a low-level client that maps one-to-one to the AWS API with a higher-level resource object interface, and notes a Session bundles credentials and region."/>
+<figcaption>Before any S3 or EC2 call, the real question is <em>where do the credentials come from?</em> boto3 walks a <strong>provider chain</strong> and uses the first source it finds — env vars, a named profile, or an IAM role — which is exactly why you should <strong>never hardcode keys</strong> (they get committed to GitHub and drained in minutes). On AWS, attach an IAM role so there are no long-lived keys at all. The same chain feeds every service, because credentials live on the <code>Session</code>, not the call.</figcaption>
+</figure>
 <h3>Real-World Scenario: The Cloud Infrastructure Automation Platform 🏗️</h3>
 <p>You're building a comprehensive AWS automation platform that manages EC2 instances for auto-scaling applications, handles S3 storage for backups and static content, deploys Lambda functions for serverless processing, manages DynamoDB tables for application data, configures VPCs and security groups, monitors resources with CloudWatch, manages costs and billing, and orchestrates multi-service deployments. Your system must handle thousands of resources, implement security best practices, optimize costs, and provide disaster recovery capabilities. Let's build a production-ready AWS automation framework!</p>
 <pre><code># First, install required packages:
