@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🤖 Scraping Ethics and robots.txt: Scrape Responsibly</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Read and interpret a site's <code>robots.txt</code> rules and honor its directives</li>
+            <li>Identify your scraper with a descriptive <code>User-Agent</code> that includes contact information</li>
+            <li>Apply polite rate limiting and respect any declared crawl-delay</li>
+            <li>Use caching and exponential backoff to reduce load and recover from errors</li>
+            <li>Recognize the legal and privacy considerations (including personal-data rules) that govern scraping</li>
+            <li>Decide when to prefer an official API over scraping altogether</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a robots.txt-aware "can I crawl this?" checker that parses the rules for a URL and enforces the site's crawl delay before allowing a request.</p>
+    </div>
 <p>Web scraping isn't just about technical skills - it's about being a responsible digital citizen. Like archaeologists who carefully excavate sites without damaging them, ethical scrapers extract data while respecting websites and their owners. robots.txt is your guidebook, rate limiting is your speed limit, and ethics are your compass. Let's learn to scrape with integrity! ⚖️</p>
 <h2>The Ethics and Compliance Framework</h2>
 <p>Think of ethical scraping as visiting someone's home - you knock before entering, respect their rules, don't take more than offered, and leave everything as you found it. robots.txt is the "house rules" posted at the door, telling you which rooms you can enter and how fast you can move through them. Master these principles, and you'll be welcome everywhere!</p>
@@ -1072,12 +1089,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering ethical web scraping transforms you from a data taker to a responsible data gatherer. You now understand the legal, technical, and ethical considerations that separate professional scrapers from script kiddies. Whether you're conducting research, building products, or gathering competitive intelligence, these ethical principles ensure your scraping is sustainable, legal, and respectful. Remember: the goal isn't just to get data, but to get it in a way that maintains the health and openness of the web! 🌐</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Think about a site you would like to scrape. What obligations — technical, legal, and ethical — do you owe its owner and its users, and how would you build those obligations into your code rather than just your intentions?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Checking <code>robots.txt</code> is the first step of any responsible scrape, not an optional courtesy.</li>
+                <li>A descriptive <code>User-Agent</code> and deliberate delays between requests keep you welcome and unblocked.</li>
+                <li>Caching, backoff, and error handling protect the target server as much as your script.</li>
+                <li>When an official API exists, it is almost always the better, safer, and more stable choice.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now scrape in a way that is sustainable, legal, and respectful — the difference between a professional data engineer and someone who gets IP-banned by lunchtime.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Is <code>robots.txt</code> legally binding?</summary>
+            <p>It is not a law by itself, but ignoring it can breach a site's terms of service and weaken your position in any dispute. Treat it as a clear signal of the owner's wishes and follow it.</p>
+        </details>
+        <details>
+            <summary>How slow should my scraper be?</summary>
+            <p>A safe default is 1–2 seconds between requests, and slower still if the site declares a crawl-delay. When in doubt, err toward being gentle — you rarely need data instantly.</p>
+        </details>
+        <details>
+            <summary>What about scraping personal data?</summary>
+            <p>Personal data triggers regulations such as GDPR and CCPA. Collect only what you genuinely need, avoid storing sensitive fields, and be prepared to justify your lawful basis.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>With an ethical foundation in place, the next lessons turn to the mechanics of real interaction — submitting forms, carrying cookies, and keeping a session alive across requests.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Fetch and read the <code>robots.txt</code> of two sites you use, and note what each one allows and disallows.</li>
+            <li>Add a configurable delay and a descriptive <code>User-Agent</code> to a scraper you have already written.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Great scrapers are good guests. By respecting the web's rules today, you keep it open for everyone — including your future self. Scrape kindly, and doors stay open.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="webscraping_session_management.html">← Previous: Session Management</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="browser_automation_webdriver_setup.html">Next: WebDriver Setup →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

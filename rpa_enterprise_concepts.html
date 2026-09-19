@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🤖 RPA Concepts: Understanding Robotic Process Automation</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Define Robotic Process Automation and explain how a software robot drives existing application UIs without changing the underlying systems</li>
+            <li>Distinguish attended, unattended, and hybrid bots and choose the right mode for a given task</li>
+            <li>Describe the role of the three core components — Studio/IDE, Orchestrator, and Robots — in an enterprise RPA setup</li>
+            <li>Explain why the Orchestrator's central credentials, queues, and logging make RPA enterprise-grade rather than just desktop scripting</li>
+            <li>Judge when RPA is the right glue and when a real API or database integration is the better choice</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Map a repetitive, rule-based task in your world and outline it as an RPA workflow, deciding whether it should run as an attended or unattended bot.</p>
+    </div>
 <p>Robotic Process Automation (RPA) represents a paradigm shift in how organizations handle repetitive tasks - it creates software robots that mimic human actions to automate business processes across applications without changing existing infrastructure. Like having digital workers who never tire, make fewer errors, and work 24/7, RPA transforms manual workflows into automated processes that free humans for higher-value work. Whether you're automating data entry, report generation, or complex business workflows, understanding RPA concepts is essential for modern enterprise automation. Let's explore the comprehensive world of robotic process automation! 🏭</p>
 <h2>The RPA Architecture</h2>
 <p>Think of RPA as creating a digital workforce that operates alongside human employees - these software robots interact with applications just as humans do, clicking buttons, entering data, reading screens, and making decisions based on rules. Using computer vision, OCR, APIs, and workflow orchestration, RPA bridges the gap between legacy systems and modern automation needs. Understanding bot types, automation patterns, and governance frameworks is crucial for successful RPA implementation!</p>
@@ -1079,12 +1094,80 @@ if __name__ == "__main__":
 </div>
 <p>Understanding RPA concepts provides the foundation for successful automation initiatives. You now know how to identify automation opportunities, design robust bots, implement governance frameworks, calculate ROI, and manage digital workers effectively. Whether you're automating simple data entry or complex business processes, these RPA fundamentals are essential for enterprise automation success! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Think of a task you do that involves copying data between two applications by hand. Would it suit an attended or an unattended bot — and is there an API that would make RPA unnecessary?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>RPA robots mimic human actions on existing application UIs, so they automate legacy systems without any backend changes.</li>
+<li>Bots come in modes: attended bots run on a person's desktop and assist front-office work; unattended bots run headless on a VM for back-office work at scale.</li>
+<li>What makes RPA enterprise-grade is the Orchestrator — it schedules runs, distributes queued work, stores credentials centrally, and logs everything for audit.</li>
+<li>Because a bot drives the UI, it breaks when the UI changes; prefer a real API or database integration whenever one exists.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now explain what RPA is, tell the bot types apart, describe how Studio, Orchestrator, and Robots work together, and make a sound call about when RPA is the right tool versus a direct integration.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Is RPA just a fancy name for macros or scripts?</summary>
+<p>The bot actions look similar, but the difference is governance. An enterprise RPA platform adds an Orchestrator for scheduling, queue-based work distribution across a fleet, central credential storage, and full audit logging — things a lone desktop macro cannot provide.</p>
+</details>
+<details>
+<summary>When should I choose an attended bot over an unattended one?</summary>
+<p>Choose attended when a human triggers the work and shares the desktop — front-office assist during a live task. Choose unattended when the work should run headless on a schedule or from a queue with no human present — back-office processing at scale.</p>
+</details>
+<details>
+<summary>If APIs are better, why does RPA exist?</summary>
+<p>Many legacy and third-party systems simply have no usable API. RPA is the glue for exactly those cases: it drives the screen like a person. When a stable API does exist, use it — it is faster and far less brittle than UI automation.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Now that you understand the RPA landscape, the following lessons put it to work — building the specific capabilities bots rely on, such as processing the documents that feed enterprise workflows.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>List three tasks in your work or studies that are high-volume, rule-based, and structured — good RPA candidates.</li>
+<li>For one of them, decide whether it should run as an attended or unattended bot and note why.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You have just learned the vocabulary that RPA teams use every day. From here on, automation stops feeling like magic and starts feeling like engineering you can direct. Keep going.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="advanced_scraping_data_pipelines.html">← Previous: Data Pipelines</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="rpa_enterprise_uipath_integration.html">Next: UiPath/Python Integration →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

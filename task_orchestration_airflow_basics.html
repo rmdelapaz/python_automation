@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>🚀 Apache Airflow Basics: Orchestrate Complex Workflows at Scale</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain how Airflow's core components — the scheduler, executor, metadata database, and web server — turn a DAG file into scheduled runs</li>
+            <li>Describe a DAG as a directed acyclic graph of tasks on a schedule interval, and why nothing runs "now"</li>
+            <li>Write a basic DAG with <code>PythonOperator</code> tasks and set their order with the <code>&gt;&gt;</code> dependency operator</li>
+            <li>Pass small values between tasks using XCom and choose static <code>start_date</code>s with <code>catchup=False</code></li>
+            <li>Use sensors, branching, and the TaskFlow <code>@task</code> API to build conditional and dynamic workflows</li>
+            <li>Apply the idempotent-and-atomic task principles that make retries and scheduling safe</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build and schedule a small daily DAG that extracts, processes, and saves data across three linked <code>PythonOperator</code> tasks.</p>
+    </div>
 <p>Apache Airflow is a powerful platform for programmatically authoring, scheduling, and monitoring workflows - it transforms complex task dependencies into manageable, visual pipelines that can scale from simple scripts to enterprise data operations. Like having an intelligent conductor for your data orchestra, Airflow ensures tasks run in the right order, at the right time, with automatic retry logic and comprehensive monitoring. Whether you're building ETL pipelines, orchestrating machine learning workflows, or automating business processes, Airflow provides the foundation for reliable, scalable task orchestration. Let's explore the fundamentals of workflow automation with Apache Airflow! 🎯</p>
 <h2>The Apache Airflow Architecture</h2>
 <p>Think of Airflow as a sophisticated workflow management system - it uses Directed Acyclic Graphs (DAGs) to define task dependencies, executors to run tasks in parallel, schedulers to trigger workflows, and a rich UI for monitoring and troubleshooting. Built on Python, Airflow treats workflows as code, enabling version control, testing, and dynamic pipeline generation. Understanding DAGs, operators, tasks, and scheduling is essential for mastering workflow orchestration!</p>
@@ -994,12 +1010,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering Apache Airflow basics provides the foundation for building robust, scalable workflow orchestration. You can now create DAGs with complex dependencies, use various operators for different tasks, implement branching and dynamic workflows, handle errors with retries and alerts, and monitor pipeline execution effectively. Whether you're building ETL pipelines, orchestrating ML workflows, or automating business processes, Airflow provides the tools for reliable task orchestration at scale! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal-airflow-basics" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Airflow separates <em>when</em> work runs (the scheduler and schedule interval) from <em>what</em> the work is (the task callables). Think of a repetitive task you do manually — what would its "DAG" look like, and which parts would you make idempotent so a retry couldn't cause harm?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary-airflow-basics" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Airflow turns a Python DAG file into scheduled DAG Runs; the scheduler, executor, metadata DB, and web server each play a distinct role.</li>
+                <li>A DAG is a directed acyclic graph of tasks tied to a schedule interval — work happens per interval, not the instant you write it.</li>
+                <li>Tasks are wired with the <code>&gt;&gt;</code> operator and communicate through XCom (for small values) or external storage (for large data).</li>
+                <li>Reliable DAGs use static <code>start_date</code>s, idempotent tasks, and atomic operations so retries and backfills stay safe.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now read Airflow's architecture, author a working DAG with ordered tasks, pass data between them, and reason about scheduling and retries — the foundation every later orchestration lesson builds on.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why doesn't my DAG run the moment I save the file?</summary>
+            <p>Airflow schedules work per interval. The scheduler parses your file to build the graph, then creates a DAG Run for each schedule interval starting from <code>start_date</code>. Use a manual trigger or <code>airflow dags trigger</code> to run it immediately.</p>
+        </details>
+        <details>
+            <summary>When should I use XCom versus external storage to pass data?</summary>
+            <p>XCom is for small values like IDs, counts, or short status strings. It lives in the metadata database, so pushing large DataFrames or files through it will bloat the DB — write those to S3, a database, or a shared path and pass the location instead.</p>
+        </details>
+        <details>
+            <summary>What does "idempotent" actually mean for a task?</summary>
+            <p>Running the task again with the same input produces the same result and no duplicate side effects. Because Airflow retries failed tasks and can re-run past intervals, idempotency is what keeps a retry from double-charging, double-writing, or corrupting data.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Next you'll move from a single starter DAG to deliberate DAG design — factory patterns, configuration-driven pipelines, and dynamic task generation for real-world scale.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Install Airflow locally (or use the standalone command), initialize the DB, and get the basic DAG showing in the UI.</li>
+            <li>Add a fourth task to the example DAG and re-wire the <code>&gt;&gt;</code> dependencies so it runs after the save step.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>You just met the tool that runs data pipelines at companies of every size. The graph you drew today is the same shape that powers enterprise ETL — keep building, and orchestration will start to feel like second nature.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="cloud_automation_deploying.html">← Previous: Deployment Automation</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="task_orchestration_creating_dags.html">Next: Creating DAGs →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

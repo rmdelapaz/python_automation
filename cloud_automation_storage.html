@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>💾 Cloud Storage Management: Master Data in the Cloud</h1>
+<!-- What You'll Learn (learning objectives) -->
+<div class="card card-info">
+<h2>📚 What You'll Learn</h2>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Explain why object storage is a flat key-to-blob map, not a filesystem, and how "folders" are really key prefixes</li>
+<li>Create secure buckets (encryption at rest, versioning, blocked public access) and upload/download objects with progress tracking</li>
+<li>Choose the right storage class (Standard, Infrequent Access, Glacier, Deep Archive) by matching cost against access frequency</li>
+<li>Automate cost control with lifecycle rules that transition and expire objects, and estimate spend from usage</li>
+<li>Share private objects safely using short-lived signed (presigned) URLs instead of making buckets public</li>
+<li>Use multipart uploads for large files, sync a directory, and replicate objects across AWS, GCP, and Azure</li>
+</ul>
+<p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+<p><strong>🎯 Project:</strong> Build a storage helper that creates an encrypted, versioned, private bucket with a lifecycle rule, uploads a file with a progress bar, and generates a one-hour presigned download link for it.</p>
+</div>
+
 <p>Cloud storage is the backbone of modern applications - it provides infinitely scalable, globally accessible, and highly durable storage for everything from static websites to massive data lakes. Like managing a vast digital warehouse that spans the globe, mastering cloud storage involves understanding object storage, file systems, databases, caching strategies, and data lifecycle management. Whether using AWS S3, Google Cloud Storage, or Azure Blob Storage, these skills enable you to store, organize, and retrieve data efficiently at any scale. Let's explore the comprehensive world of cloud storage management! 🌍</p>
 <h2>The Cloud Storage Architecture</h2>
 <p>Think of cloud storage as a hierarchy of solutions optimized for different use cases - from hot storage for frequently accessed data to cold archives for long-term retention, each tier offers different performance, durability, and cost characteristics. Using services like S3 for objects, EFS for file systems, DynamoDB for NoSQL, and RDS for relational data, you can build storage architectures that scale infinitely while optimizing for both performance and cost. Understanding these storage patterns is essential for modern cloud applications!</p>
@@ -1267,6 +1284,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of cloud storage as a hierarchy of solutions - each tier offers different trade-offs between cost, performance, and durability. Start by understanding your data access patterns: hot data needs fast storage (STANDARD), warm data can use cheaper tiers (INFREQUENT_ACCESS), and cold data should be archived (GLACIER). Always enable encryption at rest and use IAM for fine-grained access control. Implement lifecycle policies from day one to automatically move data to appropriate tiers and delete expired data. Use versioning for critical data to protect against accidental deletion or corruption. For large files, use multipart uploads to improve reliability and performance. Implement proper tagging for cost allocation and organization. Use presigned URLs for secure temporary access instead of making objects public. Monitor your storage costs regularly - they can grow quickly. Consider multi-cloud replication for critical data to avoid vendor lock-in. Use CDN integration for frequently accessed public content. Most importantly: treat cloud storage as code - version control your bucket configurations, lifecycle policies, and access controls!</p>
 </div>
 <p>Mastering cloud storage management enables you to build scalable, reliable, and cost-effective data solutions in the cloud. You can now handle everything from simple file uploads to petabyte-scale data lakes, implement intelligent tiering for cost optimization, ensure data durability with replication, and provide global access through CDN integration. Whether you're building backup systems, content delivery platforms, or big data solutions, these cloud storage skills are essential for modern applications! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Object storage looks like folders but is really a flat map of keys. How does that mental shift change the way you'd organize, list, or "move" files — and where might the old folder intuition trip you up?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Object storage is a flat namespace of keys mapped to blobs plus metadata; "folders" are just key prefixes, so listing and moving happen by prefix, not by directory.</li>
+<li>Signed (presigned) URLs let a client upload or download directly from storage with a short-lived, credential-free link — keeping the bucket private and your app out of the byte path.</li>
+<li>Storage classes trade retrieval speed for cost (Standard → Infrequent Access → Glacier → Deep Archive); lifecycle rules automate transitions and expirations so you don't pay hot prices for cold data.</li>
+<li>Secure by default: encryption at rest, versioning for recovery, blocked public access, and multipart uploads for reliable large-file transfers.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now manage cloud storage like an engineer — creating secure, versioned buckets, moving data efficiently at any size, automating cost with lifecycle tiers, sharing safely with signed URLs, and even replicating across multiple providers.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>If keys aren't real folders, how do I "list a folder"?</summary>
+<p>You list by prefix. Ask for all keys starting with <code>reports/2024/</code>, optionally with a delimiter so the API groups keys at the next "/". There's no folder object to open — the slashes are just part of the key string.</p>
+</details>
+<details>
+<summary>When should I use a presigned URL instead of making an object public?</summary>
+<p>Almost always. A presigned URL grants temporary, expiring access to one object while the bucket stays private, and it works for uploads too. Making objects public removes all access control and is easy to leak — reserve it only for truly public, static assets.</p>
+</details>
+<details>
+<summary>How do I decide between Standard, Glacier, and the other classes?</summary>
+<p>Match the class to how often you read the data. Frequent access → Standard; occasional → Infrequent Access; rarely, and you can wait minutes to hours to retrieve → Glacier or Deep Archive. Let lifecycle rules move objects down the tiers automatically as they age.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Storage often becomes an event source: a new object can trigger processing automatically. Next you'll build the functions that react to events like these without managing any servers.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Create an encrypted, versioned, public-access-blocked bucket, upload a file, and generate a one-hour presigned download URL for it.</li>
+<li>Write a lifecycle rule that moves objects to a colder class after 90 days and deletes them after a year, then reason about the monthly cost impact.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>Data is the heart of almost every application, and you now know how to store it durably, cheaply, and securely at any scale. That's a skill you'll reach for in nearly every project — keep building on it with confidence.</p>
+</div>
+</section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="cloud_automation_google_cloud.html">← Previous: Google Cloud Platform</a>
@@ -1274,6 +1348,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="cloud_automation_serverless.html">Next: Serverless Functions →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

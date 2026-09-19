@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🏷️ Batch Renaming: Master the Art of File Naming at Scale</h1>
+    <!-- What You'll Learn (batch-renaming objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Analyze existing filename patterns (camera, screenshot, dated, numbered) to plan a rename strategy</li>
+            <li>Build new names from templates using metadata like dates, indexes, and file hashes</li>
+            <li>Use regular expressions to extract structure — episode codes, dates, version numbers — from messy names</li>
+            <li>Detect and resolve naming collisions instead of silently overwriting files</li>
+            <li>Sort files naturally so <code>file2</code> comes before <code>file10</code></li>
+            <li>Apply safety layers: dry-run previews, validation, operation logging, and rollback/undo</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a batch renamer that previews an old→new plan, flags collisions, renames a folder of files from a template, and can roll the whole operation back.</p>
+    </div>
+
 <p>Ever downloaded 500 photos from your camera named DSC_0001 through DSC_0500? Or inherited a project with files named "final_v2_REALLY_FINAL_USE_THIS_ONE.doc"? Batch renaming is your superpower for bringing order to naming chaos. It's like being a librarian with superhuman speed! 📚</p>
 <h2>The Psychology of Good File Names</h2>
 <p>A good filename tells a story. It should answer three questions: What is it? When was it created? What version is it? Think of filenames as the DNA of your digital organization – they carry essential information that helps you (and your scripts) identify files instantly.</p>
@@ -1329,6 +1346,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> The best file naming system is one that works for both humans and machines. Use dates in YYYYMMDD format for easy sorting, avoid special characters that might cause issues on different systems, and be consistent with your separators (underscores vs hyphens). Your future self will thank you!</p>
 </div>
 <p>Batch renaming is more than just changing filenames – it's about creating order from chaos, making your digital life searchable and organized. Whether you're managing a photo library, organizing downloads, or maintaining a media collection, these tools give you the power to rename thousands of files with confidence and precision! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Bulk renaming is destructive — one collision can silently erase a file. How did building a dry-run preview and a rollback path change how confident you felt about running a rename over hundreds of real files?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Compute the complete old→new plan first, then preview it with <code>dry_run=True</code> before a single file moves.</li>
+                <li>Naming collisions are the main danger of bulk renames — detect them and add a suffix or route swaps through a temp name rather than overwriting.</li>
+                <li>Regular expressions turn chaotic names into structured data you can rebuild from templates.</li>
+                <li>Natural (human) sorting keeps numbered series in the right order, and an operation log makes any rename reversible.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now bring order to thousands of chaotically named files — analyzing patterns, extracting metadata with regex, applying consistent templates, and doing it all safely with previews and undo. This is the difference between renaming with confidence and renaming with crossed fingers.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>What actually happens when two files get the same new name?</summary>
+            <p>Whichever rename runs second overwrites the first, and the first file is gone. Nothing warns you by default. That's why you compute the full plan up front, check for duplicate targets, and either append a counter suffix or reject the batch before applying anything.</p>
+        </details>
+        <details>
+            <summary>Why does <code>file10</code> sort before <code>file2</code> normally, and how do I fix it?</summary>
+            <p>Default string sorting compares character by character, so "1" comes before "2" and <code>file10</code> lands before <code>file2</code>. Natural sorting splits each name into text and integer chunks and compares the numbers as numbers — that's what the <code>natural_key</code> helper does.</p>
+        </details>
+        <details>
+            <summary>Do I really need a rollback if I already preview changes?</summary>
+            <p>Previews catch planning mistakes, but the apply step can still fail partway (a permission error, a full disk). Logging each completed rename lets you reverse exactly what happened and return to a known-good state, which a preview alone can't do.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Renaming responds to files that already exist. Next you'll make automation <em>reactive</em> — watching a directory and running your logic automatically the moment files appear or change.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Run a dry-run rename over a copy of a messy folder and inspect the previewed plan for any collisions.</li>
+            <li>Write a small regex that extracts the date from three differently formatted filenames you have on hand.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Turning a folder of "IMG_4821 (final)(2)_REAL.jpg" into clean, sortable names is deeply satisfying — and now you can do it to thousands of files without fear. That's real power over your digital world. Keep going!</p>
+        </div>
+    </section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="filesystem_advanced_file_operations.html">← Previous: Advanced File Operations</a>
@@ -1336,6 +1410,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="filesystem_directory_watching.html">Next: Directory Watching →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

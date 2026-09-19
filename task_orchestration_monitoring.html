@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>📊 Monitoring and Alerts: Keep Your Workflows Running Smoothly</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain the three pillars of observability — metrics, logs, and alerts — and when to use each</li>
+            <li>Collect Airflow metrics (task duration, success/failure counts, queue depth) and export them to Prometheus</li>
+            <li>Define and evaluate SLAs against your metrics, and track compliance over time</li>
+            <li>Detect anomalies with statistical (z-score) and trend-based methods</li>
+            <li>Route alerts by severity across channels while avoiding alert fatigue with deduplication and suppression</li>
+            <li>Design role-specific dashboards (operational vs. executive) that turn data into decisions</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a monitoring DAG that collects task metrics, checks an SLA, and fires a deduplicated, severity-routed alert on violation.</p>
+    </div>
 <p>Effective monitoring and alerting transform reactive firefighting into proactive system management - it's the difference between discovering failures from angry users and preventing issues before they impact production. Like having a mission control center for your workflows, comprehensive monitoring provides real-time visibility, predictive insights, and intelligent alerting that keeps your automation running smoothly. Whether you're tracking SLAs, detecting anomalies, or optimizing performance, mastering monitoring and alerts is crucial for production operations. Let's explore the comprehensive world of workflow observability! 📡</p>
 <h2>The Monitoring and Alerting Architecture</h2>
 <p>Think of monitoring as your workflow's nervous system - it collects signals from every component, processes them for insights, and triggers appropriate responses when something needs attention. Using metrics, logs, traces, and custom instrumentation, you can build observability that provides complete visibility into workflow health, performance, and behavior. Understanding metrics collection, alert design, and dashboard creation is essential for operational excellence!</p>
@@ -1260,12 +1276,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering monitoring and alerting transforms reactive firefighting into proactive system management. You can now build comprehensive observability with metrics and logging, implement intelligent alerting that reduces fatigue, detect anomalies before they become incidents, track SLA compliance automatically, and create insightful dashboards for all stakeholders. Whether you're managing production pipelines, ensuring data quality, or optimizing performance, these monitoring skills ensure your workflows run smoothly and reliably! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal-monitoring" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Every alert should be actionable — if there's nothing to do, it's a log line, not a page. Think of a notification you routinely ignore: what makes it noise, and how would you redesign it into a real, symptom-based alert?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary-monitoring" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Observability rests on three pillars: metrics (numbers over time), logs (events with context), and alerts (rules on a metric that page a human).</li>
+                <li>Prometheus-style metrics plus SLA evaluation let you catch degradation and prove reliability over time.</li>
+                <li>Statistical and trend anomaly detection catches the "unknown unknowns" that fixed thresholds miss.</li>
+                <li>Alert on user-facing symptoms — not every blip — and use deduplication, suppression, and severity routing to prevent alert fatigue.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now instrument your workflows, define and track SLAs, surface anomalies, and deliver alerts that people actually trust and act on — turning reactive firefighting into proactive operations.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>What's the difference between a metric, a log, and an alert?</summary>
+            <p>A metric is a number over time (task duration, failure rate) — good for trends and thresholds. A log is a timestamped event with context — good for answering <em>why</em>. An alert is a rule on a metric that notifies a human when it breaches. You need all three.</p>
+        </details>
+        <details>
+            <summary>How do I avoid alert fatigue?</summary>
+            <p>Alert only on actionable, user-facing symptoms (SLA breaches, sustained failure), deduplicate repeated alerts, suppress during maintenance windows, and use severity levels so a minor issue doesn't page someone at night. Everything else should be a log line.</p>
+        </details>
+        <details>
+            <summary>Why use anomaly detection when I already have thresholds?</summary>
+            <p>Thresholds only catch problems you anticipated. Statistical methods (like z-score) and trend analysis flag behavior that's abnormal relative to history even when you never set an explicit limit — catching the failures you didn't see coming.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You've completed the orchestration arc — building, wiring, hardening, and observing pipelines. Next the course shifts to testing automation, starting with the fast, isolated foundation: unit tests.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Define one SLA for a workflow you know (e.g., "runs finish under 5 minutes") and sketch how you'd measure it.</li>
+            <li>List your current alerts and reclassify each as "page-worthy symptom" or "should just be a log."</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Good monitoring doesn't just tell you something broke — it tells you why, and what to do. You now have the mission-control mindset that keeps production calm. Trust your instruments and keep refining them.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="task_orchestration_error_handling.html">← Previous: Error Handling</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="testing_automation_unit.html">Next: Unit Test Automation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

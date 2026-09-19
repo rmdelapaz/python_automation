@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>📎 Email Attachments: Send Files and Documents</h1>
+<!-- What You'll Learn (learning objectives) -->
+<div class="card card-info">
+<h2>📚 What You'll Learn</h2>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Explain how an email with attachments is a MIME tree — a <code>multipart/mixed</code> root with the body and each file as sibling parts</li>
+<li>Build attachments in Python by detecting MIME types and setting <code>Content-Disposition</code> and encoding correctly</li>
+<li>Extract incoming attachments by walking message parts, sanitizing filenames, and saving payloads safely</li>
+<li>Respect provider size limits — compress files, and know that base64 inflates size by roughly a third</li>
+<li>Validate attachments for security: allow/block extension lists, suspicious-content and hash checks, and size gates</li>
+<li>Handle oversized files by uploading to cloud storage and sending an expiring download link instead</li>
+</ul>
+<p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+<p><strong>🎯 Project:</strong> Write a helper that attaches a validated PDF to an email, and a second routine that opens a received message, extracts every attachment, and saves each one with a safe, unique filename.</p>
+</div>
+
 <p>Email attachments are the cargo containers of digital communication - they let you send documents, images, spreadsheets, and any file type alongside your messages. From simple PDFs to complex zip archives, mastering attachment handling allows you to build automated systems that distribute reports, share documents, send invoices, and deliver digital content at scale. Let's explore the complete toolkit for managing email attachments! 📦</p>
 <h2>The Attachment Processing Architecture</h2>
 <p>Think of email attachments as carefully packaged parcels - each file must be properly encoded, labeled with the correct MIME type, sized appropriately, and attached securely to your email. Whether you're sending a single document or multiple files, understanding encoding methods, size limitations, and security considerations is essential for reliable attachment handling!</p>
@@ -1098,6 +1115,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of email attachments as shipping packages - they need proper packaging (encoding), size limits (provider restrictions), and security checks (virus scanning). Always check file sizes before attaching - most providers limit attachments to 25MB total. Compress files when possible using ZIP to reduce size and bundle multiple files. Validate file extensions to block dangerous types like .exe or .bat. Scan attachments for viruses before sending. For large files, upload to cloud storage and send a download link instead. Use descriptive filenames that recipients will understand. Encode binary files properly with base64. Handle character encoding in filenames for international compatibility. Extract and preserve metadata when processing received attachments. Test that attachments can be properly extracted before sending. Most importantly: always have a fallback plan for when attachments fail - provide alternative download methods!</p>
 </div>
 <p>Mastering email attachments enables you to build robust document distribution systems that handle any file type and size. You can now send reports, invoices, documents, and media files programmatically while handling compression, security, and delivery challenges. Whether you're building automated reporting systems or document workflows, these attachment skills power your file distribution! 📨</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Attachments turn a plain message into a MIME tree of parts. Now that you've seen how files are encoded and how base64 inflates their size, when would you attach a file directly versus send a cloud link — and what would you tell a recipient to expect?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>An email with files is a MIME tree: a <code>multipart/mixed</code> root holds the text body and each attachment as a sibling part with its own content type and encoding.</li>
+<li>You send by adding a part (<code>add_attachment</code> / building a <code>MIMEBase</code>) and receive by <code>walk()</code>ing the parts and saving those marked <code>Content-Disposition: attachment</code>.</li>
+<li>Base64 encoding grows binary data by about 33%, so large files hit provider limits — compress them or send an expiring cloud link instead.</li>
+<li>Treat every attachment as untrusted input: validate extensions, sanitize filenames, avoid overwrites, and scan for suspicious content before saving or forwarding.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now send and receive files through email programmatically — packaging documents into proper MIME parts, extracting incoming attachments safely, compressing oversized files, and falling back to cloud links when files are too big for the inbox.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why is my 20 MB file rejected when the limit says 25 MB?</summary>
+<p>Because base64 encoding inflates the file by roughly a third, so a 20 MB file becomes about 27 MB on the wire — over the limit. Compress it, or upload it to cloud storage and email a download link instead.</p>
+</details>
+<details>
+<summary>How do I know which part of a received email is an attachment?</summary>
+<p>Walk the message parts and check each part's <code>Content-Disposition</code> header for "attachment" (and look for a filename). Body parts are typically <code>text/plain</code> or <code>text/html</code> with no attachment disposition.</p>
+</details>
+<details>
+<summary>Why sanitize the filename from an attachment?</summary>
+<p>The filename comes from the sender and can contain path components or dangerous characters (like <code>../</code>) that could overwrite files outside your target folder. Stripping the path and unsafe characters — and de-duplicating names — keeps extraction safe.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>You've mastered the "cargo" of email. Next you'll make the message itself richer, designing HTML emails that render well across clients while keeping a plain-text fallback.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Attach a validated PDF to a message and confirm its <code>Content-Type</code> and <code>Content-Disposition</code> headers are correct.</li>
+<li>Open a saved <code>.eml</code> message, walk its parts, and extract every attachment to a folder with sanitized, non-colliding filenames.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>Attachments used to feel like magic that "just works" in your mail client — now you understand the MIME tree underneath and can build it yourself. That's the difference between using email and automating it. Keep going.</p>
+</div>
+</section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="email_automation_reading_emails.html">← Previous: Reading Emails</a>
@@ -1105,6 +1179,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="email_automation_html_emails.html">Next: HTML Emails →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

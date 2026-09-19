@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>✈️ Telegram Bots: Create Versatile Messaging Bots</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Register a bot with BotFather and obtain its API token</li>
+            <li>Understand that a bot receives a stream of typed <strong>Update</strong> objects (commands, text, callbacks, media), not plain "messages"</li>
+            <li>Register handlers with <code>python-telegram-bot</code> and order them specific → general, always including a fallback</li>
+            <li>Build inline and reply keyboards, and answer a button tap's <code>callback_query</code> so the user doesn't see a spinner</li>
+            <li>Choose between long polling (<code>getUpdates</code> with an offset) and webhooks, and explain the trade-offs</li>
+            <li>Handle media and maintain conversation context across a multi-step flow</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a Telegram bot that responds to <code>/start</code>, shows an inline keyboard, and correctly answers the button tap's callback query — with a fallback handler for anything unmatched.</p>
+    </div>
 <p>Telegram bots are the Swiss Army knives of messaging automation - they can handle payments, manage groups, share files, play games, provide customer support, and even run entire businesses. With Telegram's powerful Bot API and extensive features like inline keyboards, custom keyboards, inline queries, and webhook support, you can build bots that serve millions of users worldwide. Let's explore the comprehensive world of Telegram bot development! 🤖</p>
 <h2>The Telegram Bot Architecture</h2>
 <p>Think of Telegram bots as virtual assistants that live in the cloud - they can chat privately, manage groups with thousands of members, send rich media, process payments, and integrate with web services. Using libraries like python-telegram-bot or aiogram, you can create bots that handle everything from simple commands to complex conversational AI. Understanding Telegram's update system, message types, and inline features is crucial for building powerful bots!</p>
@@ -1109,12 +1125,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering Telegram bot development enables you to create powerful, versatile bots that serve millions of users worldwide. You can now build bots for customer support, e-commerce, notifications, group management, and countless other use cases. Whether you're building for a small community or a global audience, these Telegram bot skills empower you to create engaging, interactive experiences! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> A Telegram bot reacts to whatever arrives rather than calling an API in sequence. How does that "register handlers and respond to updates" mindset differ from the request-response code you're used to, and where might it trip you up?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>A bot receives a stream of typed <strong>Update</strong> objects — command, text, <code>callback_query</code>, media — not generic messages.</li>
+                <li>A dispatcher routes each update to the <strong>first matching handler</strong>, so order handlers specific → general and always add a fallback.</li>
+                <li>A tapped button is <strong>not a message</strong> — it's a <code>callback_query</code> you must answer, or the user just sees a loading spinner.</li>
+                <li>You can receive updates by long polling (simple, great for development) or webhooks (efficient, needs a public HTTPS URL).</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now build a versatile Telegram bot that responds to commands, shows interactive keyboards, and handles button taps correctly. You've internalized the event-driven, handler-based model that Telegram — and most bot platforms — are built on.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Long polling or webhooks?</summary>
+            <p>Use long polling while developing — it's the simplest and needs no public server. Switch to webhooks for production, where Telegram pushes updates to your HTTPS endpoint, which scales better and avoids constant polling.</p>
+        </details>
+        <details>
+            <summary>My button shows a spinner forever — why?</summary>
+            <p>You didn't answer its <code>callback_query</code>. Call <code>answer_callback_query</code> (in <code>python-telegram-bot</code>, <code>query.answer()</code>) so Telegram knows the tap was handled and clears the loading state.</p>
+        </details>
+        <details>
+            <summary>Why does handler order matter?</summary>
+            <p>The dispatcher stops at the first handler that matches an update. If a broad text handler comes before a specific command handler, it can swallow the command. Register specific handlers first and put a catch-all fallback last.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You've now built bots across several platforms and given them structured commands and language understanding. From here you can combine these pieces — commands, NLU, and platform integrations — into richer, production-ready assistants.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Extend your bot with an inline keyboard and make sure every button tap is answered so no spinner lingers.</li>
+            <li>Add a fallback handler and confirm it catches messages none of your specific handlers match.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>From BotFather to a bot that chats, shows keyboards, and reacts to taps — you built all of it. The event-driven mindset you practiced here powers bots on every platform, so this skill travels with you. Now go build something people will love to use!</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="gui_automation_cross_platform.html">← Previous: Cross-Platform GUI</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="chatbot_discord_bots.html">Next: Discord Bots →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

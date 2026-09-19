@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🔐 Session Management: Maintain State Like a Pro</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Use <code>requests.Session</code> to reuse connections and share state across requests</li>
+            <li>Implement retry logic with exponential backoff and set timeouts to avoid hanging requests</li>
+            <li>Persist and restore sessions so you do not re-authenticate on every run</li>
+            <li>Handle multiple authentication methods and refresh expiring tokens</li>
+            <li>Monitor session health and detect expired sessions proactively</li>
+            <li>Take advantage of connection pooling for better performance at scale</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a resilient session client that authenticates once, persists its session to disk, auto-retries failed requests, and refreshes its token when it expires.</p>
+    </div>
 <p>Sessions are the memory of web interactions - they remember who you are, what you've done, and where you've been. Like a skilled diplomat who maintains relationships across multiple meetings, session management lets you maintain complex, stateful interactions with websites over time. Let's master the art of digital persistence! 🎭</p>
 <h2>The Session Management Architecture</h2>
 <p>Think of session management as conducting multiple conversations simultaneously. Each website is a different person you're talking to, and you need to remember the context of each conversation. Sessions keep track of your authentication, preferences, shopping carts, and navigation history. Master them, and you can automate the most complex web workflows!</p>
@@ -1059,12 +1076,80 @@ if __name__ == "__main__":
 </div>
 <p>Session management mastery transforms you from a simple scraper to an enterprise-grade automation engineer. You can now maintain complex stateful interactions, handle authentication elegantly, recover from failures gracefully, and scale your operations efficiently. Whether you're building web scrapers, API clients, or automation platforms, these session management skills are your foundation for reliable web automation! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Networks fail constantly. List the failure points in a long-running scraper — timeouts, expired tokens, dropped connections — and describe how a well-designed session turns each one from a crash into a recoverable event.</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>A <code>Session</code> reuses connections and carries cookies and headers, making repeated requests faster and simpler.</li>
+                <li>Retries with backoff and explicit timeouts are what separate a robust client from one that hangs or crashes.</li>
+                <li>Persisting a session lets long jobs resume without re-authenticating from scratch.</li>
+                <li>Proactively monitoring token expiry and session health prevents silent, hard-to-debug failures.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now build stateful, fault-tolerant clients that stay authenticated, survive flaky networks, and scale — the backbone of any serious automation platform.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>When should I use a Session instead of plain <code>requests.get()</code>?</summary>
+            <p>Whenever you make more than one request to the same site. Sessions reuse the underlying TCP connection and remember cookies, which is both faster and required for authenticated flows.</p>
+        </details>
+        <details>
+            <summary>How do I stop my scraper from hanging forever?</summary>
+            <p>Always pass a <code>timeout</code> to every request. Without one, a stalled server can freeze your program indefinitely. Pair it with retries so transient failures recover automatically.</p>
+        </details>
+        <details>
+            <summary>My token keeps expiring mid-job — what now?</summary>
+            <p>Store the token's expiry time and refresh it before it lapses, or catch the 401 response and re-authenticate transparently before retrying the original request.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You have mastered getting data reliably from the web. The next module shifts focus to what you do with that data — reading, cleaning, and transforming it in formats like CSV, JSON, and Excel.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Wrap a series of requests in a single <code>Session</code> and add a retry adapter with backoff.</li>
+            <li>Save a session to disk after authenticating and reload it in a fresh run to confirm you skip the login.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Reliability is a craft, not luck. Every retry and timeout you add is a promise that your automation will keep running when you are asleep. That is real engineering — well done.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="webscraping_forms_cookies.html">← Previous: Forms and Cookies</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="webscraping_ethics_robots.html">Next: Ethics and Robots.txt →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>💾 Backup Automation: Never Lose Important Files Again</h1>
+    <!-- What You'll Learn (backup-automation objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Apply the 3-2-1 backup rule (three copies, two media types, one off-site) to any dataset you care about</li>
+            <li>Distinguish full, incremental, differential, and mirror backup strategies and choose the right one</li>
+            <li>Detect changed files reliably using SHA-256 hashes and modification times</li>
+            <li>Add compression and optional encryption to backup artifacts, and restore them correctly</li>
+            <li>Track backup sets and version history in a SQLite catalog, and enforce a retention policy</li>
+            <li>Verify backups and set up real-time sync with a filesystem watcher</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build an incremental backup script that copies only changed files, compresses them, records each run in a catalog, and can restore a chosen backup on demand.</p>
+    </div>
+
 <p>Imagine this: Your hard drive crashes, your laptop gets stolen, or you accidentally delete that crucial project you've been working on for months. Without backups, it's gone forever. But with automated backup systems, you're invincible! Think of backups as time travel for your files – you can always go back! ⏰</p>
 <h2>The 3-2-1 Backup Philosophy</h2>
 <p>The golden rule of backups: Keep 3 copies of important data, on 2 different media types, with 1 copy off-site. It's like having a safety net under your safety net, with another safety net in a different building! Let's build systems that implement this automatically.</p>
@@ -1502,6 +1519,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Remember the backup paradox: The value of backups is only realized when you need them, but by then it's too late to create them. Start your backup automation today, test it tomorrow, and sleep peacefully knowing your data is safe!</p>
 </div>
 <p>Backup automation is your insurance policy against digital disasters. Whether it's hardware failure, ransomware, or human error, a well-designed backup system ensures you can always recover. The scripts and strategies we've covered give you enterprise-level data protection with Python's power and flexibility! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Think about your own most irreplaceable files. Do they currently satisfy the 3-2-1 rule? Write down where each copy would live, and which single failure (theft, drive death, ransomware, an accidental delete) your current setup would <em>not</em> survive.</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>The 3-2-1 rule — three copies, two media types, one off-site — is the foundation of any trustworthy backup plan.</li>
+                <li>Incremental backups store only what changed since the last run (cheap to write, but a restore replays the whole chain), while a full backup is self-contained.</li>
+                <li>Content hashes plus modification times let you detect real changes and avoid re-copying unchanged files.</li>
+                <li>A backup you have never restored is only a hope — verification and test restores are part of the job, not an extra.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now build an automated backup system with multiple strategies, change detection, compression and encryption, a queryable catalog of every run, and a working restore path. That's enterprise-grade data protection written in plain Python.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Incremental or differential — which should I use?</summary>
+            <p>Incremental backups are smallest and fastest to write because each one captures only changes since the previous backup, but restoring means replaying the full chain. Differential backups capture everything since the last <em>full</em> backup, so they grow larger over time but restore in just two steps (full + latest differential). Pick incremental for frequent runs, differential when fast restores matter more than storage.</p>
+        </details>
+        <details>
+            <summary>Why hash files instead of just trusting the modification time?</summary>
+            <p>Modification times can be unreliable — they get reset by syncs, restores, or tools that preserve timestamps, and they don't prove the content actually differs. Hashing confirms a real change. The efficient pattern is to use mtime as a cheap first filter, then hash only the candidates.</p>
+        </details>
+        <details>
+            <summary>Is it safe to keep my only backup on the same machine?</summary>
+            <p>No. A local backup protects against accidental deletion, but a stolen laptop, a failed drive, or ransomware can take the original and the backup together. That is exactly why the "1 off-site copy" part of 3-2-1 exists.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You've now completed the file and system automation toolkit — from safe operations to reliable backups. Next you'll turn Python outward to the web, learning to read and extract data from HTML pages.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Run a full backup of a small folder, change one file, then run an incremental backup and confirm only that file was copied.</li>
+            <li>Restore your backup to a scratch directory and verify the restored files match the originals byte-for-byte.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>The best day to set up backups was before you needed them; the second best day is today. You now have the skills to sleep easy knowing your data can always come back. Well done!</p>
+        </div>
+    </section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="filesystem_file_organization_scripts.html">← Previous: File Organization Scripts</a>
@@ -1509,6 +1583,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="webscraping_html_css_selectors.html">Next: HTML &amp; CSS Selectors →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

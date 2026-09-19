@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>⏰ Waiting Strategies: Master the Art of Timing</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain why modern, asynchronous pages make fixed <code>time.sleep()</code> both slow and unreliable</li>
+            <li>Distinguish implicit, explicit, and fluent waits and know when each is appropriate</li>
+            <li>Use <code>WebDriverWait(...).until(...)</code> with expected conditions like <code>visibility_of_element_located</code> and <code>element_to_be_clickable</code></li>
+            <li>Write custom wait conditions for things such as AJAX completion, animation end, or a specific text appearing</li>
+            <li>Avoid the classic mistake of mixing implicit and explicit waits in the same driver</li>
+            <li>Turn flaky, timing-dependent scripts into reliable automation that neither acts too early nor wastes time</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Automate a page whose content loads via AJAX, replacing every <code>sleep()</code> with a targeted explicit wait so the script proceeds the instant each element is truly ready.</p>
+    </div>
 <p>Waiting strategies are the rhythm section of browser automation - they ensure everything happens at the right time. Like a conductor timing an orchestra, proper waits coordinate your automation with the dynamic nature of modern web applications. The difference between flaky tests and rock-solid automation often comes down to mastering the art of waiting. Let's explore every waiting technique to make your automation bulletproof! 🎼</p>
 <h2>The Waiting Strategy Framework</h2>
 <p>Modern web apps are asynchronous symphonies - elements load at different times, AJAX requests fly back and forth, and JavaScript constantly modifies the DOM. Your automation must dance with this complexity, waiting for the right moment to act. Too early and elements aren't ready; too late and you're wasting time. Master waiting strategies to achieve perfect timing!</p>
@@ -1049,12 +1065,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering waiting strategies transforms flaky automation into rock-solid reliability. You now have the tools to handle any timing challenge - from simple element appearance to complex asynchronous operations. Whether you're testing SPAs, handling AJAX, or dealing with animations, these waiting strategies ensure your automation runs smoothly every time! ⏳</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> "Flaky" automation is almost always a timing problem in disguise. Recall a time something worked sometimes but not always — in automation or anywhere in code. How might waiting for the right <em>condition</em> rather than a fixed delay have fixed it?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Pages render <strong>asynchronously</strong> while your script runs at full speed, so acting without a wait reaches for elements that don't exist yet.</li>
+                <li><code>time.sleep()</code> is the worst of both worlds — too short and it's flaky, too long and it's slow. Wait for a condition instead.</li>
+                <li>Explicit waits (<code>WebDriverWait(...).until(...)</code>) are the robust default because they poll for the exact condition a step needs and return the moment it's true.</li>
+                <li>Don't mix implicit and explicit waits on the same driver — the combination causes unpredictable, hard-to-debug timeouts.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You've learned the single skill that most separates reliable automation from flaky scripts: acting at exactly the right moment. Your automation can now keep pace with dynamic, AJAX-driven pages without guesswork.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>When is it ever okay to use time.sleep()?</summary>
+            <p>Rarely — mostly for quick debugging or waiting on something you truly can't observe (like a fixed rate limit). For page elements, always prefer an explicit wait that checks a real condition.</p>
+        </details>
+        <details>
+            <summary>What's the difference between presence and visibility?</summary>
+            <p>Presence means the element exists in the DOM; visibility means it also has size and isn't hidden. You can't click something that's present but invisible, so pick the condition that matches what you're about to do.</p>
+        </details>
+        <details>
+            <summary>Why shouldn't I mix implicit and explicit waits?</summary>
+            <p>Their timeouts compound in ways the docs warn against, producing waits that last far longer than either value and errors that are hard to trace. Choose explicit waits and leave the implicit wait at zero.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>With timing under control, the next step is structure — organizing locators and actions so a growing suite stays maintainable. The waits you learned here will live neatly inside those page objects.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Find a script that uses <code>sleep()</code> and replace each one with a specific expected condition.</li>
+            <li>Write one custom wait (for example, "wait until a spinner disappears" or "until jQuery is idle") and use it in a real flow.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Timing is the quiet art behind every rock-solid automation. Master it and your scripts stop being lucky and start being dependable. You've just leveled up from "it works on my machine" to "it works, every time." Keep that rhythm going.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="browser_automation_element_interaction.html">← Previous: Element Interaction</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="browser_automation_page_object_model.html">Next: Page Object Model →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

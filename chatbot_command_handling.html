@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>⚡ Command Handling: Structure Bot Interactions</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Parse raw chat text into a command name plus typed arguments, options, and subcommands</li>
+            <li>Build a command pipeline — parse, validate, authorize, cooldown, handle — where any gate can reject early with a clear error</li>
+            <li>Register commands cleanly using handlers, decorators, and aliases</li>
+            <li>Validate and type-check arguments, treating every input as untrusted data (and never <code>eval()</code>-ing it)</li>
+            <li>Enforce permissions before execution and apply cooldowns or rate limits to prevent abuse</li>
+            <li>Provide a helpful experience with a built-in help system and specific error feedback</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small command handler that parses a command with arguments, checks the caller's permission, applies a per-user cooldown, and returns a targeted error message when any check fails.</p>
+    </div>
 <p>Command handling is the backbone of structured bot interactions - it transforms user input into actionable operations through a well-organized system of commands, arguments, permissions, and workflows. Like building a control panel for your bot, mastering command handling allows you to create intuitive, powerful interfaces that users can navigate easily while maintaining security and scalability. Let's explore the comprehensive world of command handling for chatbots! 🎮</p>
 <h2>The Command Handling Architecture</h2>
 <p>Think of command handling as creating a sophisticated remote control for your bot - each button (command) triggers specific actions, with validation, permissions, and error handling built in. Using patterns like command parsers, decorators, middleware, and command chains, you can build bots that handle everything from simple single-word commands to complex multi-step workflows with arguments and options. Understanding these patterns is essential for building professional-grade bots!</p>
@@ -1151,12 +1167,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering command handling enables you to create powerful, intuitive bot interfaces that users can navigate easily. You can now build bots with complex command structures, argument validation, permissions, cooldowns, and comprehensive help systems. Whether you're building admin tools, game bots, or automation systems, these command handling skills create professional, user-friendly bot experiences! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> A command is untrusted text that becomes an action. Design a command you'd want in a bot, then walk it through the pipeline — parse, validate, authorize, cooldown. Where could it go wrong, and which gate stops it?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>A command flows through a pipeline: <strong>parse → validate → authorize → cooldown → handler</strong>, and any gate can reject it early.</li>
+                <li>A rejected command must have <strong>zero side effects</strong> — nothing happens until every check passes.</li>
+                <li>The pipeline is your security boundary: treat arguments as data, type-check them, check permissions before executing, and never <code>eval()</code> user input.</li>
+                <li>Cooldowns and rate limits protect against spam and runaway loops, and clear error messages make the bot pleasant to use.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now turn free-form chat into structured, safe, well-behaved bot actions. This command architecture is platform-agnostic — the same pipeline powers bots on Discord, Slack, Telegram, and beyond.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why not just check "if message starts with !ban"?</summary>
+            <p>That skips validation, permissions, and cooldowns, and it breaks the moment arguments get complex. A pipeline keeps parsing, security, and abuse-prevention as separate, testable steps instead of tangled string checks.</p>
+        </details>
+        <details>
+            <summary>Where should permission checks happen?</summary>
+            <p>Before the handler runs — in the authorize gate. Checking after you've already acted defeats the purpose; the whole point is that an unauthorized command produces no side effects.</p>
+        </details>
+        <details>
+            <summary>How do cooldowns actually stop abuse?</summary>
+            <p>They track when a user last ran a command and reject repeats until enough time passes. This prevents spam, protects rate-limited APIs you call, and stops accidental runaway loops.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Structured commands are the explicit way users talk to a bot. Next you can make bots understand natural, free-form language — turning messy human sentences into the same kind of intents and arguments you handled here.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Add argument validation to a command so a wrong type or missing value returns a specific, friendly error.</li>
+            <li>Implement a per-user cooldown on one command and confirm a rapid second call is rejected without side effects.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Great bots feel effortless to use because someone built a careful pipeline behind the scenes — and now that someone is you. You're thinking about security and user experience together, which is exactly how professionals build. Keep it up!</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="chatbot_slack_integration.html">← Previous: Slack Integration</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="chatbot_nlp.html">Next: Natural Language Processing →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

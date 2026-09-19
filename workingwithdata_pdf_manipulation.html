@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>📄 PDF Manipulation with PyPDF2: Master the Portable Document Format</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Read text and metadata from PDF files with PyPDF2</li>
+            <li>Merge, split, and rotate pages to reshape documents programmatically</li>
+            <li>Detect and handle encrypted PDFs, and add password protection to your own</li>
+            <li>Validate PDFs before processing so a bad file does not crash your pipeline</li>
+            <li>Batch-process folders of PDFs with robust error handling</li>
+            <li>Choose the right library for the job (PyPDF2, PyMuPDF, or pikepdf) and manage memory on large files</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a PDF batch tool that merges several PDFs into one, extracts their text, and saves a password-protected output document.</p>
+    </div>
 <p>PDFs are everywhere - invoices, contracts, reports, ebooks, forms. They're designed to be read-only, but what if you need to merge hundreds of contracts, extract text from thousands of invoices, or add watermarks to confidential documents? PyPDF2 turns Python into your PDF Swiss Army knife! 🔧</p>
 <h2>Beyond Simple PDF Reading</h2>
 <p>Think of PDFs as locked treasure chests. PyPDF2 gives you the keys to not just open them, but to reorganize their contents, combine them, split them, and even add your own elements. It's like having X-ray vision for documents!</p>
@@ -1295,12 +1312,80 @@ if __name__ == "__main__":
 </div>
 <p>PDF automation with PyPDF2 and related libraries transforms you from a document reader to a document master. You can process thousands of PDFs, extract valuable data, apply security, and create professional documents - all programmatically. Whether you're in legal, finance, or any document-heavy industry, these skills will revolutionize your workflow! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> PDFs are designed to look identical everywhere, which makes pulling clean data back out surprisingly hard. Describe a document you have wanted to extract data from — what made it tricky, and which technique from this lesson would you try first?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Validate a PDF (and check whether it is encrypted) before processing to avoid crashes mid-job.</li>
+                <li>Merging, splitting, and rotating pages are straightforward once you treat a PDF as a collection of page objects.</li>
+                <li>Different libraries suit different needs: PyPDF2 for basics, PyMuPDF for advanced work, pikepdf for robust repair.</li>
+                <li>For large files or big batches, stream and handle errors per file so one bad document does not stop the run.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now read, reshape, secure, and batch-process PDFs programmatically — turning a stubborn, opaque format into another source you can automate.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why is the extracted text messy or out of order?</summary>
+            <p>PDFs store text by position, not reading order, so extraction can scramble columns and layout. PyMuPDF often does better than PyPDF2 here; for scanned pages you need OCR instead.</p>
+        </details>
+        <details>
+            <summary>Which PDF library should I use?</summary>
+            <p>Start with PyPDF2 for merging, splitting, and simple text. Move to PyMuPDF for high-fidelity extraction and rendering, and pikepdf when you need to repair or robustly handle damaged files.</p>
+        </details>
+        <details>
+            <summary>How do I handle a password-protected PDF?</summary>
+            <p>Check <code>is_encrypted</code> first, then supply the password with <code>decrypt()</code> before reading. Only do this for documents you are authorized to open.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You have now worked across CSV, databases, spreadsheets, JSON/XML, and PDFs — the full spread of everyday data formats. From here you can combine these skills into complete, end-to-end automation pipelines.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Merge two or three PDFs into a single file and extract the text from the result.</li>
+            <li>Add a password to a PDF you created, then write code that opens it again with that password.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>PDFs defeat a lot of would-be automators — but not you. You can now bend even this stubborn format to your will. That versatility is exactly what makes an automation engineer valuable. Keep going.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="workingwithdata_json_xml_parsing.html">← Previous: JSON &amp; XML Parsing</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="workingwithdata_database_automation.html">Next: Database Automation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>📊 System Monitoring: Build Your Own Monitoring Dashboard</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Build a sampling loop that reads system metrics on a fixed interval and stores them</li>
+            <li>Distinguish a gauge (an instantaneous value like memory or disk percent) from a counter (an ever-increasing total like bytes sent)</li>
+            <li>Compute a rate from a counter as the delta between two samples divided by the elapsed interval</li>
+            <li>Collect CPU, memory, disk, and network metrics with <code>psutil</code></li>
+            <li>Explain why <code>psutil.cpu_percent(interval=1)</code> blocks to measure a delta while a bare call returns a meaningless first value</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small monitor that samples CPU, memory, and network on an interval and prints a rate for at least one counter metric.</p>
+    </div>
 <p>Imagine having X-ray vision for your computer systems - seeing every process, every byte of memory, every network packet, and every disk operation in real-time. System monitoring transforms you from a reactive firefighter to a proactive system architect. Let's build monitoring tools that would make enterprise solutions jealous! 🔍</p>
 <h2>The Complete Monitoring Architecture</h2>
 <p>Think of system monitoring as your digital nervous system. Sensors (metrics collectors) continuously gather data, the brain (analysis engine) processes it, and the nervous system (alerting) responds to threats. Just like a Formula 1 pit crew monitors every aspect of a race car, we'll monitor every aspect of our systems!</p>
@@ -1366,12 +1381,80 @@ if __name__ == "__main__":
 </div>
 <p>System monitoring mastery transforms you from a reactive administrator to a proactive guardian of system health. You can predict issues, optimize performance, and maintain reliability at scale. Whether you're monitoring a single server or a distributed system, these monitoring capabilities are essential for modern infrastructure! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Which single metric on your own machine would you most want an alert for, and is it a gauge or a counter? How would that choice change the way you have to read it?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Monitoring is a sampling loop: read metrics on an interval and store them for analysis.</li>
+<li>A gauge (memory %, disk %, temperature) is a snapshot you can read at any moment.</li>
+<li>A counter (bytes sent, CPU seconds) only ever rises, so a single reading is meaningless — a rate is the delta between two samples divided by the elapsed interval.</li>
+<li><code>psutil.cpu_percent(interval=1)</code> blocks a second to measure a delta for you; a bare call has no previous sample and returns 0.0.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now build a real monitor from scratch — sampling live metrics on a loop, telling gauges from counters, and computing meaningful rates instead of misreading raw counter values.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why can't I just read a counter once and use the number?</summary>
+<p>A counter is a running total that only ever grows, so one reading tells you nothing about current activity. What you want is a rate — how fast it is climbing — which only exists relative to time, computed from two samples and the interval between them.</p>
+</details>
+<details>
+<summary>How often should my sampling loop run?</summary>
+<p>It is a trade-off. Shorter intervals catch fast spikes but cost more CPU and storage; longer intervals are cheaper but can miss brief events. Match the interval to what you are watching — a few seconds for live dashboards, minutes for capacity trends.</p>
+</details>
+<details>
+<summary>Why does the first CPU reading come back as 0.0?</summary>
+<p>CPU percentage is measured between two points in time. On the very first call there is no earlier sample to compare against, so either pass an interval so the call waits and measures a delta, or call it twice with a gap and use the second reading.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>You have completed the system administration toolkit — from environments and logs to processes, schedules, and now live monitoring. From here you can combine these skills into dashboards and alerting that keep whole systems healthy on their own.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Write a loop that samples CPU and memory every few seconds and prints them with a timestamp.</li>
+<li>Pick one counter metric (such as bytes sent) and compute its rate from two samples.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You have given yourself X-ray vision into your systems — the shift from reacting to outages to seeing them coming. That proactive instinct is exactly what makes a great system administrator. Keep watching, and keep building.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="systemadmin_log_analysis.html">← Previous: Log Analysis</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="systemadmin_environment_management.html">Next: Environment Management →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

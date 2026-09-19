@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🎨 HTML Emails: Create Beautiful Email Templates</h1>
+<!-- What You'll Learn (learning objectives) -->
+<div class="card card-info">
+<h2>📚 What You'll Learn</h2>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Explain why an HTML email ships both a plain-text and an HTML part inside <code>multipart/alternative</code>, ordered least-to-most preferred</li>
+<li>Build email-safe HTML: table-based layouts and inlined CSS, because clients strip <code>&lt;head&gt;</code> and <code>&lt;style&gt;</code></li>
+<li>Compose reusable components — headers, hero images, buttons, columns, and footers — with a builder pattern</li>
+<li>Make emails responsive and dark-mode aware, keeping designs to ~600px with proper viewport and media queries</li>
+<li>Inline CSS automatically (e.g. with premailer) and templatize content with Jinja2 for newsletters and transactional mail</li>
+<li>Validate emails and check spam score, add alt text, and test how major clients (Gmail, Outlook, Apple Mail, mobile) will render them</li>
+</ul>
+<p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+<p><strong>🎯 Project:</strong> Build a responsive HTML email — header, heading, body text, a call-to-action button, and a footer with an unsubscribe link — then run it through validation and a spam-score check.</p>
+</div>
+
 <p>HTML emails are the canvas of digital communication - they transform plain text into visually stunning, interactive messages that engage readers and drive action. Like crafting a mini website that travels through inboxes, mastering HTML emails allows you to create newsletters, marketing campaigns, transactional emails, and branded communications that look professional across all email clients. Let's master the art and science of HTML email design! 🖼️</p>
 <h2>The HTML Email Design Architecture</h2>
 <p>Think of HTML emails as building a time machine to 1999 - you need to use table-based layouts, inline CSS, and careful testing because email clients are notoriously inconsistent. Unlike modern web development, email HTML requires special techniques to ensure your beautiful designs don't break in Outlook, Gmail, or mobile clients. Understanding these constraints and workarounds is crucial for creating emails that look great everywhere!</p>
@@ -1235,6 +1252,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of HTML emails as building for the web of 1999 - tables for layout, inline CSS, and lots of testing! Always start with a solid table-based structure that works without CSS, then enhance with inline styles. Test in actual email clients, not just browsers - Gmail, Outlook, and Apple Mail all render differently. Keep your design width to 600px maximum for best compatibility. Use web-safe fonts with fallbacks. Always include alt text for images as many clients block images by default. Make your CTAs buttons large and touch-friendly for mobile users. Test dark mode rendering - many clients now auto-convert emails. Check your spam score to ensure deliverability. Include both HTML and plain text versions. Most importantly: keep it simple - fancy effects that work on the web often fail in email!</p>
 </div>
 <p>Mastering HTML email design enables you to create beautiful, engaging emails that work across all clients and devices. You can now build responsive newsletters, transactional emails, and marketing campaigns that look professional and drive results. Whether you're sending to thousands or millions, these HTML email skills ensure your messages look great everywhere! 🎨</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Email HTML is a deliberately old-fashioned subset of the web — tables and inline styles instead of flexbox and stylesheets. How did it feel to design under those constraints, and what did that teach you about writing for platforms you don't control?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>An HTML email carries both versions in <code>multipart/alternative</code> (plain text and HTML, HTML last), so every client renders the richest form it supports.</li>
+<li>Clients strip <code>&lt;head&gt;</code> and <code>&lt;style&gt;</code>, so you inline every style and lay out with <code>&lt;table&gt;</code> — not nostalgia, just what actually renders across Gmail, Outlook, and Apple Mail.</li>
+<li>Design for constraints: cap width around 600px, add a viewport tag and media queries for mobile, support dark mode, and always give images alt text.</li>
+<li>Automate the tedious parts — inline CSS with a tool like premailer, drive content with Jinja2 templates, and validate/spam-check before you send.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now build professional, responsive HTML emails that hold up across the messy landscape of email clients — with inlined styles, table layouts, dark-mode support, and a plain-text fallback — and check them for validity and deliverability before sending.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why can't I just use a normal stylesheet and flexbox like a web page?</summary>
+<p>Many email clients strip <code>&lt;style&gt;</code> blocks and don't support modern layout (flexbox, grid) or external CSS. Inlining styles and using nested tables is the only approach that renders consistently, especially in Outlook.</p>
+</details>
+<details>
+<summary>Do I really need a plain-text version too?</summary>
+<p>Yes. It's the fallback for text-only clients and smartwatches, it improves accessibility, and it helps deliverability — some spam filters penalize HTML-only mail. Ship both in a <code>multipart/alternative</code> part with HTML last.</p>
+</details>
+<details>
+<summary>Why are my images not showing for some recipients?</summary>
+<p>Many clients block images by default until the recipient opts in. Always include meaningful alt text, use absolute image URLs on a reliable host, and never put essential information only inside an image.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>You can now send rich mail and read incoming mail. Next you'll make the inbox itself intelligent — filtering, categorizing, and acting on messages automatically with rules.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Build a responsive HTML email with a header, a call-to-action button, and a footer, then inline its CSS and confirm the styles survive.</li>
+<li>Run your email through a validation and spam-score check, add alt text to every image, and preview how it degrades with images disabled.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>Designing email that looks great everywhere is genuinely hard — and you just did it. That patience with quirky, real-world platforms is exactly what separates polished automation from code that only works on your machine. Nicely done.</p>
+</div>
+</section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="email_automation_attachments.html">← Previous: Email Attachments</a>
@@ -1242,5 +1316,16 @@ if __name__ == "__main__":
 <a class="nav-next" href="email_automation_filtering_rules.html">Next: Email Filtering Rules →</a>
 </div>
 </footer>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
 </body>
 </html>

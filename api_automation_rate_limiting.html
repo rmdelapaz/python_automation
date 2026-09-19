@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>⏱️ Rate Limiting: Respect API Boundaries</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain the token-bucket mental model behind most rate limits — a steady refill rate <em>R</em> caps your long-run average while a full bucket allows short bursts</li>
+            <li>Read rate-limit signals from response headers (<code>X-RateLimit-Remaining</code>, <code>Retry-After</code>) and the 429 status code</li>
+            <li>Implement client-side limiters (token bucket, sliding window, leaky bucket, concurrent) so you throttle yourself before the API has to</li>
+            <li>Handle 429 responses gracefully with exponential backoff and honor <code>Retry-After</code> instead of hammering</li>
+            <li>Coordinate limits across processes with a distributed (Redis) limiter and track usage metrics</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a token-bucket rate limiter and wrap an API client so it self-throttles and backs off on 429s using <code>Retry-After</code>.</p>
+    </div>
 <p>Rate limiting is the traffic control system of the API world - it ensures fair usage, prevents abuse, and keeps services running smoothly for everyone. Like a highway with speed limits and lane management, rate limiting helps you navigate API restrictions while maximizing throughput. Master these patterns to build respectful, efficient API clients that never get blocked! 🚦</p>
 <h2>The Rate Limiting Ecosystem</h2>
 <p>APIs implement rate limits to protect their infrastructure and ensure quality of service. Think of it as a restaurant that can only serve so many customers at once - respecting these limits ensures everyone gets served. Understanding different rate limiting strategies, implementing intelligent throttling, and handling limit violations gracefully are essential skills for robust API automation!</p>
@@ -1036,13 +1051,81 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of rate limiting as driving in traffic - you need to maintain safe distances, respect speed limits, and adjust to conditions. Always check response headers for rate limit information - APIs tell you their limits if you listen. Implement proper backoff strategies - hammering a rate-limited API is like honking in traffic, it doesn't help and annoys everyone. Choose the right algorithm: token bucket for burst traffic, sliding window for steady rates, concurrent limits for parallel requests. Cache aggressively to reduce API calls - why ask for the same data twice? Queue non-urgent requests to spread load over time. Monitor your usage patterns to identify optimization opportunities. When you hit limits, fail gracefully with user-friendly messages. Consider using multiple API keys or upgrading your plan if you consistently hit limits. Most importantly: rate limits exist to ensure fair usage and service stability - respect them as a good API citizen!</p>
 </div>
 <p>Mastering rate limiting ensures your API integrations are reliable, respectful, and resilient. You can now build systems that maximize throughput while staying within limits, handle rate limit responses gracefully, and optimize API usage patterns. Whether you're building high-volume data pipelines or real-time applications, these rate limiting skills keep your API connections running smoothly! ⚡</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Rate limits exist to keep a shared service fair and stable. How does mirroring the API's own token-bucket policy on your side — throttling yourself before you're told to — change the way you think about being a "good citizen" of the services you consume?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>The token bucket is the mental model behind almost every rate limit: tokens refill at a steady rate <em>R</em>, capping your long-run average, while a full bucket lets a short burst through instantly.</li>
+                <li>Implement a limiter client-side and you mirror the exact policy the API enforces, so you throttle yourself before it has to.</li>
+                <li>APIs tell you their limits — read <code>X-RateLimit-*</code> headers and honor <code>Retry-After</code> on a 429 instead of retrying blindly.</li>
+                <li>Different algorithms suit different needs: token bucket for bursts, sliding window for steady rates, concurrent limiters for parallelism, and Redis for limits shared across processes.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now build API clients that maximize throughput without ever getting blocked — self-throttling to match a service's policy, backing off intelligently when limited, and coordinating limits across many workers. That's what makes high-volume automation both fast and welcome.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why implement a limiter myself if the API already enforces one?</summary>
+            <p>Because hitting the server's limit means wasted requests, 429s, and possible penalties. A client-side limiter that mirrors the policy keeps you just under the line, so you spend every request productively instead of getting rejected.</p>
+        </details>
+        <details>
+            <summary>What should I do when I get a 429?</summary>
+            <p>Stop and wait. Honor the <code>Retry-After</code> header if present; otherwise back off exponentially. Never immediately retry in a tight loop — that makes things worse and can escalate a temporary limit into a ban.</p>
+        </details>
+        <details>
+            <summary>Token bucket vs sliding window — which do I use?</summary>
+            <p>Use a token bucket when you want to allow short bursts while capping the average rate. Use a sliding window when you need a strict "no more than N requests per period" with no bursting. Match the algorithm to how the API describes its own limit.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Next you'll implement webhooks — the push-based alternative to polling, which is often the best way to <em>reduce</em> the request volume that rate limits constrain in the first place.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Implement a token bucket and confirm that a burst is allowed until the bucket empties, then requests are paced at the refill rate.</li>
+            <li>Add 429 handling to a client that reads <code>Retry-After</code> and backs off exponentially when it's absent.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Respecting limits isn't a constraint on your automation — it's what lets it run for the long haul without getting blocked. A client that paces itself is a client people trust. You're building that maturity now. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="api_automation_authentication_methods.html">← Previous: Authentication Methods</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="api_automation_webhook_implementation.html">Next: Webhook Implementation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

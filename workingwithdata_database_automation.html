@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🗄️ Database Automation: Master Data Persistence with Python</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Connect to databases and reuse connections efficiently with connection pooling</li>
+            <li>Run parameterized queries that are safe from SQL injection</li>
+            <li>Group related operations in transactions to guarantee data consistency</li>
+            <li>Automate regular backups as insurance against data loss</li>
+            <li>Add retry logic and monitor query performance and resource usage</li>
+            <li>Apply and test schema migrations safely against a copy of production data</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a database automation script that runs a schema migration, performs a transactional batch insert with retry logic, and produces an automated backup.</p>
+    </div>
 <p>Databases are the memory banks of the digital world. They store everything from user profiles to financial transactions, from IoT sensor data to social media posts. But managing databases manually is like trying to organize a library while blindfolded. Python gives you X-ray vision and robotic precision for database operations! 💾</p>
 <h2>The Database Automation Ecosystem</h2>
 <p>Think of databases as massive, organized warehouses. SQL is your forklift, Python is your warehouse management system, and automation is your army of tireless workers who never make mistakes. Whether you're dealing with PostgreSQL's reliability, MySQL's speed, MongoDB's flexibility, or Redis's lightning-fast caching, Python speaks all their languages fluently!</p>
@@ -1163,12 +1180,80 @@ if __name__ == "__main__":
 </div>
 <p>Database automation mastery transforms you from a data janitor to a data architect. You can manage multiple databases, ensure data integrity, optimize performance, and sleep soundly knowing your backups are running automatically. Whether you're managing a startup's single database or an enterprise's database fleet, these automation skills are invaluable! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Transactions promise "all or nothing." Think of an operation in your own work — a transfer, a bulk update — where a half-finished result would be worse than no result at all. How would wrapping it in a transaction protect you?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Connection pooling avoids the cost of opening a new connection for every query.</li>
+                <li>Parameterized queries are both safer (no SQL injection) and often faster than string-built SQL.</li>
+                <li>Transactions keep related changes consistent — they either all succeed or all roll back.</li>
+                <li>Automated backups and strategic indexing are the quiet habits that keep production healthy.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now automate the full data-persistence lifecycle — connecting, querying safely, protecting integrity with transactions, and guarding against loss with backups.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why should I never build SQL with string formatting?</summary>
+            <p>Concatenating user input into SQL opens the door to injection attacks. Parameterized queries send data separately from the statement, so the database treats it as values, never as code.</p>
+        </details>
+        <details>
+            <summary>When do I actually need a transaction?</summary>
+            <p>Whenever two or more changes must succeed together — for example, debiting one account and crediting another. A transaction ensures a failure halfway through leaves no partial, inconsistent state.</p>
+        </details>
+        <details>
+            <summary>How often should backups run?</summary>
+            <p>It depends on how much data you can afford to lose. Match the schedule to your tolerance, automate it so it never gets skipped, and periodically test that a backup can actually be restored.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Databases store structured records; next you will handle the semi-structured world of JSON and XML, the formats that move data between APIs and services.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write a parameterized query and confirm it rejects an injection-style input safely.</li>
+            <li>Wrap a multi-step insert in a transaction and test that an error rolls back every change.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Well-automated data is data you can trust at 3 a.m. without waking up. Every transaction and backup you script buys you peace of mind. Keep tending your data with care.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="workingwithdata_pdf_manipulation.html">← Previous: PDF Manipulation</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="email_automation_sending_emails.html">Next: Sending Emails →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

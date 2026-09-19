@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🎯 HTML/CSS Selectors: Master the Art of Web Element Targeting</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Distinguish tag, class, id, attribute, and pseudo-class selectors and know when each applies</li>
+            <li>Target elements precisely with both CSS selectors and XPath expressions</li>
+            <li>Write selectors that are specific enough to be accurate yet flexible enough to survive page changes</li>
+            <li>Order your selector choices by performance (id &gt; class &gt; tag &gt; attribute &gt; pseudo)</li>
+            <li>Test and refine selectors using your browser's developer tools before coding</li>
+            <li>Design fallback strategies for dynamic, AJAX-loaded content</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small selector toolkit that extracts product names, prices, and links from a sample e-commerce page using a mix of CSS selectors and XPath.</p>
+    </div>
 <p>HTML/CSS selectors are the sniper scopes of web scraping - they let you precisely target any element on a webpage. Like a skilled surgeon who knows exactly where to make the incision, mastering selectors allows you to extract data with surgical precision. Let's become web element sharpshooters! 🎪</p>
 <h2>The Selector Ecosystem</h2>
 <p>Think of a webpage as a city, HTML as its architecture, and CSS selectors as your GPS coordinates. Every building (element) has an address (selector), and knowing how to navigate these addresses lets you reach any destination instantly. Python gives you the tools to become a master navigator of this digital cityscape!</p>
@@ -1052,8 +1069,76 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of selectors as addresses in a city. A good address is specific enough to find the right building but flexible enough to work even if the street name changes slightly. Start with developer tools in your browser - inspect elements and test selectors in the console before coding. Use the browser's copy selector feature as a starting point, but always optimize it. Remember that websites change, so build robust selectors that rely on semantic HTML rather than presentation classes. And always have a fallback strategy - if your primary selector fails, what's Plan B?</p>
 </div>
 <p>Mastering HTML/CSS selectors transforms you from a web scraping novice to a precision data extractor. You can now target any element on any webpage, no matter how complex the structure. Whether you're scraping e-commerce sites, news portals, or social media, these selector skills are your foundation for web automation success! 🚀</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Pick an element on a page you would like to scrape and write three different selectors that reach it. Which one would still work if the site redesigned its CSS classes, and why?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Selectors are addresses: the best one is specific enough to be unique but flexible enough to survive small page changes.</li>
+                <li>CSS selectors handle most cases cleanly; XPath shines for text matching and positional queries.</li>
+                <li>Prefer stable hooks (ids, semantic attributes) over presentation classes that designers change often.</li>
+                <li>Test selectors in browser devtools first, and always plan a fallback for when the primary one fails.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now pinpoint any element on any page, no matter how deeply nested — the targeting precision that every reliable scraper depends on.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Should I use CSS selectors or XPath?</summary>
+            <p>Reach for CSS selectors by default — they are shorter and readable. Switch to XPath when you need to match by visible text, walk to a parent, or select by position.</p>
+        </details>
+        <details>
+            <summary>Why does the "Copy selector" from devtools often break?</summary>
+            <p>Browsers generate long, brittle selectors tied to exact structure. Use them as a starting point, then simplify to a stable id, class, or attribute that expresses your intent.</p>
+        </details>
+        <details>
+            <summary>My selector finds nothing — what went wrong?</summary>
+            <p>Often the content is loaded by JavaScript after the initial HTML. Confirm the element exists in the raw response, and if not, you will need a browser-driven tool or the site's API.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Now that you can name exactly the element you want, the next lesson puts those selectors to work inside BeautifulSoup to parse and extract data at scale.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Open a page in devtools and practice writing CSS selectors that match a single element, then a group of elements.</li>
+            <li>Rewrite one CSS selector as an equivalent XPath expression and verify both target the same node.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Precise targeting is the quiet superpower of web scraping. Master it and every page becomes a map you can read at a glance. Keep aiming true.</p>
+        </div>
+    </section>
+
+    <footer>
 <p>Next up: <a href="webscraping_beautifulsoup_mastery.html">BeautifulSoup Mastery - Parse HTML Like a Pro!</a></p>
 </footer>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
 </body>
 </html>

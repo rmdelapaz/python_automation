@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🧪 API Testing Automation: Ensure API Quality</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Structure API tests as <strong>Arrange → Act → Assert</strong> and assert on four levels: status code, JSON shape, headers, and latency</li>
+            <li>Validate response bodies against a JSON Schema with <code>jsonschema</code> so a 200 with the wrong shape still fails</li>
+            <li>Test failure modes deliberately (400, 401, 404, 429) because how an API rejects bad input is part of its contract</li>
+            <li>Generate dynamic test data and keep tests independent and idempotent instead of relying on fixed fixtures</li>
+            <li>Run performance/load checks and integrate a <code>pytest</code> suite into a CI/CD pipeline with reports</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Write a pytest suite for a small API that asserts status, schema, headers, and response time across both the happy path and error cases.</p>
+    </div>
 <p>API testing automation is the quality control system of the API world - it ensures your APIs work correctly, perform well, and remain reliable as they evolve. Like having an army of tireless testers checking every endpoint, parameter, and response, automated API testing catches bugs before they reach production. Master these patterns to build bulletproof APIs that deliver consistent, reliable service! 🎯</p>
 <h2>The API Testing Framework</h2>
 <p>Think of API testing as a comprehensive health checkup for your APIs - from basic functionality tests to complex integration scenarios, performance benchmarks, and security audits. A well-designed testing framework covers all aspects: request validation, response verification, error handling, performance metrics, and contract testing. Understanding these patterns is essential for maintaining API quality at scale!</p>
@@ -1068,12 +1083,80 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of API testing as quality assurance for your digital services - thorough testing prevents problems before they reach production. Start with a solid test structure: organize tests by functionality, use descriptive names, and keep them independent. Generate test data dynamically - hard-coded data leads to brittle tests. Test both success and failure scenarios - your API should handle errors gracefully. Validate everything: status codes, response schemas, headers, and performance metrics. Use contract testing to ensure API compatibility. Performance test regularly to catch degradation early. Include security testing - check for SQL injection, XSS, and authentication issues. Integrate tests into CI/CD pipelines for automatic validation. Generate detailed reports with metrics and coverage. Most importantly: treat test code with the same care as production code - well-maintained tests are your safety net for confident deployments!</p>
 </div>
 <p>Mastering API testing automation ensures your APIs are reliable, performant, and secure. You can now build comprehensive test suites that validate functionality, measure performance, check security, and maintain quality at scale. Whether you're testing microservices, public APIs, or enterprise systems, these testing skills ensure your APIs deliver consistent, high-quality service! 🏆</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> This lesson argues that a 200 with the wrong body still breaks the contract, and that failure modes deserve tests too. Which of your past bugs would a schema assertion or an error-path test have caught before release?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>An API test follows Arrange → Act → Assert, and the craft is in the assert step — check status code, JSON shape, headers, and latency, not just "did it respond."</li>
+                <li>Because responses are structured data, validate their shape with a JSON Schema; a 200 with the wrong body still breaks the contract.</li>
+                <li>The happy path is only half the job — assert failure modes (400, 401, 404, 429) too, because how an API rejects bad input is part of its contract.</li>
+                <li>Keep tests independent and idempotent with generated data, and wire the suite into CI/CD so every change is validated automatically.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now write API tests that catch real regressions — verifying not just that an endpoint answers, but that it answers correctly, in the right shape, fast enough, and that it fails the way it promises to. That's the safety net that makes confident deployments possible.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Isn't checking the status code enough?</summary>
+            <p>No. An endpoint can return 200 while the body is missing fields, has the wrong types, or is stale. Asserting the JSON shape (via a schema), headers, and response time catches the failures a status check alone misses.</p>
+        </details>
+        <details>
+            <summary>Why should I test error responses on purpose?</summary>
+            <p>Because your callers depend on them. A well-designed API's 400/401/404/429 responses are part of its contract — clients branch on them. If you only test success, you'll ship broken error handling that surfaces at the worst time.</p>
+        </details>
+        <details>
+            <summary>How do I stop tests from interfering with each other?</summary>
+            <p>Make each test self-contained: generate fresh data, create what it needs, and clean up afterward. Avoid tests that depend on the order they run in or on data another test left behind.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>With a solid testing foundation, you're ready to move into cloud automation — provisioning and driving real infrastructure through SDKs, where the same "assert what actually happened" discipline pays off again.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Add a <code>jsonschema</code> assertion to one existing test and watch it fail when you tweak the expected shape.</li>
+            <li>Write one error-path test (e.g. a 404 or 400) for an endpoint you already cover on the happy path.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Good tests are a gift to your future self — they turn "I hope this still works" into "I know it does." Every assertion you add buys you the freedom to change code fearlessly. You're building that confidence now. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="api_automation_webhook_implementation.html">← Previous: Webhook Implementation</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="cloud_automation_aws_boto3.html">Next: AWS with Boto3 →</a>
 </div>
 </footer>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🪟 Window Management: Control Desktop Applications Like a Pro</h1>
+    <!-- What You'll Learn (window-management objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Discover windows by title, class, or process and enumerate everything that's open</li>
+            <li>Control a window's position, size, and state — move, resize, minimize, maximize, show, and hide</li>
+            <li>Activate a window to raise it and give it focus before sending input</li>
+            <li>Understand that keyboard and mouse input always go to the currently focused window, and guard against focus theft</li>
+            <li>Build and save grid or custom layouts and handle multi-monitor, high-DPI setups</li>
+            <li>Wait for an application's window to appear before acting, and verify a window still exists before operating on it</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a layout tool that finds two named windows, activates and positions them side by side on the screen, and re-checks the foreground window before typing into either.</p>
+    </div>
+
 <p>Window management automation gives you complete control over desktop applications - you can find, focus, resize, position, and manipulate windows programmatically, creating sophisticated multi-application workflows and desktop layouts. Like being a conductor orchestrating an entire desktop environment, mastering window management allows you to automate complex application interactions, create custom window arrangements, monitor application states, and build powerful productivity tools. Whether you're automating multi-monitor setups, creating testing environments, or building desktop utilities, window management is essential for professional GUI automation. Let's explore the comprehensive world of window control! 🖥️</p>
 <h2>The Window Management Architecture</h2>
 <p>Think of window management as controlling a complex theater stage - each window is an actor that needs to be positioned, shown, hidden, and directed at the right time. Using libraries like pygetwindow, win32gui on Windows, and platform-specific APIs, you can enumerate windows, control their properties, monitor their states, and orchestrate complex multi-window interactions. Understanding window hierarchies, process management, and desktop composition is crucial for reliable window automation!</p>
@@ -1319,6 +1336,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of window management as conducting a desktop orchestra - every window needs to be in the right place at the right time. Always verify windows exist before operating on them - windows can close unexpectedly. Use partial title matching for flexibility but exact matching when precision is needed. Implement smooth animations for window movements to create professional-looking automation. Save window layouts for different tasks (coding, writing, research) and switch between them instantly. Handle multi-monitor setups properly - detect monitor boundaries and don't assume single display. Be DPI-aware for high-resolution displays or your coordinates will be off. Protect system windows (taskbar, start menu) from accidental modification. Use window monitoring to respond to changes in real-time. When launching applications, wait for their windows to appear before attempting control. Implement virtual workspaces for better organization. Test your automation on different screen resolutions and multi-monitor configurations. Remember that window behavior varies across operating systems - test cross-platform code thoroughly. Most importantly: always provide fallback methods when platform-specific APIs aren't available!</p>
 </div>
 <p>Mastering window management enables you to orchestrate entire desktop environments programmatically. You can now find and control any window, create custom layouts for different workflows, monitor window changes in real-time, handle multi-monitor setups professionally, and build powerful productivity tools. Whether you're automating complex multi-application workflows, testing GUI applications, or creating desktop utilities, these window management skills provide complete control over the desktop environment! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Input has no address — it lands in whatever window is focused at that instant, not the one you activated a few lines earlier. How does that reframe the way you'd sequence "activate, then type" in a multi-window workflow, and what would you check to be sure the keystrokes go where you intend?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>The core workflow is find the window by title to get its handle, <code>activate()</code> it to raise and focus it, then send input.</li>
+                <li>Input follows focus in real time — a notification or stray click can steal focus between activate and type, sending keystrokes to the wrong app.</li>
+                <li>Keep the gap between activating and acting tiny, and read back the foreground window to confirm it's still your target.</li>
+                <li>Always verify a window exists before operating on it, and account for multi-monitor boundaries and DPI scaling when positioning.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now orchestrate the whole desktop — finding windows, focusing them, arranging them into layouts, and driving multi-application workflows safely. Combined with input control and screen reading, this completes your desktop automation toolkit.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why do my keystrokes sometimes land in the wrong window?</summary>
+            <p>Because input goes to whatever window has focus at that moment. If something stole focus after your <code>activate()</code> — a popup, notification, or an activation that hadn't finished — your typing goes elsewhere. Activate immediately before sending input, add a brief wait, and re-check the foreground window before proceeding.</p>
+        </details>
+        <details>
+            <summary>Should I match window titles exactly or partially?</summary>
+            <p>Use partial matching for flexibility (titles often include document names or counts that change), and exact matching when precision matters and several windows could match loosely. Either way, confirm you got exactly one window before acting, and handle the "not found" and "multiple matches" cases explicitly.</p>
+        </details>
+        <details>
+            <summary>My window positions are wrong on a second monitor or high-DPI screen. Why?</summary>
+            <p>Multi-monitor desktops use a combined coordinate space where secondary monitors can have negative or large offsets, and DPI scaling changes how logical coordinates map to pixels. Detect monitor bounds (e.g. with <code>screeninfo</code>) and be DPI-aware rather than assuming a single 1:1 display.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You've mastered controlling windows on one machine. Next you'll confront what changes when your automation has to run everywhere — the platform differences that make "write once, automate anywhere" harder than it sounds.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write a script that lists every open window title, then finds one by name and prints its position and size.</li>
+            <li>Activate a target window, immediately read the foreground window back, and log whether it matches before you would send any input.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Conducting a whole desktop of applications from a single script is a genuinely impressive skill. Respect the focus gotcha, verify before you act, and you can build workflows that feel like magic. Keep going!</p>
+        </div>
+    </section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="gui_automation_screen_capture.html">← Previous: Screen Capture</a>
@@ -1326,6 +1400,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="gui_automation_cross_platform.html">Next: Cross-Platform GUI →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

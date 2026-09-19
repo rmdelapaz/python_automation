@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>☁️ AWS SDK (boto3): Master Cloud Automation with Python</h1>
+<!-- What You'll Learn (learning objectives) -->
+<div class="card card-info">
+<h2>📚 What You'll Learn</h2>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Explain how boto3's credential provider chain resolves keys, and why IAM roles beat hardcoded credentials</li>
+<li>Distinguish boto3's low-level <code>client</code> interface from the higher-level <code>resource</code> interface and choose the right one</li>
+<li>Create a reusable <code>boto3.Session</code> and manage per-service clients and resources through it</li>
+<li>Automate core services — launch and manage EC2 instances, create secure S3 buckets, deploy Lambda functions, and work with DynamoDB tables</li>
+<li>Handle <code>ClientError</code> exceptions, use waiters for state changes, and tag resources for cost tracking</li>
+<li>Query account identity with STS and estimate monthly spend with Cost Explorer</li>
+</ul>
+<p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+<p><strong>🎯 Project:</strong> Build a small AWS automation helper that creates an encrypted, private S3 bucket, uploads a file to it, and lists the objects back — all with proper error handling and resource tags.</p>
+</div>
+
 <p>AWS SDK for Python (boto3) is your gateway to the entire Amazon Web Services ecosystem - it allows you to programmatically control hundreds of AWS services, from EC2 instances to S3 storage, Lambda functions to DynamoDB databases. Like having the keys to the world's largest cloud infrastructure, mastering boto3 enables you to automate cloud deployments, manage resources at scale, and build sophisticated cloud-native applications. Let's explore the comprehensive world of AWS automation with Python! 🚀</p>
 <h2>The AWS Automation Architecture</h2>
 <p>Think of boto3 as your universal remote control for AWS - it provides Python interfaces to every AWS service, allowing you to create, configure, monitor, and manage cloud resources programmatically. From simple S3 file operations to complex multi-service orchestrations, boto3 handles authentication, request signing, error handling, and pagination automatically. Understanding boto3's client/resource models, session management, and service integrations is essential for effective cloud automation!</p>
@@ -1425,6 +1442,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of boto3 as your Swiss Army knife for AWS - it can do everything, but you need to use it wisely. Always start with proper credential management: use IAM roles on EC2, environment variables locally, and never commit credentials to version control. Understand the difference between clients (low-level, full control) and resources (high-level, convenient) - use resources for simple operations and clients for advanced features. Implement comprehensive error handling - AWS operations can fail for many reasons (permissions, limits, network). Always tag your resources consistently for cost tracking and organization. Use waiters when creating resources to ensure they're ready before using them. Implement pagination for list operations to handle large result sets. Monitor your AWS costs regularly and set up billing alerts. Use CloudWatch for monitoring and logging. Test your automation in a development account before running in production. Most importantly: always follow the principle of least privilege - grant only the minimum permissions necessary for your automation to function!</p>
 </div>
 <p>Mastering AWS automation with boto3 enables you to harness the full power of cloud computing programmatically. You can now provision infrastructure, deploy applications, manage storage, process data, and orchestrate complex cloud workflows all through Python code. Whether you're building scalable web applications, data pipelines, or enterprise systems, these AWS automation skills empower you to leverage the cloud effectively! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> boto3 searches a fixed chain of sources for credentials and uses the first one it finds. Where in your own projects have you (or might you) accidentally hardcode a secret, and what would it take to switch that code to environment variables or an IAM role instead?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>boto3 resolves credentials through a provider chain (env vars, shared profile, then IAM role) — never hardcode keys, and prefer IAM roles on AWS.</li>
+<li>Credentials and region live on the <code>Session</code>; from it you create <code>client</code> objects (low-level, one-to-one with the API) or <code>resource</code> objects (higher-level convenience).</li>
+<li>Wrap AWS calls in <code>try/except ClientError</code>, inspect <code>e.response['Error']['Code']</code>, and use waiters to block until a resource reaches the state you need.</li>
+<li>Tag every resource consistently so you can track cost and ownership across hundreds of resources.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now reach into the entire AWS ecosystem from Python — provisioning EC2 instances, creating secure S3 buckets, deploying Lambda functions, and reading and writing DynamoDB items — all through one consistent, credential-safe SDK.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>When should I use a client versus a resource?</summary>
+<p>Use a <code>resource</code> for simple, object-oriented operations (like <code>bucket.upload_file(...)</code>) because it is more concise. Reach for a <code>client</code> when you need full control, a service that has no resource interface, or advanced features like pagination and waiters. Many real programs mix both.</p>
+</details>
+<details>
+<summary>Do I have to set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY every time?</summary>
+<p>No. Run <code>aws configure</code> once to store a profile in <code>~/.aws/credentials</code>, or, when your code runs on AWS, attach an IAM role so no keys exist at all. boto3 finds either automatically through its provider chain.</p>
+</details>
+<details>
+<summary>Why does my script hang after calling <code>run_instances</code> or <code>create_table</code>?</summary>
+<p>It is probably a waiter. Waiters poll AWS until a resource reaches a target state (running, table_exists, and so on), which can take seconds to minutes. That blocking is intentional — it guarantees the resource is ready before your next call uses it.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Now that you can drive AWS from Python, the next lessons broaden the picture to other providers and deployment targets — including automating Google Cloud with its own Python client libraries.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Run <code>aws configure</code> (or set up an IAM role) and confirm <code>get_caller_identity()</code> returns your account and ARN.</li>
+<li>Write a small function that creates an encrypted, public-access-blocked S3 bucket, uploads a file, and lists it back — catching <code>ClientError</code> along the way.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You just picked up the keys to the world's largest cloud. Every service you meet from here uses the same session-and-client pattern you already know — so the hard part is behind you. Automate boldly, and always with least privilege.</p>
+</div>
+</section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="api_automation_api_testing.html">← Previous: API Testing</a>
@@ -1432,6 +1506,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="cloud_automation_google_cloud.html">Next: Google Cloud Platform →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

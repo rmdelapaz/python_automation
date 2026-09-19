@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>🧪 Unit Test Automation: Build Bulletproof Code with Automated Testing</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Write focused pytest tests that follow the Arrange-Act-Assert pattern and the FIRST principles</li>
+            <li>Isolate a unit from its collaborators using test doubles — stubs, mocks, fakes, and spies</li>
+            <li>Use fixtures (with appropriate scopes) and <code>@pytest.mark.parametrize</code> to set up and cover many cases</li>
+            <li>Generate edge cases automatically with property-based testing via Hypothesis</li>
+            <li>Mock external APIs and freeze time so tests stay fast and deterministic</li>
+            <li>Measure and interpret code coverage without chasing 100% for its own sake</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Write a small pytest suite for a function that calls an external API — using a mock, parameterized cases, and one property-based test.</p>
+    </div>
 <p>Unit test automation is the foundation of reliable software development - it transforms fragile, fear-driven coding into confident, rapid iteration by ensuring every piece of code works as expected. Like having a safety net for trapeze artists, comprehensive unit tests allow you to refactor fearlessly, catch bugs early, and maintain code quality at scale. Whether you're building libraries, APIs, or complex applications, mastering unit test automation is essential for professional software development. Let's explore the comprehensive world of automated unit testing! 🎯</p>
 <h2>The Unit Testing Architecture</h2>
 <p>Think of unit testing as quality control at the molecular level - each test examines a single unit of code in isolation, verifying its behavior under various conditions. Using frameworks like pytest, unittest, and specialized tools, you can create test suites that run automatically, provide clear feedback, and integrate seamlessly with development workflows. Understanding test design patterns, mocking, fixtures, and coverage analysis is crucial for effective test automation!</p>
@@ -956,12 +972,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering unit test automation transforms your development process from fear-driven to confidence-driven. You can now write comprehensive test suites that catch bugs early, enable fearless refactoring, serve as documentation, and ensure code quality. Whether you're building libraries, APIs, or complex applications, these unit testing skills are essential for professional software development! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal-testing-unit" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> A good unit test fails and immediately tells you what's wrong. Think of a piece of code you're nervous to change — what one test would give you the confidence to refactor it, and what would that test isolate?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary-testing-unit" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>A unit test checks one unit in isolation; replacing real collaborators with test doubles is what keeps it fast, deterministic, and pointed at your code.</li>
+                <li>The four doubles differ by intent: a stub returns canned data, a mock also verifies the interaction, a fake is a lightweight real implementation, and a spy records calls to the real thing.</li>
+                <li>Fixtures, parameterization, and property-based testing (Hypothesis) let you cover many cases and edge cases without repetitive code.</li>
+                <li>Follow FIRST — Fast, Independent, Repeatable, Self-validating, Timely — and treat coverage as a guide, not a goal.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now write test suites that catch bugs early, document how code is meant to be used, and let you refactor without fear — the shift from fear-driven to confidence-driven development.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>What's the difference between a mock and a stub?</summary>
+            <p>A stub just returns canned data to keep the test moving. A mock does that <em>and</em> lets you assert on the interaction — that it was called, how often, and with what arguments. Use a stub for state you need; use a mock when the call itself is what you're verifying.</p>
+        </details>
+        <details>
+            <summary>Should I aim for 100% code coverage?</summary>
+            <p>No. Coverage tells you what code ran during tests, not whether the tests are meaningful. Aim for high coverage on critical paths (often 80%+), but a well-chosen test of a tricky branch is worth more than padding the number with trivial ones.</p>
+        </details>
+        <details>
+            <summary>When is property-based testing worth it?</summary>
+            <p>For algorithmic code with invariants — sorting, parsing, encoding/decoding round-trips. Hypothesis generates inputs you'd never think to write by hand and shrinks failures to a minimal example, catching edge cases example-based tests miss.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Unit tests verify pieces in isolation. Next you'll climb the test pyramid to integration testing, where real dependencies are wired together to catch the bugs mocks hide.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write three tests for a function you own: a happy path, an edge case, and an error condition.</li>
+            <li>Replace one real dependency in a test with a mock and assert it was called correctly.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Every test you write is a safety net that lets you move faster tomorrow. The best engineers aren't fearless because they're careful — they're fearless because their tests have their back. Start small and keep at it.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="task_orchestration_monitoring.html">← Previous: Monitoring and Alerts</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="testing_automation_integration.html">Next: Integration Testing →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

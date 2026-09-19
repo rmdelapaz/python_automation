@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🖱️ PyAutoGUI Basics: Automate Your Desktop Like Magic</h1>
+    <!-- What You'll Learn (pyautogui-basics objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Understand the screen coordinate system: origin at top-left, x increasing right, y increasing down</li>
+            <li>Control the mouse with <code>moveTo</code>, <code>moveRel</code>, <code>click</code>, <code>dragTo</code>, and <code>scroll</code></li>
+            <li>Automate the keyboard with <code>typewrite</code>, <code>press</code>, <code>hotkey</code>, and <code>keyDown</code>/<code>keyUp</code></li>
+            <li>Find and click UI elements by image with <code>locateOnScreen</code> and a confidence threshold</li>
+            <li>Read pixel colors and use message boxes for user interaction</li>
+            <li>Protect your machine with <code>FAILSAFE</code>, <code>PAUSE</code>, countdowns, and error screenshots</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small form-filling automation that moves the mouse, clicks fields, types values with Tab navigation, and takes a confirmation screenshot — all with the failsafe enabled.</p>
+    </div>
+
 <p>PyAutoGUI transforms your Python scripts into powerful desktop automation tools - it can control your mouse, type on your keyboard, take screenshots, and interact with any application on your screen. Like having a virtual assistant that can operate your computer, PyAutoGUI enables you to automate repetitive tasks, test GUI applications, create demo videos, and even play games programmatically. Whether you're automating data entry, testing software, or creating bots, PyAutoGUI makes GUI automation accessible and powerful. Let's explore the fundamentals of desktop automation! 🎯</p>
 <h2>The PyAutoGUI Architecture</h2>
 <p>Think of PyAutoGUI as your computer's autopilot - it provides a simple, cross-platform Python API to control mouse movements, keyboard inputs, and screen interactions. By combining screen coordinates, image recognition, and input simulation, PyAutoGUI can automate virtually any desktop task that a human can perform. Understanding mouse control, keyboard automation, screen capture, and failsafe mechanisms is essential for safe and effective GUI automation!</p>
@@ -1137,6 +1154,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of PyAutoGUI as your computer's autopilot - powerful but requiring careful navigation. Always start with the failsafe enabled (move mouse to corner to abort) - this is your emergency brake. Add delays between actions because UIs need time to respond, especially web applications. Use image recognition instead of hard-coded coordinates whenever possible - it's more robust across different screens and resolutions. Implement proper error handling with screenshots on failure for debugging. Use confidence thresholds (0.8-0.9) for image matching to handle slight visual variations. Test your automation at different speeds - what works on your machine might be too fast for others. Create reusable patterns for common tasks like form filling or menu navigation. Log every action with timestamps for troubleshooting. Use virtual environments to ensure consistent behavior across systems. Remember that PyAutoGUI can't interact with elevated/admin windows on Windows without running as admin. Most importantly: always test in a safe environment first - automated mouse and keyboard control can cause unintended actions if not properly configured!</p>
 </div>
 <p>Mastering PyAutoGUI basics opens up a world of desktop automation possibilities. You can now control your mouse and keyboard programmatically, capture and analyze screen content, automate repetitive tasks, and create sophisticated GUI testing frameworks. Whether you're automating data entry, testing applications, or creating interactive demos, PyAutoGUI provides the foundation for powerful desktop automation! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> The desktop has no undo — a wrong coordinate can click something before you can react. How did knowing that change how carefully you set up the failsafe and tested your first script, compared to code that only touches files?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>PyAutoGUI drives the real cursor and keyboard over one screen-wide pixel grid whose origin is the top-left corner.</li>
+                <li>Absolute coordinates break when the resolution changes or a window moves — image matching with <code>locateOnScreen</code> is more robust for dynamic UIs.</li>
+                <li>Keep <code>PAUSE</code> on so runs stay watchable and <code>FAILSAFE</code> on as a corner-slam kill switch — these are your emergency brakes.</li>
+                <li>Verify that actions actually happened (screenshots, pixel checks, waiting for an image) rather than assuming a call succeeded.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now control the mouse and keyboard from Python, find elements on screen by image, read pixels, prompt the user, and do it all with real safety mechanisms. This is the foundation every later GUI automation lesson builds on.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>My coordinates work on my screen but fail on another machine. Why?</summary>
+            <p>PyAutoGUI coordinates are absolute to the display, so a different resolution, scaling, or window position moves your target out from under a hardcoded point. Prefer <code>locateOnScreen</code> to find elements by appearance, or recompute positions relative to a known anchor.</p>
+        </details>
+        <details>
+            <summary>What exactly does the failsafe do, and should I ever turn it off?</summary>
+            <p>With <code>FAILSAFE = True</code>, slamming the mouse into a screen corner raises <code>FailSafeException</code> and aborts the run — your escape hatch when automation misbehaves. Leave it on. Turning it off removes your quickest way to regain control of a runaway script.</p>
+        </details>
+        <details>
+            <summary>Why does <code>locateOnScreen</code> return <code>None</code> for an element I can clearly see?</summary>
+            <p>Template matching is exact-ish: a theme change, DPI/scaling difference, or anti-aliasing can shift pixels enough to miss. Lower the <code>confidence</code> below 1.0 (e.g. 0.8–0.9), capture the template on the same display, or use a grayscale match to make it more tolerant.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You now have basic control. Next you'll go deeper into precise, human-like mouse and keyboard input — the finer motor skills your automation needs for realistic, reliable interaction.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write a script that reads <code>pyautogui.position()</code> in a loop so you can hover over UI elements and record their coordinates.</li>
+            <li>Capture a small button image and use <code>locateOnScreen</code> with a 0.8 confidence to click it, confirming the match works.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>You've just handed your Python scripts a mouse and keyboard of their own. Treat that power with care and it opens up automation for anything on your screen. Start small, keep the failsafe on, and keep going!</p>
+        </div>
+    </section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="systemadmin_environment_management.html">← Previous: Environment Management</a>
@@ -1144,6 +1218,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="gui_automation_mouse_keyboard.html">Next: Mouse and Keyboard Control →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>👁️ Directory Watching: Real-Time File System Monitoring</h1>
+    <!-- What You'll Learn (directory-watching objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Use the <code>watchdog</code> library to observe a directory and respond to created, modified, deleted, and moved events</li>
+            <li>Write an event handler by subclassing <code>FileSystemEventHandler</code> and overriding its <code>on_*</code> methods</li>
+            <li>Debounce event storms so a single save doesn't trigger your action multiple times on a half-written file</li>
+            <li>Filter out temp and hidden files, and confirm real changes with a content hash</li>
+            <li>Offload heavy work to a background queue so the watcher thread stays responsive</li>
+            <li>Choose the right OS-level backend (inotify, FSEvents, ReadDirectoryChangesW) and know when to fall back to watchdog</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build an auto-processor that watches a folder and reacts to each new or changed file — for example compiling, converting, or backing it up — with debouncing so it fires exactly once per real change.</p>
+    </div>
+
 <p>Imagine having a security guard that never sleeps, constantly watching your files and folders, instantly reacting to any changes. That's what directory watching gives you – the power to respond to file system events in real-time! It's like having super-hearing for your hard drive. 🎯</p>
 <h2>Understanding File System Events</h2>
 <p>Every time you save a document, delete a file, or rename a folder, your operating system fires events. Directory watching lets us listen to these events and take action immediately. Think of it as setting up tripwires throughout your file system!</p>
@@ -1085,6 +1102,63 @@ watcher.start_watching(handle_file_event)
 <p><strong>Pro Tip:</strong> Combine directory watching with other automation tools for powerful workflows. Watch for new CSV files and automatically import them to a database, monitor log files for errors and send alerts, or sync files across multiple machines in real-time!</p>
 </div>
 <p>Directory watching transforms your Python scripts from passive tools into active guardians of your file system. Whether you're building development tools, backup systems, or data pipelines, the ability to react to file system changes in real-time opens up endless automation possibilities! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Directory watching turns a passive script into something that reacts on its own. What repetitive "I always do X right after I save Y" task in your own workflow would you hand off to a watcher — and what could go wrong if it fired before the file was fully written?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Watchdog's <code>Observer</code> plus a <code>FileSystemEventHandler</code> subclass lets you react to file events in real time across platforms.</li>
+                <li>A single save fires a burst of events — debouncing with a short reset timer collapses that storm into one clean action.</li>
+                <li>Filter noise (temp/hidden files) and verify real changes with a hash, because editors often trigger events without changing content.</li>
+                <li>Keep the watcher thread light: queue heavy processing to a worker so you never block incoming events.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now build scripts that guard a directory and act the instant files change — auto-compilers, live processors, real-time backups, and data pipelines. Your automation has gone from something you run to something that runs itself.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why does saving one file trigger several events?</summary>
+            <p>Many editors save by writing to a temp file, truncating or replacing the original, and updating metadata — each step is a separate filesystem event. Some also do atomic saves that show up as create + move. Debouncing (waiting a short quiet period before acting) is how you treat the whole burst as one change.</p>
+        </details>
+        <details>
+            <summary>Should I use watchdog or the OS-native APIs like inotify directly?</summary>
+            <p>Start with watchdog — it's cross-platform and already uses the best native backend for each OS under the hood. Reach for inotify, FSEvents, or ReadDirectoryChangesW directly only when you need finer control or performance that watchdog's abstraction can't give you.</p>
+        </details>
+        <details>
+            <summary>My handler crashes when it opens a file that's still being written. What do I do?</summary>
+            <p>That's the classic race between the event firing and the write finishing. Debounce so you act after activity settles, wrap file access in try/except, and if needed check that the file size has stopped changing before you process it.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>A watcher tells you <em>when</em> a file arrives; next you'll build the logic that decides <em>where</em> it belongs — organization scripts that sort files automatically by type, date, and project.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write a minimal watchdog handler that prints every event type for a test folder, then create, edit, and delete files to see the raw event stream.</li>
+            <li>Add a debounce timer so editing one file rapidly triggers your action only once after you stop.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Reactive automation feels a little like magic the first time your script springs to life the moment you hit save. You've now got that power — go find a chore worth handing off to your tireless new watcher!</p>
+        </div>
+    </section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="filesystem_batch_renaming.html">← Previous: Batch Renaming</a>
@@ -1092,6 +1166,17 @@ watcher.start_watching(handle_file_event)
 <a class="nav-next" href="filesystem_file_organization_scripts.html">Next: File Organization Scripts →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

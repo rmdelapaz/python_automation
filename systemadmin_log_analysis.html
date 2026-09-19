@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>📝 Log File Analysis: Extract Insights from System Logs</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Describe log analysis as a funnel: many lines of text become one structured record per line, which collapse into a few answering numbers</li>
+            <li>Parse a log line into fields using a regular expression with named groups</li>
+            <li>Aggregate records with <code>collections.Counter</code> and grouping to answer questions like "how many 500s in the last hour?"</li>
+            <li>Stream a log line-by-line so a multi-gigabyte file never has to fit in memory</li>
+            <li>Explain why structured (JSON) logs at the source remove the fragile parsing step entirely</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Parse a sample access log with a named-group regex and report the top request paths and a count of error status codes.</p>
+    </div>
 <p>Logs are the black boxes of the digital world - they record everything that happens in your systems. But raw logs are like hieroglyphics; they need translation to reveal their secrets. Log analysis transforms mountains of text into actionable intelligence, helping you debug issues, detect security threats, and understand system behavior. Let's become digital archaeologists! 🔍</p>
 <h2>The Log Analysis Ecosystem</h2>
 <p>Think of logs as the heartbeat of your systems. Each line is a pulse telling you what's happening. Web servers log requests, applications log errors, security systems log access attempts, and databases log queries. Python gives you the power to listen to all these heartbeats simultaneously and detect when something's wrong!</p>
@@ -1248,12 +1263,80 @@ if __name__ == "__main__":
 </div>
 <p>Log analysis mastery transforms you from a reactive debugger to a proactive system detective. You can identify issues before users complain, detect security threats before damage occurs, and understand system behavior at a deep level. Whether you're debugging applications, hunting security threats, or optimizing performance, these log analysis skills are invaluable! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Think of a time you had to find one event in a huge log. What single question would you most want to answer instantly, and what fields would a parser need to pull out to answer it?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Log analysis is a funnel: many lines of text become one structured record per line, which collapse into a few numbers that answer a question.</li>
+<li>The core work is the middle step — a regex with named groups pulls fields out of each line — after which <code>Counter</code> and grouping do the rest.</li>
+<li>Stream line-by-line so even a multi-gigabyte log never has to fit in memory.</li>
+<li>Emit structured (JSON) logs at the source when you can, and each line becomes a simple <code>json.loads(line)</code> with no fragile regex to maintain.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now take raw, cryptic log files and turn them into answers — extracting fields, aggregating them into meaningful counts, and doing it at a scale where the file is far too big to open all at once.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why use a regex with named groups instead of splitting on spaces?</summary>
+<p>Log fields are not always cleanly space-separated — timestamps, quoted request lines, and optional fields break naive splitting. A named-group regex maps each part of the line to a clearly labeled field, so your code reads <code>record["status"]</code> instead of a fragile index.</p>
+</details>
+<details>
+<summary>How do I analyze a log file that is bigger than my computer's memory?</summary>
+<p>Iterate over the file one line at a time rather than reading it whole. Because each line is parsed and folded into running totals immediately, memory use stays flat no matter how large the file grows.</p>
+</details>
+<details>
+<summary>If JSON logs are easier, why learn regex parsing at all?</summary>
+<p>Because you rarely control every system that produces logs. Legacy servers and third-party tools emit plain text, so regex parsing is the skill that lets you analyze logs you did not design. Push for structured logs where you can, and parse text where you must.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Logs tell you what already happened; next you will learn to watch the system as it runs — managing the live processes that generate those logs in the first place.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Write a named-group regex for a log format you actually use and confirm it captures every field you care about.</li>
+<li>Count the status codes (or event types) in a sample log using <code>collections.Counter</code>.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You have turned walls of unreadable text into clear answers — the exact skill that makes debugging and incident response feel calm instead of frantic. Keep digging; the logs always have a story to tell.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="systemadmin_process_management.html">← Previous: Process Management</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="systemadmin_system_monitoring.html">Next: System Monitoring →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

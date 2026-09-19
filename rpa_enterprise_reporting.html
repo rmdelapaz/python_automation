@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>📈 Reporting Automation: Create Dynamic Reports Automatically</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Separate the three concerns of automated reporting: compute, render, and distribute</li>
+            <li>Calculate each metric once from the source of truth and snapshot the inputs so a run is reproducible and auditable</li>
+            <li>Pour one result set into multiple templated outputs — a PDF, an Excel workbook, and an HTML dashboard</li>
+            <li>Segment reports by audience and route each format to the right people on a schedule</li>
+            <li>Recognize and avoid the anti-pattern of recomputing numbers separately inside each report</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small report generator that computes a set of metrics once and renders them into two different formats for two audiences.</p>
+    </div>
 <p>Reporting automation transforms the tedious, error-prone process of manual report creation into a streamlined, accurate, and timely delivery of business intelligence - it's the difference between spending days compiling data and having insights delivered to your inbox every morning. Like having a team of analysts working 24/7, automated reporting systems gather data from multiple sources, perform complex calculations, generate visualizations, and distribute polished reports to stakeholders automatically. Whether you're creating financial reports, operational dashboards, compliance documentation, or executive briefings, mastering reporting automation is essential for data-driven decision making. Let's explore the comprehensive world of automated reporting! 📊</p>
 <h2>The Reporting Automation Architecture</h2>
 <p>Think of reporting automation as creating an intelligent information factory - raw data flows in from various sources, gets processed, analyzed, and transformed into meaningful insights, then packaged into beautiful reports and delivered to the right people at the right time. Using data pipelines, visualization libraries, template engines, and distribution systems, modern reporting automation handles everything from simple metrics to complex analytical reports. Understanding data integration, report design, and delivery mechanisms is crucial for successful implementation!</p>
@@ -1332,11 +1347,79 @@ if __name__ == "__main__":
 </div>
 <p>Mastering reporting automation enables you to deliver timely, accurate insights that drive business decisions. You can now connect to diverse data sources, generate beautiful visualizations, create multiple report formats, schedule automatic generation, and distribute reports seamlessly. Whether you're creating financial statements, operational dashboards, or executive briefings, these reporting automation skills are essential for data-driven organizations! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Think about a report you have seen where two versions disagreed on the same number. How would computing that number once and rendering it into many formats have prevented the confusion?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Trustworthy reporting separates compute, render, and distribute into three distinct stages.</li>
+<li>Calculate each number in one place from the source of truth and snapshot the inputs so every run is reproducible and auditable.</li>
+<li>Pour that single result set into many templated formats, then route each to the right audience on a schedule.</li>
+<li>Never recompute totals separately inside each report — that is how the exec PDF and the analyst sheet quietly start to disagree.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now build a reporting flow that produces consistent, auditable numbers and delivers them to different audiences in the formats they expect — replacing days of manual compiling with a scheduled, repeatable run.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why snapshot the input data instead of just querying live each time?</summary>
+<p>A live query changes as the underlying data changes, so you can never reproduce yesterday's report exactly. Snapshotting the inputs freezes the numbers behind a run, which is essential for auditing and for explaining a figure weeks later.</p>
+</details>
+<details>
+<summary>Do I really need separate formats for different people?</summary>
+<p>Often, yes. Executives want a concise PDF, analysts want the raw workbook to dig into, and operations want a live dashboard. Compute once, then tailor the format and level of detail — the numbers stay identical, only the presentation changes.</p>
+</details>
+<details>
+<summary>How do I keep scheduled reports from silently failing?</summary>
+<p>Treat delivery as a monitored step: log each run, verify the output was produced and sent, and alert on failure. A report that quietly stops arriving is worse than one that loudly errors.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Reliable reports depend on reliable inputs, which often come from other automation platforms. Next you will see how Python connects to enterprise RPA tools to gather and enrich the data your reports draw on.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Pick a report you would like to automate and list its data sources and its intended audiences.</li>
+<li>Identify one number in it and decide where it should be computed so it is calculated only once.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You have learned the discipline that separates reports people trust from reports people argue over. Compute once, render many, distribute on schedule — that clarity will make your work stand out. Keep going.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="rpa_enterprise_document_processing.html">← Previous: Document Processing</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <span class="nav-next"></span>
 </div>
 </footer>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>💼 Slack Integration: Build Workplace Automation Bots</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Create a Slack app, run the OAuth install flow, and obtain a scoped bot token (<code>xoxb-</code>)</li>
+            <li>Request the minimum scopes your bot needs and explain why least privilege limits the blast radius of a leaked token</li>
+            <li>Respond to events, slash commands, and interactive components using the Bolt for Python framework</li>
+            <li>Honor the Events API <strong>3-second rule</strong> by calling <code>ack()</code> first and doing slow work asynchronously</li>
+            <li>Write idempotent handlers so a Slack retry doesn't process the same event twice</li>
+            <li>Build rich messages with Block Kit and choose between Socket Mode and a public Events API endpoint</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a Slack bot that answers a slash command with a Block Kit message, acknowledging within three seconds and running any real work in the background.</p>
+    </div>
 <p>Slack bots are the productivity powerhouses of modern workplaces - they automate workflows, integrate tools, facilitate communication, and transform how teams collaborate. Like having a digital assistant that never takes a break, mastering Slack bot development allows you to streamline operations, connect disparate systems, and create custom tools that boost team efficiency. Let's explore the comprehensive world of Slack bot development! 🚀</p>
 <h2>The Slack Bot Architecture</h2>
 <p>Think of Slack bots as intelligent coworkers in your digital workspace - they can respond to messages, post updates, create interactive workflows, manage channels, and integrate with countless third-party services. Using Slack's powerful APIs and SDKs, you can build bots that handle everything from simple notifications to complex multi-step workflows. Understanding Slack's event model, Block Kit UI framework, and workspace permissions is essential for building effective workplace bots!</p>
@@ -1096,12 +1112,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering Slack bot development enables you to build powerful workplace automation tools that streamline operations and boost team productivity. You can now create bots that manage projects, integrate systems, automate workflows, and enhance team collaboration. Whether you're building for a startup or enterprise, these Slack bot skills empower you to transform how teams work! 💪</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Think of a repetitive task on a team you're on. What Slack bot could automate it, exactly which scopes would it need, and how would you make sure a slow step doesn't trip Slack's 3-second retry rule?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li><strong>Scopes</strong> define what your bot can do: OAuth issues an <code>xoxb-</code> token limited to what you declared, so request only the minimum.</li>
+                <li>The Events API enforces a <strong>3-second rule</strong> — it retries anything it thinks failed, so slow inline work causes duplicate deliveries.</li>
+                <li>Always <code>ack()</code> immediately, then do the real work in the background.</li>
+                <li>Make handlers <strong>idempotent</strong> so a retry is harmless, and use Block Kit for interactive, well-formatted messages.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now build bots that live where teams already work, automating workflows and connecting tools right inside Slack. You understand the security model (scopes) and the timing model (ack-then-process) that keep workplace bots reliable.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Socket Mode or the Events API?</summary>
+            <p>Socket Mode needs no public URL, which is perfect for development and internal tools. A public Events API endpoint suits production apps and distributed apps that others install. Bolt supports both with little code change.</p>
+        </details>
+        <details>
+            <summary>Why is my bot receiving the same event several times?</summary>
+            <p>Your handler is too slow to acknowledge within three seconds, so Slack retries. Call <code>ack()</code> right away and move the heavy lifting to a background task; make the handler idempotent so duplicates are harmless.</p>
+        </details>
+        <details>
+            <summary>How many scopes should I request?</summary>
+            <p>As few as possible. Every extra scope widens the damage if your token leaks. Start minimal and add scopes only when a feature genuinely requires them.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You've now built bots for a community platform and a workplace platform. Next you can round out your toolkit with another major messaging platform, applying the same event-and-handler patterns to Telegram.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Create a Slack app in Socket Mode and have it reply to one slash command with a Block Kit message.</li>
+            <li>Add a deliberately slow step, then fix the resulting retries by acking first and processing in the background.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>The bots you build here can save your whole team hours every week — automation people actually feel. That's the kind of work that gets noticed. Start with one small workflow and watch how quickly it earns its keep. Keep shipping!</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="chatbot_discord_bots.html">← Previous: Discord Bots</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="chatbot_command_handling.html">Next: Command Handling →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

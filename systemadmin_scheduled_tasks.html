@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>⏰ Scheduled Tasks: Automate with Cron and Task Scheduler</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Read and write a cron expression by understanding its five fields: minute, hour, day-of-month, month, and day-of-week</li>
+            <li>Use the cron operators — <code>*</code>, <code>,</code>, <code>-</code>, and <code>/</code> — to build lists, ranges, and steps</li>
+            <li>Schedule tasks on Unix with cron and on Windows with Task Scheduler</li>
+            <li>Choose between OS-level scheduling that survives reboots and in-process Python schedulers like <code>schedule</code> and APScheduler</li>
+            <li>Decide which scheduling approach fits a given automation, from nightly backups to minute-by-minute checks</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Write a cron expression for a recurring task and reproduce the same schedule in a short Python script using the <code>schedule</code> library.</p>
+    </div>
 <p>Time is the ultimate automation trigger. Whether it's backing up databases at 2 AM, generating reports every Monday, or cleaning temp files hourly, scheduled tasks are the heartbeat of system automation. Python gives you the power to create, manage, and orchestrate scheduled tasks across any operating system. Let's master the art of temporal automation! 🕐</p>
 <h2>The Scheduling Ecosystem</h2>
 <p>Think of scheduled tasks as your digital workforce that never sleeps. Like a well-orchestrated factory where machines start and stop at precise times, your scheduled tasks ensure critical operations happen exactly when needed - whether you're awake or asleep, at work or on vacation!</p>
@@ -1344,12 +1359,80 @@ if __name__ == "__main__":
 </div>
 <p>Task scheduling mastery transforms you from a manual operator to an automation architect. You can orchestrate complex workflows, ensure critical maintenance happens on schedule, and sleep soundly knowing your systems are taking care of themselves. Whether you're managing a single server or a distributed infrastructure, these scheduling skills are essential for reliable automation! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> What is one chore — on your computer or in your routine — that you always forget or do at inconvenient times? Write the cron expression that would run it automatically, and decide whether OS cron or an in-process scheduler fits it better.</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Almost every scheduler speaks cron, so learning its five fields lets you read any schedule at a glance.</li>
+<li>A <code>*</code> means "every value" for a field, and the operators <code>,</code> <code>-</code> <code>/</code> build lists, ranges, and steps.</li>
+<li>OS-level schedulers (cron, Task Scheduler) run at the system level and keep firing across reboots — right for "run this every night."</li>
+<li>In-process Python schedulers like <code>schedule</code> and APScheduler run only while your program runs and stop when it does.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now express a recurring schedule in cron, set it up on Unix or Windows, and choose deliberately between OS-level scheduling and an in-process Python scheduler based on whether the job must survive reboots.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>What does an asterisk mean in a cron field?</summary>
+<p>It means "every value" for that field. So <code>*</code> in the hour field means every hour, and <code>*/15</code> in the minute field means every 15 minutes. Reading each field left to right — minute, hour, day-of-month, month, day-of-week — decodes any expression.</p>
+</details>
+<details>
+<summary>When should I use cron versus a Python scheduler like APScheduler?</summary>
+<p>Use OS cron (or Task Scheduler on Windows) when the job must run independently of any running program and survive reboots — nightly backups, log rotation. Use an in-process scheduler when the timing lives inside a long-running application that is already running anyway.</p>
+</details>
+<details>
+<summary>My in-process scheduled job stopped running overnight — why?</summary>
+<p>In-process schedulers only fire while their program is alive. If the process exited, crashed, or the machine slept, the schedule stopped with it. For jobs that must always run, hand them to the OS scheduler instead.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Scheduled jobs run unattended, which means you need to know they actually ran and stayed healthy. Next you will build the monitoring that keeps an eye on your systems around the clock.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Write cron expressions for three schedules: every 15 minutes, 9 AM on weekdays, and midnight on the first of each month.</li>
+<li>Schedule a small task in Python with the <code>schedule</code> library and watch it fire.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You have handed the clock to your code. The tasks you once had to remember now run themselves, precisely, whether you are awake or not — that is automation working for you. Keep going.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="testing_automation_ci.html">← Previous: Continuous Integration</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="systemadmin_process_management.html">Next: Process Management →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

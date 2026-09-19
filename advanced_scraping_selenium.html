@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🌐 Dynamic Content with Selenium: Scrape JavaScript-Heavy Sites</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Decide when a page truly needs a browser by asking whether its content is in the initial HTML or built by JavaScript — and prefer the hidden JSON API when one exists</li>
+            <li>Create and configure a Selenium WebDriver (headless, window size, proxy, user agent, download dir) across Chrome, Firefox, and Edge</li>
+            <li>Interact with elements robustly — safe clicks, typing, hovering, dropdowns, drag-and-drop, and file uploads with retries</li>
+            <li>Replace <code>time.sleep()</code> with explicit waits and framework-aware conditions (AJAX, page load, element count, text present)</li>
+            <li>Handle dynamic patterns like infinite scroll, cookies/sessions, and network interception, and structure code with the Page Object Model</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Drive a headless browser to load a JavaScript-rendered page, wait explicitly for its content, and scrape items from an infinite-scroll list.</p>
+    </div>
 <p>Modern websites are interactive playgrounds powered by JavaScript. Traditional scrapers see only the initial HTML, missing the dynamically loaded content. Selenium changes the game by controlling a real browser, executing JavaScript, clicking buttons, filling forms, and waiting for AJAX requests. It's like having a robot that uses websites exactly like a human would. Let's master the art of browser automation! 🤖</p>
 <h2>The Selenium Architecture</h2>
 <p>Think of Selenium as your personal web browsing assistant. It doesn't just read web pages - it interacts with them. It can click buttons, scroll pages, wait for elements to load, handle pop-ups, and even take screenshots. If a human can do it in a browser, Selenium can automate it!</p>
@@ -1339,13 +1354,81 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Selenium is powerful but can be fragile. The key to robust automation is defensive programming - always assume elements might not be there, clicks might fail, and pages might load slowly. Use explicit waits with expected conditions rather than implicit waits or sleep(). When dealing with modern SPAs, wait for framework-specific ready states (Angular, React, Vue). For anti-detection, use undetected-chromedriver and randomize everything - timing, mouse movements, scroll patterns. Remember that Selenium controls a real browser, which means it's resource-intensive - use it when you need JavaScript execution, otherwise use requests/BeautifulSoup. Implement the Page Object Model pattern for maintainable code. Most importantly: what works today might break tomorrow as websites change, so build your automation to be resilient and easy to update!</p>
 </div>
 <p>Mastering Selenium opens up a whole new world of web automation possibilities. You can now scrape any website, no matter how much JavaScript it uses, interact with complex web applications, automate testing, and even build bots that behave like humans. Whether you're scraping SPAs, automating form submissions, or building testing frameworks, Selenium gives you complete control over the browser! 🚀</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Before reaching for a full browser, this lesson asks whether the data lives in a hidden JSON API instead. Think of a "heavy" solution you once used where a lighter one existed. How will checking DevTools → Network first change your approach to scraping dynamic sites?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Plain <code>requests</code> sees only the initial HTML; for a JavaScript app that's often an empty shell, which is why "the HTML looks empty."</li>
+                <li>A headless browser renders the page, but the faster, sturdier path is usually to call the hidden JSON API the page's own JavaScript hits — find it in DevTools → Network.</li>
+                <li>Drive a real browser only when the data truly exists only after rendering; then use explicit waits instead of <code>time.sleep()</code> for reliable timing.</li>
+                <li>Robust automation is defensive: retry flaky clicks, re-find stale elements, and organize interactions with the Page Object Model.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now scrape sites that defeat simple HTTP requests — rendering JavaScript, waiting intelligently for dynamic content, handling infinite scroll and sessions — while knowing when a lightweight API call is the smarter choice. That judgment is what separates a resilient scraper from a brittle one.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why is Selenium so much slower than requests?</summary>
+            <p>Selenium drives a real browser, so it downloads and runs all the CSS, JavaScript, and assets a human would. That's the cost of rendering. Use it only when you need that rendering; otherwise requests (or the underlying JSON API) is dramatically faster.</p>
+        </details>
+        <details>
+            <summary>How do I know if a page needs a browser at all?</summary>
+            <p>Fetch it with <code>requests</code> and look at the source. If the data is missing but appears in the live page, it's built by JavaScript. Open DevTools → Network, watch for XHR/fetch calls, and you'll often find a clean JSON endpoint you can call directly.</p>
+        </details>
+        <details>
+            <summary>Why should I avoid <code>time.sleep()</code>?</summary>
+            <p>A fixed sleep either wastes time (too long) or fails intermittently (too short). Explicit waits poll for an actual condition — element present, text visible, AJAX done — so your script proceeds the moment the page is ready and no sooner.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Next you'll graduate to the Scrapy framework, which brings concurrency, pipelines, and crawling structure to scraping at scale — building on the rendering judgment you developed here.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Pick a dynamic page, open DevTools → Network, and see whether you can find and call its JSON API directly instead of rendering.</li>
+            <li>Rewrite a script that uses <code>time.sleep()</code> to use an explicit <code>WebDriverWait</code> condition instead.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>The best scrapers aren't the ones who render everything — they're the ones who know when they don't have to. You've added both a powerful tool and the judgment to use it sparingly. That combination will make your automation fast and durable. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="chatbot_nlp.html">← Previous: Natural Language Processing</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="advanced_scraping_scrapy.html">Next: Scrapy Framework →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

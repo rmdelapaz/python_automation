@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>☁️ Google Cloud Automation: Master GCP with Python</h1>
+<!-- What You'll Learn (learning objectives) -->
+<div class="card card-info">
+<h2>📚 What You'll Learn</h2>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Explain GCP's resource model — how Organizations, Folders, and Projects scope billing, enabled APIs, and IAM</li>
+<li>Authenticate Python code as a service account using Application Default Credentials, and prefer attached accounts over key files</li>
+<li>Provision and manage Compute Engine VMs and firewall rules with the <code>google-cloud-compute</code> client</li>
+<li>Store and retrieve objects in Cloud Storage, including buckets with lifecycle rules and signed URLs</li>
+<li>Run analytics with BigQuery — create datasets and tables, query them, and load or export data via Cloud Storage</li>
+<li>Wire up event-driven automation with Cloud Functions, Pub/Sub topics and subscriptions, and Firestore documents</li>
+</ul>
+<p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+<p><strong>🎯 Project:</strong> Build a small GCP data pipeline that creates a Cloud Storage bucket and a BigQuery dataset, then loads a CSV from the bucket into a BigQuery table you can query — all authenticated through a service account.</p>
+</div>
+
 <p>Google Cloud Platform (GCP) offers powerful Python libraries that enable you to automate everything from Compute Engine VMs to BigQuery analytics, Cloud Storage to Kubernetes Engine. Like having a command center for Google's global infrastructure, mastering GCP automation allows you to deploy applications, process big data, manage machine learning models, and orchestrate cloud-native solutions at scale. Let's explore the comprehensive world of Google Cloud automation with Python! 🌐</p>
 <h2>The Google Cloud Automation Architecture</h2>
 <p>Think of GCP's Python libraries as your toolkit for building on Google's infrastructure - they provide intuitive interfaces to services like Compute Engine for VMs, Cloud Storage for objects, BigQuery for analytics, Cloud Functions for serverless, and Kubernetes Engine for containers. With built-in authentication, automatic retry logic, and comprehensive APIs, you can automate complex cloud workflows seamlessly. Understanding GCP's service ecosystem and Python client libraries is essential for effective cloud automation!</p>
@@ -1431,6 +1448,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of GCP as a toolkit where each service has a specific purpose - choose the right tool for each job. Start with proper authentication using service accounts, not personal credentials. Understand the service hierarchy: projects contain resources, resources have labels, and IAM controls access. Use Compute Engine for full VMs, Cloud Run for containers, and Cloud Functions for event-driven code. For data, use Cloud Storage for objects, Firestore for documents, Cloud SQL for relational data, and BigQuery for analytics. Always apply consistent labels to track costs and organize resources. Implement proper error handling - GCP operations can fail due to quotas, permissions, or network issues. Use Cloud Operations (formerly Stackdriver) for comprehensive monitoring and logging. Take advantage of GCP's global infrastructure by choosing appropriate regions for your workloads. Leverage serverless options when possible to reduce operational overhead. Set up billing alerts early to avoid surprise charges. Most importantly: design for scalability from the start - GCP makes it easy to scale, but your architecture needs to support it!</p>
 </div>
 <p>Mastering Google Cloud automation with Python enables you to leverage Google's powerful infrastructure and services programmatically. You can now provision compute resources, manage storage, process big data with BigQuery, deploy serverless functions, and orchestrate complex cloud workflows. Whether you're building data pipelines, machine learning systems, or global applications, these GCP automation skills empower you to harness the cloud effectively! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> On GCP almost everything is scoped to a Project and runs as a service account. Having now automated both AWS and Google Cloud, what feels genuinely different between the two, and what feels like the same idea wearing different names?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Everything on GCP lives inside a Project — the unit of billing, enabled APIs, and IAM — so most "permission denied" errors mean a disabled API or a missing role, not broken code.</li>
+<li>Your code runs as a service account, discovered through Application Default Credentials; prefer an attached account on GCP over a downloadable key file you have to protect.</li>
+<li>Each service has a purpose-built Python client: Compute Engine for VMs, Cloud Storage for objects, BigQuery for analytics, Cloud Functions and Pub/Sub for event-driven work, Firestore for documents.</li>
+<li>Real value comes from orchestration — chaining services like Cloud Storage → BigQuery into a single automated data pipeline.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now automate Google Cloud from Python end to end — spinning up VMs, managing object storage, running warehouse-scale queries in BigQuery, and connecting services with Pub/Sub and Cloud Functions, all under service-account authentication.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>What exactly are Application Default Credentials (ADC)?</summary>
+<p>ADC is the standard way client libraries find credentials automatically. Locally, they read the JSON file pointed to by <code>GOOGLE_APPLICATION_CREDENTIALS</code> (or the ones from <code>gcloud auth application-default login</code>). On GCP, they use the resource's attached service account. Either way, your code calls <code>google.auth.default()</code> without embedding secrets.</p>
+</details>
+<details>
+<summary>How is GCP's project model different from AWS accounts?</summary>
+<p>Roughly, a GCP Project plays the role an AWS account often plays: it's the boundary for billing, APIs, and permissions. GCP adds Folders and an Organization above Projects for hierarchy. Every GCP API call takes a project id, whereas boto3 infers the AWS account from the credentials.</p>
+</details>
+<details>
+<summary>When should I use BigQuery instead of a regular database?</summary>
+<p>BigQuery is a serverless data warehouse built for analytical queries over huge datasets — think aggregations across billions of rows. Use it for analytics and reporting, not for high-frequency single-record reads and writes; for that, reach for Firestore or Cloud SQL.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>You've now automated two major clouds. Next you'll zoom in on one of the most common cloud building blocks in depth — object storage — and the patterns that apply across providers.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Set up a service account (or run <code>gcloud auth application-default login</code>) and confirm a Cloud Storage client can list your buckets.</li>
+<li>Create a BigQuery dataset and table, load a small CSV into it from a bucket, and run a query that counts the rows.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>Two clouds down, and you're already seeing the shared shape beneath them: identity, resources, and APIs. That transferable intuition is worth more than any single service — carry it forward and the next platform will feel familiar fast.</p>
+</div>
+</section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="cloud_automation_aws_boto3.html">← Previous: AWS with Boto3</a>
@@ -1438,6 +1512,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="cloud_automation_storage.html">Next: Cloud Storage →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>🌐 UI Testing with Selenium: Automate Browser Testing Like a Pro</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Create and configure WebDriver instances (Chrome, Firefox, Edge) for headed, headless, and Grid runs</li>
+            <li>Locate elements reliably, preferring stable strategies (ID and CSS) over brittle XPath</li>
+            <li>Use explicit waits (<code>WebDriverWait</code> with expected conditions) instead of <code>time.sleep()</code> to fight flakiness</li>
+            <li>Structure maintainable suites with the Page Object Model, separating test logic from page structure</li>
+            <li>Test responsive layouts, handle alerts/iframes/new windows, and capture screenshots on failure</li>
+            <li>Add visual regression checks and diagnose the common causes of flaky UI tests</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a Page Object for a login page and write a Selenium test that drives it with explicit waits and a failure screenshot.</p>
+    </div>
 <p>UI testing with Selenium transforms manual browser testing into automated, repeatable validation of your web applications - it simulates real user interactions, verifies visual elements, and ensures your application works across different browsers and devices. Like having an army of tireless testers clicking through your application 24/7, Selenium enables you to catch UI bugs before users do. Whether you're testing complex single-page applications, e-commerce sites, or enterprise portals, mastering Selenium is essential for comprehensive web testing. Let's explore the powerful world of browser automation testing! 🎭</p>
 <h2>The Selenium Testing Architecture</h2>
 <p>Think of Selenium as a remote control for web browsers - it can click buttons, fill forms, navigate pages, and verify content just like a human user, but with perfect consistency and infinite patience. Using WebDriver, page object patterns, and modern testing frameworks, you can create maintainable test suites that validate functionality, accessibility, and user experience. Understanding element locators, wait strategies, and cross-browser testing is crucial for effective UI automation!</p>
@@ -1135,12 +1151,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering Selenium UI testing enables you to ensure your web applications work flawlessly across browsers and devices. You can now create robust page objects, handle dynamic content reliably, implement visual regression testing, test responsive designs, and run comprehensive cross-browser test suites. Whether you're testing e-commerce sites, SaaS applications, or content platforms, these Selenium skills are essential for delivering quality web experiences! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal-testing-ui-selenium" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> UI tests are the flakiest layer, and most flakes come from timing. Think of a web page you use daily — which parts load asynchronously, and what exact condition would you wait for instead of guessing a sleep duration?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary-testing-ui-selenium" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Selenium drives a real browser through WebDriver; the Page Object Model keeps tests readable and maintainable by separating locators from test logic.</li>
+                <li>Explicit waits for a specific condition are the single biggest defense against flakiness — never use a fixed <code>time.sleep()</code>.</li>
+                <li>Prefer stable locators (ID and CSS, ideally <code>data-testid</code> hooks) over brittle XPath tied to layout or text.</li>
+                <li>Give each test its own data, control the environment (viewport, animations), and screenshot on failure to make flakes debuggable.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now automate a real browser to validate user-facing behavior across viewports and browsers, structure suites that survive UI changes, and tackle the flakiness that makes so many teams give up on UI testing.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why are explicit waits better than <code>time.sleep()</code>?</summary>
+            <p><code>time.sleep()</code> guesses how long something takes — too short and the test flakes, too long and the suite crawls. An explicit wait polls for the exact condition you need (element visible, clickable, text present) and continues the instant it's true, so tests are both faster and more reliable.</p>
+        </details>
+        <details>
+            <summary>Why bother with the Page Object Model?</summary>
+            <p>Without it, locators are scattered across every test, so one UI change breaks dozens of tests in dozens of places. A Page Object centralizes each page's locators and actions, so a change lives in one file and tests read like user intent, not CSS selectors.</p>
+        </details>
+        <details>
+            <summary>My test passes locally but fails in CI — what's going on?</summary>
+            <p>Usually the environment differs: headless mode, a smaller viewport, animations, or slower load times. Pin the window size, disable animations, run headless locally to reproduce, and lean on explicit waits so timing differences don't break the test.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Browser tests are powerful but slow. Next you'll test the backend directly and much faster with API testing — validating status codes, schemas, and workflows without a browser.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Refactor a test that uses <code>time.sleep()</code> to use an explicit <code>WebDriverWait</code> condition instead.</li>
+            <li>Build a Page Object for one page and move all its locators and actions into it.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>UI automation has a reputation for being painful — but you now know the discipline that tames it: stable locators, explicit waits, and clean page objects. Master these and you'll have reliable end-to-end tests that most teams only wish for.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="testing_automation_integration.html">← Previous: Integration Testing</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="testing_automation_api.html">Next: API Testing →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

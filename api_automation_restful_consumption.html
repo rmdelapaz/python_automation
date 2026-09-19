@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🌐 RESTful API Consumption: Master the Art of API Integration</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Read any REST call as a <strong>verb acting on a resource URL</strong> and map the five HTTP methods to CRUD operations</li>
+            <li>Branch on the status-code family before trusting a body — 2xx worked, 4xx means fix your request (don't just retry), 5xx means retry later with backoff</li>
+            <li>Build a reusable <code>requests.Session</code>-based client with headers, auth, timeouts, and connection reuse</li>
+            <li>Handle the common pagination strategies (offset, page number, cursor, and Link header)</li>
+            <li>Add resilience with retries and exponential backoff, and speed with async/concurrent requests</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small REST client that performs full CRUD against a public API, checks status codes, and auto-paginates a list endpoint.</p>
+    </div>
 <p>RESTful APIs are the lingua franca of modern web services - they're how applications talk to each other across the internet. Like a skilled diplomat who speaks multiple languages, mastering API consumption allows your applications to integrate with any service, from social media platforms to payment gateways. Whether you're building integrations, automating workflows, or aggregating data, RESTful API consumption is your gateway to the connected world! 🔗</p>
 <h2>The RESTful API Architecture</h2>
 <p>REST (Representational State Transfer) is like a universal protocol for web services - it uses standard HTTP methods, status codes, and conventions that everyone understands. Think of it as a well-organized library where every resource has an address (URL), and you interact with it using standard verbs (GET, POST, PUT, DELETE). Master these patterns, and you can integrate with virtually any modern API!</p>
@@ -1174,13 +1189,81 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of API consumption as having a conversation with a remote service - you need to speak the same language, follow the protocol, and handle misunderstandings gracefully. Always use session objects to reuse connections - creating new connections for each request is like hanging up and calling back for every sentence. Implement exponential backoff for retries - if the API doesn't respond, don't keep knocking frantically. Respect rate limits like speed limits on a highway - going too fast gets you blocked. Handle pagination properly - APIs give you data in pages for a reason. Log requests and responses for debugging, but be careful with sensitive data. Use async operations when making multiple API calls - why wait in line when you can do things in parallel? Cache responses intelligently to reduce API calls and improve performance. Most importantly: read the API documentation thoroughly - every API has its quirks and special requirements!</p>
 </div>
 <p>Mastering RESTful API consumption opens up a world of possibilities for integration and automation. You can now connect to any web service, aggregate data from multiple sources, and build powerful integrations. Whether you're building microservices, automating workflows, or creating data pipelines, these API skills are your passport to the connected world! 🌍</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Once you see that every REST API is "a verb acting on a resource URL, and a status code telling you what happened," new APIs stop feeling scary. Which API have you avoided integrating with, and how does this shared shape change how you'd approach it now?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Every REST API has the same shape: a verb acts on a resource URL, and the status code tells you what happened.</li>
+                <li>The five verbs map to CRUD — GET reads, POST creates, PUT/PATCH update, DELETE removes.</li>
+                <li>The status <em>family</em> is the contract: 2xx worked, 4xx means fix your request (don't just retry), 5xx means retry later with backoff. Always branch on <code>status_code</code> before trusting the body.</li>
+                <li>Reuse a <code>Session</code> for connection pooling and consistent headers/auth, and handle pagination explicitly (offset, page, cursor, or Link header).</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now integrate with virtually any RESTful service — authenticating, performing full CRUD, paginating through large result sets, and handling failures with retries and backoff. Because the pattern is universal, each new API is now a matter of reading its docs, not relearning the fundamentals.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>What's the difference between PUT and PATCH?</summary>
+            <p>PUT replaces the entire resource with the payload you send; PATCH applies a partial update to just the fields you include. Use PATCH when you only want to change a few attributes without resending the whole object.</p>
+        </details>
+        <details>
+            <summary>Should I retry every failed request?</summary>
+            <p>No. Retry 5xx errors and network timeouts (with exponential backoff) because they're often transient. Don't blindly retry 4xx errors — they mean your request is wrong (bad data, missing auth, not found), and retrying won't fix it.</p>
+        </details>
+        <details>
+            <summary>Why use a Session instead of calling <code>requests.get</code> each time?</summary>
+            <p>A <code>Session</code> reuses the underlying TCP connection (connection pooling), which is faster, and it keeps shared headers, auth, and cookies in one place. Creating a fresh request each time re-does that setup on every call.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Next you'll dig into authentication methods — the credentials you attach to these requests — so you can reach APIs that require more than an open, public endpoint.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Use a public API (e.g. JSONPlaceholder) to perform a GET, POST, PUT, and DELETE, and check the status code of each.</li>
+            <li>Write a small pagination loop that fetches every page of a list endpoint until it runs out of results.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>You've just learned the language the whole connected world speaks. Every service with an API is now within your reach — and that same shape repeats everywhere you go next. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="email_automation_filtering_rules.html">← Previous: Email Filtering Rules</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="api_automation_authentication_methods.html">Next: Authentication Methods →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

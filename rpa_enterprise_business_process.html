@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>📊 Business Process Automation: Transform Enterprise Workflows</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain how a workflow engine, rules engine, and integration layer combine to automate a business process</li>
+            <li>Model a process as a sequence of steps — automated, manual, decision, and parallel — with defined transitions</li>
+            <li>Keep business rules separate from workflow logic so conditions can change without rewriting the flow</li>
+            <li>Build an approval workflow (such as invoice approval) with SLA tracking, audit logging, and retry-based exception handling</li>
+            <li>Measure process performance (cycle time, success rate, bottlenecks) and calculate automation ROI</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Design and simulate an invoice-approval workflow with data validation, an approval-limit decision step, and an audit trail.</p>
+    </div>
 <p>Business Process Automation (BPA) revolutionizes how organizations operate by transforming manual, paper-based processes into efficient digital workflows that reduce costs, improve accuracy, and accelerate delivery times. Like upgrading from horse-drawn carriages to modern vehicles, BPA modernizes business operations through intelligent automation that connects people, systems, and data seamlessly. Whether you're automating procurement, HR processes, financial operations, or customer service, mastering BPA is essential for digital transformation. Let's explore the comprehensive world of enterprise business process automation! 🏢</p>
 <h2>The BPA Architecture</h2>
 <p>Think of Business Process Automation as creating a digital nervous system for your organization - it senses events, routes information, triggers actions, and orchestrates complex workflows across departments and systems. Using workflow engines, business rules, integration platforms, and analytics, BPA transforms isolated manual tasks into connected, intelligent processes. Understanding process modeling, workflow orchestration, and performance optimization is crucial for successful BPA implementation!</p>
@@ -1201,12 +1216,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering Business Process Automation enables you to transform manual, inefficient workflows into streamlined, digital processes that deliver consistent results. You can now design complex workflows, implement business rules engines, integrate with enterprise systems, and optimize processes based on analytics. Whether you're automating financial operations, HR processes, or customer workflows, these BPA skills are essential for digital transformation! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Think of a manual, multi-step process you have seen at work or school. Which steps are genuinely rule-based (safe to automate) and which need human judgment — and would you simplify the process before automating it, or automate it as-is?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Business Process Automation orchestrates people, systems, and data — a workflow engine runs the steps, a rules engine makes the decisions, and an integration layer connects enterprise systems.</li>
+<li>Keep business rules separate from workflow logic so conditions can change without rewriting the process.</li>
+<li>Design for exceptions and audit trails from day one; the edge cases are where most of the effort goes.</li>
+<li>Justify automation with metrics — cycle time, success rate, bottlenecks, and ROI — not gut feel.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now model a real business process, drive it through a workflow engine with both automated and manual steps, apply business rules to route decisions, and measure whether the automation actually pays for itself.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Should I automate a process exactly the way it works today?</summary>
+<p>No — simplify first. Automating a bloated or broken process just makes the mess run faster. Map the current ("as-is") flow, streamline it, then automate the improved ("to-be") version.</p>
+</details>
+<details>
+<summary>What is the difference between a workflow engine and a rules engine?</summary>
+<p>The workflow engine controls the order of steps — what happens next. The rules engine evaluates conditions and decisions, such as whether an amount needs CFO approval. Keeping them separate means you can change a business rule without touching the process flow.</p>
+</details>
+<details>
+<summary>How do I handle steps that still need a human?</summary>
+<p>Model them as manual tasks with an assignee, a notification, and a timeout or SLA. Straight-through processing handles the common case automatically, while people handle exceptions and judgment calls.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>With the workflow foundation in place, the natural next step is feeding real inputs into these processes — pulling structured data out of the documents that trigger them.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Sketch a real process you know as a series of steps, labeling each one automated, manual, or decision.</li>
+<li>Write two business rules for that process as plain condition-and-action pairs, and note which step each would fire on.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>Every efficient organization runs on well-designed processes, not heroics. You now think in workflows, rules, and metrics — the exact language of digital transformation. Keep mapping and improving.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="rpa_enterprise_uipath_integration.html">← Previous: UiPath/Python Integration</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="rpa_enterprise_document_processing.html">Next: Document Processing →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>⚙️ Process Management: Control System Resources with Python</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Spawn and manage child processes with <code>subprocess.Popen</code> and track them by PID</li>
+            <li>Stop a process the right way: send <code>SIGTERM</code> first for a graceful exit, then escalate to <code>SIGKILL</code> only as a last resort</li>
+            <li>Reap finished children with <code>wait()</code>/<code>poll()</code> and explain why unreaped children become zombies</li>
+            <li>Inspect process resource usage — CPU, memory, and I/O — with <code>psutil</code></li>
+            <li>Recognize the process states (running, sleeping, stopped, zombie) and what each one means</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Write a script that launches a child process, monitors its resource use, and shuts it down cleanly with SIGTERM before escalating.</p>
+    </div>
 <p>Your computer is like a bustling city, with thousands of processes running like cars on highways, each consuming resources and performing tasks. Process management is your traffic control system - you can start new processes, stop runaway ones, monitor resource usage, and orchestrate complex workflows. Let's become the mayors of our digital cities! 🏙️</p>
 <h2>The Process Management Ecosystem</h2>
 <p>Think of processes as workers in a factory. Some are assembly line workers (CPU-intensive), others are delivery drivers (I/O-intensive), and some are managers (orchestrating other processes). Python gives you the power to hire, fire, monitor, and coordinate all these workers efficiently!</p>
@@ -1221,12 +1236,80 @@ if __name__ == "__main__":
 </div>
 <p>Process management mastery gives you complete control over your system's computational resources. You can orchestrate complex workflows, optimize resource usage, and ensure system stability. Whether you're managing a single server or a distributed system, these skills are essential for system automation! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Have you ever reached straight for "force kill" to stop a stuck program? Now that you know SIGTERM gives a process a chance to clean up, when would you still escalate to SIGKILL, and what might you lose by skipping the polite request?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Managing a process comes down to two verbs: signal it and reap it.</li>
+<li><code>SIGTERM</code> asks a process to exit and can be caught so it saves state; <code>SIGKILL</code> cannot be caught, so it is the last-resort hammer with no cleanup — always try SIGTERM first, wait, then escalate.</li>
+<li>After a child exits, the parent must <code>wait()</code>/<code>poll()</code> to reap it, or it lingers as a zombie holding a PID slot.</li>
+<li><code>psutil</code> lets you read a process's CPU, memory, and I/O usage and its current state.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now start, monitor, and stop processes deliberately from Python — shutting them down gracefully, escalating only when needed, and cleaning up after them so your system stays healthy.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why not just use SIGKILL every time — isn't it more reliable?</summary>
+<p>SIGKILL cannot be caught, so the process gets no chance to flush buffers, close files, or release locks. That can corrupt data or leave stale lock files. Send SIGTERM first for a clean exit, wait briefly, and reserve SIGKILL for processes that ignore the polite request.</p>
+</details>
+<details>
+<summary>What exactly is a zombie process, and should I worry about it?</summary>
+<p>A zombie is a child that has finished but has not been reaped by its parent, so its exit code still occupies a PID slot. A few are harmless, but a parent that never reaps its children can exhaust the PID table. Calling <code>wait()</code> or <code>poll()</code> clears them.</p>
+</details>
+<details>
+<summary>Why does reading CPU usage sometimes return a strange first value?</summary>
+<p>CPU percentage is a rate, measured between two samples. The first call has no previous sample to compare against, so it needs an interval (or a second call after a short wait) to produce a meaningful number.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Now that you can control processes on demand, the next step is running them on a timetable — scheduling tasks so they start themselves at exactly the right moment.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Launch a long-running command with <code>subprocess.Popen</code>, then stop it with SIGTERM and confirm it exited cleanly.</li>
+<li>Use <code>psutil</code> to list the top few processes by memory use on your machine.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You now hold the traffic controls of your machine — starting, watching, and stopping the work it does. That command over the system is a genuine step from user to administrator. Keep going.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="systemadmin_scheduled_tasks.html">← Previous: Scheduled Tasks</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="systemadmin_log_analysis.html">Next: Log Analysis →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🔄 Proxy Rotation: Scale Your Scraping with Anonymity</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain when and why proxy rotation is used — distributing legitimate load and geo-testing — and where its ethical limits lie</li>
+            <li>Model a proxy with health state and build a pool that selects the next healthy proxy for each request</li>
+            <li>Implement rotation strategies: random, round-robin, success-weighted selection, and sticky sessions for login-based sites</li>
+            <li>Run a health-feedback loop that quarantines proxies returning 403/407/429 or timeouts and retries the request through a different proxy</li>
+            <li>Compare datacenter and residential proxies on cost, trust, detectability, and session stability</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a proxy pool with health tracking that rotates through proxies and automatically quarantines failing ones.</p>
+    </div>
 <p>Proxy rotation is the art of digital disguise - like having thousands of different identities to access websites without revealing your true location. It's essential for large-scale scraping, bypassing rate limits, accessing geo-restricted content, and maintaining anonymity. Think of it as having an army of digital ambassadors, each making requests on your behalf from different corners of the internet. Let's master the art of distributed scraping! 🎭</p>
 <h2>The Proxy Rotation Architecture</h2>
 <p>Imagine you're conducting a global survey, but instead of sending one person to ask everyone (who would quickly get exhausted and recognized), you deploy thousands of surveyors worldwide. Each proxy is like a different surveyor with their own identity, location, and approach. Together, they work harmoniously to gather data efficiently without drawing attention!</p>
@@ -1134,13 +1149,81 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Proxy rotation is like managing a fleet of vehicles - you need the right type for each job, regular maintenance, and backup options when one breaks down. Start with a diverse pool of proxies from different providers and geographic locations. Implement intelligent rotation that considers proxy health, response time, and success rate. Free proxies are tempting but unreliable - use them for testing but invest in premium proxies for production. Residential proxies are best for avoiding detection but cost more; datacenter proxies are faster and cheaper but more easily detected. Always implement health checking - a dead proxy is worse than no proxy. Use sticky sessions when scraping sites that require login. Monitor your proxy performance metrics and automatically remove underperforming ones. Remember that proxies aren't a license to abuse - they're a tool for scaling legitimate data collection. Most importantly: have a fallback strategy when all proxies fail!</p>
 </div>
 <p>Mastering proxy rotation transforms you from a single-threaded scraper to a distributed data collection network. You can now bypass rate limits, access geo-restricted content, maintain anonymity, and scale your scraping operations globally. Whether you're monitoring prices, collecting market intelligence, or building large-scale data pipelines, proxy rotation is your key to reliable, scalable web scraping! 🌐</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Proxy rotation makes scaling easy, which also makes overstepping easy. How will you decide, for a given site, where "distributing legitimate load" ends and "evading a limit you should respect" begins?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Rotation is a pool plus a health-feedback loop: pick the next healthy proxy, send the request, and let the outcome update that proxy's state.</li>
+                <li>A <code>200</code> keeps a proxy in play; a <code>403</code>/<code>407</code>/<code>429</code> or timeout quarantines it and the request retries through a different one.</li>
+                <li>Proxy types trade cost for trust — datacenter proxies are cheap and fast but easily flagged, while residential proxies cost more but look human and support sticky sessions.</li>
+                <li>Rotation distributes load and enables geo-testing; it is never a license to evade a rate limit or ban you've earned — still honor each site's limits and terms.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now build a self-healing proxy pool: it tracks each proxy's success rate and response time, rotates intelligently, drops dead proxies automatically, and retries failed requests elsewhere — the backbone of reliable, respectful, large-scale collection.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Does rotating proxies mean I can ignore a site's rate limits?</summary>
+            <p>No. Rotation spreads legitimate traffic and helps you test from different regions, but the site's limits and terms still apply. Rotating IPs specifically to exceed politeness or dodge a ban you earned is abuse, not scaling.</p>
+        </details>
+        <details>
+            <summary>Are free proxies good enough for production?</summary>
+            <p>Rarely. Free proxies are unreliable, slow, and often already blacklisted — fine for testing your pool logic, but for anything that matters, paid datacenter or residential proxies with health monitoring pay for themselves.</p>
+        </details>
+        <details>
+            <summary>When should I use datacenter vs residential proxies?</summary>
+            <p>Datacenter proxies are cheaper and faster, so use them where detection isn't aggressive. Residential proxies look like real users and support sticky sessions, so reach for them when a site is sensitive or requires staying logged in — at higher cost.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Next you'll feed the requests your rotator makes into a full data pipeline — validating, transforming, and storing everything you collect reliably at scale.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Extend the pool so a proxy is quarantined after N consecutive failures and revisited later, rather than dropped forever.</li>
+            <li>Add success-weighted selection and compare its behavior to plain round-robin on a set of proxies with mixed reliability.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Scaling responsibly is a real skill: the best data engineers move volume without becoming a nuisance. A pool that heals itself and respects its targets is something you can run with confidence. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="advanced_scraping_captcha.html">← Previous: CAPTCHA Handling</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="advanced_scraping_data_pipelines.html">Next: Data Pipelines →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

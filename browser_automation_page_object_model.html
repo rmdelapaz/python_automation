@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>🏗️ Page Object Model: Build Maintainable Test Automation</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain the Page Object Model and how it separates page structure from test logic</li>
+            <li>Model a page as a class whose locators are properties and whose user actions are methods</li>
+            <li>Build a reusable <code>BasePage</code> that centralizes driver access, waits, and common helpers</li>
+            <li>Write tests that read like user stories (<code>login_page.login(...)</code>) instead of raw <code>find_element</code> calls</li>
+            <li>Keep locators in one place so a UI change touches a single file instead of many tests</li>
+            <li>Return page objects from actions to chain workflows and validate page state after each step</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Refactor a small, locator-heavy test script into a Page Object design with a <code>BasePage</code> and at least two page classes, then prove that renaming one element only changes one line.</p>
+    </div>
 <p>The Page Object Model (POM) is the architectural blueprint for scalable test automation - it transforms chaotic test scripts into organized, maintainable masterpieces. Like a well-designed building with clear floors and rooms, POM separates your page structure from test logic, making your automation as easy to maintain as it is to write. Let's master the art of building robust, reusable page objects! 🏛️</p>
 <h2>The Page Object Architecture</h2>
 <p>Think of POM as creating a digital map of your application - each page becomes a class, elements become properties, and actions become methods. This separation of concerns means when the UI changes, you update one place instead of hundreds of tests. It's the difference between maintaining a mansion and maintaining a house of cards!</p>
@@ -1122,12 +1138,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering the Page Object Model transforms chaotic test scripts into maintainable, scalable test automation frameworks. You now have the architectural knowledge to build test suites that survive UI changes, scale with your application, and remain readable by your entire team. Whether you're automating e-commerce sites, dashboards, or complex applications, POM ensures your tests stand the test of time! 🏰</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> The Page Object Model is really about answering "when the UI changes, how many files break?" Where else in code you've written could this same idea — hiding volatile details behind a stable interface — save you future pain?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Each page becomes a <strong>class</strong>: locators are its data, user actions are its methods, and tests call those methods.</li>
+                <li>Centralizing locators means a renamed <code>id</code> changes one file, not every test that touched it.</li>
+                <li>A shared <code>BasePage</code> removes duplication by holding the driver, waits, and common helpers all page objects reuse.</li>
+                <li>Tests written against page objects read like user stories, so they're easier to understand, review, and maintain.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now design an automation suite that scales instead of rotting. By separating what a page <em>is</em> from what a test <em>does</em>, you've built the architecture professional QA teams rely on to keep hundreds of tests maintainable.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Should assertions live in the page object or the test?</summary>
+            <p>Keep assertions in the test. Page objects should expose state (return text, booleans, or another page object) and leave the "is this correct?" judgment to the test, which keeps pages reusable across many scenarios.</p>
+        </details>
+        <details>
+            <summary>Isn't POM a lot of extra code for a small project?</summary>
+            <p>For a one-off script, maybe. The payoff appears as tests multiply and the UI keeps changing — POM turns "fix it in a hundred places" into "fix it in one." Adopt it as soon as duplication starts to hurt.</p>
+        </details>
+        <details>
+            <summary>What belongs in a BasePage?</summary>
+            <p>Anything every page shares: the driver reference, wait helpers, navigation, and generic actions like a safe click or type. Page-specific locators and methods stay in the individual page classes.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>A clean page object still needs solid timing underneath its methods. Building on the waiting strategies you've seen, you'll keep sharpening automation that stays reliable as applications grow more complex.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Take one existing test and extract its locators and actions into a dedicated page class.</li>
+            <li>Add a <code>BasePage</code> with a reusable wait-and-click helper, and have your page class inherit from it.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Good architecture is what separates automation that lasts from automation that's rewritten every month. You now think like an engineer, not just a scripter — and that mindset will serve you far beyond test automation. Keep building things that last.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="browser_automation_waiting_strategies.html">← Previous: Waiting Strategies</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="browser_automation_headless_browsing.html">Next: Headless Browsing →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

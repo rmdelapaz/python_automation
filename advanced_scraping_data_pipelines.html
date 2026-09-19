@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🚀 Data Pipelines: Process and Store Data at Scale</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Describe the stages of a data pipeline (ingest → validate → transform → enrich → store) and what separates a pipeline from a one-off script</li>
+            <li>Validate scraped records against a schema with Pydantic and quarantine bad rows instead of dropping them silently or crashing a later stage</li>
+            <li>Build reusable transformers for cleaning text, normalizing prices/currencies, and enriching records with computed features</li>
+            <li>Choose an appropriate storage backend (PostgreSQL, MongoDB, Elasticsearch, Redis) for your data's shape and access pattern</li>
+            <li>Make loads <strong>idempotent</strong> with upserts keyed on a natural key so re-runs are safe, and track throughput and error-rate metrics</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build an ETL pipeline that validates, transforms, and idempotently upserts scraped product records into a database.</p>
+    </div>
 <p>Data pipelines are the highways of information - transforming raw scraped data into valuable insights. Like a sophisticated factory assembly line, they take messy input, clean it, enrich it, validate it, and deliver it exactly where it needs to go. Whether you're handling gigabytes or terabytes, streaming or batch processing, a well-designed pipeline is the difference between data chaos and data mastery. Let's build industrial-strength data pipelines! 🏭</p>
 <h2>The Data Pipeline Architecture</h2>
 <p>Think of a data pipeline as a river system where data flows from multiple sources, gets filtered through various processing stages, and eventually reaches its destination lakes and oceans (databases, warehouses, APIs). Each component must handle failures gracefully, scale elastically, and maintain data quality throughout the journey!</p>
@@ -1145,13 +1160,81 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of data pipelines as assembly lines in a factory - each station has a specific job, quality checks happen throughout, and the whole system should handle hiccups without stopping production. Start with validation - bad data is worse than no data. Use schemas (Pydantic, JSON Schema) to enforce structure. Transform data incrementally with clear, testable functions. Choose storage based on your needs: SQL for structured queries, NoSQL for flexibility, object storage for raw data, and caches for speed. Implement both batch and stream processing - batch for historical data, streams for real-time. Monitor everything: throughput, latency, error rates, data quality scores. Use orchestrators like Airflow or Luigi for complex workflows. Always design for failure - implement retries, dead letter queues, and circuit breakers. Most importantly: make your pipelines idempotent so they can be safely re-run without duplicating data!</p>
 </div>
 <p>Mastering data pipelines transforms you from a data collector to a data engineer. You can now build robust, scalable systems that process millions of records reliably. Whether you're building ETL pipelines, real-time streams, or complex data workflows, these pipeline skills ensure your data flows smoothly from source to insight! 🌊</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Idempotency means a pipeline can be re-run safely without double-counting or corrupting data. Where in your past projects would an idempotent, restartable design have saved you from a painful cleanup — and what would you change now?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>A pipeline is discipline at the seams: validate before anything downstream trusts the data, and quarantine bad rows instead of dropping or crashing on them.</li>
+                <li>Separate raw → clean → curated layers so you can re-process data without having to re-scrape it.</li>
+                <li>Make the final load an idempotent upsert keyed on a stable natural key, so a crashed or repeated run updates in place rather than double-counting.</li>
+                <li>Match the storage backend to the job — SQL for structured queries, document stores for flexible schemas, search engines for full-text, caches for speed — and monitor throughput and error rates throughout.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You've moved from collecting data to engineering it. You can now build an ETL flow that validates against a schema, transforms and enriches records in clear stages, and lands them reliably in a store — a system that keeps running correctly even when individual records or runs go wrong.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>What actually makes a "pipeline" different from just a script?</summary>
+            <p>A script does the work once and hopes nothing goes wrong. A pipeline builds in guarantees at each seam: schema validation, quarantine for bad rows, idempotent loads, and metrics — so it can be re-run, scaled, and debugged with confidence.</p>
+        </details>
+        <details>
+            <summary>Why upsert instead of a plain insert?</summary>
+            <p>Inserts create duplicates every time you re-run. An upsert keyed on a natural key (e.g. product id) inserts new records and updates existing ones, which makes the whole load idempotent — re-scraping the same page changes nothing or refreshes in place.</p>
+        </details>
+        <details>
+            <summary>When should I use batch processing vs stream processing?</summary>
+            <p>Use batch for historical or periodic loads where latency doesn't matter and throughput does. Use streams when you need results in near real time. Many mature systems combine both (a Lambda-style architecture).</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>With reliable pipelines in hand, you'll move beyond scraping into robotic process automation (RPA) — coordinating whole workflows across applications, not just data.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Add a Pydantic schema to a small dataset and route rejected rows to a separate "quarantine" list or file.</li>
+            <li>Rewrite an insert-based load as an upsert and prove to yourself that running it twice produces no duplicates.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Reliable data pipelines are what turn a clever scraper into a system people can depend on. Every guard you add — validation, quarantine, idempotency — is a future 3 a.m. incident you'll never have to debug. You're building like an engineer now. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="advanced_scraping_proxy_rotation.html">← Previous: Proxy Rotation</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="rpa_enterprise_concepts.html">Next: RPA Concepts →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

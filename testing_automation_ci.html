@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>🔄 Continuous Integration Setup: Automate Your Testing Pipeline</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain how CI acts as a gate that automatically builds and tests every change and blocks broken code from merging</li>
+            <li>Write a GitHub Actions workflow with jobs for code quality, unit tests, and integration tests</li>
+            <li>Run a test matrix across multiple Python versions and operating systems to catch "works on my machine" bugs</li>
+            <li>Speed up pipelines with dependency caching and parallel jobs, keeping them fast enough that people trust them</li>
+            <li>Add security scanning (Bandit, Safety, Trivy) and coverage reporting to the pipeline</li>
+            <li>Enforce quality with branch protection and pre-commit hooks, and recognize equivalent config in Jenkins, GitLab CI, and CircleCI</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Write a GitHub Actions workflow that lints, runs unit tests across a Python version matrix, and reports coverage on every push and pull request.</p>
+    </div>
 <p>Continuous Integration (CI) transforms manual testing into an automated safety net - it runs your tests automatically on every code change, catches bugs before they reach production, and ensures your team maintains high code quality standards. Like having a tireless quality inspector checking every piece of code 24/7, CI enables rapid development with confidence. Whether you're using GitHub Actions, Jenkins, or GitLab CI, mastering CI setup is essential for modern software development. Let's explore the comprehensive world of automated testing pipelines! 🚦</p>
 <h2>The CI/CD Pipeline Architecture</h2>
 <p>Think of CI/CD as your code's journey from development to production - it automates building, testing, and deployment, ensuring only quality code reaches users. Using pipeline configurations, test matrices, and deployment strategies, you can create sophisticated workflows that handle everything from unit tests to production deployments. Understanding pipeline stages, parallel execution, and artifact management is crucial for effective CI/CD!</p>
@@ -1597,12 +1613,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering CI/CD setup enables you to deliver high-quality software rapidly and reliably. You can now create comprehensive pipelines that automatically test code, scan for vulnerabilities, manage deployments, and maintain quality standards. Whether you're using GitHub Actions, Jenkins, or any other platform, these CI/CD skills are essential for modern software development! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal-testing-ci" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> CI only helps if it's fast enough that people don't route around it. Think of a project you work on — what checks would you want to run on every push, and where would slow steps tempt teammates to skip the pipeline?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary-testing-ci" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>CI automatically builds and tests every change; a required status check is the gate that keeps the main branch always releasable.</li>
+                <li>A test matrix across Python versions and operating systems catches environment-specific bugs before they merge.</li>
+                <li>Caching dependencies and running jobs in parallel keep pipelines fast, so people don't bypass them.</li>
+                <li>Store the pipeline config in the repo, enforce branch protection and pre-commit hooks, and build in security scanning and coverage.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now turn the tests you wrote across this module into an automated safety net that runs on every commit — catching regressions, scanning for vulnerabilities, and keeping the whole team's code quality high without manual effort.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why run a matrix across Python versions and operating systems?</summary>
+            <p>Code that passes on your machine and your Python version can still break on another. A matrix runs the suite across combinations (e.g., Python 3.10–3.12 on Ubuntu, Windows, macOS) so version- and platform-specific bugs surface in CI instead of in a user's environment.</p>
+        </details>
+        <details>
+            <summary>How do I keep the pipeline fast?</summary>
+            <p>Fail early (put quick checks like linting first), cache pip dependencies and Docker layers, and run independent jobs in parallel. A slow pipeline gets bypassed; aim to keep the common path well under ~10 minutes so fast feedback stays fast.</p>
+        </details>
+        <details>
+            <summary>Do I need to learn Jenkins and GitLab CI too?</summary>
+            <p>The concepts transfer directly — stages, jobs, matrices, caching, and gates look similar everywhere; only the YAML/Groovy syntax differs. Learn one platform well (GitHub Actions is a great start) and you'll read the others quickly.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>With continuous integration in place, your automated tests now run themselves. The course continues into system administration topics, beginning with scheduling tasks to run automatically.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Add a minimal GitHub Actions workflow to a project that installs dependencies and runs your test suite on push.</li>
+            <li>Turn on branch protection requiring the CI check to pass before merging to main.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>You've closed the loop: from writing a single test to having a pipeline that guards your whole project automatically. That's the workflow professional teams rely on every day — and now it's yours. Keep it green and keep shipping with confidence.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="testing_automation_api.html">← Previous: API Testing</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="systemadmin_scheduled_tasks.html">Next: Scheduled Tasks →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

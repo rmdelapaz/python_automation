@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>📧 Sending Emails with SMTP: Master Email Automation</h1>
+<!-- What You'll Learn (learning objectives) -->
+<div class="card card-info">
+<h2>📚 What You'll Learn</h2>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Trace the SMTP send sequence — connect, upgrade to TLS, authenticate, MAIL FROM / RCPT TO / DATA, then quit</li>
+<li>Choose the right port and encryption (587 with STARTTLS, or 465 with SMTP_SSL) and generate an app password for Gmail or Outlook</li>
+<li>Send plain-text, HTML (with a plain-text fallback), and multi-recipient (To/CC/BCC) emails with <code>smtplib</code> and the <code>email</code> package</li>
+<li>Configure common providers (Gmail, Outlook, SendGrid, AWS SES) and load credentials from environment variables</li>
+<li>Build reliable sending with retry logic, rate limiting, an email queue, and templated messages via Jinja2</li>
+<li>Recognize and resolve common SMTP errors (authentication, disconnects, refused recipients)</li>
+</ul>
+<p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+<p><strong>🎯 Project:</strong> Write a script that sends yourself an HTML email (with a plain-text fallback) through Gmail or Outlook using an app password and a STARTTLS connection, with credentials read from environment variables.</p>
+</div>
+
 <p>SMTP (Simple Mail Transfer Protocol) is the backbone of email communication - it's how your Python scripts can send emails to anyone, anywhere in the world. Like having a digital postal service at your fingertips, mastering SMTP allows you to automate notifications, reports, alerts, and communications at scale. Whether you're sending simple text messages or complex HTML newsletters, SMTP is your gateway to automated email communication! 📮</p>
 <h2>The SMTP Email Architecture</h2>
 <p>Think of SMTP as the postal system of the internet - you compose your letter (email), address it (recipients), add stamps (authentication), and drop it in the mailbox (SMTP server). The postal service (email servers) then handles delivery to the recipient's mailbox. Understanding this flow is crucial for building reliable email automation systems!</p>
@@ -922,6 +939,17 @@ if __name__ == "__main__":
             <p>Thanks for signing up.</p>
             <img src="cid:logo" width="200"/>
             <p>Best regards,<br/>The Team</p>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
 </body>
     </html>
     """
@@ -1042,6 +1070,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of SMTP email sending as running a digital post office - you need proper credentials, correct addresses, and reliable delivery mechanisms. Always use app passwords or OAuth2 instead of regular passwords - most providers block less secure access. Keep your SMTP connection alive when sending multiple emails to avoid connection overhead. Implement proper rate limiting to avoid being flagged as spam. Use HTML templates for rich content but always include a plain text fallback. Handle attachments carefully - large files can cause delivery issues. Queue emails for asynchronous processing to avoid blocking your application. Monitor delivery rates and handle bounces properly. Test with different email providers as each has quirks. Most importantly: respect recipients' privacy with BCC for bulk sends and always provide unsubscribe options!</p>
 </div>
 <p>Mastering SMTP email sending enables you to build powerful communication systems that keep users informed and engaged. You can now send transactional emails, newsletters, alerts, and reports programmatically. Whether you're building notification systems, marketing platforms, or enterprise communications, these SMTP skills power your email automation! 📬</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Sending email is a short, ordered conversation that must be encrypted before you log in. Setting up your first app password and TLS connection — what surprised you, and what would you automate first now that a script can send mail on your behalf?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>SMTP is an ordered exchange: connect, upgrade to TLS, authenticate, hand over sender/recipients/message, and quit — always encrypting <em>before</em> you send credentials.</li>
+<li>Use port 587 with STARTTLS or port 465 with <code>SMTP_SSL</code>; port 25 is legacy and usually blocked.</li>
+<li>Gmail and Outlook reject your normal password from scripts — generate an app password (which requires 2FA) and keep it in an environment variable, never in code.</li>
+<li>Production sending needs more than one <code>send</code>: retry logic, rate limiting, a queue for reliability, and HTML emails that always ship with a plain-text fallback.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now send email straight from Python — plain text, rich HTML with embedded images, and messages to multiple recipients — over a secure, authenticated SMTP connection, with the reliability patterns real systems depend on.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why won't my Gmail account accept my real password?</summary>
+<p>Providers block plain password logins from scripts for security. Turn on two-factor authentication, generate an app password specific to your script, and use that in place of your normal password. OAuth2 is the other supported option.</p>
+</details>
+<details>
+<summary>What's the difference between STARTTLS (587) and SSL (465)?</summary>
+<p>With STARTTLS on 587 you connect in plaintext and then issue <code>starttls()</code> to upgrade the same connection to encryption before logging in. With SSL on 465 the connection is encrypted from the very first byte using <code>SMTP_SSL</code>. Both are secure; pick the one your provider recommends.</p>
+</details>
+<details>
+<summary>Do I need to send both a plain-text and an HTML version?</summary>
+<p>It's best practice. Wrap both in a <code>multipart/alternative</code> part: clients that support HTML show the rich version, while text-only clients (and many spam filters) fall back to the plain version. Sending HTML alone can hurt deliverability and accessibility.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Now that you can send mail, the next step is reading it — connecting to a mailbox to fetch, parse, and act on incoming messages.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Send yourself an HTML email (with a plain-text fallback) via STARTTLS on port 587 using an app password stored in an environment variable.</li>
+<li>Add simple retry logic around your send call and trigger it deliberately (e.g. a wrong recipient) to see the error handling work.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You just gave your programs a voice — the ability to notify, report, and reach people automatically. That's one of the most immediately useful skills in automation. Send that first email, and you're off.</p>
+</div>
+</section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="workingwithdata_database_automation.html">← Previous: Database Automation</a>

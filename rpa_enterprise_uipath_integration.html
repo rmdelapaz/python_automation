@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🔗 UiPath/Python Integration: Bridge Enterprise RPA Platforms</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain the division of labor where UiPath owns the UI shell and Python provides the compute brain</li>
+            <li>Choose among the three integration methods: an in-process Invoke Python activity, a REST API, and a message queue</li>
+            <li>Pass data cleanly between UiPath and Python using a defined input/output contract, typically JSON</li>
+            <li>Enhance a UiPath workflow with Python capabilities such as ML models, data crunching, and custom logic</li>
+            <li>Handle errors across the platform boundary so a failure on one side does not silently corrupt the other</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Design a hybrid flow where a UiPath workflow calls a Python function, defining the exact JSON contract passed each way.</p>
+    </div>
 <p>Integrating Python with enterprise RPA platforms like UiPath unlocks the best of both worlds - the visual workflow design and enterprise features of UiPath combined with Python's powerful libraries for data science, machine learning, and custom processing. Like adding a turbocharger to an already powerful engine, Python integration extends UiPath's capabilities to handle complex scenarios that require advanced algorithms, API integrations, or specialized processing. Whether you're enhancing workflows with ML models, processing complex data, or integrating with systems UiPath doesn't natively support, mastering this integration is crucial for enterprise automation. Let's explore the comprehensive world of UiPath and Python integration! 🌉</p>
 <h2>The Integration Architecture</h2>
 <p>Think of UiPath/Python integration as creating a hybrid automation ecosystem where UiPath orchestrates the workflow while Python handles specialized processing - UiPath manages the process flow, UI automation, and enterprise features, while Python provides computational power, libraries, and custom logic. Using various integration methods like Python activities, REST APIs, and shared databases, you can create sophisticated automation solutions. Understanding integration patterns, data exchange, and error handling across platforms is essential for successful implementation!</p>
@@ -1072,12 +1087,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering UiPath/Python integration enables you to build sophisticated automation solutions that leverage the best of both platforms. You can now create workflows that seamlessly combine UiPath's enterprise RPA capabilities with Python's computational power, implement robust error handling across platforms, and scale your automation initiatives effectively. Whether you're adding ML capabilities to UiPath workflows or orchestrating Python services, these integration skills are essential for enterprise automation! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Imagine a workflow that clicks through a legacy app but also needs a machine-learning prediction. Where would you draw the line between the RPA side and the Python side, and how would the two hand data to each other?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Integration is a division of labor: the RPA tool owns the UI shell (legacy screens, login, retries, scheduling, governance) and calls Python for the compute it is bad at.</li>
+<li>The two sides talk through an Invoke Python activity (in-process), a REST API (Python as a service), or a message queue (asynchronous and decoupled).</li>
+<li>Keep the seam explicit with a clear input/output contract, usually JSON, so each side can change independently.</li>
+<li>The trap is forcing one tool to do the other's job; let RPA orchestrate and let Python think.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now design a hybrid automation that combines UiPath's enterprise workflow features with Python's computational power, choosing the right integration method and defining a contract that keeps the two sides loosely coupled.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Which integration method should I reach for first?</summary>
+<p>For short, synchronous calls, an in-process Invoke Python activity is simplest. When the Python side is heavy, reused, or independently deployed, expose it as a REST API. When the work is long-running or should not block the workflow, use a message queue for asynchronous, decoupled processing.</p>
+</details>
+<details>
+<summary>Why insist on a JSON contract between the two platforms?</summary>
+<p>A defined input/output contract means either side can be rewritten without breaking the other, as long as the shape of the data stays the same. JSON is a neutral, language-agnostic format both platforms handle well, which keeps the seam clean.</p>
+</details>
+<details>
+<summary>What happens if the Python side throws an error?</summary>
+<p>Errors must cross the boundary explicitly. Return a structured error result (or a clear failure status) that the UiPath workflow can detect and route to retry or exception handling, rather than letting a silent crash leave the workflow in an unknown state.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Having connected RPA with Python, you have completed the enterprise-automation picture. The path ahead shifts toward the systems side — managing the environments, processes, and schedules that keep automation running reliably.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Sketch a workflow where an RPA bot needs one Python computation, and label which side owns each step.</li>
+<li>Write the JSON input and output you would pass across that boundary.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You now know how to make two very different tools play to their strengths together — a skill that turns "we can't automate that" into "here is how the pieces fit." Keep bridging.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="rpa_enterprise_concepts.html">← Previous: RPA Concepts</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="rpa_enterprise_business_process.html">Next: Business Process Automation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

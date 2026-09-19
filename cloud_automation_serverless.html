@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>⚡ Serverless Functions: Build Event-Driven Applications</h1>
+<!-- What You'll Learn (learning objectives) -->
+<div class="card card-info">
+<h2>📚 What You'll Learn</h2>
+<p>By the end of this lesson, you will be able to:</p>
+<ul>
+<li>Explain the serverless execution model — event trigger, handler <code>(event, context)</code>, scale-to-zero, and pay-per-invocation billing</li>
+<li>Describe what a cold start is, why it happens, and apply strategies (smaller packages, provisioned concurrency, connection reuse, lazy loading) to reduce it</li>
+<li>Identify common event sources (HTTP/API Gateway, S3, DynamoDB streams, SQS, schedules) and route them to the right handler</li>
+<li>Deploy functions to AWS Lambda, Google Cloud Functions, and Azure Functions, including an API Gateway HTTP trigger</li>
+<li>Write stateless, idempotent functions that process files, and orchestrate multi-step flows with Step Functions</li>
+<li>Monitor invocations, errors, and duration with CloudWatch metrics and alarms</li>
+</ul>
+<p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+<p><strong>🎯 Project:</strong> Write a Lambda-style handler that responds to an S3 upload event — reading the object, processing it by file type, and returning a proper status response — then reason about how you would deploy and monitor it.</p>
+</div>
+
 <p>Serverless computing revolutionizes how we build and deploy applications - you write functions that execute in response to events, while the cloud provider handles all infrastructure, scaling, and maintenance. Like having an infinite army of workers that appear instantly when needed and disappear when done, serverless enables you to build highly scalable, cost-effective applications that respond to HTTP requests, process files, handle database changes, or react to any cloud event. Let's explore the comprehensive world of serverless functions! 🔥</p>
 <h2>The Serverless Architecture</h2>
 <p>Think of serverless functions as specialized workers in a massive factory - each function performs a specific task, triggered by events like API calls, file uploads, database changes, or scheduled times. Using platforms like AWS Lambda, Google Cloud Functions, and Azure Functions, you can build entire applications without managing servers, automatically scaling from zero to millions of requests. Understanding event sources, execution models, and integration patterns is essential for effective serverless development!</p>
@@ -1084,6 +1101,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of serverless functions as specialized workers that appear when needed and disappear when done - design them to be fast, focused, and fault-tolerant. Keep functions small and single-purpose - each should do one thing well. Optimize for cold starts by minimizing dependencies and using layers for shared code. Always handle events idempotently since they might be delivered multiple times. Use environment variables for configuration but Secrets Manager for sensitive data. Implement proper error handling with retries and dead letter queues. Monitor everything - invocations, errors, duration, and costs. Use X-Ray for distributed tracing to understand performance bottlenecks. Design for failure - functions can timeout, throttle, or fail. Use Step Functions for complex workflows instead of chaining Lambda functions. Cache frequently accessed data to reduce latency and costs. Test locally with SAM or Serverless Framework before deploying. Set up cost alerts early - serverless can scale infinitely, including costs! Most importantly: embrace event-driven architecture - think in terms of events and reactions, not servers and processes!</p>
 </div>
 <p>Mastering serverless functions enables you to build highly scalable, cost-effective applications without managing infrastructure. You can now create event-driven architectures, process data streams, build APIs, run scheduled tasks, and orchestrate complex workflows all with automatic scaling and pay-per-use pricing. Whether you're building microservices, data pipelines, or full applications, serverless empowers you to focus on code, not servers! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Serverless flips the model from "a server that's always running" to "code that appears only when an event fires." Which of your own tasks are naturally event-driven and would fit serverless well — and which ones would fight against the stateless, short-lived nature of a function?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Serverless means the provider manages the servers: an event triggers your handler, it runs, returns, and the instance is frozen — so you scale to zero and pay only per invocation and duration.</li>
+<li>The main trade-off is the cold start (provisioning the first call after idle); keep functions small, dependencies light, and reuse clients and connections across invocations.</li>
+<li>Functions should be stateless and idempotent because events can be delivered more than once — store state externally and design to handle duplicates safely.</li>
+<li>Use Step Functions to orchestrate multi-step workflows rather than chaining Lambdas by hand, and monitor invocations, errors, and duration from day one.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now build event-driven applications that scale automatically and cost nothing when idle — responding to HTTP requests, file uploads, queue messages, and schedules with focused, stateless functions across AWS, GCP, and Azure.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Does "serverless" really mean there are no servers?</summary>
+<p>No — there are servers, you just never provision, patch, or scale them. The provider runs your code on shared infrastructure, spinning instances up on events and tearing them down when idle. You think about functions and events, not machines.</p>
+</details>
+<details>
+<summary>When is a cold start a problem, and how do I avoid it?</summary>
+<p>Cold starts hurt latency-sensitive, user-facing paths after periods of low traffic. Mitigate them with smaller deployment packages, provisioned (or reserved) concurrency to keep instances warm, minimal VPC usage, and by moving heavy imports/connections to module scope so they're reused across invocations.</p>
+</details>
+<details>
+<summary>Why does my function need to be idempotent?</summary>
+<p>Event sources like SQS and S3 can deliver the same event more than once, and functions may retry on failure. If processing the same event twice would double-charge a customer or duplicate a record, use a deduplication key or conditional write so repeats are harmless.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>Individual functions are powerful, but real systems combine them into full deployments. Next you'll see how to package, ship, and roll out applications to the cloud with automated pipelines.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Write a handler that detects its event type and processes an S3 upload, returning a correct status code and handling errors.</li>
+<li>List two functions you'd optimize for cold starts and describe exactly what you'd change (package size, concurrency, connection reuse).</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>You've learned to build software that appears on demand, scales itself, and sleeps for free. That's a genuinely different way to think about applications — and now it's part of your toolkit. Keep functions small, focused, and fearless.</p>
+</div>
+</section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="cloud_automation_storage.html">← Previous: Cloud Storage</a>
@@ -1091,6 +1165,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="cloud_automation_deploying.html">Next: Deployment Automation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>🔧 Creating DAGs: Design Complex Workflows with Code</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Distinguish parse time (building the graph) from execution time (running the callables) and keep top-level DAG code light</li>
+            <li>Apply a DAG factory pattern to standardize DAG creation across a project</li>
+            <li>Generate DAGs from YAML/JSON configuration so non-authors can define pipelines</li>
+            <li>Create parallel tasks dynamically with dynamic task mapping (<code>.expand()</code>)</li>
+            <li>Organize related tasks with Task Groups and coordinate work with SubDAG and cross-DAG patterns</li>
+            <li>Validate a DAG for cycles, duplicate task IDs, and orphaned tasks before shipping it</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a reusable ETL DAG factory and use it to generate a source-to-warehouse pipeline, then validate the result.</p>
+    </div>
 <p>Creating effective DAGs (Directed Acyclic Graphs) in Apache Airflow is both an art and a science - it requires understanding workflow patterns, dependency management, and best practices for maintainable pipeline design. Like architecting a complex system, well-designed DAGs are modular, reusable, testable, and scalable. Whether you're building simple linear pipelines or complex branching workflows with hundreds of tasks, mastering DAG creation patterns is essential for production-grade orchestration. Let's explore the comprehensive world of DAG design and implementation! 🏗️</p>
 <h2>The DAG Design Architecture</h2>
 <p>Think of DAG creation as building with intelligent LEGO blocks - each task is a self-contained unit that connects to others through dependencies, forming complex workflows that can branch, merge, and adapt dynamically. Using Python's flexibility, Airflow allows you to create DAGs programmatically, generate them from configuration, implement complex patterns, and build reusable components. Understanding DAG lifecycle, task patterns, and design principles is crucial for scalable orchestration!</p>
@@ -1080,12 +1096,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering DAG creation enables you to build sophisticated, maintainable workflow orchestration at scale. You can now design complex workflows with multiple patterns, generate DAGs dynamically from configuration, create reusable components with task groups, implement cross-DAG dependencies, and validate workflows before deployment. Whether you're building data pipelines, ML workflows, or business process automation, these DAG creation skills provide the foundation for enterprise-grade orchestration! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal-creating-dags" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> The scheduler re-parses your DAG file every few seconds, so top-level code runs constantly. Where in your own scripts do you do "setup work" at import time that would be dangerous at parse time — and how would you move it inside a task callable?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary-creating-dags" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Declare structure at the top level and do the real work inside task callables — heavy parse-time code drags the scheduler.</li>
+                <li>Factory functions and configuration-driven (YAML/JSON) DAGs make pipeline creation consistent and repeatable.</li>
+                <li>Dynamic task mapping with <code>.expand()</code> creates parallel tasks from data instead of hand-writing each one.</li>
+                <li>Task Groups, SubDAGs, and cross-DAG triggers organize large workflows; always validate for cycles and duplicate IDs before deploying.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now design DAGs like software — modular, reusable, and generated from configuration — rather than copy-pasting task definitions, and you can validate them before they reach production.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why is putting an API call or DB query at the top of a DAG file a problem?</summary>
+            <p>Top-level code runs every time the scheduler parses the file — potentially every few seconds for every DAG. A network call there repeats constantly, slows parsing, and can hammer the external service. Put that work inside a task so it only runs at execution time.</p>
+        </details>
+        <details>
+            <summary>When should I use dynamic task mapping versus a loop that creates operators?</summary>
+            <p>Use <code>.expand()</code> when the number of parallel tasks depends on runtime data (a list produced by an upstream task). A plain Python loop is fine when the set is known at parse time and fixed in the code.</p>
+        </details>
+        <details>
+            <summary>Are SubDAGs still recommended?</summary>
+            <p>Task Groups are the modern, lighter-weight way to organize related tasks visually and are preferred for most cases. SubDAGs still appear in older code, so it helps to recognize the pattern, but reach for Task Groups first.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>With DAGs built, the next lesson goes deep on the relationships between tasks — dependency patterns, trigger rules, and how to maximize parallelism.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write a small YAML config and generate a DAG from it using the configuration-driven pattern.</li>
+            <li>Convert a hand-written loop of parallel tasks into a single dynamic-mapping <code>.expand()</code> call.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>You're no longer just writing DAGs — you're designing systems that write DAGs. That shift from author to architect is exactly what separates a hobby pipeline from a platform. Keep going.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="task_orchestration_airflow_basics.html">← Previous: Apache Airflow Basics</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="task_orchestration_dependencies.html">Next: Task Dependencies →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

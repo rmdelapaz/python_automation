@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🎮 Mouse and Keyboard Control: Master Precise Input Automation</h1>
+    <!-- What You'll Learn (mouse-keyboard objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Drive precise mouse movement, clicks, drags, scrolling, and gestures with PyAutoGUI and pynput</li>
+            <li>Understand that every high-level call is a burst of low-level events (<code>click()</code> = mouseDown + mouseUp) that returns no success value</li>
+            <li>Generate human-like input: bezier-curve movement, variable typing speed, and realistic delays</li>
+            <li>Record and replay input sequences, translating pynput key names to PyAutoGUI names</li>
+            <li>Build reusable macros with a fluent builder and coordinate multi-key combos with timing</li>
+            <li>Add safety failsafes and benchmark input latency and throughput</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build an input recorder-and-macro tool that captures a sequence of clicks and keystrokes, saves it to JSON, and replays it at adjustable speed with an Esc-key failsafe.</p>
+    </div>
+
 <p>Precise mouse and keyboard control forms the foundation of sophisticated GUI automation - it enables you to simulate complex user interactions, create realistic input patterns, automate gaming actions, perform stress testing, and control applications that resist traditional automation. Like having invisible hands that can type and click with superhuman speed and precision, mastering input control allows you to automate any desktop interaction. Whether you're creating macros, testing UIs, or building game bots, advanced input control is essential for professional automation. Let's explore the advanced world of mouse and keyboard automation! 🖱️⌨️</p>
 <h2>The Input Control Architecture</h2>
 <p>Think of mouse and keyboard control as choreographing a digital ballet - every movement, click, and keystroke must be precisely timed and executed. Using libraries like PyAutoGUI, pynput, and platform-specific APIs, you can create natural input patterns, handle multi-button combinations, simulate human-like movements, and even bypass basic anti-automation measures. Understanding event simulation, input queuing, and timing patterns is crucial for reliable input automation!</p>
@@ -1235,6 +1252,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Think of input automation as conducting an orchestra - every action must be precisely timed and coordinated. For mouse control, use bezier curves instead of straight lines for natural movement. Add small random noise (1-3 pixels) to make movements less robotic. Implement variable click durations (30-70ms) like real humans. For keyboard control, vary typing speed based on word difficulty and add occasional pauses for "thinking". Include realistic typos with backspace corrections. Use WPM (words per minute) settings for consistent typing speed. For gaming automation, frame-perfect timing is crucial - use high-precision timers and account for input lag. Record complex sequences once and replay them with adjustments rather than hardcoding. Implement stress testing to ensure your automation can handle high-speed inputs. Monitor system performance - excessive automation can lag the system. Use platform-specific APIs when PyAutoGUI isn't fast enough. Remember that some applications detect automated input - implement anti-detection measures like human-like patterns, random delays, and gradual movements. Most importantly: always test your automation thoroughly before deploying to production!</p>
 </div>
 <p>Mastering mouse and keyboard control enables you to create sophisticated automation that can interact with any application naturally and efficiently. You can now simulate complex user interactions, create gaming macros with frame-perfect timing, implement human-like typing and movement patterns, and build comprehensive input testing frameworks. Whether you're automating games, testing UIs, or creating accessibility tools, these advanced input control skills provide professional-grade automation capabilities! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Input automation is "fire and forget" — the call returns nothing about whether it worked, so you have to verify by observing the screen. How does that change the way you'd design a reliable multi-step macro compared to code that returns values you can check?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>You automate a GUI by injecting the same low-level events a real keyboard and mouse produce — the app can't tell the difference, and it works only on the focused window.</li>
+                <li>High-level helpers decompose into event bursts (mouseDown/mouseUp, key down/up, hotkeys released in reverse) and return no success value, so verify by watching the screen.</li>
+                <li>Human-like patterns — bezier curves, variable timing, small noise — make automation more natural and robust to timing quirks.</li>
+                <li>A failsafe (like PyAutoGUI's corner failsafe or an Esc listener) is non-negotiable when your code is driving the real mouse and keyboard.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now simulate any desktop interaction with precision — moving and clicking naturally, typing with realistic rhythm, recording and replaying sequences, and packaging it all into reusable macros with safety built in. These are the hands your automation uses to touch any application.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why does my click do nothing even though the code ran without error?</summary>
+            <p>Injected events go to whichever window has focus, and the call returns nothing about success. If the wrong window was focused, the target moved, or the app wasn't ready, the click is simply lost. Confirm focus first, add a short pause, and verify the result by observing the screen rather than trusting the call.</p>
+        </details>
+        <details>
+            <summary>When should I use absolute <code>moveTo(x, y)</code> versus relative <code>move(dx, dy)</code>?</summary>
+            <p>Use absolute coordinates when you know the exact screen position of a target. Use relative movement when you're navigating from a known current position or when a window may have shifted — relative moves survive a repositioned window that would break hardcoded coordinates.</p>
+        </details>
+        <details>
+            <summary>Is a failsafe really necessary?</summary>
+            <p>Yes. Once a script controls the mouse and keyboard at speed, a bug can lock you out of your own machine. PyAutoGUI's failsafe (slam the cursor into a corner) or an Esc-key listener gives you a guaranteed way to abort — always wire one in before running at full speed.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>So far your automation acts blindly on coordinates. Next you'll give it eyes — capturing the screen so your scripts can see what's actually there before they click.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write a tiny script that moves the mouse in a square using relative <code>move(dx, dy)</code> calls, with the failsafe enabled.</li>
+            <li>Record a short click-and-type sequence, save it to JSON, and replay it at half speed to watch the event timing.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>There's a real thrill the first time you watch your script type and click on its own. You've now got precise, safe control over every input a computer accepts — use it to automate the tedious and free yourself for the interesting. Keep going!</p>
+        </div>
+    </section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="gui_automation_pyautogui.html">← Previous: PyAutoGUI Basics</a>
@@ -1242,6 +1316,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="gui_automation_screen_capture.html">Next: Screen Capture →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

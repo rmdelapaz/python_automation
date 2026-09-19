@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🔐 CAPTCHA Considerations: Handle Bot Detection Like a Pro</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Recognize the major CAPTCHA types (text, image, reCAPTCHA v2/v3, hCaptcha, slider, GeeTest) and detect them on a page from iframe, class, and site-key signatures</li>
+            <li>Treat a CAPTCHA as a <strong>consent boundary</strong> and walk the responsible decision tree — is there an official API/export? are you authorized? — before attempting anything</li>
+            <li>Reduce how often you are challenged by respecting rate limits, using a real browser, and pacing requests naturally</li>
+            <li>Integrate a licensed solving or accessibility service (e.g. 2captcha) only where permitted, and handle its submit-and-poll token workflow</li>
+            <li>Weigh the legal, ethical, and cost trade-offs of automated CAPTCHA handling</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a CAPTCHA detector that identifies the challenge type on a page you own and logs the responsible next step from the decision tree.</p>
+    </div>
 <p>CAPTCHAs are the gatekeepers of the web - puzzles designed to separate humans from bots. They're like bouncers at an exclusive club, checking if you're on the guest list. From simple text puzzles to complex behavioral analysis, CAPTCHAs protect websites from automated access. But with the right approach, patience, and tools, we can handle them ethically and effectively. Let's master the art of CAPTCHA handling! 🧩</p>
 <h2>The CAPTCHA Ecosystem</h2>
 <p>Think of CAPTCHA handling as a chess game where each move must be carefully calculated. You're not trying to "break" the CAPTCHA but rather solve it legitimately, either manually, through services, or by avoiding it altogether through smart automation practices. It's about finding the right balance between automation efficiency and respecting website security!</p>
@@ -1144,13 +1159,81 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> CAPTCHAs are like security guards - the best approach is to not look suspicious in the first place. Focus on prevention through human-like behavior: use realistic delays, natural mouse movements, and complete user journeys. When you must solve CAPTCHAs, choose your strategy wisely. Services like 2captcha are reliable but cost money; OCR works for simple text but has lower success rates; behavioral simulation can bypass some detection entirely. Always have multiple strategies - what works today might not work tomorrow as CAPTCHA systems evolve. Remember that CAPTCHAs exist for good reasons - to protect websites from abuse. If you're hitting lots of CAPTCHAs, consider whether there's a legitimate API you could use instead. Most importantly: respect the intent behind CAPTCHAs. They're not obstacles to break but security measures to work with responsibly!</p>
 </div>
 <p>Mastering CAPTCHA handling transforms you from someone blocked by bot detection to someone who can navigate it responsibly and effectively. You now understand detection methods, solving strategies, behavioral simulation, and service integration. Whether you're building testing tools, data collectors, or automation systems, these CAPTCHA handling skills ensure your automation can handle real-world challenges! 🔓</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> A CAPTCHA is a site telling you it wants a human, not a bot, for this action. Think of a time you were tempted to route around a "no" in code. How does reframing a CAPTCHA as a <em>consent boundary</em> rather than an obstacle change which techniques you're willing to reach for?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>A CAPTCHA is a consent boundary, not a puzzle to defeat — the first questions are always whether an official API/export exists and whether you are authorized.</li>
+                <li>Behaving like a real user (respecting rate limits, using a real browser, pacing naturally) reduces how often you are challenged, but it never "solves" a challenge that has already appeared.</li>
+                <li>Licensed solving and accessibility services are a narrow, permission-gated exception — for your own site, an accessibility need, or consented QA.</li>
+                <li>Detecting the CAPTCHA type from iframe, class, and site-key signatures is the technical foundation that lets you decide what (if anything) to do next.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now identify which CAPTCHA system a page uses, reason about whether you should be automating past it at all, and, where it is legitimate, reduce challenges honestly or wire up a licensed service — all while staying on the right side of a site's terms.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Can't I just bypass a CAPTCHA to get the data I need?</summary>
+            <p>Not if you aren't authorized. A CAPTCHA is the site asking whether a human should be doing this. If there's no API and the terms don't permit your access, the responsible move is to stop — bypassing bot detection to reach data you're not permitted to access is abuse, not automation.</p>
+        </details>
+        <details>
+            <summary>Why does the CAPTCHA stop appearing when I slow down and use a real browser?</summary>
+            <p>Modern systems like reCAPTCHA v3 score your behavior continuously. Natural pacing, a real browser fingerprint, and consistent sessions raise that score, so the site challenges you less often. You aren't solving anything — you're simply looking like the legitimate user you should be.</p>
+        </details>
+        <details>
+            <summary>Are CAPTCHA-solving services legal to use?</summary>
+            <p>It depends entirely on authorization. Using one on your own site, for an accessibility need, or in consented QA is fine. Using one to defeat protections on a site whose terms forbid your access is not — the service being available doesn't make the use permitted.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Next you'll look at proxy rotation — distributing legitimate requests across many IPs to scale collection and test geo-behavior, with the same emphasis on respecting each site's limits.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write a small detector that reports the CAPTCHA type and site key on a test page you control.</li>
+            <li>Pick a site you'd like to collect from and document its decision tree: does an official API or export exist, and are you authorized?</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>The most skilled automators aren't the ones who defeat every gate — they're the ones who know which gates to respect. Handling CAPTCHAs responsibly makes your work durable, defensible, and something you can be proud of. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="advanced_scraping_scrapy.html">← Previous: Scrapy Framework</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="advanced_scraping_proxy_rotation.html">Next: Proxy Rotation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

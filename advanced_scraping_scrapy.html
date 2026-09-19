@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🕷️ Scrapy Framework: Industrial-Strength Web Scraping</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Describe Scrapy's async architecture — Engine, Scheduler, Downloader, Spiders, Item Pipeline — and why it outruns a sequential <code>requests.get</code> loop</li>
+            <li>Write a Spider whose <code>parse()</code> yields both <strong>Items</strong> (data) and new <strong>Requests</strong> (links to follow) to crawl a whole site</li>
+            <li>Structure scraped data with <code>Item</code> classes and clean it consistently using <code>ItemLoader</code> input/output processors</li>
+            <li>Build an Item Pipeline that validates, de-duplicates, and stores records, and use middlewares to rotate user agents and proxies</li>
+            <li>Scrape politely and reliably with <code>ROBOTSTXT_OBEY</code>, <code>DOWNLOAD_DELAY</code>, AutoThrottle, retries, and HTTP caching</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small Scrapy spider with an Item, an ItemLoader, and a validation + duplicates pipeline that crawls a multi-page site politely.</p>
+    </div>
 <p>Scrapy is the Ferrari of web scraping frameworks - powerful, fast, and built for scale. While BeautifulSoup is like a Swiss Army knife for parsing HTML, Scrapy is a complete factory for extracting, processing, and storing web data. It handles concurrent requests, automatic retries, data pipelines, and distributed scraping out of the box. Let's master the art of industrial web scraping! 🏭</p>
 <h2>The Scrapy Architecture</h2>
 <p>Think of Scrapy as a well-orchestrated assembly line where spiders crawl websites, extractors pull out data, pipelines process it, and exporters save it - all running concurrently with military precision. It's not just a tool; it's a complete ecosystem for professional web scraping at any scale!</p>
@@ -1023,13 +1038,81 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> Scrapy isn't just a library - it's a complete framework with opinions about how web scraping should be done. Embrace its architecture! Always define Items for data structure, use ItemLoaders for consistent extraction, implement Pipelines for processing, and leverage Middlewares for request/response handling. AutoThrottle is your friend - it automatically adjusts crawling speed based on server response. Use Scrapy Shell for testing selectors before writing spiders. Cache responses during development to avoid hitting servers repeatedly. For JavaScript-heavy sites, integrate Scrapy-Splash or Scrapy-Selenium. When scaling, use Scrapy-Redis for distributed crawling across multiple machines. Most importantly: Scrapy is asynchronous by design - don't block the reactor with synchronous code! Let Scrapy's twisted engine handle concurrency for maximum performance.</p>
 </div>
 <p>Mastering Scrapy transforms you from a casual scraper to an industrial-scale data extraction engineer. You now have the power to build robust, scalable, and maintainable web scraping systems that can handle millions of pages efficiently. Whether you're building price monitors, search engines, or data aggregation platforms, Scrapy provides the industrial-strength foundation you need! 🏗️</p>
-<footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Scrapy gives you a lot of power for free — concurrency, retries, pipelines — but also makes it easy to hammer a site. Now that <code>parse()</code> can generate its own follow-up requests, how will you make sure your spider stays polite (delays, robots.txt, throttling) as it scales?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Scrapy is a full framework built on an async engine: a spider's <code>parse()</code> yields Items (data → pipeline) and Requests (links → back into the scheduler), and that loop crawls entire sites.</li>
+                <li>Concurrency makes Scrapy far faster than a naive sequential loop — but it's power, not permission, so set a polite <code>DOWNLOAD_DELAY</code> and keep <code>ROBOTSTXT_OBEY</code> on.</li>
+                <li>Define <code>Item</code> classes for structure and use <code>ItemLoader</code> processors so extraction and cleaning stay consistent across pages.</li>
+                <li>Item Pipelines validate, de-duplicate, and store your data, while middlewares handle cross-cutting concerns like user-agent and proxy rotation.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You've moved from hand-rolled scraping scripts to an industrial framework. You can now design spiders that crawl and paginate on their own, keep data structured and clean through loaders and pipelines, and throttle themselves to stay a good citizen — the foundation for large-scale, maintainable extraction.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>When should I use Scrapy instead of requests + BeautifulSoup?</summary>
+            <p>Reach for Scrapy when you're crawling many pages, following links, and need concurrency, retries, deduplication, throttling, and export out of the box. For a handful of pages or a one-off script, requests + BeautifulSoup is simpler.</p>
+        </details>
+        <details>
+            <summary>What's the difference between an Item and an ItemLoader?</summary>
+            <p>An <code>Item</code> defines the shape of your data (the fields). An <code>ItemLoader</code> populates it, applying input processors (to clean each value as it's added) and output processors (to finalize the field) so extraction logic stays in one consistent place.</p>
+        </details>
+        <details>
+            <summary>Does Scrapy handle JavaScript-rendered pages?</summary>
+            <p>Not on its own — Scrapy fetches HTML, not a rendered DOM. For JS-heavy sites, integrate scrapy-splash or scrapy-selenium, or better, find and call the underlying JSON API the page uses.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Next you'll look at CAPTCHA considerations — what to do when a site signals it wants a human, and how to reason about that responsibly rather than brute-forcing past it.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Generate a spider with <code>scrapy genspider</code>, define an Item, and crawl two or three linked pages of a site that permits it.</li>
+            <li>Add a validation pipeline and a duplicates pipeline, and confirm dropped items are logged rather than stored.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Learning a framework as opinionated as Scrapy feels like a lot at first, then suddenly it clicks and you can build a crawler in minutes. You now have an industrial tool in your kit — use it thoughtfully and it will serve you for years. Keep going.</p>
+        </div>
+    </section>
+
+    <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="advanced_scraping_selenium.html">← Previous: Advanced Selenium</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="advanced_scraping_captcha.html">Next: CAPTCHA Handling →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

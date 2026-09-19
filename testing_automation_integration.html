@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,21 @@
     
     <main id="main-content">
     <h1>🔗 Integration Testing: Ensure Components Work Together Flawlessly</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Place integration tests on the test pyramid and know which bugs they catch that unit mocks can't</li>
+            <li>Spin up real dependencies (Postgres, Redis, Kafka) in disposable Docker containers with Testcontainers</li>
+            <li>Test database transactions and rollbacks, and verify data at multiple layers of a workflow</li>
+            <li>Exercise complete API workflows — create, read, update, delete — rather than isolated endpoints</li>
+            <li>Isolate tests with per-test data, transactions, or fresh containers, and always clean up afterward</li>
+            <li>Validate service contracts and message-queue reliability across components</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Write an integration test that stands up a Postgres container, runs a real transaction, and verifies the saved data.</p>
+    </div>
 <p>Integration testing bridges the gap between unit tests and system tests - it verifies that independently developed components work correctly when combined, catching issues that arise from component interactions, data flow, and interface mismatches. Like testing the gears of a complex machine working together, integration testing ensures your application's parts mesh seamlessly. Whether you're testing database interactions, API integrations, or microservice communications, mastering integration testing is crucial for building reliable systems. Let's explore the comprehensive world of integration test automation! 🏗️</p>
 <h2>The Integration Testing Architecture</h2>
 <p>Think of integration testing as quality assurance for assembled systems - while unit tests verify individual parts work, integration tests ensure they work together harmoniously. Using test containers, mock servers, and orchestration tools, you can create realistic test environments that validate component interactions without the complexity of full system testing. Understanding test boundaries, data management, and environment setup is essential for effective integration testing!</p>
@@ -1006,12 +1022,80 @@ if __name__ == "__main__":
 </div>
 <p>Mastering integration testing ensures your components work together seamlessly in production. You can now test database interactions reliably, validate API integrations thoroughly, ensure message queue reliability, verify service-to-service communication, and maintain data consistency across systems. Whether you're building microservices, monoliths, or hybrid architectures, these integration testing skills are essential for delivering reliable software! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal-testing-integration" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Integration tests earn their keep by wiring real dependencies together. Think of a bug that a unit test with mocks would have missed entirely — what real component boundary (a SQL query, a serialization, an API call) hid it?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary-testing-integration" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Integration tests sit in the middle of the test pyramid — fewer than unit tests, but they catch the wiring, SQL, and serialization bugs mocks hide.</li>
+                <li>Testcontainers give each run a real, isolated database, cache, or queue so tests are reproducible and free of "works on my machine" drift.</li>
+                <li>Test whole workflows and verify results at multiple layers (API response, database row, cache entry), not just single calls.</li>
+                <li>Isolation and cleanup are non-negotiable — use transactions, per-test data, or fresh containers so tests never leak state into each other.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now verify that independently built components actually work together — testing real databases, APIs, and message queues in reproducible environments and catching the class of bug that only appears at the seams.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why use real containers instead of just mocking the database?</summary>
+            <p>Mocks encode your assumptions about how the database behaves — and those assumptions are exactly where integration bugs live (SQL syntax, constraints, transaction semantics). A real Postgres in a container tests against actual behavior while staying disposable and isolated.</p>
+        </details>
+        <details>
+            <summary>How do I keep integration tests from becoming flaky?</summary>
+            <p>Give each test its own data and clean up afterward (transactions that roll back, or fresh containers). Wait for services to be genuinely ready instead of sleeping a fixed amount, and avoid tests that depend on execution order or shared global state.</p>
+        </details>
+        <details>
+            <summary>How many integration tests should I have?</summary>
+            <p>Fewer than unit tests, more than end-to-end. Push each bug to the cheapest layer that can catch it: unit-test the logic, integration-test the wiring, and reserve slow E2E tests for a handful of critical journeys — don't invert the pyramid into an "ice-cream cone."</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You've tested the back-end plumbing. Next you'll move to the top of the pyramid and drive a real browser with Selenium to test the user interface end to end.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Stand up a Postgres Testcontainer and write one test that inserts and reads back a row.</li>
+            <li>Take an existing mocked test and rewrite it against a real containerized dependency; note any behavior differences.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Integration tests find the bugs that ship to production — the ones that hide between components. Investing in them is investing in nights you won't spend debugging. You're building the confidence that your whole system holds together.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="testing_automation_unit.html">← Previous: Unit Test Automation</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="testing_automation_ui_selenium.html">Next: UI Testing with Selenium →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

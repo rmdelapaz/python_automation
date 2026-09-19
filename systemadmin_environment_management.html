@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,20 @@
     
     <main id="main-content">
     <h1>🌍 Environment Management: Master System Configurations</h1>
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Explain why configuration belongs to the environment, not the code, so one build runs unchanged in dev, staging, and production</li>
+            <li>Layer configuration by precedence (defaults, config file, environment variables, CLI flags) and predict the effective value of a setting</li>
+            <li>Load secrets safely from environment variables or a secret manager instead of hard-coding them</li>
+            <li>Keep <code>.env</code> out of version control and commit a <code>.env.example</code> with keys but no values</li>
+            <li>Isolate each project's dependencies in a virtual environment so package versions never clash</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a small app that reads its settings from layered sources and loads a secret from an environment variable rather than code.</p>
+    </div>
 <p>Environments are like different stages in a theater - development is rehearsal, staging is dress rehearsal, and production is opening night. Each needs different settings, secrets, and configurations. Environment management ensures your code performs flawlessly on every stage. Let's become the stage managers of the digital world! 🎭</p>
 <h2>The Environment Management Landscape</h2>
 <p>Think of environment management as creating parallel universes for your applications. Each universe has its own laws (configurations), citizens (services), and secrets (API keys). Python helps you manage these universes, ensuring they never collide and always work in harmony!</p>
@@ -1200,12 +1215,80 @@ if __name__ == "__main__":
 </div>
 <p>Environment management mastery transforms you from a configuration juggler to an infrastructure conductor. You can seamlessly deploy applications across multiple environments, manage secrets securely, and ensure consistency from development to production. Whether you're managing a single application or a microservices architecture, these environment management skills are essential for modern DevOps! 🚀</p>
 <footer>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+<section id="journal" class="lesson-section">
+<h2>📓 Learning Journal</h2>
+<div class="card card-info">
+<p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+<ul>
+<li><strong>Key concepts</strong> you learned</li>
+<li><strong>Techniques that clicked</strong> for you</li>
+<li><strong>Questions or confusion points</strong> to revisit</li>
+<li><strong>Ideas you want to try</strong></li>
+<li><strong>Your progress and feelings</strong> about learning this</li>
+</ul>
+<p><strong>✍️ This lesson's prompt:</strong> Have you ever hard-coded a password or API key while "just testing"? Now that you know a secret in source is leaked forever in git history, how will you handle configuration and secrets differently going forward?</p>
+</div>
+</section>
+
+<!-- Lesson Summary (full standard block) -->
+<section id="summary" class="lesson-section">
+<h2>📝 Lesson Summary</h2>
+<div class="card card-success">
+<h3>🎓 Key Takeaways</h3>
+<ul>
+<li>Configuration describes how an app runs and belongs to the environment, so one build can run unchanged in dev, staging, and production.</li>
+<li>Layer configuration by precedence — defaults, then config file, then environment variables, then CLI flags — where the highest layer that sets a value wins.</li>
+<li>Never put secrets in code or git; load them from environment variables or a secret manager, gitignore <code>.env</code>, and commit only <code>.env.example</code>.</li>
+<li>A virtual environment isolates each project's packages so versions cannot clash between projects.</li>
+</ul>
+</div>
+<h3>🎉 What You've Accomplished</h3>
+<p>You can now separate configuration from code, resolve settings through a predictable precedence order, keep secrets out of source control, and give every project its own isolated dependency environment.</p>
+<h3>❓ Common Questions at This Stage</h3>
+<details>
+<summary>Why not just keep separate config files for dev and prod in the code?</summary>
+<p>Because the code should not change between environments — only its inputs should. Layering config through environment variables means the exact same build runs everywhere, which removes a whole class of "works on my machine" bugs.</p>
+</details>
+<details>
+<summary>I already deleted a secret from my code. Isn't that enough?</summary>
+<p>No. If it was ever committed, it lives in git history and must be treated as compromised — rotate (revoke and reissue) that credential. Then move it into an environment variable or secret manager so it never enters source again.</p>
+</details>
+<details>
+<summary>Do I really need a virtual environment for every project?</summary>
+<p>Yes. Without isolation, two projects that need different versions of the same package will fight over the one global install. A per-project venv keeps each project's dependencies pinned and reproducible.</p>
+</details>
+<h3>🔭 Looking Ahead</h3>
+<p>With environments under control, the next step in system administration is watching what those environments are actually doing — reading the logs your applications produce.</p>
+<h3>✅ Before the Next Lesson</h3>
+<ul>
+<li>Create a <code>.env</code> file for a small project, add it to <code>.gitignore</code>, and write a matching <code>.env.example</code> with keys but no values.</li>
+<li>Set an environment variable and read it in a short Python script, falling back to a sensible default when it is unset.</li>
+<li>Write your Learning Journal entry for this lesson</li>
+</ul>
+<div class="card card-accent" style="text-align: center; padding: 2rem;">
+<h3>🌟 Encouragement for the Journey</h3>
+<p>Clean configuration and safe secrets are the quiet habits that separate hobby scripts from production systems. You now have both — a foundation every professional deployment stands on. Keep going.</p>
+</div>
+</section>
+
 <div class="navigation-links">
 <a class="nav-prev" href="systemadmin_system_monitoring.html">← Previous: System Monitoring</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="gui_automation_pyautogui.html">Next: PyAutoGUI Basics →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

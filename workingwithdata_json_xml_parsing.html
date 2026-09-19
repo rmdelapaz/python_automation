@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🌐 JSON/XML Parsing: Navigate Complex Data Structures</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Parse and serialize JSON with the <code>json</code> module and navigate nested structures</li>
+            <li>Parse XML with <code>ElementTree</code> and <code>lxml</code>, including namespaced documents</li>
+            <li>Validate incoming data against schemas before you trust and process it</li>
+            <li>Stream files too large for memory using <code>ijson</code> and <code>iterparse</code></li>
+            <li>Convert between JSON and XML while preserving data types and precision</li>
+            <li>Handle malformed data and various encodings with graceful error recovery</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build an API-response parser that validates a JSON payload, extracts deeply nested fields, and converts a selected record into equivalent XML.</p>
+    </div>
 <p>JSON and XML are the languages of the internet. APIs speak JSON, configuration files use XML, and every modern application exchanges data in these formats. They're like the DNA of digital communication - structured, hierarchical, and sometimes surprisingly complex. Let's master the art of parsing, transforming, and generating these ubiquitous data formats! 🚀</p>
 <h2>The Architecture of Structured Data</h2>
 <p>Think of JSON as a modern skyscraper - clean lines, efficient structure, easy to navigate. XML is like a Gothic cathedral - ornate, detailed, with namespaces like flying buttresses supporting complex structures. Both have their place, and Python gives you the tools to be an architect of both!</p>
@@ -1339,12 +1356,80 @@ class DataValidator:
 </div>
 <p>JSON and XML parsing mastery transforms you from a data consumer to a data conductor. You can integrate any API, process any configuration, and transform any data structure. Whether you're building microservices, data pipelines, or automation systems, these skills are fundamental to modern software development! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> JSON and XML both describe hierarchy, but they feel different to work with. After parsing both, which mental model fits the way you think — nested dictionaries and lists, or a tree of elements — and when would you choose each format?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>JSON maps cleanly to Python dicts and lists; XML is a tree of elements with attributes and, often, namespaces.</li>
+                <li>Never trust external data — validate it against a schema before you process it.</li>
+                <li>For files too big for memory, stream them with <code>ijson</code> or <code>iterparse</code> instead of loading everything at once.</li>
+                <li>Watch number precision, date formats, and encodings when converting between formats.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now read, validate, navigate, and transform the structured data that flows between APIs and services — the lingua franca of modern software integration.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>When should I choose JSON over XML?</summary>
+            <p>JSON is lighter and ideal for web APIs and configuration. XML shines when you need rich metadata, attributes, mixed content, or established schema and namespace standards.</p>
+        </details>
+        <details>
+            <summary>Why do XML namespaces make parsing harder?</summary>
+            <p>Namespaces prefix element names, so a plain tag search misses them. You either register the namespace and query with its prefix, or deliberately strip namespaces if you do not need them.</p>
+        </details>
+        <details>
+            <summary>How do I parse a JSON file larger than my memory?</summary>
+            <p>Use a streaming parser like <code>ijson</code>, which yields items one at a time as it reads, so you never hold the entire document in RAM.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You have handled tabular and hierarchical text formats. Next you will work with a fixed, binary document format — PDFs — where extracting clean data takes a different set of tools.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Parse a real API response and extract a value that is nested several levels deep.</li>
+            <li>Convert a small JSON record into equivalent XML and confirm the values survive the round trip.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Every API you will ever call speaks JSON or XML. Now that you can read and reshape both fluently, the whole connected world of services is open to your code. Keep integrating.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="workingwithdata_excel_automation.html">← Previous: Excel Automation</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="workingwithdata_pdf_manipulation.html">Next: PDF Manipulation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

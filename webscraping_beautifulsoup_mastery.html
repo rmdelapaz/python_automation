@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🍲 BeautifulSoup Mastery: Parse HTML Like a Pro</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Choose the right parser (<code>html.parser</code>, <code>lxml</code>, or <code>html5lib</code>) for a given page</li>
+            <li>Load messy real-world HTML into a navigable BeautifulSoup tree</li>
+            <li>Locate elements with <code>find()</code>, <code>find_all()</code>, and CSS <code>select()</code> queries</li>
+            <li>Traverse the tree using parent, child, and sibling relationships instead of repeated searches</li>
+            <li>Clean extracted text by stripping whitespace, decoding HTML entities, and guarding against <code>None</code></li>
+            <li>Handle missing elements and malformed markup gracefully</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build a news-headline scraper that parses an HTML page and extracts each article's title and link into a clean, structured list.</p>
+    </div>
 <p>BeautifulSoup is the Swiss Army knife of HTML parsing - elegant, powerful, and forgiving. It turns messy HTML soup into a beautiful, navigable tree structure. Like a skilled chef who can create a masterpiece from any ingredients, BeautifulSoup helps you extract exactly what you need from the chaos of real-world HTML. Let's become HTML parsing maestros! 🎨</p>
 <h2>The BeautifulSoup Architecture</h2>
 <p>Think of BeautifulSoup as a sophisticated GPS for HTML documents. It doesn't just find elements; it understands relationships, navigates complex structures, and even handles broken HTML gracefully. It's your trusty companion for turning web pages into structured data!</p>
@@ -1265,12 +1282,80 @@ if __name__ == "__main__":
 </div>
 <p>BeautifulSoup mastery transforms you from an HTML wrangler to a data extraction artist. You can now parse any HTML, no matter how messy, extract any data, no matter how nested, and handle any website's quirks. Whether you're building scrapers, analyzers, or automation tools, BeautifulSoup is your trusty companion! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Real HTML is rarely tidy. Describe a page whose structure surprised you — how did navigating the parse tree (rather than matching raw text) help you reach the data you actually wanted?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>BeautifulSoup turns messy HTML into a navigable tree; the parser you pick trades speed against forgiveness.</li>
+                <li><code>find()</code> retrieves one element, <code>find_all()</code> and <code>select()</code> retrieve many — choose the method that fits the query.</li>
+                <li>Navigating parents, children, and siblings is faster and more robust than re-searching the whole document.</li>
+                <li>Always clean extracted text and check that an element exists before reading its attributes.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now parse arbitrary HTML, pinpoint the elements you need, and pull out clean, structured data — the core skill behind every scraper you will build.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Which parser should I use by default?</summary>
+            <p>Start with <code>lxml</code> for speed on well-formed pages. Fall back to <code>html5lib</code> when a site's markup is badly broken, and <code>html.parser</code> when you cannot install extra dependencies.</p>
+        </details>
+        <details>
+            <summary>Should I use <code>find_all()</code> or CSS <code>select()</code>?</summary>
+            <p>Both work. Use <code>find_all()</code> for simple tag/attribute matches, and <code>select()</code> when a CSS selector expresses the target more clearly (for example, nested classes).</p>
+        </details>
+        <details>
+            <summary>My script crashes with <code>AttributeError: 'NoneType'</code> — why?</summary>
+            <p>A search returned <code>None</code> because the element was not found, and you then called a method on it. Check for <code>None</code> before accessing <code>.text</code> or attributes.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>Now that you can extract data from a static page, the next step is interacting with pages that require input — submitting forms and carrying cookies between requests.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Scrape the headlines and links from a real news or blog page into a list of dictionaries.</li>
+            <li>Rewrite one of your <code>find_all()</code> queries as a CSS <code>select()</code> call and confirm the results match.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>Every website is just a tree waiting to be read. You now speak its language — keep parsing, and the messy web becomes your structured data source.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="webscraping_html_css_selectors.html">← Previous: HTML &amp; CSS Selectors</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="webscraping_forms_cookies.html">Next: Forms and Cookies →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

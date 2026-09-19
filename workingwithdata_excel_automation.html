@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>📊 Excel Automation with openpyxl: Master Spreadsheets with Python</h1>
+
+    <!-- What You'll Learn (learning objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Read from and write to <code>.xlsx</code> workbooks with openpyxl</li>
+            <li>Move data through pandas DataFrames for complex operations, then write it back to Excel</li>
+            <li>Apply consistent formatting with reusable <code>NamedStyle</code> objects</li>
+            <li>Write Excel formulas so the spreadsheet does the calculating</li>
+            <li>Add charts, hyperlinks, data validation, and sheet protection for interactive workbooks</li>
+            <li>Handle very large files efficiently with <code>read_only</code> and <code>write_only</code> modes</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build an Excel report generator that loads a dataset, formats it with a reusable style, adds a chart and summary formulas, and saves a polished workbook.</p>
+    </div>
 <p>Excel is the lingua franca of business data. Love it or hate it, spreadsheets are everywhere. But what if you could harness Excel's power without ever opening it? That's where openpyxl comes in – it's like having a robot accountant who never makes calculation errors and can process thousands of spreadsheets in seconds! 🤖</p>
 <h2>Beyond Basic Spreadsheet Manipulation</h2>
 <p>Think of openpyxl as your Swiss Army knife for Excel. It doesn't just read and write cells – it creates charts, applies formulas, formats data beautifully, and even generates complete reports. It's like being able to control Excel with your mind, except your mind is Python!</p>
@@ -998,12 +1015,80 @@ if __name__ == "__main__":
 </div>
 <p>Excel automation with openpyxl transforms you from a spreadsheet user to a spreadsheet wizard. You can process thousands of files, generate complex reports, and create interactive dashboards - all without ever opening Excel. Whether you're in finance, data analysis, or business operations, these skills will save you countless hours and eliminate human error from repetitive tasks! 🚀</p>
 <footer>
-<div class="navigation-links">
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> Think of a repetitive spreadsheet task you or someone you know does by hand every week. Which parts could openpyxl automate, and what would that free up your time for?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>Use pandas DataFrames as the workhorse for computation, and openpyxl for the Excel-specific formatting and features.</li>
+                <li>Reusable <code>NamedStyle</code> objects keep formatting consistent across sheets and workbooks.</li>
+                <li>Let Excel formulas do the math rather than pre-calculating everything in Python, so the workbook stays live.</li>
+                <li>Charts, hyperlinks, validation, and protection turn a data dump into a usable, professional tool.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now generate formatted, interactive Excel reports programmatically — processing many files and producing polished output without ever opening Excel by hand.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Should I use openpyxl or pandas to work with Excel?</summary>
+            <p>Use both together. pandas is best for reading, transforming, and analyzing the data; openpyxl gives you fine control over styling, formulas, charts, and other Excel-specific features.</p>
+        </details>
+        <details>
+            <summary>Why write a formula instead of the calculated value?</summary>
+            <p>A formula stays live: when someone edits the underlying numbers, Excel recalculates automatically. Hard-coding the result freezes it and breaks the moment inputs change.</p>
+        </details>
+        <details>
+            <summary>My workbook is huge and slow — any options?</summary>
+            <p>Yes. openpyxl's <code>read_only</code> mode streams rows without loading everything into memory, and <code>write_only</code> mode builds large files efficiently row by row.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You have automated the spreadsheet world; next you will tackle another ubiquitous document format — PDFs — extracting, merging, and securing them with Python.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Generate a workbook from a dataset, apply a reusable style to the header row, and add a total formula.</li>
+            <li>Add a chart that visualizes one column of your data and save the file.</li>
+            <li>Write your Learning Journal entry for this lesson</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>The reports that once ate your afternoons can now build themselves in seconds. That is the quiet magic of automation — reclaim the time, and aim it at the work only you can do.</p>
+        </div>
+    </section>
+
+    <div class="navigation-links">
 <a class="nav-prev" href="workingwithdata_csv_processing.html">← Previous: CSV Processing</a>
 <a class="nav-home" href="index.html">🏠 Course Home</a>
 <a class="nav-next" href="workingwithdata_json_xml_parsing.html">Next: JSON &amp; XML Parsing →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>

@@ -65,6 +65,7 @@
         }
         </style>    <script src="/js/course-enhancements.js" defer></script>
     <script src="/js/clipboard.js" defer></script>
+    <link href="styles/standard.css" rel="stylesheet"/>
 </head>
 <body>
     <!-- Skip to main content for accessibility -->
@@ -81,6 +82,22 @@
     
     <main id="main-content">
     <h1>🗄️ File Organization Scripts: Build Smart Systems That Organize Themselves</h1>
+    <!-- What You'll Learn (file-organization objectives) -->
+    <div class="card card-info">
+        <h2>📚 What You'll Learn</h2>
+        <p>By the end of this lesson, you will be able to:</p>
+        <ul>
+            <li>Classify files by extension, MIME type, and content into categories and subcategories</li>
+            <li>Build an ordered, "first match wins" rule engine that routes each file to the right destination</li>
+            <li>Organize files by date (year/month), by detected project, and by extracted metadata</li>
+            <li>Detect duplicates with hashes and handle name collisions by renaming, skipping, or replacing</li>
+            <li>Track moves in a SQLite index and learn patterns from how files get organized</li>
+            <li>Speed up large jobs with async I/O and build smart folders using symlinks and dynamic criteria</li>
+        </ul>
+        <p><strong>⏱️ Estimated Time:</strong> 45–60 minutes</p>
+        <p><strong>🎯 Project:</strong> Build an auto-organizer that sweeps a messy Downloads folder, sorts each file into a category/subcategory (or date/project) folder, handles duplicates safely, and logs every move.</p>
+    </div>
+
 <p>Imagine having a personal assistant who knows exactly where every file belongs, sorts them automatically, and maintains perfect order in your digital life. That's what file organization scripts do – they're like having Marie Kondo for your hard drive, but they work 24/7 and never get tired! 🎯</p>
 <h2>The Philosophy of Automated Organization</h2>
 <p>Good file organization isn't just about tidiness – it's about creating a system where finding anything takes seconds, not minutes. Think of it as building highways for your data: clear paths, logical destinations, and no traffic jams!</p>
@@ -1402,6 +1419,63 @@ if __name__ == "__main__":
 <p><strong>Pro Tip:</strong> The best organization system is one that matches your mental model. If you think in terms of projects, organize by projects. If you think in terms of dates, organize by dates. The key is consistency and automation – let Python do the heavy lifting while you focus on your actual work!</p>
 </div>
 <p>File organization scripts transform chaos into order, making your digital life manageable and efficient. Whether you're organizing thousands of photos, managing project files, or keeping your downloads folder under control, these automation tools give you the power to maintain perfect organization with minimal effort! 🚀</p>
+<!-- Learning Journal (REQUIRED per the Courseware Authoring Standard) -->
+    <section id="journal" class="lesson-section">
+        <h2>📓 Learning Journal</h2>
+        <div class="card card-info">
+            <p>Keep a learning journal — digital or physical. After this lesson, take a few minutes to write down:</p>
+            <ul>
+                <li><strong>Key concepts</strong> you learned</li>
+                <li><strong>Techniques that clicked</strong> for you</li>
+                <li><strong>Questions or confusion points</strong> to revisit</li>
+                <li><strong>Ideas you want to try</strong></li>
+                <li><strong>Your progress and feelings</strong> about learning this</li>
+            </ul>
+            <p><strong>✍️ This lesson's prompt:</strong> A good organization system matches how <em>you</em> think — by project, by date, or by type. Which mental model fits your own files best, and what would the top three routing rules of your personal organizer be?</p>
+        </div>
+    </section>
+
+    <!-- Lesson Summary (full standard block) -->
+    <section id="summary" class="lesson-section">
+        <h2>📝 Lesson Summary</h2>
+        <div class="card card-success">
+            <h3>🎓 Key Takeaways</h3>
+            <ul>
+                <li>An auto-organizer is an ordered list of rules where the first matching pattern decides the destination — so rule order (specific first, catch-all last) is everything.</li>
+                <li>Combining extension, MIME type, and content inspection classifies files far more accurately than extension alone.</li>
+                <li>Duplicate detection with hashes plus a clear collision policy (rename/skip/replace) keeps a bulk move from destroying data.</li>
+                <li>A move log or SQLite index makes organization auditable, reversible, and even able to learn from your habits.</li>
+            </ul>
+        </div>
+        <h3>🎉 What You've Accomplished</h3>
+        <p>You can now turn a digital landfill into a self-maintaining, logical structure — classifying files intelligently, routing them with rules, handling duplicates, and keeping a record of every move. That's a personal assistant for your file system that works around the clock.</p>
+        <h3>❓ Common Questions at This Stage</h3>
+        <details>
+            <summary>Why does rule order matter so much?</summary>
+            <p>Because the engine uses "first match wins." If a broad catch-all rule sits above a specific one, the specific rule never runs. Put your most specific patterns first and a general fallback last, so every file lands somewhere and nothing is silently misfiled or dropped.</p>
+        </details>
+        <details>
+            <summary>Is classifying by file extension enough?</summary>
+            <p>Often not. Extensions can be missing, wrong, or ambiguous (a <code>.txt</code> that's really code or config). Checking the MIME type and peeking at the content gives you a much more reliable category, which is why the advanced organizer combines all three.</p>
+        </details>
+        <details>
+            <summary>Should I move files or copy them when organizing?</summary>
+            <p>Start with a dry run that only prints the planned moves. When you commit, moving is usually what you want (you don't want two copies), but always handle duplicates explicitly and keep a log so any move can be undone. For irreplaceable data, back up first.</p>
+        </details>
+        <h3>🔭 Looking Ahead</h3>
+        <p>You now keep files in order automatically. The natural next step is protecting them: turning this organizational discipline toward reliable, automated backups.</p>
+        <h3>✅ Before the Next Lesson</h3>
+        <ul>
+            <li>Write three routing rules for your own Downloads folder and run them in dry-run mode to preview where each file would go.</li>
+            <li>Add a duplicate check that hashes files and confirms two same-named files really differ before renaming.</li>
+            <li>Write your Learning Journal entry for this lesson.</li>
+        </ul>
+        <div class="card card-accent" style="text-align: center; padding: 2rem;">
+            <h3>🌟 Encouragement for the Journey</h3>
+            <p>There's a quiet satisfaction in watching a folder of chaos resolve into clean, logical order in seconds. You've built the system that does it — and it'll keep your digital life tidy long after this lesson. Keep going!</p>
+        </div>
+    </section>
+
 <footer>
 <div class="navigation-links">
 <a class="nav-prev" href="filesystem_directory_watching.html">← Previous: Directory Watching</a>
@@ -1409,6 +1483,17 @@ if __name__ == "__main__":
 <a class="nav-next" href="filesystem_backup_automation.html">Next: Backup Automation →</a>
 </div>
 </footer>
-    </main>
+        </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
+
 </body>
 </html>
