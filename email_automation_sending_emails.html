@@ -933,25 +933,14 @@ if __name__ == "__main__":
     print("\n4️⃣ HTML Email with Images:")
     
     html_content = """
-    <html>
-        <body>
-            <h1>Welcome!</h1>
-            <p>Thanks for signing up.</p>
-            <img src="cid:logo" width="200"/>
-            <p>Best regards,<br/>The Team</p>
-    </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
-            <a href="https://rays-home.netlify.app/contact">Contact</a>
-            <a href="#" id="print-button">Print Page</a>
-        </div>
-    </footer>
-</body>
-    </html>
+    &lt;html&gt;
+        &lt;body&gt;
+            &lt;h1&gt;Welcome!&lt;/h1&gt;
+            &lt;p&gt;Thanks for signing up.&lt;/p&gt;
+            &lt;img src="cid:logo" width="200"/&gt;
+            &lt;p&gt;Best regards,&lt;br/&gt;The Team&lt;/p&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
     """
     
     html_email = EmailMessage(
@@ -1134,5 +1123,16 @@ if __name__ == "__main__":
 <a class="nav-next" href="email_automation_reading_emails.html">Next: Reading Emails →</a>
 </div>
 </footer>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 Ray de la Paz. Python Automation. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://rays-home.netlify.app/">Ray's House of Fun</a>
+            <a href="https://rays-home.netlify.app/contact">Contact</a>
+            <a href="#" id="print-button">Print Page</a>
+        </div>
+    </footer>
 </body>
 </html>
