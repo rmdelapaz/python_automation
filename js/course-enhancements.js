@@ -309,8 +309,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			block.parentElement.classList.add('line-numbers');
 		}
 		
-		// Apply Prism highlighting if available
-		if (typeof Prism !== 'undefined') {
+		// Apply Prism highlighting if available (the bundled minimal Prism
+		// ships grammar/hooks but no highlightElement, so guard for it)
+		if (typeof Prism !== 'undefined' && typeof Prism.highlightElement === 'function') {
 			Prism.highlightElement(block);
 		}
 	});
