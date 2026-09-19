@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="rp-title rp-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="rp-title">RPA and Python, each to its strength: the bot drives the UI, Python does the compute</title>
+  <desc id="rp-desc">Integrating UiPath with Python is a division of labor. The UiPath workflow drives the user interface of existing apps: it opens the app, reads fields, keys results back, and handles login, retries, and scheduling. When it needs real computation, it calls Python, which is the compute brain: machine-learning models, heavy data crunching, API calls, and custom logic. Python returns a result, typically as JSON, and the workflow continues, for example keying the result into an ERP. The three ways they talk: an Invoke Python activity that runs in-process, a REST API where Python runs as a web service, or a message queue for asynchronous decoupled work. The lesson is to use each tool for what it is best at rather than forcing one to do the other's job: RPA is the orchestration and UI shell, Python is the brain.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .ui{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.5}
+    .py{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}
+    .method{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.8;fill:none}
+    .callf{stroke:#f59e0b;stroke-width:2;fill:none}
+    .retf{stroke:#3b82f6;stroke-width:2;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .ui{fill:#3a2e0a;stroke:#fbbf24}.py{fill:#1e293b;stroke:#569cd6}.method{fill:#26262a;stroke:#3f3f46}
+      .edge{stroke:#9ca3af}.callf{stroke:#fbbf24}.retf{stroke:#569cd6}
+    }
+  </style>
+  <defs>
+    <marker id="rp-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f59e0b"/></marker>
+    <marker id="rp-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3b82f6"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Let each tool do what it's best at &#8212; the bot drives the UI, Python computes</text>
+
+  <!-- UiPath side -->
+  <rect class="ui" x="24" y="54" width="300" height="118" rx="8"/>
+  <text class="label amber ph" x="36" y="74">UiPath workflow &#8212; the UI &amp; orchestration shell</text>
+  <text class="label muted s" x="36" y="94" font-size="10.5">&#8226; opens apps, reads fields, keys results back</text>
+  <text class="label muted s" x="36" y="112" font-size="10.5">&#8226; navigates legacy screens like a human</text>
+  <text class="label muted s" x="36" y="130" font-size="10.5">&#8226; handles login, retries, scheduling, governance</text>
+  <text class="label muted s" x="36" y="152" font-size="10">Great at driving software; poor at math &amp; ML.</text>
+
+  <!-- Python side -->
+  <rect class="py" x="396" y="54" width="300" height="118" rx="8"/>
+  <text class="label blue ph" x="408" y="74">Python service &#8212; the compute brain</text>
+  <text class="label muted s" x="408" y="94" font-size="10.5">&#8226; ML models, classification, prediction</text>
+  <text class="label muted s" x="408" y="112" font-size="10.5">&#8226; heavy data crunching &amp; transforms</text>
+  <text class="label muted s" x="408" y="130" font-size="10.5">&#8226; API calls, custom logic &amp; algorithms</text>
+  <text class="label muted s" x="408" y="152" font-size="10">Great at computation; not the UI driver.</text>
+
+  <!-- call / return arrows -->
+  <path class="callf" d="M324,100 L394,100" marker-end="url(#rp-c)"/>
+  <text class="label amber s" x="359" y="94" text-anchor="middle" font-size="9" font-weight="700">invoke + data</text>
+  <path class="retf" d="M394,132 L324,132" marker-end="url(#rp-r)"/>
+  <text class="label blue s" x="359" y="147" text-anchor="middle" font-size="9" font-weight="700">result (JSON)</text>
+
+  <!-- integration methods -->
+  <text class="label muted ph" x="24" y="198">Three ways they talk</text>
+  <rect class="method" x="24" y="206" width="218" height="52" rx="7"/>
+  <text class="label ink s" x="36" y="224" font-weight="700">Invoke Python activity</text>
+  <text class="label muted s" x="36" y="241" font-size="9.5">runs a script in-process;</text>
+  <text class="label muted s" x="36" y="253" font-size="9.5">simplest, tightly coupled</text>
+  <rect class="method" x="251" y="206" width="218" height="52" rx="7"/>
+  <text class="label ink s" x="263" y="224" font-weight="700">REST API</text>
+  <text class="label muted s" x="263" y="241" font-size="9.5">Python as a web service;</text>
+  <text class="label muted s" x="263" y="253" font-size="9.5">reusable, language-neutral</text>
+  <rect class="method" x="478" y="206" width="218" height="52" rx="7"/>
+  <text class="label ink s" x="490" y="224" font-weight="700">Message queue</text>
+  <text class="label muted s" x="490" y="241" font-size="9.5">async &amp; decoupled;</text>
+  <text class="label muted s" x="490" y="253" font-size="9.5">scales, survives spikes</text>
+
+  <line class="frame" x1="24" y1="280" x2="696" y2="280" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="302">The trap teams fall into is forcing one tool to do the other's job &#8212; scraping data in a UiPath loop that a pandas</text>
+  <text class="label muted s" x="24" y="320">line would nail, or driving a browser from raw Python when the RPA tool already handles login and retries. Instead,</text>
+  <text class="label muted s" x="24" y="338">treat RPA as the <tspan class="ink" font-weight="700">shell</tspan> &#8212; it owns the UI, the schedule, and enterprise governance &#8212; and Python as the <tspan class="ink" font-weight="700">brain</tspan> it calls</text>
+  <text class="label muted s" x="24" y="356">for anything computational. Keep the seam explicit (a clear input/output contract) so each side can change independently.</text>
+</svg>

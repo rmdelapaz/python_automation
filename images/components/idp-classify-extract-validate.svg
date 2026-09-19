@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="id-title id-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="id-title">Intelligent document processing: classify first, extract fields, then confidence-gate a human review</title>
+  <desc id="id-desc">Turning a pile of documents into data is a pipeline. First ingest the inputs: scanned papers, PDFs, images, and emails. Then classify each document to learn its type, invoice, contract, or form, and route it to the right extractor, because you can't extract fields until you know what you're reading. Next extract the structured fields, such as vendor, total, and line items, using OCR plus templates or machine learning. Then validate against business rules and a confidence score. Fields the model is confident about flow straight through to the target system, while low-confidence fields go to a human review queue and, once corrected, feed the system too. Two panels reinforce the ideas: classification comes before extraction so the right model handles each document, and the confidence gate means only uncertain fields need human eyes, so people scale by exception instead of reviewing everything.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .ingest{fill:#f1f5f9;stroke:#64748b;stroke-width:1.4}
+    .classify{fill:#eef2ff;stroke:#6366f1;stroke-width:1.4}
+    .extract{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.3}
+    .validate{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .sys{fill:#ecfdf5;stroke:#10b981;stroke-width:1.4}
+    .human{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.4}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.8;fill:none}
+    .hedge{stroke:#f59e0b;stroke-width:1.6;fill:none;stroke-dasharray:4 3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .ingest{fill:#26262a;stroke:#9ca3af}.classify{fill:#1e1b4b;stroke:#818cf8}.extract{fill:#1e293b;stroke:#569cd6}
+      .validate{fill:#3a2e0a;stroke:#fbbf24}.sys{fill:#064e3b;stroke:#34d399}.human{fill:#3a2e0a;stroke:#fbbf24}
+      .panel{fill:#26262a;stroke:#3f3f46}.edge{stroke:#9ca3af}.hedge{stroke:#fbbf24}
+    }
+  </style>
+  <defs>
+    <marker id="id-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+    <marker id="id-h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f59e0b"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Classify the document first, extract its fields, then review only the doubtful ones</text>
+
+  <!-- pipeline -->
+  <rect class="ingest" x="24" y="58" width="118" height="60" rx="8"/>
+  <text class="label ink s" x="83" y="78" text-anchor="middle" font-weight="700">1. Ingest</text>
+  <text class="label muted s" x="83" y="95" text-anchor="middle" font-size="9">scans, PDFs,</text>
+  <text class="label muted s" x="83" y="107" text-anchor="middle" font-size="9">images, emails</text>
+
+  <path class="edge" d="M142,88 L166,88" marker-end="url(#id-a)"/>
+  <rect class="classify" x="168" y="58" width="128" height="60" rx="8"/>
+  <text class="label ink s" x="232" y="78" text-anchor="middle" font-weight="700">2. Classify</text>
+  <text class="label muted s" x="232" y="95" text-anchor="middle" font-size="9">invoice? contract?</text>
+  <text class="label muted s" x="232" y="107" text-anchor="middle" font-size="9">&#8594; route to extractor</text>
+
+  <path class="edge" d="M296,88 L320,88" marker-end="url(#id-a)"/>
+  <rect class="extract" x="322" y="58" width="128" height="60" rx="8"/>
+  <text class="label ink s" x="386" y="78" text-anchor="middle" font-weight="700">3. Extract</text>
+  <text class="label muted s" x="386" y="95" text-anchor="middle" font-size="9">vendor, total, lines</text>
+  <text class="label muted s" x="386" y="107" text-anchor="middle" font-size="9">OCR + template / ML</text>
+
+  <path class="edge" d="M450,88 L474,88" marker-end="url(#id-a)"/>
+  <rect class="validate" x="476" y="58" width="128" height="60" rx="8"/>
+  <text class="label amber s" x="540" y="78" text-anchor="middle" font-weight="700">4. Validate</text>
+  <text class="label muted s" x="540" y="95" text-anchor="middle" font-size="9">rules + confidence</text>
+  <text class="label muted s" x="540" y="107" text-anchor="middle" font-size="9">per field</text>
+
+  <!-- high confidence -> system -->
+  <path class="edge" d="M604,88 L628,88" marker-end="url(#id-a)"/>
+  <rect class="sys" x="630" y="58" width="66" height="60" rx="8"/>
+  <text class="label green s" x="663" y="82" text-anchor="middle" font-weight="700">System</text>
+  <text class="label muted s" x="663" y="99" text-anchor="middle" font-size="8.5">ERP /</text>
+  <text class="label muted s" x="663" y="110" text-anchor="middle" font-size="8.5">database</text>
+  <text class="label green s" x="612" y="82" text-anchor="middle" font-size="8.5" font-weight="700">high</text>
+
+  <!-- low confidence -> human -->
+  <path class="hedge" d="M540,118 L540,150" marker-end="url(#id-h)"/>
+  <text class="label amber s" x="548" y="136" font-size="9">low confidence</text>
+  <rect class="human" x="440" y="152" width="200" height="42" rx="7"/>
+  <text class="label amber s" x="540" y="170" text-anchor="middle" font-weight="700">Human review queue</text>
+  <text class="label muted s" x="540" y="185" text-anchor="middle" font-size="9">correct the field &#8594; then feeds the system</text>
+  <path class="hedge" d="M640,168 C666,168 675,140 668,120" marker-end="url(#id-h)"/>
+
+  <!-- panels -->
+  <rect class="panel" x="24" y="208" width="330" height="58" rx="7"/>
+  <text class="label blue s" x="36" y="227" font-weight="700">Classify before you extract</text>
+  <text class="label muted s" x="36" y="245" font-size="10.5">An invoice and a contract need different fields.</text>
+  <text class="label muted s" x="36" y="261" font-size="10.5">Route each doc to the model built for its type.</text>
+
+  <rect class="panel" x="366" y="208" width="330" height="58" rx="7"/>
+  <text class="label amber s" x="378" y="227" font-weight="700">Confidence gates the humans</text>
+  <text class="label muted s" x="378" y="245" font-size="10.5">Straight-through when sure; only <tspan class="ink" font-weight="700">doubtful</tspan> fields</text>
+  <text class="label muted s" x="378" y="261" font-size="10.5">go to a person &#8212; you scale by exception.</text>
+
+  <line class="frame" x1="24" y1="286" x2="696" y2="286" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="308">This is how enterprises turn mountains of unstructured paper into clean data. The two moves that make it work:</text>
+  <text class="label muted s" x="24" y="326"><tspan class="ink" font-weight="700">classification first</tspan> (you can't pull &#8220;invoice total&#8221; from a document you haven't recognized as an invoice), and a</text>
+  <text class="label muted s" x="24" y="344"><tspan class="ink" font-weight="700">confidence gate</tspan> that sends only uncertain extractions to a human review queue. High-confidence fields flow straight</text>
+  <text class="label muted s" x="24" y="362">through, so a small team clears the exceptions instead of re-keying every document &#8212; and every correction can retrain the model.</text>
+</svg>

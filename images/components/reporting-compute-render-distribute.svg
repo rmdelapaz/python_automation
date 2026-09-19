@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" role="img" aria-labelledby="rr-title rr-desc" preserveAspectRatio="xMidYMid meet">
+  <title id="rr-title">Automated reporting: compute the numbers once, render many formats, distribute by audience</title>
+  <desc id="rr-desc">Automated reporting separates three concerns. First compute: pull from the source of truth and calculate the numbers once, correctly, and snapshot the inputs so the run is reproducible. That single result set then feeds render: the same numbers are poured into several templated outputs, a PDF for executives, an Excel workbook for analysts, and a live dashboard for operations. Finally distribute: each output goes to the right audience on a schedule, by email, a web portal, or shared storage. Two panels reinforce the ideas: reproducibility, meaning the same inputs always produce the same report because the data is snapshotted, which keeps reports auditable; and segmentation, meaning you compute once but tailor format and detail to each audience. The footer warns against the common anti-pattern of recomputing the numbers separately for each report, which lets versions drift and disagree.</desc>
+  <style>
+    .bg{fill:#ffffff}.frame{fill:none;stroke:#cbd5e1;stroke-width:1.5}
+    .ink{fill:#1e293b}.muted{fill:#64748b}
+    .label{font-family:'Segoe UI',system-ui,sans-serif}
+    .h{font-size:15px;font-weight:700}.ph{font-size:12.5px;font-weight:700}
+    .t{font-size:12px}.s{font-size:11px}
+    .mono{font-family:'Consolas','SF Mono',monospace;font-size:10px}
+    .blue{fill:#3b82f6}.green{fill:#10b981}.amber{fill:#f59e0b}.red{fill:#ef4444}
+    .src{fill:#f1f5f9;stroke:#64748b;stroke-width:1.4}
+    .compute{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.6}
+    .render{fill:#fffbeb;stroke:#f59e0b;stroke-width:1.3}
+    .dist{fill:#ecfdf5;stroke:#10b981;stroke-width:1.3}
+    .panel{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}
+    .edge{stroke:#64748b;stroke-width:1.7;fill:none}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1e1e1e}.frame{stroke:#3f3f46}.ink{fill:#e5e7eb}.muted{fill:#9ca3af}
+      .blue{fill:#569cd6}.green{fill:#34d399}.amber{fill:#fbbf24}.red{fill:#f87171}
+      .src{fill:#26262a;stroke:#9ca3af}.compute{fill:#1e293b;stroke:#569cd6}.render{fill:#3a2e0a;stroke:#fbbf24}
+      .dist{fill:#064e3b;stroke:#34d399}.panel{fill:#26262a;stroke:#3f3f46}.edge{stroke:#9ca3af}
+    }
+  </style>
+  <defs>
+    <marker id="rr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="muted"/></marker>
+  </defs>
+  <rect class="bg" x="0" y="0" width="720" height="410"/>
+  <rect class="frame" x="0.75" y="0.75" width="718.5" height="408.5" rx="10"/>
+  <text class="label ink h" x="24" y="30">Compute the numbers once &#8212; then render many formats and route by audience</text>
+
+  <!-- source -->
+  <rect class="src" x="24" y="64" width="104" height="60" rx="8"/>
+  <text class="label ink s" x="76" y="86" text-anchor="middle" font-weight="700">Source</text>
+  <text class="label muted s" x="76" y="103" text-anchor="middle" font-size="9">DBs, APIs,</text>
+  <text class="label muted s" x="76" y="114" text-anchor="middle" font-size="9">files</text>
+
+  <path class="edge" d="M128,94 L152,94" marker-end="url(#rr-a)"/>
+  <!-- compute -->
+  <rect class="compute" x="154" y="64" width="150" height="60" rx="8"/>
+  <text class="label blue s" x="229" y="84" text-anchor="middle" font-weight="700">Compute &#8212; once</text>
+  <text class="label muted s" x="229" y="101" text-anchor="middle" font-size="9.5">ETL + aggregate;</text>
+  <text class="label muted s" x="229" y="113" text-anchor="middle" font-size="9.5">one snapshotted result set</text>
+
+  <!-- render fan-out -->
+  <path class="edge" d="M304,84 L356,72" marker-end="url(#rr-a)"/>
+  <path class="edge" d="M304,94 L356,110" marker-end="url(#rr-a)"/>
+  <path class="edge" d="M304,104 L356,148" marker-end="url(#rr-a)"/>
+  <rect class="render" x="358" y="60" width="164" height="24" rx="4"/>
+  <text class="label mono ink" x="368" y="76" font-size="9.5">PDF &#8212; executive summary</text>
+  <rect class="render" x="358" y="98" width="164" height="24" rx="4"/>
+  <text class="label mono ink" x="368" y="114" font-size="9.5">XLSX &#8212; analyst detail</text>
+  <rect class="render" x="358" y="136" width="164" height="24" rx="4"/>
+  <text class="label mono ink" x="368" y="152" font-size="9.5">Dashboard &#8212; ops live</text>
+
+  <!-- distribute -->
+  <path class="edge" d="M522,72 L556,88" marker-end="url(#rr-a)"/>
+  <path class="edge" d="M522,110 L556,104" marker-end="url(#rr-a)"/>
+  <path class="edge" d="M522,148 L556,120" marker-end="url(#rr-a)"/>
+  <rect class="dist" x="558" y="64" width="138" height="60" rx="8"/>
+  <text class="label green s" x="627" y="84" text-anchor="middle" font-weight="700">Distribute</text>
+  <text class="label muted s" x="627" y="101" text-anchor="middle" font-size="9">to each audience,</text>
+  <text class="label muted s" x="627" y="113" text-anchor="middle" font-size="9">on a schedule</text>
+
+  <text class="label muted s" x="358" y="178" font-size="9.5">same numbers &#8594; templated into each format</text>
+
+  <!-- panels -->
+  <rect class="panel" x="24" y="196" width="330" height="66" rx="7"/>
+  <text class="label blue s" x="36" y="215" font-weight="700">Reproducible &amp; auditable</text>
+  <text class="label muted s" x="36" y="233" font-size="10.5">Snapshot the inputs, so the same run always</text>
+  <text class="label muted s" x="36" y="249" font-size="10.5">yields the same report &#8212; re-run it next quarter</text>
+  <text class="label muted s" x="36" y="260" font-size="9.5">and the historical numbers still reconcile.</text>
+
+  <rect class="panel" x="366" y="196" width="330" height="66" rx="7"/>
+  <text class="label green s" x="378" y="215" font-weight="700">Segment the audience</text>
+  <text class="label muted s" x="378" y="233" font-size="10.5">Execs want one page; analysts want the raw</text>
+  <text class="label muted s" x="378" y="249" font-size="10.5">rows; ops want it live. One computation,</text>
+  <text class="label muted s" x="378" y="260" font-size="9.5">many tailored views &#8212; format follows the reader.</text>
+
+  <line class="frame" x1="24" y1="284" x2="696" y2="284" stroke="#cbd5e1"/>
+  <text class="label muted s" x="24" y="306">The discipline that keeps reports trustworthy: separate <tspan class="blue" font-weight="700">compute</tspan> from <tspan class="amber" font-weight="700">render</tspan> from <tspan class="green" font-weight="700">distribute</tspan>. Calculate each</text>
+  <text class="label muted s" x="24" y="324">number in <tspan class="ink" font-weight="700">one place</tspan>, then pour that single result into every format. The anti-pattern is recomputing the totals</text>
+  <text class="label muted s" x="24" y="342">separately inside each report &#8212; then the exec PDF and the analyst sheet quietly <tspan class="red" font-weight="700">disagree</tspan>, and trust evaporates.</text>
+  <text class="label muted s" x="24" y="360">Automate the whole chain on a schedule, and log every run so a wrong number can always be traced to its inputs.</text>
+</svg>
